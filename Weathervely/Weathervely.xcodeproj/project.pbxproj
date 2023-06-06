@@ -7,102 +7,144 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BDD212562A1DEA2600A1FECF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD212552A1DEA2600A1FECF /* AppDelegate.swift */; };
-		BDD212582A1DEA2600A1FECF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD212572A1DEA2600A1FECF /* SceneDelegate.swift */; };
-		BDD2125A2A1DEA2600A1FECF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD212592A1DEA2600A1FECF /* ViewController.swift */; };
-		BDD2125D2A1DEA2600A1FECF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BDD2125B2A1DEA2600A1FECF /* Main.storyboard */; };
-		BDD2125F2A1DEA2700A1FECF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BDD2125E2A1DEA2700A1FECF /* Assets.xcassets */; };
-		BDD212622A1DEA2700A1FECF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BDD212602A1DEA2700A1FECF /* LaunchScreen.storyboard */; };
+		69E25DBD2A2F1012009B36F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E25DBC2A2F1012009B36F3 /* AppDelegate.swift */; };
+		69E25DBF2A2F1012009B36F3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E25DBE2A2F1012009B36F3 /* SceneDelegate.swift */; };
+		69E25DC62A2F1013009B36F3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 69E25DC52A2F1013009B36F3 /* Assets.xcassets */; };
+		69E25DD32A2F1089009B36F3 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E25DD22A2F1089009B36F3 /* BaseViewController.swift */; };
+		69E25DDB2A2F11E0009B36F3 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E25DDA2A2F11E0009B36F3 /* HomeViewController.swift */; };
+		69E25DF12A2F1E20009B36F3 /* UIButton+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E25DF02A2F1E20009B36F3 /* UIButton+.swift */; };
+		69E25DF32A2F1E6A009B36F3 /* OnBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E25DF22A2F1E6A009B36F3 /* OnBoardViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		BDD212522A1DEA2600A1FECF /* SunnyOOTD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SunnyOOTD.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		BDD212552A1DEA2600A1FECF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		BDD212572A1DEA2600A1FECF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		BDD212592A1DEA2600A1FECF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		BDD2125C2A1DEA2600A1FECF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		BDD2125E2A1DEA2700A1FECF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		BDD212612A1DEA2700A1FECF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		BDD212632A1DEA2700A1FECF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		69E25DB92A2F1012009B36F3 /* Weathervely.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Weathervely.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		69E25DBC2A2F1012009B36F3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		69E25DBE2A2F1012009B36F3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		69E25DC52A2F1013009B36F3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		69E25DCA2A2F1013009B36F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		69E25DD22A2F1089009B36F3 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		69E25DDA2A2F11E0009B36F3 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		69E25DF02A2F1E20009B36F3 /* UIButton+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+.swift"; sourceTree = "<group>"; };
+		69E25DF22A2F1E6A009B36F3 /* OnBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
-/* Begin PBXFrameworksBuildPhase section */
-		BDD2124F2A1DEA2600A1FECF /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXFrameworksBuildPhase section */
-
 /* Begin PBXGroup section */
-		BDD212492A1DEA2600A1FECF = {
+		69E25DB02A2F1012009B36F3 = {
 			isa = PBXGroup;
 			children = (
-				BDD212542A1DEA2600A1FECF /* SunnyOOTD */,
-				BDD212532A1DEA2600A1FECF /* Products */,
+				69E25DBB2A2F1012009B36F3 /* Weathervely */,
+				69E25DBA2A2F1012009B36F3 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		BDD212532A1DEA2600A1FECF /* Products */ = {
+		69E25DBA2A2F1012009B36F3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				BDD212522A1DEA2600A1FECF /* SunnyOOTD.app */,
+				69E25DB92A2F1012009B36F3 /* Weathervely.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		BDD212542A1DEA2600A1FECF /* SunnyOOTD */ = {
+		69E25DBB2A2F1012009B36F3 /* Weathervely */ = {
 			isa = PBXGroup;
 			children = (
-				BDD212552A1DEA2600A1FECF /* AppDelegate.swift */,
-				BDD212572A1DEA2600A1FECF /* SceneDelegate.swift */,
-				BDD212592A1DEA2600A1FECF /* ViewController.swift */,
-				BDD2125B2A1DEA2600A1FECF /* Main.storyboard */,
-				BDD2125E2A1DEA2700A1FECF /* Assets.xcassets */,
-				BDD212602A1DEA2700A1FECF /* LaunchScreen.storyboard */,
-				BDD212632A1DEA2700A1FECF /* Info.plist */,
+				69E25DD62A2F10BE009B36F3 /* Common */,
+				69E25DD72A2F10DA009B36F3 /* Network */,
+				69E25DD52A2F10B1009B36F3 /* View */,
+				69E25DD42A2F10A7009B36F3 /* Model */,
+				69E25DBC2A2F1012009B36F3 /* AppDelegate.swift */,
+				69E25DBE2A2F1012009B36F3 /* SceneDelegate.swift */,
+				69E25DC52A2F1013009B36F3 /* Assets.xcassets */,
+				69E25DCA2A2F1013009B36F3 /* Info.plist */,
 			);
-			path = SunnyOOTD;
+			path = Weathervely;
+			sourceTree = "<group>";
+		};
+		69E25DD42A2F10A7009B36F3 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		69E25DD52A2F10B1009B36F3 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				69E25DD22A2F1089009B36F3 /* BaseViewController.swift */,
+				69E25DDA2A2F11E0009B36F3 /* HomeViewController.swift */,
+				69E25DF22A2F1E6A009B36F3 /* OnBoardViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		69E25DD62A2F10BE009B36F3 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				69E25DD82A2F10EA009B36F3 /* Extension */,
+				69E25DD92A2F10F2009B36F3 /* Enum */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		69E25DD72A2F10DA009B36F3 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		69E25DD82A2F10EA009B36F3 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				69E25DF02A2F1E20009B36F3 /* UIButton+.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		69E25DD92A2F10F2009B36F3 /* Enum */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Enum;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		BDD212512A1DEA2600A1FECF /* SunnyOOTD */ = {
+		69E25DB82A2F1012009B36F3 /* Weathervely */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BDD212662A1DEA2700A1FECF /* Build configuration list for PBXNativeTarget "SunnyOOTD" */;
+			buildConfigurationList = 69E25DCD2A2F1013009B36F3 /* Build configuration list for PBXNativeTarget "Weathervely" */;
 			buildPhases = (
-				BDD2124E2A1DEA2600A1FECF /* Sources */,
-				BDD2124F2A1DEA2600A1FECF /* Frameworks */,
-				BDD212502A1DEA2600A1FECF /* Resources */,
+				69E25DB52A2F1012009B36F3 /* Sources */,
+				69E25DB72A2F1012009B36F3 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = SunnyOOTD;
-			productName = SunnyOOTD;
-			productReference = BDD212522A1DEA2600A1FECF /* SunnyOOTD.app */;
+			name = Weathervely;
+			packageProductDependencies = (
+			);
+			productName = Weathervely;
+			productReference = 69E25DB92A2F1012009B36F3 /* Weathervely.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		BDD2124A2A1DEA2600A1FECF /* Project object */ = {
+		69E25DB12A2F1012009B36F3 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1430;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
-					BDD212512A1DEA2600A1FECF = {
+					69E25DB82A2F1012009B36F3 = {
 						CreatedOnToolsVersion = 14.3;
 					};
 				};
 			};
-			buildConfigurationList = BDD2124D2A1DEA2600A1FECF /* Build configuration list for PBXProject "SunnyOOTD" */;
+			buildConfigurationList = 69E25DB42A2F1012009B36F3 /* Build configuration list for PBXProject "Weathervely" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -110,63 +152,47 @@
 				en,
 				Base,
 			);
-			mainGroup = BDD212492A1DEA2600A1FECF;
-			productRefGroup = BDD212532A1DEA2600A1FECF /* Products */;
+			mainGroup = 69E25DB02A2F1012009B36F3;
+			packageReferences = (
+			);
+			productRefGroup = 69E25DBA2A2F1012009B36F3 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				BDD212512A1DEA2600A1FECF /* SunnyOOTD */,
+				69E25DB82A2F1012009B36F3 /* Weathervely */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		BDD212502A1DEA2600A1FECF /* Resources */ = {
+		69E25DB72A2F1012009B36F3 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BDD212622A1DEA2700A1FECF /* LaunchScreen.storyboard in Resources */,
-				BDD2125F2A1DEA2700A1FECF /* Assets.xcassets in Resources */,
-				BDD2125D2A1DEA2600A1FECF /* Main.storyboard in Resources */,
+				69E25DC62A2F1013009B36F3 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		BDD2124E2A1DEA2600A1FECF /* Sources */ = {
+		69E25DB52A2F1012009B36F3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BDD2125A2A1DEA2600A1FECF /* ViewController.swift in Sources */,
-				BDD212562A1DEA2600A1FECF /* AppDelegate.swift in Sources */,
-				BDD212582A1DEA2600A1FECF /* SceneDelegate.swift in Sources */,
+				69E25DBD2A2F1012009B36F3 /* AppDelegate.swift in Sources */,
+				69E25DBF2A2F1012009B36F3 /* SceneDelegate.swift in Sources */,
+				69E25DD32A2F1089009B36F3 /* BaseViewController.swift in Sources */,
+				69E25DDB2A2F11E0009B36F3 /* HomeViewController.swift in Sources */,
+				69E25DF32A2F1E6A009B36F3 /* OnBoardViewController.swift in Sources */,
+				69E25DF12A2F1E20009B36F3 /* UIButton+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXVariantGroup section */
-		BDD2125B2A1DEA2600A1FECF /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BDD2125C2A1DEA2600A1FECF /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		BDD212602A1DEA2700A1FECF /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BDD212612A1DEA2700A1FECF /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
-		BDD212642A1DEA2700A1FECF /* Debug */ = {
+		69E25DCB2A2F1013009B36F3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -226,7 +252,7 @@
 			};
 			name = Debug;
 		};
-		BDD212652A1DEA2700A1FECF /* Release */ = {
+		69E25DCC2A2F1013009B36F3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -280,27 +306,25 @@
 			};
 			name = Release;
 		};
-		BDD212672A1DEA2700A1FECF /* Debug */ = {
+		69E25DCE2A2F1013009B36F3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4QCSG92KD9;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = SunnyOOTD/Info.plist;
+				INFOPLIST_FILE = Weathervely/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.soohoon.SunnyOOTD;
+				PRODUCT_BUNDLE_IDENTIFIER = com.redThree.Weathervely;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -308,27 +332,25 @@
 			};
 			name = Debug;
 		};
-		BDD212682A1DEA2700A1FECF /* Release */ = {
+		69E25DCF2A2F1013009B36F3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4QCSG92KD9;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = SunnyOOTD/Info.plist;
+				INFOPLIST_FILE = Weathervely/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.soohoon.SunnyOOTD;
+				PRODUCT_BUNDLE_IDENTIFIER = com.redThree.Weathervely;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -339,25 +361,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		BDD2124D2A1DEA2600A1FECF /* Build configuration list for PBXProject "SunnyOOTD" */ = {
+		69E25DB42A2F1012009B36F3 /* Build configuration list for PBXProject "Weathervely" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				BDD212642A1DEA2700A1FECF /* Debug */,
-				BDD212652A1DEA2700A1FECF /* Release */,
+				69E25DCB2A2F1013009B36F3 /* Debug */,
+				69E25DCC2A2F1013009B36F3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		BDD212662A1DEA2700A1FECF /* Build configuration list for PBXNativeTarget "SunnyOOTD" */ = {
+		69E25DCD2A2F1013009B36F3 /* Build configuration list for PBXNativeTarget "Weathervely" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				BDD212672A1DEA2700A1FECF /* Debug */,
-				BDD212682A1DEA2700A1FECF /* Release */,
+				69E25DCE2A2F1013009B36F3 /* Debug */,
+				69E25DCF2A2F1013009B36F3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = BDD2124A2A1DEA2600A1FECF /* Project object */;
+	rootObject = 69E25DB12A2F1012009B36F3 /* Project object */;
 }
