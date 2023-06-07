@@ -14,6 +14,12 @@
 		69E25DDB2A2F11E0009B36F3 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E25DDA2A2F11E0009B36F3 /* HomeViewController.swift */; };
 		69E25DF12A2F1E20009B36F3 /* UIButton+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E25DF02A2F1E20009B36F3 /* UIButton+.swift */; };
 		69E25DF32A2F1E6A009B36F3 /* OnBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E25DF22A2F1E6A009B36F3 /* OnBoardViewController.swift */; };
+		69E25E0D2A2F3116009B36F3 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 69E25E0C2A2F3116009B36F3 /* Then */; };
+		69E25E102A2F3126009B36F3 /* FlexLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 69E25E0F2A2F3126009B36F3 /* FlexLayout */; };
+		69E25E132A2F3135009B36F3 /* PinLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 69E25E122A2F3135009B36F3 /* PinLayout */; };
+		69E25E162A2F328A009B36F3 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 69E25E152A2F328A009B36F3 /* RxCocoa */; };
+		69E25E182A2F328A009B36F3 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 69E25E172A2F328A009B36F3 /* RxRelay */; };
+		69E25E1A2A2F328A009B36F3 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 69E25E192A2F328A009B36F3 /* RxSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +33,22 @@
 		69E25DF02A2F1E20009B36F3 /* UIButton+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+.swift"; sourceTree = "<group>"; };
 		69E25DF22A2F1E6A009B36F3 /* OnBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		69E25E032A2F30EF009B36F3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				69E25E1A2A2F328A009B36F3 /* RxSwift in Frameworks */,
+				69E25E182A2F328A009B36F3 /* RxRelay in Frameworks */,
+				69E25E132A2F3135009B36F3 /* PinLayout in Frameworks */,
+				69E25E102A2F3126009B36F3 /* FlexLayout in Frameworks */,
+				69E25E162A2F328A009B36F3 /* RxCocoa in Frameworks */,
+				69E25E0D2A2F3116009B36F3 /* Then in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		69E25DB02A2F1012009B36F3 = {
@@ -48,7 +70,7 @@
 		69E25DBB2A2F1012009B36F3 /* Weathervely */ = {
 			isa = PBXGroup;
 			children = (
-				69E25DD62A2F10BE009B36F3 /* Common */,
+				69E25DD62A2F10BE009B36F3 /* Helper */,
 				69E25DD72A2F10DA009B36F3 /* Network */,
 				69E25DD52A2F10B1009B36F3 /* View */,
 				69E25DD42A2F10A7009B36F3 /* Model */,
@@ -70,20 +92,20 @@
 		69E25DD52A2F10B1009B36F3 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				69E25DD22A2F1089009B36F3 /* BaseViewController.swift */,
 				69E25DDA2A2F11E0009B36F3 /* HomeViewController.swift */,
 				69E25DF22A2F1E6A009B36F3 /* OnBoardViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
 		};
-		69E25DD62A2F10BE009B36F3 /* Common */ = {
+		69E25DD62A2F10BE009B36F3 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				69E25E1B2A30BA27009B36F3 /* Base */,
 				69E25DD82A2F10EA009B36F3 /* Extension */,
 				69E25DD92A2F10F2009B36F3 /* Enum */,
 			);
-			path = Common;
+			path = Helper;
 			sourceTree = "<group>";
 		};
 		69E25DD72A2F10DA009B36F3 /* Network */ = {
@@ -108,6 +130,14 @@
 			path = Enum;
 			sourceTree = "<group>";
 		};
+		69E25E1B2A30BA27009B36F3 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				69E25DD22A2F1089009B36F3 /* BaseViewController.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -117,6 +147,7 @@
 			buildPhases = (
 				69E25DB52A2F1012009B36F3 /* Sources */,
 				69E25DB72A2F1012009B36F3 /* Resources */,
+				69E25E032A2F30EF009B36F3 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -124,6 +155,12 @@
 			);
 			name = Weathervely;
 			packageProductDependencies = (
+				69E25E0C2A2F3116009B36F3 /* Then */,
+				69E25E0F2A2F3126009B36F3 /* FlexLayout */,
+				69E25E122A2F3135009B36F3 /* PinLayout */,
+				69E25E152A2F328A009B36F3 /* RxCocoa */,
+				69E25E172A2F328A009B36F3 /* RxRelay */,
+				69E25E192A2F328A009B36F3 /* RxSwift */,
 			);
 			productName = Weathervely;
 			productReference = 69E25DB92A2F1012009B36F3 /* Weathervely.app */;
@@ -154,6 +191,10 @@
 			);
 			mainGroup = 69E25DB02A2F1012009B36F3;
 			packageReferences = (
+				69E25E0B2A2F3116009B36F3 /* XCRemoteSwiftPackageReference "Then" */,
+				69E25E0E2A2F3126009B36F3 /* XCRemoteSwiftPackageReference "FlexLayout" */,
+				69E25E112A2F3135009B36F3 /* XCRemoteSwiftPackageReference "PinLayout" */,
+				69E25E142A2F328A009B36F3 /* XCRemoteSwiftPackageReference "RxSwift" */,
 			);
 			productRefGroup = 69E25DBA2A2F1012009B36F3 /* Products */;
 			projectDirPath = "";
@@ -313,9 +354,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = "FLEXLAYOUT_SWIFT_PACKAGE=1";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Weathervely/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -339,9 +382,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = "FLEXLAYOUT_SWIFT_PACKAGE=1";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Weathervely/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -380,6 +425,74 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		69E25E0B2A2F3116009B36F3 /* XCRemoteSwiftPackageReference "Then" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/devxoul/Then";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
+		69E25E0E2A2F3126009B36F3 /* XCRemoteSwiftPackageReference "FlexLayout" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/layoutBox/FlexLayout";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		69E25E112A2F3135009B36F3 /* XCRemoteSwiftPackageReference "PinLayout" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/layoutBox/PinLayout";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		69E25E142A2F328A009B36F3 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		69E25E0C2A2F3116009B36F3 /* Then */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 69E25E0B2A2F3116009B36F3 /* XCRemoteSwiftPackageReference "Then" */;
+			productName = Then;
+		};
+		69E25E0F2A2F3126009B36F3 /* FlexLayout */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 69E25E0E2A2F3126009B36F3 /* XCRemoteSwiftPackageReference "FlexLayout" */;
+			productName = FlexLayout;
+		};
+		69E25E122A2F3135009B36F3 /* PinLayout */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 69E25E112A2F3135009B36F3 /* XCRemoteSwiftPackageReference "PinLayout" */;
+			productName = PinLayout;
+		};
+		69E25E152A2F328A009B36F3 /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 69E25E142A2F328A009B36F3 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		69E25E172A2F328A009B36F3 /* RxRelay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 69E25E142A2F328A009B36F3 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxRelay;
+		};
+		69E25E192A2F328A009B36F3 /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 69E25E142A2F328A009B36F3 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 69E25DB12A2F1012009B36F3 /* Project object */;
 }
