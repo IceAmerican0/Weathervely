@@ -23,7 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		69E25DB92A2F1012009B36F3 /* Weathervely.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Weathervely.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		69E25DB92A2F1012009B36F3 /* Weatherbly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Weatherbly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		69E25DBC2A2F1012009B36F3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		69E25DBE2A2F1012009B36F3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		69E25DC52A2F1013009B36F3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -54,7 +54,7 @@
 		69E25DB02A2F1012009B36F3 = {
 			isa = PBXGroup;
 			children = (
-				69E25DBB2A2F1012009B36F3 /* Weathervely */,
+				69E25DBB2A2F1012009B36F3 /* Weatherbly */,
 				69E25DBA2A2F1012009B36F3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -62,12 +62,12 @@
 		69E25DBA2A2F1012009B36F3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				69E25DB92A2F1012009B36F3 /* Weathervely.app */,
+				69E25DB92A2F1012009B36F3 /* Weatherbly.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		69E25DBB2A2F1012009B36F3 /* Weathervely */ = {
+		69E25DBB2A2F1012009B36F3 /* Weatherbly */ = {
 			isa = PBXGroup;
 			children = (
 				69E25DD62A2F10BE009B36F3 /* Helper */,
@@ -79,7 +79,7 @@
 				69E25DC52A2F1013009B36F3 /* Assets.xcassets */,
 				69E25DCA2A2F1013009B36F3 /* Info.plist */,
 			);
-			path = Weathervely;
+			path = Weatherbly;
 			sourceTree = "<group>";
 		};
 		69E25DD42A2F10A7009B36F3 /* Model */ = {
@@ -141,9 +141,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		69E25DB82A2F1012009B36F3 /* Weathervely */ = {
+		69E25DB82A2F1012009B36F3 /* Weatherbly */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 69E25DCD2A2F1013009B36F3 /* Build configuration list for PBXNativeTarget "Weathervely" */;
+			buildConfigurationList = 69E25DCD2A2F1013009B36F3 /* Build configuration list for PBXNativeTarget "Weatherbly" */;
 			buildPhases = (
 				69E25DB52A2F1012009B36F3 /* Sources */,
 				69E25DB72A2F1012009B36F3 /* Resources */,
@@ -153,7 +153,7 @@
 			);
 			dependencies = (
 			);
-			name = Weathervely;
+			name = Weatherbly;
 			packageProductDependencies = (
 				69E25E0C2A2F3116009B36F3 /* Then */,
 				69E25E0F2A2F3126009B36F3 /* FlexLayout */,
@@ -163,7 +163,7 @@
 				69E25E192A2F328A009B36F3 /* RxSwift */,
 			);
 			productName = Weathervely;
-			productReference = 69E25DB92A2F1012009B36F3 /* Weathervely.app */;
+			productReference = 69E25DB92A2F1012009B36F3 /* Weatherbly.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -181,7 +181,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 69E25DB42A2F1012009B36F3 /* Build configuration list for PBXProject "Weathervely" */;
+			buildConfigurationList = 69E25DB42A2F1012009B36F3 /* Build configuration list for PBXProject "Weatherbly" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -200,7 +200,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				69E25DB82A2F1012009B36F3 /* Weathervely */,
+				69E25DB82A2F1012009B36F3 /* Weatherbly */,
 			);
 		};
 /* End PBXProject section */
@@ -356,7 +356,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = "FLEXLAYOUT_SWIFT_PACKAGE=1";
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Weathervely/Info.plist;
+				INFOPLIST_FILE = Weatherbly/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -367,7 +367,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.redThree.Weathervely;
+				PRODUCT_BUNDLE_IDENTIFIER = com.redThree.Weatherbly;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -384,7 +384,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = "FLEXLAYOUT_SWIFT_PACKAGE=1";
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Weathervely/Info.plist;
+				INFOPLIST_FILE = Weatherbly/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -395,7 +395,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.redThree.Weathervely;
+				PRODUCT_BUNDLE_IDENTIFIER = com.redThree.Weatherbly;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -406,7 +406,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		69E25DB42A2F1012009B36F3 /* Build configuration list for PBXProject "Weathervely" */ = {
+		69E25DB42A2F1012009B36F3 /* Build configuration list for PBXProject "Weatherbly" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				69E25DCB2A2F1013009B36F3 /* Debug */,
@@ -415,7 +415,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		69E25DCD2A2F1013009B36F3 /* Build configuration list for PBXNativeTarget "Weathervely" */ = {
+		69E25DCD2A2F1013009B36F3 /* Build configuration list for PBXNativeTarget "Weatherbly" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				69E25DCE2A2F1013009B36F3 /* Debug */,
