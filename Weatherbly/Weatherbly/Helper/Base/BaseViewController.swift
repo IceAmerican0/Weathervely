@@ -17,15 +17,17 @@ class BaseViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = .white
+        configureUI()
     }
     
-    func configureUI() {
-        view.addSubview(container)
-        
-        container.pin.all()
-        container.flex.layout()
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        configureLayout()
     }
+    
+    func configureLayout() {}
+    
+    func configureUI() {}
     
 }
