@@ -18,7 +18,6 @@ class BaseViewController: UIViewController, CodeBaseInitializerProtocol{
     // MARK: - Initialize
 
     init(container: UIView = UIView()) {
-        self.container = container
         super.init(nibName: nil, bundle: nil)
         /// attribute, layout, bind 를 호출해서 필요한 코드를 작성하면 된다.
         codeBaseInitializer()
@@ -27,25 +26,29 @@ class BaseViewController: UIViewController, CodeBaseInitializerProtocol{
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-
-        view.addSubview(container)
-        container.pin.all()
-    /// child component들의 속성을 잡아주기 위해서 flex.layout()을 먼저 호출한다.
-        container.flex.layout()
-        layout()
-        attribute()
         
+        container.pin.all(view.pin.safeArea)
+        container.flex.layout()
+        
+        layout()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.backgroundColor = .white
+        view.addSubview(container)
+        
+        let backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        backBarButtonItem.tintColor = .black
+        self.navigationItem.backBarButtonItem = backBarButtonItem
+        
+        /// isNavigationBarHidden true / false에 따라 pin.safeArea 변경?
+//        self.navigationController?.isNavigationBarHidden = true
     }
-    
  
     // MARK: - Attribute
     func attribute() { }
