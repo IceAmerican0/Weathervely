@@ -9,23 +9,25 @@ import UIKit
 
 final class NicknameViewController: BaseViewController {
     
-    private lazy var explanationLabel = UILabel()
-    private lazy var guideLabel = UILabel()
+    private lazy var progressBar = UIProgressView()
+    private lazy var explanationLabel = CSLabel(.primary)
+    private lazy var guideLabel = CSLabel(.primary)
     private lazy var inputNickname = UITextField()
     private lazy var confirmButton = CSButton(.primary)
     
     override func attribute() {
         super.attribute()
         
+        progressBar.do {
+            $0.backgroundColor = .black
+        }
+        
         explanationLabel.do {
             $0.text = "닉네임을 설정해주세요"
-            $0.textAlignment = .center
-            $0.font = .boldSystemFont(ofSize: 25)
         }
         
         guideLabel.do {
             $0.text = "(5글자 이내)"
-            $0.textAlignment = .center
             $0.font = .boldSystemFont(ofSize: 20)
         }
         

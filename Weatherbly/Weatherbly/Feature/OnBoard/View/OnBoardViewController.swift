@@ -10,9 +10,9 @@ import UIKit
 final class OnBoardViewController: BaseViewController {
     
     private var contentView = UIView()
-    private var topGreetingLabel = UILabel()
+    private var topGreetingLabel = CSLabel(.primary)
     private var logo = UIImageView()
-    private var bottomGreetingLabel = UILabel()
+    private var bottomGreetingLabel = CSLabel(.primary)
     private var startButton = CSButton(.primary)
     
     
@@ -21,9 +21,7 @@ final class OnBoardViewController: BaseViewController {
         
         topGreetingLabel.do {
             $0.text = "날씨블리에 오신 걸\n환영해요!"
-            $0.numberOfLines = 0
-            $0.textAlignment = .center
-            $0.font = .boldSystemFont(ofSize: 25)
+            
         }
         
         logo.do {
@@ -33,8 +31,6 @@ final class OnBoardViewController: BaseViewController {
         
         bottomGreetingLabel.do {
             $0.text = "날씨블리가 날씨에 맞는\n옷차림을 알려드릴 거에요"
-            $0.numberOfLines = 0
-            $0.textAlignment = .center
             $0.font = .boldSystemFont(ofSize: 20)
             
         }
