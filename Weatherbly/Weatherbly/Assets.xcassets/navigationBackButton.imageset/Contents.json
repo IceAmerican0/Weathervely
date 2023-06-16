@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "navigationBackButton.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
