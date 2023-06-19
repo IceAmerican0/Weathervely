@@ -10,15 +10,14 @@ import UIKit
 class CSLabel: UILabel, CodeBaseInitializerProtocol {
     
     // MARK: - Control Property
-    
     enum LabelStyle {
         case primary
         case custom
     }
     
     private var labelStyle: LabelStyle
-    // MARK: - Initializer
     
+    // MARK: - Initializer
     init(_ labelStyle: LabelStyle) {
         self.labelStyle = labelStyle
         super.init(frame: .zero)
@@ -29,26 +28,19 @@ class CSLabel: UILabel, CodeBaseInitializerProtocol {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     func attribute() {
-        setLabelStyle(labelStyle)
+        setLabelStyle()
     }
     
-    func setLabelStyle(_ style: LabelStyle) {
-        
-        labelStyle = style
-        
-        switch style {
+    func setLabelStyle() {
+        switch labelStyle {
             case .primary:
-                
                 self.do {
                     $0.numberOfLines = 0
                     $0.textAlignment = .center
                     $0.font = .boldSystemFont(ofSize: 25)
                 }
-            
             case .custom:
-                
                 self.do {
                     $0.text = ""
                 }
