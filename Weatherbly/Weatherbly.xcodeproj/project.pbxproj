@@ -7,13 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5C1D5A112A3C500A00E66788 /* CSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1D5A102A3C500A00E66788 /* CSLabel.swift */; };
+		69FDD4C62A39E42900830927 /* NicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FDD4C52A39E42900830927 /* NicknameViewController.swift */; };
+		69FDD4CC2A407FA400830927 /* CSProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FDD4CB2A407FA400830927 /* CSProgressView.swift */; };
 		8298049901CBCE9CE53795A2 /* Pods_Weatherbly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08C67106F372D59E472B2488 /* Pods_Weatherbly.framework */; };
 		BD2D01892A388753003A25D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D01882A388753003A25D5 /* AppDelegate.swift */; };
 		BD2D018B2A388753003A25D5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D018A2A388753003A25D5 /* SceneDelegate.swift */; };
 		BD2D018D2A388753003A25D5 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D018C2A388753003A25D5 /* HomeViewController.swift */; };
-		BD2D01902A388753003A25D5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BD2D018E2A388753003A25D5 /* Main.storyboard */; };
 		BD2D01922A388755003A25D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD2D01912A388755003A25D5 /* Assets.xcassets */; };
-		BD2D01952A388755003A25D5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BD2D01932A388755003A25D5 /* LaunchScreen.storyboard */; };
 		BD2D01AE2A38886C003A25D5 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D01AD2A38886C003A25D5 /* BaseViewController.swift */; };
 		BD2D01B02A38887D003A25D5 /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D01AF2A38887D003A25D5 /* UIButton+Extension.swift */; };
 		BD2D01B22A38889E003A25D5 /* CSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D01B12A38889E003A25D5 /* CSButton.swift */; };
@@ -31,15 +32,16 @@
 
 /* Begin PBXFileReference section */
 		08C67106F372D59E472B2488 /* Pods_Weatherbly.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Weatherbly.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5C1D5A102A3C500A00E66788 /* CSLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSLabel.swift; sourceTree = "<group>"; };
+		69FDD4C52A39E42900830927 /* NicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewController.swift; sourceTree = "<group>"; };
+		69FDD4CB2A407FA400830927 /* CSProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSProgressView.swift; sourceTree = "<group>"; };
 		776681DE98597BF2B06B332B /* Pods-Weatherbly.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Weatherbly.debug.xcconfig"; path = "Target Support Files/Pods-Weatherbly/Pods-Weatherbly.debug.xcconfig"; sourceTree = "<group>"; };
 		AD27F799DFB4717970A2F3B0 /* Pods-Weatherbly.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Weatherbly.release.xcconfig"; path = "Target Support Files/Pods-Weatherbly/Pods-Weatherbly.release.xcconfig"; sourceTree = "<group>"; };
 		BD2D01852A388753003A25D5 /* Weatherbly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Weatherbly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD2D01882A388753003A25D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BD2D018A2A388753003A25D5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		BD2D018C2A388753003A25D5 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
-		BD2D018F2A388753003A25D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BD2D01912A388755003A25D5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		BD2D01942A388755003A25D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BD2D01962A388755003A25D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BD2D01AD2A38886C003A25D5 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		BD2D01AF2A38887D003A25D5 /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
@@ -111,9 +113,7 @@
 				BD2D019C2A3887A3003A25D5 /* Feature */,
 				BD2D01882A388753003A25D5 /* AppDelegate.swift */,
 				BD2D018A2A388753003A25D5 /* SceneDelegate.swift */,
-				BD2D018E2A388753003A25D5 /* Main.storyboard */,
 				BD2D01912A388755003A25D5 /* Assets.xcassets */,
-				BD2D01932A388755003A25D5 /* LaunchScreen.storyboard */,
 				BD2D01962A388755003A25D5 /* Info.plist */,
 			);
 			path = Weatherbly;
@@ -168,6 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				BD77B8292A388CEF00E7D57A /* OnBoardViewController.swift */,
+				69FDD4C52A39E42900830927 /* NicknameViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -222,6 +223,8 @@
 				BD2D01AC2A388860003A25D5 /* Base */,
 				BD2D01A82A38881B003A25D5 /* Extension */,
 				BD2D01B12A38889E003A25D5 /* CSButton.swift */,
+				5C1D5A102A3C500A00E66788 /* CSLabel.swift */,
+				69FDD4CB2A407FA400830927 /* CSProgressView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -310,9 +313,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BD2D01952A388755003A25D5 /* LaunchScreen.storyboard in Resources */,
 				BD2D01922A388755003A25D5 /* Assets.xcassets in Resources */,
-				BD2D01902A388753003A25D5 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -372,38 +373,22 @@
 				BD2D01AE2A38886C003A25D5 /* BaseViewController.swift in Sources */,
 				BD4316362A3C9DB700E86271 /* AssetsImage.swift in Sources */,
 				BD4316342A3C967900E86271 /* SensoryTempViewController.swift in Sources */,
+				69FDD4CC2A407FA400830927 /* CSProgressView.swift in Sources */,
 				BD77B8282A388C9400E7D57A /* CSColor.swift in Sources */,
 				BD77B82A2A388CEF00E7D57A /* OnBoardViewController.swift in Sources */,
 				BD2D01892A388753003A25D5 /* AppDelegate.swift in Sources */,
 				BDA66FEA2A4075270061A1F0 /* UIImageView+Extension.swift in Sources */,
 				BD77B82E2A388D2E00E7D57A /* HomeViewModel.swift in Sources */,
+				69FDD4C62A39E42900830927 /* NicknameViewController.swift in Sources */,
 				BD2D01B62A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift in Sources */,
 				BD2D01B22A38889E003A25D5 /* CSButton.swift in Sources */,
 				BD2D01B02A38887D003A25D5 /* UIButton+Extension.swift in Sources */,
+				5C1D5A112A3C500A00E66788 /* CSLabel.swift in Sources */,
 				BD2D018B2A388753003A25D5 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		BD2D018E2A388753003A25D5 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BD2D018F2A388753003A25D5 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		BD2D01932A388755003A25D5 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BD2D01942A388755003A25D5 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		BD2D01972A388755003A25D5 /* Debug */ = {
@@ -533,7 +518,6 @@
 				INFOPLIST_FILE = Weatherbly/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -566,7 +550,6 @@
 				INFOPLIST_FILE = Weatherbly/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
