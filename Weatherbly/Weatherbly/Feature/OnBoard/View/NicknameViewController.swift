@@ -23,7 +23,7 @@ final class NicknameViewController: BaseViewController {
         let navigationBarTop = view.pin.safeArea.top - (navigationController?.navigationBar.frame.size.height ?? 0)
         
         upperNavigationContainer.pin.top(navigationBarTop).left().right()
-        upperNavigationContainer.flex.layout()
+        upperNavigationContainer.flex.layout(mode: .adjustHeight)
     }
     
     override func viewDidLoad() {
