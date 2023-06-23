@@ -16,7 +16,6 @@ final class SensoryTempViewController: BaseViewController {
     var backButton = UIImageView()
     var mainMessageLabel = CSLabel(.primary)
     
-    
     var clothViewWrapper = UIView()
     
     var minTempWrapper = UIView()
@@ -34,6 +33,8 @@ final class SensoryTempViewController: BaseViewController {
     var confirmButton = CSButton(.primary)
     
     var notTodayLabel = UILabel()
+    
+    private let imageHeight = UIScreen.main.bounds.height * 0.34
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,12 +66,16 @@ final class SensoryTempViewController: BaseViewController {
         }
     
         minTempLabel.do {
-            $0.text = "최저 3℃"
+            $0.text = "오전 7시 (최저 3℃)"
             $0.font = .boldSystemFont(ofSize: 18)
         }
         
+        minTempImageView.do {
+            $0.backgroundColor = .black
+        }
+        
         minImageSourceLabel.do {
-            $0.text = "photo by 0000"
+            $0.text = "by 0000"
             $0.font = .boldSystemFont(ofSize: 11)
         }
         
@@ -81,12 +86,20 @@ final class SensoryTempViewController: BaseViewController {
         }
     
         maxTempLabel.do {
-            $0.text = "최고 3℃"
+            let timeString = NSAttributedString(string: "오후 2시")
+            let tempString = NSAttributedString(string: "(최고 3℃)")
+            $0.text = "오후 2시(최고 3℃)"
             $0.font = .boldSystemFont(ofSize: 18)
+            $0.adjustsFontSizeToFitWidth = true
+            $0.minimumScaleFactor = 0.8
+        }
+        
+        maxTempImageView.do {
+            $0.backgroundColor = .black
         }
         
         maxImageSourceLabel.do {
-            $0.text = "photo by 0000"
+            $0.text = "by 0000"
             $0.font = .boldSystemFont(ofSize: 11)
         }
         
@@ -99,7 +112,9 @@ final class SensoryTempViewController: BaseViewController {
         }
         
         notTodayLabel.do {
-            $0.text = "그저께 옷차림으로 비교하기"
+            let attribute = NSMutableAttributedString(string: "그저께 옷차림으로 비교하기")
+            attribute.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: NSRange(location: 0, length: attribute.length))
+            $0.attributedText = attribute
         }
     }
     
@@ -115,19 +130,19 @@ final class SensoryTempViewController: BaseViewController {
             flex.addItem(clothViewWrapper).direction(.row).marginTop(42).marginHorizontal(27).define { flex in
                 flex.addItem(minTempWrapper).grow(1).shrink(1).marginRight(5).alignItems(.center).define { flex in
                     flex.addItem(minTempLabel).marginTop(9)
-                    flex.addItem(minTempImageView).marginTop(10).height(295)
+                    flex.addItem(minTempImageView).marginTop(10).height(imageHeight)
                     flex.addItem(minImageSourceLabel)
                 }
                 flex.addItem(maxTempWrapper).grow(1).shrink(1).marginLeft(5).alignItems(.center).define { flex in
                     flex.addItem(maxTempLabel).marginTop(9)
-                    flex.addItem(maxTempImageView).marginTop(10).height(295)
+                    flex.addItem(maxTempImageView).marginTop(10).height(imageHeight)
                     flex.addItem(maxImageSourceLabel)
                 }
             }
             
-            flex.addItem(acceptButton).marginTop(30).marginHorizontal(20)
-            flex.addItem(denyButton).marginTop(10).marginHorizontal(20)
-            flex.addItem(notTodayLabel).alignSelf(.center).marginTop(20)
+            flex.addItem(acceptButton).marginTop(39).marginHorizontal(43)
+            flex.addItem(denyButton).marginTop(14).marginHorizontal(43)
+            flex.addItem(notTodayLabel).alignSelf(.center).marginTop(24)
         }
     }
     
