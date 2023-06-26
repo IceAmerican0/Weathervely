@@ -27,6 +27,8 @@
 		BD77B82C2A388D2000E7D57A /* OnBoardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD77B82B2A388D2000E7D57A /* OnBoardViewModel.swift */; };
 		BD77B82E2A388D2E00E7D57A /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD77B82D2A388D2E00E7D57A /* HomeViewModel.swift */; };
 		BDA66FEA2A4075270061A1F0 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA66FE92A4075270061A1F0 /* UIImageView+Extension.swift */; };
+		BDA66FED2A444C470061A1F0 /* SelectGenderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA66FEC2A444C470061A1F0 /* SelectGenderViewController.swift */; };
+		BDA66FEF2A4459910061A1F0 /* SelectGenderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA66FEE2A4459910061A1F0 /* SelectGenderViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +56,8 @@
 		BD77B82B2A388D2000E7D57A /* OnBoardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardViewModel.swift; sourceTree = "<group>"; };
 		BD77B82D2A388D2E00E7D57A /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		BDA66FE92A4075270061A1F0 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
+		BDA66FEC2A444C470061A1F0 /* SelectGenderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGenderViewController.swift; sourceTree = "<group>"; };
+		BDA66FEE2A4459910061A1F0 /* SelectGenderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGenderViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +161,7 @@
 		BD2D01A12A3887E0003A25D5 /* OnBoard */ = {
 			isa = PBXGroup;
 			children = (
+				BDA66FEB2A444C320061A1F0 /* SelectGenderViewController */,
 				BD4316322A3C966400E86271 /* SesoryTemperature */,
 				BD2D01A32A3887F3003A25D5 /* ViewModel */,
 				BD2D01A22A3887EA003A25D5 /* View */,
@@ -248,6 +253,15 @@
 				BD4316332A3C967900E86271 /* SensoryTempViewController.swift */,
 			);
 			path = SesoryTemperature;
+			sourceTree = "<group>";
+		};
+		BDA66FEB2A444C320061A1F0 /* SelectGenderViewController */ = {
+			isa = PBXGroup;
+			children = (
+				BDA66FEC2A444C470061A1F0 /* SelectGenderViewController.swift */,
+				BDA66FEE2A4459910061A1F0 /* SelectGenderViewModel.swift */,
+			);
+			path = SelectGenderViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -368,9 +382,11 @@
 				BD2D01B42A3888AA003A25D5 /* UIColor+Extension.swift in Sources */,
 				BD2D018D2A388753003A25D5 /* HomeViewController.swift in Sources */,
 				BD77B82C2A388D2000E7D57A /* OnBoardViewModel.swift in Sources */,
+				BDA66FEF2A4459910061A1F0 /* SelectGenderViewModel.swift in Sources */,
 				BD4316382A3CA20900E86271 /* UIView+Extension.swift in Sources */,
 				BD2D01AE2A38886C003A25D5 /* BaseViewController.swift in Sources */,
 				BD4316362A3C9DB700E86271 /* AssetsImage.swift in Sources */,
+				BDA66FED2A444C470061A1F0 /* SelectGenderViewController.swift in Sources */,
 				BD4316342A3C967900E86271 /* SensoryTempViewController.swift in Sources */,
 				BD77B8282A388C9400E7D57A /* CSColor.swift in Sources */,
 				BD77B82A2A388CEF00E7D57A /* OnBoardViewController.swift in Sources */,
