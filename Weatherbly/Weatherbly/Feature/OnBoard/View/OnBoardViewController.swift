@@ -10,28 +10,21 @@ import UIKit
 final class OnBoardViewController: BaseViewController {
     
     private var contentView = UIView()
-    private var topGreetingLabel = CSLabel(.primary)
+    private var topGreetingLabel = CSLabel(.bold,
+                                           labelText: "날씨블리에 오신 걸\n환영해요!",
+                                           labelFontSize: 25)
     private var logo = UIImageView()
-    private var bottomGreetingLabel = CSLabel(.primary)
+    private var bottomGreetingLabel = CSLabel(.bold,
+                                              labelText: "날씨블리가 날씨에 맞는\n옷차림을 알려드릴 거에요",
+                                              labelFontSize: 20)
     private var startButton = CSButton(.primary)
     
     
     override func attribute() {
         super.attribute()
         
-        topGreetingLabel.do {
-            $0.text = "날씨블리에 오신 걸\n환영해요!"
-            
-        }
-        
         logo.do {
             $0.image = UIImage(systemName: "star.fill")
-            
-        }
-        
-        bottomGreetingLabel.do {
-            $0.text = "날씨블리가 날씨에 맞는\n옷차림을 알려드릴 거에요"
-            $0.font = .boldSystemFont(ofSize: 20)
             
         }
         

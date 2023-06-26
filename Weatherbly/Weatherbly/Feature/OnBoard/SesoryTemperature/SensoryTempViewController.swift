@@ -14,25 +14,33 @@ final class SensoryTempViewController: BaseViewController {
     
     var progressBar = CSProgressView(.bar)
     var backButton = UIImageView()
-    var mainMessageLabel = CSLabel(.primary)
+    var mainMessageLabel = CSLabel(.bold,
+                                   labelText: "'어제'날씨의 추천 옷차림이에요\n(닉네임)님의 온도와 잘 맞나요?",
+                                   labelFontSize: 24)
     
     var clothViewWrapper = UIView()
     
     var minTempWrapper = UIView()
-    var minTempLabel = CSLabel(.primary)
+    var minTempLabel = CSLabel(.regular)
     var minTempImageView = UIImageView()
-    var minImageSourceLabel = CSLabel(.primary)
+    var minImageSourceLabel = CSLabel(.regular,
+                                      labelText: "by 0000",
+                                      labelFontSize: 11)
     
     var maxTempWrapper = UIView()
-    var maxTempLabel = CSLabel(.primary)
+    var maxTempLabel = CSLabel(.regular)
     var maxTempImageView = UIImageView()
-    var maxImageSourceLabel = CSLabel(.primary)
+    var maxImageSourceLabel = CSLabel(.regular,
+                                      labelText: "by 0000",
+                                      labelFontSize: 11)
     
     var acceptButton = CSButton(.grayFilled)
     var denyButton = CSButton(.grayFilled)
     var confirmButton = CSButton(.primary)
     
-    var notTodayLabel = UILabel()
+    var notTodayLabel = CSLabel(.underline,
+                                labelText: "그저께 옷차림으로 비교하기",
+                                labelFontSize: 15)
     
     private let imageHeight = UIScreen.main.bounds.height * 0.34
     
@@ -56,7 +64,6 @@ final class SensoryTempViewController: BaseViewController {
         mainMessageLabel.do {
             // TODO: - 닉네임 변수 처리
             $0.text = "'어제'날씨의 추천 옷차림이에요\n(닉네임)님의 온도와 잘 맞나요?"
-            $0.font = .boldSystemFont(ofSize: 24)
         }
         
         minTempWrapper.do {
@@ -66,17 +73,13 @@ final class SensoryTempViewController: BaseViewController {
         }
     
         minTempLabel.do {
-            $0.text = "오전 7시 (최저 3℃)"
-            $0.font = .boldSystemFont(ofSize: 18)
+            $0.attributedText = NSMutableAttributedString()
+                .bold(string: "오전 7시", fontSize: 18)
+                .bold(string: "(최저 3℃)", fontSize: 16)
         }
         
         minTempImageView.do {
-            $0.backgroundColor = .black
-        }
-        
-        minImageSourceLabel.do {
-            $0.text = "by 0000"
-            $0.font = .boldSystemFont(ofSize: 11)
+            $0.image = UIImage(systemName: "star.fill")
         }
         
         maxTempWrapper.do {
@@ -86,21 +89,15 @@ final class SensoryTempViewController: BaseViewController {
         }
     
         maxTempLabel.do {
-            let timeString = NSAttributedString(string: "오후 2시")
-            let tempString = NSAttributedString(string: "(최고 3℃)")
-            $0.text = "오후 2시(최고 3℃)"
-            $0.font = .boldSystemFont(ofSize: 18)
+            $0.attributedText = NSMutableAttributedString()
+                .bold(string: "오후 2시", fontSize: 18)
+                .bold(string: "(최고 3℃)", fontSize: 16)
             $0.adjustsFontSizeToFitWidth = true
             $0.minimumScaleFactor = 0.8
         }
         
         maxTempImageView.do {
-            $0.backgroundColor = .black
-        }
-        
-        maxImageSourceLabel.do {
-            $0.text = "by 0000"
-            $0.font = .boldSystemFont(ofSize: 11)
+            $0.image = UIImage(systemName: "star.fill")
         }
         
         acceptButton.do {
@@ -111,11 +108,6 @@ final class SensoryTempViewController: BaseViewController {
             $0.setTitle("더 두껍게/얇게 입을게요", for: .normal)
         }
         
-        notTodayLabel.do {
-            let attribute = NSMutableAttributedString(string: "그저께 옷차림으로 비교하기")
-            attribute.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: NSRange(location: 0, length: attribute.length))
-            $0.attributedText = attribute
-        }
     }
     
     override func layout() {
@@ -130,13 +122,13 @@ final class SensoryTempViewController: BaseViewController {
             flex.addItem(clothViewWrapper).direction(.row).marginTop(42).marginHorizontal(27).define { flex in
                 flex.addItem(minTempWrapper).grow(1).shrink(1).marginRight(5).alignItems(.center).define { flex in
                     flex.addItem(minTempLabel).marginTop(9)
-                    flex.addItem(minTempImageView).marginTop(10).height(imageHeight)
-                    flex.addItem(minImageSourceLabel)
+                    flex.addItem(minTempImageView).marginTop(10).width(70%).height(imageHeight)
+                    flex.addItem(minImageSourceLabel).marginTop(6)
                 }
                 flex.addItem(maxTempWrapper).grow(1).shrink(1).marginLeft(5).alignItems(.center).define { flex in
                     flex.addItem(maxTempLabel).marginTop(9)
-                    flex.addItem(maxTempImageView).marginTop(10).height(imageHeight)
-                    flex.addItem(maxImageSourceLabel)
+                    flex.addItem(maxTempImageView).marginTop(10).width(70%).height(imageHeight)
+                    flex.addItem(maxImageSourceLabel).marginTop(6)
                 }
             }
             
@@ -144,6 +136,10 @@ final class SensoryTempViewController: BaseViewController {
             flex.addItem(denyButton).marginTop(14).marginHorizontal(43)
             flex.addItem(notTodayLabel).alignSelf(.center).marginTop(24)
         }
+    }
+    
+    @objc private func didTapButton(_ sender: UIButton) {
+        
     }
     
 }

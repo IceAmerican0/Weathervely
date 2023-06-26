@@ -9,23 +9,26 @@ import UIKit
 
 extension NSMutableAttributedString {
     
-    func regular(string: String, fontSize: CGFloat) {
+    func regular(string: String, fontSize: CGFloat) -> NSMutableAttributedString {
         let font = UIFont.systemFont(ofSize: fontSize)
-    }
-    
-    func bold(string: String, fontSize: CGFloat) {
-        let font = UIFont.boldSystemFont(ofSize: fontSize)
-    }
-    
-    func underLine(string: String, fontSize: CGFloat) -> NSMutableAttributedString {
-        let underline = [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.thick.rawValue]
-        let underlineAttributedString = NSAttributedString(string: string, attributes: underline)
+        let attributes : [NSAttributedString.Key: Any] = [.font: font]
+        self.append(NSAttributedString(string: string, attributes: attributes))
         return self
     }
     
-    func returnValue(string: String, font: UIFont) -> NSMutableAttributedString {
-        let attributes: [NSAttributedString.Key: Any] = [.font: font]
+    func bold(string: String, fontSize: CGFloat) -> NSMutableAttributedString {
+        let font = UIFont.boldSystemFont(ofSize: fontSize)
+        let attributes : [NSAttributedString.Key: Any] = [.font: font]
         self.append(NSAttributedString(string: string, attributes: attributes))
+        return self
+    }
+    
+    func underLine(string: String) -> NSMutableAttributedString {
+        let attributes = NSMutableAttributedString(string: string)
+        attributes.addAttribute(.underlineStyle,
+                          value: NSUnderlineStyle.single.rawValue,
+                          range: NSRange(location: 0, length: string.count))
+        self.append(attributes)
         return self
     }
 }

@@ -11,8 +11,12 @@ final class NicknameViewController: BaseViewController {
     
     private lazy var upperNavigationContainer = UIView()
     private lazy var progressBar = CSProgressView(.bar)
-    private lazy var explanationLabel = CSLabel(.primary)
-    private lazy var guideLabel = CSLabel(.primary)
+    private lazy var explanationLabel = CSLabel(.bold,
+                                                labelText: "닉네임을 설정해주세요",
+                                                labelFontSize: 25)
+    private lazy var guideLabel = CSLabel(.bold,
+                                          labelText: "(5글자 이내)",
+                                          labelFontSize: 20)
     private lazy var inputNickname = UITextField()
     private lazy var confirmButton = CSButton(.primary)
     
@@ -37,15 +41,6 @@ final class NicknameViewController: BaseViewController {
         
         progressBar.do {
             $0.progress = 0.25
-        }
-        
-        explanationLabel.do {
-            $0.text = "닉네임을 설정해주세요"
-        }
-        
-        guideLabel.do {
-            $0.text = "(5글자 이내)"
-            $0.font = .boldSystemFont(ofSize: 20)
         }
         
         inputNickname.do {

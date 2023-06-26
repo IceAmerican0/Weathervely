@@ -11,17 +11,29 @@ class CSLabel: UILabel, CodeBaseInitializerProtocol {
     
     // MARK: - Control Property
     enum LabelStyle {
-        case primary
-        case custom
+        case bold
+        case regular
+        case underline
     }
     
     private var labelStyle: LabelStyle
+    private var labelText: String
+    private var labelFontSize: CGFloat
     
     // MARK: - Initializer
-    init(_ labelStyle: LabelStyle) {
+    init(_ labelStyle: LabelStyle,
+         labelText: String,
+         labelFontSize: CGFloat
+    ) {
         self.labelStyle = labelStyle
+        self.labelText = labelText
+        self.labelFontSize = labelFontSize
         super.init(frame: .zero)
         codeBaseInitializer()
+    }
+    
+    convenience init(_ labelStyle: LabelStyle) {
+        self.init(labelStyle, labelText: "", labelFontSize: 10)
     }
     
     required init?(coder: NSCoder) {
@@ -33,17 +45,18 @@ class CSLabel: UILabel, CodeBaseInitializerProtocol {
     }
     
     func setLabelStyle() {
-        switch labelStyle {
-            case .primary:
-                self.do {
-                    $0.numberOfLines = 0
-                    $0.textAlignment = .center
-                    $0.font = .boldSystemFont(ofSize: 25)
-                }
-            case .custom:
-                self.do {
-                    $0.text = ""
-                }
+        self.do {
+            $0.numberOfLines = 0
+            $0.textAlignment = .center
+            
+            switch labelStyle {
+            case .bold:
+                $0.attributedText = NSMutableAttributedString().bold(string: labelText, fontSize: labelFontSize)
+            case .regular:
+                $0.attributedText = NSMutableAttributedString().regular(string: labelText, fontSize: labelFontSize)
+            case .underline:
+                $0.attributedText = NSMutableAttributedString().underLine(string: labelText)
+            }
         }
     }
 }
