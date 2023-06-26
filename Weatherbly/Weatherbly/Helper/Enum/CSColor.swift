@@ -8,6 +8,7 @@
 import UIKit
 
 enum CSColor {
+
    case _0__54
    case _0__03
    case _40_106_167
@@ -46,8 +47,7 @@ enum CSColor {
     }
     
     // MARK: - Layer 관련된색상을 설정할 때는 UIColor 가 아닌 cgColor를 사용한다.
-
-       var cgColor: CGColor {
-           self.color.cgColor
-       }
-   }
+    var cgColor: CGColor {
+       self.color.cgColor
+    }
+}

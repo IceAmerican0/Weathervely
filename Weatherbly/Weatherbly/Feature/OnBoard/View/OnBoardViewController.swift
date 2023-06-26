@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Then
 
 final class OnBoardViewController: BaseViewController {
     
@@ -14,8 +13,9 @@ final class OnBoardViewController: BaseViewController {
     private var topGreetingLabel = UILabel()
     
     private var logoWrapper = UIView()
+
     private var logo = UIImageView()
-    private var bottomGreetingLabel = UILabel()
+    private var bottomGreetingLabel = CSLabel(.primary)
     private var startButton = CSButton(.primary)
     
     
@@ -28,11 +28,11 @@ final class OnBoardViewController: BaseViewController {
             $0.textAlignment = .center
             $0.font = .boldSystemFont(ofSize: 25)
             $0.adjustsFontSizeToFitWidth = true
-            
         }
         
         logoWrapper.do {
             $0.backgroundColor = .yellow
+
         }
         
         logo.do {
@@ -58,7 +58,8 @@ final class OnBoardViewController: BaseViewController {
     }
     
     override func layout() {
-        
+
+        super.layout()
     
         container.flex.alignItems(.center).define { flex in
             flex.addItem(topGreetingLabel).marginTop(94).marginHorizontal(30)
