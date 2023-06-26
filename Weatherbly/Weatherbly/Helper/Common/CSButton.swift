@@ -17,6 +17,7 @@ class CSButton: UIButton, CodeBaseInitializerProtocol {
         case secondary
     }
     
+    
     private var buttonStyle: ButtonStyle
     // MARK: - Initializer
     
@@ -40,12 +41,12 @@ class CSButton: UIButton, CodeBaseInitializerProtocol {
         
         buttonStyle = style
         
-        
         switch style {
         case .primary:
             
             self.do {
                 
+
                 // background disabled 처리
                 if $0.state == .disabled {
                     $0.backgroundColor = CSColor._220_220_220.color
@@ -69,13 +70,18 @@ class CSButton: UIButton, CodeBaseInitializerProtocol {
             
             self.do {
                 
-                // background disabled 처리
-                if $0.state == .disabled {
-                    $0.backgroundColor = CSColor._220_220_220.color
+                if self.isEnabled == true {
+                    // background disabled 처리
+                    if $0.state == .disabled {
+                        $0.backgroundColor = CSColor._220_220_220.color
+                    } else {
+                        $0.backgroundColor = CSColor._0__54.color
+                    }
+     
                 } else {
-                    $0.backgroundColor = CSColor._0__54.color
+                    self.backgroundColor = CSColor._220_220_220.color
                 }
-                
+               
                 $0.layer.cornerRadius = 10.0
                 $0.titleLabel?.textColor = .white
                 $0.titleLabel?.font = .boldSystemFont(ofSize: 20)

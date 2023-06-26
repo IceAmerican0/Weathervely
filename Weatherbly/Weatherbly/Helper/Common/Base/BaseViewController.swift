@@ -19,6 +19,7 @@ class BaseViewController: UIViewController, CodeBaseInitializerProtocol{
 
     init(container: UIView = UIView()) {
         super.init(nibName: nil, bundle: nil)
+        
         /// attribute, layout, bind 를 호출해서 필요한 코드를 작성하면 된다.
         codeBaseInitializer()
     }
@@ -31,6 +32,7 @@ class BaseViewController: UIViewController, CodeBaseInitializerProtocol{
         super.viewDidLayoutSubviews()
         
         container.pin.all(view.pin.safeArea)
+    /// child component들의 속성을 잡아주기 위해서 flex.layout()을 먼저 호출한다.
         container.flex.layout()
         
         layout()
@@ -41,6 +43,7 @@ class BaseViewController: UIViewController, CodeBaseInitializerProtocol{
         
         self.navigationController?.isNavigationBarHidden = true
         
+
         view.backgroundColor = .white
         view.addSubview(container)
     }
@@ -49,7 +52,9 @@ class BaseViewController: UIViewController, CodeBaseInitializerProtocol{
     func attribute() { }
     
     // MARK: - Layout
-    func layout() { }
+    func layout() {
+        self.navigationController?.isNavigationBarHidden = true
+    }
     
     // MARK: - Bind
     func bind() { }
