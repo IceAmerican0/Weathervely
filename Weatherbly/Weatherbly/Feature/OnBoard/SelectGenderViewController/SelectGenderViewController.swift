@@ -121,7 +121,21 @@ final class SelectGenderViewController: BaseViewController {
         super.bind()
         
         womanButton.rx.tap
-            .bind(to: viewModel.genderButton)
+            .subscribe(onNext: { [weak self] _ in
+                if self?.manButton.backgroundColor == CSColor._151_151_151.color {
+                    self?.manButton.backgroundColor = CSColor._248_248_248.color
+                }
+                self?.womanButton.backgroundColor = CSColor._151_151_151.color
+            })
+            .disposed(by: bag)
+        
+        manButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                if self?.womanButton.backgroundColor == CSColor._151_151_151.color {
+                    self?.womanButton.backgroundColor = CSColor._248_248_248.color
+                }
+                self?.manButton.backgroundColor = CSColor._151_151_151.color
+            })
             .disposed(by: bag)
     }
     

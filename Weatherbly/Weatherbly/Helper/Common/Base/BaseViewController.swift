@@ -20,6 +20,7 @@ class BaseViewController: UIViewController, CodeBaseInitializerProtocol{
     init(container: UIView = UIView()) {
         self.container = container
         super.init(nibName: nil, bundle: nil)
+        
         /// attribute, layout, bind 를 호출해서 필요한 코드를 작성하면 된다.
         codeBaseInitializer()
     }
@@ -44,7 +45,7 @@ class BaseViewController: UIViewController, CodeBaseInitializerProtocol{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.isNavigationBarHidden = true
+        
         view.backgroundColor = .white
     }
     
@@ -53,7 +54,9 @@ class BaseViewController: UIViewController, CodeBaseInitializerProtocol{
     func attribute() { }
     
     // MARK: - Layout
-    func layout() { }
+    func layout() {
+        self.navigationController?.isNavigationBarHidden = true
+    }
     
     // MARK: - Bind
     func bind() { }
