@@ -27,6 +27,7 @@ final class OnBoardViewController: BaseViewController {
             $0.numberOfLines = 0
             $0.textAlignment = .center
             $0.font = .boldSystemFont(ofSize: 25)
+            $0.adjustsFontSizeToFitWidth = true
             
         }
         
@@ -36,7 +37,7 @@ final class OnBoardViewController: BaseViewController {
         
         logo.do {
             $0.image = UIImage(systemName: "star.fill")
-
+            
         }
         
         bottomGreetingLabel.do {
@@ -44,8 +45,8 @@ final class OnBoardViewController: BaseViewController {
             $0.numberOfLines = 0
             $0.textAlignment = .center
             $0.font = .boldSystemFont(ofSize: 20)
-            
-            
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.adjustsFontSizeToFitWidth = true
         }
         
         startButton.do {
@@ -63,7 +64,8 @@ final class OnBoardViewController: BaseViewController {
             flex.addItem(topGreetingLabel).marginTop(94).marginHorizontal(30)
             flex.addItem(logo)
             flex.addItem(bottomGreetingLabel)
-            flex.addItem(startButton).width(304).height(62).marginTop(69).marginHorizontal(43)
+            flex.addItem(startButton).height(62)
+//                .marginTop(69).marginHorizontal(43)
         }
         
         
@@ -71,12 +73,21 @@ final class OnBoardViewController: BaseViewController {
     /// CGFloat 픽셀 기반이라 기본적으로 다른 디바이스에서도 똑같이 보이는게 맞는데
     
         topGreetingLabel.pin.top(93).left(30).right(30)
-        logo.pin.top(view.pin.safeArea).marginTop(225).bottom(view.pin.safeArea).marginBottom(340).horizontally(95)
-        bottomGreetingLabel.pin.top(to: logo.edge.bottom).marginTop(100).left(95).right(95)
-        startButton.pin.top(to: bottomGreetingLabel.edge.bottom).marginTop(69).left(43).right(43)
+        startButton.pin.bottom(view.pin.safeArea).horizontally(43)
+        bottomGreetingLabel.pin.bottom(to: startButton.edge.top).marginBottom(69).horizontally(95)
+        logo.pin.top(to: topGreetingLabel.edge.bottom).marginTop(58).horizontally(126).bottom(to: bottomGreetingLabel.edge.top).marginBottom(100)
+
+//        topGreetingLabel.pin.top(93).left(30).right(30)
+
+//        logo.pin.top(to: topGreetingLabel.edge.bottom).marginTop(58).horizontally(126)
+//
+//        bottomGreetingLabel.pin.top(to: logo.edge.bottom).marginTop(100).horizontally(95)
+//
+//        startButton.pin.top(to: bottomGreetingLabel.edge.bottom).marginTop(69).horizontally(43)
     }
     
     @objc private func didTapStartButton() {
-        self.navigationController?.pushViewController(SensoryTempViewController(), animated: true)
+//        self.navigationController?.pushViewController(SensoryTempViewController(), animated: true)
+        self.navigationController?.pushViewController(SelectGenderViewController(), animated: true)
     }
 }

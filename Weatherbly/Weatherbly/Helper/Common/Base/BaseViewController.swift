@@ -34,6 +34,7 @@ class BaseViewController: UIViewController, CodeBaseInitializerProtocol{
         
         view.addSubview(container)
         container.pin.all(view.pin.safeArea)
+        
     /// child component들의 속성을 잡아주기 위해서 flex.layout()을 먼저 호출한다.
         container.flex.layout()
         layout()

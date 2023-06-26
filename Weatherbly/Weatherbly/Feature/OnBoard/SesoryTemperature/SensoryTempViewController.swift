@@ -99,8 +99,6 @@ final class SensoryTempViewController: BaseViewController {
     override func layout() {
         super.layout()
         
-        
-        clothViewWrapper.backgroundColor = .yellow
         container.flex.define { flex in
             flex.addItem(progressBar)
             flex.addItem(backButton).size(44).marginTop(15).left(12)
@@ -144,9 +142,9 @@ final class SensoryTempViewController: BaseViewController {
     }
     
     private func setClothViewWrapperLayout() {
-        minTempWrapper.pin.topLeft(to: clothViewWrapper.anchor.topLeft).size(100)
+        minTempWrapper.pin.topLeft(to: clothViewWrapper.anchor.topLeft)
         minTempWrapper.backgroundColor = .red
-        maxTempWrapper.pin.after(of: minTempWrapper).margin(10).size(100)
+        maxTempWrapper.pin.after(of: minTempWrapper).margin(10)
         maxTempWrapper.backgroundColor = .blue
     }
     
