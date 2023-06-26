@@ -42,12 +42,10 @@ final class SelectGenderViewController: BaseViewController {
             $0.progress = 1.0
             $0.progressViewStyle = .default
             $0.progressTintColor = CSColor._151_151_151.color
-            $0.translatesAutoresizingMaskIntoConstraints = false
         }
         
         backButton.do {
             $0.image = AssetsImage.navigationBackButton.image
-            $0.translatesAutoresizingMaskIntoConstraints = false
         }
         
         headerLabel.do {
@@ -56,7 +54,6 @@ final class SelectGenderViewController: BaseViewController {
             $0.textAlignment = .center
             $0.numberOfLines = 0
             $0.adjustsFontSizeToFitWidth = true
-            $0.translatesAutoresizingMaskIntoConstraints = false
         }
         
         womanButton.do {

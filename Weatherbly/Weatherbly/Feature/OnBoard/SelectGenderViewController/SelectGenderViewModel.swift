@@ -16,10 +16,7 @@ final class SelectGenderViewModel {
     var genderButtonTap = PublishRelay<UIColor>()
     
     func tapWomanButton() {
-        print(#function)
         
-        genderButtonTap.accept(genderButtonTap.values )
-        print(genderButtonTap.values)
         
         
     }

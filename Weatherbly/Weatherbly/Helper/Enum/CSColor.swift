@@ -8,19 +8,17 @@
 import UIKit
 
 enum CSColor {
-
-   case _0__54
-   case _0__03
-   case _40_106_167
-   case _151_151_151
-   case _178_36_36
-   case _186_141_244
-   case _209_240_252
-   case _220_220_220
-   case _236_207_255
-   case _248_248_248
-   
-   
+    case _0__54
+    case _0__03
+    case _40_106_167
+    case _151_151_151
+    case _178_36_36
+    case _186_141_244
+    case _209_240_252
+    case _220_220_220
+    case _236_207_255
+    case _248_248_248
+    
     var color: UIColor {
         switch self {
         case ._0__03:
