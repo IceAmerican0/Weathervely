@@ -7,19 +7,12 @@
 
 import UIKit
 
-class CSProgressView: UIProgressView, CodeBaseInitializerProtocol {
+public final class CSProgressView: UIProgressView, CodeBaseInitializerProtocol {
     
-    // MARK: - Control Property
-    enum ProgressStyle {
-        case bar
-        case custom
-    }
+    private var degree: Float
     
-    private var progressStyle: ProgressStyle
-    
-    // MARK: - Initializer
-    init(_ progressStyle: ProgressStyle) {
-        self.progressStyle = progressStyle
+    init(_ degree: Float) {
+        self.degree = degree
         super.init(frame: .zero)
         codeBaseInitializer()
     }
@@ -33,17 +26,10 @@ class CSProgressView: UIProgressView, CodeBaseInitializerProtocol {
     }
     
     func setProgressStyle() {
-        switch progressStyle {
-            case .bar:
-                self.do {
-                    $0.trackTintColor = CSColor._220_220_220.color
-                    $0.progressTintColor = CSColor._151_151_151.color
-                }
-            case .custom:
-                self.do {
-                    $0.trackTintColor = CSColor._220_220_220.color
-                    $0.progressTintColor = CSColor._151_151_151.color
-                }
+        self.do {
+            $0.progress = degree
+            $0.trackTintColor = CSColor._220_220_220.color
+            $0.progressTintColor = CSColor._151_151_151.color
         }
     }
 }

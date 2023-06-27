@@ -12,35 +12,26 @@ import Then
 
 final class SensoryTempViewController: BaseViewController {
     
-    var progressBar = CSProgressView(.bar)
+    var progressBar = CSProgressView(1.0)
     var backButton = UIImageView()
-    var mainMessageLabel = CSLabel(.bold,
-                                   labelText: "'어제'날씨의 추천 옷차림이에요\n(닉네임)님의 온도와 잘 맞나요?",
-                                   labelFontSize: 24)
+    var mainMessageLabel = CSLabel(.bold, 24, "'어제'날씨의 추천 옷차림이에요\n(닉네임)님의 온도와 잘 맞나요?")
     
     var clothViewWrapper = UIView()
     
     var minTempWrapper = UIView()
     var minTempLabel = CSLabel(.regular)
     var minTempImageView = UIImageView()
-    var minImageSourceLabel = CSLabel(.regular,
-                                      labelText: "by 0000",
-                                      labelFontSize: 11)
+    var minImageSourceLabel = CSLabel(.regular, 11, "by 0000")
     
     var maxTempWrapper = UIView()
     var maxTempLabel = CSLabel(.regular)
     var maxTempImageView = UIImageView()
-    var maxImageSourceLabel = CSLabel(.regular,
-                                      labelText: "by 0000",
-                                      labelFontSize: 11)
+    var maxImageSourceLabel = CSLabel(.regular, 11, "by 0000")
     
     var acceptButton = CSButton(.grayFilled)
     var denyButton = CSButton(.grayFilled)
     var confirmButton = CSButton(.primary)
-    
-    var notTodayLabel = CSLabel(.underline,
-                                labelText: "그저께 옷차림으로 비교하기",
-                                labelFontSize: 15)
+    var notTodayLabel = CSLabel(.underline, 15, "그저께 옷차림으로 비교하기")
     
     private let imageHeight = UIScreen.main.bounds.height * 0.34
     
@@ -53,10 +44,6 @@ final class SensoryTempViewController: BaseViewController {
     override func attribute() {
         super.attribute()
         
-        progressBar.do {
-            $0.progress = 1.0
-        }
-        
         backButton.do {
             $0.image = AssetsImage.navigationBackButton.image
         }
@@ -68,14 +55,13 @@ final class SensoryTempViewController: BaseViewController {
         
         minTempWrapper.do {
             $0.layer.cornerRadius = 20.0
-            $0.backgroundColor = .blue
             // TODO: - shadow처리
         }
     
         minTempLabel.do {
             $0.attributedText = NSMutableAttributedString()
-                .bold(string: "오전 7시", fontSize: 18)
-                .bold(string: "(최저 3℃)", fontSize: 16)
+                .bold("오전 7시", 18)
+                .bold("(최저 3℃)", 16)
         }
         
         minTempImageView.do {
@@ -84,14 +70,13 @@ final class SensoryTempViewController: BaseViewController {
         
         maxTempWrapper.do {
             $0.layer.cornerRadius = 20.0
-            $0.backgroundColor = .blue
             // TODO: - shadow처리
         }
     
         maxTempLabel.do {
             $0.attributedText = NSMutableAttributedString()
-                .bold(string: "오후 2시", fontSize: 18)
-                .bold(string: "(최고 3℃)", fontSize: 16)
+                .bold("오후 2시", 18)
+                .bold("(최고 3℃)", 16)
             $0.adjustsFontSizeToFitWidth = true
             $0.minimumScaleFactor = 0.8
         }

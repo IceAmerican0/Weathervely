@@ -7,9 +7,8 @@
 
 import UIKit
 
-class CSLabel: UILabel, CodeBaseInitializerProtocol {
+public final class CSLabel: UILabel, CodeBaseInitializerProtocol {
     
-    // MARK: - Control Property
     enum LabelStyle {
         case bold
         case regular
@@ -20,20 +19,19 @@ class CSLabel: UILabel, CodeBaseInitializerProtocol {
     private var labelText: String
     private var labelFontSize: CGFloat
     
-    // MARK: - Initializer
     init(_ labelStyle: LabelStyle,
-         labelText: String,
-         labelFontSize: CGFloat
+         _ labelFontSize: CGFloat,
+         _ labelText: String
     ) {
         self.labelStyle = labelStyle
-        self.labelText = labelText
         self.labelFontSize = labelFontSize
+        self.labelText = labelText
         super.init(frame: .zero)
         codeBaseInitializer()
     }
     
     convenience init(_ labelStyle: LabelStyle) {
-        self.init(labelStyle, labelText: "", labelFontSize: 10)
+        self.init(labelStyle, 10, "")
     }
     
     required init?(coder: NSCoder) {
@@ -51,11 +49,11 @@ class CSLabel: UILabel, CodeBaseInitializerProtocol {
             
             switch labelStyle {
             case .bold:
-                $0.attributedText = NSMutableAttributedString().bold(string: labelText, fontSize: labelFontSize)
+                $0.attributedText = NSMutableAttributedString().bold(labelText, labelFontSize)
             case .regular:
-                $0.attributedText = NSMutableAttributedString().regular(string: labelText, fontSize: labelFontSize)
+                $0.attributedText = NSMutableAttributedString().regular(labelText, labelFontSize)
             case .underline:
-                $0.attributedText = NSMutableAttributedString().underLine(string: labelText)
+                $0.attributedText = NSMutableAttributedString().underLine(labelText, labelFontSize)
             }
         }
     }

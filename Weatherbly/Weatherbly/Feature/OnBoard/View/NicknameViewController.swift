@@ -6,41 +6,26 @@
 //
 
 import UIKit
+import FlexLayout
 
 final class NicknameViewController: BaseViewController {
     
-    private lazy var upperNavigationContainer = UIView()
-    private lazy var progressBar = CSProgressView(.bar)
-    private lazy var explanationLabel = CSLabel(.bold,
-                                                labelText: "닉네임을 설정해주세요",
-                                                labelFontSize: 25)
-    private lazy var guideLabel = CSLabel(.bold,
-                                          labelText: "(5글자 이내)",
-                                          labelFontSize: 20)
-    private lazy var inputNickname = UITextField()
-    private lazy var confirmButton = CSButton(.primary)
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        // TODO: progressView 위치 조정
-        let navigationBarTop = view.pin.safeArea.top - (navigationController?.navigationBar.frame.size.height ?? 0)
-        
-        upperNavigationContainer.pin.top(navigationBarTop).left().right()
-        upperNavigationContainer.flex.layout(mode: .adjustHeight)
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        view.addSubview(upperNavigationContainer)
-    }
+    private var progressBar = CSProgressView(0.25)
+    private var backButton = UIImageView()
+    private var explanationLabel = CSLabel(.bold, 25, "닉네임을 설정해주세요")
+    private var guideLabel = CSLabel(.bold, 20, "(5글자 이내)")
+    private var inputNickname = UITextField()
+    private var confirmButton = CSButton(.primary)
     
     override func attribute() {
         super.attribute()
         
-        progressBar.do {
-            $0.progress = 0.25
+        backButton.do {
+            $0.image = AssetsImage.navigationBackButton.image
+        }
+        
+        explanationLabel.do {
+            $0.backgroundColor = .white
         }
         
         inputNickname.do {
@@ -58,16 +43,13 @@ final class NicknameViewController: BaseViewController {
     override func layout() {
         super.layout()
         
-        upperNavigationContainer.flex.define { flex in
+        container.flex.alignItems(.center).define { flex in
             flex.addItem(progressBar)
-        }
-        
-        container.flex.alignItems(.center).marginTop(36)
-            .define { flex in
-                flex.addItem(explanationLabel)
-                flex.addItem(guideLabel)
-                flex.addItem(inputNickname).marginTop(25).width(330).height(50)
-                flex.addItem(confirmButton).marginTop(413).width(304).height(62)
+            flex.addItem(backButton).alignSelf(.start).marginTop(15).left(12).size(44)
+            flex.addItem(explanationLabel).marginTop(27)
+            flex.addItem(guideLabel)
+            flex.addItem(inputNickname).marginTop(36).width(330).height(50)
+            flex.addItem(confirmButton).width(88%).height(62)
         }
     }
     
