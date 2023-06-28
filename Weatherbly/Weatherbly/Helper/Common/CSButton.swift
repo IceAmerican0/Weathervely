@@ -58,9 +58,7 @@ class CSButton: UIButton, CodeBaseInitializerProtocol {
                 $0.layer.cornerRadius = 10.0
                 $0.titleLabel?.textColor = .white
                 $0.titleLabel?.font = .boldSystemFont(ofSize: 20)
-                $0.layer.shadowColor = CSColor._0__03.cgColor
-                $0.layer.shadowOpacity = 1
-                $0.layer.shadowOffset = CGSize(width: 0, height: 3)
+                $0.setShadow(CGSize(width: 0, height: 3), CSColor._0__03.cgColor, 1)
                 // TODO: - Hilighted 이미지 처리 필요
                 // TODO: - buttonTitle 설정
                 // setImage? or 함수?
@@ -84,10 +82,8 @@ class CSButton: UIButton, CodeBaseInitializerProtocol {
                
                 $0.layer.cornerRadius = 10.0
                 $0.titleLabel?.textColor = .white
-                $0.titleLabel?.font = .boldSystemFont(ofSize: 20)
-                $0.layer.shadowColor = CSColor._0__03.cgColor
-                $0.layer.shadowOpacity = 1
-                $0.layer.shadowOffset = CGSize(width: 0, height: 3)
+                $0.titleLabel?.font = .boldSystemFont(ofSize: 16)
+                $0.setShadow(CGSize(width: 0, height: 3), CSColor._0__03.cgColor, 1)
                 // TODO: - Hilighted 이미지 처리 필요
                 // TODO: - buttonTitle 설정
                 

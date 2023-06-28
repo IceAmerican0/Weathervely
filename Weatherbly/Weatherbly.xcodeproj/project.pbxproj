@@ -163,8 +163,8 @@
 		BD2D01A12A3887E0003A25D5 /* OnBoard */ = {
 			isa = PBXGroup;
 			children = (
-				BDA66FEB2A444C320061A1F0 /* SelectGenderViewController */,
 				BD4316322A3C966400E86271 /* SesoryTemperature */,
+				BDA66FEB2A444C320061A1F0 /* SelectGenderViewController */,
 				BD2D01A32A3887F3003A25D5 /* ViewModel */,
 				BD2D01A22A3887EA003A25D5 /* View */,
 			);
@@ -256,7 +256,8 @@
 		BD4316322A3C966400E86271 /* SesoryTemperature */ = {
 			isa = PBXGroup;
 			children = (
-				BD4316332A3C967900E86271 /* SensoryTempViewController.swift */,
+				BDA66FF12A4AD4EF0061A1F0 /* ViewModel */,
+				BDA66FF02A4AD4E50061A1F0 /* View */,
 			);
 			path = SesoryTemperature;
 			sourceTree = "<group>";
@@ -264,10 +265,41 @@
 		BDA66FEB2A444C320061A1F0 /* SelectGenderViewController */ = {
 			isa = PBXGroup;
 			children = (
-				BDA66FEC2A444C470061A1F0 /* SelectGenderViewController.swift */,
-				BDA66FEE2A4459910061A1F0 /* SelectGenderViewModel.swift */,
+				BDA66FF32A4AD5020061A1F0 /* ViewModel */,
+				BDA66FF22A4AD4FC0061A1F0 /* View */,
 			);
 			path = SelectGenderViewController;
+			sourceTree = "<group>";
+		};
+		BDA66FF02A4AD4E50061A1F0 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BD4316332A3C967900E86271 /* SensoryTempViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		BDA66FF12A4AD4EF0061A1F0 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		BDA66FF22A4AD4FC0061A1F0 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BDA66FEC2A444C470061A1F0 /* SelectGenderViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		BDA66FF32A4AD5020061A1F0 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				BDA66FEE2A4459910061A1F0 /* SelectGenderViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

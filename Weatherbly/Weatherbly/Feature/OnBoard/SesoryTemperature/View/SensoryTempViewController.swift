@@ -34,6 +34,7 @@ final class SensoryTempViewController: BaseViewController {
                                       labelText: "by 0000",
                                       labelFontSize: 11)
     
+    var buttonWrapper = UIView()
     var acceptButton = CSButton(.grayFilled)
     var denyButton = CSButton(.grayFilled)
     var confirmButton = CSButton(.primary)
@@ -46,8 +47,6 @@ final class SensoryTempViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
-        
     }
     
     override func attribute() {
@@ -63,12 +62,18 @@ final class SensoryTempViewController: BaseViewController {
         
         mainMessageLabel.do {
             // TODO: - 닉네임 변수 처리
-            $0.text = "'어제'날씨의 추천 옷차림이에요\n(닉네임)님의 온도와 잘 맞나요?"
+            $0.text = "'어제'날씨의 추천 옷차림이에요\n(닉네임)님의\n온도와 잘 맞나요?"
+            $0.adjustsFontSizeToFitWidth = true
+            if UIScreen.main.bounds.width < 376 {
+                $0.font = .boldSystemFont(ofSize: 18)
+            }
         }
         
         minTempWrapper.do {
             $0.layer.cornerRadius = 20.0
-            $0.backgroundColor = .blue
+            $0.backgroundColor = CSColor._253_253_253.color
+            $0.setShadow(CGSize(width: 0, height: 4), CSColor._220_220_220.cgColor, 1)
+            $0.layer.shadowRadius = 10
             // TODO: - shadow처리
         }
     
@@ -84,7 +89,9 @@ final class SensoryTempViewController: BaseViewController {
         
         maxTempWrapper.do {
             $0.layer.cornerRadius = 20.0
-            $0.backgroundColor = .blue
+            $0.backgroundColor = CSColor._253_253_253.color
+            $0.setShadow(CGSize(width: 0, height: 4), CSColor._220_220_220.cgColor, 1)
+            $0.layer.shadowRadius = 10
             // TODO: - shadow처리
         }
     
@@ -102,10 +109,12 @@ final class SensoryTempViewController: BaseViewController {
         
         acceptButton.do {
             $0.setTitle("네", for: .normal)
+            $0.backgroundColor = CSColor._50_50_50.color
         }
         
         denyButton.do {
-            $0.setTitle("더 두껍게/얇게 입을게요", for: .normal)
+            $0.setTitle("더 두껍게 / 얇게 입을게요", for: .normal)
+            $0.backgroundColor = CSColor._50_50_50.color
         }
     }
     
@@ -114,25 +123,31 @@ final class SensoryTempViewController: BaseViewController {
         
         container.flex.define { flex in
             flex.addItem(progressBar)
-            flex.addItem(backButton).marginTop(15).left(12).size(44)
-            flex.addItem(mainMessageLabel).marginTop(15)
+            flex.addItem(backButton).left(12).size(44).marginTop(15)
+            flex.addItem(mainMessageLabel).marginBottom(24).marginTop(5)
             
-            flex.addItem(clothViewWrapper).direction(.row).marginTop(42).marginHorizontal(27).define { flex in
+            flex.addItem(clothViewWrapper).direction(.row).marginTop(0)
+                .marginHorizontal(27)
+                .define { flex in
                 flex.addItem(minTempWrapper).grow(1).shrink(1).marginRight(5).alignItems(.center).define { flex in
                     flex.addItem(minTempLabel).marginTop(9)
                     flex.addItem(minTempImageView).marginTop(10).width(70%).height(imageHeight)
-                    flex.addItem(minImageSourceLabel).marginTop(6)
+                    flex.addItem(minImageSourceLabel).marginBottom(7)
                 }
+                    
                 flex.addItem(maxTempWrapper).grow(1).shrink(1).marginLeft(5).alignItems(.center).define { flex in
                     flex.addItem(maxTempLabel).marginTop(9)
                     flex.addItem(maxTempImageView).marginTop(10).width(70%).height(imageHeight)
-                    flex.addItem(maxImageSourceLabel).marginTop(6)
+                    flex.addItem(maxImageSourceLabel).marginBottom(7)
                 }
             }
             
-            flex.addItem(acceptButton).marginTop(39).marginHorizontal(43)
-            flex.addItem(denyButton).marginTop(14).marginHorizontal(43)
-            flex.addItem(notTodayLabel).alignSelf(.center).marginTop(24)
+            flex.addItem(buttonWrapper).justifyContent(.center).marginTop(39).define { flex in
+                flex.addItem(acceptButton).marginHorizontal(43).height(46)
+                flex.addItem(denyButton).marginHorizontal(43).height(46).marginTop(14)
+                flex.addItem(notTodayLabel).marginTop(24)
+            }
+
         }
     }
     

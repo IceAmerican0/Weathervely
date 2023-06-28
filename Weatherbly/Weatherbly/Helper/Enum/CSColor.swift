@@ -11,6 +11,7 @@ enum CSColor {
     case _0__54
     case _0__03
     case _40_106_167
+    case _50_50_50
     case _151_151_151
     case _178_36_36
     case _186_141_244
@@ -18,6 +19,7 @@ enum CSColor {
     case _220_220_220
     case _236_207_255
     case _248_248_248
+    case _253_253_253
     
     var color: UIColor {
         switch self {
@@ -27,6 +29,8 @@ enum CSColor {
             return UIColor(r: 0, g: 0, b: 0, a: 0.54)
         case ._40_106_167:
             return UIColor(r: 40, g: 106, b: 167)
+        case ._50_50_50:
+            return UIColor(r: 50, g: 50, b: 50)
         case ._151_151_151:
             return UIColor(r: 151, g: 151, b: 151)
         case ._178_36_36:
@@ -41,6 +45,8 @@ enum CSColor {
             return UIColor(r: 236, g: 207, b: 255)
         case ._248_248_248:
             return UIColor(r: 248, g: 248, b: 248)
+        case ._253_253_253:
+            return UIColor(r: 253, g: 253, b: 253)
         }
     }
     
