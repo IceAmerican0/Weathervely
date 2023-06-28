@@ -13,10 +13,10 @@ import Then
 final class SensoryTempViewController: BaseViewController {
     
     var progressBar = CSProgressView(.bar)
-    var backButton = UIImageView()
+    var backButton = UIButton()
     var mainMessageLabel = CSLabel(.bold,
                                    labelText: "'어제'날씨의 추천 옷차림이에요\n(닉네임)님의 온도와 잘 맞나요?",
-                                   labelFontSize: 24)
+                                   labelFontSize: 22)
     
     var clothViewWrapper = UIView()
     
@@ -57,7 +57,8 @@ final class SensoryTempViewController: BaseViewController {
         }
         
         backButton.do {
-            $0.image = AssetsImage.navigationBackButton.image
+            $0.setImage(AssetsImage.navigationBackButton.image, for: .normal)
+            $0.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
         }
         
         mainMessageLabel.do {
@@ -81,6 +82,9 @@ final class SensoryTempViewController: BaseViewController {
             $0.attributedText = NSMutableAttributedString()
                 .bold(string: "오전 7시", fontSize: 18)
                 .bold(string: "(최저 3℃)", fontSize: 16)
+            $0.textColor = CSColor._40_106_167.color
+            $0.adjustsFontSizeToFitWidth = true
+            $0.numberOfLines = 1
         }
         
         minTempImageView.do {
@@ -99,8 +103,9 @@ final class SensoryTempViewController: BaseViewController {
             $0.attributedText = NSMutableAttributedString()
                 .bold(string: "오후 2시", fontSize: 18)
                 .bold(string: "(최고 3℃)", fontSize: 16)
+            $0.textColor = CSColor._178_36_36.color
             $0.adjustsFontSizeToFitWidth = true
-            $0.minimumScaleFactor = 0.8
+            $0.numberOfLines = 1
         }
         
         maxTempImageView.do {
@@ -115,6 +120,7 @@ final class SensoryTempViewController: BaseViewController {
         denyButton.do {
             $0.setTitle("더 두껍게 / 얇게 입을게요", for: .normal)
             $0.backgroundColor = CSColor._50_50_50.color
+            $0.addTarget(self, action: #selector(didTapDenyButton), for: .touchUpInside)
         }
     }
     
@@ -130,13 +136,13 @@ final class SensoryTempViewController: BaseViewController {
                 .marginHorizontal(27)
                 .define { flex in
                 flex.addItem(minTempWrapper).grow(1).shrink(1).marginRight(5).alignItems(.center).define { flex in
-                    flex.addItem(minTempLabel).marginTop(9)
+                    flex.addItem(minTempLabel).marginTop(11).marginHorizontal(20)
                     flex.addItem(minTempImageView).marginTop(10).width(70%).height(imageHeight)
                     flex.addItem(minImageSourceLabel).marginBottom(7)
                 }
                     
                 flex.addItem(maxTempWrapper).grow(1).shrink(1).marginLeft(5).alignItems(.center).define { flex in
-                    flex.addItem(maxTempLabel).marginTop(9)
+                    flex.addItem(maxTempLabel).marginTop(11).marginHorizontal(20)
                     flex.addItem(maxTempImageView).marginTop(10).width(70%).height(imageHeight)
                     flex.addItem(maxImageSourceLabel).marginBottom(7)
                 }
@@ -151,8 +157,13 @@ final class SensoryTempViewController: BaseViewController {
         }
     }
     
-    @objc private func didTapButton(_ sender: UIButton) {
-        
+    @objc private func didTapBackButton(_ sender: UIButton) {
+        print(#function)
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func didTapDenyButton() {
+        self.navigationController?.pushViewController(SlotMachineViewController(), animated: true)
     }
     
 }

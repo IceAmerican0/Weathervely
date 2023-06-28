@@ -19,7 +19,7 @@ final class SelectGenderViewController: BaseViewController {
     
     // MARK: - Component
      var progressBar = UIProgressView()
-     var backButton = UIImageView()
+     var backButton = UIButton()
     
      var headerLabel = UILabel()
      var buttonWrapper = UIView()
@@ -45,7 +45,8 @@ final class SelectGenderViewController: BaseViewController {
         }
         
         backButton.do {
-            $0.image = AssetsImage.navigationBackButton.image
+            $0.setImage(AssetsImage.navigationBackButton.image, for: .normal)
+            $0.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
         }
         
         headerLabel.do {
@@ -137,4 +138,8 @@ final class SelectGenderViewController: BaseViewController {
             .disposed(by: bag)
     }
     
+    @objc func didTapBackButton() {
+        print(#function)
+        self.navigationController?.popViewController(animated: true)
+    }
 }

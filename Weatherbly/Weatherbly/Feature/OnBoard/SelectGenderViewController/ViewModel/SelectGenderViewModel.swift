@@ -13,11 +13,5 @@ import RxCocoa
 
 final class SelectGenderViewModel {
     
-    var genderButtonTap = PublishRelay<UIColor>()
     
-    func tapWomanButton() {
-        
-        
-        
-    }
 }
