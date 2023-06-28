@@ -89,29 +89,30 @@ final class SelectGenderViewController: BaseViewController {
                 .left(12)
             
             flex.addItem(headerLabel)
-                .top(27)
+                .marginTop(27)
             
             flex.addItem(buttonWrapper)
                 .direction(.row)
-                .height(58)
                 .marginTop(41)
+                .height(58)
                 .marginHorizontal(54)
                 .define { flex in
-                
                 flex.addItem(womanButton)
                         .right(7)
                         .grow(1).shrink(1)
+                
                 flex.addItem(manButton)
                         .left(7)
                         .grow(1).shrink(1)
             }
+            
             flex.addItem(acceptButton)
                 .marginHorizontal(43)
                 .height(62)
                 
         }
         
-        acceptButton.pin.bottom(view.pin.safeArea)
+        acceptButton.pin.bottom(view.pin.safeArea + 20)
     }
     
     override func bind() {
