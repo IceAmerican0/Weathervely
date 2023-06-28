@@ -55,11 +55,15 @@ final class OnBoardViewController: BaseViewController {
                 flex.addItem(topGreetingLabel)
                 flex.addItem(logo).width(35%).height(23%)
                 flex.addItem(bottomGreetingLabel)
-                flex.addItem(startButton).width(88%).height(62)
+                flex.addItem(startButton).height(62).define { flex in
+                    startButton.pin.left(43).right(43)
+                }
         }
     }
     
     @objc private func didTapStartButton() {
-        self.navigationController?.pushViewController(SelectGenderViewController(), animated: true)
+        self.navigationController?.pushViewController(SensoryTempViewController(), animated: true)
+//        self.navigationController?.pushViewController(SelectGenderViewController(), animated: true)
+        
     }
 }
