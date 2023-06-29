@@ -9,10 +9,14 @@ import UIKit
 import FlexLayout
 import PinLayout
 
-final class SlotMachineViewController: BaseViewController {
+final class SlotMachineViewController: BaseViewController, UIScrollViewDelegate {
     
     // MARK: - Property
 
+    var images = [UIImage(systemName: "star.fill"), UIImage(systemName: "book.fill"), UIImage(systemName:"scribble"),
+                  UIImage(systemName:"lasso")]
+    var pageControl = UIPageControl()
+    
     var progressBar = CSProgressView(.bar)
     var navigationBackButton = UIButton()
     
@@ -25,12 +29,13 @@ final class SlotMachineViewController: BaseViewController {
     
     var clothScrollViewWrapper = UIView()
     
+    
     var leftScrollWrapper = UIView()
     var leftUpperArrowButton = UIButton()
     var leftDownArrowButton = UIButton()
     var minTempWrapper = UIView()
     var minTempLabel = CSLabel(.regular)
-    var minTempImageView = UIImageView()
+    var leftScrollView = UIScrollView()
     var minImageSourceLabel = CSLabel(.regular,
                                       labelText: "by 0000",
                                       labelFontSize: 11)
@@ -40,7 +45,7 @@ final class SlotMachineViewController: BaseViewController {
     var rightDownArrowButton = UIButton()
     var maxTempWrapper = UIView()
     var maxTempLabel = CSLabel(.regular)
-    var maxTempImageView = UIImageView()
+    var rightScrollView = UIScrollView()
     var maxImageSourceLabel = CSLabel(.regular,
                                       labelText: "by 0000",
                                       labelFontSize: 11)
@@ -52,12 +57,47 @@ final class SlotMachineViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+       
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        leftScrollView.delegate = self
+        setPageControl()
+        addContentLeftScrollView()
+        addContentRightScrollView()
+        
     }
     
+    func addContentLeftScrollView() {
+        for i in 0..<images.count {
+            let imageView = UIImageView()
+            let yPos = leftScrollView.frame.height * CGFloat(i)
+            imageView.frame = CGRect(x: 0, y: yPos, width: leftScrollView.bounds.width, height: leftScrollView.bounds.height)
+            imageView.image = images[i]
+            leftScrollView.addSubview(imageView)
+            leftScrollView.contentSize.height = imageView.frame.height * CGFloat(i + 1)
+        }
+    }
+    
+    func addContentRightScrollView() {
+        for i in 0..<images.count {
+            let imageView = UIImageView()
+            let yPos = rightScrollView.frame.height * CGFloat(i)
+            imageView.frame = CGRect(x: 0, y: yPos, width: rightScrollView.bounds.width, height: rightScrollView.bounds.height)
+            imageView.image = images[i]
+            rightScrollView.addSubview(imageView)
+            rightScrollView.contentSize.height = imageView.frame.height * CGFloat(i + 1)
+        }
+    }
+    
+    func setPageControl() {
+            pageControl.numberOfPages = images.count
+        }
+    
+    private func setPageControlSelectedPage(currentPage:Int) {
+           pageControl.currentPage = currentPage
+       }
     // MARK: - Function
     override func attribute() {
         super.attribute()
@@ -86,6 +126,13 @@ final class SlotMachineViewController: BaseViewController {
             }
         }
         
+        leftScrollView.do {
+            $0.isPagingEnabled = true
+            $0.isScrollEnabled = true
+            $0.showsVerticalScrollIndicator = false
+            pageControl.isHidden = true
+        }
+        
         leftUpperArrowButton.do {
             $0.setImage(AssetsImage.upArrow.image, for: .normal)
         }
@@ -110,10 +157,6 @@ final class SlotMachineViewController: BaseViewController {
             $0.textColor = CSColor._40_106_167.color
             $0.adjustsFontSizeToFitWidth = true
             $0.numberOfLines = 1
-        }
-        
-        minTempImageView.do {
-            $0.image = UIImage(systemName: "star.fill")
         }
         
         rightUpperArrowButton.do {
@@ -141,17 +184,17 @@ final class SlotMachineViewController: BaseViewController {
             $0.numberOfLines = 1
         }
         
-        maxTempImageView.do {
-            $0.image = UIImage(systemName: "star.fill")
+        rightScrollView.do {
+            $0.isPagingEnabled = true
+            $0.isScrollEnabled = true
+            $0.showsVerticalScrollIndicator = false
+            pageControl.isHidden = true
         }
         
         confirmButton.do {
             $0.setTitle("확인", for: .normal)
             $0.titleLabel?.font = .boldSystemFont(ofSize: 20)
         }
-        
-        
-       
     }
     
     override func layout() {
@@ -183,7 +226,7 @@ final class SlotMachineViewController: BaseViewController {
                             
                             flex.addItem(minTempWrapper).alignItems(.center).define { flex in
                                 flex.addItem(minTempLabel).marginTop(11).marginHorizontal(20)
-                                flex.addItem(minTempImageView).marginTop(10).width(100%).height(imageHeight)
+                                flex.addItem(leftScrollView).marginTop(10).width(100%).height(imageHeight)
                                 flex.addItem(minImageSourceLabel).marginBottom(7)
                             }
                             
@@ -203,7 +246,7 @@ final class SlotMachineViewController: BaseViewController {
                             
                             flex.addItem(maxTempWrapper).alignItems(.center).define { flex in
                                 flex.addItem(maxTempLabel).marginTop(11).marginHorizontal(20)
-                                flex.addItem(maxTempImageView).marginTop(10).width(100%).height(imageHeight)
+                                flex.addItem(rightScrollView).marginTop(10).width(100%).height(imageHeight)
                                 flex.addItem(maxImageSourceLabel).marginBottom(7)
                             }
                             
@@ -226,5 +269,12 @@ final class SlotMachineViewController: BaseViewController {
     
     @objc func didTapBackButton() {
         self.navigationController?.popViewController(animated: true)
+    }
+}
+
+extension SlotMachineViewController {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let value = scrollView.contentOffset.x/scrollView.frame.size.width
+        setPageControlSelectedPage(currentPage: Int(round(value)))
     }
 }
