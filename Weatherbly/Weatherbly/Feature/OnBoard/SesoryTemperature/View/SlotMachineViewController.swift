@@ -15,8 +15,7 @@ final class SlotMachineViewController: BaseViewController, UIScrollViewDelegate 
 
     var images = [UIImage(systemName: "star.fill"), UIImage(systemName: "book.fill"), UIImage(systemName:"scribble"),
                   UIImage(systemName:"lasso")]
-    var pageControl = UIPageControl()
-    
+
     var progressBar = CSProgressView(.bar)
     var navigationBackButton = UIButton()
     
@@ -63,7 +62,6 @@ final class SlotMachineViewController: BaseViewController, UIScrollViewDelegate 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         leftScrollView.delegate = self
-        setPageControl()
         addContentLeftScrollView()
         addContentRightScrollView()
         
@@ -90,14 +88,7 @@ final class SlotMachineViewController: BaseViewController, UIScrollViewDelegate 
             rightScrollView.contentSize.height = imageView.frame.height * CGFloat(i + 1)
         }
     }
-    
-    func setPageControl() {
-            pageControl.numberOfPages = images.count
-        }
-    
-    private func setPageControlSelectedPage(currentPage:Int) {
-           pageControl.currentPage = currentPage
-       }
+
     // MARK: - Function
     override func attribute() {
         super.attribute()
@@ -130,7 +121,6 @@ final class SlotMachineViewController: BaseViewController, UIScrollViewDelegate 
             $0.isPagingEnabled = true
             $0.isScrollEnabled = true
             $0.showsVerticalScrollIndicator = false
-            pageControl.isHidden = true
         }
         
         leftUpperArrowButton.do {
@@ -188,7 +178,6 @@ final class SlotMachineViewController: BaseViewController, UIScrollViewDelegate 
             $0.isPagingEnabled = true
             $0.isScrollEnabled = true
             $0.showsVerticalScrollIndicator = false
-            pageControl.isHidden = true
         }
         
         confirmButton.do {
@@ -269,12 +258,5 @@ final class SlotMachineViewController: BaseViewController, UIScrollViewDelegate 
     
     @objc func didTapBackButton() {
         self.navigationController?.popViewController(animated: true)
-    }
-}
-
-extension SlotMachineViewController {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let value = scrollView.contentOffset.x/scrollView.frame.size.width
-        setPageControlSelectedPage(currentPage: Int(round(value)))
     }
 }
