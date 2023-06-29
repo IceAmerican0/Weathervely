@@ -9,6 +9,8 @@ import UIKit
 enum AssetsImage: String {
     
     case navigationBackButton
+    case upArrow
+    case downArrow
     
     var image: UIImage? {
         return UIImage(named: self.rawValue)
