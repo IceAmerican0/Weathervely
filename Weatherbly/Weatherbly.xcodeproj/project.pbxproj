@@ -32,6 +32,7 @@
 		BDA66FEA2A4075270061A1F0 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA66FE92A4075270061A1F0 /* UIImageView+Extension.swift */; };
 		BDA66FED2A444C470061A1F0 /* SelectGenderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA66FEC2A444C470061A1F0 /* SelectGenderViewController.swift */; };
 		BDA66FEF2A4459910061A1F0 /* SelectGenderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA66FEE2A4459910061A1F0 /* SelectGenderViewModel.swift */; };
+		BDF208FF2A4EAEF2001177B2 /* CGFlot+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF208FE2A4EAEF2001177B2 /* CGFlot+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,6 +65,7 @@
 		BDA66FE92A4075270061A1F0 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		BDA66FEC2A444C470061A1F0 /* SelectGenderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGenderViewController.swift; sourceTree = "<group>"; };
 		BDA66FEE2A4459910061A1F0 /* SelectGenderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGenderViewModel.swift; sourceTree = "<group>"; };
+		BDF208FE2A4EAEF2001177B2 /* CGFlot+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFlot+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -223,6 +225,7 @@
 				BD4316372A3CA20900E86271 /* UIView+Extension.swift */,
 				BDA66FE92A4075270061A1F0 /* UIImageView+Extension.swift */,
 				5CAB60B82A4563B300CD431A /* NSMutableAttributedString+Extension.swift */,
+				BDF208FE2A4EAEF2001177B2 /* CGFlot+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -434,6 +437,7 @@
 				BD2D01892A388753003A25D5 /* AppDelegate.swift in Sources */,
 				BDA66FEA2A4075270061A1F0 /* UIImageView+Extension.swift in Sources */,
 				BD77B82E2A388D2E00E7D57A /* HomeViewModel.swift in Sources */,
+				BDF208FF2A4EAEF2001177B2 /* CGFlot+Extension.swift in Sources */,
 				69FDD4C62A39E42900830927 /* NicknameViewController.swift in Sources */,
 				BD2D01B62A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift in Sources */,
 				BD2D01B22A38889E003A25D5 /* CSButton.swift in Sources */,

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import PinLayout
 
 class CSButton: UIButton, CodeBaseInitializerProtocol {
     
@@ -19,6 +20,7 @@ class CSButton: UIButton, CodeBaseInitializerProtocol {
     
     
     private var buttonStyle: ButtonStyle
+    var primaryHeight = UIScreen.main.bounds.height * 0.07
     // MARK: - Initializer
     
     init(_ buttonStyle: ButtonStyle) {
@@ -57,7 +59,11 @@ class CSButton: UIButton, CodeBaseInitializerProtocol {
                 }
                 $0.layer.cornerRadius = 10.0
                 $0.titleLabel?.textColor = .white
-                $0.titleLabel?.font = .boldSystemFont(ofSize: 20)
+                if UIScreen.main.bounds.width < 376 {
+                    $0.titleLabel?.font = .boldSystemFont(ofSize: 16)
+                } else {
+                    $0.titleLabel?.font = .boldSystemFont(ofSize: 20)
+                }
                 $0.setShadow(CGSize(width: 0, height: 3), CSColor._0__03.cgColor, 1)
                 // TODO: - Hilighted 이미지 처리 필요
                 // TODO: - buttonTitle 설정
@@ -79,7 +85,6 @@ class CSButton: UIButton, CodeBaseInitializerProtocol {
                 } else {
                     self.backgroundColor = CSColor._220_220_220.color
                 }
-               
                 $0.layer.cornerRadius = 10.0
                 $0.titleLabel?.textColor = .white
                 $0.titleLabel?.font = .boldSystemFont(ofSize: 16)

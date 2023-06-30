@@ -22,6 +22,7 @@ final class OnBoardViewController: BaseViewController {
                                               labelText: "날씨블리가 날씨에 맞는\n옷차림을 알려드릴 거에요",
                                               labelFontSize: 20)
     private var startButton = CSButton(.primary)
+    private var buttonHeight = UIScreen.main.bounds.height * 0.07
     
     override func attribute() {
         super.attribute()
@@ -55,7 +56,7 @@ final class OnBoardViewController: BaseViewController {
                 flex.addItem(topGreetingLabel)
                 flex.addItem(logo).width(35%).height(23%)
                 flex.addItem(bottomGreetingLabel)
-                flex.addItem(startButton).height(62).define { flex in
+                flex.addItem(startButton).height(buttonHeight).define { flex in
                     startButton.pin.left(43).right(43)
                 }
         }
