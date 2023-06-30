@@ -12,8 +12,10 @@ import Then
 
 final class SensoryTempViewController: BaseViewController {
     
+    var headerWrapper = UIView()
     var progressBar = CSProgressView(.bar)
-    var backButton = UIButton()
+    var navigationBackButton = UIButton()
+    
     var mainMessageLabel = CSLabel(.bold,
                                    labelText: "'어제'날씨의 추천 옷차림이에요\n(닉네임)님의 온도와 잘 맞나요?",
                                    labelFontSize: 22)
@@ -44,6 +46,7 @@ final class SensoryTempViewController: BaseViewController {
                                 labelFontSize: 15)
     
     private let imageHeight = UIScreen.main.bounds.height * 0.34
+    private let buttonHeight = UIScreen.main.bounds.height * 0.054
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,9 +59,9 @@ final class SensoryTempViewController: BaseViewController {
             $0.progress = 1.0
         }
         
-        backButton.do {
+        navigationBackButton.do {
             $0.setImage(AssetsImage.navigationBackButton.image, for: .normal)
-            $0.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
+            $0.addTarget(self, action: #selector(didTapnavigationBackButton), for: .touchUpInside)
         }
         
         mainMessageLabel.do {
@@ -88,6 +91,7 @@ final class SensoryTempViewController: BaseViewController {
         }
         
         minTempImageView.do {
+            $0.backgroundColor = .blue
             $0.image = UIImage(systemName: "star.fill")
         }
         
@@ -127,37 +131,53 @@ final class SensoryTempViewController: BaseViewController {
     override func layout() {
         super.layout()
         
-        container.flex.define { flex in
-            flex.addItem(progressBar)
-            flex.addItem(backButton).left(12).size(44).marginTop(15)
-            flex.addItem(mainMessageLabel).marginBottom(24).marginTop(5)
+        container.flex.justifyContent(.spaceBetween).define { flex in
             
-            flex.addItem(clothViewWrapper).direction(.row).marginTop(0)
-                .marginHorizontal(27)
-                .define { flex in
-                flex.addItem(minTempWrapper).grow(1).shrink(1).marginRight(5).alignItems(.center).define { flex in
-                    flex.addItem(minTempLabel).marginTop(11).marginHorizontal(20)
-                    flex.addItem(minTempImageView).marginTop(10).width(70%).height(imageHeight)
-                    flex.addItem(minImageSourceLabel).marginBottom(7)
-                }
-                    
-                flex.addItem(maxTempWrapper).grow(1).shrink(1).marginLeft(5).alignItems(.center).define { flex in
-                    flex.addItem(maxTempLabel).marginTop(11).marginHorizontal(20)
-                    flex.addItem(maxTempImageView).marginTop(10).width(70%).height(imageHeight)
-                    flex.addItem(maxImageSourceLabel).marginBottom(7)
-                }
-            }
-            
-            flex.addItem(buttonWrapper).justifyContent(.center).marginTop(39).define { flex in
-                flex.addItem(acceptButton).marginHorizontal(43).height(46)
-                flex.addItem(denyButton).marginHorizontal(43).height(46).marginTop(14)
-                flex.addItem(notTodayLabel).marginTop(24)
+            flex.addItem(headerWrapper).define { flex in
+                flex.addItem(progressBar)
+                flex.addItem(navigationBackButton).left(12).size(44).marginTop(15)
             }
 
+                flex.addItem(mainMessageLabel).marginBottom(24).marginTop(10)
+
+                flex.addItem(clothViewWrapper).direction(.row)
+                    .marginHorizontal(27)
+                    .define { flex in
+                    flex.addItem(minTempWrapper)
+                            .grow(1)
+                            .shrink(1)
+                            .marginRight(5)
+                            .alignItems(.center)
+                            .define { flex in
+                        flex.addItem(minTempLabel).marginTop(11).marginHorizontal(20)
+                        flex.addItem(minTempImageView).marginTop(10).width(70%).height(imageHeight)
+                        flex.addItem(minImageSourceLabel).marginTop(7).marginBottom(7)
+                    }
+
+                    flex.addItem(maxTempWrapper)
+                            .grow(1)
+                            .shrink(1)
+                            .marginLeft(5)
+                            .alignItems(.center)
+                            .define { flex in
+                        flex.addItem(maxTempLabel).marginTop(11).marginHorizontal(20)
+                        flex.addItem(maxTempImageView).marginTop(10).width(70%).height(imageHeight)
+                        flex.addItem(maxImageSourceLabel).marginTop(7).marginBottom(7)
+                    }
+                }
+            flex.addItem(buttonWrapper)
+                .justifyContent(.center)
+                .marginTop(39)
+                .marginBottom(15)
+                .define { flex in
+                flex.addItem(acceptButton).marginHorizontal(43).height(buttonHeight)
+                flex.addItem(denyButton).marginHorizontal(43).height(buttonHeight).marginTop(14)
+                flex.addItem(notTodayLabel).marginTop(24)
+            }
         }
     }
     
-    @objc private func didTapBackButton(_ sender: UIButton) {
+    @objc private func didTapnavigationBackButton(_ sender: UIButton) {
         print(#function)
         self.navigationController?.popViewController(animated: true)
     }

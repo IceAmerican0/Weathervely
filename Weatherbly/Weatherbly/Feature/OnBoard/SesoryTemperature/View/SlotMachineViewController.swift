@@ -52,6 +52,7 @@ final class SlotMachineViewController: BaseViewController, UIScrollViewDelegate 
     var confirmButton = CSButton(.primary)
     private let imageHeight = UIScreen.main.bounds.height * 0.34
     
+    
     // MARK: - Life Cycle
 
     override func viewDidLoad() {
@@ -216,7 +217,7 @@ final class SlotMachineViewController: BaseViewController, UIScrollViewDelegate 
                             flex.addItem(minTempWrapper).alignItems(.center).define { flex in
                                 flex.addItem(minTempLabel).marginTop(11).marginHorizontal(20)
                                 flex.addItem(leftScrollView).marginTop(10).width(100%).height(imageHeight)
-                                flex.addItem(minImageSourceLabel).marginBottom(7)
+                                flex.addItem(minImageSourceLabel).marginTop(7).marginBottom(7)
                             }
                             
                             flex.addItem(leftDownArrowButton)
@@ -236,7 +237,7 @@ final class SlotMachineViewController: BaseViewController, UIScrollViewDelegate 
                             flex.addItem(maxTempWrapper).alignItems(.center).define { flex in
                                 flex.addItem(maxTempLabel).marginTop(11).marginHorizontal(20)
                                 flex.addItem(rightScrollView).marginTop(10).width(100%).height(imageHeight)
-                                flex.addItem(maxImageSourceLabel).marginBottom(7)
+                                flex.addItem(maxImageSourceLabel).marginTop(7).marginBottom(7)
                             }
                             
                             flex.addItem(rightDownArrowButton)
@@ -246,7 +247,7 @@ final class SlotMachineViewController: BaseViewController, UIScrollViewDelegate 
             flex.addItem(confirmButton)
                 .marginTop(40)
                 .marginHorizontal(43)
-                .height(62)
+                .height(confirmButton.primaryHeight)
             
         }
     }
