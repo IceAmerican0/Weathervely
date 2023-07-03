@@ -9,11 +9,12 @@ import UIKit
 import FlexLayout
 import PinLayout
 import Then
+import FSPagerView
 
-final class ClosetCollectionViewCell: UICollectionViewCell {
+final class ClosetCollectionViewCell: FSPagerViewCell {
     
-    private var clothImageView = UIImageView()
-    private var clothImageSourceLabel = CSLabel(.regular, 11, "by 0000")
+    var clothImageView = UIImageView()
+    var clothImageSourceLabel = CSLabel(.regular, 11, "by 0000")
     
     private let clothImageHeight = UIScreen.main.bounds.height * 0.38
     private let clothImageWidth = UIScreen.main.bounds.width * 0.38
@@ -32,16 +33,10 @@ final class ClosetCollectionViewCell: UICollectionViewCell {
         contentView.flex.layout()
     }
     
-    func attribute() {
-        clothImageView.do {
-            $0.image = UIImage(systemName: "gear")
-        }
-    }
-    
     private func layout() {
-        contentView.flex.alignSelf(.center).define { flex in
+        contentView.flex.alignItems(.center).define { flex in
             flex.addItem(clothImageView).marginTop(13).width(clothImageWidth).height(clothImageHeight)
-            flex.addItem(clothImageSourceLabel).marginTop(8).height(14)
+            flex.addItem(clothImageSourceLabel).marginTop(8).width(clothImageWidth).height(14)
         }
     }
     

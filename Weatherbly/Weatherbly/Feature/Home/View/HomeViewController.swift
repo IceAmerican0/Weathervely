@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FSPagerView
 
 class HomeViewController: BaseViewController {
     
@@ -19,17 +20,7 @@ class HomeViewController: BaseViewController {
     private var commentLabel = CSLabel(.regular, 18, "찬바람이 세차게 불어요")
     private var dustLabel = CSLabel(.regular, 17, "😷 미세 먼지가 매우 심해요")
     
-    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: SWInflateLayout()).then {
-        $0.delegate = self
-        $0.dataSource = self
-        $0.contentInset = .init(top: 0, left: 0, bottom: 0, right: 0)
-        $0.isScrollEnabled = true
-        $0.showsVerticalScrollIndicator = false
-        $0.showsHorizontalScrollIndicator = false
-        $0.backgroundColor = .white
-        $0.register(withType: ClosetCollectionViewCell.self)
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var pagerView = FSPagerView()
     
     private var bottomButtonWrapper = UIView()
     private var todayButton = CSButton(.primary)
@@ -67,6 +58,18 @@ class HomeViewController: BaseViewController {
                 .bold("-2/16℃", 18)
         }
         
+        pagerView.do {
+            $0.delegate = self
+            $0.dataSource = self
+            $0.isScrollEnabled = true
+            $0.backgroundColor = .white
+            $0.register(ClosetCollectionViewCell.self, forCellWithReuseIdentifier: ClosetCollectionViewCell.identifier)
+            $0.isInfinite = true
+            $0.itemSize = CGSize(width: closetCellWidth, height: closetWrapperHeight)
+            $0.transformer = FSPagerViewTransformer(type: .overlap)
+            $0.interitemSpacing = 100
+        }
+        
         todayButton.do {
             $0.setTitle("오늘 옷차림", for: .normal)
         }
@@ -89,7 +92,9 @@ class HomeViewController: BaseViewController {
             flex.addItem(temperatureLabel).marginTop(10).height(28)
             flex.addItem(commentLabel).marginTop(4).height(28)
             flex.addItem(dustLabel).marginTop(22).height(45)
-            flex.addItem(collectionView).marginTop(26).width(UIScreen.main.bounds.width).height(closetWrapperHeight)
+            
+            // CollectionView 세팅시 width, height 다 잡아줄것.. 아니면 안나옴
+            flex.addItem(pagerView).marginTop(26).width(UIScreen.main.bounds.width).height(closetWrapperHeight)
             flex.addItem(bottomButtonWrapper).direction(.row).define { flex in
                 flex.addItem(todayButton).marginRight(20).width(100).height(40)
                 flex.addItem(tomorrowButton).marginLeft(20).width(100).height(40)
@@ -100,23 +105,23 @@ class HomeViewController: BaseViewController {
     }
 }
 
-// MARK: CollectionViewDelegate
-extension HomeViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+// MARK: FSPagerViewDelegate
+extension HomeViewController: FSPagerViewDelegate {
+    func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
+        pagerView.deselectItem(at: index, animated: true)
+        pagerView.scrollToItem(at: index, animated: true)
     }
 }
 
-extension HomeViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueCell(withType: ClosetCollectionViewCell.self, for: indexPath)
-        cell.attribute()
+extension HomeViewController: FSPagerViewDataSource {
+    func numberOfItems(in pagerView: FSPagerView) -> Int {
+        return 5
+    }
+    
+    func pagerView(_ pagerView: FSPagerView, cellForItemAt index: Int) -> FSPagerViewCell {
+        let cell = pagerView.dequeueCell(withType: ClosetCollectionViewCell.self, for: index)
+        cell.clothImageView.image = UIImage(systemName: "gear")
+        cell.clothImageSourceLabel.text = "by 0000"
         return cell
-    }
-}
-
-extension HomeViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: closetCellWidth, height: closetWrapperHeight)
     }
 }
