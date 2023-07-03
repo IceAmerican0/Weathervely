@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		5C1D5A112A3C500A00E66788 /* CSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1D5A102A3C500A00E66788 /* CSLabel.swift */; };
 		5CAB60B92A4563B300CD431A /* NSMutableAttributedString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAB60B82A4563B300CD431A /* NSMutableAttributedString+Extension.swift */; };
+		5CAB60BF2A4D6A9D00CD431A /* ClosetCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAB60BE2A4D6A9D00CD431A /* ClosetCollectionViewCell.swift */; };
+		5CAB60C32A528C7A00CD431A /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAB60C22A528C7A00CD431A /* UICollectionView+Extension.swift */; };
+		5CAB60C52A528C9700CD431A /* UICollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAB60C42A528C9700CD431A /* UICollectionViewCell.swift */; };
 		69FDD4C62A39E42900830927 /* NicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FDD4C52A39E42900830927 /* NicknameViewController.swift */; };
 		69FDD4CC2A407FA400830927 /* CSProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FDD4CB2A407FA400830927 /* CSProgressView.swift */; };
 		8298049901CBCE9CE53795A2 /* Pods_Weatherbly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08C67106F372D59E472B2488 /* Pods_Weatherbly.framework */; };
@@ -39,6 +42,9 @@
 		08C67106F372D59E472B2488 /* Pods_Weatherbly.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Weatherbly.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C1D5A102A3C500A00E66788 /* CSLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSLabel.swift; sourceTree = "<group>"; };
 		5CAB60B82A4563B300CD431A /* NSMutableAttributedString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Extension.swift"; sourceTree = "<group>"; };
+		5CAB60BE2A4D6A9D00CD431A /* ClosetCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetCollectionViewCell.swift; sourceTree = "<group>"; };
+		5CAB60C22A528C7A00CD431A /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
+		5CAB60C42A528C9700CD431A /* UICollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewCell.swift; sourceTree = "<group>"; };
 		69FDD4C52A39E42900830927 /* NicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewController.swift; sourceTree = "<group>"; };
 		69FDD4CB2A407FA400830927 /* CSProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSProgressView.swift; sourceTree = "<group>"; };
 		776681DE98597BF2B06B332B /* Pods-Weatherbly.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Weatherbly.debug.xcconfig"; path = "Target Support Files/Pods-Weatherbly/Pods-Weatherbly.debug.xcconfig"; sourceTree = "<group>"; };
@@ -196,6 +202,7 @@
 			isa = PBXGroup;
 			children = (
 				BD2D018C2A388753003A25D5 /* HomeViewController.swift */,
+				5CAB60BE2A4D6A9D00CD431A /* ClosetCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -226,6 +233,8 @@
 				BDA66FE92A4075270061A1F0 /* UIImageView+Extension.swift */,
 				5CAB60B82A4563B300CD431A /* NSMutableAttributedString+Extension.swift */,
 				BDF208FE2A4EAEF2001177B2 /* CGFlot+Extension.swift */,
+				5CAB60C22A528C7A00CD431A /* UICollectionView+Extension.swift */,
+				5CAB60C42A528C9700CD431A /* UICollectionViewCell.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -423,9 +432,11 @@
 			files = (
 				BD2D01B42A3888AA003A25D5 /* UIColor+Extension.swift in Sources */,
 				BD2D018D2A388753003A25D5 /* HomeViewController.swift in Sources */,
+				5CAB60BF2A4D6A9D00CD431A /* ClosetCollectionViewCell.swift in Sources */,
 				5CAB60B92A4563B300CD431A /* NSMutableAttributedString+Extension.swift in Sources */,
 				BD77B82C2A388D2000E7D57A /* OnBoardViewModel.swift in Sources */,
 				BDA66FEF2A4459910061A1F0 /* SelectGenderViewModel.swift in Sources */,
+				5CAB60C52A528C9700CD431A /* UICollectionViewCell.swift in Sources */,
 				BD4316382A3CA20900E86271 /* UIView+Extension.swift in Sources */,
 				BD2D01AE2A38886C003A25D5 /* BaseViewController.swift in Sources */,
 				BD4316362A3C9DB700E86271 /* AssetsImage.swift in Sources */,
@@ -435,6 +446,7 @@
 				BD77B8282A388C9400E7D57A /* CSColor.swift in Sources */,
 				BD77B82A2A388CEF00E7D57A /* OnBoardViewController.swift in Sources */,
 				BD2D01892A388753003A25D5 /* AppDelegate.swift in Sources */,
+				5CAB60C32A528C7A00CD431A /* UICollectionView+Extension.swift in Sources */,
 				BDA66FEA2A4075270061A1F0 /* UIImageView+Extension.swift in Sources */,
 				BD77B82E2A388D2E00E7D57A /* HomeViewModel.swift in Sources */,
 				BDF208FF2A4EAEF2001177B2 /* CGFlot+Extension.swift in Sources */,

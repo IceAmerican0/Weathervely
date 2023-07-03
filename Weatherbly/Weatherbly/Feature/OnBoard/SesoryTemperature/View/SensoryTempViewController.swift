@@ -13,37 +13,29 @@ import Then
 final class SensoryTempViewController: BaseViewController {
     
     var headerWrapper = UIView()
-    var progressBar = CSProgressView(.bar)
+    var progressBar = CSProgressView(1.0)
     var navigationBackButton = UIButton()
     
-    var mainMessageLabel = CSLabel(.bold,
-                                   labelText: "'어제'날씨의 추천 옷차림이에요\n(닉네임)님의 온도와 잘 맞나요?",
-                                   labelFontSize: 22)
+    var mainMessageLabel = CSLabel(.bold, 22, "'어제'날씨의 추천 옷차림이에요\n(닉네임)님의 온도와 잘 맞나요?")
     
     var clothViewWrapper = UIView()
     
     var minTempWrapper = UIView()
     var minTempLabel = CSLabel(.regular)
     var minTempImageView = UIImageView()
-    var minImageSourceLabel = CSLabel(.regular,
-                                      labelText: "by 0000",
-                                      labelFontSize: 11)
+    var minImageSourceLabel = CSLabel(.regular, 11, "by 0000")
     
     var maxTempWrapper = UIView()
     var maxTempLabel = CSLabel(.regular)
     var maxTempImageView = UIImageView()
-    var maxImageSourceLabel = CSLabel(.regular,
-                                      labelText: "by 0000",
-                                      labelFontSize: 11)
+    var maxImageSourceLabel = CSLabel(.regular, 11, "by 0000")
     
     var buttonWrapper = UIView()
     var acceptButton = CSButton(.grayFilled)
     var denyButton = CSButton(.grayFilled)
     var confirmButton = CSButton(.primary)
     
-    var notTodayLabel = CSLabel(.underline,
-                                labelText: "그저께 옷차림으로 비교하기",
-                                labelFontSize: 15)
+    var notTodayLabel = CSLabel(.underline, 15, "그저께 옷차림으로 비교하기")
     
     private let imageHeight = UIScreen.main.bounds.height * 0.34
     private let buttonHeight = UIScreen.main.bounds.height * 0.054
@@ -54,10 +46,6 @@ final class SensoryTempViewController: BaseViewController {
     
     override func attribute() {
         super.attribute()
-        
-        progressBar.do {
-            $0.progress = 1.0
-        }
         
         navigationBackButton.do {
             $0.setImage(AssetsImage.navigationBackButton.image, for: .normal)
@@ -83,8 +71,8 @@ final class SensoryTempViewController: BaseViewController {
     
         minTempLabel.do {
             $0.attributedText = NSMutableAttributedString()
-                .bold(string: "오전 7시", fontSize: 18)
-                .bold(string: "(최저 3℃)", fontSize: 16)
+                .bold("오전 7시", 18)
+                .bold("(최저 3℃)", 16)
             $0.textColor = CSColor._40_106_167.color
             $0.adjustsFontSizeToFitWidth = true
             $0.numberOfLines = 1
@@ -105,8 +93,8 @@ final class SensoryTempViewController: BaseViewController {
     
         maxTempLabel.do {
             $0.attributedText = NSMutableAttributedString()
-                .bold(string: "오후 2시", fontSize: 18)
-                .bold(string: "(최고 3℃)", fontSize: 16)
+                .bold("오후 2시", 18)
+                .bold("(최고 3℃)", 16)
             $0.textColor = CSColor._178_36_36.color
             $0.adjustsFontSizeToFitWidth = true
             $0.numberOfLines = 1
@@ -118,7 +106,6 @@ final class SensoryTempViewController: BaseViewController {
         
         acceptButton.do {
             $0.setTitle("네", for: .normal)
-            $0.backgroundColor = CSColor._50_50_50.color
         }
         
         denyButton.do {

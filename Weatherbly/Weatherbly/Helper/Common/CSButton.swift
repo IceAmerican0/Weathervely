@@ -16,12 +16,11 @@ class CSButton: UIButton, CodeBaseInitializerProtocol {
         case primary
         case grayFilled
         case secondary
+        case band
     }
-    
     
     private var buttonStyle: ButtonStyle
     var primaryHeight = UIScreen.main.bounds.height * 0.07
-    // MARK: - Initializer
     
     init(_ buttonStyle: ButtonStyle) {
         self.buttonStyle = buttonStyle
@@ -33,22 +32,17 @@ class CSButton: UIButton, CodeBaseInitializerProtocol {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     func attribute() {
         setButtonStyle(buttonStyle)
-        
     }
     
     func setButtonStyle(_ style: ButtonStyle) {
         
         buttonStyle = style
         
-        switch style {
-        case .primary:
-            
-            self.do {
-                
-
+        self.do {
+            switch style {
+            case .primary:
                 // background disabled 처리
                 if $0.state == .disabled {
                     $0.backgroundColor = CSColor._220_220_220.color
@@ -68,12 +62,8 @@ class CSButton: UIButton, CodeBaseInitializerProtocol {
                 // TODO: - Hilighted 이미지 처리 필요
                 // TODO: - buttonTitle 설정
                 // setImage? or 함수?
-            }
-            
-        case.grayFilled:
-            
-            self.do {
                 
+            case.grayFilled:
                 if self.isEnabled == true {
                     // background disabled 처리
                     if $0.state == .disabled {
@@ -81,10 +71,11 @@ class CSButton: UIButton, CodeBaseInitializerProtocol {
                     } else {
                         $0.backgroundColor = CSColor._0__54.color
                     }
-     
+                    
                 } else {
                     self.backgroundColor = CSColor._220_220_220.color
                 }
+
                 $0.layer.cornerRadius = 10.0
                 $0.titleLabel?.textColor = .white
                 $0.titleLabel?.font = .boldSystemFont(ofSize: 16)
@@ -92,17 +83,16 @@ class CSButton: UIButton, CodeBaseInitializerProtocol {
                 // TODO: - Hilighted 이미지 처리 필요
                 // TODO: - buttonTitle 설정
                 
-            }
-            
-            
-        case .secondary:
-            self.do {
+            case .secondary:
                 $0.backgroundColor = .white
                 $0.layer.borderWidth = 3
                 $0.layer.cornerRadius = 21
                 $0.titleLabel?.font = .boldSystemFont(ofSize: 16)
                 // TODO: - Color 입력
                 /// https://stackoverflow.com/questions/36836367/how-can-i-do-programmatically-gradient-border-color-uibutton-with-swift
+                
+            case .band:
+                $0.backgroundColor = .white
             }
         }
     }

@@ -16,15 +16,11 @@ final class SlotMachineViewController: BaseViewController, UIScrollViewDelegate 
     var images = [UIImage(systemName: "star.fill"), UIImage(systemName: "book.fill"), UIImage(systemName:"scribble"),
                   UIImage(systemName:"lasso")]
 
-    var progressBar = CSProgressView(.bar)
+    var progressBar = CSProgressView(1.0)
     var navigationBackButton = UIButton()
     
-    var mainLabel = CSLabel(.bold,
-                            labelText: "'어제' (닉네임) 님에게\n적당했던 옷차림을 골라주세요",
-                            labelFontSize: 22)
-    var descriptionLabel = CSLabel(.regular,
-                                   labelText: "사진을 위아래로 쓸어보세요\n다른 두께감의 옷차림이 나와요",
-                                   labelFontSize: 20)
+    var mainLabel = CSLabel(.bold, 22, "'어제' (닉네임) 님에게\n적당했던 옷차림을 골라주세요")
+    var descriptionLabel = CSLabel(.regular, 20, "사진을 위아래로 쓸어보세요\n다른 두께감의 옷차림이 나와요")
     
     var clothScrollViewWrapper = UIView()
     
@@ -35,9 +31,7 @@ final class SlotMachineViewController: BaseViewController, UIScrollViewDelegate 
     var minTempWrapper = UIView()
     var minTempLabel = CSLabel(.regular)
     var leftScrollView = UIScrollView()
-    var minImageSourceLabel = CSLabel(.regular,
-                                      labelText: "by 0000",
-                                      labelFontSize: 11)
+    var minImageSourceLabel = CSLabel(.regular, 11, "by 0000")
     
     var rightScrollWrapper = UIView()
     var rightUpperArrowButton = UIButton()
@@ -45,9 +39,7 @@ final class SlotMachineViewController: BaseViewController, UIScrollViewDelegate 
     var maxTempWrapper = UIView()
     var maxTempLabel = CSLabel(.regular)
     var rightScrollView = UIScrollView()
-    var maxImageSourceLabel = CSLabel(.regular,
-                                      labelText: "by 0000",
-                                      labelFontSize: 11)
+    var maxImageSourceLabel = CSLabel(.regular, 11, "by 0000")
     
     var confirmButton = CSButton(.primary)
     private let imageHeight = UIScreen.main.bounds.height * 0.34
@@ -94,10 +86,6 @@ final class SlotMachineViewController: BaseViewController, UIScrollViewDelegate 
     override func attribute() {
         super.attribute()
         
-        progressBar.do {
-            $0.progress = 1.0
-        }
-        
         navigationBackButton.do {
             $0.setImage(AssetsImage.navigationBackButton.image, for: .normal)
             $0.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
@@ -143,8 +131,8 @@ final class SlotMachineViewController: BaseViewController, UIScrollViewDelegate 
         minTempLabel.do {
             
             $0.attributedText = NSMutableAttributedString()
-                .bold(string: "오전 7시", fontSize: 18)
-                .bold(string: "(최저 3℃)", fontSize: 16)
+                .bold("오전 7시", 18)
+                .bold("(최저 3℃)", 16)
             $0.textColor = CSColor._40_106_167.color
             $0.adjustsFontSizeToFitWidth = true
             $0.numberOfLines = 1
@@ -168,8 +156,8 @@ final class SlotMachineViewController: BaseViewController, UIScrollViewDelegate 
     
         maxTempLabel.do {
             $0.attributedText = NSMutableAttributedString()
-                .bold(string: "오후 2시", fontSize: 18)
-                .bold(string: "(최고 3℃)", fontSize: 16)
+                .bold("오후 2시", 18)
+                .bold("(최고 3℃)", 16)
             $0.textColor = CSColor._178_36_36.color
             $0.adjustsFontSizeToFitWidth = true
             $0.numberOfLines = 1

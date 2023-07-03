@@ -6,41 +6,48 @@
 //
 
 import UIKit
+import FlexLayout
+import PinLayout
 
 final class NicknameViewController: BaseViewController {
     
-    private lazy var upperNavigationContainer = UIView()
-    private lazy var progressBar = CSProgressView(.bar)
-    private lazy var explanationLabel = CSLabel(.bold,
-                                                labelText: "닉네임을 설정해주세요",
-                                                labelFontSize: 25)
-    private lazy var guideLabel = CSLabel(.bold,
-                                          labelText: "(5글자 이내)",
-                                          labelFontSize: 20)
-    private lazy var inputNickname = UITextField()
-    private lazy var confirmButton = CSButton(.primary)
+    private var progressBar = CSProgressView(0.25)
+    private var backButton = UIImageView()
+    private var explanationLabel = CSLabel(.bold, 25, "닉네임을 설정해주세요")
+    private var guideLabel = CSLabel(.bold, 20, "(5글자 이내)")
+    private var inputNickname = UITextField()
+    private var buttonWrapper = UIView()
+    private var confirmButton = CSButton(.primary)
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        // TODO: progressView 위치 조정
-        let navigationBarTop = view.pin.safeArea.top - (navigationController?.navigationBar.frame.size.height ?? 0)
-        
-        upperNavigationContainer.pin.top(navigationBarTop).left().right()
-        upperNavigationContainer.flex.layout(mode: .adjustHeight)
-    }
+    private let buttonMarginBottom = UIScreen.main.bounds.height * 0.1
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.addSubview(upperNavigationContainer)
+        view.addSubview(buttonWrapper)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        inputNickname.becomeFirstResponder()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        buttonWrapper.pin.all(view.pin.safeArea)
+        buttonWrapper.flex.layout()
     }
     
     override func attribute() {
         super.attribute()
         
-        progressBar.do {
-            $0.progress = 0.25
+        backButton.do {
+            $0.image = AssetsImage.navigationBackButton.image
+        }
+        
+        explanationLabel.do {
+            $0.backgroundColor = .white
         }
         
         inputNickname.do {
@@ -58,20 +65,37 @@ final class NicknameViewController: BaseViewController {
     override func layout() {
         super.layout()
         
-        upperNavigationContainer.flex.define { flex in
+        container.flex.alignItems(.center).define { flex in
             flex.addItem(progressBar)
+            flex.addItem(backButton).alignSelf(.start).marginTop(15).left(12).size(44)
+            flex.addItem(explanationLabel).marginTop(27)
+            flex.addItem(guideLabel)
+            flex.addItem(inputNickname).marginTop(36).width(330).height(50)
         }
         
-        container.flex.alignItems(.center).marginTop(36)
+        buttonWrapper.flex.justifyContent(.end).alignItems(.center)
+            .marginBottom(buttonMarginBottom)
             .define { flex in
-                flex.addItem(explanationLabel)
-                flex.addItem(guideLabel)
-                flex.addItem(inputNickname).marginTop(25).width(330).height(50)
-                flex.addItem(confirmButton).marginTop(413).width(304).height(62)
+            flex.addItem(confirmButton).width(88%).height(62)
         }
     }
     
     @objc private func didTapConfirmButton() {
         
+    }
+    
+    // MARK: Keyboard Action
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0 {
+                buttonWrapper.frame.origin.y -= keyboardSize.height
+            }
+        }
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if buttonWrapper.frame.origin.y != buttonMarginBottom {
+            buttonWrapper.frame.origin.y = buttonMarginBottom
+        }
     }
 }
