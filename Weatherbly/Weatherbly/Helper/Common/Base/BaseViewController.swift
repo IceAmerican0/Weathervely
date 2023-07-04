@@ -28,7 +28,9 @@ class BaseViewController: UIViewController, CodeBaseInitializerProtocol{
         fatalError("init(coder:) has not been implemented")
     }
    
-    func viewBindind() { }
+    func viewMoelBinding() { }
+    
+    func viewBinding() { }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
