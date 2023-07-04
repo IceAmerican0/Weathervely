@@ -233,9 +233,10 @@ final class SlotMachineViewController: BaseViewController, UIScrollViewDelegate 
             }
             
             flex.addItem(confirmButton)
-                .marginTop(40)
+                .marginTop(23)
                 .marginHorizontal(43)
                 .height(confirmButton.primaryHeight)
+            
             
         }
     }
