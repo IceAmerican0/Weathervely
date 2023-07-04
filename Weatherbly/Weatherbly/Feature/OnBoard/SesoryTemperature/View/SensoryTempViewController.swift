@@ -79,7 +79,6 @@ final class SensoryTempViewController: BaseViewController {
         }
         
         minTempImageView.do {
-            $0.backgroundColor = .blue
             $0.image = UIImage(systemName: "star.fill")
         }
         
@@ -106,6 +105,7 @@ final class SensoryTempViewController: BaseViewController {
         
         acceptButton.do {
             $0.setTitle("네", for: .normal)
+            $0.backgroundColor = CSColor._50_50_50.color
         }
         
         denyButton.do {
