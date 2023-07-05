@@ -44,6 +44,10 @@ class HomeViewController: BaseViewController {
         }
         
         calendarImageView.do {
+            let tap = UITapGestureRecognizer(target: self, action: #selector(didTapCalendarImage))
+            $0.addGestureRecognizer(tap)
+            $0.isUserInteractionEnabled = true
+            
             $0.image = UIImage(systemName: "calendar")?.withRenderingMode(.alwaysOriginal)
             $0.tintColor = .gray
         }
@@ -54,8 +58,12 @@ class HomeViewController: BaseViewController {
         
         temperatureLabel.do {
             $0.attributedText = NSMutableAttributedString()
-                .bold("3℃", 20)
-                .bold("-2/16℃", 18)
+                .bold("8℃", 20, CSColor.none)
+                .regular(" (", 18, CSColor.none)
+                .regular("-2", 18, CSColor._40_106_167)
+                .regular("/", 18, CSColor.none)
+                .regular("16", 18, CSColor._178_36_36)
+                .regular("℃)", 18, CSColor.none)
         }
         
         pagerView.do {
@@ -103,6 +111,10 @@ class HomeViewController: BaseViewController {
             bottomButtonWrapper.pin.bottom(14)
         }
     }
+    
+    @objc private func didTapCalendarImage() {
+        self.navigationController?.pushViewController(TenDaysForeCastViewController(), animated: true)
+    }
 }
 
 // MARK: FSPagerViewDelegate
@@ -114,14 +126,12 @@ extension HomeViewController: FSPagerViewDelegate {
 }
 
 extension HomeViewController: FSPagerViewDataSource {
-    func numberOfItems(in pagerView: FSPagerView) -> Int {
-        return 5
-    }
+    func numberOfItems(in pagerView: FSPagerView) -> Int { 5 }
     
     func pagerView(_ pagerView: FSPagerView, cellForItemAt index: Int) -> FSPagerViewCell {
-        let cell = pagerView.dequeueCell(withType: ClosetCollectionViewCell.self, for: index)
-        cell.clothImageView.image = UIImage(systemName: "gear")
-        cell.clothImageSourceLabel.text = "by 0000"
-        return cell
+        return pagerView.dequeueCell(withType: ClosetCollectionViewCell.self, for: index).then {
+            $0.clothImageView.image = UIImage(systemName: "gear")
+            $0.clothImageSourceLabel.text = "by 0000"
+        }
     }
 }

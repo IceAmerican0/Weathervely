@@ -2,7 +2,7 @@
 //  UICollectionView+Extension.swift
 //  Weatherbly
 //
-//  Created by 60156056 on 2023/07/03.
+//  Created by 박성준 on 2023/07/03.
 //
 
 import UIKit

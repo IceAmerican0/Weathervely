@@ -8,6 +8,7 @@
 import UIKit
 
 enum CSColor {
+    case none
     case _0__54
     case _0__03
     case _40_106_167
@@ -23,6 +24,8 @@ enum CSColor {
     
     var color: UIColor {
         switch self {
+        case .none:
+            return UIColor(r: 39, g: 39, b: 39)
         case ._0__03:
             return UIColor(r: 0, g: 0, b: 0, a: 0.3)
         case ._0__54:

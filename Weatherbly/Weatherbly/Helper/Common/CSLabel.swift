@@ -16,8 +16,22 @@ public final class CSLabel: UILabel, CodeBaseInitializerProtocol {
     }
     
     private var labelStyle: LabelStyle
-    private var labelText: String
     private var labelFontSize: CGFloat
+    private var labelText: String
+    private var labelColor: CSColor
+    
+    init(_ labelStyle: LabelStyle,
+         _ labelFontSize: CGFloat,
+         _ labelText: String,
+         _ labelColor: CSColor
+    ) {
+        self.labelStyle = labelStyle
+        self.labelFontSize = labelFontSize
+        self.labelText = labelText
+        self.labelColor = labelColor
+        super.init(frame: .zero)
+        codeBaseInitializer()
+    }
     
     init(_ labelStyle: LabelStyle,
          _ labelFontSize: CGFloat,
@@ -26,12 +40,9 @@ public final class CSLabel: UILabel, CodeBaseInitializerProtocol {
         self.labelStyle = labelStyle
         self.labelFontSize = labelFontSize
         self.labelText = labelText
+        self.labelColor = .none
         super.init(frame: .zero)
         codeBaseInitializer()
-    }
-    
-    convenience init(_ labelStyle: LabelStyle) {
-        self.init(labelStyle, 10, "")
     }
     
     required init?(coder: NSCoder) {
@@ -49,11 +60,11 @@ public final class CSLabel: UILabel, CodeBaseInitializerProtocol {
             
             switch labelStyle {
             case .bold:
-                $0.attributedText = NSMutableAttributedString().bold(labelText, labelFontSize)
+                $0.attributedText = NSMutableAttributedString().bold(labelText, labelFontSize, labelColor)
             case .regular:
-                $0.attributedText = NSMutableAttributedString().regular(labelText, labelFontSize)
+                $0.attributedText = NSMutableAttributedString().regular(labelText, labelFontSize, labelColor)
             case .underline:
-                $0.attributedText = NSMutableAttributedString().underLine(labelText, labelFontSize)
+                $0.attributedText = NSMutableAttributedString().underLine(labelText, labelFontSize, labelColor)
             }
         }
     }
