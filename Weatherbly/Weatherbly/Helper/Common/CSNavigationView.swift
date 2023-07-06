@@ -8,6 +8,7 @@
 import UIKit
 import FlexLayout
 import PinLayout
+import UIViewBorders
 
 class CSNavigationView: UIView, CodeBaseInitializerProtocol {
     
@@ -22,9 +23,9 @@ class CSNavigationView: UIView, CodeBaseInitializerProtocol {
     // MARK: - Control Property
     enum ButtonLayout {
         case leftButton(UIImage?)
-        case rightButton(UIImage?)    /// rightButton은 leftButton과 rightButton하나를 가진다.
+        case rightButton(UIImage?, UIImage?)    /// rightButton은 leftButton과 rightButton하나를 가진다.
     }
-    private var navigationViewHeight = UIScreen.main.bounds.height * 0.078
+    private var navigationViewHeight = UIScreen.main.bounds.height * 0.08
     
     init(_ option: ButtonLayout) {
         super.init(frame: CGRect.zero)
@@ -37,19 +38,20 @@ class CSNavigationView: UIView, CodeBaseInitializerProtocol {
     }
     
     private func generateButton(_ option: ButtonLayout) {
-        
+        print(#function)
         switch option {
         case .leftButton(let image):
-            if leftButton == nil {
-                leftButton = UIButton()
-            }
-            leftButton?.setImage(image, for: .normal)
             
-        case .rightButton(let image):
+            leftButton.setImage(image, for: .normal)
+            
+        case .rightButton(let leftImage, let rightImage):
+            
+            leftButton.setImage(leftImage, for: .normal)
+            
             if rightButton == nil {
                 rightButton = UIButton()
             }
-            if let image = image {
+            if let image = rightImage {
                 rightButton?.setImage(image, for: .normal)
                 rightButton?.imageView?.contentMode = .scaleAspectFill
             }
@@ -62,38 +64,54 @@ class CSNavigationView: UIView, CodeBaseInitializerProtocol {
         titleLabel.textAlignment = .center
     }
     
+    
+    
     func layout() {
+        
         self.addSubview(wrapperView)
         wrapperView.pin.all()
-        wrapperView.pin.height(navigationViewHeight)
-        wrapperView.addBorder(.bottom)
-        titleLabel.pin
-            .top(to: wrapperView.edge.top)
-            .bottom(to: wrapperView.edge.bottom)
-            .width(UIScreen.main.bounds.width - 160)
-        
+        wrapperView.flex.layout()
+      
         titleLabelAndButtonLayout()
-        
     }
     
     func titleLabelAndButtonLayout() {
         
-            wrapperView.addSubview(leftButton)
-            leftButton.pin.size(44)
-            leftButton.pin.top(7.2).left(12).bottom(15).right(24)
-//            leftButton.pin.vCenter()
         
-        if let rightButton = rightButton {
-            wrapperView.addSubview(rightButton)
-            leftButton.pin.top(7.2).left(23).bottom(15).right(12)
-            rightButton.pin.size(44)
-            rightButton.pin.top(6.2).left(12).bottom(15).right(23)
-        }
+        wrapperView.flex
+            .height(navigationViewHeight)
+            .direction(.row).define { flex in
+            flex.addItem(leftButton)
+                    .marginLeft(12)
+                    .marginRight(24)
+                    .size(44)
+                    .marginVertical((navigationViewHeight - 44) / 2)
+                    
+            flex.addItem(titleLabel)
+                .width(UIScreen.main.bounds.width - 160)
+                .backgroundColor(.yellow)
+                .backgroundColor(.clear)
+                
+                if let rightButton = rightButton {
+                    flex.addItem(rightButton)
+                        .margin(7.2, 12, 15, 23)
+                        .size(44)
+                }
+            
+            }
+        
+            
+//        wrapperView.addBorder(.bottom)
+        
     }
     
     func setTitle(_ text: String) {
+        print(#function)
         titleLabel.font = .boldSystemFont(ofSize: 22)
         titleLabel.text = text
     }
     
+    func setHeight(_ newHeight: CGFloat) {
+        wrapperView.pin.height(newHeight)
+    }
 }
