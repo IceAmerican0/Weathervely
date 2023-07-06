@@ -99,9 +99,8 @@ class CSNavigationView: UIView, CodeBaseInitializerProtocol {
                 }
             
             }
+            .view?.addBorder(.bottom)
         
-            
-//        wrapperView.addBorder(.bottom)
         
     }
     
