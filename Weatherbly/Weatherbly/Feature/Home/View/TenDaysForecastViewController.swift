@@ -10,9 +10,9 @@ import UIKit
 class TenDaysForeCastViewController: BaseViewController {
     
     private var topLayoutWrapper = UIView()
-    private var settingImageView = UIButton()
+    private var settingButton = UIButton()
     private var mainLabel = CSLabel(.bold, 22, "주간 예보")
-    private var homeImageView = UIButton()
+    private var homeButton = UIButton()
     
     private var divider = UIView()
     private var forecastTableView = UITableView()
@@ -29,12 +29,12 @@ class TenDaysForeCastViewController: BaseViewController {
     override func attribute() {
         super.attribute()
         
-        settingImageView.do {
+        settingButton.do {
             $0.setImage(AssetsImage.setting.image, for: .normal)
             $0.addTarget(self, action: #selector(goToSetting), for: .touchUpInside)
         }
         
-        homeImageView.do {
+        homeButton.do {
             $0.setImage(AssetsImage.daily.image, for: .normal)
             $0.addTarget(self, action: #selector(goBack), for: .touchUpInside)
         }
@@ -59,9 +59,9 @@ class TenDaysForeCastViewController: BaseViewController {
         
         container.flex.alignItems(.center).marginHorizontal(20).define { flex in
             flex.addItem(topLayoutWrapper).direction(.row).marginTop(7).define { flex in
-                flex.addItem(settingImageView).size(44)
+                flex.addItem(settingButton).size(44)
                 flex.addItem(mainLabel).width(mainLabelWidth)
-                flex.addItem(homeImageView).size(44)
+                flex.addItem(homeButton).size(44)
             }
             
             flex.addItem(divider).marginTop(15).width(UIScreen.main.bounds.width).height(1.3)
