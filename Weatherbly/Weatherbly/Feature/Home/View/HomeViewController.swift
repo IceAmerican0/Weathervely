@@ -11,9 +11,9 @@ import FSPagerView
 class HomeViewController: BaseViewController {
     
     private var topLayoutWrapper = UIView()
-    private var settingImageView = UIImageView()
+    private var settingImageView = UIButton()
     private var mainLabel = CSLabel(.bold, 20, "00동 | 현재")
-    private var calendarImageView = UIImageView()
+    private var calendarImageView = UIButton()
     
     private var weatherImageView = UIImageView()
     private var temperatureLabel = CSLabel(.bold, 15, "")
@@ -39,21 +39,17 @@ class HomeViewController: BaseViewController {
         super.attribute()
         
         settingImageView.do {
-            $0.image = UIImage(systemName: "gear")?.withRenderingMode(.alwaysOriginal)
-            $0.tintColor = .gray
+            $0.setImage(AssetsImage.setting.image, for: .normal)
+            $0.addTarget(self, action: #selector(goToSetting), for: .touchUpInside)
         }
         
         calendarImageView.do {
-            let tap = UITapGestureRecognizer(target: self, action: #selector(didTapCalendarImage))
-            $0.addGestureRecognizer(tap)
-            $0.isUserInteractionEnabled = true
-            
-            $0.image = UIImage(systemName: "calendar")?.withRenderingMode(.alwaysOriginal)
-            $0.tintColor = .gray
+            $0.setImage(AssetsImage.schedule.image, for: .normal)
+            $0.addTarget(self, action: #selector(goToTenDays), for: .touchUpInside)
         }
         
         weatherImageView.do {
-            $0.image = UIImage(systemName: "cloud.moon")
+            $0.setAssetsImage(.sunnyMain)
         }
         
         temperatureLabel.do {
@@ -112,7 +108,11 @@ class HomeViewController: BaseViewController {
         }
     }
     
-    @objc private func didTapCalendarImage() {
+    @objc private func goToSetting() {
+        self.navigationController?.pushViewController(SensoryTempViewController(), animated: true)
+    }
+    
+    @objc private func goToTenDays() {
         self.navigationController?.pushViewController(TenDaysForeCastViewController(), animated: true)
     }
 }

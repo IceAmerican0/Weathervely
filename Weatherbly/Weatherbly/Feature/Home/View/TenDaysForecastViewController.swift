@@ -10,9 +10,9 @@ import UIKit
 class TenDaysForeCastViewController: BaseViewController {
     
     private var topLayoutWrapper = UIView()
-    private var settingImageView = UIImageView()
+    private var settingImageView = UIButton()
     private var mainLabel = CSLabel(.bold, 22, "주간 예보")
-    private var homeImageView = UIImageView()
+    private var homeImageView = UIButton()
     
     private var divider = UIView()
     private var forecastTableView = UITableView()
@@ -30,13 +30,13 @@ class TenDaysForeCastViewController: BaseViewController {
         super.attribute()
         
         settingImageView.do {
-            $0.image = UIImage(systemName: "gear")?.withRenderingMode(.alwaysOriginal)
-            $0.tintColor = .gray
+            $0.setImage(AssetsImage.setting.image, for: .normal)
+            $0.addTarget(self, action: #selector(goToSetting), for: .touchUpInside)
         }
         
         homeImageView.do {
-            $0.image = UIImage(systemName: "calendar")?.withRenderingMode(.alwaysOriginal)
-            $0.tintColor = .gray
+            $0.setImage(AssetsImage.daily.image, for: .normal)
+            $0.addTarget(self, action: #selector(goBack), for: .touchUpInside)
         }
         
         divider.do {
@@ -68,6 +68,14 @@ class TenDaysForeCastViewController: BaseViewController {
             flex.addItem(forecastTableView).marginTop(40).marginHorizontal(15).width(tableViewWidth).height(tableViewHeight)
         }
     }
+    
+    @objc private func goToSetting() {
+        self.navigationController?.pushViewController(SensoryTempViewController(), animated: true)
+    }
+    
+    @objc private func goBack() {
+        self.navigationController?.popViewController(animated: true)
+    }
 }
 
 // MARK: UITableViewDelegate
@@ -80,8 +88,8 @@ extension TenDaysForeCastViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         return tableView.dequeueCell(withType: TenDaysForecastTableViewCell.self, for: indexPath).then {
-            $0.amWeatherImageView.image = UIImage(systemName: "gear")
-            $0.pmWeatherImageView.image = UIImage(systemName: "gear")
+            $0.amWeatherImageView.setAssetsImage(.cloudySunTen)
+            $0.pmWeatherImageView.setAssetsImage(.thunderTen)
             $0.temperatureLabel.attributedText = NSMutableAttributedString()
                 .regular("20℃", 16, CSColor._40_106_167)
                 .regular(" / ", 16, CSColor.none)

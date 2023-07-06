@@ -12,7 +12,7 @@ import PinLayout
 final class NicknameViewController: BaseViewController {
     
     private var progressBar = CSProgressView(0.25)
-    private var backButton = UIImageView()
+    private var backButton = UIButton()
     private var explanationLabel = CSLabel(.bold, 25, "닉네임을 설정해주세요")
     private var guideLabel = CSLabel(.bold, 20, "(5글자 이내)")
     private var inputNickname = UITextField()
@@ -43,7 +43,8 @@ final class NicknameViewController: BaseViewController {
         super.attribute()
         
         backButton.do {
-            $0.image = AssetsImage.navigationBackButton.image
+            $0.setImage(AssetsImage.navigationBackButton.image, for: .normal)
+            $0.addTarget(self, action: #selector(goBack), for: .touchUpInside)
         }
         
         explanationLabel.do {
@@ -80,8 +81,12 @@ final class NicknameViewController: BaseViewController {
         }
     }
     
+    @objc private func goBack() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     @objc private func didTapConfirmButton() {
-        
+        self.navigationController?.pushViewController(HomeViewController(), animated: true)
     }
     
     // MARK: Keyboard Action
