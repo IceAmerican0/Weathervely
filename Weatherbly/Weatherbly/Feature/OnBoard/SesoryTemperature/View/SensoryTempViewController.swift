@@ -8,7 +8,6 @@
 import UIKit
 import FlexLayout
 import PinLayout
-import Then
 
 final class SensoryTempViewController: BaseViewController {
     
