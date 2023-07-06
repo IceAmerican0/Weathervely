@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		37933CCC73451CE60258F1D7 /* Pods_Weatherbly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9E518DD6608189FE940C512 /* Pods_Weatherbly.framework */; };
 		5C1D5A112A3C500A00E66788 /* CSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1D5A102A3C500A00E66788 /* CSLabel.swift */; };
 		5CAB60B92A4563B300CD431A /* NSMutableAttributedString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAB60B82A4563B300CD431A /* NSMutableAttributedString+Extension.swift */; };
 		5CAB60BF2A4D6A9D00CD431A /* ClosetCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAB60BE2A4D6A9D00CD431A /* ClosetCollectionViewCell.swift */; };
@@ -38,10 +37,10 @@
 		BDA66FED2A444C470061A1F0 /* SelectGenderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA66FEC2A444C470061A1F0 /* SelectGenderViewController.swift */; };
 		BDA66FEF2A4459910061A1F0 /* SelectGenderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA66FEE2A4459910061A1F0 /* SelectGenderViewModel.swift */; };
 		BDF208FF2A4EAEF2001177B2 /* CGFlot+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF208FE2A4EAEF2001177B2 /* CGFlot+Extension.swift */; };
+		DBC6E28C3234C85CDB9D2255 /* Pods_Weatherbly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 780F5C8A33BDE9DF1F792ACA /* Pods_Weatherbly.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		42B23B6581C12E90797D53DF /* Pods-Weatherbly.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Weatherbly.debug.xcconfig"; path = "Target Support Files/Pods-Weatherbly/Pods-Weatherbly.debug.xcconfig"; sourceTree = "<group>"; };
 		5C1D5A102A3C500A00E66788 /* CSLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSLabel.swift; sourceTree = "<group>"; };
 		5CAB60B82A4563B300CD431A /* NSMutableAttributedString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Extension.swift"; sourceTree = "<group>"; };
 		5CAB60BE2A4D6A9D00CD431A /* ClosetCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -49,8 +48,7 @@
 		5CAB60C42A528C9700CD431A /* UICollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewCell.swift; sourceTree = "<group>"; };
 		69FDD4C52A39E42900830927 /* NicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewController.swift; sourceTree = "<group>"; };
 		69FDD4CB2A407FA400830927 /* CSProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSProgressView.swift; sourceTree = "<group>"; };
-		B6435F0474A9B6A705C258D6 /* Pods-Weatherbly.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Weatherbly.release.xcconfig"; path = "Target Support Files/Pods-Weatherbly/Pods-Weatherbly.release.xcconfig"; sourceTree = "<group>"; };
-		B9E518DD6608189FE940C512 /* Pods_Weatherbly.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Weatherbly.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		780F5C8A33BDE9DF1F792ACA /* Pods_Weatherbly.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Weatherbly.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD2D01852A388753003A25D5 /* Weatherbly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Weatherbly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD2D01882A388753003A25D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BD2D018A2A388753003A25D5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -76,6 +74,8 @@
 		BDA66FEC2A444C470061A1F0 /* SelectGenderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGenderViewController.swift; sourceTree = "<group>"; };
 		BDA66FEE2A4459910061A1F0 /* SelectGenderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGenderViewModel.swift; sourceTree = "<group>"; };
 		BDF208FE2A4EAEF2001177B2 /* CGFlot+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFlot+Extension.swift"; sourceTree = "<group>"; };
+		FAA16F045D38946941D1488B /* Pods-Weatherbly.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Weatherbly.debug.xcconfig"; path = "Target Support Files/Pods-Weatherbly/Pods-Weatherbly.debug.xcconfig"; sourceTree = "<group>"; };
+		FC569780C89B3B5463299392 /* Pods-Weatherbly.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Weatherbly.release.xcconfig"; path = "Target Support Files/Pods-Weatherbly/Pods-Weatherbly.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,28 +83,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				37933CCC73451CE60258F1D7 /* Pods_Weatherbly.framework in Frameworks */,
+				DBC6E28C3234C85CDB9D2255 /* Pods_Weatherbly.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		02BD3F4BC1284A08BEBEC841 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				B9E518DD6608189FE940C512 /* Pods_Weatherbly.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		ABF78B6D4AF3C3B85A8E6131 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				42B23B6581C12E90797D53DF /* Pods-Weatherbly.debug.xcconfig */,
-				B6435F0474A9B6A705C258D6 /* Pods-Weatherbly.release.xcconfig */,
+				FAA16F045D38946941D1488B /* Pods-Weatherbly.debug.xcconfig */,
+				FC569780C89B3B5463299392 /* Pods-Weatherbly.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		AED1F818BBD44A6F2230DDCB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				780F5C8A33BDE9DF1F792ACA /* Pods_Weatherbly.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		BD2D017C2A388753003A25D5 = {
@@ -113,7 +113,7 @@
 				BD2D01872A388753003A25D5 /* Weatherbly */,
 				BD2D01862A388753003A25D5 /* Products */,
 				ABF78B6D4AF3C3B85A8E6131 /* Pods */,
-				02BD3F4BC1284A08BEBEC841 /* Frameworks */,
+				AED1F818BBD44A6F2230DDCB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -354,11 +354,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BD2D01992A388755003A25D5 /* Build configuration list for PBXNativeTarget "Weatherbly" */;
 			buildPhases = (
-				3355261976B1CA6C05F7F15C /* [CP] Check Pods Manifest.lock */,
+				01DDBF8F8FD180954E8A9FC1 /* [CP] Check Pods Manifest.lock */,
 				BD2D01812A388753003A25D5 /* Sources */,
 				BD2D01822A388753003A25D5 /* Frameworks */,
 				BD2D01832A388753003A25D5 /* Resources */,
-				3C74B68AFB03BE52A621785D /* [CP] Embed Pods Frameworks */,
+				A4B547023AFE1E5B986D4F95 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -414,7 +414,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3355261976B1CA6C05F7F15C /* [CP] Check Pods Manifest.lock */ = {
+		01DDBF8F8FD180954E8A9FC1 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -436,7 +436,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		3C74B68AFB03BE52A621785D /* [CP] Embed Pods Frameworks */ = {
+		A4B547023AFE1E5B986D4F95 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -611,7 +611,7 @@
 		};
 		BD2D019A2A388755003A25D5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 42B23B6581C12E90797D53DF /* Pods-Weatherbly.debug.xcconfig */;
+			baseConfigurationReference = FAA16F045D38946941D1488B /* Pods-Weatherbly.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -643,7 +643,7 @@
 		};
 		BD2D019B2A388755003A25D5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B6435F0474A9B6A705C258D6 /* Pods-Weatherbly.release.xcconfig */;
+			baseConfigurationReference = FC569780C89B3B5463299392 /* Pods-Weatherbly.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
