@@ -13,6 +13,10 @@ enum AssetsImage: String {
     case downArrow
     case editNameIcon
     case whiteHeart
+    case settingTemperatureIcon
+    case settingStyleIcon
+    case settingLoacationIcon
+    case settingInquryIcon
     
     var image: UIImage? {
         return UIImage(named: self.rawValue)
