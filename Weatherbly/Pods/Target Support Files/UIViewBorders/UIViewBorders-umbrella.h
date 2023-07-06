@@ -10,8 +10,8 @@
 #endif
 #endif
 
-#import "FSPagerViewObjcCompat.h"
+#import "UIViewBorders.h"
 
-FOUNDATION_EXPORT double FSPagerViewVersionNumber;
-FOUNDATION_EXPORT const unsigned char FSPagerViewVersionString[];
+FOUNDATION_EXPORT double UIViewBordersVersionNumber;
+FOUNDATION_EXPORT const unsigned char UIViewBordersVersionString[];
 
