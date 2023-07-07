@@ -123,8 +123,7 @@ final class SlotMachineViewController: BaseViewController, UIScrollViewDelegate 
         minTempWrapper.do {
             $0.layer.cornerRadius = 20.0
             $0.backgroundColor = CSColor._253_253_253.color
-            $0.setShadow(CGSize(width: 0, height: 4), CSColor._220_220_220.cgColor, 1)
-            $0.layer.shadowRadius = 10
+            $0.setShadow(CGSize(width: 0, height: 4), CSColor._220_220_220.cgColor, 1, 10)
             // TODO: - shadow처리
         }
     
@@ -149,8 +148,7 @@ final class SlotMachineViewController: BaseViewController, UIScrollViewDelegate 
         maxTempWrapper.do {
             $0.layer.cornerRadius = 20.0
             $0.backgroundColor = CSColor._253_253_253.color
-            $0.setShadow(CGSize(width: 0, height: 4), CSColor._220_220_220.cgColor, 1)
-            $0.layer.shadowRadius = 10
+            $0.setShadow(CGSize(width: 0, height: 4), CSColor._220_220_220.cgColor, 1, 10)
             // TODO: - shadow처리
         }
     
@@ -204,7 +202,7 @@ final class SlotMachineViewController: BaseViewController, UIScrollViewDelegate 
                             
                             flex.addItem(minTempWrapper).alignItems(.center).define { flex in
                                 flex.addItem(minTempLabel).marginTop(11).marginHorizontal(20)
-                                flex.addItem(leftScrollView).marginTop(10).width(100%).height(imageHeight)
+                                flex.addItem(leftScrollView).marginTop(10).width(70%).height(imageHeight)
                                 flex.addItem(minImageSourceLabel).marginTop(7).marginBottom(7)
                             }
                             
@@ -224,7 +222,7 @@ final class SlotMachineViewController: BaseViewController, UIScrollViewDelegate 
                             
                             flex.addItem(maxTempWrapper).alignItems(.center).define { flex in
                                 flex.addItem(maxTempLabel).marginTop(11).marginHorizontal(20)
-                                flex.addItem(rightScrollView).marginTop(10).width(100%).height(imageHeight)
+                                flex.addItem(rightScrollView).marginTop(10).width(70%).height(imageHeight)
                                 flex.addItem(maxImageSourceLabel).marginTop(7).marginBottom(7)
                             }
                             

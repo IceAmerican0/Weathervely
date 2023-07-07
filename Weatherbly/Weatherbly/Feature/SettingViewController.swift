@@ -54,13 +54,13 @@ final class SettingViewController: BaseViewController {
         
         navigationView.do {
             $0.setTitle("설정")
+            $0.addBorder(.bottom)
         }
         
-//        nickNameView.do {
-//
-//            $0.addBorder(.top)
-//            $0.addBorder(.bottom)
-//        }
+        nickNameView.do {
+            $0.addBorder(.top)
+            $0.addBorder(.bottom)
+        }
         
         
         nickNameLabel.do {
@@ -75,48 +75,58 @@ final class SettingViewController: BaseViewController {
             $0.image = AssetsImage.whiteHeart.image
         }
         
+        messageView.do {
+            $0.addBorder(.bottom)
+        }
+        
         messageLabel.do {
+            $0.textAlignment = .natural
             $0.adjustsFontSizeToFitWidth = true
         }
         sensoryTempButton.do {
-            $0.setShadow(CGSize(width: 0, height: 4), UIColor.black.cgColor, 0.25)
+            $0.setShadow(CGSize(width: 0, height: 4), UIColor.black.cgColor, 0.25, 2)
             $0.setTitle("체감 온도", for: .normal)
             $0.titleLabel?.font = .systemFont(ofSize: 17,weight: .medium)
             $0.setTitleColor(.black, for: .normal)
             $0.backgroundColor = .white
+            $0.setCornerRadius(24)
             $0.imageView?.image = AssetsImage.settingTemperatureIcon.image
         }
         
         styleButton.do {
-            $0.setShadow(CGSize(width: 0, height: 4), UIColor.black.cgColor, 0.25)
+            $0.setShadow(CGSize(width: 0, height: 4), UIColor.black.cgColor, 0.25,  2)
             $0.setTitle("스타일 선택", for: .normal)
             $0.titleLabel?.font = .systemFont(ofSize: 17,weight: .medium)
             $0.setTitleColor(.black, for: .normal)
             $0.backgroundColor = .white
+            $0.setCornerRadius(24)
             $0.imageView?.image = AssetsImage.settingStyleIcon.image
         }
         
         locationButton.do {
-            $0.setShadow(CGSize(width: 0, height: 4), UIColor.black.cgColor, 0.25)
+            $0.setShadow(CGSize(width: 0, height: 4), UIColor.black.cgColor, 0.25, 2)
             $0.setTitle("동네 설정", for: .normal)
             $0.titleLabel?.font = .systemFont(ofSize: 17,weight: .medium)
             $0.setTitleColor(.black, for: .normal)
             $0.backgroundColor = .white
             $0.imageView?.image = AssetsImage.settingLoacationIcon.image
+            $0.setCornerRadius(24)
+            
         }
         
         inquryButton.do {
-            $0.setShadow(CGSize(width: 0, height: 4), UIColor.black.cgColor, 0.25)
+            $0.setShadow(CGSize(width: 0, height: 4), UIColor.black.cgColor, 0.25, 2)
             $0.setTitle("문의하기", for: .normal)
             $0.titleLabel?.font = .systemFont(ofSize: 17,weight: .medium)
             $0.setTitleColor(.black, for: .normal)
             $0.backgroundColor = .white
             $0.imageView?.image = AssetsImage.settingInquryIcon.image
+            $0.setCornerRadius(24)
         }
         
-//        bottomView.do {
-//            $0.addBorder(.top)
-//        }
+        bottomView.do {
+            $0.addBorder(.top)
+        }
 
         
         
@@ -126,17 +136,22 @@ final class SettingViewController: BaseViewController {
     
     override func layout() {
         super.layout()
-        container.flex.define { flex in
+        container.flex
+            .direction(.column)
+            .justifyContent(.spaceBetween)
+            .define { flex in
             flex.addItem(navigationView)
-                .view?.addBorder(.bottom)
+                    
             
             flex.addItem(contentWrapper)
-                .justifyContent(.spaceBetween)
                 .alignContent(.stretch) // test용 코드
-                .width(container.frame.width)
+                    .grow(1)
+                    .shrink(1)
                 .define { flex in
 
                     flex.addItem(nickNameView)
+                        .direction(.row)
+                        .marginTop(27)
                         .marginHorizontal(32)
                         .define { flex in
 
@@ -144,9 +159,11 @@ final class SettingViewController: BaseViewController {
                             .marginVertical(9)
                             .marginLeft(60)
                         flex.addItem(editButton)
+                                .marginTop(5)
                                 .marginLeft(6)
                                 .size(24)
                     }
+                    
                     flex.addItem(messageView)
                         .marginHorizontal(32)
                         .direction(.row)
@@ -158,34 +175,56 @@ final class SettingViewController: BaseViewController {
                                 .marginVertical(11)
                         }
 
-                    flex.addItem(firstButtonWrapper).direction(.row)
-                    .marginHorizontal(40)
-                    .define { flex in
-                        flex.addItem(sensoryTempButton)
-                            .grow(1)
-                            .shrink(1)
-                            .marginRight(10)
+                    flex.addItem(firstButtonWrapper)
+                        .direction(.row)
+                        .justifyContent(.spaceBetween)
+                        .marginTop(40)
+                        .marginHorizontal(40)
+                        .define { flex in
+                            flex.addItem(sensoryTempButton)
+                                .width(UIScreen.main.bounds.width * 0.37)
+                                .height(UIScreen.main.bounds.height * 0.17)
+//                                .grow(1)
+//                                .shrink(1)
+                                .marginRight(10)
 
-                        flex.addItem(styleButton)
-                            .grow(1)
-                            .shrink(1)
-                            .marginLeft(10)
-                    }
+                            flex.addItem(styleButton)
+                                .width(UIScreen.main.bounds.width * 0.37)
+                                .height(UIScreen.main.bounds.height * 0.17)
+//                                .grow(1)
+//                                .shrink(1)
+                                .marginLeft(10)
+                        }
 
-                    flex.addItem(secondButtonWrapper).direction(.row)
+                    flex.addItem(secondButtonWrapper)
+                        .direction(.row)
+                        .justifyContent(.spaceBetween)
+                        .marginTop(21)
                         .marginHorizontal(40)
                         .define { flex in
                             flex.addItem(locationButton)
-                                .grow(1)
-                                .shrink(1)
+                                .width(UIScreen.main.bounds.width * 0.37)
+                                .height(UIScreen.main.bounds.height * 0.17)
                                 .marginRight(10)
 
                             flex.addItem(inquryButton)
-                                .grow(1)
-                                .shrink(1)
+                                .width(UIScreen.main.bounds.width * 0.37)
+                                .height(UIScreen.main.bounds.height * 0.17)
                                 .marginLeft(10)
                         }
+                    
                     flex.addItem(bottomView)
+                        
+                        .marginTop(UIScreen.main.bounds.height * 0.18)
+                        .marginBottom(10)
+                        .padding(12)
+                        .height(44)
+                        .define { flex in
+                            flex.addItem(bottomLable)
+                        }
+                    bottomView.pin.bottom(to: contentWrapper.edge.bottom).marginBottom(5)
+                    
+                        
             }
         }
         

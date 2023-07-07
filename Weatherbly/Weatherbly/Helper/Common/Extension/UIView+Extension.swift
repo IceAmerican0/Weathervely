@@ -40,11 +40,20 @@ extension UIView {
         }
     }
         
-        func setShadow(_ size: CGSize, _ color: CGColor?, _ opacity: Float) {
+    func setShadow(_ size: CGSize, _ color: CGColor?, _ opacity: Float, _ radius: CGFloat?) {
             
             self.layer.shadowOffset = size
             self.layer.shadowColor = color
             self.layer.shadowOpacity = opacity
+        
+            if let radius = radius {
+                self.layer.shadowRadius = radius
+            }
+        
+        }
+    
+    func setCornerRadius(_ radius: CGFloat?) {
+        self.layer.cornerRadius = radius ?? 0
         }
         
         // 확인해보기
@@ -73,5 +82,7 @@ extension UIView {
         func show() {
             self.isHidden = false
         }
+    
+    
     }
 

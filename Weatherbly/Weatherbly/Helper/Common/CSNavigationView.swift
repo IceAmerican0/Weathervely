@@ -99,7 +99,7 @@ class CSNavigationView: UIView, CodeBaseInitializerProtocol {
                 }
             
             }
-            .view?.addBorder(.bottom)
+//            .view?.addBorder(.bottom)
         
         
     }
