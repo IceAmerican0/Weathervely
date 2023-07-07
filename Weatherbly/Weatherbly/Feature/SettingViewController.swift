@@ -215,10 +215,7 @@ final class SettingViewController: BaseViewController {
                     
                     flex.addItem(bottomView)
                         
-                        .marginTop(UIScreen.main.bounds.height * 0.18)
-                        .marginBottom(10)
                         .padding(12)
-                        .height(44)
                         .define { flex in
                             flex.addItem(bottomLable)
                         }
