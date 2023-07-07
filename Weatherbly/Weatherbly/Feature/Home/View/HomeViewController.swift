@@ -19,6 +19,7 @@ class HomeViewController: BaseViewController {
     private var mainLabel = CSLabel(.bold, 20, "00동 | 현재")
     private var calendarButton = UIButton()
     
+    private var dailyWrapper = UIView()
     private var weatherImageView = UIImageView()
     private var temperatureLabel = CSLabel(.bold, 15, "")
     private var commentLabel = CSLabel(.regular, 18, "찬바람이 세차게 불어요")
@@ -46,7 +47,7 @@ class HomeViewController: BaseViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        backgroundView.pin.left(-31).right(-31).top(-20)
+        backgroundView.pin.horizontally().top()
         backgroundView.flex.layout()
     }
     
@@ -65,6 +66,11 @@ class HomeViewController: BaseViewController {
         calendarButton.do {
             $0.setImage(AssetsImage.schedule.image, for: .normal)
             $0.addTarget(self, action: #selector(goToTenDays), for: .touchUpInside)
+        }
+        
+        dailyWrapper.do {
+            let tap = UITapGestureRecognizer(target: self, action: #selector(goToDaily))
+            $0.addGestureRecognizer(tap)
         }
         
         weatherImageView.do {
@@ -91,7 +97,7 @@ class HomeViewController: BaseViewController {
             $0.delegate = self
             $0.dataSource = self
             $0.isScrollEnabled = true
-            $0.register(ClosetCollectionViewCell.self, forCellWithReuseIdentifier: ClosetCollectionViewCell.identifier)
+            $0.register(ClosetFSPagerViewCell.self, forCellWithReuseIdentifier: ClosetFSPagerViewCell.identifier)
             $0.isInfinite = true
             $0.itemSize = CGSize(width: closetCellWidth, height: closetWrapperHeight)
             $0.transformer = FSPagerViewTransformer(type: .overlap)
@@ -111,7 +117,7 @@ class HomeViewController: BaseViewController {
         super.layout()
         
         backgroundView.flex.alignItems(.center).define { flex in
-            flex.addItem(backgroundImage).grow(1).width(UIScreen.main.bounds.width+62).height(backgroundImageHeight)
+            flex.addItem(backgroundImage).marginHorizontal(-31).marginTop(-20).width(UIScreen.main.bounds.width+62).height(backgroundImageHeight)
         }
         
         container.flex.alignItems(.center).marginHorizontal(20).define { flex in
@@ -120,12 +126,12 @@ class HomeViewController: BaseViewController {
                 flex.addItem(mainLabel).width(mainLabelWidth)
                 flex.addItem(calendarButton).size(44)
             }
-            flex.addItem(weatherImageView).marginTop(7).width(97).height(90)
-            flex.addItem(temperatureLabel).marginTop(10).height(28)
-            flex.addItem(commentLabel).marginTop(4).height(28)
-            flex.addItem(dustLabel).marginTop(22).width(dustLabelWidth).height(45)
-            
-            // CollectionView 세팅시 width, height 다 잡아줄것.. 아니면 안나옴
+            flex.addItem(dailyWrapper).alignItems(.center).define { flex in
+                flex.addItem(weatherImageView).marginTop(7).width(97).height(90)
+                flex.addItem(temperatureLabel).marginTop(10).height(28)
+                flex.addItem(commentLabel).marginTop(4).height(28)
+                flex.addItem(dustLabel).marginTop(22).width(dustLabelWidth).height(45)
+            }
             flex.addItem(pagerView).marginTop(26).width(UIScreen.main.bounds.width).height(closetWrapperHeight)
             flex.addItem(bottomButtonWrapper).direction(.row).define { flex in
                 flex.addItem(todayButton).marginRight(20).width(100).height(40)
@@ -147,6 +153,10 @@ class HomeViewController: BaseViewController {
     @objc private func goToTenDays() {
         self.navigationController?.pushViewController(TenDaysForeCastViewController(), animated: true)
     }
+    
+    @objc private func goToDaily() {
+        self.navigationController?.pushViewController(DailyForecastViewController(), animated: true)
+    }
 }
 
 // MARK: FSPagerViewDelegate
@@ -161,9 +171,7 @@ extension HomeViewController: FSPagerViewDataSource {
     func numberOfItems(in pagerView: FSPagerView) -> Int { 5 }
     
     func pagerView(_ pagerView: FSPagerView, cellForItemAt index: Int) -> FSPagerViewCell {
-        return pagerView.dequeueCell(withType: ClosetCollectionViewCell.self, for: index).then {
-            $0.backgroundColor = .white
-            $0.layer.cornerRadius = 20
+        return pagerView.dequeueCell(withType: ClosetFSPagerViewCell.self, for: index).then {
             $0.clothImageView.image = UIImage(systemName: "gear")
             $0.clothImageSourceLabel.text = "by 0000"
         }

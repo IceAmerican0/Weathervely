@@ -1,17 +1,17 @@
 //
-//  TenDaysForecastViewController.swift
+//  DailyForecastViewController.swift
 //  Weatherbly
 //
-//  Created by 박성준 on 2023/07/04.
+//  Created by 박성준 on 2023/07/07.
 //
 
 import UIKit
 
-class TenDaysForeCastViewController: BaseViewController {
+class DailyForecastViewController: BaseViewController {
     
     private var topLayoutWrapper = UIView()
     private var settingButton = UIButton()
-    private var mainLabel = CSLabel(.bold, 22, "주간 예보")
+    private var mainLabel = CSLabel(.bold, 22, "일별 상세 날씨")
     private var homeButton = UIButton()
     
     private var divider = UIView()
@@ -48,16 +48,9 @@ class TenDaysForeCastViewController: BaseViewController {
             $0.dataSource = self
             $0.isScrollEnabled = false
             $0.backgroundColor = CSColor._253_253_253.color
-            $0.register(TenDaysForecastTableViewCell.self, forCellReuseIdentifier: TenDaysForecastTableViewCell.identifier)
             $0.layer.cornerRadius = 5
-            $0.layer.borderColor = UIColor.clear.cgColor
-            $0.layer.borderWidth = 1
-            $0.layer.shadowOffset = CGSize(width: 0, height: 4)
-            $0.layer.shadowOpacity = 0.25
-            $0.layer.shadowColor = UIColor.black.cgColor
-            $0.layer.shadowRadius = 2
-            $0.layer.masksToBounds = false
-            $0.clipsToBounds = false
+            $0.register(DailyForecastTableViewCell.self, forCellReuseIdentifier: DailyForecastTableViewCell.identifier)
+            //            .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
         }
     }
     
@@ -67,7 +60,7 @@ class TenDaysForeCastViewController: BaseViewController {
         container.flex.alignItems(.center).marginHorizontal(20).define { flex in
             flex.addItem(topLayoutWrapper).direction(.row).marginTop(7).define { flex in
                 flex.addItem(settingButton).size(44)
-                flex.addItem(mainLabel).width(mainLabelWidth)
+                flex.addItem(mainLabel).width(mainLabelWidth).height(29)
                 flex.addItem(homeButton).size(44)
             }
             
@@ -86,22 +79,26 @@ class TenDaysForeCastViewController: BaseViewController {
 }
 
 // MARK: UITableViewDelegate
-extension TenDaysForeCastViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { 60 }
+extension DailyForecastViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { 100 }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { 25 }
+    
 }
 
-extension TenDaysForeCastViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { 11 }
+extension DailyForecastViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { 4 }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return tableView.dequeueCell(withType: TenDaysForecastTableViewCell.self, for: indexPath).then {
-            $0.amWeatherImageView.setAssetsImage(.cloudySunTen)
-            $0.pmWeatherImageView.setAssetsImage(.thunderTen)
-            $0.temperatureLabel.attributedText = NSMutableAttributedString()
-                .regular("20℃", 16, CSColor._40_106_167)
-                .regular(" / ", 16, CSColor.none)
-                .regular("30℃", 16, CSColor._178_36_36)
+        let itemName = ["기온","미세먼지","비 올 확률", "습도"]
+        let imageName = [AssetsImage.thermometer, AssetsImage.dust, AssetsImage.rain, AssetsImage.humidity]
+        let shadowColor = [CSColor._255_163_163.cgColor, CSColor._214_214_214.cgColor, CSColor._126_212_255.cgColor, CSColor._210_175_255.cgColor]
+        
+        return tableView.dequeueCell(withType: DailyForecastTableViewCell.self, for: indexPath).then {
+            $0.layer.shadowColor = shadowColor[indexPath.row]
+            $0.keyLabel.text = itemName[indexPath.row]
+            $0.valueLabel.text = ""
+            $0.logoImageView.setAssetsImage(imageName[indexPath.row])
         }
     }
-    
 }

@@ -27,8 +27,12 @@ enum AssetsImage: String {
     
     // Common
     case daily
-    case setting
+    case dust
+    case humidity
+    case rain
     case schedule
+    case setting
+    case thermometer
     
     // Weather
     case cloudyMoonMain

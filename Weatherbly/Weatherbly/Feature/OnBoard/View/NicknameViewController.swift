@@ -30,6 +30,7 @@ final class NicknameViewController: BaseViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
         inputNickname.becomeFirstResponder()
+        view.addGestureRecognizer(UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing(_:))))
     }
     
     override func viewDidLayoutSubviews() {
