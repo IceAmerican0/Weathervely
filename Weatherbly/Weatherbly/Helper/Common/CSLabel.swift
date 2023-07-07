@@ -50,6 +50,7 @@ public final class CSLabel: UILabel, CodeBaseInitializerProtocol {
         self.do {
             $0.numberOfLines = 0
             $0.textAlignment = .center
+            $0.textColor = .black
             
             switch labelStyle {
             case .bold:
