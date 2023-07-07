@@ -20,17 +20,9 @@ final class OnBoardViewController: BaseViewController {
     override func attribute() {
         super.attribute()
         
-        topGreetingLabel.do {
-            $0.text = "날씨블리에 오신 걸\n환영해요!"
-        }
-        
         logo.do {
             $0.image = UIImage(systemName: "star.fill")
             
-        }
-        
-        bottomGreetingLabel.do {
-            $0.text = "날씨블리가 날씨에 맞는\n옷차림을 알려드릴 거예요"
         }
         
         startButton.do {
@@ -56,9 +48,9 @@ final class OnBoardViewController: BaseViewController {
     }
     
     @objc private func didTapStartButton() {
-//        self.navigationController?.pushViewController(SensoryTempViewController(), animated: true)
+        self.navigationController?.pushViewController(SensoryTempViewController(), animated: true)
 //        self.navigationController?.pushViewController(SelectGenderViewController(), animated: true)
-                self.navigationController?.pushViewController(SettingViewController(), animated: true)
+//                self.navigationController?.pushViewController(SettingViewController(), animated: true)
         
     }
 }

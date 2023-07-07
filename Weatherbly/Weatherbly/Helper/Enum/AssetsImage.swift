@@ -15,7 +15,7 @@ enum AssetsImage: String {
     case whiteHeart
     case settingTemperatureIcon
     case settingStyleIcon
-    case settingLoacationIcon
+    case settingLocationIcon
     case settingInquryIcon
     
     var image: UIImage? {

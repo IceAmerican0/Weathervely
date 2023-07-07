@@ -83,44 +83,49 @@ final class SettingViewController: BaseViewController {
             $0.textAlignment = .natural
             $0.adjustsFontSizeToFitWidth = true
         }
+        
         sensoryTempButton.do {
-            $0.setShadow(CGSize(width: 0, height: 4), UIColor.black.cgColor, 0.25, 2)
+            $0.setShadow(CGSize(width: 0, height: 3), UIColor.black.cgColor, 0.25, 2)
             $0.setTitle("체감 온도", for: .normal)
             $0.titleLabel?.font = .systemFont(ofSize: 17,weight: .medium)
             $0.setTitleColor(.black, for: .normal)
             $0.backgroundColor = .white
+            $0.setImage(AssetsImage.settingTemperatureIcon.image, for: .normal)
+            $0.alignTextBelowImage()
             $0.setCornerRadius(24)
-            $0.imageView?.image = AssetsImage.settingTemperatureIcon.image
         }
         
         styleButton.do {
-            $0.setShadow(CGSize(width: 0, height: 4), UIColor.black.cgColor, 0.25,  2)
+            $0.setShadow(CGSize(width: 0, height: 3), UIColor.black.cgColor, 0.25,  2)
             $0.setTitle("스타일 선택", for: .normal)
             $0.titleLabel?.font = .systemFont(ofSize: 17,weight: .medium)
             $0.setTitleColor(.black, for: .normal)
             $0.backgroundColor = .white
+            $0.setImage(AssetsImage.settingStyleIcon.image, for: .normal)
+            $0.alignTextBelowImage()
             $0.setCornerRadius(24)
-            $0.imageView?.image = AssetsImage.settingStyleIcon.image
         }
         
         locationButton.do {
-            $0.setShadow(CGSize(width: 0, height: 4), UIColor.black.cgColor, 0.25, 2)
+            $0.setShadow(CGSize(width: 0, height: 3), UIColor.black.cgColor, 0.25, 2)
             $0.setTitle("동네 설정", for: .normal)
             $0.titleLabel?.font = .systemFont(ofSize: 17,weight: .medium)
             $0.setTitleColor(.black, for: .normal)
             $0.backgroundColor = .white
-            $0.imageView?.image = AssetsImage.settingLoacationIcon.image
+            $0.setImage(AssetsImage.settingLocationIcon.image, for: .normal)
+            $0.alignTextBelowImage()
             $0.setCornerRadius(24)
             
         }
         
         inquryButton.do {
-            $0.setShadow(CGSize(width: 0, height: 4), UIColor.black.cgColor, 0.25, 2)
+            $0.setShadow(CGSize(width: 0, height: 3), UIColor.black.cgColor, 0.25, 2)
             $0.setTitle("문의하기", for: .normal)
             $0.titleLabel?.font = .systemFont(ofSize: 17,weight: .medium)
             $0.setTitleColor(.black, for: .normal)
             $0.backgroundColor = .white
-            $0.imageView?.image = AssetsImage.settingInquryIcon.image
+            $0.setImage(AssetsImage.settingInquryIcon.image, for: .normal)
+            $0.alignTextBelowImage()
             $0.setCornerRadius(24)
         }
         
@@ -144,7 +149,6 @@ final class SettingViewController: BaseViewController {
                     
             
             flex.addItem(contentWrapper)
-                .alignContent(.stretch) // test용 코드
                     .grow(1)
                     .shrink(1)
                 .define { flex in
@@ -184,15 +188,11 @@ final class SettingViewController: BaseViewController {
                             flex.addItem(sensoryTempButton)
                                 .width(UIScreen.main.bounds.width * 0.37)
                                 .height(UIScreen.main.bounds.height * 0.17)
-//                                .grow(1)
-//                                .shrink(1)
                                 .marginRight(10)
 
                             flex.addItem(styleButton)
                                 .width(UIScreen.main.bounds.width * 0.37)
                                 .height(UIScreen.main.bounds.height * 0.17)
-//                                .grow(1)
-//                                .shrink(1)
                                 .marginLeft(10)
                         }
 
