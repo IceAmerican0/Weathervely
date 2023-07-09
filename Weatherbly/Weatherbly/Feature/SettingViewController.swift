@@ -12,6 +12,9 @@ import RxSwift
 
 final class SettingViewController: BaseViewController {
     
+    var leftButtonDidTapRelay = PublishRelay<Void>()
+    var bag = DisposeBag()
+    
     // MARK: - Component
 
     private var navigationView = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
@@ -39,6 +42,7 @@ final class SettingViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print(#function)
+        
 
     }
     
@@ -224,6 +228,25 @@ final class SettingViewController: BaseViewController {
                         
             }
         }
+        
+    }
+    
+    override func bind() {
+        super.bind()
+        
+        // TODO: -
+        // FIXME: - leftButton 액션 처리를 위한 임시조치 -> 후에 BaseViewModel을 만들어서 BaseViewController 와 연결시켜야한다.
+
+        navigationView.leftButtonDidTapRelay
+            .bind(onNext: { [weak self] _ in
+                self?.navigationController?.popViewController(animated: true)
+            })
+            .disposed(by: bag)
+        
+        editButton.rx.tap
+            .subscribe { [weak self] _ in
+                self?.navigationController?.pushViewController(EditNicknameViewController(), animated: true)
+            }.disposed(by: bag)
         
     }
 

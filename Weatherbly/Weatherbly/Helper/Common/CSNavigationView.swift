@@ -9,6 +9,8 @@ import UIKit
 import FlexLayout
 import PinLayout
 import UIViewBorders
+import RxCocoa
+import RxSwift
 
 class CSNavigationView: UIView, CodeBaseInitializerProtocol {
     
@@ -16,7 +18,7 @@ class CSNavigationView: UIView, CodeBaseInitializerProtocol {
 
 //    var height = UIScreen.main.bounds.height * 0.078
     private let wrapperView = UIView()
-    private var leftButton = UIButton()
+    private var leftButton: UIButton?
     private var titleLabel = CSLabel(.bold)
     private var rightButton: UIButton?
     
@@ -25,7 +27,10 @@ class CSNavigationView: UIView, CodeBaseInitializerProtocol {
         case leftButton(UIImage?)
         case rightButton(UIImage?, UIImage?)    /// rightButton은 leftButton과 rightButton하나를 가진다.
     }
+    
     private var navigationViewHeight = UIScreen.main.bounds.height * 0.08
+    var bag = DisposeBag()
+    var leftButtonDidTapRelay = PublishRelay<Void>()
     
     init(_ option: ButtonLayout) {
         super.init(frame: CGRect.zero)
@@ -41,12 +46,17 @@ class CSNavigationView: UIView, CodeBaseInitializerProtocol {
         print(#function)
         switch option {
         case .leftButton(let image):
-            
-            leftButton.setImage(image, for: .normal)
+            if leftButton == nil {
+                leftButton = UIButton()
+            }
+            leftButton?.setImage(image, for: .normal)
             
         case .rightButton(let leftImage, let rightImage):
             
-            leftButton.setImage(leftImage, for: .normal)
+            if leftButton == nil {
+                leftButton = UIButton()
+            }
+            leftButton?.setImage(leftImage, for: .normal)
             
             if rightButton == nil {
                 rightButton = UIButton()
@@ -77,11 +87,14 @@ class CSNavigationView: UIView, CodeBaseInitializerProtocol {
     
     func titleLabelAndButtonLayout() {
         
-        
         wrapperView.flex
             .height(navigationViewHeight)
             .direction(.row).define { flex in
-            flex.addItem(leftButton)
+                
+                if leftButton == nil {
+                    leftButton = UIButton()
+                }
+            flex.addItem(leftButton!)
                     .marginLeft(12)
                     .marginRight(24)
                     .size(44)
@@ -102,6 +115,15 @@ class CSNavigationView: UIView, CodeBaseInitializerProtocol {
         
     }
     
+    
+    // MARK: - Bind
+    
+    func bind() {
+        if let leftButton = leftButton {
+            leftButton.rx.tap.bind(to: leftButtonDidTapRelay).disposed(by: bag)
+        }
+    }
+
     func setTitle(_ text: String) {
         print(#function)
         titleLabel.font = .boldSystemFont(ofSize: 22)
