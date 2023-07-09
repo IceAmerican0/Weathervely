@@ -9,6 +9,7 @@ PODS:
     - RxSwift (= 6.5.0)
   - RxSwift (6.5.0)
   - Then (3.0.0)
+  - UIViewBorders (1.0.0)
 
 DEPENDENCIES:
   - FlexLayout
@@ -17,6 +18,7 @@ DEPENDENCIES:
   - RxCocoa (~> 6.5.0)
   - RxSwift (~> 6.5.0)
   - Then
+  - UIViewBorders
 
 SPEC REPOS:
   trunk:
@@ -27,6 +29,7 @@ SPEC REPOS:
     - RxRelay
     - RxSwift
     - Then
+    - UIViewBorders
 
 SPEC CHECKSUMS:
   FlexLayout: 9184986cace599a581164c8e4af8c860698837af
@@ -36,7 +39,8 @@ SPEC CHECKSUMS:
   RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
   RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
   Then: 844265ae87834bbe1147d91d5d41a404da2ec27d
+  UIViewBorders: 5de80248cccb5909946bab86da8d0fc76a33add1
 
-PODFILE CHECKSUM: d32a3989283e01c2920b78d0085ff3b7438022ed
+PODFILE CHECKSUM: 88e4c3d565e13d22d64792baeeef7f799cea8d39
 
-COCOAPODS: 1.12.0
+COCOAPODS: 1.11.3

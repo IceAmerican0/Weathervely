@@ -8,7 +8,6 @@
 import UIKit
 import FlexLayout
 import PinLayout
-import Then
 
 final class SensoryTempViewController: BaseViewController {
     
@@ -64,8 +63,7 @@ final class SensoryTempViewController: BaseViewController {
         minTempWrapper.do {
             $0.layer.cornerRadius = 20.0
             $0.backgroundColor = CSColor._253_253_253.color
-            $0.setShadow(CGSize(width: 0, height: 4), CSColor._220_220_220.cgColor, 1)
-            $0.layer.shadowRadius = 10
+            $0.setShadow(CGSize(width: 0, height: 4), CSColor._220_220_220.cgColor, 1, 10)
             // TODO: - shadow처리
         }
     
@@ -79,15 +77,13 @@ final class SensoryTempViewController: BaseViewController {
         }
         
         minTempImageView.do {
-            $0.backgroundColor = .blue
             $0.image = UIImage(systemName: "star.fill")
         }
         
         maxTempWrapper.do {
             $0.layer.cornerRadius = 20.0
             $0.backgroundColor = CSColor._253_253_253.color
-            $0.setShadow(CGSize(width: 0, height: 4), CSColor._220_220_220.cgColor, 1)
-            $0.layer.shadowRadius = 10
+            $0.setShadow(CGSize(width: 0, height: 4), CSColor._220_220_220.cgColor, 1, 10)
             // TODO: - shadow처리
         }
     
@@ -106,6 +102,7 @@ final class SensoryTempViewController: BaseViewController {
         
         acceptButton.do {
             $0.setTitle("네", for: .normal)
+            $0.backgroundColor = CSColor._50_50_50.color
         }
         
         denyButton.do {
