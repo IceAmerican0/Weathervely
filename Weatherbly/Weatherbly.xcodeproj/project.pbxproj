@@ -27,6 +27,8 @@
 		BD4316362A3C9DB700E86271 /* AssetsImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4316352A3C9DB700E86271 /* AssetsImage.swift */; };
 		BD4316382A3CA20900E86271 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4316372A3CA20900E86271 /* UIView+Extension.swift */; };
 		BD50A5222A4C4072005F066E /* SlotMachineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD50A5212A4C4072005F066E /* SlotMachineViewController.swift */; };
+		BD5169452A5A9BD600582BA9 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5169442A5A9BD600582BA9 /* SettingViewModel.swift */; };
+		BD5169472A5AA39000582BA9 /* EditNicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5169462A5AA39000582BA9 /* EditNicknameViewController.swift */; };
 		BD69B8F72A54337000DDCD7A /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD69B8F62A54337000DDCD7A /* SettingViewController.swift */; };
 		BD69B8F92A553A0C00DDCD7A /* CSNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD69B8F82A553A0C00DDCD7A /* CSNavigationView.swift */; };
 		BD77B8282A388C9400E7D57A /* CSColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD77B8272A388C9400E7D57A /* CSColor.swift */; };
@@ -64,6 +66,8 @@
 		BD4316352A3C9DB700E86271 /* AssetsImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetsImage.swift; sourceTree = "<group>"; };
 		BD4316372A3CA20900E86271 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		BD50A5212A4C4072005F066E /* SlotMachineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlotMachineViewController.swift; sourceTree = "<group>"; };
+		BD5169442A5A9BD600582BA9 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
+		BD5169462A5AA39000582BA9 /* EditNicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditNicknameViewController.swift; sourceTree = "<group>"; };
 		BD69B8F62A54337000DDCD7A /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		BD69B8F82A553A0C00DDCD7A /* CSNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSNavigationView.swift; sourceTree = "<group>"; };
 		BD77B8272A388C9400E7D57A /* CSColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSColor.swift; sourceTree = "<group>"; };
@@ -295,6 +299,7 @@
 			isa = PBXGroup;
 			children = (
 				BD69B8F62A54337000DDCD7A /* SettingViewController.swift */,
+				BD5169462A5AA39000582BA9 /* EditNicknameViewController.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -302,6 +307,7 @@
 		BD69B8F52A54335D00DDCD7A /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				BD5169442A5A9BD600582BA9 /* SettingViewModel.swift */,
 			);
 			name = ViewModel;
 			sourceTree = "<group>";
@@ -480,11 +486,13 @@
 				5CAB60C32A528C7A00CD431A /* UICollectionView+Extension.swift in Sources */,
 				BDA66FEA2A4075270061A1F0 /* UIImageView+Extension.swift in Sources */,
 				BD77B82E2A388D2E00E7D57A /* HomeViewModel.swift in Sources */,
+				BD5169472A5AA39000582BA9 /* EditNicknameViewController.swift in Sources */,
 				BD69B8F72A54337000DDCD7A /* SettingViewController.swift in Sources */,
 				BDF208FF2A4EAEF2001177B2 /* CGFlot+Extension.swift in Sources */,
 				69FDD4C62A39E42900830927 /* NicknameViewController.swift in Sources */,
 				BD2D01B62A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift in Sources */,
 				BD2D01B22A38889E003A25D5 /* CSButton.swift in Sources */,
+				BD5169452A5A9BD600582BA9 /* SettingViewModel.swift in Sources */,
 				BD2D01B02A38887D003A25D5 /* UIButton+Extension.swift in Sources */,
 				5C1D5A112A3C500A00E66788 /* CSLabel.swift in Sources */,
 				BD50A5222A4C4072005F066E /* SlotMachineViewController.swift in Sources */,
