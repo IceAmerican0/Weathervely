@@ -43,7 +43,6 @@ class CSNavigationView: UIView, CodeBaseInitializerProtocol {
     }
     
     private func generateButton(_ option: ButtonLayout) {
-        print(#function)
         switch option {
         case .leftButton(let image):
             if leftButton == nil {
@@ -125,7 +124,6 @@ class CSNavigationView: UIView, CodeBaseInitializerProtocol {
     }
 
     func setTitle(_ text: String) {
-        print(#function)
         titleLabel.font = .boldSystemFont(ofSize: 22)
         titleLabel.text = text
     }

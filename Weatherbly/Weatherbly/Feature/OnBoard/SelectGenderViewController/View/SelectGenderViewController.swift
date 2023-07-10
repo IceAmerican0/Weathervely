@@ -139,7 +139,6 @@ final class SelectGenderViewController: BaseViewController {
     }
     
     @objc func didTapBackButton() {
-        print(#function)
         self.navigationController?.popViewController(animated: true)
     }
 }
