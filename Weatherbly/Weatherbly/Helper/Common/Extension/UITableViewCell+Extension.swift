@@ -1,13 +1,13 @@
 //
-//  UICollectionViewCell.swift
+//  UITableViewCell+Extension.swift
 //  Weatherbly
 //
-//  Created by 60156056 on 2023/07/03.
+//  Created by 박성준 on 2023/07/05.
 //
 
 import UIKit
 
-extension UICollectionViewCell {
+extension UITableViewCell {
     static var identifier: String {
         String(describing: Self.self)
     }

@@ -9,25 +9,30 @@ import UIKit
 
 extension NSMutableAttributedString {
     
-    func regular(_ string: String, _ fontSize: CGFloat) -> NSMutableAttributedString {
+    func regular(_ string: String, _ fontSize: CGFloat, _ color: CSColor) -> NSMutableAttributedString {
         let font = UIFont.systemFont(ofSize: fontSize)
-        let attributes: [NSAttributedString.Key: Any] = [.font: font]
+        let attributes: [NSAttributedString.Key: Any] = [.font: font,
+                                                         .foregroundColor: color.color]
+        
         self.append(NSAttributedString(string: string, attributes: attributes))
         return self
     }
     
-    func bold(_ string: String, _ fontSize: CGFloat) -> NSMutableAttributedString {
+    func bold(_ string: String, _ fontSize: CGFloat, _ color: CSColor) -> NSMutableAttributedString {
         let font = UIFont.boldSystemFont(ofSize: fontSize)
-        let attributes: [NSAttributedString.Key: Any] = [.font: font]
+        let attributes: [NSAttributedString.Key: Any] = [.font: font,
+                                                         .foregroundColor: color.color]
+        
         self.append(NSAttributedString(string: string, attributes: attributes))
         return self
     }
     
-    func underLine(_ string: String, _ fontSize: CGFloat) -> NSMutableAttributedString {
+    func underLine(_ string: String, _ fontSize: CGFloat, _ color: CSColor) -> NSMutableAttributedString {
         let font = UIFont.systemFont(ofSize: fontSize)
         let attributes: [NSAttributedString.Key: Any] = [
             .font: font,
-            .underlineStyle: NSUnderlineStyle.single.rawValue
+            .underlineStyle: NSUnderlineStyle.single.rawValue,
+            .foregroundColor: color.color
         ]
         
         self.append(NSAttributedString(string: string, attributes: attributes))

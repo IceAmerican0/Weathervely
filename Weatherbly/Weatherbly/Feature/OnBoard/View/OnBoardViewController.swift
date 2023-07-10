@@ -48,9 +48,6 @@ final class OnBoardViewController: BaseViewController {
     }
     
     @objc private func didTapStartButton() {
-        self.navigationController?.pushViewController(SensoryTempViewController(), animated: true)
-//        self.navigationController?.pushViewController(SelectGenderViewController(), animated: true)
-//                self.navigationController?.pushViewController(SettingViewController(), animated: true)
-        
+        self.navigationController?.pushViewController(NicknameViewController(), animated: true)
     }
 }

@@ -17,7 +17,7 @@ class CSNavigationView: UIView, CodeBaseInitializerProtocol {
 //    var height = UIScreen.main.bounds.height * 0.078
     private let wrapperView = UIView()
     private var leftButton = UIButton()
-    private var titleLabel = CSLabel(.bold)
+    private var titleLabel = CSLabel(.bold, 15, "")
     private var rightButton: UIButton?
     
     // MARK: - Control Property

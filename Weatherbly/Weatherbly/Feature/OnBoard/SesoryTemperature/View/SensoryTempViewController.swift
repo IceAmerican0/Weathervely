@@ -20,12 +20,12 @@ final class SensoryTempViewController: BaseViewController {
     var clothViewWrapper = UIView()
     
     var minTempWrapper = UIView()
-    var minTempLabel = CSLabel(.regular)
+    var minTempLabel = CSLabel(.bold, 18, "오전 7시 (3℃)")
     var minTempImageView = UIImageView()
     var minImageSourceLabel = CSLabel(.regular, 11, "by 0000")
     
     var maxTempWrapper = UIView()
-    var maxTempLabel = CSLabel(.regular)
+    var maxTempLabel = CSLabel(.bold, 18, "오후 2시 (3℃)")
     var maxTempImageView = UIImageView()
     var maxImageSourceLabel = CSLabel(.regular, 11, "by 0000")
     
@@ -69,9 +69,8 @@ final class SensoryTempViewController: BaseViewController {
     
         minTempLabel.do {
             $0.attributedText = NSMutableAttributedString()
-                .bold("오전 7시", 18)
-                .bold("(최저 3℃)", 16)
-            $0.textColor = CSColor._40_106_167.color
+                .bold("오전 7시", 18, CSColor._40_106_167)
+                .bold(" (3℃)", 16, CSColor._40_106_167)
             $0.adjustsFontSizeToFitWidth = true
             $0.numberOfLines = 1
         }
@@ -89,9 +88,8 @@ final class SensoryTempViewController: BaseViewController {
     
         maxTempLabel.do {
             $0.attributedText = NSMutableAttributedString()
-                .bold("오후 2시", 18)
-                .bold("(최고 3℃)", 16)
-            $0.textColor = CSColor._178_36_36.color
+                .bold("오후 2시", 18, CSColor._178_36_36)
+                .bold(" (3℃)", 16, CSColor._178_36_36)
             $0.adjustsFontSizeToFitWidth = true
             $0.numberOfLines = 1
         }

@@ -29,7 +29,7 @@ final class SlotMachineViewController: BaseViewController, UIScrollViewDelegate 
     var leftUpperArrowButton = UIButton()
     var leftDownArrowButton = UIButton()
     var minTempWrapper = UIView()
-    var minTempLabel = CSLabel(.regular)
+    var minTempLabel = CSLabel(.regular, 10, "", CSColor.none)
     var leftScrollView = UIScrollView()
     var minImageSourceLabel = CSLabel(.regular, 11, "by 0000")
     
@@ -37,7 +37,7 @@ final class SlotMachineViewController: BaseViewController, UIScrollViewDelegate 
     var rightUpperArrowButton = UIButton()
     var rightDownArrowButton = UIButton()
     var maxTempWrapper = UIView()
-    var maxTempLabel = CSLabel(.regular)
+    var maxTempLabel = CSLabel(.regular, 10, "")
     var rightScrollView = UIScrollView()
     var maxImageSourceLabel = CSLabel(.regular, 11, "by 0000")
     
@@ -130,9 +130,8 @@ final class SlotMachineViewController: BaseViewController, UIScrollViewDelegate 
         minTempLabel.do {
             
             $0.attributedText = NSMutableAttributedString()
-                .bold("오전 7시", 18)
-                .bold("(최저 3℃)", 16)
-            $0.textColor = CSColor._40_106_167.color
+                .bold("오전 7시", 18, CSColor._40_106_167)
+                .bold("(최저 3℃)", 16, CSColor._40_106_167)
             $0.adjustsFontSizeToFitWidth = true
             $0.numberOfLines = 1
         }
@@ -154,9 +153,8 @@ final class SlotMachineViewController: BaseViewController, UIScrollViewDelegate 
     
         maxTempLabel.do {
             $0.attributedText = NSMutableAttributedString()
-                .bold("오후 2시", 18)
-                .bold("(최고 3℃)", 16)
-            $0.textColor = CSColor._178_36_36.color
+                .bold("오후 2시", 18, CSColor._178_36_36)
+                .bold("(최고 3℃)", 16, CSColor._178_36_36)
             $0.adjustsFontSizeToFitWidth = true
             $0.numberOfLines = 1
         }
