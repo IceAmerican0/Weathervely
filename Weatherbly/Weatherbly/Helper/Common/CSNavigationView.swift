@@ -13,19 +13,18 @@ import UIViewBorders
 class CSNavigationView: UIView, CodeBaseInitializerProtocol {
     
     // MARK: - UI Component
-
-//    var height = UIScreen.main.bounds.height * 0.078
     private let wrapperView = UIView()
-    private var leftButton = UIButton()
-    private var titleLabel = CSLabel(.bold, 15, "")
-    private var rightButton: UIButton?
+    public var leftButton = UIButton()
+    public var titleLabel = CSLabel(.bold, 15, "")
+    public var rightButton: UIButton?
+    
+    private var navigationViewHeight = UIScreen.main.bounds.height * 0.08
     
     // MARK: - Control Property
     enum ButtonLayout {
         case leftButton(UIImage?)
         case rightButton(UIImage?, UIImage?)    /// rightButton은 leftButton과 rightButton하나를 가진다.
     }
-    private var navigationViewHeight = UIScreen.main.bounds.height * 0.08
     
     init(_ option: ButtonLayout) {
         super.init(frame: CGRect.zero)

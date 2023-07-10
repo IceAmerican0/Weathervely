@@ -1,36 +1,33 @@
 //
-//  NicknameViewController.swift
+//  SettingRegionViewController.swift
 //  Weatherbly
 //
-//  Created by 박성준 on 2023/06/14.
+//  Created by 박성준 on 2023/07/10.
 //
 
 import UIKit
-import FlexLayout
 import PinLayout
+import FlexLayout
 
-final class NicknameViewController: BaseViewController {
+final class SettingRegionViewController: BaseViewController {
     
     private var progressBar = CSProgressView(0.25)
-    private var backButton = UIButton()
-    private var explanationLabel = CSLabel(.bold, 25, "닉네임을 설정해주세요")
-    private var guideLabel = CSLabel(.bold, 20, "(5글자 이내)")
-    private var inputNickname = UITextField()
+    private var navigationView = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
+    private var explanationLabel = CSLabel(.bold, 25, "동네를 설정해주세요")
+    private var inputRegion = UITextField()
     private var buttonWrapper = UIView()
     private var confirmButton = CSButton(.primary)
     
+    private let textFieldMarginHeight = UIScreen.main.bounds.height * 0.186
     private let buttonMarginBottom = UIScreen.main.bounds.height * 0.1
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.addSubview(buttonWrapper)
-        view.bringSubviewToFront(container)
-        
         registerKeyboardNotifications()
         gestureEndEditing()
         
-        inputNickname.becomeFirstResponder()
+        inputRegion.becomeFirstResponder()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -41,19 +38,18 @@ final class NicknameViewController: BaseViewController {
     override func attribute() {
         super.attribute()
         
-        backButton.do {
-            $0.setImage(AssetsImage.navigationBackButton.image, for: .normal)
-            $0.addTarget(self, action: #selector(goBack), for: .touchUpInside)
+        navigationView.do {
+            $0.setTitle("")
+            $0.leftButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
         }
         
         explanationLabel.do {
             $0.backgroundColor = .white
         }
         
-        inputNickname.do {
-            $0.placeholder = "감자,뽀롱이,써니... 뭐든 좋아요! :)"
+        inputRegion.do {
+            $0.placeholder = "동네 이름(동, 읍, 면)으로 검색"
             $0.textAlignment = .center
-//            $0.addTarget(self, action: #selector(), for: .editingChanged)
         }
         
         confirmButton.do {
@@ -68,10 +64,9 @@ final class NicknameViewController: BaseViewController {
         
         container.flex.alignItems(.center).define { flex in
             flex.addItem(progressBar)
-            flex.addItem(backButton).alignSelf(.start).marginTop(15).left(12).size(44)
+            flex.addItem(navigationView)
             flex.addItem(explanationLabel).marginTop(27)
-            flex.addItem(guideLabel)
-            flex.addItem(inputNickname).marginTop(36).width(330).height(50)
+            flex.addItem(inputRegion).marginTop(textFieldMarginHeight).width(330).height(50)
             flex.addItem(confirmButton).width(88%).height(62)
         }
     }
@@ -81,7 +76,7 @@ final class NicknameViewController: BaseViewController {
     }
     
     @objc private func didTapConfirmButton() {
-        self.navigationController?.pushViewController(SettingRegionViewController(), animated: true)
+        self.navigationController?.pushViewController(SelectGenderViewController(), animated: true)
     }
     
     // MARK: Keyboard Action

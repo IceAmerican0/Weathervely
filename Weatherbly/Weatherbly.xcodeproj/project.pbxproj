@@ -19,6 +19,8 @@
 		5CC61E1F2A56850F001435E6 /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC61E1E2A56850F001435E6 /* DateFormatter+Extension.swift */; };
 		5CC61E212A579D66001435E6 /* DailyForecastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC61E202A579D66001435E6 /* DailyForecastViewController.swift */; };
 		5CC61E232A57C617001435E6 /* DailyForecastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC61E222A57C617001435E6 /* DailyForecastTableViewCell.swift */; };
+		5CC61E262A5BC223001435E6 /* SettingRegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC61E252A5BC223001435E6 /* SettingRegionViewController.swift */; };
+		5CC61E282A5BDCCC001435E6 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC61E272A5BDCCC001435E6 /* UIViewController+Extension.swift */; };
 		69FDD4C62A39E42900830927 /* NicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FDD4C52A39E42900830927 /* NicknameViewController.swift */; };
 		69FDD4CC2A407FA400830927 /* CSProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FDD4CB2A407FA400830927 /* CSProgressView.swift */; };
 		BD2D01892A388753003A25D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D01882A388753003A25D5 /* AppDelegate.swift */; };
@@ -43,7 +45,7 @@
 		BDA66FEA2A4075270061A1F0 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA66FE92A4075270061A1F0 /* UIImageView+Extension.swift */; };
 		BDA66FED2A444C470061A1F0 /* SelectGenderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA66FEC2A444C470061A1F0 /* SelectGenderViewController.swift */; };
 		BDA66FEF2A4459910061A1F0 /* SelectGenderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA66FEE2A4459910061A1F0 /* SelectGenderViewModel.swift */; };
-		BDF208FF2A4EAEF2001177B2 /* CGFlot+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF208FE2A4EAEF2001177B2 /* CGFlot+Extension.swift */; };
+		BDF208FF2A4EAEF2001177B2 /* CGFloat+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF208FE2A4EAEF2001177B2 /* CGFloat+Extension.swift */; };
 		DBC6E28C3234C85CDB9D2255 /* Pods_Weatherbly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 780F5C8A33BDE9DF1F792ACA /* Pods_Weatherbly.framework */; };
 /* End PBXBuildFile section */
 
@@ -60,6 +62,8 @@
 		5CC61E1E2A56850F001435E6 /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
 		5CC61E202A579D66001435E6 /* DailyForecastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyForecastViewController.swift; sourceTree = "<group>"; };
 		5CC61E222A57C617001435E6 /* DailyForecastTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyForecastTableViewCell.swift; sourceTree = "<group>"; };
+		5CC61E252A5BC223001435E6 /* SettingRegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingRegionViewController.swift; sourceTree = "<group>"; };
+		5CC61E272A5BDCCC001435E6 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		69FDD4C52A39E42900830927 /* NicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewController.swift; sourceTree = "<group>"; };
 		69FDD4CB2A407FA400830927 /* CSProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSProgressView.swift; sourceTree = "<group>"; };
 		780F5C8A33BDE9DF1F792ACA /* Pods_Weatherbly.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Weatherbly.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -87,7 +91,7 @@
 		BDA66FE92A4075270061A1F0 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		BDA66FEC2A444C470061A1F0 /* SelectGenderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGenderViewController.swift; sourceTree = "<group>"; };
 		BDA66FEE2A4459910061A1F0 /* SelectGenderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGenderViewModel.swift; sourceTree = "<group>"; };
-		BDF208FE2A4EAEF2001177B2 /* CGFlot+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFlot+Extension.swift"; sourceTree = "<group>"; };
+		BDF208FE2A4EAEF2001177B2 /* CGFloat+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extension.swift"; sourceTree = "<group>"; };
 		FAA16F045D38946941D1488B /* Pods-Weatherbly.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Weatherbly.debug.xcconfig"; path = "Target Support Files/Pods-Weatherbly/Pods-Weatherbly.debug.xcconfig"; sourceTree = "<group>"; };
 		FC569780C89B3B5463299392 /* Pods-Weatherbly.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Weatherbly.release.xcconfig"; path = "Target Support Files/Pods-Weatherbly/Pods-Weatherbly.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -104,6 +108,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5CC61E242A5BC1D0001435E6 /* SettingRegion */ = {
+			isa = PBXGroup;
+			children = (
+				5CC61E252A5BC223001435E6 /* SettingRegionViewController.swift */,
+			);
+			path = SettingRegion;
+			sourceTree = "<group>";
+		};
 		ABF78B6D4AF3C3B85A8E6131 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -193,6 +205,7 @@
 			isa = PBXGroup;
 			children = (
 				BD4316322A3C966400E86271 /* SesoryTemperature */,
+				5CC61E242A5BC1D0001435E6 /* SettingRegion */,
 				BDA66FEB2A444C320061A1F0 /* SelectGenderViewController */,
 				BD2D01A32A3887F3003A25D5 /* ViewModel */,
 				BD2D01A22A3887EA003A25D5 /* View */,
@@ -250,17 +263,18 @@
 		BD2D01A82A38881B003A25D5 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				BD2D01AF2A38887D003A25D5 /* UIButton+Extension.swift */,
-				BD2D01B32A3888AA003A25D5 /* UIColor+Extension.swift */,
-				BD4316372A3CA20900E86271 /* UIView+Extension.swift */,
-				BDA66FE92A4075270061A1F0 /* UIImageView+Extension.swift */,
+				BDF208FE2A4EAEF2001177B2 /* CGFloat+Extension.swift */,
+				5CC61E1E2A56850F001435E6 /* DateFormatter+Extension.swift */,
 				5CAB60B82A4563B300CD431A /* NSMutableAttributedString+Extension.swift */,
-				BDF208FE2A4EAEF2001177B2 /* CGFlot+Extension.swift */,
+				BD2D01AF2A38887D003A25D5 /* UIButton+Extension.swift */,
 				5CAB60C22A528C7A00CD431A /* UICollectionView+Extension.swift */,
 				5CAB60C42A528C9700CD431A /* UICollectionViewCell+Extension.swift */,
+				BD2D01B32A3888AA003A25D5 /* UIColor+Extension.swift */,
+				BDA66FE92A4075270061A1F0 /* UIImageView+Extension.swift */,
 				5CAB60D02A54FC5F00CD431A /* UITableView+Extension.swift */,
 				5CAB60D22A54FC6900CD431A /* UITableViewCell+Extension.swift */,
-				5CC61E1E2A56850F001435E6 /* DateFormatter+Extension.swift */,
+				BD4316372A3CA20900E86271 /* UIView+Extension.swift */,
+				5CC61E272A5BDCCC001435E6 /* UIViewController+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -481,6 +495,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5CC61E262A5BC223001435E6 /* SettingRegionViewController.swift in Sources */,
 				BD69B8F92A553A0C00DDCD7A /* CSNavigationView.swift in Sources */,
 				5CAB60CF2A53F61700CD431A /* TenDaysForecastViewController.swift in Sources */,
 				5CAB60D32A54FC6A00CD431A /* UITableViewCell+Extension.swift in Sources */,
@@ -488,6 +503,7 @@
 				BD2D018D2A388753003A25D5 /* HomeViewController.swift in Sources */,
 				5CAB60BF2A4D6A9D00CD431A /* ClosetFSPagerViewCell.swift in Sources */,
 				5CAB60B92A4563B300CD431A /* NSMutableAttributedString+Extension.swift in Sources */,
+				5CC61E282A5BDCCC001435E6 /* UIViewController+Extension.swift in Sources */,
 				5CAB60D52A54FDFE00CD431A /* TenDaysForecastTableViewCell.swift in Sources */,
 				BD77B82C2A388D2000E7D57A /* OnBoardViewModel.swift in Sources */,
 				BDA66FEF2A4459910061A1F0 /* SelectGenderViewModel.swift in Sources */,
@@ -509,7 +525,7 @@
 				5CAB60D12A54FC5F00CD431A /* UITableView+Extension.swift in Sources */,
 				BD77B82E2A388D2E00E7D57A /* HomeViewModel.swift in Sources */,
 				BD69B8F72A54337000DDCD7A /* SettingViewController.swift in Sources */,
-				BDF208FF2A4EAEF2001177B2 /* CGFlot+Extension.swift in Sources */,
+				BDF208FF2A4EAEF2001177B2 /* CGFloat+Extension.swift in Sources */,
 				69FDD4C62A39E42900830927 /* NicknameViewController.swift in Sources */,
 				BD2D01B62A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift in Sources */,
 				BD2D01B22A38889E003A25D5 /* CSButton.swift in Sources */,
