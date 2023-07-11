@@ -17,6 +17,7 @@ enum AssetsImage: String {
     case settingStyleIcon
     case settingLocationIcon
     case settingInquryIcon
+    case rightArrow
     
     var image: UIImage? {
         return UIImage(named: self.rawValue)
