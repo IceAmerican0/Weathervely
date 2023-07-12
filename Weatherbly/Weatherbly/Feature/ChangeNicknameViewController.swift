@@ -1,17 +1,17 @@
 //
-//  EditNicknameViewController.swift
+//  ChangeNicknameViewController.swift
 //  Weatherbly
 //
-//  Created by 최수훈 on 2023/07/09.
+//  Created by 최수훈 on 2023/07/12.
 //
 
 import UIKit
 import FlexLayout
 import PinLayout
-import RxSwift
 import RxCocoa
+import RxSwift
 
-final class EditNicknameViewController: BaseViewController {
+class ChangeNicknameViewController: BaseViewController {
     
     private var leftButtonDidTapRelay = PublishRelay<Void>()
     private var bag = DisposeBag()
@@ -35,7 +35,6 @@ final class EditNicknameViewController: BaseViewController {
     
     private let genderLableView = UIView()
     private let genderTitleLabel = UILabel()
-    private let genderLabel = UILabel()
     
     private var bottomButton = CSButton(.primary)
     
@@ -120,10 +119,20 @@ final class EditNicknameViewController: BaseViewController {
             $0.addBorder(.right, 3)
         }
         
-        genderLabel.do {
-            $0.font = .systemFont(ofSize: 20)
-            $0.text = "여성"
-            $0.textAlignment = .natural
+        womanButton.do {
+            $0.setTitle("여성", for: .normal)
+            $0.setTitleColor(.black, for: .normal)
+            $0.titleLabel?.font = .boldSystemFont(ofSize: 20)
+            $0.backgroundColor = CSColor._248_248_248.color
+            $0.layer.cornerRadius = 13
+        }
+        
+        manButton.do {
+            $0.setTitle("남성", for: .normal)
+            $0.setTitleColor(.black, for: .normal)
+            $0.titleLabel?.font = .boldSystemFont(ofSize: 20)
+            $0.backgroundColor = CSColor._248_248_248.color
+            $0.layer.cornerRadius = 13
         }
         
         bottomButton.do {
@@ -205,9 +214,24 @@ final class EditNicknameViewController: BaseViewController {
                                             .marginVertical(14)
                                             .width(67)
                                             .marginLeft(26)
-                                        flex.addItem(genderLabel)
-                                            .view?.pin.left(to: genderTitleLabel.edge.right).right(to: genderLableView.edge.right)
+                                        
+                                        flex.addItem(buttonWrapper)
+                                            .marginVertical(9)
                                             .marginLeft(18)
+                                            .grow(0.5)
+                                            .shrink(0.5)
+                                            .direction(.row)
+                                            .define { flex in
+                                            flex.addItem(womanButton)
+                                                    .padding(10)
+                                                    .right(7)
+                                                    .grow(1).shrink(1)
+                                                
+                                            flex.addItem(manButton)
+                                                    .padding(10)
+                                                    .left(7)
+                                                    .grow(1).shrink(1)
+                                        }
                                     }
                         
                         flex.addItem(bottomButton)
@@ -228,27 +252,27 @@ final class EditNicknameViewController: BaseViewController {
                 self?.navigationController?.popViewController(animated: true)
             })
             .disposed(by: bag)
-    
         
-        bottomButton.rx.tap
-            .subscribe(onNext: { [weak self] _ in
-                
-                self?.present(ChangeNicknameViewController(), animated: true)
-                
-//                guard let displayMode = self?.viewModel.bottomButtonDidTap() else {
-//                    return
-//                }
-//                self?.nicknameTextField.setEditMode(displayMode)
-//                self?.genderLabel.setEditMode(displayMode)
-//                UIView.animate(withDuration: 0.5) {
-//                    self?.layout()
-//                }
-//                self?.nicknameTextField.becomeFirstResponder()
-//                self?.nicknameTextFieldWrapper.backgroundColor = CSColor._248_248_248.color
-            })
-
-
-            .disposed(by: bag)
+        womanButton.rx.tap
+            .subscribe { [weak self] _ in
+                if self?.manButton.backgroundColor == CSColor._151_151_151.color {
+                    self?.manButton.backgroundColor = CSColor._248_248_248.color
+                    self?.manButton.setTitleColor(.black, for: .normal)
+                }
+                self?.womanButton.backgroundColor = CSColor._151_151_151.color
+                self?.womanButton.setTitleColor(.white, for: .normal)
+            }
+        
+        manButton.rx.tap
+            .subscribe { [weak self] _ in
+                if self?.womanButton.backgroundColor == CSColor._151_151_151.color {
+                    self?.womanButton.backgroundColor = CSColor._248_248_248.color
+                    self?.womanButton.setTitleColor(.black, for: .normal)
+                }
+                self?.manButton.backgroundColor = CSColor._151_151_151.color
+                self?.manButton.setTitleColor(.white, for: .normal)
+            }
     }
+    
     
 }
