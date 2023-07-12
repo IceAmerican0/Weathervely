@@ -46,7 +46,6 @@ class ChangeNicknameViewController: BaseViewController {
     
     typealias editMode = UITextField.editMode
     var displayMode: editMode = .justShow
-    var displayModeRelay = BehaviorRelay<editMode>(value: .justShow)
     
     
     override func viewDidLoad() {
@@ -89,24 +88,18 @@ class ChangeNicknameViewController: BaseViewController {
             $0.text = "닉네임"
             $0.font = .systemFont(ofSize: 20, weight: .medium)
             $0.addBorder(.right, 3)
-            
         }
         
         nicknameTextFieldWrapper.do {
             $0.layer.cornerRadius = 5
-            
-            if displayModeRelay.value == .justShow {
-                $0.backgroundColor = .clear
-            } else {
-                $0.backgroundColor = CSColor._248_248_248.color
-            }
-            
+            $0.backgroundColor = CSColor._248_248_248.color
         }
         
         nicknameTextField.do {
             $0.font = .systemFont(ofSize: 20)
             $0.text = "(닉네임)"
-            $0.setEditMode(displayModeRelay.value)
+            $0.rightView = UIImageView(image: AssetsImage.textClear.image)
+            $0.rightViewMode = .whileEditing
         }
         
         genderLableView.do {
@@ -136,16 +129,12 @@ class ChangeNicknameViewController: BaseViewController {
         }
         
         bottomButton.do {
-            if displayModeRelay.value == .justShow {
-                $0.setTitle("수정하기", for: .normal)
-            } else {
-                $0.setTitle("확인", for: .normal)
-            }
-            
+            $0.setTitle("확인", for: .normal)
             $0.setTitleColor(.white, for: .normal)
         }
         
         womanButton.do {
+            // TODO: - 전 화면에서 가져온 성별데이로 백그라운드컬러 세팅하기
             $0.setTitle("여성", for: .normal)
             $0.setTitleColor(.black, for: .normal)
             $0.titleLabel?.font = .boldSystemFont(ofSize: 20)
@@ -183,6 +172,7 @@ class ChangeNicknameViewController: BaseViewController {
                                 flex.addItem(rightArrowImage)
                                 flex.addItem(subTitleLabel)
                             }
+                        
                         flex.addItem(nicknameLableView)
                             .marginHorizontal(22)
                             .direction(.row)
@@ -203,7 +193,6 @@ class ChangeNicknameViewController: BaseViewController {
                                             .marginHorizontal(6)
                                             .marginVertical(7)
                                     }
-                                
                             }
                         
                                 flex.addItem(genderLableView)
@@ -253,6 +242,7 @@ class ChangeNicknameViewController: BaseViewController {
             })
             .disposed(by: bag)
         
+        // TODO: - 버튼 클릭시 데이터 저장하기
         womanButton.rx.tap
             .subscribe { [weak self] _ in
                 if self?.manButton.backgroundColor == CSColor._151_151_151.color {
@@ -272,7 +262,17 @@ class ChangeNicknameViewController: BaseViewController {
                 self?.manButton.backgroundColor = CSColor._151_151_151.color
                 self?.manButton.setTitleColor(.white, for: .normal)
             }
+        
+        bottomButton.rx.tap
+            .subscribe { [weak self] _ in
+                // TODO: -
+                // 1. 데이터 수정값 저장하기
+                // 2. 화면 데이터 새로고침
+                self?.navigationController?.popViewController(animated: true)
+            }
     }
+    
+    
     
     
 }

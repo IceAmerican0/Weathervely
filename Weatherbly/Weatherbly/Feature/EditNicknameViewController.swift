@@ -47,8 +47,6 @@ final class EditNicknameViewController: BaseViewController {
     
     typealias editMode = UITextField.editMode
     var displayMode: editMode = .justShow
-    var displayModeRelay = BehaviorRelay<editMode>(value: .justShow)
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,7 +56,6 @@ final class EditNicknameViewController: BaseViewController {
         super.viewDidLayoutSubviews()
     }
 
-    
     override func attribute() {
         super.attribute()
         
@@ -95,19 +92,13 @@ final class EditNicknameViewController: BaseViewController {
         
         nicknameTextFieldWrapper.do {
             $0.layer.cornerRadius = 5
-            
-            if displayModeRelay.value == .justShow {
-                $0.backgroundColor = .clear
-            } else {
-                $0.backgroundColor = CSColor._248_248_248.color
-            }
-            
+            $0.backgroundColor = .clear
         }
         
         nicknameTextField.do {
             $0.font = .systemFont(ofSize: 20)
             $0.text = "(닉네임)"
-            $0.setEditMode(displayModeRelay.value)
+            $0.isEnabled = false
         }
         
         genderLableView.do {
@@ -127,12 +118,7 @@ final class EditNicknameViewController: BaseViewController {
         }
         
         bottomButton.do {
-            if displayModeRelay.value == .justShow {
-                $0.setTitle("수정하기", for: .normal)
-            } else {
-                $0.setTitle("확인", for: .normal)
-            }
-            
+            $0.setTitle("수정하기", for: .normal)
             $0.setTitleColor(.white, for: .normal)
         }
         
