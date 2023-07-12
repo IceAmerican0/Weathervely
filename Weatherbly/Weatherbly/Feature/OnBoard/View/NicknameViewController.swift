@@ -11,7 +11,7 @@ import PinLayout
 
 final class NicknameViewController: BaseViewController {
     
-    private var progressBar = CSProgressView(0.25)
+    private var progressBar = CSProgressView(0.2)
     private var backButton = UIButton()
     private var explanationLabel = CSLabel(.bold, 25, "닉네임을 설정해주세요")
     private var guideLabel = CSLabel(.bold, 20, "(5글자 이내)")

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		5C1D5A112A3C500A00E66788 /* CSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1D5A102A3C500A00E66788 /* CSLabel.swift */; };
+		5C4BE89B2A5E2D1200FD2CEF /* EditRegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4BE89A2A5E2D1200FD2CEF /* EditRegionViewController.swift */; };
+		5C4BE89D2A5E63C000FD2CEF /* RegionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4BE89C2A5E63C000FD2CEF /* RegionCollectionViewCell.swift */; };
 		5CAB60B92A4563B300CD431A /* NSMutableAttributedString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAB60B82A4563B300CD431A /* NSMutableAttributedString+Extension.swift */; };
 		5CAB60BF2A4D6A9D00CD431A /* ClosetFSPagerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAB60BE2A4D6A9D00CD431A /* ClosetFSPagerViewCell.swift */; };
 		5CAB60C32A528C7A00CD431A /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAB60C22A528C7A00CD431A /* UICollectionView+Extension.swift */; };
@@ -51,6 +53,8 @@
 
 /* Begin PBXFileReference section */
 		5C1D5A102A3C500A00E66788 /* CSLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSLabel.swift; sourceTree = "<group>"; };
+		5C4BE89A2A5E2D1200FD2CEF /* EditRegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRegionViewController.swift; sourceTree = "<group>"; };
+		5C4BE89C2A5E63C000FD2CEF /* RegionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionCollectionViewCell.swift; sourceTree = "<group>"; };
 		5CAB60B82A4563B300CD431A /* NSMutableAttributedString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Extension.swift"; sourceTree = "<group>"; };
 		5CAB60BE2A4D6A9D00CD431A /* ClosetFSPagerViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetFSPagerViewCell.swift; sourceTree = "<group>"; };
 		5CAB60C22A528C7A00CD431A /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
@@ -112,6 +116,7 @@
 			isa = PBXGroup;
 			children = (
 				5CC61E252A5BC223001435E6 /* SettingRegionViewController.swift */,
+				5C4BE89C2A5E63C000FD2CEF /* RegionCollectionViewCell.swift */,
 			);
 			path = SettingRegion;
 			sourceTree = "<group>";
@@ -330,6 +335,7 @@
 			isa = PBXGroup;
 			children = (
 				BD69B8F62A54337000DDCD7A /* SettingViewController.swift */,
+				5C4BE89A2A5E2D1200FD2CEF /* EditRegionViewController.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -498,6 +504,7 @@
 				5CC61E262A5BC223001435E6 /* SettingRegionViewController.swift in Sources */,
 				BD69B8F92A553A0C00DDCD7A /* CSNavigationView.swift in Sources */,
 				5CAB60CF2A53F61700CD431A /* TenDaysForecastViewController.swift in Sources */,
+				5C4BE89D2A5E63C000FD2CEF /* RegionCollectionViewCell.swift in Sources */,
 				5CAB60D32A54FC6A00CD431A /* UITableViewCell+Extension.swift in Sources */,
 				BD2D01B42A3888AA003A25D5 /* UIColor+Extension.swift in Sources */,
 				BD2D018D2A388753003A25D5 /* HomeViewController.swift in Sources */,
@@ -513,6 +520,7 @@
 				BD4316362A3C9DB700E86271 /* AssetsImage.swift in Sources */,
 				BDA66FED2A444C470061A1F0 /* SelectGenderViewController.swift in Sources */,
 				BD4316342A3C967900E86271 /* SensoryTempViewController.swift in Sources */,
+				5C4BE89B2A5E2D1200FD2CEF /* EditRegionViewController.swift in Sources */,
 				69FDD4CC2A407FA400830927 /* CSProgressView.swift in Sources */,
 				BD77B8282A388C9400E7D57A /* CSColor.swift in Sources */,
 				BD77B82A2A388CEF00E7D57A /* OnBoardViewController.swift in Sources */,
