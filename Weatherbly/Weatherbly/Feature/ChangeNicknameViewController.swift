@@ -31,7 +31,7 @@ class ChangeNicknameViewController: BaseViewController {
     /// 따라서 CSLabel을 커스텀하기 보다 CSStyle의 폰트를 컴포넌트화 하는 것이 더 올발라 보인다..
 //    private let nicknameTextField = CSLabel(.regular,20, "닉네임")
     private let nicknameTextFieldWrapper = UIView()
-    private let nicknameTextField = UITextField()
+    private let nicknameTextField = UITextField.neatKeyboard()
     
     private let genderLableView = UIView()
     private let genderTitleLabel = UILabel()
@@ -98,8 +98,9 @@ class ChangeNicknameViewController: BaseViewController {
         nicknameTextField.do {
             $0.font = .systemFont(ofSize: 20)
             $0.text = "(닉네임)"
-            $0.rightView = UIImageView(image: AssetsImage.textClear.image)
-            $0.rightViewMode = .whileEditing
+            $0.setClearButton(AssetsImage.textClear.image, .whileEditing)
+            $0.becomeFirstResponder()
+            $0.delegate = self
         }
         
         genderLableView.do {
@@ -272,7 +273,14 @@ class ChangeNicknameViewController: BaseViewController {
             }
     }
     
-    
-    
-    
 }
+
+extension ChangeNicknameViewController: UITextFieldDelegate {
+
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        print(#function)
+        textField.resignFirstResponder()
+        return true
+    }
+}
+
