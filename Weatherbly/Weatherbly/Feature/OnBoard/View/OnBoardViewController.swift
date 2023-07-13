@@ -52,6 +52,7 @@ final class OnBoardViewController: BaseViewController {
     }
     
     @objc private func didTapStartButton() {
-        self.navigationController?.pushViewController(NicknameViewController(), animated: true)
+        self.navigationController?.pushViewController(ChangeNicknameViewController(), animated: true)
     }
+
 }
