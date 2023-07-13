@@ -49,7 +49,7 @@ class CSButton: UIButton, CodeBaseInitializerProtocol {
                 } else if  $0.state == .highlighted {
                     $0.backgroundColor = .red
                 } else {
-                    $0.backgroundColor = CSColor._186_141_244.color
+                    $0.backgroundColor = CSColor._172_107_255.color
                 }
                 $0.layer.cornerRadius = 10.0
                 $0.titleLabel?.textColor = .white

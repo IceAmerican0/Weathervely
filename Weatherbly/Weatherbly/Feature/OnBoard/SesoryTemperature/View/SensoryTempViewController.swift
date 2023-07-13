@@ -160,7 +160,6 @@ final class SensoryTempViewController: BaseViewController {
     }
     
     @objc private func didTapnavigationBackButton(_ sender: UIButton) {
-        print(#function)
         self.navigationController?.popViewController(animated: true)
     }
     

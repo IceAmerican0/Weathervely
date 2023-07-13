@@ -36,13 +36,17 @@ final class OnBoardViewController: BaseViewController {
     override func layout() {
         super.layout()
     
-        container.flex.alignItems(.center).justifyContent(.spaceAround)
+        container.flex
+//            .alignItems(.center)
+            .justifyContent(.spaceAround)
             .define { flex in
                 flex.addItem(topGreetingLabel)
-                flex.addItem(logo).width(35%).height(23%)
+                flex.addItem(logo).width(35%).height(23%).alignSelf(.center)
                 flex.addItem(bottomGreetingLabel)
                 flex.addItem(startButton).height(buttonHeight).define { flex in
-                    startButton.pin.left(43).right(43)
+                    flex.marginHorizontal(43)
+                        .height(startButton.primaryHeight)
+//                    startButton.pin.left(43).right(43)
                 }
         }
     }

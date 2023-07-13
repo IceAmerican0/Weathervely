@@ -113,7 +113,7 @@ final class SelectGenderViewController: BaseViewController {
                 
         }
         
-        acceptButton.pin.bottom(view.pin.safeArea + 20)
+        acceptButton.pin.bottom(view.pin.safeArea + 5)
     }
     
     override func bind() {
@@ -139,7 +139,6 @@ final class SelectGenderViewController: BaseViewController {
     }
     
     @objc func didTapBackButton() {
-        print(#function)
         self.navigationController?.popViewController(animated: true)
     }
 }

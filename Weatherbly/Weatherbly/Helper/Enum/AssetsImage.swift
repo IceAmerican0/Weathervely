@@ -41,6 +41,8 @@ enum AssetsImage: String {
     case settingStyleIcon
     case settingLocationIcon
     case settingInquryIcon
+    case rightArrow
+    case textClear
     
     // Weather
     case cloudyMoonMain

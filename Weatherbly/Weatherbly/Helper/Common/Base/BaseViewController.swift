@@ -60,5 +60,8 @@ class BaseViewController: UIViewController, CodeBaseInitializerProtocol{
     // MARK: - Bind
     func bind() { }
 
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
     
 }
