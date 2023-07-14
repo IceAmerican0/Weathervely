@@ -1,0 +1,36 @@
+//
+//  RegionAPI.swift
+//  Weatherbly
+//
+//  Created by 박성준 on 2023/07/14.
+//
+
+import Moya
+
+public enum RegionAPI {
+    case searchRegion(_ request: SearchRegionRequest)
+}
+
+extension RegionAPI: TargetType {
+    public var baseURL: URL {
+        guard let baseURL = URL(string: "https://dapi.kakao.com/v2/local/search/address.json") else {
+            fatalError("BaseURL 세팅 실패")
+        }
+        return baseURL
+    }
+    
+    public var method: Moya.Method { .get }
+    
+    public var path: String { "" }
+    
+    public var headers: [String : String]? {
+        ["Authorization": "KakaoAK 94e9855982bd4da35238debd0d23a313"]
+    }
+    
+    public var task: Moya.Task {
+        switch self {
+        case .searchRegion(let searchRequest):
+            return .requestJSONEncodable(searchRequest)
+        }
+    }
+}

@@ -39,6 +39,7 @@ class BaseViewController: UIViewController, CodeBaseInitializerProtocol{
         container.pin.all(view.pin.safeArea)
         container.flex.layout()
         
+        attribute()
         layout()
     }
     

@@ -25,7 +25,7 @@ final class SettingRegionViewController: BaseViewController {
     
     private let textFieldMarginHeight = UIScreen.main.bounds.height * 0.33
     private let textFieldWidth = UIScreen.main.bounds.width * 0.63
-    private let buttonMarginBottom = UIScreen.main.bounds.height * 0.1
+    private let buttonMarginBottom = UIScreen.main.bounds.height * 0.06
     
     var isFromEdit = false
     
@@ -45,6 +45,7 @@ final class SettingRegionViewController: BaseViewController {
     
     override func attribute() {
         super.attribute()
+        print(#function)
         
         explanationLabel.do {
             $0.backgroundColor = .white
@@ -65,8 +66,8 @@ final class SettingRegionViewController: BaseViewController {
             $0.textAlignment = .center
         }
         
-        
         cancelButton.do {
+            $0.setImage(AssetsImage.cancel.image, for: .normal)
             $0.addTarget(self, action: #selector(didTapCancel), for: .touchUpInside)
         }
         
@@ -129,15 +130,14 @@ final class SettingRegionViewController: BaseViewController {
     
     private func showResult() {
         inputWrapper.pin.topCenter(to: explanationLabel.anchor.bottomCenter).marginTop(22)
+        inputWrapper.layoutIfNeeded()
         
         if let text = inputRegion.text {
             explanationLabel.text = "'\(text)' 검색 결과에요"
             view.endEditing(true)
-            unregisterKeyboardNotifications()
-            confirmButton.hide()
+            confirmButton.isHidden = true
         } else { return }
         
-//        view.setNeedsLayout()
     }
     
     // MARK: Keyboard Action
