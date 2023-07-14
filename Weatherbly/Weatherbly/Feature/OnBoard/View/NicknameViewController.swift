@@ -11,7 +11,7 @@ import PinLayout
 
 final class NicknameViewController: BaseViewController {
     
-    private var progressBar = CSProgressView(0.25)
+    private var progressBar = CSProgressView(0.2)
     private var backButton = UIButton()
     private var explanationLabel = CSLabel(.bold, 25, "닉네임을 설정해주세요")
     private var guideLabel = CSLabel(.bold, 20, "(5글자 이내)")
@@ -27,11 +27,15 @@ final class NicknameViewController: BaseViewController {
         view.addSubview(buttonWrapper)
         view.bringSubviewToFront(container)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        registerKeyboardNotifications()
+        gestureEndEditing()
         
         inputNickname.becomeFirstResponder()
-        view.addGestureRecognizer(UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing(_:))))
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        unregisterKeyboardNotifications()
     }
     
     override func attribute() {
@@ -49,6 +53,7 @@ final class NicknameViewController: BaseViewController {
         inputNickname.do {
             $0.placeholder = "감자,뽀롱이,써니... 뭐든 좋아요! :)"
             $0.textAlignment = .center
+//            $0.addTarget(self, action: #selector(), for: .editingChanged)
         }
         
         confirmButton.do {
@@ -69,8 +74,6 @@ final class NicknameViewController: BaseViewController {
             flex.addItem(inputNickname).marginTop(36).width(330).height(50)
             flex.addItem(confirmButton).width(88%).height(62)
         }
-        
-        confirmButton.pin.bottom(buttonMarginBottom)
     }
     
     @objc private func goBack() {
@@ -78,19 +81,19 @@ final class NicknameViewController: BaseViewController {
     }
     
     @objc private func didTapConfirmButton() {
-        self.navigationController?.pushViewController(HomeViewController(), animated: true)
+        self.navigationController?.pushViewController(SettingRegionViewController(), animated: true)
     }
     
     // MARK: Keyboard Action
-    @objc func keyboardWillShow(notification: NSNotification) {
+    override func keyboardWillShow(_ notification: Notification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
                 confirmButton.frame.origin.y -= keyboardSize.height
             }
         }
     }
-
-    @objc func keyboardWillHide(notification: NSNotification) {
+    
+    override func keyboardWillHide(_ notification: Notification) {
         confirmButton.pin.bottom(buttonMarginBottom)
     }
 }

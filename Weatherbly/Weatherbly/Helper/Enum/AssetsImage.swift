@@ -9,11 +9,10 @@ import UIKit
 enum AssetsImage: String {
     
     // Arrow
-    case navigationBackButton
-    case upArrow
     case downArrow
-    case editNameIcon
-    case whiteHeart
+    case navigationBackButton
+    case rightArrow
+    case upArrow
     
     // Background
     case cloudyAfternoon
@@ -28,20 +27,23 @@ enum AssetsImage: String {
     case sunnyMorning
     
     // Common
+    case cancel
     case daily
     case dust
     case humidity
     case rain
     case schedule
+    case search
     case setting
     case thermometer
+    case whiteHeart
     
     // Setting
+    case editNameIcon
     case settingTemperatureIcon
     case settingStyleIcon
     case settingLocationIcon
     case settingInquryIcon
-    case rightArrow
     case textClear
     
     // Weather
