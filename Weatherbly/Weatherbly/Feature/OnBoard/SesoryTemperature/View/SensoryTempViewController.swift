@@ -120,33 +120,34 @@ final class SensoryTempViewController: BaseViewController {
                 flex.addItem(navigationBackButton).left(12).size(44).marginTop(15)
             }
 
-                flex.addItem(mainMessageLabel).marginBottom(24).marginTop(10)
+            flex.addItem(mainMessageLabel).marginBottom(24).marginTop(10)
 
-                flex.addItem(clothViewWrapper).direction(.row)
-                    .marginHorizontal(27)
-                    .define { flex in
-                    flex.addItem(minTempWrapper)
-                            .grow(1)
-                            .shrink(1)
-                            .marginRight(5)
-                            .alignItems(.center)
-                            .define { flex in
-                        flex.addItem(minTempLabel).marginTop(11).marginHorizontal(20)
-                        flex.addItem(minTempImageView).marginTop(10).width(70%).height(imageHeight)
-                        flex.addItem(minImageSourceLabel).marginTop(7).marginBottom(7)
-                    }
-
-                    flex.addItem(maxTempWrapper)
-                            .grow(1)
-                            .shrink(1)
-                            .marginLeft(5)
-                            .alignItems(.center)
-                            .define { flex in
-                        flex.addItem(maxTempLabel).marginTop(11).marginHorizontal(20)
-                        flex.addItem(maxTempImageView).marginTop(10).width(70%).height(imageHeight)
-                        flex.addItem(maxImageSourceLabel).marginTop(7).marginBottom(7)
-                    }
+            flex.addItem(clothViewWrapper).direction(.row)
+                .marginHorizontal(27)
+                .define { flex in
+                flex.addItem(minTempWrapper)
+                        .grow(1)
+                        .shrink(1)
+                        .marginRight(5)
+                        .alignItems(.center)
+                        .define { flex in
+                    flex.addItem(minTempLabel).marginTop(11).marginHorizontal(20)
+                    flex.addItem(minTempImageView).marginTop(10).width(70%).height(imageHeight)
+                    flex.addItem(minImageSourceLabel).marginTop(7).marginBottom(7)
                 }
+
+                flex.addItem(maxTempWrapper)
+                        .grow(1)
+                        .shrink(1)
+                        .marginLeft(5)
+                        .alignItems(.center)
+                        .define { flex in
+                    flex.addItem(maxTempLabel).marginTop(11).marginHorizontal(20)
+                    flex.addItem(maxTempImageView).marginTop(10).width(70%).height(imageHeight)
+                    flex.addItem(maxImageSourceLabel).marginTop(7).marginBottom(7)
+                }
+            }
+            
             flex.addItem(buttonWrapper)
                 .justifyContent(.center)
                 .marginTop(39)

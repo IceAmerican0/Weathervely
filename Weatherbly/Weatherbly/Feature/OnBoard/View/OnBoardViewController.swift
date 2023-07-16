@@ -43,16 +43,14 @@ final class OnBoardViewController: BaseViewController {
                 flex.addItem(topGreetingLabel)
                 flex.addItem(logo).width(35%).height(23%).alignSelf(.center)
                 flex.addItem(bottomGreetingLabel)
-                flex.addItem(startButton).height(buttonHeight).define { flex in
-                    flex.marginHorizontal(43)
-                        .height(startButton.primaryHeight)
-//                    startButton.pin.left(43).right(43)
-                }
+                flex.addItem(startButton)
+                    .marginHorizontal(43)
+                    .height(startButton.primaryHeight)
         }
     }
     
     @objc private func didTapStartButton() {
-        self.navigationController?.pushViewController(ChangeNicknameViewController(), animated: true)
+        self.navigationController?.pushViewController(DateTimePickViewController(), animated: true)
     }
 
 }

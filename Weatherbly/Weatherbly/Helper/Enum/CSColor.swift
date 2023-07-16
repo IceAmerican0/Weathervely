@@ -19,15 +19,19 @@ enum CSColor {
     case _178_36_36
     case _186_141_244
     case _209_240_252
-    case _212_195_233_39
+    case _210_210_210
     case _210_175_255
+    case _212_195_233_39
     case _214_214_214
     case _220_220_220
     case _236_207_255
+    case _237_237_237
     case _248_248_248
     case _253_253_253
     case _255_163_163
+    case _255_255_255
     
+
     var color: UIColor {
         switch self {
         case .none:
@@ -52,22 +56,28 @@ enum CSColor {
             return UIColor(r: 186, g: 141, b: 244)
         case ._209_240_252:
             return UIColor(r: 209, g: 240, b: 252)
-        case ._212_195_233_39:
-            return UIColor(r: 212, g: 195, b: 233, a: 0.39)
+        case ._210_210_210:
+            return UIColor(r: 210, g: 210, b: 210)
         case ._210_175_255:
             return UIColor(r: 210, g: 175, b: 255)
+        case ._212_195_233_39:
+            return UIColor(r: 212, g: 195, b: 233, a: 0.39)
         case ._214_214_214:
             return UIColor(r: 214, g: 214, b: 214)
         case ._220_220_220:
             return UIColor(r: 220, g: 220, b: 220)
         case ._236_207_255:
             return UIColor(r: 236, g: 207, b: 255)
+        case ._237_237_237:
+            return UIColor(r: 237, g: 237, b: 237, a: 0.5)
         case ._248_248_248:
             return UIColor(r: 248, g: 248, b: 248)
         case ._253_253_253:
             return UIColor(r: 253, g: 253, b: 253)
         case ._255_163_163:
             return UIColor(r: 255, g: 163, b: 163)
+        case ._255_255_255:
+            return UIColor(r: 255, g: 255, b: 255, a: 0.5)
         }
     }
     

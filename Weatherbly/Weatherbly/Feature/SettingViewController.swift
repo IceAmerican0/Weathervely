@@ -98,6 +98,8 @@ final class SettingViewController: BaseViewController {
         }
         
         styleButton.do {
+            /// 기본 shoadowColor는 _0__03 컬러를 사용하나, 여기서는 배경때문에 잘 보이지 않아서
+            /// 더 명확하게 보이기위해서 black 컬러사용
             $0.setShadow(CGSize(width: 0, height: 3), UIColor.black.cgColor, 0.25,  2)
             $0.setTitle("스타일 선택", for: .normal)
             $0.titleLabel?.font = .systemFont(ofSize: 17,weight: .medium)

@@ -229,7 +229,7 @@ class ChangeNicknameViewController: BaseViewController {
                             .height(bottomButton.primaryHeight)
                             .marginTop(UIScreen.main.bounds.height * 0.44)
 
-//                        bottomButton.pin.bottom(to: contentWrapper.edge.bottom).marginBottom(10)
+                        bottomButton.pin.bottom(53)
                     }
             }
     }

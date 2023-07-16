@@ -40,6 +40,7 @@ class BaseViewController: UIViewController, CodeBaseInitializerProtocol{
         container.flex.layout()
         
         layout()
+        attribute()
     }
     
     override func viewDidLoad() {
@@ -52,7 +53,9 @@ class BaseViewController: UIViewController, CodeBaseInitializerProtocol{
     }
  
     // MARK: - Attribute
-    func attribute() { }
+    func attribute() {
+        print("base viewDid222222")
+    }
     
     // MARK: - Layout
     func layout() { }

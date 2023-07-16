@@ -56,16 +56,10 @@ extension UIView {
         self.layer.cornerRadius = radius ?? 0
         }
         
-        // 확인해보기
-        func gradientLayer(color: (start: CGColor, end: CGColor), position: (start: CGPoint, end: CGPoint)) {
-            let gradientLayer = CAGradientLayer()
-            gradientLayer.locations = [0.0, 1.0]
-            gradientLayer.colors = [color.start, color.end]
-            gradientLayer.startPoint = position.start
-            gradientLayer.endPoint = position.end
-            gradientLayer.frame = self.bounds
-            self.layer.insertSublayer(gradientLayer, at: 0)
-        }
+    func addGradientLayer(_ caGradientLayer: CAGradientLayer) {
+        caGradientLayer.frame = self.bounds
+        self.layer.insertSublayer(caGradientLayer, at: 0)
+    }
         
         func setBackgroundWithCSColor(_ cscolor: CSColor) {
             self.backgroundColor = cscolor.color
