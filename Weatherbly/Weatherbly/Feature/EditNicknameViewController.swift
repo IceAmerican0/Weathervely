@@ -11,11 +11,9 @@ import PinLayout
 import RxSwift
 import RxCocoa
 
-final class EditNicknameViewController: BaseViewController {
+final class EditNicknameViewController: RxBaseViewController<EditNicknameViewModel> {
     
     private var leftButtonDidTapRelay = PublishRelay<Void>()
-    private var bag = DisposeBag()
-    private let viewModel = EditNicknameViewModel()
     private var csNavigationView = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
     
     private let contentWrapper = UIView()
@@ -219,7 +217,7 @@ final class EditNicknameViewController: BaseViewController {
         bottomButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 
-                self?.present(ChangeNicknameViewController(), animated: true)
+                self?.present(ChangeNicknameViewController(EmptyViewModel()), animated: true)
                 
 //                guard let displayMode = self?.viewModel.bottomButtonDidTap() else {
 //                    return

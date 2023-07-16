@@ -9,7 +9,7 @@ import UIKit
 import PinLayout
 import FlexLayout
 
-final class EditRegionViewController: BaseViewController {
+final class EditRegionViewController: RxBaseViewController<EmptyViewModel> {
     
     private var navigationView = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
     
@@ -77,7 +77,7 @@ final class EditRegionViewController: BaseViewController {
     }
     
     @objc private func didTapConfirmButton() {
-        let viewController = SettingRegionViewController()
+        let viewController = SettingRegionViewController(EmptyViewModel())
         viewController.isFromEdit = true
         self.navigationController?.pushViewController(viewController, animated: true)
     }

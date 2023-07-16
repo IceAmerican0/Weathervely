@@ -11,7 +11,7 @@ import PinLayout
 import RxCocoa
 import RxSwift
 
-final class DateTimePickViewController: BaseViewController {
+final class DateTimePickViewController: RxBaseViewController<EmptyViewModel> {
     
     var pickerFirstRowData = ["어제","오늘"]
     var pickerSecondRowData = ["오전","오후"]

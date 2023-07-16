@@ -11,7 +11,7 @@ import PinLayout
 import RxSwift
 import RxCocoa
 
-final class SelectGenderViewModel {
+final class SelectGenderViewModel: RxBaseViewModel {
     
     
 }

@@ -8,8 +8,10 @@
 import UIKit
 import PinLayout
 import FlexLayout
+import RxSwift
+import RxRelay
 
-final class SettingRegionViewController: BaseViewController {
+final class SettingRegionViewController: RxBaseViewController<EmptyViewModel> {
     
     private var progressBar = CSProgressView(0.4)
     private var navigationView = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
@@ -28,6 +30,8 @@ final class SettingRegionViewController: BaseViewController {
     private let buttonMarginBottom = UIScreen.main.bounds.height * 0.1
     
     var isFromEdit = false
+    
+    let navigationLeftButtonDidTapRelay = PublishRelay<Void>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -115,8 +119,14 @@ final class SettingRegionViewController: BaseViewController {
         }
     }
     
-    @objc private func goBack() {
-        self.navigationController?.popViewController(animated: true)
+    override func viewBinding() {
+        super.viewBinding()
+        
+        navigationView
+            .leftButtonDidTapRelay
+            .bind(to: viewModel.navigationPopViewControllerRelay)
+            .disposed(by: bag)
+                
     }
     
     @objc private func didTapCancel() {

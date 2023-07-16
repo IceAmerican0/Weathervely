@@ -10,7 +10,7 @@ import PinLayout
 import FlexLayout
 import FSPagerView
 
-class HomeViewController: BaseViewController {
+class HomeViewController: RxBaseViewController<EmptyViewModel> {
     
     private var backgroundView = UIView()
     private var backgroundImage = UIImageView()
@@ -147,15 +147,15 @@ class HomeViewController: BaseViewController {
     }
     
     @objc private func goToSetting() {
-        self.navigationController?.pushViewController(SensoryTempViewController(), animated: true)
+        self.navigationController?.pushViewController(SensoryTempViewController(EmptyViewModel()), animated: true)
     }
     
     @objc private func goToTenDays() {
-        self.navigationController?.pushViewController(TenDaysForeCastViewController(), animated: true)
+        self.navigationController?.pushViewController(TenDaysForeCastViewController(EmptyViewModel()), animated: true)
     }
     
     @objc private func goToDaily() {
-        self.navigationController?.pushViewController(DailyForecastViewController(), animated: true)
+        self.navigationController?.pushViewController(DailyForecastViewController(EmptyViewModel()), animated: true)
     }
 }
 

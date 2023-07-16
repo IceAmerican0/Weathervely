@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DailyForecastViewController: BaseViewController {
+class DailyForecastViewController: RxBaseViewController<EmptyViewModel> {
     
     private var topLayoutWrapper = UIView()
     private var settingButton = UIButton()
@@ -70,7 +70,7 @@ class DailyForecastViewController: BaseViewController {
     }
     
     @objc private func goToSetting() {
-        self.navigationController?.pushViewController(SensoryTempViewController(), animated: true)
+        self.navigationController?.pushViewController(SensoryTempViewController(EmptyViewModel()), animated: true)
     }
     
     @objc private func goBack() {

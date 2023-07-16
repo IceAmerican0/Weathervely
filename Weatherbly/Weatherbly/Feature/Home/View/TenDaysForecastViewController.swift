@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TenDaysForeCastViewController: BaseViewController {
+class TenDaysForeCastViewController: RxBaseViewController<EmptyViewModel> {
     
     private var topLayoutWrapper = UIView()
     private var settingButton = UIButton()
@@ -77,7 +77,7 @@ class TenDaysForeCastViewController: BaseViewController {
     }
     
     @objc private func goToSetting() {
-        self.navigationController?.pushViewController(SensoryTempViewController(), animated: true)
+        self.navigationController?.pushViewController(SensoryTempViewController(EmptyViewModel()), animated: true)
     }
     
     @objc private func goBack() {

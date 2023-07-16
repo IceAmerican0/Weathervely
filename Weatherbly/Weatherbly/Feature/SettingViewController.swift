@@ -10,10 +10,9 @@ import FlexLayout
 import RxCocoa
 import RxSwift
 
-final class SettingViewController: BaseViewController {
+final class SettingViewController: RxBaseViewController<EmptyViewModel> {
     
     var leftButtonDidTapRelay = PublishRelay<Void>()
-    var bag = DisposeBag()
     
     // MARK: - Component
 
@@ -245,7 +244,7 @@ final class SettingViewController: BaseViewController {
         
         editButton.rx.tap
             .subscribe { [weak self] _ in
-                self?.navigationController?.pushViewController(EditNicknameViewController(), animated: true)
+                self?.navigationController?.pushViewController(EditNicknameViewController(EditNicknameViewModel()), animated: true)
             }.disposed(by: bag)
         
     }

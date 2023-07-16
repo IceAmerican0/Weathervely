@@ -9,7 +9,7 @@ import UIKit
 import FlexLayout
 import PinLayout
 
-final class SensoryTempViewController: BaseViewController {
+final class SensoryTempViewController: RxBaseViewController<EmptyViewModel> {
     
     var headerWrapper = UIView()
     var progressBar = CSProgressView(1.0)
@@ -165,7 +165,7 @@ final class SensoryTempViewController: BaseViewController {
     }
     
     @objc func didTapDenyButton() {
-        self.navigationController?.pushViewController(SlotMachineViewController(), animated: true)
+        self.navigationController?.pushViewController(SlotMachineViewController(EmptyViewModel()), animated: true)
     }
     
 }

@@ -9,7 +9,7 @@ import UIKit
 import FlexLayout
 import PinLayout
 
-final class NicknameViewController: BaseViewController {
+final class NicknameViewController: RxBaseViewController<EmptyViewModel> {
     
     private var progressBar = CSProgressView(0.2)
     private var backButton = UIButton()
@@ -81,7 +81,7 @@ final class NicknameViewController: BaseViewController {
     }
     
     @objc private func didTapConfirmButton() {
-        self.navigationController?.pushViewController(SettingRegionViewController(), animated: true)
+        self.navigationController?.pushViewController(SettingRegionViewController(EmptyViewModel()), animated: true)
     }
     
     // MARK: Keyboard Action

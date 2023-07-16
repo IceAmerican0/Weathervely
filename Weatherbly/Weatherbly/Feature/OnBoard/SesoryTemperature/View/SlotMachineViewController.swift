@@ -9,7 +9,7 @@ import UIKit
 import FlexLayout
 import PinLayout
 
-final class SlotMachineViewController: BaseViewController, UIScrollViewDelegate {
+final class SlotMachineViewController: RxBaseViewController<EmptyViewModel>, UIScrollViewDelegate {
     
     // MARK: - Property
 

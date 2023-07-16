@@ -11,11 +11,7 @@ import PinLayout
 import RxSwift
 import RxCocoa
 
-final class SelectGenderViewController: BaseViewController {
-    
-    
-    var viewModel = SelectGenderViewModel()
-    var bag = DisposeBag()
+final class SelectGenderViewController: RxBaseViewController<SelectGenderViewModel> {
     
     // MARK: - Component
      var progressBar = UIProgressView()
