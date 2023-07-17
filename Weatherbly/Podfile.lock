@@ -1,56 +1,32 @@
 PODS:
-  - Alamofire (5.6.4)
   - FlexLayout (1.3.32)
   - FSPagerView (0.8.3)
-  - Moya (15.0.0):
-    - Moya/Core (= 15.0.0)
-  - Moya/Core (15.0.0):
-    - Alamofire (~> 5.0)
   - PinLayout (1.10.4)
-  - RxCocoa (6.5.0):
-    - RxRelay (= 6.5.0)
-    - RxSwift (= 6.5.0)
-  - RxRelay (6.5.0):
-    - RxSwift (= 6.5.0)
-  - RxSwift (6.5.0)
   - Then (3.0.0)
   - UIViewBorders (1.0.0)
 
 DEPENDENCIES:
   - FlexLayout
   - FSPagerView
-  - Moya (~> 15.0)
   - PinLayout
-  - RxCocoa (~> 6.5.0)
-  - RxSwift (~> 6.5.0)
   - Then
   - UIViewBorders
 
 SPEC REPOS:
   trunk:
-    - Alamofire
     - FlexLayout
     - FSPagerView
-    - Moya
     - PinLayout
-    - RxCocoa
-    - RxRelay
-    - RxSwift
     - Then
     - UIViewBorders
 
 SPEC CHECKSUMS:
-  Alamofire: 4e95d97098eacb88856099c4fc79b526a299e48c
   FlexLayout: 9184986cace599a581164c8e4af8c860698837af
   FSPagerView: 670405b2f18e2a87fa37f20b00de783e562c25a8
-  Moya: 138f0573e53411fb3dc17016add0b748dfbd78ee
   PinLayout: f8a677ce0cd1cfe96b58435d029b4ceb4ce9c04c
-  RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
-  RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
-  RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
   Then: 844265ae87834bbe1147d91d5d41a404da2ec27d
   UIViewBorders: 5de80248cccb5909946bab86da8d0fc76a33add1
 
-PODFILE CHECKSUM: c8b3d268bc93f4aeee31f257858ab60e7d324251
+PODFILE CHECKSUM: 82bdca8e855883cff3f38a5b9c653c48fb23fea9
 
-COCOAPODS: 1.12.0
+COCOAPODS: 1.12.1

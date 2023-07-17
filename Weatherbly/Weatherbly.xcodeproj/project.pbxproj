@@ -8,6 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		5C1D5A112A3C500A00E66788 /* CSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1D5A102A3C500A00E66788 /* CSLabel.swift */; };
+		5C23DB8F2A65045C00F41574 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 5C23DB8E2A65045C00F41574 /* RxCocoa */; };
+		5C23DB932A65045C00F41574 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 5C23DB922A65045C00F41574 /* RxRelay */; };
+		5C23DB972A65045C00F41574 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 5C23DB962A65045C00F41574 /* RxSwift */; };
+		5C23DB9C2A65048200F41574 /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 5C23DB9B2A65048200F41574 /* CombineMoya */; };
+		5C23DB9E2A65048200F41574 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 5C23DB9D2A65048200F41574 /* Moya */; };
+		5C23DBA02A65048200F41574 /* ReactiveMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 5C23DB9F2A65048200F41574 /* ReactiveMoya */; };
+		5C23DBA22A65048200F41574 /* RxMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 5C23DBA12A65048200F41574 /* RxMoya */; };
+		5C23DBA42A6505BF00F41574 /* KakaoErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C23DBA32A6505BF00F41574 /* KakaoErrorResponse.swift */; };
+		5C23DBA62A65166300F41574 /* RegionRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C23DBA52A65166300F41574 /* RegionRepository.swift */; };
+		5C23DBA82A65186A00F41574 /* RegionEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C23DBA72A65186A00F41574 /* RegionEntity.swift */; };
+		5C23DBAA2A651F6F00F41574 /* SearchRegionResponseMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C23DBA92A651F6F00F41574 /* SearchRegionResponseMapper.swift */; };
 		5C4BE89B2A5E2D1200FD2CEF /* EditRegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4BE89A2A5E2D1200FD2CEF /* EditRegionViewController.swift */; };
 		5C4BE89D2A5E63C000FD2CEF /* RegionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4BE89C2A5E63C000FD2CEF /* RegionCollectionViewCell.swift */; };
 		5CAB60B92A4563B300CD431A /* NSMutableAttributedString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAB60B82A4563B300CD431A /* NSMutableAttributedString+Extension.swift */; };
@@ -24,7 +35,7 @@
 		5CC61E262A5BC223001435E6 /* SettingRegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC61E252A5BC223001435E6 /* SettingRegionViewController.swift */; };
 		5CC61E282A5BDCCC001435E6 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC61E272A5BDCCC001435E6 /* UIViewController+Extension.swift */; };
 		5CCC914B2A6114880025B522 /* RegionAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC914A2A6114880025B522 /* RegionAPI.swift */; };
-		5CCC914D2A61179F0025B522 /* WeatherblyTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC914C2A61179F0025B522 /* WeatherblyTargetType.swift */; };
+		5CCC914D2A61179F0025B522 /* WBTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC914C2A61179F0025B522 /* WBTargetType.swift */; };
 		5CCC91502A6119730025B522 /* SearchRegionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC914F2A6119730025B522 /* SearchRegionRequest.swift */; };
 		5CCC91522A61197B0025B522 /* SearchRegionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC91512A61197B0025B522 /* SearchRegionResponse.swift */; };
 		5CCC91542A611FCE0025B522 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC91532A611FCE0025B522 /* NetworkManager.swift */; };
@@ -64,11 +75,14 @@
 		BDA66FED2A444C470061A1F0 /* SelectGenderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA66FEC2A444C470061A1F0 /* SelectGenderViewController.swift */; };
 		BDA66FEF2A4459910061A1F0 /* SelectGenderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA66FEE2A4459910061A1F0 /* SelectGenderViewModel.swift */; };
 		BDF208FF2A4EAEF2001177B2 /* CGFloat+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF208FE2A4EAEF2001177B2 /* CGFloat+Extension.swift */; };
-		DBC6E28C3234C85CDB9D2255 /* Pods_Weatherbly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 780F5C8A33BDE9DF1F792ACA /* Pods_Weatherbly.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		5C1D5A102A3C500A00E66788 /* CSLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSLabel.swift; sourceTree = "<group>"; };
+		5C23DBA32A6505BF00F41574 /* KakaoErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoErrorResponse.swift; sourceTree = "<group>"; };
+		5C23DBA52A65166300F41574 /* RegionRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionRepository.swift; sourceTree = "<group>"; };
+		5C23DBA72A65186A00F41574 /* RegionEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionEntity.swift; sourceTree = "<group>"; };
+		5C23DBA92A651F6F00F41574 /* SearchRegionResponseMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRegionResponseMapper.swift; sourceTree = "<group>"; };
 		5C4BE89A2A5E2D1200FD2CEF /* EditRegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRegionViewController.swift; sourceTree = "<group>"; };
 		5C4BE89C2A5E63C000FD2CEF /* RegionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionCollectionViewCell.swift; sourceTree = "<group>"; };
 		5CAB60B82A4563B300CD431A /* NSMutableAttributedString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Extension.swift"; sourceTree = "<group>"; };
@@ -85,7 +99,7 @@
 		5CC61E252A5BC223001435E6 /* SettingRegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingRegionViewController.swift; sourceTree = "<group>"; };
 		5CC61E272A5BDCCC001435E6 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		5CCC914A2A6114880025B522 /* RegionAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionAPI.swift; sourceTree = "<group>"; };
-		5CCC914C2A61179F0025B522 /* WeatherblyTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WeatherblyTargetType.swift; path = Weatherbly/Network/Moya/WeatherblyTargetType.swift; sourceTree = SOURCE_ROOT; };
+		5CCC914C2A61179F0025B522 /* WBTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WBTargetType.swift; path = Weatherbly/Network/Moya/WBTargetType.swift; sourceTree = SOURCE_ROOT; };
 		5CCC914F2A6119730025B522 /* SearchRegionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRegionRequest.swift; sourceTree = "<group>"; };
 		5CCC91512A61197B0025B522 /* SearchRegionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRegionResponse.swift; sourceTree = "<group>"; };
 		5CCC91532A611FCE0025B522 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -96,7 +110,7 @@
 		69CCF1D02A63CDC200756127 /* RemoteError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteError.swift; sourceTree = "<group>"; };
 		69FDD4C52A39E42900830927 /* NicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewController.swift; sourceTree = "<group>"; };
 		69FDD4CB2A407FA400830927 /* CSProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSProgressView.swift; sourceTree = "<group>"; };
-		780F5C8A33BDE9DF1F792ACA /* Pods_Weatherbly.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Weatherbly.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		717A5E6B1C49792CF9FD73F1 /* Pods-Weatherbly.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Weatherbly.debug.xcconfig"; path = "Target Support Files/Pods-Weatherbly/Pods-Weatherbly.debug.xcconfig"; sourceTree = "<group>"; };
 		BD2D01852A388753003A25D5 /* Weatherbly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Weatherbly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD2D01882A388753003A25D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BD2D018A2A388753003A25D5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -128,8 +142,7 @@
 		BDA66FEC2A444C470061A1F0 /* SelectGenderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGenderViewController.swift; sourceTree = "<group>"; };
 		BDA66FEE2A4459910061A1F0 /* SelectGenderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGenderViewModel.swift; sourceTree = "<group>"; };
 		BDF208FE2A4EAEF2001177B2 /* CGFloat+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extension.swift"; sourceTree = "<group>"; };
-		FAA16F045D38946941D1488B /* Pods-Weatherbly.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Weatherbly.debug.xcconfig"; path = "Target Support Files/Pods-Weatherbly/Pods-Weatherbly.debug.xcconfig"; sourceTree = "<group>"; };
-		FC569780C89B3B5463299392 /* Pods-Weatherbly.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Weatherbly.release.xcconfig"; path = "Target Support Files/Pods-Weatherbly/Pods-Weatherbly.release.xcconfig"; sourceTree = "<group>"; };
+		C988E18B0DE0FE436AD63212 /* Pods-Weatherbly.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Weatherbly.release.xcconfig"; path = "Target Support Files/Pods-Weatherbly/Pods-Weatherbly.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,7 +150,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DBC6E28C3234C85CDB9D2255 /* Pods_Weatherbly.framework in Frameworks */,
+				5C23DB972A65045C00F41574 /* RxSwift in Frameworks */,
+				5C23DB9E2A65048200F41574 /* Moya in Frameworks */,
+				5C23DBA22A65048200F41574 /* RxMoya in Frameworks */,
+				5C23DBA02A65048200F41574 /* ReactiveMoya in Frameworks */,
+				5C23DB8F2A65045C00F41574 /* RxCocoa in Frameworks */,
+				5C23DB932A65045C00F41574 /* RxRelay in Frameworks */,
+				5C23DB9C2A65048200F41574 /* CombineMoya in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -158,7 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				5CCC91532A611FCE0025B522 /* NetworkManager.swift */,
-				5CCC914C2A61179F0025B522 /* WeatherblyTargetType.swift */,
+				5CCC914C2A61179F0025B522 /* WBTargetType.swift */,
 			);
 			name = Moya;
 			path = Weatherbly/Network/Moya;
@@ -170,6 +189,7 @@
 				69CCF1C92A63CA3500756127 /* DataSource */,
 				5CCC914E2A61195D0025B522 /* Region */,
 				69CCF1CE2A63CD5500756127 /* WBErrorResponse.swift */,
+				5C23DBA32A6505BF00F41574 /* KakaoErrorResponse.swift */,
 				69CCF1D02A63CDC200756127 /* RemoteError.swift */,
 			);
 			path = API;
@@ -182,6 +202,9 @@
 				5CCC914F2A6119730025B522 /* SearchRegionRequest.swift */,
 				5CCC91512A61197B0025B522 /* SearchRegionResponse.swift */,
 				69CCF1C72A63A01D00756127 /* RegionProvider.swift */,
+				5C23DBA52A65166300F41574 /* RegionRepository.swift */,
+				5C23DBA72A65186A00F41574 /* RegionEntity.swift */,
+				5C23DBA92A651F6F00F41574 /* SearchRegionResponseMapper.swift */,
 			);
 			path = Region;
 			sourceTree = "<group>";
@@ -197,18 +220,10 @@
 		ABF78B6D4AF3C3B85A8E6131 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				FAA16F045D38946941D1488B /* Pods-Weatherbly.debug.xcconfig */,
-				FC569780C89B3B5463299392 /* Pods-Weatherbly.release.xcconfig */,
+				717A5E6B1C49792CF9FD73F1 /* Pods-Weatherbly.debug.xcconfig */,
+				C988E18B0DE0FE436AD63212 /* Pods-Weatherbly.release.xcconfig */,
 			);
 			path = Pods;
-			sourceTree = "<group>";
-		};
-		AED1F818BBD44A6F2230DDCB /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				780F5C8A33BDE9DF1F792ACA /* Pods_Weatherbly.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		BD2D017C2A388753003A25D5 = {
@@ -217,7 +232,6 @@
 				BD2D01872A388753003A25D5 /* Weatherbly */,
 				BD2D01862A388753003A25D5 /* Products */,
 				ABF78B6D4AF3C3B85A8E6131 /* Pods */,
-				AED1F818BBD44A6F2230DDCB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -476,17 +490,26 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BD2D01992A388755003A25D5 /* Build configuration list for PBXNativeTarget "Weatherbly" */;
 			buildPhases = (
-				01DDBF8F8FD180954E8A9FC1 /* [CP] Check Pods Manifest.lock */,
+				E231F173EE179B97BB10D089 /* [CP] Check Pods Manifest.lock */,
 				BD2D01812A388753003A25D5 /* Sources */,
 				BD2D01822A388753003A25D5 /* Frameworks */,
 				BD2D01832A388753003A25D5 /* Resources */,
-				A4B547023AFE1E5B986D4F95 /* [CP] Embed Pods Frameworks */,
+				98816254D615059A064A2C05 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = Weatherbly;
+			packageProductDependencies = (
+				5C23DB8E2A65045C00F41574 /* RxCocoa */,
+				5C23DB922A65045C00F41574 /* RxRelay */,
+				5C23DB962A65045C00F41574 /* RxSwift */,
+				5C23DB9B2A65048200F41574 /* CombineMoya */,
+				5C23DB9D2A65048200F41574 /* Moya */,
+				5C23DB9F2A65048200F41574 /* ReactiveMoya */,
+				5C23DBA12A65048200F41574 /* RxMoya */,
+			);
 			productName = Weatherbly;
 			productReference = BD2D01852A388753003A25D5 /* Weatherbly.app */;
 			productType = "com.apple.product-type.application";
@@ -515,6 +538,10 @@
 				Base,
 			);
 			mainGroup = BD2D017C2A388753003A25D5;
+			packageReferences = (
+				5C23DB8D2A65045C00F41574 /* XCRemoteSwiftPackageReference "RxSwift" */,
+				5C23DB9A2A65048200F41574 /* XCRemoteSwiftPackageReference "Moya" */,
+			);
 			productRefGroup = BD2D01862A388753003A25D5 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -536,7 +563,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		01DDBF8F8FD180954E8A9FC1 /* [CP] Check Pods Manifest.lock */ = {
+		98816254D615059A064A2C05 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Weatherbly/Pods-Weatherbly-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Weatherbly/Pods-Weatherbly-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Weatherbly/Pods-Weatherbly-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E231F173EE179B97BB10D089 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -558,23 +602,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A4B547023AFE1E5B986D4F95 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Weatherbly/Pods-Weatherbly-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Weatherbly/Pods-Weatherbly-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Weatherbly/Pods-Weatherbly-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -584,6 +611,7 @@
 			files = (
 				5CC61E262A5BC223001435E6 /* SettingRegionViewController.swift in Sources */,
 				BD69B8F92A553A0C00DDCD7A /* CSNavigationView.swift in Sources */,
+				5C23DBA82A65186A00F41574 /* RegionEntity.swift in Sources */,
 				5CAB60CF2A53F61700CD431A /* TenDaysForecastViewController.swift in Sources */,
 				5C4BE89D2A5E63C000FD2CEF /* RegionCollectionViewCell.swift in Sources */,
 				5CAB60D32A54FC6A00CD431A /* UITableViewCell+Extension.swift in Sources */,
@@ -619,15 +647,18 @@
 				5CAB60C32A528C7A00CD431A /* UICollectionView+Extension.swift in Sources */,
 				BDA66FEA2A4075270061A1F0 /* UIImageView+Extension.swift in Sources */,
 				5CAB60D12A54FC5F00CD431A /* UITableView+Extension.swift in Sources */,
+				5C23DBA42A6505BF00F41574 /* KakaoErrorResponse.swift in Sources */,
 				5CCC91562A613F010025B522 /* SettingRegionViewModel.swift in Sources */,
 				BD77B82E2A388D2E00E7D57A /* HomeViewModel.swift in Sources */,
+				5C23DBAA2A651F6F00F41574 /* SearchRegionResponseMapper.swift in Sources */,
 				69CCF1D12A63CDC200756127 /* RemoteError.swift in Sources */,
 				BD5169472A5AA39000582BA9 /* EditNicknameViewController.swift in Sources */,
 				BD69B8F72A54337000DDCD7A /* SettingViewController.swift in Sources */,
-				5CCC914D2A61179F0025B522 /* WeatherblyTargetType.swift in Sources */,
+				5CCC914D2A61179F0025B522 /* WBTargetType.swift in Sources */,
 				69CCF1CF2A63CD5500756127 /* WBErrorResponse.swift in Sources */,
 				BDF208FF2A4EAEF2001177B2 /* CGFloat+Extension.swift in Sources */,
 				BD5169512A5EB48D00582BA9 /* ChangeNicknameViewModel.swift in Sources */,
+				5C23DBA62A65166300F41574 /* RegionRepository.swift in Sources */,
 				BDF208FF2A4EAEF2001177B2 /* CGFloat+Extension.swift in Sources */,
 				69FDD4C62A39E42900830927 /* NicknameViewController.swift in Sources */,
 				69CCF1CB2A63CA5000756127 /* RegionDataSource.swift in Sources */,
@@ -761,7 +792,7 @@
 		};
 		BD2D019A2A388755003A25D5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FAA16F045D38946941D1488B /* Pods-Weatherbly.debug.xcconfig */;
+			baseConfigurationReference = 717A5E6B1C49792CF9FD73F1 /* Pods-Weatherbly.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -793,7 +824,7 @@
 		};
 		BD2D019B2A388755003A25D5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FC569780C89B3B5463299392 /* Pods-Weatherbly.release.xcconfig */;
+			baseConfigurationReference = C988E18B0DE0FE436AD63212 /* Pods-Weatherbly.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -845,6 +876,63 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5C23DB8D2A65045C00F41574 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
+		5C23DB9A2A65048200F41574 /* XCRemoteSwiftPackageReference "Moya" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Moya/Moya";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 15.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5C23DB8E2A65045C00F41574 /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5C23DB8D2A65045C00F41574 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		5C23DB922A65045C00F41574 /* RxRelay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5C23DB8D2A65045C00F41574 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxRelay;
+		};
+		5C23DB962A65045C00F41574 /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5C23DB8D2A65045C00F41574 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
+		5C23DB9B2A65048200F41574 /* CombineMoya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5C23DB9A2A65048200F41574 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = CombineMoya;
+		};
+		5C23DB9D2A65048200F41574 /* Moya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5C23DB9A2A65048200F41574 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = Moya;
+		};
+		5C23DB9F2A65048200F41574 /* ReactiveMoya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5C23DB9A2A65048200F41574 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = ReactiveMoya;
+		};
+		5C23DBA12A65048200F41574 /* RxMoya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5C23DB9A2A65048200F41574 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = RxMoya;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = BD2D017D2A388753003A25D5 /* Project object */;
 }

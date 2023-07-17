@@ -10,6 +10,6 @@ import Moya
 
 public enum RemoteError: Error {
     case networkError(MoyaError)
-    case taskFail(WBErrorHeader)
+    case taskFail(KakaoErrorResponse)
     case unknownError
 }

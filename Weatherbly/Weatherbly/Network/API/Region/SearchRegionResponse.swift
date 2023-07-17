@@ -11,7 +11,7 @@ public struct SearchRegionResponse: Decodable {
     
     public let meta: [MetaList]?
     
-    public let documents: [DocumentList]?
+    public let documents: [DocumentList]
     
     public struct MetaList: Decodable {
         public let total_count: Int?
@@ -24,7 +24,7 @@ public struct SearchRegionResponse: Decodable {
         public let y: String?
         public let x: String?
         public let address_type: String?
-        public let address: [AddressList]?
+        public let address: [AddressList]
         public let road_address: [RoadList]?
     }
     

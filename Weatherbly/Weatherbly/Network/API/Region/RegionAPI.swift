@@ -5,6 +5,7 @@
 //  Created by 박성준 on 2023/07/14.
 //
 
+import Foundation
 import Moya
 
 public enum RegionAPI {
@@ -27,7 +28,7 @@ extension RegionAPI: TargetType {
         ["Authorization": "KakaoAK 94e9855982bd4da35238debd0d23a313"]
     }
     
-    public var task: Moya.Task {
+    public var task: Task {
         switch self {
         case .searchRegion(let searchRequest):
             return .requestJSONEncodable(searchRequest)

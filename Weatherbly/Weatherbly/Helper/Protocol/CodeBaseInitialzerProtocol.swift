@@ -31,7 +31,7 @@ protocol CodeBaseInitializerProtocol {
 extension CodeBaseInitializerProtocol {
 
     func codeBaseInitializer() {
-//        attribute()
+        attribute()
         layout()
         bind()
     }
