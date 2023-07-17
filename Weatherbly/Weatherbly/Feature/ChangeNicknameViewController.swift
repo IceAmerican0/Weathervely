@@ -276,7 +276,6 @@ class ChangeNicknameViewController: RxBaseViewController<EmptyViewModel> {
 extension ChangeNicknameViewController: UITextFieldDelegate {
 
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        print(#function)
         textField.resignFirstResponder()
         return true
     }

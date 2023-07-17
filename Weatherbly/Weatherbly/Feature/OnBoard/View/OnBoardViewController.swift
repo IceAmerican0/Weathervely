@@ -55,14 +55,17 @@ final class OnBoardViewController: RxBaseViewController<OnBoardViewModel> {
         super.viewBinding()
         
         startButton.rx.tap
+            .subscribe { [weak self] _ in
+                self?.navigationController?.pushViewController(DateTimePickViewController(DateTimePickViewModel()), animated: true)
+            }
         /// ViewModel 생성 X
 //            .map { EditNicknameViewController(EditNicknameViewModel())}
 //            .bind(to: viewModel.navigationPushViewControllerRelay)
         
         /// ViewModel 생성시
-            .map { [weak self] _ in self?.viewModel.nicknameViewController()}
-            .bind(to: viewModel.navigationPushViewControllerRelay)
-            .disposed(by: bag)
+//            .map { [weak self] _ in self?.viewModel.nicknameViewController()}
+//            .bind(to: viewModel.navigationPushViewControllerRelay)
+//            .disposed(by: bag)
     }
 
 }

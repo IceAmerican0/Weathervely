@@ -120,7 +120,7 @@ class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitializerProt
  
     // MARK: - Attribute
     func attribute() {
-        print("base viewDid222222")
+
     }
     
     // MARK: - Layout

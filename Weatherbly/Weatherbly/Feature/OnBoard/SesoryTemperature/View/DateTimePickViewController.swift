@@ -11,7 +11,7 @@ import PinLayout
 import RxCocoa
 import RxSwift
 
-final class DateTimePickViewController: RxBaseViewController<EmptyViewModel> {
+final class DateTimePickViewController: RxBaseViewController<DateTimePickViewModel> {
     
     var pickerFirstRowData = ["어제","오늘"]
     var pickerSecondRowData = ["오전","오후"]
@@ -54,8 +54,7 @@ final class DateTimePickViewController: RxBaseViewController<EmptyViewModel> {
     
     override func attribute() {
         super.attribute()
-        print("viewCOnter viewDid")
-        
+
         navigationBackButton.do {
             $0.setImage(AssetsImage.navigationBackButton.image, for: .normal)
         }
@@ -99,6 +98,7 @@ final class DateTimePickViewController: RxBaseViewController<EmptyViewModel> {
                     .marginHorizontal(118)
                     
                 flex.addItem(datePickerWrapper)
+                    .height(UIScreen.main.bounds.height * 0.22)
                     .marginTop(33)
                     .marginHorizontal(43)
                     .define { flex in
