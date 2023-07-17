@@ -41,6 +41,7 @@
 		BD4316362A3C9DB700E86271 /* AssetsImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4316352A3C9DB700E86271 /* AssetsImage.swift */; };
 		BD4316382A3CA20900E86271 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4316372A3CA20900E86271 /* UIView+Extension.swift */; };
 		BD4AC38A2A655AEC00537583 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4AC3892A655AEC00537583 /* Date+Extension.swift */; };
+		BD4AC38D2A655CE900537583 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = BD4AC38C2A655CE900537583 /* Toast */; };
 		BD50A5222A4C4072005F066E /* SlotMachineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD50A5212A4C4072005F066E /* SlotMachineViewController.swift */; };
 		BD5169452A5A9BD600582BA9 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5169442A5A9BD600582BA9 /* SettingViewModel.swift */; };
 		BD5169472A5AA39000582BA9 /* EditNicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5169462A5AA39000582BA9 /* EditNicknameViewController.swift */; };
@@ -131,6 +132,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD4AC38D2A655CE900537583 /* Toast in Frameworks */,
 				DBC6E28C3234C85CDB9D2255 /* Pods_Weatherbly.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -453,6 +455,9 @@
 			dependencies = (
 			);
 			name = Weatherbly;
+			packageProductDependencies = (
+				BD4AC38C2A655CE900537583 /* Toast */,
+			);
 			productName = Weatherbly;
 			productReference = BD2D01852A388753003A25D5 /* Weatherbly.app */;
 			productType = "com.apple.product-type.application";
@@ -481,6 +486,9 @@
 				Base,
 			);
 			mainGroup = BD2D017C2A388753003A25D5;
+			packageReferences = (
+				BD4AC38B2A655CE900537583 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
+			);
 			productRefGroup = BD2D01862A388753003A25D5 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -808,6 +816,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		BD4AC38B2A655CE900537583 /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scalessec/Toast-Swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BD4AC38C2A655CE900537583 /* Toast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BD4AC38B2A655CE900537583 /* XCRemoteSwiftPackageReference "Toast-Swift" */;
+			productName = Toast;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = BD2D017D2A388753003A25D5 /* Project object */;
 }

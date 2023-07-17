@@ -10,6 +10,7 @@ import FlexLayout
 import PinLayout
 import RxCocoa
 import RxSwift
+import Toast
 
 final class DateTimePickViewController: RxBaseViewController<DateTimePickViewModel> {
     
@@ -147,22 +148,22 @@ final class DateTimePickViewController: RxBaseViewController<DateTimePickViewMod
                             // 시간 비교
                             if Int(today[3])! > pickerTime {
                                 // Toast
-//                                self?.view.makeToast("미래 시간은 선택 할 수 없어요", duration: 2.0, position: .bottom)
+                                self?.view.makeToast("미래 시간은 선택 할 수 없어요", duration: 2.0, position: .bottom)
                             } else {
                                 // 진행시켜
                             }
                         } else { // 선택시간이 오후
                             // Toast
-//                            self?.view.makeToast("미래 시간은 선택 할 수 없어요", duration: 2.0, position: .bottom)
+                            self?.view.makeToast("미래 시간은 선택 할 수 없어요", duration: 2.0, position: .bottom)
                         }
                     }
                 } else { // 지금이 오후
                     if pickerDay == "오늘" {
                         if pickerDayTime == "오후" {
                             //시간비교
-                            if Int(today[3])! > pickerTime {
+                            if Int(today[3])! < pickerTime {
                                 // Toast
-//                                self?.view.makeToast("미래 시간은 선택 할 수 없어요", duration: 2.0, position: .bottom)
+                                self?.view.makeToast("미래 시간은 선택 할 수 없어요", duration: 2.0, position: .bottom)
                             } else {
                                 // 진행시켜
                             }
@@ -172,7 +173,6 @@ final class DateTimePickViewController: RxBaseViewController<DateTimePickViewMod
                     }
                 }
                 print("선택시간: ", pickerDay , pickerDayTime , pickerTime)
-                print(date.yesterday)
 
                 
             }
