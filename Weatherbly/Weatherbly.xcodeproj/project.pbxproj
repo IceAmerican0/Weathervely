@@ -40,6 +40,7 @@
 		BD4316342A3C967900E86271 /* SensoryTempViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4316332A3C967900E86271 /* SensoryTempViewController.swift */; };
 		BD4316362A3C9DB700E86271 /* AssetsImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4316352A3C9DB700E86271 /* AssetsImage.swift */; };
 		BD4316382A3CA20900E86271 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4316372A3CA20900E86271 /* UIView+Extension.swift */; };
+		BD4AC38A2A655AEC00537583 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4AC3892A655AEC00537583 /* Date+Extension.swift */; };
 		BD50A5222A4C4072005F066E /* SlotMachineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD50A5212A4C4072005F066E /* SlotMachineViewController.swift */; };
 		BD5169452A5A9BD600582BA9 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5169442A5A9BD600582BA9 /* SettingViewModel.swift */; };
 		BD5169472A5AA39000582BA9 /* EditNicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5169462A5AA39000582BA9 /* EditNicknameViewController.swift */; };
@@ -100,6 +101,7 @@
 		BD4316332A3C967900E86271 /* SensoryTempViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensoryTempViewController.swift; sourceTree = "<group>"; };
 		BD4316352A3C9DB700E86271 /* AssetsImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetsImage.swift; sourceTree = "<group>"; };
 		BD4316372A3CA20900E86271 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		BD4AC3892A655AEC00537583 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		BD50A5212A4C4072005F066E /* SlotMachineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlotMachineViewController.swift; sourceTree = "<group>"; };
 		BD5169442A5A9BD600582BA9 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		BD5169462A5AA39000582BA9 /* EditNicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditNicknameViewController.swift; sourceTree = "<group>"; };
@@ -307,6 +309,7 @@
 				BD4316372A3CA20900E86271 /* UIView+Extension.swift */,
 				5CC61E272A5BDCCC001435E6 /* UIViewController+Extension.swift */,
 				BD5D16922A63B3AD00435816 /* CALayer+Extension.swift */,
+				BD4AC3892A655AEC00537583 /* Date+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -580,6 +583,7 @@
 				5CAB60C32A528C7A00CD431A /* UICollectionView+Extension.swift in Sources */,
 				BDA66FEA2A4075270061A1F0 /* UIImageView+Extension.swift in Sources */,
 				BD5D16932A63B3AD00435816 /* CALayer+Extension.swift in Sources */,
+				BD4AC38A2A655AEC00537583 /* Date+Extension.swift in Sources */,
 				5CAB60D12A54FC5F00CD431A /* UITableView+Extension.swift in Sources */,
 				BD77B82E2A388D2E00E7D57A /* HomeViewModel.swift in Sources */,
 				BD5169472A5AA39000582BA9 /* EditNicknameViewController.swift in Sources */,
