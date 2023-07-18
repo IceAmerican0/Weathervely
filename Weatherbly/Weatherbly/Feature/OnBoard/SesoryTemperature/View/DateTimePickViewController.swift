@@ -73,6 +73,9 @@ final class DateTimePickViewController: RxBaseViewController<DateTimePickViewMod
             $0.addGradientLayer(gradientLayer)
         }
         
+        discriptionLabel.do {
+            $0.setLineHeight(1.3)
+        }
         
 
 //        dateTimePickerView.selectRow(6, inComponent: 2, animated: true)
