@@ -34,7 +34,39 @@ class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitializerProt
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-   
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+    /// child component들의 속성을 잡아주기 위해서 flex.layout()을 먼저 호출한다.
+        container.pin.all(view.pin.safeArea)
+        container.flex.layout()
+        
+        layout()
+        attribute()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.navigationController?.isNavigationBarHidden = true
+
+        view.backgroundColor = .white
+        view.addSubview(container)
+    }
+ 
+    // MARK: - Attribute
+    func attribute() { }
+    
+    // MARK: - Layout
+    func layout() { }
+    
+    // MARK: - Bind
+    func bind() {
+        viewBinding()
+        viewModelBinding()
+    }
+    
     func viewModelBinding() {
         viewModel
             .navigationPopToSelfRelay
@@ -97,40 +129,6 @@ class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitializerProt
     }
     
     func viewBinding() { }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-    /// child component들의 속성을 잡아주기 위해서 flex.layout()을 먼저 호출한다.
-        container.pin.all(view.pin.safeArea)
-        container.flex.layout()
-        
-        layout()
-        attribute()
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        self.navigationController?.isNavigationBarHidden = true
-
-        view.backgroundColor = .white
-        view.addSubview(container)
-    }
- 
-    // MARK: - Attribute
-    func attribute() {
-
-    }
-    
-    // MARK: - Layout
-    func layout() { }
-    
-    // MARK: - Bind
-    func bind() {
-        viewBinding()
-        viewModelBinding()
-    }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
