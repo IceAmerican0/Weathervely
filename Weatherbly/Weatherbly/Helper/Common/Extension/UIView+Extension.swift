@@ -39,6 +39,24 @@ extension UIView {
             
         }
     }
+    
+    func addBorders(_ direction: [BorderDirection], _ borderWidth: CGFloat = 1, _ borderColor: UIColor = CSColor._220_220_220.color) {
+        
+        direction.forEach { direct in
+            switch direct {
+            case .top:
+                self.addBorderViews(positions: .top, color: borderColor, width: borderWidth)
+            case .left:
+                self.addBorderViews(positions: .left, color: borderColor, width: borderWidth)
+            case .right:
+                self.addBorderViews(positions: .right, color: borderColor, width: borderWidth)
+            case .bottom:
+                self.addBorderViews(positions: .bottom, color: borderColor, width: borderWidth)
+                
+            }
+        }
+        
+    }
         
     func setShadow(_ size: CGSize, _ color: CGColor?, _ opacity: Float, _ radius: CGFloat?) {
             
