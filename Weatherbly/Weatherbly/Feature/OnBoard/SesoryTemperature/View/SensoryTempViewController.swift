@@ -168,7 +168,7 @@ final class SensoryTempViewController: RxBaseViewController<SensoryTempViewModel
     }
     
     @objc func didTapDenyButton() {
-        self.navigationController?.pushViewController(SlotMachineViewController(EmptyViewModel()), animated: true)
+        self.navigationController?.pushViewController(SlotMachineViewController(SlotMachineViewModel()), animated: true)
     }
     
 }

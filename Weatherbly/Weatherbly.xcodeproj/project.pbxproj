@@ -44,6 +44,7 @@
 		BD4AC38D2A655CE900537583 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = BD4AC38C2A655CE900537583 /* Toast */; };
 		BD4AC38F2A6671B500537583 /* SeonsoryTempViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4AC38E2A6671B500537583 /* SeonsoryTempViewModel.swift */; };
 		BD4AC3912A66899500537583 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4AC3902A66899500537583 /* UILabel+Extension.swift */; };
+		BD4AC3932A669B0500537583 /* SlotMachineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4AC3922A669B0500537583 /* SlotMachineViewModel.swift */; };
 		BD50A5222A4C4072005F066E /* SlotMachineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD50A5212A4C4072005F066E /* SlotMachineViewController.swift */; };
 		BD5169452A5A9BD600582BA9 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5169442A5A9BD600582BA9 /* SettingViewModel.swift */; };
 		BD5169472A5AA39000582BA9 /* EditNicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5169462A5AA39000582BA9 /* EditNicknameViewController.swift */; };
@@ -107,6 +108,7 @@
 		BD4AC3892A655AEC00537583 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		BD4AC38E2A6671B500537583 /* SeonsoryTempViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeonsoryTempViewModel.swift; sourceTree = "<group>"; };
 		BD4AC3902A66899500537583 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
+		BD4AC3922A669B0500537583 /* SlotMachineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlotMachineViewModel.swift; sourceTree = "<group>"; };
 		BD50A5212A4C4072005F066E /* SlotMachineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlotMachineViewController.swift; sourceTree = "<group>"; };
 		BD5169442A5A9BD600582BA9 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		BD5169462A5AA39000582BA9 /* EditNicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditNicknameViewController.swift; sourceTree = "<group>"; };
@@ -423,6 +425,7 @@
 			children = (
 				BD5D168D2A612BD500435816 /* DateTimePickViewModel.swift */,
 				BD4AC38E2A6671B500537583 /* SeonsoryTempViewModel.swift */,
+				BD4AC3922A669B0500537583 /* SlotMachineViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -568,6 +571,7 @@
 				5C4BE89D2A5E63C000FD2CEF /* RegionCollectionViewCell.swift in Sources */,
 				696176B22A63E37F00B83B4C /* RxBaseViewModel.swift in Sources */,
 				BD5D168E2A612BD500435816 /* DateTimePickViewModel.swift in Sources */,
+				BD4AC3932A669B0500537583 /* SlotMachineViewModel.swift in Sources */,
 				5CAB60D32A54FC6A00CD431A /* UITableViewCell+Extension.swift in Sources */,
 				BD2D01B42A3888AA003A25D5 /* UIColor+Extension.swift in Sources */,
 				BD2D018D2A388753003A25D5 /* HomeViewController.swift in Sources */,
