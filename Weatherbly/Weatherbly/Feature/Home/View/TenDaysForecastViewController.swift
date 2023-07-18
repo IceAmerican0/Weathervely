@@ -77,7 +77,7 @@ class TenDaysForeCastViewController: RxBaseViewController<EmptyViewModel> {
     }
     
     @objc private func goToSetting() {
-        self.navigationController?.pushViewController(SensoryTempViewController(EmptyViewModel()), animated: true)
+        self.navigationController?.pushViewController(SensoryTempViewController(SensoryTempViewModel()), animated: true)
     }
     
     @objc private func goBack() {

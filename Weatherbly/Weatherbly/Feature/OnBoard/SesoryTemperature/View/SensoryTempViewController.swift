@@ -9,7 +9,7 @@ import UIKit
 import FlexLayout
 import PinLayout
 
-final class SensoryTempViewController: RxBaseViewController<EmptyViewModel> {
+final class SensoryTempViewController: RxBaseViewController<SensoryTempViewModel> {
     
     var headerWrapper = UIView()
     var progressBar = CSProgressView(1.0)
