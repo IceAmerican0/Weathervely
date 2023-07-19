@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
            
 //           let naviVC = UINavigationController(rootViewController: HomeViewController())
 
-        let naviVC = UINavigationController(rootViewController: OnBoardViewController())
+        let naviVC = UINavigationController(rootViewController: OnBoardViewController(OnBoardViewModel()))
            window?.rootViewController = naviVC
            window?.makeKeyAndVisible()
     }

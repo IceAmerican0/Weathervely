@@ -9,14 +9,13 @@ import UIKit
 import FlexLayout
 import PinLayout
 
-final class NicknameViewController: BaseViewController {
+final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
     
     private var progressBar = CSProgressView(0.2)
-    private var backButton = UIButton()
+    private var navigationView = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
     private var explanationLabel = CSLabel(.bold, 25, "닉네임을 설정해주세요")
     private var guideLabel = CSLabel(.bold, 20, "(5글자 이내)")
     private var inputNickname = UITextField()
-    private var buttonWrapper = UIView()
     private var confirmButton = CSButton(.primary)
     
     private let buttonMarginBottom = UIScreen.main.bounds.height * 0.1
@@ -24,27 +23,14 @@ final class NicknameViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.addSubview(buttonWrapper)
-        view.bringSubviewToFront(container)
+        inputNickname.becomeFirstResponder()
         
         registerKeyboardNotifications()
         gestureEndEditing()
-        
-        inputNickname.becomeFirstResponder()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        unregisterKeyboardNotifications()
     }
     
     override func attribute() {
         super.attribute()
-        
-        backButton.do {
-            $0.setImage(AssetsImage.navigationBackButton.image, for: .normal)
-            $0.addTarget(self, action: #selector(goBack), for: .touchUpInside)
-        }
         
         explanationLabel.do {
             $0.backgroundColor = .white
@@ -53,13 +39,13 @@ final class NicknameViewController: BaseViewController {
         inputNickname.do {
             $0.placeholder = "감자,뽀롱이,써니... 뭐든 좋아요! :)"
             $0.textAlignment = .center
-//            $0.addTarget(self, action: #selector(), for: .editingChanged)
+            $0.backgroundColor = CSColor._248_248_248.color
+            $0.layer.cornerRadius = 13
         }
         
         confirmButton.do {
             $0.setTitle("확인", for: .normal)
             $0.setTitleColor(.white, for: .normal)
-            $0.addTarget(self, action: #selector(didTapConfirmButton), for: .touchUpInside)
         }
     }
     
@@ -68,28 +54,31 @@ final class NicknameViewController: BaseViewController {
         
         container.flex.alignItems(.center).define { flex in
             flex.addItem(progressBar)
-            flex.addItem(backButton).alignSelf(.start).marginTop(15).left(12).size(44)
+            flex.addItem(navigationView).width(UIScreen.main.bounds.width)
             flex.addItem(explanationLabel).marginTop(27)
             flex.addItem(guideLabel)
             flex.addItem(inputNickname).marginTop(36).width(330).height(50)
             flex.addItem(confirmButton).width(88%).height(62)
         }
+        confirmButton.pin.bottom(buttonMarginBottom)
     }
     
-    @objc private func goBack() {
-        self.navigationController?.popViewController(animated: true)
-    }
-    
-    @objc private func didTapConfirmButton() {
-        self.navigationController?.pushViewController(SettingRegionViewController(), animated: true)
+    override func viewBinding() {
+        navigationView.leftButtonDidTapRelay
+            .bind(to: viewModel.navigationPopViewControllerRelay)
+            .disposed(by: bag)
+        
+        // TODO: 닉네임 입력 로직 만들기
+        confirmButton.rx.tap
+            .map { SettingRegionViewController(SettingRegionViewModel()) }
+            .bind(to: viewModel.navigationPushViewControllerRelay)
+            .disposed(by: bag)
     }
     
     // MARK: Keyboard Action
     override func keyboardWillShow(_ notification: Notification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0 {
-                confirmButton.frame.origin.y -= keyboardSize.height
-            }
+            confirmButton.pin.bottom(keyboardSize.height + 30)
         }
     }
     

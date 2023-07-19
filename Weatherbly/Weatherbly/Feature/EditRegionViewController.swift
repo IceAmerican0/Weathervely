@@ -9,7 +9,7 @@ import UIKit
 import PinLayout
 import FlexLayout
 
-final class EditRegionViewController: BaseViewController {
+final class EditRegionViewController: RxBaseViewController<EmptyViewModel> {
     
     private var navigationView = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
     
@@ -50,7 +50,6 @@ final class EditRegionViewController: BaseViewController {
         confirmButton.do {
             $0.setTitle("동네 추가하기", for: .normal)
             $0.setTitleColor(.white, for: .normal)
-            $0.addTarget(self, action: #selector(didTapConfirmButton), for: .touchUpInside)
         }
     }
     
@@ -70,16 +69,6 @@ final class EditRegionViewController: BaseViewController {
         }
         
         confirmButton.pin.bottom(buttonMarginBottom)
-    }
-    
-    @objc private func goBack() {
-        self.navigationController?.popViewController(animated: true)
-    }
-    
-    @objc private func didTapConfirmButton() {
-        let viewController = SettingRegionViewController()
-        viewController.isFromEdit = true
-        self.navigationController?.pushViewController(viewController, animated: true)
     }
 }
 

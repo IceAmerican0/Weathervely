@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5C1BCA172A67D2FF00D02D84 /* NicknameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1BCA162A67D2FF00D02D84 /* NicknameViewModel.swift */; };
 		5C1D5A112A3C500A00E66788 /* CSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1D5A102A3C500A00E66788 /* CSLabel.swift */; };
 		5C23DB8F2A65045C00F41574 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 5C23DB8E2A65045C00F41574 /* RxCocoa */; };
 		5C23DB932A65045C00F41574 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 5C23DB922A65045C00F41574 /* RxRelay */; };
@@ -40,6 +41,9 @@
 		5CCC91522A61197B0025B522 /* SearchRegionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC91512A61197B0025B522 /* SearchRegionResponse.swift */; };
 		5CCC91542A611FCE0025B522 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC91532A611FCE0025B522 /* NetworkManager.swift */; };
 		5CCC91562A613F010025B522 /* SettingRegionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC91552A613F010025B522 /* SettingRegionViewModel.swift */; };
+		696176B22A63E37F00B83B4C /* RxBaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696176B12A63E37F00B83B4C /* RxBaseViewModel.swift */; };
+		696176B42A63E3C000B83B4C /* BaseDisposeBag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696176B32A63E3C000B83B4C /* BaseDisposeBag.swift */; };
+		696176B62A63E4A400B83B4C /* EmptyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696176B52A63E4A400B83B4C /* EmptyViewModel.swift */; };
 		69CCF1C82A63A01D00756127 /* RegionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CCF1C72A63A01D00756127 /* RegionProvider.swift */; };
 		69CCF1CB2A63CA5000756127 /* RegionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CCF1CA2A63CA5000756127 /* RegionDataSource.swift */; };
 		69CCF1CF2A63CD5500756127 /* WBErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CCF1CE2A63CD5500756127 /* WBErrorResponse.swift */; };
@@ -50,7 +54,7 @@
 		BD2D018B2A388753003A25D5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D018A2A388753003A25D5 /* SceneDelegate.swift */; };
 		BD2D018D2A388753003A25D5 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D018C2A388753003A25D5 /* HomeViewController.swift */; };
 		BD2D01922A388755003A25D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD2D01912A388755003A25D5 /* Assets.xcassets */; };
-		BD2D01AE2A38886C003A25D5 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D01AD2A38886C003A25D5 /* BaseViewController.swift */; };
+		BD2D01AE2A38886C003A25D5 /* RxBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D01AD2A38886C003A25D5 /* RxBaseViewController.swift */; };
 		BD2D01B02A38887D003A25D5 /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D01AF2A38887D003A25D5 /* UIButton+Extension.swift */; };
 		BD2D01B22A38889E003A25D5 /* CSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D01B12A38889E003A25D5 /* CSButton.swift */; };
 		BD2D01B42A3888AA003A25D5 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D01B32A3888AA003A25D5 /* UIColor+Extension.swift */; };
@@ -65,6 +69,9 @@
 		BD51694B2A5D763000582BA9 /* EditNicknameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD51694A2A5D763000582BA9 /* EditNicknameViewModel.swift */; };
 		BD51694F2A5EB43500582BA9 /* ChangeNicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD51694E2A5EB43500582BA9 /* ChangeNicknameViewController.swift */; };
 		BD5169512A5EB48D00582BA9 /* ChangeNicknameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5169502A5EB48D00582BA9 /* ChangeNicknameViewModel.swift */; };
+		BD5D168C2A612BC900435816 /* DateTimePickViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5D168B2A612BC900435816 /* DateTimePickViewController.swift */; };
+		BD5D168E2A612BD500435816 /* DateTimePickViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5D168D2A612BD500435816 /* DateTimePickViewModel.swift */; };
+		BD5D16932A63B3AD00435816 /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5D16922A63B3AD00435816 /* CALayer+Extension.swift */; };
 		BD69B8F72A54337000DDCD7A /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD69B8F62A54337000DDCD7A /* SettingViewController.swift */; };
 		BD69B8F92A553A0C00DDCD7A /* CSNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD69B8F82A553A0C00DDCD7A /* CSNavigationView.swift */; };
 		BD77B8282A388C9400E7D57A /* CSColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD77B8272A388C9400E7D57A /* CSColor.swift */; };
@@ -78,6 +85,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5C1BCA162A67D2FF00D02D84 /* NicknameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewModel.swift; sourceTree = "<group>"; };
 		5C1D5A102A3C500A00E66788 /* CSLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSLabel.swift; sourceTree = "<group>"; };
 		5C23DBA32A6505BF00F41574 /* KakaoErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoErrorResponse.swift; sourceTree = "<group>"; };
 		5C23DBA52A65166300F41574 /* RegionRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionRepository.swift; sourceTree = "<group>"; };
@@ -104,6 +112,9 @@
 		5CCC91512A61197B0025B522 /* SearchRegionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRegionResponse.swift; sourceTree = "<group>"; };
 		5CCC91532A611FCE0025B522 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		5CCC91552A613F010025B522 /* SettingRegionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingRegionViewModel.swift; sourceTree = "<group>"; };
+		696176B12A63E37F00B83B4C /* RxBaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxBaseViewModel.swift; sourceTree = "<group>"; };
+		696176B32A63E3C000B83B4C /* BaseDisposeBag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDisposeBag.swift; sourceTree = "<group>"; };
+		696176B52A63E4A400B83B4C /* EmptyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyViewModel.swift; sourceTree = "<group>"; };
 		69CCF1C72A63A01D00756127 /* RegionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionProvider.swift; sourceTree = "<group>"; };
 		69CCF1CA2A63CA5000756127 /* RegionDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionDataSource.swift; sourceTree = "<group>"; };
 		69CCF1CE2A63CD5500756127 /* WBErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBErrorResponse.swift; sourceTree = "<group>"; };
@@ -117,7 +128,7 @@
 		BD2D018C2A388753003A25D5 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		BD2D01912A388755003A25D5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BD2D01962A388755003A25D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BD2D01AD2A38886C003A25D5 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		BD2D01AD2A38886C003A25D5 /* RxBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxBaseViewController.swift; sourceTree = "<group>"; };
 		BD2D01AF2A38887D003A25D5 /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
 		BD2D01B12A38889E003A25D5 /* CSButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSButton.swift; sourceTree = "<group>"; };
 		BD2D01B32A3888AA003A25D5 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
@@ -132,6 +143,9 @@
 		BD51694A2A5D763000582BA9 /* EditNicknameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditNicknameViewModel.swift; sourceTree = "<group>"; };
 		BD51694E2A5EB43500582BA9 /* ChangeNicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeNicknameViewController.swift; sourceTree = "<group>"; };
 		BD5169502A5EB48D00582BA9 /* ChangeNicknameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeNicknameViewModel.swift; sourceTree = "<group>"; };
+		BD5D168B2A612BC900435816 /* DateTimePickViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimePickViewController.swift; sourceTree = "<group>"; };
+		BD5D168D2A612BD500435816 /* DateTimePickViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimePickViewModel.swift; sourceTree = "<group>"; };
+		BD5D16922A63B3AD00435816 /* CALayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
 		BD69B8F62A54337000DDCD7A /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		BD69B8F82A553A0C00DDCD7A /* CSNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSNavigationView.swift; sourceTree = "<group>"; };
 		BD77B8272A388C9400E7D57A /* CSColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSColor.swift; sourceTree = "<group>"; };
@@ -163,6 +177,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5C1BCA152A67D2EF00D02D84 /* Nickname */ = {
+			isa = PBXGroup;
+			children = (
+				69FDD4C52A39E42900830927 /* NicknameViewController.swift */,
+				5C1BCA162A67D2FF00D02D84 /* NicknameViewModel.swift */,
+			);
+			path = Nickname;
+			sourceTree = "<group>";
+		};
 		5CC61E242A5BC1D0001435E6 /* SettingRegion */ = {
 			isa = PBXGroup;
 			children = (
@@ -246,6 +269,7 @@
 		BD2D01872A388753003A25D5 /* Weatherbly */ = {
 			isa = PBXGroup;
 			children = (
+				BD5D168F2A61405900435816 /* Entity */,
 				BD2D019E2A3887B8003A25D5 /* Network */,
 				BD2D019D2A3887AA003A25D5 /* Helper */,
 				BD2D019C2A3887A3003A25D5 /* Feature */,
@@ -298,6 +322,7 @@
 		BD2D01A12A3887E0003A25D5 /* OnBoard */ = {
 			isa = PBXGroup;
 			children = (
+				5C1BCA152A67D2EF00D02D84 /* Nickname */,
 				BD4316322A3C966400E86271 /* SesoryTemperature */,
 				5CC61E242A5BC1D0001435E6 /* SettingRegion */,
 				BDA66FEB2A444C320061A1F0 /* SelectGenderViewController */,
@@ -311,7 +336,6 @@
 			isa = PBXGroup;
 			children = (
 				BD77B8292A388CEF00E7D57A /* OnBoardViewController.swift */,
-				69FDD4C52A39E42900830927 /* NicknameViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -370,6 +394,7 @@
 				BD5169482A5D6FEA00582BA9 /* UITextField+Extension.swift */,
 				BD4316372A3CA20900E86271 /* UIView+Extension.swift */,
 				5CC61E272A5BDCCC001435E6 /* UIViewController+Extension.swift */,
+				BD5D16922A63B3AD00435816 /* CALayer+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -398,7 +423,10 @@
 		BD2D01AC2A388860003A25D5 /* Base */ = {
 			isa = PBXGroup;
 			children = (
-				BD2D01AD2A38886C003A25D5 /* BaseViewController.swift */,
+				BD2D01AD2A38886C003A25D5 /* RxBaseViewController.swift */,
+				696176B12A63E37F00B83B4C /* RxBaseViewModel.swift */,
+				696176B32A63E3C000B83B4C /* BaseDisposeBag.swift */,
+				696176B52A63E4A400B83B4C /* EmptyViewModel.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -410,6 +438,13 @@
 				BDA66FF02A4AD4E50061A1F0 /* View */,
 			);
 			path = SesoryTemperature;
+			sourceTree = "<group>";
+		};
+		BD5D168F2A61405900435816 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Entity;
 			sourceTree = "<group>";
 		};
 		BD69B8F32A54332C00DDCD7A /* Setting */ = {
@@ -456,6 +491,7 @@
 			children = (
 				BD4316332A3C967900E86271 /* SensoryTempViewController.swift */,
 				BD50A5212A4C4072005F066E /* SlotMachineViewController.swift */,
+				BD5D168B2A612BC900435816 /* DateTimePickViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -463,6 +499,7 @@
 		BDA66FF12A4AD4EF0061A1F0 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				BD5D168D2A612BD500435816 /* DateTimePickViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -614,6 +651,8 @@
 				5C23DBA82A65186A00F41574 /* RegionEntity.swift in Sources */,
 				5CAB60CF2A53F61700CD431A /* TenDaysForecastViewController.swift in Sources */,
 				5C4BE89D2A5E63C000FD2CEF /* RegionCollectionViewCell.swift in Sources */,
+				696176B22A63E37F00B83B4C /* RxBaseViewModel.swift in Sources */,
+				BD5D168E2A612BD500435816 /* DateTimePickViewModel.swift in Sources */,
 				5CAB60D32A54FC6A00CD431A /* UITableViewCell+Extension.swift in Sources */,
 				BD2D01B42A3888AA003A25D5 /* UIColor+Extension.swift in Sources */,
 				BD2D018D2A388753003A25D5 /* HomeViewController.swift in Sources */,
@@ -627,10 +666,11 @@
 				BD77B82C2A388D2000E7D57A /* OnBoardViewModel.swift in Sources */,
 				BDA66FEF2A4459910061A1F0 /* SelectGenderViewModel.swift in Sources */,
 				5CCC91542A611FCE0025B522 /* NetworkManager.swift in Sources */,
+				5C1BCA172A67D2FF00D02D84 /* NicknameViewModel.swift in Sources */,
 				5CCC91502A6119730025B522 /* SearchRegionRequest.swift in Sources */,
 				5CAB60C52A528C9700CD431A /* UICollectionViewCell+Extension.swift in Sources */,
 				BD4316382A3CA20900E86271 /* UIView+Extension.swift in Sources */,
-				BD2D01AE2A38886C003A25D5 /* BaseViewController.swift in Sources */,
+				BD2D01AE2A38886C003A25D5 /* RxBaseViewController.swift in Sources */,
 				BD4316362A3C9DB700E86271 /* AssetsImage.swift in Sources */,
 				BDA66FED2A444C470061A1F0 /* SelectGenderViewController.swift in Sources */,
 				BD4316342A3C967900E86271 /* SensoryTempViewController.swift in Sources */,
@@ -643,9 +683,11 @@
 				5CC61E232A57C617001435E6 /* DailyForecastTableViewCell.swift in Sources */,
 				5CC61E1F2A56850F001435E6 /* DateFormatter+Extension.swift in Sources */,
 				BD2D01892A388753003A25D5 /* AppDelegate.swift in Sources */,
+				BD5D168C2A612BC900435816 /* DateTimePickViewController.swift in Sources */,
 				5CC61E212A579D66001435E6 /* DailyForecastViewController.swift in Sources */,
 				5CAB60C32A528C7A00CD431A /* UICollectionView+Extension.swift in Sources */,
 				BDA66FEA2A4075270061A1F0 /* UIImageView+Extension.swift in Sources */,
+				BD5D16932A63B3AD00435816 /* CALayer+Extension.swift in Sources */,
 				5CAB60D12A54FC5F00CD431A /* UITableView+Extension.swift in Sources */,
 				5C23DBA42A6505BF00F41574 /* KakaoErrorResponse.swift in Sources */,
 				5CCC91562A613F010025B522 /* SettingRegionViewModel.swift in Sources */,
@@ -657,11 +699,14 @@
 				5CCC914D2A61179F0025B522 /* WBTargetType.swift in Sources */,
 				69CCF1CF2A63CD5500756127 /* WBErrorResponse.swift in Sources */,
 				BDF208FF2A4EAEF2001177B2 /* CGFloat+Extension.swift in Sources */,
+				BDF208FF2A4EAEF2001177B2 /* CGFloat+Extension.swift in Sources */,
+				696176B62A63E4A400B83B4C /* EmptyViewModel.swift in Sources */,
 				BD5169512A5EB48D00582BA9 /* ChangeNicknameViewModel.swift in Sources */,
 				5C23DBA62A65166300F41574 /* RegionRepository.swift in Sources */,
 				BDF208FF2A4EAEF2001177B2 /* CGFloat+Extension.swift in Sources */,
 				69FDD4C62A39E42900830927 /* NicknameViewController.swift in Sources */,
 				69CCF1CB2A63CA5000756127 /* RegionDataSource.swift in Sources */,
+				696176B42A63E3C000B83B4C /* BaseDisposeBag.swift in Sources */,
 				BD51694B2A5D763000582BA9 /* EditNicknameViewModel.swift in Sources */,
 				BD2D01B62A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift in Sources */,
 				BD2D01B22A38889E003A25D5 /* CSButton.swift in Sources */,

@@ -8,6 +8,6 @@
 import RxRelay
 import RxSwift
 
-public final class SettingRegionViewModel {
-    private let disposeBag = DisposeBag()
+final class SettingRegionViewModel: RxBaseViewModel {
+    
 }

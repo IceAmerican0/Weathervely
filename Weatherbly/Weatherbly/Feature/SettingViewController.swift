@@ -10,10 +10,9 @@ import FlexLayout
 import RxCocoa
 import RxSwift
 
-final class SettingViewController: BaseViewController {
+final class SettingViewController: RxBaseViewController<SettingViewModel> {
     
     var leftButtonDidTapRelay = PublishRelay<Void>()
-    var bag = DisposeBag()
     
     // MARK: - Component
 
@@ -98,6 +97,8 @@ final class SettingViewController: BaseViewController {
         }
         
         styleButton.do {
+            /// 기본 shoadowColor는 _0__03 컬러를 사용하나, 여기서는 배경때문에 잘 보이지 않아서
+            /// 더 명확하게 보이기위해서 black 컬러사용
             $0.setShadow(CGSize(width: 0, height: 3), UIColor.black.cgColor, 0.25,  2)
             $0.setTitle("스타일 선택", for: .normal)
             $0.titleLabel?.font = .systemFont(ofSize: 17,weight: .medium)
@@ -243,7 +244,7 @@ final class SettingViewController: BaseViewController {
         
         editButton.rx.tap
             .subscribe { [weak self] _ in
-                self?.navigationController?.pushViewController(EditNicknameViewController(), animated: true)
+                self?.navigationController?.pushViewController(EditNicknameViewController(EditNicknameViewModel()), animated: true)
             }.disposed(by: bag)
         
     }

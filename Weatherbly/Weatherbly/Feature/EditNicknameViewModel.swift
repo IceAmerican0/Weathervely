@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class EditNicknameViewModel {
+class EditNicknameViewModel: RxBaseViewModel {
     
     var bottomButtonDidTapRelay = BehaviorRelay<UITextField.editMode>(value: .justShow)
     

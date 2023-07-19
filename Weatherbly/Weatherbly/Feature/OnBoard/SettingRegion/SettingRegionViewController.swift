@@ -8,9 +8,8 @@
 import UIKit
 import PinLayout
 import FlexLayout
-import RxSwift
 
-final class SettingRegionViewController: BaseViewController {
+final class SettingRegionViewController: RxBaseViewController<SettingRegionViewModel> {
     
     private var progressBar = CSProgressView(0.4)
     private var navigationView = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
@@ -32,9 +31,6 @@ final class SettingRegionViewController: BaseViewController {
     private let collectionViewHeight = UIScreen.main.bounds.height * 0.59
     
     var isFromEdit = false
-    
-    private let disposeBag = DisposeBag()
-//    public var viewModel:
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,7 +54,7 @@ final class SettingRegionViewController: BaseViewController {
         }
         
         inputWrapper.do {
-            $0.backgroundColor = CSColor._220_220_220.color
+            $0.backgroundColor = CSColor._248_248_248.color
             $0.layer.cornerRadius = 13
         }
         
@@ -74,13 +70,11 @@ final class SettingRegionViewController: BaseViewController {
         
         cancelButton.do {
             $0.setImage(AssetsImage.cancel.image, for: .normal)
-            $0.addTarget(self, action: #selector(didTapCancel), for: .touchUpInside)
         }
         
         confirmButton.do {
             $0.setTitle("확인", for: .normal)
             $0.setTitleColor(.white, for: .normal)
-            $0.addTarget(self, action: #selector(didTapConfirm), for: .touchUpInside)
         }
         
         regionCollectionView.do {
@@ -122,16 +116,20 @@ final class SettingRegionViewController: BaseViewController {
         }
     }
     
-    @objc private func goBack() {
-        self.navigationController?.popViewController(animated: true)
-    }
-    
-    @objc private func didTapCancel() {
-        inputRegion.text = ""
-    }
-    
-    @objc private func didTapConfirm() {
-        showResult()
+    override func viewBinding() {
+        navigationView.leftButtonDidTapRelay
+            .bind(to: viewModel.navigationPopViewControllerRelay)
+            .disposed(by: bag)
+        
+        cancelButton.rx.tap
+            .bind(onNext: { [weak self] in
+                self?.inputRegion.text = ""
+            })
+            .disposed(by: bag)
+        
+        confirmButton.rx.tap
+            .bind(onNext: showResult)
+            .disposed(by: bag)
     }
     
     private func showResult() {

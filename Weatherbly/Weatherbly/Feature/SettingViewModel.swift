@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxRelay
 
-class SettingViewModel {
+class SettingViewModel: RxBaseViewModel {
     
   
 }

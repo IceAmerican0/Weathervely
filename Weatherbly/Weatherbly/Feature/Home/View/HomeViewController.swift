@@ -9,8 +9,9 @@ import UIKit
 import PinLayout
 import FlexLayout
 import FSPagerView
+import RxSwift
 
-class HomeViewController: BaseViewController {
+class HomeViewController: RxBaseViewController<EmptyViewModel> {
     
     private var backgroundView = UIView()
     private var backgroundImage = UIImageView()
@@ -37,6 +38,8 @@ class HomeViewController: BaseViewController {
     private let closetWrapperHeight = UIScreen.main.bounds.height * 0.43
     private let closetCellWidth = UIScreen.main.bounds.width * 0.44
     
+    private let tapGesture = UITapGestureRecognizer()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -60,17 +63,14 @@ class HomeViewController: BaseViewController {
         
         settingButton.do {
             $0.setImage(AssetsImage.setting.image, for: .normal)
-            $0.addTarget(self, action: #selector(goToSetting), for: .touchUpInside)
         }
         
         calendarButton.do {
             $0.setImage(AssetsImage.schedule.image, for: .normal)
-            $0.addTarget(self, action: #selector(goToTenDays), for: .touchUpInside)
         }
         
         dailyWrapper.do {
-            let tap = UITapGestureRecognizer(target: self, action: #selector(goToDaily))
-            $0.addGestureRecognizer(tap)
+            $0.addGestureRecognizer(tapGesture)
         }
         
         weatherImageView.do {
@@ -142,20 +142,28 @@ class HomeViewController: BaseViewController {
         }
     }
     
+    override func viewBinding() {
+        tapGesture.rx
+            .event
+            .map { _ in
+                DailyForecastViewController(EmptyViewModel())
+            }
+            .bind(to: viewModel.navigationPushViewControllerRelay)
+            .disposed(by: bag)
+        
+        settingButton.rx.tap
+            .map { SettingViewController(SettingViewModel()) }
+            .bind(to: viewModel.navigationPushViewControllerRelay)
+            .disposed(by: bag)
+        
+        calendarButton.rx.tap
+            .map { TenDaysForeCastViewController(EmptyViewModel()) }
+            .bind(to: viewModel.navigationPushViewControllerRelay)
+            .disposed(by: bag)
+    }
+    
     private func configureBackgroundImage() -> AssetsImage {
         .cloudyEvening
-    }
-    
-    @objc private func goToSetting() {
-        self.navigationController?.pushViewController(SensoryTempViewController(), animated: true)
-    }
-    
-    @objc private func goToTenDays() {
-        self.navigationController?.pushViewController(TenDaysForeCastViewController(), animated: true)
-    }
-    
-    @objc private func goToDaily() {
-        self.navigationController?.pushViewController(DailyForecastViewController(), animated: true)
     }
 }
 

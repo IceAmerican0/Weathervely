@@ -8,8 +8,11 @@
 import UIKit
 import FlexLayout
 import PinLayout
+import RxSwift
+import RxRelay
+import RxCocoa
 
-final class OnBoardViewController: BaseViewController {
+final class OnBoardViewController: RxBaseViewController<OnBoardViewModel> {
     
     private var topGreetingLabel = CSLabel(.bold, 25, "날씨블리에 오신 걸\n환영해요!")
     private var logo = UIImageView()
@@ -28,7 +31,6 @@ final class OnBoardViewController: BaseViewController {
         startButton.do {
             $0.setTitle("시작하기", for: .normal)
             $0.setTitleColor(.white, for: .normal)
-            $0.addTarget(self, action: #selector(didTapStartButton), for: .touchUpInside)
         }
         
     }
@@ -43,16 +45,24 @@ final class OnBoardViewController: BaseViewController {
                 flex.addItem(topGreetingLabel)
                 flex.addItem(logo).width(35%).height(23%).alignSelf(.center)
                 flex.addItem(bottomGreetingLabel)
-                flex.addItem(startButton).height(buttonHeight).define { flex in
-                    flex.marginHorizontal(43)
-                        .height(startButton.primaryHeight)
-//                    startButton.pin.left(43).right(43)
-                }
+                flex.addItem(startButton)
+                    .marginHorizontal(43)
+                    .height(startButton.primaryHeight)
         }
     }
     
-    @objc private func didTapStartButton() {
-        self.navigationController?.pushViewController(ChangeNicknameViewController(), animated: true)
+    override func viewBinding() {
+        super.viewBinding()
+        
+        startButton.rx.tap
+        /// ViewModel 생성 X
+//            .map { EditNicknameViewController(EditNicknameViewModel())}
+//            .bind(to: viewModel.navigationPushViewControllerRelay)
+        
+        /// ViewModel 생성시
+            .map { [weak self] _ in self?.viewModel.nicknameViewController()}
+            .bind(to: viewModel.navigationPushViewControllerRelay)
+            .disposed(by: bag)
     }
 
 }
