@@ -160,7 +160,7 @@ final class SensoryTempViewController: RxBaseViewController<SensoryTempViewModel
     }
     
     override func viewBinding() {
-        
+     // TODO: - selectOtherDayLabel에 RxGesture 추가
     }
     
     @objc private func didTapnavigationBackButton(_ sender: UIButton) {
