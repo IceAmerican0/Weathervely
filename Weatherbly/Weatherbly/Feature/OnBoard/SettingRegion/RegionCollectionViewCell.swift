@@ -6,15 +6,24 @@
 //
 
 import UIKit
+import RxSwift
+import FlexLayout
+import PinLayout
 
-class RegionCollectionViewCell: UICollectionViewCell {
+public final class RegionCollectionViewCell: UICollectionViewCell {
     
-    var regionLabel = CSLabel(.regular, 20, "서울특별시 송파구 풍납1동")
-    let rightArrowImageView = UIImageView().then {
-        $0.setAssetsImage(AssetsImage.rightArrow)
+    var regionLabel = UILabel().then {
+        $0.font = .systemFont(ofSize: 20)
+        $0.numberOfLines = 0
     }
     
-    private let labelWidth = UIScreen.main.bounds.width * 0.35
+    let rightArrowImageView = UIButton().then {
+        $0.setImage(AssetsImage.rightArrow.image, for: .normal)
+    }
+    
+    var disposeBag = DisposeBag()
+    
+    private let labelWidth = UIScreen.main.bounds.width * 0.75
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -25,14 +34,14 @@ class RegionCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
         contentView.flex.layout()
     }
     
     private func layout() {
-        contentView.flex.direction(.row).alignItems(.center).define { flex in
-            flex.addItem(regionLabel).marginTop(5).width(labelWidth).height(28)
+        contentView.flex.direction(.row).justifyContent(.center).alignItems(.center).define { flex in
+            flex.addItem(regionLabel).width(labelWidth).height(28)
             flex.addItem(rightArrowImageView).marginLeft(8).size(24)
         }
     }

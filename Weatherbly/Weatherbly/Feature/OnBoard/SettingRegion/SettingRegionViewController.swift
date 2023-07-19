@@ -8,6 +8,7 @@
 import UIKit
 import PinLayout
 import FlexLayout
+import RxSwift
 
 final class SettingRegionViewController: BaseViewController {
     
@@ -21,13 +22,19 @@ final class SettingRegionViewController: BaseViewController {
     private let cancelButton = UIButton()
     
     private var confirmButton = CSButton(.primary)
-    private var regionCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
     
+    private var regionCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    
+    private let textFieldPinHeight = UIScreen.main.bounds.height * 0.177
     private let textFieldMarginHeight = UIScreen.main.bounds.height * 0.33
     private let textFieldWidth = UIScreen.main.bounds.width * 0.63
     private let buttonMarginBottom = UIScreen.main.bounds.height * 0.06
+    private let collectionViewHeight = UIScreen.main.bounds.height * 0.59
     
     var isFromEdit = false
+    
+    private let disposeBag = DisposeBag()
+//    public var viewModel:
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,7 +52,6 @@ final class SettingRegionViewController: BaseViewController {
     
     override func attribute() {
         super.attribute()
-        print(#function)
         
         explanationLabel.do {
             $0.backgroundColor = .white
@@ -81,10 +87,9 @@ final class SettingRegionViewController: BaseViewController {
             $0.delegate = self
             $0.dataSource = self
             $0.isScrollEnabled = true
-
-            $0.backgroundColor = CSColor._220_220_220.color
-            $0.layer.cornerRadius = 5
-            $0.register(RegionCollectionViewCell.self, forCellWithReuseIdentifier: RegionCollectionViewCell.identifier)
+            $0.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+            $0.showsHorizontalScrollIndicator = false
+            $0.register(withType: RegionCollectionViewCell.self)
         }
     }
     
@@ -103,10 +108,11 @@ final class SettingRegionViewController: BaseViewController {
                 flex.addItem(cancelButton).size(44)
             }
             flex.addItem(confirmButton).width(88%).height(62)
-            flex.addItem().width(UIScreen.main.bounds.width).height(300)
+            flex.addItem(regionCollectionView).width(UIScreen.main.bounds.width).height(collectionViewHeight)
         }
         inputWrapper.pin.top(textFieldMarginHeight)
         confirmButton.pin.bottom(buttonMarginBottom)
+        regionCollectionView.isHidden = true
         
         if isFromEdit {
             progressBar.isHidden = true
@@ -129,8 +135,11 @@ final class SettingRegionViewController: BaseViewController {
     }
     
     private func showResult() {
-        inputWrapper.pin.topCenter(to: explanationLabel.anchor.bottomCenter).marginTop(22)
-        inputWrapper.layoutIfNeeded()
+        unregisterKeyboardNotifications()
+        inputWrapper.pin.top(textFieldPinHeight)
+        
+        regionCollectionView.pin.bottom(12)
+        regionCollectionView.isHidden = false
         
         if let text = inputRegion.text {
             explanationLabel.text = "'\(text)' 검색 결과에요"
@@ -144,7 +153,7 @@ final class SettingRegionViewController: BaseViewController {
     override func keyboardWillShow(_ notification: Notification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
-                confirmButton.pin.bottom(buttonMarginBottom + keyboardSize.height)
+                confirmButton.pin.bottom(keyboardSize.height + 30)
                 inputWrapper.pin.topCenter(to: explanationLabel.anchor.bottomCenter).marginTop(22)
             }
         }
@@ -161,16 +170,24 @@ extension SettingRegionViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         return
     }
-    
 }
 
 extension SettingRegionViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int { 30 }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat { 12 }
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         return collectionView.dequeueCell(withType: RegionCollectionViewCell.self, for: indexPath).then {
+            $0.regionLabel.text = "서울특별시"
             $0.layer.shadowColor = CSColor._0__03.cgColor
         }
+    }
+}
+
+extension SettingRegionViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        CGSize(width: regionCollectionView.bounds.width, height: 44)
     }
 }
 
