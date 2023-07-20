@@ -8,7 +8,7 @@
 import RxSwift
 
 public protocol RegionRepositoryProtocol {
-    func searchRegion(query: String) -> Observable<RegionEntity>
+    func searchRegion(query: String) -> Observable<RegionInfo>
 }
 
 public struct RegionRepository: RegionRepositoryProtocol {
@@ -18,9 +18,12 @@ public struct RegionRepository: RegionRepositoryProtocol {
         self.dataSource = dataSource
     }
     
-    public func searchRegion(query: String) -> Observable<RegionEntity> {
-        dataSource
-            .searchRegion(.init(query: query))
-            .map { $0.generate() }
+    public func searchRegion(query: String) -> Observable<RegionInfo> {
+        let mapper = RegionQueryMapper(query: query)
+        
+        return dataSource
+            .searchRegion(mapper.toSearchRegionRequest())
+            .map { $0.toRegionInfo() }
+            .asObservable()
     }
 }

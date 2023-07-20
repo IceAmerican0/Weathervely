@@ -1,13 +1,12 @@
 //
-//  RegionEntity.swift
+//  RegionInfo.swift
 //  Weatherbly
 //
 //  Created by 박성준 on 2023/07/17.
 //
 
-/// 주소 검색
-public struct RegionEntity {
-    // TODO: Entity 추가 & initialize setting
+/// 주소 검색 결과
+public struct RegionInfo {
     public var documents: [Documents]
     
     public init(documents: [Documents]) {

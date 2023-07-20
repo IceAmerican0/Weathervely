@@ -143,6 +143,9 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
             explanationLabel.text = "'\(text)' 검색 결과에요"
             view.endEditing(true)
             confirmButton.isHidden = true
+            
+            viewModel.searchRegion(text)
+            
         } else { return }
         
     }
@@ -176,8 +179,8 @@ extension SettingRegionViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat { 12 }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return collectionView.dequeueCell(withType: RegionCollectionViewCell.self, for: indexPath).then {
-            $0.regionLabel.text = "서울특별시"
+        collectionView.dequeueCell(withType: RegionCollectionViewCell.self, for: indexPath).then {
+            $0.configureCellState(RegionCellState.init(region: "경기도"))
             $0.layer.shadowColor = CSColor._0__03.cgColor
         }
     }

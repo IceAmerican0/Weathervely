@@ -11,7 +11,7 @@ import Then
 import FlexLayout
 import PinLayout
 
-class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitializerProtocol, BaseDisposebag where ViewModel: RxBaseViewModel {
+public class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitializerProtocol, BaseDisposebag where ViewModel: RxBaseViewModel {
     
     lazy var bag: DisposeBag = {
         self.viewModel.bag
@@ -98,7 +98,7 @@ class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitializerProt
     
     func viewBinding() {}
     
-    override func viewDidLayoutSubviews() {
+    override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
     /// child component들의 속성을 잡아주기 위해서 flex.layout()을 먼저 호출한다.
@@ -109,7 +109,7 @@ class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitializerProt
         attribute()
     }
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         
         self.navigationController?.isNavigationBarHidden = true
@@ -130,7 +130,7 @@ class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitializerProt
         viewModelBinding()
     }
 
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
     

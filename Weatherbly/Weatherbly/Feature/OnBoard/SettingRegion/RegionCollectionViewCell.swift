@@ -10,6 +10,10 @@ import RxSwift
 import FlexLayout
 import PinLayout
 
+public struct RegionCellState {
+    let region: String
+}
+
 public final class RegionCollectionViewCell: UICollectionViewCell {
     
     var regionLabel = UILabel().then {
@@ -44,5 +48,9 @@ public final class RegionCollectionViewCell: UICollectionViewCell {
             flex.addItem(regionLabel).width(labelWidth).height(28)
             flex.addItem(rightArrowImageView).marginLeft(8).size(24)
         }
+    }
+    
+    func configureCellState(_ cellState: RegionCellState) {
+        regionLabel.text = cellState.region
     }
 }

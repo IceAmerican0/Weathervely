@@ -6,7 +6,7 @@
 //
 
 public extension SearchRegionResponse {
-    func generate() -> RegionEntity {
+    func toRegionInfo() -> RegionInfo {
         return .init(documents: documents.map { $0.toDocumentList() })
     }
 }

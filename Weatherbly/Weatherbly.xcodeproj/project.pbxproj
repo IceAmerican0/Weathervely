@@ -18,10 +18,13 @@
 		5C23DBA22A65048200F41574 /* RxMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 5C23DBA12A65048200F41574 /* RxMoya */; };
 		5C23DBA42A6505BF00F41574 /* KakaoErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C23DBA32A6505BF00F41574 /* KakaoErrorResponse.swift */; };
 		5C23DBA62A65166300F41574 /* RegionRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C23DBA52A65166300F41574 /* RegionRepository.swift */; };
-		5C23DBA82A65186A00F41574 /* RegionEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C23DBA72A65186A00F41574 /* RegionEntity.swift */; };
+		5C23DBA82A65186A00F41574 /* RegionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C23DBA72A65186A00F41574 /* RegionInfo.swift */; };
 		5C23DBAA2A651F6F00F41574 /* SearchRegionResponseMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C23DBA92A651F6F00F41574 /* SearchRegionResponseMapper.swift */; };
 		5C4BE89B2A5E2D1200FD2CEF /* EditRegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4BE89A2A5E2D1200FD2CEF /* EditRegionViewController.swift */; };
 		5C4BE89D2A5E63C000FD2CEF /* RegionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4BE89C2A5E63C000FD2CEF /* RegionCollectionViewCell.swift */; };
+		5C9D02B82A68CC5300AF2DA3 /* RegionQueryMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9D02B72A68CC5300AF2DA3 /* RegionQueryMapper.swift */; };
+		5C9D02BA2A68EB3900AF2DA3 /* Observable+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9D02B92A68EB3900AF2DA3 /* Observable+Extension.swift */; };
+		5C9D02BC2A68FC0200AF2DA3 /* Dependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9D02BB2A68FC0200AF2DA3 /* Dependency.swift */; };
 		5CAB60B92A4563B300CD431A /* NSMutableAttributedString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAB60B82A4563B300CD431A /* NSMutableAttributedString+Extension.swift */; };
 		5CAB60BF2A4D6A9D00CD431A /* ClosetFSPagerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAB60BE2A4D6A9D00CD431A /* ClosetFSPagerViewCell.swift */; };
 		5CAB60C32A528C7A00CD431A /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAB60C22A528C7A00CD431A /* UICollectionView+Extension.swift */; };
@@ -89,10 +92,13 @@
 		5C1D5A102A3C500A00E66788 /* CSLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSLabel.swift; sourceTree = "<group>"; };
 		5C23DBA32A6505BF00F41574 /* KakaoErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoErrorResponse.swift; sourceTree = "<group>"; };
 		5C23DBA52A65166300F41574 /* RegionRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionRepository.swift; sourceTree = "<group>"; };
-		5C23DBA72A65186A00F41574 /* RegionEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionEntity.swift; sourceTree = "<group>"; };
+		5C23DBA72A65186A00F41574 /* RegionInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionInfo.swift; sourceTree = "<group>"; };
 		5C23DBA92A651F6F00F41574 /* SearchRegionResponseMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRegionResponseMapper.swift; sourceTree = "<group>"; };
 		5C4BE89A2A5E2D1200FD2CEF /* EditRegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRegionViewController.swift; sourceTree = "<group>"; };
 		5C4BE89C2A5E63C000FD2CEF /* RegionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionCollectionViewCell.swift; sourceTree = "<group>"; };
+		5C9D02B72A68CC5300AF2DA3 /* RegionQueryMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionQueryMapper.swift; sourceTree = "<group>"; };
+		5C9D02B92A68EB3900AF2DA3 /* Observable+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Observable+Extension.swift"; sourceTree = "<group>"; };
+		5C9D02BB2A68FC0200AF2DA3 /* Dependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependency.swift; sourceTree = "<group>"; };
 		5CAB60B82A4563B300CD431A /* NSMutableAttributedString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Extension.swift"; sourceTree = "<group>"; };
 		5CAB60BE2A4D6A9D00CD431A /* ClosetFSPagerViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetFSPagerViewCell.swift; sourceTree = "<group>"; };
 		5CAB60C22A528C7A00CD431A /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
@@ -226,8 +232,9 @@
 				5CCC91512A61197B0025B522 /* SearchRegionResponse.swift */,
 				69CCF1C72A63A01D00756127 /* RegionProvider.swift */,
 				5C23DBA52A65166300F41574 /* RegionRepository.swift */,
-				5C23DBA72A65186A00F41574 /* RegionEntity.swift */,
+				5C23DBA72A65186A00F41574 /* RegionInfo.swift */,
 				5C23DBA92A651F6F00F41574 /* SearchRegionResponseMapper.swift */,
+				5C9D02B72A68CC5300AF2DA3 /* RegionQueryMapper.swift */,
 			);
 			path = Region;
 			sourceTree = "<group>";
@@ -395,6 +402,7 @@
 				BD4316372A3CA20900E86271 /* UIView+Extension.swift */,
 				5CC61E272A5BDCCC001435E6 /* UIViewController+Extension.swift */,
 				BD5D16922A63B3AD00435816 /* CALayer+Extension.swift */,
+				5C9D02B92A68EB3900AF2DA3 /* Observable+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -427,6 +435,7 @@
 				696176B12A63E37F00B83B4C /* RxBaseViewModel.swift */,
 				696176B32A63E3C000B83B4C /* BaseDisposeBag.swift */,
 				696176B52A63E4A400B83B4C /* EmptyViewModel.swift */,
+				5C9D02BB2A68FC0200AF2DA3 /* Dependency.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -648,7 +657,7 @@
 			files = (
 				5CC61E262A5BC223001435E6 /* SettingRegionViewController.swift in Sources */,
 				BD69B8F92A553A0C00DDCD7A /* CSNavigationView.swift in Sources */,
-				5C23DBA82A65186A00F41574 /* RegionEntity.swift in Sources */,
+				5C23DBA82A65186A00F41574 /* RegionInfo.swift in Sources */,
 				5CAB60CF2A53F61700CD431A /* TenDaysForecastViewController.swift in Sources */,
 				5C4BE89D2A5E63C000FD2CEF /* RegionCollectionViewCell.swift in Sources */,
 				696176B22A63E37F00B83B4C /* RxBaseViewModel.swift in Sources */,
@@ -671,6 +680,7 @@
 				5CAB60C52A528C9700CD431A /* UICollectionViewCell+Extension.swift in Sources */,
 				BD4316382A3CA20900E86271 /* UIView+Extension.swift in Sources */,
 				BD2D01AE2A38886C003A25D5 /* RxBaseViewController.swift in Sources */,
+				5C9D02B82A68CC5300AF2DA3 /* RegionQueryMapper.swift in Sources */,
 				BD4316362A3C9DB700E86271 /* AssetsImage.swift in Sources */,
 				BDA66FED2A444C470061A1F0 /* SelectGenderViewController.swift in Sources */,
 				BD4316342A3C967900E86271 /* SensoryTempViewController.swift in Sources */,
@@ -711,9 +721,11 @@
 				BD2D01B62A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift in Sources */,
 				BD2D01B22A38889E003A25D5 /* CSButton.swift in Sources */,
 				BD5169452A5A9BD600582BA9 /* SettingViewModel.swift in Sources */,
+				5C9D02BC2A68FC0200AF2DA3 /* Dependency.swift in Sources */,
 				BD2D01B02A38887D003A25D5 /* UIButton+Extension.swift in Sources */,
 				5C1D5A112A3C500A00E66788 /* CSLabel.swift in Sources */,
 				BD50A5222A4C4072005F066E /* SlotMachineViewController.swift in Sources */,
+				5C9D02BA2A68EB3900AF2DA3 /* Observable+Extension.swift in Sources */,
 				BD2D018B2A388753003A25D5 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -31,7 +31,7 @@ extension RegionAPI: TargetType {
     public var task: Task {
         switch self {
         case .searchRegion(let searchRequest):
-            return .requestJSONEncodable(searchRequest)
+            return .requestParameters(parameters: ["query": searchRequest], encoding: URLEncoding.queryString)
         }
     }
 }
