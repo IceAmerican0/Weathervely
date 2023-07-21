@@ -151,9 +151,10 @@ final class DateTimePickViewController: RxBaseViewController<DateTimePickViewMod
                             // 시간 비교
                             if Int(today[3])! > pickerTime {
                                 self?.view.showToast(message: "미래 시간은 선택 할 수 없어요", font: .systemFont(ofSize: 16))
+                                
                             } else {
-                                print(1)
                                 self?.navigationController?.pushViewController(SensoryTempViewController(SensoryTempViewModel()), animated: true)
+                                
                             }
                         } else { // 선택시간이 오후
                             // Toast
@@ -166,7 +167,6 @@ final class DateTimePickViewController: RxBaseViewController<DateTimePickViewMod
                             //시간비교
                             if Int(today[3])! < pickerTime {
                                 self?.view.showToast(message: "미래 시간은 선택 할 수 없어요", font: .systemFont(ofSize: 16))
-                                
                             } else {
                                 self?.navigationController?.pushViewController(SensoryTempViewController(SensoryTempViewModel()), animated: true)
                             }

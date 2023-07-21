@@ -18,7 +18,6 @@ final class OnBoardViewController: RxBaseViewController<OnBoardViewModel> {
     private var logo = UIImageView()
     private var bottomGreetingLabel = CSLabel(.bold, 20, "날씨블리가 날씨에 맞는\n옷차림을 알려드릴 거에요")
     private var startButton = CSButton(.primary)
-    private var buttonHeight = UIScreen.main.bounds.height * 0.07
     
     override func attribute() {
         super.attribute()

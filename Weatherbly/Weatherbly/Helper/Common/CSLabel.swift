@@ -38,6 +38,7 @@ public final class CSLabel: UILabel, CodeBaseInitializerProtocol {
          _ labelText: String
     ) {
         self.labelStyle = labelStyle
+        
         if UIScreen.main.bounds.width < 376 {
             self.labelFontSize = labelFontSize - 4
         } else {

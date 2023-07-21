@@ -97,7 +97,6 @@ extension UIView {
 
     
     func showToast(message : String, font: UIFont) {
-        
         let y: CGFloat = {
             var y = CGFloat()
 
@@ -118,7 +117,7 @@ extension UIView {
                 toastLabel.alpha = 1.0
                 toastLabel.layer.cornerRadius = 20;
                 toastLabel.clipsToBounds  =  true
-    
+        
         self.addSubview(toastLabel)
         UIView.animate(withDuration: 0.5, delay: 3.5, options: .curveEaseOut, animations: {
                  toastLabel.alpha = 0.0

@@ -50,10 +50,11 @@ final class SensoryTempViewController: RxBaseViewController<SensoryTempViewModel
         mainMessageLabel.do {
             // TODO: - 닉네임 변수 처리
             $0.text = "(닉네임)님께도\n이 옷차림이 적당한가요?"
-            $0.adjustsFontSizeToFitWidth = true
-            if UIScreen.main.bounds.width < 376 {
-                $0.font = .boldSystemFont(ofSize: 18)
-            }
+//            $0.adjustsFontSizeToFitWidth = true
+//            if UIScreen.main.bounds.width < 376 {
+//                $0.font = .boldSystemFont(ofSize: 18)
+//            }
+            $0.setLineHeight(1.07)
         }
         
         clothViewWrapper.do {
@@ -105,6 +106,7 @@ final class SensoryTempViewController: RxBaseViewController<SensoryTempViewModel
         
         container.flex
 //            .justifyContent(.spaceBetween)
+            .paddingBottom(20)
             .define { flex in
             
             flex.addItem(headerWrapper).define { flex in
@@ -112,14 +114,15 @@ final class SensoryTempViewController: RxBaseViewController<SensoryTempViewModel
                 flex.addItem(navigationBackButton).left(12).size(44).marginTop(15)
             }
 
-            flex.addItem(mainMessageLabel).marginBottom(24)
+            flex.addItem(mainMessageLabel)
+                    .marginTop(-20).marginBottom(24)
 
             flex.addItem(clothViewWrapper)
                 .justifyContent(.spaceAround)
                 .paddingTop(24)
                 .marginHorizontal(63)
-                .grow(0.9)
-                .shrink(0.9)
+                .grow(1)
+                .shrink(1)
                 .define { flex in
                     flex.addItem(tempLabel)
                         .marginHorizontal(50)
@@ -143,7 +146,7 @@ final class SensoryTempViewController: RxBaseViewController<SensoryTempViewModel
                 .direction(.row)
                 .justifyContent(.center)
                 .marginHorizontal(54)
-                .marginTop(19)
+//                .marginTop(10)
                 .define { flex in
                     flex.addItem(acceptButton)
                         .grow(1)
