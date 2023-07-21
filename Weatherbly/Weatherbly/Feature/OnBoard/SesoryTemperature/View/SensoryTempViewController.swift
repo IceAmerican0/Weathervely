@@ -9,34 +9,30 @@ import UIKit
 import FlexLayout
 import PinLayout
 
-final class SensoryTempViewController: RxBaseViewController<EmptyViewModel> {
+final class SensoryTempViewController: RxBaseViewController<SensoryTempViewModel> {
     
     var headerWrapper = UIView()
     var progressBar = CSProgressView(1.0)
     var navigationBackButton = UIButton()
     
-    var mainMessageLabel = CSLabel(.bold, 22, "'어제'날씨의 추천 옷차림이에요\n(닉네임)님의 온도와 잘 맞나요?")
+    var mainMessageLabel = CSLabel(.bold, 22, "(닉네임)님께도\n이 옷차림이 적당한가요?")
     
     var clothViewWrapper = UIView()
     
-    var minTempWrapper = UIView()
-    var minTempLabel = CSLabel(.bold, 18, "오전 7시 (3℃)")
-    var minTempImageView = UIImageView()
-    var minImageSourceLabel = CSLabel(.regular, 11, "by 0000")
+    var tempWrapper = UIView()
+    var tempLabel = CSLabel(.bold, 18, "선택 시간 (3℃)")
+    var tempImageView = UIImageView()
+    var imageSourceLabel = CSLabel(.regular, 11, "by 0000")
     
-    var maxTempWrapper = UIView()
-    var maxTempLabel = CSLabel(.bold, 18, "오후 2시 (3℃)")
-    var maxTempImageView = UIImageView()
-    var maxImageSourceLabel = CSLabel(.regular, 11, "by 0000")
+    var discriptionLabel = CSLabel(.regular, 16 , "외출하셨을 때 날씨에\n추천되는 표준 옷차림이에요")
     
     var buttonWrapper = UIView()
-    var acceptButton = CSButton(.grayFilled)
-    var denyButton = CSButton(.grayFilled)
-    var confirmButton = CSButton(.primary)
+    var acceptButton = CSButton(.primary)
+    var denyButton = CSButton(.primary)
     
-    var notTodayLabel = CSLabel(.underline, 15, "그저께 옷차림으로 비교하기")
+    var selectOtherDayLabel = CSLabel(.underline, 15, "다른 시간대 선택하기")
     
-    private let imageHeight = UIScreen.main.bounds.height * 0.34
+    private let imageHeight = UIScreen.main.bounds.height * 0.38
     private let buttonHeight = UIScreen.main.bounds.height * 0.054
     
     override func viewDidLoad() {
@@ -53,59 +49,54 @@ final class SensoryTempViewController: RxBaseViewController<EmptyViewModel> {
         
         mainMessageLabel.do {
             // TODO: - 닉네임 변수 처리
-            $0.text = "'어제'날씨의 추천 옷차림이에요\n(닉네임)님의\n온도와 잘 맞나요?"
-            $0.adjustsFontSizeToFitWidth = true
-            if UIScreen.main.bounds.width < 376 {
-                $0.font = .boldSystemFont(ofSize: 18)
-            }
+            $0.text = "(닉네임)님께도\n이 옷차림이 적당한가요?"
+//            $0.adjustsFontSizeToFitWidth = true
+//            if UIScreen.main.bounds.width < 376 {
+//                $0.font = .boldSystemFont(ofSize: 18)
+//            }
+            $0.setLineHeight(1.07)
         }
         
-        minTempWrapper.do {
+        clothViewWrapper.do {
+            $0.layer.cornerRadius = 20.0
+            $0.backgroundColor = CSColor._253_253_253.color
+            $0.setShadow(CGSize(width: 0, height: 4), CSColor._220_220_220.cgColor, 1, 10)
+        }
+        
+        tempWrapper.do {
             $0.layer.cornerRadius = 20.0
             $0.backgroundColor = CSColor._253_253_253.color
             $0.setShadow(CGSize(width: 0, height: 4), CSColor._220_220_220.cgColor, 1, 10)
             // TODO: - shadow처리
         }
     
-        minTempLabel.do {
+        tempLabel.do {
+            $0.setBackgroundColor(CSColor._172_107_255_004.color)
+            $0.addBorders([.top, .left, .right, .bottom])
+            $0.setCornerRadius(5)
             $0.attributedText = NSMutableAttributedString()
-                .bold("오전 7시", 18, CSColor._40_106_167)
-                .bold(" (3℃)", 16, CSColor._40_106_167)
+                .bold($0.text ?? "", 16, CSColor._40_106_167)
             $0.adjustsFontSizeToFitWidth = true
             $0.numberOfLines = 1
         }
         
-        minTempImageView.do {
-            $0.image = UIImage(systemName: "star.fill")
+        tempImageView.do {
+            $0.image = AssetsImage.sampleCloth.image
         }
         
-        maxTempWrapper.do {
-            $0.layer.cornerRadius = 20.0
-            $0.backgroundColor = CSColor._253_253_253.color
-            $0.setShadow(CGSize(width: 0, height: 4), CSColor._220_220_220.cgColor, 1, 10)
-            // TODO: - shadow처리
-        }
-    
-        maxTempLabel.do {
-            $0.attributedText = NSMutableAttributedString()
-                .bold("오후 2시", 18, CSColor._178_36_36)
-                .bold(" (3℃)", 16, CSColor._178_36_36)
+        discriptionLabel.do {
             $0.adjustsFontSizeToFitWidth = true
-            $0.numberOfLines = 1
+            $0.numberOfLines = 0
+            $0.textColor = CSColor._102_102_102.color
+            $0.setLineHeight(1.26)
         }
-        
-        maxTempImageView.do {
-            $0.image = UIImage(systemName: "star.fill")
-        }
-        
+       
         acceptButton.do {
             $0.setTitle("네", for: .normal)
-            $0.backgroundColor = CSColor._50_50_50.color
         }
         
         denyButton.do {
-            $0.setTitle("더 두껍게 / 얇게 입을게요", for: .normal)
-            $0.backgroundColor = CSColor._50_50_50.color
+            $0.setTitle("아니오", for: .normal)
             $0.addTarget(self, action: #selector(didTapDenyButton), for: .touchUpInside)
         }
     }
@@ -113,51 +104,66 @@ final class SensoryTempViewController: RxBaseViewController<EmptyViewModel> {
     override func layout() {
         super.layout()
         
-        container.flex.justifyContent(.spaceBetween).define { flex in
+        container.flex
+//            .justifyContent(.spaceBetween)
+            .paddingBottom(20)
+            .define { flex in
             
             flex.addItem(headerWrapper).define { flex in
                 flex.addItem(progressBar)
                 flex.addItem(navigationBackButton).left(12).size(44).marginTop(15)
             }
 
-            flex.addItem(mainMessageLabel).marginBottom(24).marginTop(10)
+            flex.addItem(mainMessageLabel)
+                    .marginTop(-20).marginBottom(24)
 
-            flex.addItem(clothViewWrapper).direction(.row)
-                .marginHorizontal(27)
+            flex.addItem(clothViewWrapper)
+                .justifyContent(.spaceAround)
+                .paddingTop(24)
+                .marginHorizontal(63)
+                .grow(1)
+                .shrink(1)
                 .define { flex in
-                flex.addItem(minTempWrapper)
-                        .grow(1)
-                        .shrink(1)
-                        .marginRight(5)
-                        .alignItems(.center)
-                        .define { flex in
-                    flex.addItem(minTempLabel).marginTop(11).marginHorizontal(20)
-                    flex.addItem(minTempImageView).marginTop(10).width(70%).height(imageHeight)
-                    flex.addItem(minImageSourceLabel).marginTop(7).marginBottom(7)
-                }
-
-                flex.addItem(maxTempWrapper)
-                        .grow(1)
-                        .shrink(1)
-                        .marginLeft(5)
-                        .alignItems(.center)
-                        .define { flex in
-                    flex.addItem(maxTempLabel).marginTop(11).marginHorizontal(20)
-                    flex.addItem(maxTempImageView).marginTop(10).width(70%).height(imageHeight)
-                    flex.addItem(maxImageSourceLabel).marginTop(7).marginBottom(7)
-                }
+                    flex.addItem(tempLabel)
+                        .marginHorizontal(50)
+                        .paddingVertical(3)
+                    flex.addItem(tempImageView)
+                        .alignSelf(.center)
+                        .marginTop(16)
+                        .width(50%)
+                        .height(78%)
+                    flex.addItem(imageSourceLabel)
+                        .marginTop(7)
+                        .marginBottom(7)
+                
             }
             
+            flex.addItem(discriptionLabel)
+                .alignSelf(.center)
+                .margin(19)
+            
             flex.addItem(buttonWrapper)
+                .direction(.row)
                 .justifyContent(.center)
-                .marginTop(39)
-                .marginBottom(15)
+                .marginHorizontal(54)
+//                .marginTop(10)
                 .define { flex in
-                flex.addItem(acceptButton).marginHorizontal(43).height(buttonHeight)
-                flex.addItem(denyButton).marginHorizontal(43).height(buttonHeight).marginTop(14)
-                flex.addItem(notTodayLabel).marginTop(24)
+                    flex.addItem(acceptButton)
+                        .grow(1)
+                        .width(50%).height(buttonHeight)
+                        .marginRight(12).paddingVertical(9)
+                    flex.addItem(denyButton)
+                        .grow(1)
+                        .width(50%).height(buttonHeight)
+                        .marginLeft(12).paddingVertical(9)
             }
+            
+                flex.addItem(selectOtherDayLabel).marginTop(27)
         }
+    }
+    
+    override func viewBinding() {
+     // TODO: - selectOtherDayLabel에 RxGesture 추가
     }
     
     @objc private func didTapnavigationBackButton(_ sender: UIButton) {
@@ -165,7 +171,7 @@ final class SensoryTempViewController: RxBaseViewController<EmptyViewModel> {
     }
     
     @objc func didTapDenyButton() {
-        self.navigationController?.pushViewController(SlotMachineViewController(EmptyViewModel()), animated: true)
+        self.navigationController?.pushViewController(SlotMachineViewController(SlotMachineViewModel()), animated: true)
     }
     
 }

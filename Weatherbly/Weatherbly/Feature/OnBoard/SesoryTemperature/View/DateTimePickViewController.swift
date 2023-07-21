@@ -10,8 +10,9 @@ import FlexLayout
 import PinLayout
 import RxCocoa
 import RxSwift
+import Toast
 
-final class DateTimePickViewController: RxBaseViewController<EmptyViewModel> {
+final class DateTimePickViewController: RxBaseViewController<DateTimePickViewModel> {
     
     var pickerFirstRowData = ["어제","오늘"]
     var pickerSecondRowData = ["오전","오후"]
@@ -40,22 +41,20 @@ final class DateTimePickViewController: RxBaseViewController<EmptyViewModel> {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        dateTimePickerView.delegate = self
+        dateTimePickerView.dataSource = self
+        dateTimePickerView.selectRow(6, inComponent: 2, animated: true)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        dateTimePickerView.delegate = self
-        dateTimePickerView.dataSource = self
-        dateTimePickerView.selectRow(6, inComponent: 2, animated: true)
     }
     
     // MARK: - layout
     
     override func attribute() {
         super.attribute()
-        print("viewCOnter viewDid")
-        
+
         navigationBackButton.do {
             $0.setImage(AssetsImage.navigationBackButton.image, for: .normal)
         }
@@ -73,8 +72,13 @@ final class DateTimePickViewController: RxBaseViewController<EmptyViewModel> {
         datePickerWrapper.do {
             $0.addGradientLayer(gradientLayer)
         }
-
         
+        discriptionLabel.do {
+            $0.setLineHeight(1.3)
+        }
+        
+
+//        dateTimePickerView.selectRow(6, inComponent: 2, animated: true)
     }
     
     override func layout() {
@@ -99,6 +103,7 @@ final class DateTimePickViewController: RxBaseViewController<EmptyViewModel> {
                     .marginHorizontal(118)
                     
                 flex.addItem(datePickerWrapper)
+                    .height(UIScreen.main.bounds.height * 0.22)
                     .marginTop(33)
                     .marginHorizontal(43)
                     .define { flex in
@@ -126,9 +131,53 @@ final class DateTimePickViewController: RxBaseViewController<EmptyViewModel> {
         
         bottomButton.rx.tap
             .subscribe { [weak self] _ in
-                // TODO: - 현재시간과 비교해서 토스트 띄우기
-            
+                // TODO: - viewModel로 옮기기
+                                
+                let date = Date()
+                let today = date.today.components(separatedBy: " ").map{ $0 }
+//                print("현재시간: ", today)
                 
+                // Get Picker value
+                let pickerDay: String = self?.pickerFirstRowData[(self?.dateTimePickerView.selectedRow(inComponent: 0))  ?? 0] ?? "어제"
+                
+                let pickerDayTime: String = self?.pickerSecondRowData[(self?.dateTimePickerView.selectedRow(inComponent: 1)) ?? 0] ?? "오전"
+                
+                let pickerTime: Int = Int(self?.pickerThirdRowData[(self?.dateTimePickerView.selectedRow(inComponent: 2)) ?? 6] ?? 7)
+                
+                /// 시간비교
+                if today[2] == "오전" {
+                    if pickerDay == "오늘" {
+                        if pickerDayTime == "오전" {
+                            // 시간 비교
+                            if Int(today[3])! > pickerTime {
+                                self?.view.showToast(message: "미래 시간은 선택 할 수 없어요", font: .systemFont(ofSize: 16))
+                                
+                            } else {
+                                self?.navigationController?.pushViewController(SensoryTempViewController(SensoryTempViewModel()), animated: true)
+                                
+                            }
+                        } else { // 선택시간이 오후
+                            // Toast
+                            self?.view.showToast(message: "미래 시간은 선택 할 수 없어요", font: .systemFont(ofSize: 16))
+                        }
+                    }
+                } else { // 지금이 오후
+                    if pickerDay == "오늘" {
+                        if pickerDayTime == "오후" {
+                            //시간비교
+                            if Int(today[3])! < pickerTime {
+                                self?.view.showToast(message: "미래 시간은 선택 할 수 없어요", font: .systemFont(ofSize: 16))
+                            } else {
+                                self?.navigationController?.pushViewController(SensoryTempViewController(SensoryTempViewModel()), animated: true)
+                            }
+                        } else {
+                            self?.navigationController?.pushViewController(SensoryTempViewController(SensoryTempViewModel()), animated: true)
+                        }
+                    } else {
+                        self?.navigationController?.pushViewController(SensoryTempViewController(SensoryTempViewModel()), animated: true)
+                    }
+                }
+//                print("선택시간: ", pickerDay , pickerDayTime , pickerTime)
             }
     }
 
@@ -176,5 +225,6 @@ extension DateTimePickViewController: UIPickerViewDelegate, UIPickerViewDataSour
             return NSAttributedString(string: "\(String(pickerThirdRowData[row])) 시", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20),NSAttributedString.Key.foregroundColor: UIColor.black])
         }
    }
+    
     
 }

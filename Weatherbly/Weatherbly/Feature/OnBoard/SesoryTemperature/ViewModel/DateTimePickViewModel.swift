@@ -7,6 +7,6 @@
 
 import Foundation
 
-class DateTimePickViewModel {
+class DateTimePickViewModel: RxBaseViewModel {
     
 }
