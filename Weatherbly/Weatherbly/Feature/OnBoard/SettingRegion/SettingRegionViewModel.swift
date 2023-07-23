@@ -30,16 +30,18 @@ public final class SettingRegionViewModel: RxBaseViewModel, SettingRegionViewMod
     }
     
     public func searchRegion(_ region: String) {
-        let repository = RegionRepository(dataSource: RegionDataSource())
+        let datasource = RegionDataSource()
         
-        repository.searchRegion(query: region)
+        datasource.searchRegion(region)
             .subscribe(
-                with: self,
-                onNext: { owner, regionInfo in
-                    owner.documents = regionInfo.documents
+//                with: self,
+                onNext: { owner in
+                    print(owner)
                 },
-                onError: { owner, _ in
-                    
+                onError: { owner in
+                    print(owner.localizedDescription)
+                }, onCompleted: {
+                    print("complete")
                 }
             )
             .disposed(by: bag)

@@ -9,7 +9,7 @@ import Moya
 import RxSwift
 
 public protocol RegionDataSourceProtocol {
-    func searchRegion(_ request: SearchRegionRequest) -> Observable<SearchRegionResponse>
+    func searchRegion(_ request: String) -> Observable<SearchRegionEntity>
 }
 
 public final class RegionDataSource: RegionDataSourceProtocol {
@@ -20,9 +20,9 @@ public final class RegionDataSource: RegionDataSourceProtocol {
         self.provider = provider
     }
     
-    public func searchRegion(_ request: SearchRegionRequest) -> Observable<SearchRegionResponse> {
+    public func searchRegion(_ request: String) -> Observable<SearchRegionEntity> {
         provider
             .request(.searchRegion(request))
-            .mapTo(SearchRegionResponse.self)
+            .mapTo(SearchRegionEntity.self)
     }
 }

@@ -41,7 +41,7 @@
 		5CCC914B2A6114880025B522 /* RegionAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC914A2A6114880025B522 /* RegionAPI.swift */; };
 		5CCC914D2A61179F0025B522 /* WBTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC914C2A61179F0025B522 /* WBTargetType.swift */; };
 		5CCC91502A6119730025B522 /* SearchRegionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC914F2A6119730025B522 /* SearchRegionRequest.swift */; };
-		5CCC91522A61197B0025B522 /* SearchRegionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC91512A61197B0025B522 /* SearchRegionResponse.swift */; };
+		5CCC91522A61197B0025B522 /* SearchRegionEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC91512A61197B0025B522 /* SearchRegionEntity.swift */; };
 		5CCC91542A611FCE0025B522 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC91532A611FCE0025B522 /* NetworkManager.swift */; };
 		5CCC91562A613F010025B522 /* SettingRegionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC91552A613F010025B522 /* SettingRegionViewModel.swift */; };
 		696176B22A63E37F00B83B4C /* RxBaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696176B12A63E37F00B83B4C /* RxBaseViewModel.swift */; };
@@ -115,7 +115,7 @@
 		5CCC914A2A6114880025B522 /* RegionAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionAPI.swift; sourceTree = "<group>"; };
 		5CCC914C2A61179F0025B522 /* WBTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WBTargetType.swift; path = Weatherbly/Network/Moya/WBTargetType.swift; sourceTree = SOURCE_ROOT; };
 		5CCC914F2A6119730025B522 /* SearchRegionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRegionRequest.swift; sourceTree = "<group>"; };
-		5CCC91512A61197B0025B522 /* SearchRegionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRegionResponse.swift; sourceTree = "<group>"; };
+		5CCC91512A61197B0025B522 /* SearchRegionEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRegionEntity.swift; sourceTree = "<group>"; };
 		5CCC91532A611FCE0025B522 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		5CCC91552A613F010025B522 /* SettingRegionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingRegionViewModel.swift; sourceTree = "<group>"; };
 		696176B12A63E37F00B83B4C /* RxBaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxBaseViewModel.swift; sourceTree = "<group>"; };
@@ -229,7 +229,7 @@
 			children = (
 				5CCC914A2A6114880025B522 /* RegionAPI.swift */,
 				5CCC914F2A6119730025B522 /* SearchRegionRequest.swift */,
-				5CCC91512A61197B0025B522 /* SearchRegionResponse.swift */,
+				5CCC91512A61197B0025B522 /* SearchRegionEntity.swift */,
 				69CCF1C72A63A01D00756127 /* RegionProvider.swift */,
 				5C23DBA52A65166300F41574 /* RegionRepository.swift */,
 				5C23DBA72A65186A00F41574 /* RegionInfo.swift */,
@@ -667,7 +667,7 @@
 				BD2D018D2A388753003A25D5 /* HomeViewController.swift in Sources */,
 				5CAB60BF2A4D6A9D00CD431A /* ClosetFSPagerViewCell.swift in Sources */,
 				5CCC914B2A6114880025B522 /* RegionAPI.swift in Sources */,
-				5CCC91522A61197B0025B522 /* SearchRegionResponse.swift in Sources */,
+				5CCC91522A61197B0025B522 /* SearchRegionEntity.swift in Sources */,
 				5CAB60B92A4563B300CD431A /* NSMutableAttributedString+Extension.swift in Sources */,
 				5CC61E282A5BDCCC001435E6 /* UIViewController+Extension.swift in Sources */,
 				5CAB60D52A54FDFE00CD431A /* TenDaysForecastTableViewCell.swift in Sources */,

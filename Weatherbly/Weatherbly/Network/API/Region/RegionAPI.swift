@@ -9,7 +9,7 @@ import Foundation
 import Moya
 
 public enum RegionAPI {
-    case searchRegion(_ request: SearchRegionRequest)
+    case searchRegion(_ request: String)
 }
 
 extension RegionAPI: TargetType {
