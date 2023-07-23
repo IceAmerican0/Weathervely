@@ -10,7 +10,7 @@ import FlexLayout
 import RxCocoa
 import RxSwift
 
-final class SettingViewController: RxBaseViewController<EmptyViewModel> {
+final class SettingViewController: RxBaseViewController<SettingViewModel> {
     
     var leftButtonDidTapRelay = PublishRelay<Void>()
     

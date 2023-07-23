@@ -10,9 +10,7 @@ import UIKit
 class OnBoardViewModel: RxBaseViewModel {
     
     func nicknameViewController() -> UIViewController {
-        
-        let viewModel = EditNicknameViewModel()
-        let viewController = EditNicknameViewController(viewModel)
+        let viewController = NicknameViewController(NicknameViewModel())
         
         return viewController
     }

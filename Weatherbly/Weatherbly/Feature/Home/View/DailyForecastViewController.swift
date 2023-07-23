@@ -31,12 +31,10 @@ class DailyForecastViewController: RxBaseViewController<EmptyViewModel> {
         
         settingButton.do {
             $0.setImage(AssetsImage.setting.image, for: .normal)
-            $0.addTarget(self, action: #selector(goToSetting), for: .touchUpInside)
         }
         
         homeButton.do {
             $0.setImage(AssetsImage.daily.image, for: .normal)
-            $0.addTarget(self, action: #selector(goBack), for: .touchUpInside)
         }
         
         divider.do {
@@ -50,7 +48,6 @@ class DailyForecastViewController: RxBaseViewController<EmptyViewModel> {
             $0.backgroundColor = CSColor._253_253_253.color
             $0.layer.cornerRadius = 5
             $0.register(DailyForecastTableViewCell.self, forCellReuseIdentifier: DailyForecastTableViewCell.identifier)
-            //            .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
         }
     }
     
@@ -69,12 +66,17 @@ class DailyForecastViewController: RxBaseViewController<EmptyViewModel> {
         }
     }
     
-    @objc private func goToSetting() {
-        self.navigationController?.pushViewController(SensoryTempViewController(SensoryTempViewModel()), animated: true)
-    }
-    
-    @objc private func goBack() {
-        self.navigationController?.popViewController(animated: true)
+    override func viewBinding() {
+        settingButton.rx.tap
+            .map { SettingViewController(SettingViewModel()) }
+            .bind(to: viewModel.navigationPushViewControllerRelay)
+            .disposed(by: bag)
+        
+        homeButton.rx.tap
+            .bind(onNext: { [weak self] _ in
+                self?.navigationController?.popViewController(animated: true)
+            })
+            .disposed(by: bag)
     }
 }
 

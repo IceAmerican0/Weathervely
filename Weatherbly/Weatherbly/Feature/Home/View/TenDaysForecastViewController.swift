@@ -31,12 +31,10 @@ class TenDaysForeCastViewController: RxBaseViewController<EmptyViewModel> {
         
         settingButton.do {
             $0.setImage(AssetsImage.setting.image, for: .normal)
-            $0.addTarget(self, action: #selector(goToSetting), for: .touchUpInside)
         }
         
         homeButton.do {
             $0.setImage(AssetsImage.daily.image, for: .normal)
-            $0.addTarget(self, action: #selector(goBack), for: .touchUpInside)
         }
         
         divider.do {
@@ -76,12 +74,17 @@ class TenDaysForeCastViewController: RxBaseViewController<EmptyViewModel> {
         }
     }
     
-    @objc private func goToSetting() {
-        self.navigationController?.pushViewController(SensoryTempViewController(SensoryTempViewModel()), animated: true)
-    }
-    
-    @objc private func goBack() {
-        self.navigationController?.popViewController(animated: true)
+    override func viewBinding() {
+        settingButton.rx.tap
+            .map { SettingViewController(SettingViewModel()) }
+            .bind(to: viewModel.navigationPushViewControllerRelay)
+            .disposed(by: bag)
+        
+        homeButton.rx.tap
+            .bind(onNext: { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
+            })
+            .disposed(by: bag)
     }
 }
 

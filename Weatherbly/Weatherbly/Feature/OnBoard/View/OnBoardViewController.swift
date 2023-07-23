@@ -55,7 +55,7 @@ final class OnBoardViewController: RxBaseViewController<OnBoardViewModel> {
         
         startButton.rx.tap
             .subscribe { [weak self] _ in
-                self?.navigationController?.pushViewController(DateTimePickViewController(DateTimePickViewModel()), animated: true)
+                self?.navigationController?.pushViewController(SettingRegionViewController(SettingRegionViewModel()), animated: true)
             }
         /// ViewModel 생성 X
 //            .map { EditNicknameViewController(EditNicknameViewModel())}

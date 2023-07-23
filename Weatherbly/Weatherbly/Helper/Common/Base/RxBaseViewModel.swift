@@ -9,7 +9,12 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class RxBaseViewModel: BaseDisposebag {
+public protocol ViewModelBusinessLogic: AnyObject {}
+
+public protocol ViewModelable: AnyObject {}
+
+public class RxBaseViewModel: BaseDisposebag, ViewModelable {
+    
     let bag = DisposeBag()
     
     let messageForUserRelay = PublishRelay<String?>()
@@ -28,7 +33,7 @@ class RxBaseViewModel: BaseDisposebag {
     let dismissSelfNoAnimationRelay = PublishRelay<Void>()
     let dismissSelfAnimationClosureRelay = PublishRelay<(() -> Void)>()
     
-    init() {
+    public init() {
         baseBinding()
     }
     
