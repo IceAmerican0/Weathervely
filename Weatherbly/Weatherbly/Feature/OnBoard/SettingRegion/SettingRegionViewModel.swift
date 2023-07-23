@@ -15,14 +15,10 @@ public enum SettingRegionViewAction {
 public protocol SettingRegionViewModelLogic: ViewModelBusinessLogic {
     func searchRegion(_ region: String)
     var viewAction: PublishRelay<SettingRegionViewAction> { get }
-//    var data: BehaviorRelay<[RegionCellState]> { get }
 }
 
 public final class SettingRegionViewModel: RxBaseViewModel, SettingRegionViewModelLogic {
     public var viewAction: PublishRelay<SettingRegionViewAction>
-    
-    private var documents = [Documents]()
-    private var addresses = [Address]()
     
     override public init() {
         self.viewAction = .init()
@@ -33,17 +29,14 @@ public final class SettingRegionViewModel: RxBaseViewModel, SettingRegionViewMod
         let datasource = RegionDataSource()
         
         datasource.searchRegion(region)
-            .subscribe(
-//                with: self,
-                onNext: { owner in
-                    print(owner)
-                },
-                onError: { owner in
-                    print(owner.localizedDescription)
-                }, onCompleted: {
-                    print("complete")
+            .subscribe(onNext: { result in
+                switch result {
+                case .success(let response):
+                    print(response)
+                case .failure(let err):
+                    print(err.localizedDescription)
                 }
-            )
+            })
             .disposed(by: bag)
     }
 }
