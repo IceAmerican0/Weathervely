@@ -7,6 +7,6 @@
 
 import RxRelay
 
-class ChangeNicknameViewModel {
+class ChangeNicknameViewModel: RxBaseViewModel {
     
 }

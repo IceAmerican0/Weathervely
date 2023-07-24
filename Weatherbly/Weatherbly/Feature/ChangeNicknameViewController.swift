@@ -11,7 +11,7 @@ import PinLayout
 import RxCocoa
 import RxSwift
 
-class ChangeNicknameViewController: RxBaseViewController<EmptyViewModel> {
+class ChangeNicknameViewController: RxBaseViewController<ChangeNicknameViewModel> {
     
     private var leftButtonDidTapRelay = PublishRelay<Void>()
     private var csNavigationView = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))

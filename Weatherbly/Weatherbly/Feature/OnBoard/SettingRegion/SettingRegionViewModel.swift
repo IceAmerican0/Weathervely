@@ -7,6 +7,7 @@
 
 import RxRelay
 import RxSwift
+import UIKit
 
 public enum SettingRegionViewAction {
     case showMessage(message: String, isError: Bool)
@@ -14,11 +15,13 @@ public enum SettingRegionViewAction {
 
 public protocol SettingRegionViewModelLogic: ViewModelBusinessLogic {
     func searchRegion(_ region: String)
+    func toCompletViewController(at: IndexPath) -> UIViewController?
     var viewAction: PublishRelay<SettingRegionViewAction> { get }
 }
 
 public final class SettingRegionViewModel: RxBaseViewModel, SettingRegionViewModelLogic {
     public var viewAction: PublishRelay<SettingRegionViewAction>
+    public let listRelay = BehaviorRelay<[SearchRegionEntity]>(value: [])
     
     override public init() {
         self.viewAction = .init()
@@ -38,5 +41,10 @@ public final class SettingRegionViewModel: RxBaseViewModel, SettingRegionViewMod
                 }
             })
             .disposed(by: bag)
+    }
+    
+    public func toCompletViewController(at: IndexPath) -> UIViewController? {
+//        let item = listRelay.value[at.row]
+        return SettingRegionCompleteViewController(SettingRegionCompleteViewModel())
     }
 }

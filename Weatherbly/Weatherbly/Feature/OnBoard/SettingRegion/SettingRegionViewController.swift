@@ -8,6 +8,7 @@
 import UIKit
 import PinLayout
 import FlexLayout
+import RxSwift
 
 final class SettingRegionViewController: RxBaseViewController<SettingRegionViewModel> {
     
@@ -15,10 +16,8 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
     private var navigationView = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
     private var explanationLabel = CSLabel(.bold, 24, "동네를 설정해주세요")
     
-    private let inputWrapper = UIView()
     private let searchImage = UIImageView()
-    private var inputRegion = UITextField()
-    private let cancelButton = UIButton()
+    private var inputRegion = UITextField.neatKeyboard()
     
     private var confirmButton = CSButton(.primary)
     
@@ -26,16 +25,14 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
     
     private let textFieldPinHeight = UIScreen.main.bounds.height * 0.177
     private let textFieldMarginHeight = UIScreen.main.bounds.height * 0.33
-    private let textFieldWidth = UIScreen.main.bounds.width * 0.63
-    private let buttonMarginBottom = UIScreen.main.bounds.height * 0.06
+    private let textFieldWidth = UIScreen.main.bounds.width * 0.85
+    private let buttonMarginBottom = UIScreen.main.bounds.height * 0.1
     private let collectionViewHeight = UIScreen.main.bounds.height * 0.59
     
     var isFromEdit = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        inputRegion.becomeFirstResponder()
         
         registerKeyboardNotifications()
         gestureEndEditing()
@@ -53,23 +50,21 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
             $0.backgroundColor = .white
         }
         
-        inputWrapper.do {
-            $0.backgroundColor = CSColor._248_248_248.color
-            $0.layer.cornerRadius = 13
-        }
-        
         searchImage.do {
             $0.setAssetsImage(AssetsImage.search)
         }
         
         inputRegion.do {
+            $0.backgroundColor = CSColor._248_248_248.color
+            $0.layer.cornerRadius = 13
             $0.delegate = self
-            $0.placeholder = "동네 이름(동, 읍, 면)으로 검색"
+            $0.placeholder = "동네 이름(동,읍,면)으로 검색"
             $0.textAlignment = .center
-        }
-        
-        cancelButton.do {
-            $0.setImage(AssetsImage.cancel.image, for: .normal)
+            $0.font = .systemFont(ofSize: 20)
+            $0.setClearButton(AssetsImage.textClear.image, .whileEditing)
+            $0.becomeFirstResponder()
+            $0.adjustsFontSizeToFitWidth = true
+            $0.delegate = self
         }
         
         confirmButton.do {
@@ -94,17 +89,11 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
             flex.addItem(progressBar)
             flex.addItem(navigationView).width(UIScreen.main.bounds.width)
             flex.addItem(explanationLabel).marginTop(27)
-            flex.addItem(inputWrapper).direction(.row).alignItems(.center)
-                .marginHorizontal(30)
-                .define { flex in
-                flex.addItem(searchImage).size(26)
-                flex.addItem(inputRegion).width(textFieldWidth).height(50)
-                flex.addItem(cancelButton).size(44)
-            }
+            flex.addItem(inputRegion).marginHorizontal(30).width(textFieldWidth).height(50)
             flex.addItem(confirmButton).width(88%).height(62)
             flex.addItem(regionCollectionView).width(UIScreen.main.bounds.width).height(collectionViewHeight)
         }
-        inputWrapper.pin.top(textFieldMarginHeight)
+        inputRegion.pin.top(textFieldMarginHeight)
         confirmButton.pin.bottom(buttonMarginBottom)
         regionCollectionView.isHidden = true
         
@@ -121,12 +110,6 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
             .bind(to: viewModel.navigationPopViewControllerRelay)
             .disposed(by: bag)
         
-        cancelButton.rx.tap
-            .bind(onNext: { [weak self] in
-                self?.inputRegion.text = ""
-            })
-            .disposed(by: bag)
-        
         confirmButton.rx.tap
             .bind(onNext: showResult)
             .disposed(by: bag)
@@ -134,7 +117,7 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
     
     private func showResult() {
         unregisterKeyboardNotifications()
-        inputWrapper.pin.top(textFieldPinHeight)
+        inputRegion.pin.top(textFieldPinHeight)
         
         regionCollectionView.pin.bottom(12)
         regionCollectionView.isHidden = false
@@ -155,13 +138,13 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
                 confirmButton.pin.bottom(keyboardSize.height + 30)
-                inputWrapper.pin.topCenter(to: explanationLabel.anchor.bottomCenter).marginTop(22)
+                inputRegion.pin.topCenter(to: explanationLabel.anchor.bottomCenter).marginTop(22)
             }
         }
     }
     
     override func keyboardWillHide(_ notification: Notification) {
-        inputWrapper.pin.top(textFieldMarginHeight)
+        inputRegion.pin.top(textFieldMarginHeight)
         confirmButton.pin.bottom(buttonMarginBottom)
     }
 }
@@ -169,7 +152,10 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
 // MARK: UICollectionViewDelegate
 extension SettingRegionViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        return
+        collectionView.deselectItem(at: indexPath, animated: true)
+        viewModel
+            .navigationPushViewControllerRelay
+            .accept(viewModel.toCompletViewController(at: indexPath))
     }
 }
 
