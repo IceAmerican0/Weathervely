@@ -18,7 +18,7 @@
 		5C23DBA22A65048200F41574 /* RxMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 5C23DBA12A65048200F41574 /* RxMoya */; };
 		5C23DBA42A6505BF00F41574 /* KakaoErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C23DBA32A6505BF00F41574 /* KakaoErrorResponse.swift */; };
 		5C4BE89B2A5E2D1200FD2CEF /* EditRegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4BE89A2A5E2D1200FD2CEF /* EditRegionViewController.swift */; };
-		5C4BE89D2A5E63C000FD2CEF /* RegionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4BE89C2A5E63C000FD2CEF /* RegionCollectionViewCell.swift */; };
+		5C4BE89D2A5E63C000FD2CEF /* RegionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4BE89C2A5E63C000FD2CEF /* RegionTableViewCell.swift */; };
 		5C9D02BA2A68EB3900AF2DA3 /* Observable+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9D02B92A68EB3900AF2DA3 /* Observable+Extension.swift */; };
 		5C9D02BC2A68FC0200AF2DA3 /* Dependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9D02BB2A68FC0200AF2DA3 /* Dependency.swift */; };
 		5C9D02C22A6E45D600AF2DA3 /* SettingRegionCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9D02C12A6E45D600AF2DA3 /* SettingRegionCompleteViewController.swift */; };
@@ -94,7 +94,7 @@
 		5C1D5A102A3C500A00E66788 /* CSLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSLabel.swift; sourceTree = "<group>"; };
 		5C23DBA32A6505BF00F41574 /* KakaoErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoErrorResponse.swift; sourceTree = "<group>"; };
 		5C4BE89A2A5E2D1200FD2CEF /* EditRegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRegionViewController.swift; sourceTree = "<group>"; };
-		5C4BE89C2A5E63C000FD2CEF /* RegionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionCollectionViewCell.swift; sourceTree = "<group>"; };
+		5C4BE89C2A5E63C000FD2CEF /* RegionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionTableViewCell.swift; sourceTree = "<group>"; };
 		5C9D02B92A68EB3900AF2DA3 /* Observable+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Observable+Extension.swift"; sourceTree = "<group>"; };
 		5C9D02BB2A68FC0200AF2DA3 /* Dependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependency.swift; sourceTree = "<group>"; };
 		5C9D02C12A6E45D600AF2DA3 /* SettingRegionCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingRegionCompleteViewController.swift; sourceTree = "<group>"; };
@@ -201,7 +201,7 @@
 			children = (
 				5CCC91552A613F010025B522 /* SettingRegionViewModel.swift */,
 				5CC61E252A5BC223001435E6 /* SettingRegionViewController.swift */,
-				5C4BE89C2A5E63C000FD2CEF /* RegionCollectionViewCell.swift */,
+				5C4BE89C2A5E63C000FD2CEF /* RegionTableViewCell.swift */,
 				5C9D02C12A6E45D600AF2DA3 /* SettingRegionCompleteViewController.swift */,
 				5C9D02C32A6E61C700AF2DA3 /* SettingRegionCompleteViewModel.swift */,
 			);
@@ -665,7 +665,7 @@
 				5CC61E262A5BC223001435E6 /* SettingRegionViewController.swift in Sources */,
 				BD69B8F92A553A0C00DDCD7A /* CSNavigationView.swift in Sources */,
 				5CAB60CF2A53F61700CD431A /* TenDaysForecastViewController.swift in Sources */,
-				5C4BE89D2A5E63C000FD2CEF /* RegionCollectionViewCell.swift in Sources */,
+				5C4BE89D2A5E63C000FD2CEF /* RegionTableViewCell.swift in Sources */,
 				696176B22A63E37F00B83B4C /* RxBaseViewModel.swift in Sources */,
 				BD5D168E2A612BD500435816 /* DateTimePickViewModel.swift in Sources */,
 				BD4AC3932A669B0500537583 /* SlotMachineViewModel.swift in Sources */,

@@ -21,13 +21,13 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
     
     private var confirmButton = CSButton(.primary)
     
-    private var regionCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    private var regionTableView = UITableView()
     
     private let textFieldPinHeight = UIScreen.main.bounds.height * 0.177
     private let textFieldMarginHeight = UIScreen.main.bounds.height * 0.33
     private let textFieldWidth = UIScreen.main.bounds.width * 0.85
     private let buttonMarginBottom = UIScreen.main.bounds.height * 0.1
-    private let collectionViewHeight = UIScreen.main.bounds.height * 0.59
+    private let tableViewHeight = UIScreen.main.bounds.height * 0.59
     
     var isFromEdit = false
     
@@ -72,13 +72,13 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
             $0.setTitleColor(.white, for: .normal)
         }
         
-        regionCollectionView.do {
+        regionTableView.do {
             $0.delegate = self
             $0.dataSource = self
             $0.isScrollEnabled = true
             $0.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
             $0.showsHorizontalScrollIndicator = false
-            $0.register(withType: RegionCollectionViewCell.self)
+            $0.register(withType: RegionTableViewCell.self)
         }
     }
     
@@ -91,11 +91,11 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
             flex.addItem(explanationLabel).marginTop(27)
             flex.addItem(inputRegion).marginHorizontal(30).width(textFieldWidth).height(50)
             flex.addItem(confirmButton).width(88%).height(62)
-            flex.addItem(regionCollectionView).width(UIScreen.main.bounds.width).height(collectionViewHeight)
+            flex.addItem(regionTableView).marginHorizontal(30).height(tableViewHeight)
         }
         inputRegion.pin.top(textFieldMarginHeight)
         confirmButton.pin.bottom(buttonMarginBottom)
-        regionCollectionView.isHidden = true
+        regionTableView.isHidden = true
         
         if isFromEdit {
             progressBar.isHidden = true
@@ -119,8 +119,8 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
         unregisterKeyboardNotifications()
         inputRegion.pin.top(textFieldPinHeight)
         
-        regionCollectionView.pin.bottom(12)
-        regionCollectionView.isHidden = false
+        regionTableView.pin.bottom(12)
+        regionTableView.isHidden = false
         
         if let text = inputRegion.text {
             explanationLabel.text = "'\(text)' 검색 결과에요"
@@ -130,51 +130,27 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
             viewModel.searchRegion(text)
             
         } else { return }
-        
-    }
-    
-    // MARK: Keyboard Action
-    override func keyboardWillShow(_ notification: Notification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0 {
-                confirmButton.pin.bottom(keyboardSize.height + 30)
-                inputRegion.pin.topCenter(to: explanationLabel.anchor.bottomCenter).marginTop(22)
-            }
-        }
-    }
-    
-    override func keyboardWillHide(_ notification: Notification) {
-        inputRegion.pin.top(textFieldMarginHeight)
-        confirmButton.pin.bottom(buttonMarginBottom)
+
     }
 }
 
-// MARK: UICollectionViewDelegate
-extension SettingRegionViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: true)
-        viewModel
-            .navigationPushViewControllerRelay
-            .accept(viewModel.toCompletViewController(at: indexPath))
+// MARK: UITableViewDelegate
+extension SettingRegionViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { 56 }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        viewModel.didTapTableViewCell(at: indexPath)
     }
 }
 
-extension SettingRegionViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int { 30 }
+extension SettingRegionViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { 30 }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat { 12 }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        collectionView.dequeueCell(withType: RegionCollectionViewCell.self, for: indexPath).then {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        tableView.dequeueCell(withType: RegionTableViewCell.self, for: indexPath).then {
             $0.configureCellState(RegionCellState.init(region: "경기도"))
             $0.layer.shadowColor = CSColor._0__03.cgColor
         }
-    }
-}
-
-extension SettingRegionViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: regionCollectionView.bounds.width, height: 44)
     }
 }
 

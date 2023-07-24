@@ -1,5 +1,5 @@
 //
-//  RegionCollectionViewCell.swift
+//  RegionTableViewCell.swift
 //  Weatherbly
 //
 //  Created by 박성준 on 2023/07/12.
@@ -14,7 +14,7 @@ public struct RegionCellState {
     let region: String
 }
 
-public final class RegionCollectionViewCell: UICollectionViewCell {
+public final class RegionTableViewCell: UITableViewCell {
     
     var regionLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 20)
@@ -29,8 +29,8 @@ public final class RegionCollectionViewCell: UICollectionViewCell {
     
     private let labelWidth = UIScreen.main.bounds.width * 0.75
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         layout()
     }
     

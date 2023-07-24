@@ -15,7 +15,8 @@ public enum SettingRegionViewAction {
 
 public protocol SettingRegionViewModelLogic: ViewModelBusinessLogic {
     func searchRegion(_ region: String)
-    func toCompletViewController(at: IndexPath) -> UIViewController?
+    func didTapTableViewCell(at: IndexPath)
+    func toCompleteViewController(at: IndexPath) -> UIViewController?
     var viewAction: PublishRelay<SettingRegionViewAction> { get }
 }
 
@@ -43,8 +44,12 @@ public final class SettingRegionViewModel: RxBaseViewModel, SettingRegionViewMod
             .disposed(by: bag)
     }
     
-    public func toCompletViewController(at: IndexPath) -> UIViewController? {
+    public func didTapTableViewCell(at: IndexPath) {
 //        let item = listRelay.value[at.row]
+        navigationPushViewControllerRelay.accept(self.toCompleteViewController(at: at))
+    }
+    
+    public func toCompleteViewController(at: IndexPath) -> UIViewController? {
         return SettingRegionCompleteViewController(SettingRegionCompleteViewModel())
     }
 }

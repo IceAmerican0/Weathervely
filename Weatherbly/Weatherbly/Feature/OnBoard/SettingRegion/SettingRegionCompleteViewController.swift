@@ -17,7 +17,7 @@ public final class SettingRegionCompleteViewController: RxBaseViewController<Set
     private var explanationLabel = CSLabel(.bold, 24, "선택한 동네로 설정할까요?")
     
     private let regionWrapper = UIView()
-    private var regionLabel = CSLabel(.regular, 24, "서울특별시 송파구 풍납4동")
+    private var regionLabel = CSLabel(.regular, 20, "서울특별시 송파구 풍납4동")
     
     private let buttonWrapper = UIView()
     private let negativeButton = CSButton(.grayFilled)
@@ -32,35 +32,19 @@ public final class SettingRegionCompleteViewController: RxBaseViewController<Set
     private let wrapperMarginTop = UIScreen.main.bounds.height * 0.26
     private let buttonWidth = UIScreen.main.bounds.width * 0.39
     
-    
-    var isFromEdit = false
-    
-    public override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        registerKeyboardNotifications()
-        gestureEndEditing()
-    }
-    
-    public override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        unregisterKeyboardNotifications()
-    }
-    
     override func attribute() {
         super.attribute()
         
-        explanationLabel.do {
-            $0.backgroundColor = .white
-        }
-        
         negativeButton.do {
             $0.setTitle("아니요", for: .normal)
+            $0.titleLabel?.font = .boldSystemFont(ofSize: 18)
+            $0.backgroundColor = CSColor._151_151_151.color
             $0.setTitleColor(.white, for: .normal)
         }
         
         confirmButton.do {
             $0.setTitle("확인", for: .normal)
+            $0.titleLabel?.font = .boldSystemFont(ofSize: 18)
             $0.setTitleColor(.white, for: .normal)
         }
     }
@@ -88,6 +72,10 @@ public final class SettingRegionCompleteViewController: RxBaseViewController<Set
     
     override func viewBinding() {
         navigationView.leftButtonDidTapRelay
+            .bind(to: viewModel.navigationPopViewControllerRelay)
+            .disposed(by: bag)
+        
+        negativeButton.rx.tap
             .bind(to: viewModel.navigationPopViewControllerRelay)
             .disposed(by: bag)
         
