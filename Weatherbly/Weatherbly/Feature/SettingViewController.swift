@@ -247,6 +247,11 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
                 self?.navigationController?.pushViewController(EditNicknameViewController(EditNicknameViewModel()), animated: true)
             }.disposed(by: bag)
         
+        locationButton.rx.tap
+            .map { EditRegionViewController(EditRegionViewModel())}
+            .bind(to: viewModel.navigationPushViewControllerRelay)
+            .disposed(by: bag)
+        
     }
 
 }

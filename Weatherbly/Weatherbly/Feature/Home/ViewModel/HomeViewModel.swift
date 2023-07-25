@@ -6,3 +6,12 @@
 //
 
 import Foundation
+import RxSwift
+
+public protocol HomeViewModelLogic: ViewModelBusinessLogic {
+    
+}
+
+public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
+    
+}

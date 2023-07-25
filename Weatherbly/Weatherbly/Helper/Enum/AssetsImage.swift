@@ -29,12 +29,12 @@ enum AssetsImage: String {
     // Common
     case clockIcon
     case daily
+    case delete
     case dust
     case humidity
     case sampleCloth
     case schedule
     case search
-    case textClear
     case thermometer
     case whiteHeart
     

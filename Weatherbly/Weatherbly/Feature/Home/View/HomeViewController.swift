@@ -11,7 +11,7 @@ import FlexLayout
 import FSPagerView
 import RxSwift
 
-class HomeViewController: RxBaseViewController<EmptyViewModel> {
+class HomeViewController: RxBaseViewController<HomeViewModel> {
     
     private var backgroundView = UIView()
     private var backgroundImage = UIImageView()

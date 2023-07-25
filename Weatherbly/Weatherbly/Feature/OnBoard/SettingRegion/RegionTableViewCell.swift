@@ -10,10 +10,6 @@ import RxSwift
 import FlexLayout
 import PinLayout
 
-public struct RegionCellState {
-    let region: String
-}
-
 public final class RegionTableViewCell: UITableViewCell {
     
     var regionLabel = UILabel().then {
@@ -50,7 +46,7 @@ public final class RegionTableViewCell: UITableViewCell {
         }
     }
     
-    func configureCellState(_ cellState: RegionCellState) {
-        regionLabel.text = cellState.region
+    func configureCellState(_ region: String) {
+        regionLabel.text = region
     }
 }

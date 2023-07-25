@@ -22,7 +22,7 @@ public protocol SettingRegionViewModelLogic: ViewModelBusinessLogic {
 
 public final class SettingRegionViewModel: RxBaseViewModel, SettingRegionViewModelLogic {
     public var viewAction: PublishRelay<SettingRegionViewAction>
-    public let listRelay = BehaviorRelay<[SearchRegionEntity]>(value: [])
+    public var searchedListRelay = BehaviorRelay<[SearchRegionEntity]>(value: [])
     
     override public init() {
         self.viewAction = .init()
@@ -36,6 +36,7 @@ public final class SettingRegionViewModel: RxBaseViewModel, SettingRegionViewMod
             .subscribe(onNext: { result in
                 switch result {
                 case .success(let response):
+                    self.searchedListRelay = BehaviorRelay<[SearchRegionEntity]>(value: [response])
                     print(response)
                 case .failure(let err):
                     print(err.localizedDescription)
@@ -44,8 +45,12 @@ public final class SettingRegionViewModel: RxBaseViewModel, SettingRegionViewMod
             .disposed(by: bag)
     }
     
+    public func setRegionName(at: IndexPath) -> String {
+        searchedListRelay.value[0].documents[at.row].addressName
+//        let regionName = "\(address.region1DepthName) \(address.region2DepthName) \(address.region3DepthName)"
+    }
+    
     public func didTapTableViewCell(at: IndexPath) {
-//        let item = listRelay.value[at.row]
         navigationPushViewControllerRelay.accept(self.toCompleteViewController(at: at))
     }
     

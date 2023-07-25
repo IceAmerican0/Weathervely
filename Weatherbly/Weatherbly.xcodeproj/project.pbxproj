@@ -23,6 +23,8 @@
 		5C9D02BC2A68FC0200AF2DA3 /* Dependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9D02BB2A68FC0200AF2DA3 /* Dependency.swift */; };
 		5C9D02C22A6E45D600AF2DA3 /* SettingRegionCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9D02C12A6E45D600AF2DA3 /* SettingRegionCompleteViewController.swift */; };
 		5C9D02C42A6E61C700AF2DA3 /* SettingRegionCompleteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9D02C32A6E61C700AF2DA3 /* SettingRegionCompleteViewModel.swift */; };
+		5C9D02C62A6FB71F00AF2DA3 /* EditRegionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9D02C52A6FB71F00AF2DA3 /* EditRegionViewModel.swift */; };
+		5C9D02C82A6FC45300AF2DA3 /* EditRegionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9D02C72A6FC45300AF2DA3 /* EditRegionTableViewCell.swift */; };
 		5CAB60B92A4563B300CD431A /* NSMutableAttributedString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAB60B82A4563B300CD431A /* NSMutableAttributedString+Extension.swift */; };
 		5CAB60BF2A4D6A9D00CD431A /* ClosetFSPagerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAB60BE2A4D6A9D00CD431A /* ClosetFSPagerViewCell.swift */; };
 		5CAB60C32A528C7A00CD431A /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAB60C22A528C7A00CD431A /* UICollectionView+Extension.swift */; };
@@ -99,6 +101,8 @@
 		5C9D02BB2A68FC0200AF2DA3 /* Dependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependency.swift; sourceTree = "<group>"; };
 		5C9D02C12A6E45D600AF2DA3 /* SettingRegionCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingRegionCompleteViewController.swift; sourceTree = "<group>"; };
 		5C9D02C32A6E61C700AF2DA3 /* SettingRegionCompleteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingRegionCompleteViewModel.swift; sourceTree = "<group>"; };
+		5C9D02C52A6FB71F00AF2DA3 /* EditRegionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRegionViewModel.swift; sourceTree = "<group>"; };
+		5C9D02C72A6FC45300AF2DA3 /* EditRegionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRegionTableViewCell.swift; sourceTree = "<group>"; };
 		5CAB60B82A4563B300CD431A /* NSMutableAttributedString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Extension.swift"; sourceTree = "<group>"; };
 		5CAB60BE2A4D6A9D00CD431A /* ClosetFSPagerViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetFSPagerViewCell.swift; sourceTree = "<group>"; };
 		5CAB60C22A528C7A00CD431A /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
@@ -475,6 +479,7 @@
 				BD5169462A5AA39000582BA9 /* EditNicknameViewController.swift */,
 				BD51694E2A5EB43500582BA9 /* ChangeNicknameViewController.swift */,
 				5C4BE89A2A5E2D1200FD2CEF /* EditRegionViewController.swift */,
+				5C9D02C72A6FC45300AF2DA3 /* EditRegionTableViewCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -485,6 +490,7 @@
 				BD5169442A5A9BD600582BA9 /* SettingViewModel.swift */,
 				BD51694A2A5D763000582BA9 /* EditNicknameViewModel.swift */,
 				BD5169502A5EB48D00582BA9 /* ChangeNicknameViewModel.swift */,
+				5C9D02C52A6FB71F00AF2DA3 /* EditRegionViewModel.swift */,
 			);
 			name = ViewModel;
 			sourceTree = "<group>";
@@ -670,6 +676,7 @@
 				BD5D168E2A612BD500435816 /* DateTimePickViewModel.swift in Sources */,
 				BD4AC3932A669B0500537583 /* SlotMachineViewModel.swift in Sources */,
 				5CAB60D32A54FC6A00CD431A /* UITableViewCell+Extension.swift in Sources */,
+				5C9D02C82A6FC45300AF2DA3 /* EditRegionTableViewCell.swift in Sources */,
 				BD2D01B42A3888AA003A25D5 /* UIColor+Extension.swift in Sources */,
 				BD2D018D2A388753003A25D5 /* HomeViewController.swift in Sources */,
 				5CAB60BF2A4D6A9D00CD431A /* ClosetFSPagerViewCell.swift in Sources */,
@@ -718,6 +725,7 @@
 				5CCC914D2A61179F0025B522 /* WBTargetType.swift in Sources */,
 				69CCF1CF2A63CD5500756127 /* WBErrorResponse.swift in Sources */,
 				BDF208FF2A4EAEF2001177B2 /* CGFloat+Extension.swift in Sources */,
+				5C9D02C62A6FB71F00AF2DA3 /* EditRegionViewModel.swift in Sources */,
 				BDF208FF2A4EAEF2001177B2 /* CGFloat+Extension.swift in Sources */,
 				696176B62A63E4A400B83B4C /* EmptyViewModel.swift in Sources */,
 				BD5169512A5EB48D00582BA9 /* ChangeNicknameViewModel.swift in Sources */,

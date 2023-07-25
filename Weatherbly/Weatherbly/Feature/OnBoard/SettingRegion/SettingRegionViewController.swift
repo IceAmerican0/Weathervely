@@ -61,7 +61,7 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
             $0.placeholder = "동네 이름(동,읍,면)으로 검색"
             $0.textAlignment = .center
             $0.font = .systemFont(ofSize: 20)
-            $0.setClearButton(AssetsImage.textClear.image, .whileEditing)
+            $0.setClearButton(AssetsImage.delete.image, .whileEditing)
             $0.becomeFirstResponder()
             $0.adjustsFontSizeToFitWidth = true
             $0.delegate = self
@@ -144,11 +144,15 @@ extension SettingRegionViewController: UITableViewDelegate {
 }
 
 extension SettingRegionViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { 30 }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        30
+//        viewModel.searchedListRelay.value[0].documents.count
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         tableView.dequeueCell(withType: RegionTableViewCell.self, for: indexPath).then {
-            $0.configureCellState(RegionCellState.init(region: "경기도"))
+            $0.configureCellState("서울특별시")
+//            $0.configureCellState(viewModel.setRegionName(at: indexPath))
             $0.layer.shadowColor = CSColor._0__03.cgColor
         }
     }
