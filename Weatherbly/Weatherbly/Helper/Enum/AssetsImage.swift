@@ -27,43 +27,39 @@ enum AssetsImage: String {
     case sunnyMorning
     
     // Common
-    case cancel
+    case clockIcon
     case daily
     case dust
     case humidity
-    case rain
+    case sampleCloth
     case schedule
     case search
-    case setting
+    case textClear
     case thermometer
     case whiteHeart
-    case clockIcon
-    case sampleCloth
     
     // Setting
     case editNameIcon
-    case settingTemperatureIcon
-    case settingStyleIcon
-    case settingLocationIcon
+    case setting
     case settingInquryIcon
-    case textClear
+    case settingLocationIcon
+    case settingStyleIcon
+    case settingTemperatureIcon
     
     // Weather
     case cloudyMoonMain
     case cloudySunMain
     case cloudySunTen
-    case grayRain1Main
-    case grayRain2Main
-    case grayRainTen
     case moonMain
+    case rain
     case rainyMain
     case rainyTen
     case sunCloudyMain
     case sunCloudyTen
     case sunnyMain
+    case sunnyTen
     case thunderMain
     case thunderTen
-    case whiteRainTen
     case windyMoonMain
     
     var image: UIImage? {

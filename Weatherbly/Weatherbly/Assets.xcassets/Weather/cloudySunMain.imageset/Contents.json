@@ -1,17 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "cloudySunMain.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "idiom" : "universal",
-      "scale" : "3x"
+      "filename" : "cloudySunMain.svg",
+      "idiom" : "universal"
     }
   ],
   "info" : {
