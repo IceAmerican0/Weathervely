@@ -30,10 +30,10 @@ class OnBoardViewModel: RxBaseViewModel, OnBoardViewModelLogic {
         self.viewAction = .init()
         super.init()
     }
-    func nicknameViewController() -> UIViewController {
-        let viewController = NicknameViewController(NicknameViewModel())
-        
-        return viewController
+    
+    public func toNicknameView() {
+        let vc = NicknameViewController(NicknameViewModel())
+        navigationPushViewControllerRelay.accept(vc)
     }
     
     func login(_ nickname: String ) {

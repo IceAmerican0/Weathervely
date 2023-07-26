@@ -9,7 +9,23 @@ import UIKit
 import RxSwift
 import RxRelay
 
-class SettingViewModel: RxBaseViewModel {
+public protocol SettingViewModelLogic: ViewModelBusinessLogic {
+    func toEditNicknameView()
+    func toEditRegionView()
+}
+
+final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
+    
+    func toEditNicknameView() {
+        let vc = EditNicknameViewController(EditNicknameViewModel())
+        navigationPushViewControllerRelay.accept(vc)
+    }
+    
+    func toEditRegionView() {
+        let vc = EditRegionViewController(EditRegionViewModel())
+        navigationPushViewControllerRelay.accept(vc)
+    }
+    
     
   
 }

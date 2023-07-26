@@ -14,16 +14,15 @@ import RxCocoa
 final class SelectGenderViewController: RxBaseViewController<SelectGenderViewModel> {
     
     // MARK: - Component
-     var progressBar = UIProgressView()
-     var backButton = UIButton()
+    var progressBar = CSProgressView(0.75)
+    private var navigationView = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
     
-     var headerLabel = UILabel()
-     var buttonWrapper = UIView()
-     var womanButton = UIButton()
-     var manButton = UIButton()
-    
-     var acceptButton = CSButton(.primary)
+    var headerLabel = UILabel()
+    var buttonWrapper = UIView()
+    var womanButton = UIButton()
+    var manButton = UIButton()
 
+    var acceptButton = CSButton(.primary)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,17 +32,6 @@ final class SelectGenderViewController: RxBaseViewController<SelectGenderViewMod
 
     override func attribute() {
         super.attribute()
-        
-        progressBar.do {
-            $0.progress = 1.0
-            $0.progressViewStyle = .default
-            $0.progressTintColor = CSColor._151_151_151.color
-        }
-        
-        backButton.do {
-            $0.setImage(AssetsImage.navigationBackButton.image, for: .normal)
-            $0.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
-        }
         
         headerLabel.do {
             $0.text = "(닉네임) 님의\n성별을 골라주세요"
@@ -80,10 +68,7 @@ final class SelectGenderViewController: RxBaseViewController<SelectGenderViewMod
         
         container.flex.define { flex in
             flex.addItem(progressBar)
-            flex.addItem(backButton)
-                .size(44)
-                .marginTop(15)
-                .left(12)
+            flex.addItem(navigationView).width(100%)
             
             flex.addItem(headerLabel)
                 .marginTop(27)
@@ -115,6 +100,10 @@ final class SelectGenderViewController: RxBaseViewController<SelectGenderViewMod
     override func bind() {
         super.bind()
         
+        navigationView.leftButtonDidTapRelay
+            .bind(to: viewModel.navigationPopViewControllerRelay)
+            .disposed(by: bag)
+        
         womanButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 if self?.manButton.backgroundColor == CSColor._151_151_151.color {
@@ -132,9 +121,9 @@ final class SelectGenderViewController: RxBaseViewController<SelectGenderViewMod
                 self?.manButton.backgroundColor = CSColor._151_151_151.color
             })
             .disposed(by: bag)
-    }
-    
-    @objc func didTapBackButton() {
-        self.navigationController?.popViewController(animated: true)
+        
+        acceptButton.rx.tap
+            .bind(onNext: viewModel.didTapAcceptButton)
+            .disposed(by: bag)
     }
 }

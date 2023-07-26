@@ -8,8 +8,9 @@
 import UIKit
 import PinLayout
 import FlexLayout
+import RxSwift
 
-final class EditRegionViewController: RxBaseViewController<EmptyViewModel> {
+final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> {
     
     private var navigationView = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
     
@@ -20,6 +21,7 @@ final class EditRegionViewController: RxBaseViewController<EmptyViewModel> {
     private var confirmButton = CSButton(.primary)
     
     private let textFieldMarginHeight = UIScreen.main.bounds.height * 0.186
+    private let tableViewWidth = UIScreen.main.bounds.width * 0.864
     private let buttonMarginBottom = UIScreen.main.bounds.height * 0.1
     
     override func viewDidLoad() {
@@ -44,7 +46,7 @@ final class EditRegionViewController: RxBaseViewController<EmptyViewModel> {
             $0.isScrollEnabled = false
             $0.backgroundColor = CSColor._253_253_253.color
             $0.layer.cornerRadius = 5
-            $0.register(DailyForecastTableViewCell.self, forCellReuseIdentifier: DailyForecastTableViewCell.identifier)
+            $0.register(EditRegionTableViewCell.self, forCellReuseIdentifier: EditRegionTableViewCell.identifier)
         }
         
         confirmButton.do {
@@ -56,27 +58,39 @@ final class EditRegionViewController: RxBaseViewController<EmptyViewModel> {
     override func layout() {
         super.layout()
         
-        container.flex.alignItems(.center).define { flex in
+        container.flex.define { flex in
             flex.addItem(navigationView).width(UIScreen.main.bounds.width)
             flex.addItem(contentWrapper).direction(.row).alignItems(.center).marginLeft(21).marginTop(64).define { flex in
                 flex.addItem(outlineImage).size(24)
                 flex.addItem(subtitleLabel).marginLeft(3).height(28)
             }
             flex.addItem(confirmButton).width(88%).height(62)
-            flex.addItem().width(UIScreen.main.bounds.width).height(300).define { flex in
-                flex.addItem()
-            }
+            flex.addItem(favoriteTableView).marginTop(8).marginHorizontal(24).height(168)
         }
         
-        confirmButton.pin.bottom(buttonMarginBottom)
+        confirmButton.pin.hCenter().bottom(buttonMarginBottom)
+    }
+    
+    override func viewBinding() {
+        navigationView.leftButtonDidTapRelay
+            .bind(to: viewModel.navigationPopViewControllerRelay)
+            .disposed(by: bag)
+        
+        confirmButton.rx.tap
+            .bind(onNext: viewModel.didTapConfirmButton)
+            .disposed(by: bag)
     }
 }
 
 // MARK: UITableViewDelegate
 extension EditRegionViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { 100 }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { 56 }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { 25 }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        viewModel.didTapTableViewCell()
+    }
     
 }
 
@@ -84,8 +98,8 @@ extension EditRegionViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { 3 }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return tableView.dequeueCell(withType: DailyForecastTableViewCell.self, for: indexPath).then {
-            $0.valueLabel.text = ""
+        return tableView.dequeueCell(withType: EditRegionTableViewCell.self, for: indexPath).then {
+            $0.regionLabel.text = "서울특별시"
         }
     }
 }

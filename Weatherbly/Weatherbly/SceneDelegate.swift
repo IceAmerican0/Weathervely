@@ -15,13 +15,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
-           window = UIWindow(windowScene: windowScene)
-           
-//           let naviVC = UINavigationController(rootViewController: HomeViewController())
+        window = UIWindow(windowScene: windowScene)
 
-        let naviVC = UINavigationController(rootViewController: OnBoardViewController(OnBoardViewModel()))
-           window?.rootViewController = naviVC
-           window?.makeKeyAndVisible()
+        // TODO: 온보딩시 / 아닐시 구분
+        let vc = true ? OnBoardViewController(OnBoardViewModel()) : HomeViewController(HomeViewModel())
+        let rootVC = UINavigationController(rootViewController: vc)
+        window?.rootViewController = rootVC
+        window?.makeKeyAndVisible()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

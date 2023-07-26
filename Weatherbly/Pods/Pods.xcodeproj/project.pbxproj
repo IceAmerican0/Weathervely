@@ -190,7 +190,7 @@
 		8B810B0D91E215D8017D3DC7481E03A3 /* Then-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Then-prefix.pch"; sourceTree = "<group>"; };
 		8DCE46F21B21A4244687268989271634 /* Pods-Weatherbly-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Weatherbly-umbrella.h"; sourceTree = "<group>"; };
 		92479EE89B75EF26362B19A8E17FCDC4 /* FlexLayout.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = FlexLayout.debug.xcconfig; sourceTree = "<group>"; };
-		9317E4947CA2FE1B5D5999034C09CCA7 /* Then */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Then; path = Then.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9317E4947CA2FE1B5D5999034C09CCA7 /* Then.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Then.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		953E7140A6F50F128A5A16337E36058D /* Pods-Weatherbly */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-Weatherbly"; path = Pods_Weatherbly.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		959F0604542C64E51679597C75C08F0A /* FSPageViewTransformer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FSPageViewTransformer.swift; path = Sources/FSPageViewTransformer.swift; sourceTree = "<group>"; };
 		984A436905C5922F45A1DF0D709894FC /* Percent.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Percent.swift; path = Sources/Impl/Percent.swift; sourceTree = "<group>"; };
@@ -241,7 +241,7 @@
 		E1E215D481D8E93DD7A2658A608F9C19 /* FSPagerViewObjcCompat.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FSPagerViewObjcCompat.h; path = Sources/FSPagerViewObjcCompat.h; sourceTree = "<group>"; };
 		E29F0A246E0090D2DF86C9C4C48BE761 /* FlexLayout.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FlexLayout.swift; path = Sources/Swift/FlexLayout.swift; sourceTree = "<group>"; };
 		E37BD77A47ED531A673750ED55ED7A02 /* PinLayout-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "PinLayout-Info.plist"; sourceTree = "<group>"; };
-		E4840AFE0B9BC6E70458665032D88527 /* UIViewBorders */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = UIViewBorders; path = UIViewBorders.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E4840AFE0B9BC6E70458665032D88527 /* UIViewBorders.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = UIViewBorders.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E69AFAF659C38B096C256CCE5FEF0208 /* UIView+PinLayout.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIView+PinLayout.swift"; path = "Sources/Extensions/UIView+PinLayout.swift"; sourceTree = "<group>"; };
 		E756AD7854D61D880769F09428734EC9 /* Pods-Weatherbly-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Weatherbly-acknowledgements.markdown"; sourceTree = "<group>"; };
 		EA2E2D6C4A5274D833A66654488B7246 /* PinLayout-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "PinLayout-dummy.m"; sourceTree = "<group>"; };
@@ -566,8 +566,8 @@
 				0F47FB5E28EE8C8342B1776D813D1A4C /* FSPagerView.framework */,
 				49A1B30EADC8BCAF734D81E271752CDD /* PinLayout */,
 				953E7140A6F50F128A5A16337E36058D /* Pods-Weatherbly */,
-				9317E4947CA2FE1B5D5999034C09CCA7 /* Then */,
-				E4840AFE0B9BC6E70458665032D88527 /* UIViewBorders */,
+				9317E4947CA2FE1B5D5999034C09CCA7 /* Then.framework */,
+				E4840AFE0B9BC6E70458665032D88527 /* UIViewBorders.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -715,7 +715,7 @@
 			);
 			name = Then;
 			productName = Then;
-			productReference = 9317E4947CA2FE1B5D5999034C09CCA7 /* Then */;
+			productReference = 9317E4947CA2FE1B5D5999034C09CCA7 /* Then.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		D4F8239FB329387A8476B964D92D92E7 /* FSPagerView */ = {
@@ -751,7 +751,7 @@
 			);
 			name = UIViewBorders;
 			productName = UIViewBorders;
-			productReference = E4840AFE0B9BC6E70458665032D88527 /* UIViewBorders */;
+			productReference = E4840AFE0B9BC6E70458665032D88527 /* UIViewBorders.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -982,7 +982,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/UIViewBorders/UIViewBorders-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/UIViewBorders/UIViewBorders-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1192,7 +1192,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/Then/Then-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/Then/Then-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1226,7 +1226,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/UIViewBorders/UIViewBorders-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/UIViewBorders/UIViewBorders-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1389,7 +1389,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/Then/Then-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/Then/Then-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
