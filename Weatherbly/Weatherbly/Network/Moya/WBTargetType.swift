@@ -15,10 +15,6 @@ public extension WBTargetType {
         NetworkManager.shared.baseURL
     }
     
-    var method: Moya.Method { .get }
-    
-    var path: String { "" }
-    
     var headers: [String : String]? {
         ["Content-Type": "application/json"]
     }

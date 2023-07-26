@@ -1,5 +1,5 @@
 //
-//  RegionProvider.swift
+//  PrimitiveSequence+Extension.swift
 //  Weatherbly
 //
 //  Created by 박성준 on 2023/07/16.
@@ -9,15 +9,6 @@ import Moya
 import RxSwift
 import RxMoya
 import Foundation
-
-public final class RegionProvider<T: TargetType>: MoyaProvider<T> {
-    func request(_ token: T) -> Single<Response> {
-        rx
-            .request(token)
-            .filterSuccessfulStatusCodes()
-    }
-    
-}
 
 extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
     func mapTo<D: Decodable>(_ type: D.Type) -> Observable<Result<D, Error>> {
