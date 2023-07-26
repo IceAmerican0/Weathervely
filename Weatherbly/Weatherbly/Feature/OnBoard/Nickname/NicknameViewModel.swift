@@ -7,6 +7,18 @@
 
 import Foundation
 
-final class NicknameViewModel: RxBaseViewModel {
+public protocol NicknameViewModelLogic: ViewModelBusinessLogic {
+    func didTapConfirmButton()
+    func toSettingRegionView()
+}
+
+final class NicknameViewModel: RxBaseViewModel, NicknameViewModelLogic {
+    func didTapConfirmButton() {
+        toSettingRegionView()
+    }
     
+    func toSettingRegionView() {
+        let vc = SettingRegionViewController(SettingRegionViewModel())
+        navigationPushViewControllerRelay.accept(vc)
+    }
 }

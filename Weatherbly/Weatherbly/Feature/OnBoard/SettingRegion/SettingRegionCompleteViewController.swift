@@ -12,7 +12,7 @@ import RxSwift
 
 public final class SettingRegionCompleteViewController: RxBaseViewController<SettingRegionCompleteViewModel> {
     
-    private let progressBar = CSProgressView(0.4)
+    private let progressBar = CSProgressView(0.5)
     private let navigationView = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
     private var explanationLabel = CSLabel(.bold, 24, "선택한 동네로 설정할까요?")
     
@@ -31,6 +31,8 @@ public final class SettingRegionCompleteViewController: RxBaseViewController<Set
     private let regionWidth = UIScreen.main.bounds.width * 0.815
     private let wrapperMarginTop = UIScreen.main.bounds.height * 0.26
     private let buttonWidth = UIScreen.main.bounds.width * 0.39
+    
+    var isFromEdit = false
     
     override func attribute() {
         super.attribute()
@@ -68,6 +70,10 @@ public final class SettingRegionCompleteViewController: RxBaseViewController<Set
                 flex.addItem(confirmButton).marginLeft(22).width(buttonWidth).height(62)
             }
         }
+        
+        if isFromEdit {
+            progressBar.isHidden = true
+        }
     }
     
     override func viewBinding() {
@@ -80,8 +86,7 @@ public final class SettingRegionCompleteViewController: RxBaseViewController<Set
             .disposed(by: bag)
         
         confirmButton.rx.tap
-            .map { SelectGenderViewController(SelectGenderViewModel()) }
-            .bind(to: viewModel.navigationPushViewControllerRelay)
+            .bind(onNext: viewModel.didTapConfirmButton)
             .disposed(by: bag)
     }
 }

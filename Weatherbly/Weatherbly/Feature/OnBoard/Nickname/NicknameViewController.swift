@@ -11,7 +11,7 @@ import PinLayout
 
 final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
     
-    private var progressBar = CSProgressView(0.2)
+    private var progressBar = CSProgressView(0.25)
     private var navigationView = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
     private var explanationLabel = CSLabel(.bold, 25, "닉네임을 설정해주세요")
     private var guideLabel = CSLabel(.bold, 20, "(5글자 이내)")
@@ -70,8 +70,7 @@ final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
         
         // TODO: 닉네임 입력 로직 만들기
         confirmButton.rx.tap
-            .map { SettingRegionViewController(SettingRegionViewModel()) }
-            .bind(to: viewModel.navigationPushViewControllerRelay)
+            .bind(onNext: viewModel.didTapConfirmButton)
             .disposed(by: bag)
     }
     

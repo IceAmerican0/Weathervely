@@ -8,6 +8,7 @@
 import UIKit
 import PinLayout
 import FlexLayout
+import RxSwift
 
 final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> {
     
@@ -57,25 +58,39 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
     override func layout() {
         super.layout()
         
-        container.flex.alignItems(.center).define { flex in
+        container.flex.define { flex in
             flex.addItem(navigationView).width(UIScreen.main.bounds.width)
             flex.addItem(contentWrapper).direction(.row).alignItems(.center).marginLeft(21).marginTop(64).define { flex in
                 flex.addItem(outlineImage).size(24)
                 flex.addItem(subtitleLabel).marginLeft(3).height(28)
             }
             flex.addItem(confirmButton).width(88%).height(62)
-            flex.addItem(favoriteTableView).marginTop(8).marginHorizontal(24).height(45)
+            flex.addItem(favoriteTableView).marginTop(8).marginHorizontal(24).height(168)
         }
         
-        confirmButton.pin.bottom(buttonMarginBottom)
+        confirmButton.pin.hCenter().bottom(buttonMarginBottom)
+    }
+    
+    override func viewBinding() {
+        navigationView.leftButtonDidTapRelay
+            .bind(to: viewModel.navigationPopViewControllerRelay)
+            .disposed(by: bag)
+        
+        confirmButton.rx.tap
+            .bind(onNext: viewModel.didTapConfirmButton)
+            .disposed(by: bag)
     }
 }
 
 // MARK: UITableViewDelegate
 extension EditRegionViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { 100 }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { 56 }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { 25 }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        viewModel.didTapTableViewCell()
+    }
     
 }
 

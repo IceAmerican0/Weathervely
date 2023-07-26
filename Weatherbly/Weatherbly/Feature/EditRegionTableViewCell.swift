@@ -9,11 +9,25 @@ import Foundation
 import FlexLayout
 import PinLayout
 import Then
+import RxSwift
+
+public struct EditRegionCellState {
+    let region: String
+    let isOnly: Bool
+}
 
 public final class EditRegionTableViewCell: UITableViewCell {
     
-    public var regionLabel = CSLabel(.regular, 20, "")
-    public let cancelButton = UIButton()
+    public var regionLabel = UILabel().then {
+        $0.font = .systemFont(ofSize: 20)
+        $0.numberOfLines = 0
+    }
+    public let button = UIButton().then {
+        $0.setImage(AssetsImage.regionChange.image, for: .normal)
+        $0.layer.cornerRadius = 5
+    }
+    
+    public let labelWidth = UIScreen.main.bounds.width * 0.69
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -30,20 +44,20 @@ public final class EditRegionTableViewCell: UITableViewCell {
     }
     
     private func layout() {
-        contentView.flex.direction(.row).alignItems(.center).define { flex in
-            flex.addItem(regionLabel).marginTop(13).height(16)
-            flex.addItem(cancelButton).size(45)
+        contentView.flex.direction(.row).alignItems(.center).justifyContent(.center).define { flex in
+            flex.addItem(regionLabel).marginLeft(23).width(labelWidth).height(28)
+            flex.addItem(button).size(45)
         }
         
         self.backgroundColor = .white
-        self.layer.cornerRadius = 10
         self.layer.borderColor = UIColor.clear.cgColor
         self.layer.borderWidth = 1
-        self.layer.shadowOffset = CGSize(width: 0, height: 4)
-        self.layer.shadowOpacity = 0.25
-        self.layer.shadowColor = UIColor.black.cgColor
-        self.layer.shadowRadius = 2
         self.layer.masksToBounds = false
         self.clipsToBounds = false
+    }
+    
+    func configureCellState(_ cellState: EditRegionCellState) {
+        regionLabel.text = cellState.region
+        cellState.isOnly ? button.setImage(AssetsImage.regionChange.image, for: .normal) : button.setImage(AssetsImage.delete.image, for: .normal)
     }
 }

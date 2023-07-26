@@ -7,11 +7,14 @@
 
 import UIKit
 
-class OnBoardViewModel: RxBaseViewModel {
+public protocol OnBoardViewModelLogic: ViewModelBusinessLogic {
+    func toNicknameView()
+}
+
+public final class OnBoardViewModel: RxBaseViewModel {
     
-    func nicknameViewController() -> UIViewController {
-        let viewController = NicknameViewController(NicknameViewModel())
-        
-        return viewController
+    public func toNicknameView() {
+        let vc = NicknameViewController(NicknameViewModel())
+        navigationPushViewControllerRelay.accept(vc)
     }
 }

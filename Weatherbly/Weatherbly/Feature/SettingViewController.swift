@@ -233,23 +233,16 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
     override func bind() {
         super.bind()
         
-        // TODO: -
-        // FIXME: - leftButton 액션 처리를 위한 임시조치 -> 후에 BaseViewModel을 만들어서 BaseViewController 와 연결시켜야한다.
-
         navigationView.leftButtonDidTapRelay
-            .bind(onNext: { [weak self] _ in
-                self?.navigationController?.popViewController(animated: true)
-            })
+            .bind(to: viewModel.navigationPopViewControllerRelay)
             .disposed(by: bag)
         
         editButton.rx.tap
-            .subscribe { [weak self] _ in
-                self?.navigationController?.pushViewController(EditNicknameViewController(EditNicknameViewModel()), animated: true)
-            }.disposed(by: bag)
+            .bind(onNext: viewModel.toEditNicknameView)
+            .disposed(by: bag)
         
         locationButton.rx.tap
-            .map { EditRegionViewController(EditRegionViewModel())}
-            .bind(to: viewModel.navigationPushViewControllerRelay)
+            .bind(onNext: viewModel.toEditRegionView)
             .disposed(by: bag)
         
     }

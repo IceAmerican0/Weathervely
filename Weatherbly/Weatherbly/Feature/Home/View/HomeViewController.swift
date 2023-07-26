@@ -152,13 +152,11 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
             .disposed(by: bag)
         
         settingButton.rx.tap
-            .map { SettingViewController(SettingViewModel()) }
-            .bind(to: viewModel.navigationPushViewControllerRelay)
+            .bind(onNext: viewModel.toSettingView)
             .disposed(by: bag)
         
         calendarButton.rx.tap
-            .map { TenDaysForeCastViewController(EmptyViewModel()) }
-            .bind(to: viewModel.navigationPushViewControllerRelay)
+            .bind(onNext: viewModel.toTenDaysForecastView)
             .disposed(by: bag)
     }
     

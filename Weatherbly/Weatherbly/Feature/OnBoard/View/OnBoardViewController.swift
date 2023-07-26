@@ -23,8 +23,9 @@ final class OnBoardViewController: RxBaseViewController<OnBoardViewModel> {
         super.attribute()
         
         logo.do {
-            $0.image = UIImage(systemName: "star.fill")
-            
+            $0.setAssetsImage(AssetsImage.mainLogo)
+            $0.setCornerRadius(20)
+            $0.setShadow(CGSize(width: 0, height: 4), UIColor.black.cgColor, 0.25, 2)
         }
         
         startButton.do {
@@ -38,11 +39,10 @@ final class OnBoardViewController: RxBaseViewController<OnBoardViewModel> {
         super.layout()
     
         container.flex
-//            .alignItems(.center)
             .justifyContent(.spaceAround)
             .define { flex in
                 flex.addItem(topGreetingLabel)
-                flex.addItem(logo).width(35%).height(23%).alignSelf(.center)
+                flex.addItem(logo).width(43.5%).height(23%).alignSelf(.center)
                 flex.addItem(bottomGreetingLabel)
                 flex.addItem(startButton)
                     .marginHorizontal(43)
@@ -54,14 +54,7 @@ final class OnBoardViewController: RxBaseViewController<OnBoardViewModel> {
         super.viewBinding()
         
         startButton.rx.tap
-        
-        /// ViewModel 생성 X
-//            .map { EditNicknameViewController(EditNicknameViewModel())}
-//            .bind(to: viewModel.navigationPushViewControllerRelay)
-        
-        /// ViewModel 생성시
-            .map { [weak self] _ in self?.viewModel.nicknameViewController()}
-            .bind(to: viewModel.navigationPushViewControllerRelay)
+            .bind(onNext: viewModel.toNicknameView)
             .disposed(by: bag)
     }
 

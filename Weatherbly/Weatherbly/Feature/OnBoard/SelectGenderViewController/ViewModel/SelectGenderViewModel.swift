@@ -11,7 +11,19 @@ import PinLayout
 import RxSwift
 import RxCocoa
 
-final class SelectGenderViewModel: RxBaseViewModel {
+public protocol SelectGenderViewModelLogic: ViewModelBusinessLogic {
+    func didTapAcceptButton()
+    func toSensoryTempView()
+}
+
+final class SelectGenderViewModel: RxBaseViewModel, SelectGenderViewModelLogic {
+    public func didTapAcceptButton() {
+        toSensoryTempView()
+    }
     
+    public func toSensoryTempView() {
+        let vc = SensoryTempViewController(SensoryTempViewModel())
+        navigationPushViewControllerRelay.accept(vc)
+    }
     
 }

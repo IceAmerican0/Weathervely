@@ -32,6 +32,8 @@ enum AssetsImage: String {
     case delete
     case dust
     case humidity
+    case mainLogo
+    case regionChange
     case sampleCloth
     case schedule
     case search
