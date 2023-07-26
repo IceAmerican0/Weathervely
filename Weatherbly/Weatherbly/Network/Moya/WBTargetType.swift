@@ -8,18 +8,25 @@
 import Foundation
 import Moya
 
+/// WBTargetType 에 사용되는 Target에 대한 Protocol
+/// # 공통적으로 사용되는 baseURL, header (예정)
+/// # 해당 프로토콜을 따르는 타겟들은 path, method, task 만 정의해도 사용할 수 있다.
+
 public protocol WBTargetType: TargetType {}
 
 public extension WBTargetType {
     var baseURL: URL {
-        NetworkManager.shared.baseURL
+        
+        #if DEBUG
+        return URL(string: "http://15.164.224.138:3000")!
+        #else
+        return URL(string: "http://15.164.224.138:3000")!
+        #endif
     }
+//
+//    var headers: [String : String]? {
+//        ["Content-Type": "application/json"]
+//    }
+//
     
-    var method: Moya.Method { .get }
-    
-    var path: String { "" }
-    
-    var headers: [String : String]? {
-        ["Content-Type": "application/json"]
-    }
 }

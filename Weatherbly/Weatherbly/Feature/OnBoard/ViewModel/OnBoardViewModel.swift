@@ -6,12 +6,46 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
-class OnBoardViewModel: RxBaseViewModel {
+public enum OnBoardViewAction {
+    case showMessage(message: String, isError: Bool)
+}
+
+public protocol OnBoardViewModelLogic: ViewModelBusinessLogic {
+    func login(_ nickname: String)
+    var viewAction: PublishRelay<OnBoardViewAction> { get }
+}
+
+class OnBoardViewModel: RxBaseViewModel, OnBoardViewModelLogic {
     
+    var viewAction: RxRelay.PublishRelay<OnBoardViewAction>
+    
+    
+    let loginDataSource = LoginDataSource()
+    
+    
+    override init() {
+        self.viewAction = .init()
+        super.init()
+    }
     func nicknameViewController() -> UIViewController {
         let viewController = NicknameViewController(NicknameViewModel())
         
         return viewController
+    }
+    
+    func login(_ nickname: String ) {
+        loginDataSource.login(nickname)
+            .subscribe(onNext: { result in
+                switch result {
+                case .success(let response):
+                    print(response)
+                case .failure(let err):
+                    print(err.localizedDescription)
+                }
+            })
+            .disposed(by: bag)
     }
 }

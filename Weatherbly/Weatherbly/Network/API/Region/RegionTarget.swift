@@ -13,6 +13,7 @@ public enum RegionTarget {
 }
 
 extension RegionTarget: TargetType {
+    
     public var baseURL: URL {
         guard let baseURL = URL(string: "https://dapi.kakao.com/v2/local/search/address.json") else {
             fatalError("BaseURL 세팅 실패")

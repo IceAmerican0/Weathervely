@@ -14,14 +14,15 @@ public protocol RegionDataSourceProtocol {
 
 public final class RegionDataSource: RegionDataSourceProtocol {
     
-    private let provider: RegionProvider<RegionTarget>
+    private let provider: MoyaProvider<RegionTarget>
     
-    public init(provider: RegionProvider<RegionTarget> = RegionProvider<RegionTarget>()) {
+    public init(provider: MoyaProvider<RegionTarget> = MoyaProvider<RegionTarget>()) {
         self.provider = provider
     }
     
     public func searchRegion(_ request: String) -> Observable<Result<SearchRegionEntity, Error>> {
         provider
+            .rx
             .request(.searchRegion(request))
             .mapTo(SearchRegionEntity.self)
     }

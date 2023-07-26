@@ -30,6 +30,7 @@ public final class SettingRegionViewModel: RxBaseViewModel, SettingRegionViewMod
         
         datasource.searchRegion(region)
             .subscribe(onNext: { result in
+                print("result in ViewModel : ", result)
                 switch result {
                 case .success(let response):
                     print(response)
@@ -40,3 +41,11 @@ public final class SettingRegionViewModel: RxBaseViewModel, SettingRegionViewMod
             .disposed(by: bag)
     }
 }
+
+/// 성공 
+/// 500 -> sql, 우리 로직
+/// 503 -> 서비스 접근 x (기상청에 접근 안댐) -> 기상청에 문제가 생김.
+/// 400 -> 요청 잘못
+/// 401 -> autorization
+/// 404 -> notFound
+

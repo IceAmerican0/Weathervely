@@ -81,6 +81,17 @@
 		BD77B82A2A388CEF00E7D57A /* OnBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD77B8292A388CEF00E7D57A /* OnBoardViewController.swift */; };
 		BD77B82C2A388D2000E7D57A /* OnBoardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD77B82B2A388D2000E7D57A /* OnBoardViewModel.swift */; };
 		BD77B82E2A388D2E00E7D57A /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD77B82D2A388D2E00E7D57A /* HomeViewModel.swift */; };
+		BD7DAB1F2A6E677D00422D25 /* LoginDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB1E2A6E677D00422D25 /* LoginDataSource.swift */; };
+		BD7DAB212A6E678D00422D25 /* LoginProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB202A6E678D00422D25 /* LoginProvider.swift */; };
+		BD7DAB232A6E679700422D25 /* LoginTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB222A6E679700422D25 /* LoginTarget.swift */; };
+		BD7DAB252A6E757C00422D25 /* PrimitiveSequence+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB242A6E757C00422D25 /* PrimitiveSequence+Extension.swift */; };
+		BD7DAB272A6E786E00422D25 /* LoginEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB262A6E786E00422D25 /* LoginEntity.swift */; };
+		BD7DAB292A6FC51400422D25 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB282A6FC51400422D25 /* TestViewController.swift */; };
+		BD7DAB2B2A6FC58200422D25 /* TestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB2A2A6FC58200422D25 /* TestViewModel.swift */; };
+		BD7DAB2D2A70DEE100422D25 /* GetVilageForcastInfoDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB2C2A70DEE100422D25 /* GetVilageForcastInfoDataSource.swift */; };
+		BD7DAB2F2A70DEED00422D25 /* GetVilageForcastInfoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB2E2A70DEED00422D25 /* GetVilageForcastInfoProvider.swift */; };
+		BD7DAB312A70DEF400422D25 /* ForcastTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB302A70DEF400422D25 /* ForcastTarget.swift */; };
+		BD7DAB332A70DEFC00422D25 /* GetVilageForcastInfoEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB322A70DEFC00422D25 /* GetVilageForcastInfoEntity.swift */; };
 		BDA66FEA2A4075270061A1F0 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA66FE92A4075270061A1F0 /* UIImageView+Extension.swift */; };
 		BDA66FED2A444C470061A1F0 /* SelectGenderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA66FEC2A444C470061A1F0 /* SelectGenderViewController.swift */; };
 		BDA66FEF2A4459910061A1F0 /* SelectGenderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA66FEE2A4459910061A1F0 /* SelectGenderViewModel.swift */; };
@@ -157,6 +168,17 @@
 		BD77B8292A388CEF00E7D57A /* OnBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardViewController.swift; sourceTree = "<group>"; };
 		BD77B82B2A388D2000E7D57A /* OnBoardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardViewModel.swift; sourceTree = "<group>"; };
 		BD77B82D2A388D2E00E7D57A /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		BD7DAB1E2A6E677D00422D25 /* LoginDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginDataSource.swift; sourceTree = "<group>"; };
+		BD7DAB202A6E678D00422D25 /* LoginProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginProvider.swift; sourceTree = "<group>"; };
+		BD7DAB222A6E679700422D25 /* LoginTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTarget.swift; sourceTree = "<group>"; };
+		BD7DAB242A6E757C00422D25 /* PrimitiveSequence+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PrimitiveSequence+Extension.swift"; sourceTree = "<group>"; };
+		BD7DAB262A6E786E00422D25 /* LoginEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginEntity.swift; sourceTree = "<group>"; };
+		BD7DAB282A6FC51400422D25 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
+		BD7DAB2A2A6FC58200422D25 /* TestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewModel.swift; sourceTree = "<group>"; };
+		BD7DAB2C2A70DEE100422D25 /* GetVilageForcastInfoDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetVilageForcastInfoDataSource.swift; sourceTree = "<group>"; };
+		BD7DAB2E2A70DEED00422D25 /* GetVilageForcastInfoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetVilageForcastInfoProvider.swift; sourceTree = "<group>"; };
+		BD7DAB302A70DEF400422D25 /* ForcastTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForcastTarget.swift; sourceTree = "<group>"; };
+		BD7DAB322A70DEFC00422D25 /* GetVilageForcastInfoEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetVilageForcastInfoEntity.swift; sourceTree = "<group>"; };
 		BDA66FE92A4075270061A1F0 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		BDA66FEC2A444C470061A1F0 /* SelectGenderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGenderViewController.swift; sourceTree = "<group>"; };
 		BDA66FEE2A4459910061A1F0 /* SelectGenderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGenderViewModel.swift; sourceTree = "<group>"; };
@@ -170,7 +192,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BD4AC38D2A655CE900537583 /* Toast in Frameworks */,
-				DBC6E28C3234C85CDB9D2255 /* Pods_Weatherbly.framework in Frameworks */,
 				5C23DB972A65045C00F41574 /* RxSwift in Frameworks */,
 				5C23DB9E2A65048200F41574 /* Moya in Frameworks */,
 				5C23DBA22A65048200F41574 /* RxMoya in Frameworks */,
@@ -216,6 +237,11 @@
 		5CCC91492A6114640025B522 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				BD7DAB372A712A0000422D25 /* AuthAPI */,
+				BD7DAB362A7129E000422D25 /* TypeAPI */,
+				BD7DAB352A7129C100422D25 /* UserAPI */,
+				BD7DAB1D2A6E677100422D25 /* LoginAPI */,
+				BD7DAB1C2A6E62F600422D25 /* ForcastAPI */,
 				69CCF1C92A63CA3500756127 /* DataSource */,
 				5CCC914E2A61195D0025B522 /* Region */,
 				69CCF1CE2A63CD5500756127 /* WBErrorResponse.swift */,
@@ -228,8 +254,8 @@
 		5CCC914E2A61195D0025B522 /* Region */ = {
 			isa = PBXGroup;
 			children = (
-				5CCC914A2A6114880025B522 /* RegionTarget.swift */,
 				5CCC91512A61197B0025B522 /* SearchRegionEntity.swift */,
+				5CCC914A2A6114880025B522 /* RegionTarget.swift */,
 				69CCF1C72A63A01D00756127 /* RegionProvider.swift */,
 			);
 			path = Region;
@@ -290,6 +316,8 @@
 				BD69B8F32A54332C00DDCD7A /* Setting */,
 				BD2D01A12A3887E0003A25D5 /* OnBoard */,
 				BD2D01A02A3887D5003A25D5 /* Home */,
+				BD7DAB282A6FC51400422D25 /* TestViewController.swift */,
+				BD7DAB2A2A6FC58200422D25 /* TestViewModel.swift */,
 			);
 			path = Feature;
 			sourceTree = "<group>";
@@ -401,6 +429,7 @@
 				BD4AC3892A655AEC00537583 /* Date+Extension.swift */,
 				BD4AC3902A66899500537583 /* UILabel+Extension.swift */,
 				5C9D02B92A68EB3900AF2DA3 /* Observable+Extension.swift */,
+				BD7DAB242A6E757C00422D25 /* PrimitiveSequence+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -482,6 +511,57 @@
 				BD5169502A5EB48D00582BA9 /* ChangeNicknameViewModel.swift */,
 			);
 			name = ViewModel;
+			sourceTree = "<group>";
+		};
+		BD7DAB1C2A6E62F600422D25 /* ForcastAPI */ = {
+			isa = PBXGroup;
+			children = (
+				BD7DAB302A70DEF400422D25 /* ForcastTarget.swift */,
+				BD7DAB342A7119DC00422D25 /* GetViliageForcastInfo */,
+			);
+			path = ForcastAPI;
+			sourceTree = "<group>";
+		};
+		BD7DAB1D2A6E677100422D25 /* LoginAPI */ = {
+			isa = PBXGroup;
+			children = (
+				BD7DAB1E2A6E677D00422D25 /* LoginDataSource.swift */,
+				BD7DAB202A6E678D00422D25 /* LoginProvider.swift */,
+				BD7DAB222A6E679700422D25 /* LoginTarget.swift */,
+				BD7DAB262A6E786E00422D25 /* LoginEntity.swift */,
+			);
+			path = LoginAPI;
+			sourceTree = "<group>";
+		};
+		BD7DAB342A7119DC00422D25 /* GetViliageForcastInfo */ = {
+			isa = PBXGroup;
+			children = (
+				BD7DAB2C2A70DEE100422D25 /* GetVilageForcastInfoDataSource.swift */,
+				BD7DAB2E2A70DEED00422D25 /* GetVilageForcastInfoProvider.swift */,
+				BD7DAB322A70DEFC00422D25 /* GetVilageForcastInfoEntity.swift */,
+			);
+			path = GetViliageForcastInfo;
+			sourceTree = "<group>";
+		};
+		BD7DAB352A7129C100422D25 /* UserAPI */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = UserAPI;
+			sourceTree = "<group>";
+		};
+		BD7DAB362A7129E000422D25 /* TypeAPI */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = TypeAPI;
+			sourceTree = "<group>";
+		};
+		BD7DAB372A712A0000422D25 /* AuthAPI */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = AuthAPI;
 			sourceTree = "<group>";
 		};
 		BDA66FEB2A444C320061A1F0 /* SelectGenderViewController */ = {
@@ -661,7 +741,9 @@
 				BD69B8F92A553A0C00DDCD7A /* CSNavigationView.swift in Sources */,
 				5CAB60CF2A53F61700CD431A /* TenDaysForecastViewController.swift in Sources */,
 				5C4BE89D2A5E63C000FD2CEF /* RegionCollectionViewCell.swift in Sources */,
+				BD7DAB212A6E678D00422D25 /* LoginProvider.swift in Sources */,
 				696176B22A63E37F00B83B4C /* RxBaseViewModel.swift in Sources */,
+				BD7DAB2D2A70DEE100422D25 /* GetVilageForcastInfoDataSource.swift in Sources */,
 				BD5D168E2A612BD500435816 /* DateTimePickViewModel.swift in Sources */,
 				BD4AC3932A669B0500537583 /* SlotMachineViewModel.swift in Sources */,
 				5CAB60D32A54FC6A00CD431A /* UITableViewCell+Extension.swift in Sources */,
@@ -684,6 +766,7 @@
 				BD4316362A3C9DB700E86271 /* AssetsImage.swift in Sources */,
 				BDA66FED2A444C470061A1F0 /* SelectGenderViewController.swift in Sources */,
 				BD4316342A3C967900E86271 /* SensoryTempViewController.swift in Sources */,
+				BD7DAB332A70DEFC00422D25 /* GetVilageForcastInfoEntity.swift in Sources */,
 				BD4AC38F2A6671B500537583 /* SeonsoryTempViewModel.swift in Sources */,
 				5C4BE89B2A5E2D1200FD2CEF /* EditRegionViewController.swift in Sources */,
 				BD4AC3912A66899500537583 /* UILabel+Extension.swift in Sources */,
@@ -691,6 +774,7 @@
 				69CCF1C82A63A01D00756127 /* RegionProvider.swift in Sources */,
 				BD77B8282A388C9400E7D57A /* CSColor.swift in Sources */,
 				BD51694F2A5EB43500582BA9 /* ChangeNicknameViewController.swift in Sources */,
+				BD7DAB292A6FC51400422D25 /* TestViewController.swift in Sources */,
 				BD77B82A2A388CEF00E7D57A /* OnBoardViewController.swift in Sources */,
 				5CC61E232A57C617001435E6 /* DailyForecastTableViewCell.swift in Sources */,
 				5CC61E1F2A56850F001435E6 /* DateFormatter+Extension.swift in Sources */,
@@ -698,15 +782,19 @@
 				BD5D168C2A612BC900435816 /* DateTimePickViewController.swift in Sources */,
 				5CC61E212A579D66001435E6 /* DailyForecastViewController.swift in Sources */,
 				5CAB60C32A528C7A00CD431A /* UICollectionView+Extension.swift in Sources */,
+				BD7DAB272A6E786E00422D25 /* LoginEntity.swift in Sources */,
 				BDA66FEA2A4075270061A1F0 /* UIImageView+Extension.swift in Sources */,
 				BD5D16932A63B3AD00435816 /* CALayer+Extension.swift in Sources */,
 				BD4AC38A2A655AEC00537583 /* Date+Extension.swift in Sources */,
+				BD7DAB252A6E757C00422D25 /* PrimitiveSequence+Extension.swift in Sources */,
 				5CAB60D12A54FC5F00CD431A /* UITableView+Extension.swift in Sources */,
 				5C23DBA42A6505BF00F41574 /* KakaoErrorResponse.swift in Sources */,
 				5CCC91562A613F010025B522 /* SettingRegionViewModel.swift in Sources */,
+				BD7DAB312A70DEF400422D25 /* ForcastTarget.swift in Sources */,
 				BD77B82E2A388D2E00E7D57A /* HomeViewModel.swift in Sources */,
 				69CCF1D12A63CDC200756127 /* RemoteError.swift in Sources */,
 				BD5169472A5AA39000582BA9 /* EditNicknameViewController.swift in Sources */,
+				BD7DAB2B2A6FC58200422D25 /* TestViewModel.swift in Sources */,
 				BD69B8F72A54337000DDCD7A /* SettingViewController.swift in Sources */,
 				5CCC914D2A61179F0025B522 /* WBTargetType.swift in Sources */,
 				69CCF1CF2A63CD5500756127 /* WBErrorResponse.swift in Sources */,
@@ -718,9 +806,12 @@
 				69FDD4C62A39E42900830927 /* NicknameViewController.swift in Sources */,
 				69CCF1CB2A63CA5000756127 /* RegionDataSource.swift in Sources */,
 				696176B42A63E3C000B83B4C /* BaseDisposeBag.swift in Sources */,
+				BD7DAB1F2A6E677D00422D25 /* LoginDataSource.swift in Sources */,
 				BD51694B2A5D763000582BA9 /* EditNicknameViewModel.swift in Sources */,
 				BD2D01B62A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift in Sources */,
 				BD2D01B22A38889E003A25D5 /* CSButton.swift in Sources */,
+				BD7DAB2F2A70DEED00422D25 /* GetVilageForcastInfoProvider.swift in Sources */,
+				BD7DAB232A6E679700422D25 /* LoginTarget.swift in Sources */,
 				BD5169452A5A9BD600582BA9 /* SettingViewModel.swift in Sources */,
 				5C9D02BC2A68FC0200AF2DA3 /* Dependency.swift in Sources */,
 				BD2D01B02A38887D003A25D5 /* UIButton+Extension.swift in Sources */,
@@ -936,14 +1027,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		BD4AC38B2A655CE900537583 /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/scalessec/Toast-Swift.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
-            };
-        };
 		5C23DB8D2A65045C00F41574 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ReactiveX/RxSwift";
@@ -960,14 +1043,17 @@
 				minimumVersion = 15.0.0;
 			};
 		};
+		BD4AC38B2A655CE900537583 /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scalessec/Toast-Swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		BD4AC38C2A655CE900537583 /* Toast */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BD4AC38B2A655CE900537583 /* XCRemoteSwiftPackageReference "Toast-Swift" */;
-			productName = Toast;
-        };
 		5C23DB8E2A65045C00F41574 /* RxCocoa */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 5C23DB8D2A65045C00F41574 /* XCRemoteSwiftPackageReference "RxSwift" */;
@@ -1002,6 +1088,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5C23DB9A2A65048200F41574 /* XCRemoteSwiftPackageReference "Moya" */;
 			productName = RxMoya;
+		};
+		BD4AC38C2A655CE900537583 /* Toast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BD4AC38B2A655CE900537583 /* XCRemoteSwiftPackageReference "Toast-Swift" */;
+			productName = Toast;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
