@@ -12,8 +12,7 @@ public enum RegionTarget {
     case searchRegion(_ request: String)
 }
 
-extension RegionTarget: TargetType {
-    
+extension RegionTarget: WBTargetType {
     public var baseURL: URL {
         guard let baseURL = URL(string: "https://dapi.kakao.com/v2/local/search/address.json") else {
             fatalError("BaseURL 세팅 실패")
