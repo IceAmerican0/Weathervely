@@ -16,7 +16,7 @@ public enum WBNetworkError: Error {
     case encodeError
 }
 
-public extension WBNetworkError: LocalizedError {
+extension WBNetworkError: LocalizedError {
     
     public var errorDescription: String? {
         switch self {
