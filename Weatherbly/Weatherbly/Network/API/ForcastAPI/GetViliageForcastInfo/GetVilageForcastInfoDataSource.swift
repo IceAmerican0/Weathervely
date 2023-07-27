@@ -5,23 +5,24 @@
 //  Created by 최수훈 on 2023/07/26.
 //
 
-import Foundation
 import RxSwift
 import Moya
+import RxMoya
 
 protocol GetClosetDataSourceProtocol {
-    func getCloset() -> Observable<Result<GetVilageForcastInfoEntity, Error>>
+    func getCloset() -> Observable<Result<GetVilageForcastInfoEntity, WBNetworkError>>
 }
 
 final class GetVilageForcastInfoDataSource: GetClosetDataSourceProtocol {
-    private var provider: GetVilageForcastInfoProvider<ForcastTarget>
+    private var provider: MoyaProvider<ForcastTarget>
   
-    init(provider: GetVilageForcastInfoProvider<ForcastTarget> = GetVilageForcastInfoProvider<ForcastTarget>()) {
+    init(provider: MoyaProvider<ForcastTarget> = MoyaProvider<ForcastTarget>()) {
         self.provider = provider
     }
     
-    func getCloset() -> Observable<Result<GetVilageForcastInfoEntity,Error>> {
+    func getCloset() -> Observable<Result<GetVilageForcastInfoEntity,WBNetworkError>> {
         provider
+            .rx
             .request(.getVilageForcastInfo)
             .mapTo(GetVilageForcastInfoEntity.self)
         

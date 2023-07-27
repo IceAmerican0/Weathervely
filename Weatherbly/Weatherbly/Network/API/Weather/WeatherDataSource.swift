@@ -7,9 +7,10 @@
 
 import Moya
 import RxSwift
+import RxMoya
 
 public protocol WeatherDataSourceProtocol {
-    func dailyForecast(_ request: String) -> Observable<Result<DailyForecastEntity, Error>>
+    func dailyForecast(_ request: String) -> Observable<Result<DailyForecastEntity, WBNetworkError>>
 }
 
 public final class WeatherDataSource: WeatherDataSourceProtocol {
@@ -20,7 +21,7 @@ public final class WeatherDataSource: WeatherDataSourceProtocol {
         self.provider = provider
     }
     
-    public func dailyForecast(_ request: String) -> Observable<Result<DailyForecastEntity, Error>> {
+    public func dailyForecast(_ request: String) -> Observable<Result<DailyForecastEntity, WBNetworkError>> {
         provider.rx
             .request(.daily(request))
             .mapTo(DailyForecastEntity.self)
