@@ -9,7 +9,7 @@ import Foundation
 import Moya
 
 public enum RegionTarget {
-    case searchRegion(_ request: String)
+    case searchRegion(_ query: String)
 }
 
 extension RegionTarget: WBTargetType {
@@ -30,8 +30,8 @@ extension RegionTarget: WBTargetType {
     
     public var task: Task {
         switch self {
-        case .searchRegion(let searchRequest):
-            return .requestParameters(parameters: ["query": searchRequest], encoding: URLEncoding.queryString)
+        case .searchRegion(let query):
+            return .requestParameters(parameters: ["query": query], encoding: URLEncoding.queryString)
         }
     }
 }

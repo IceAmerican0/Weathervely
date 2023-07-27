@@ -14,9 +14,9 @@ import RxCocoa
 
 final class OnBoardViewController: RxBaseViewController<OnBoardViewModel> {
     
-    private var topGreetingLabel = CSLabel(.bold, 25, "날씨블리에 오신 걸\n환영해요!")
+    private var topGreetingLabel = CSLabel(.bold, 25, "웨더블리에 오신 걸\n환영해요!")
     private var logo = UIImageView()
-    private var bottomGreetingLabel = CSLabel(.bold, 20, "날씨블리가 날씨에 맞는\n옷차림을 알려드릴 거에요")
+    private var bottomGreetingLabel = CSLabel(.bold, 20, "웨더블리가 날씨에 맞는\n옷차림을 알려드릴 거에요")
     private var startButton = CSButton(.primary)
     
     override func attribute() {
