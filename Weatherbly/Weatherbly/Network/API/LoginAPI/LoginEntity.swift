@@ -8,10 +8,10 @@
 import Foundation
 
 struct LoginEntity: Decodable {
-    var success: Bool?
+    var status: Int
     
     enum CodingKeys: String, CodingKey {
-        case success = "success"
+        case status = "status"
     }
     
 }
