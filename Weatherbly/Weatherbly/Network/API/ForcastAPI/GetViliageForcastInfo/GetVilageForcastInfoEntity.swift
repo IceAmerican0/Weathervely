@@ -20,9 +20,27 @@
 import Foundation
 
 struct GetVilageForcastInfoEntity: Codable {
+    let status: Int
+    let data: [BodyData]?
+    
+    enum CodingKeys: String, CodingKey {
+        case status = "status"
+        case data = "data"
+    }
+}
+
+struct BodyData: Codable {
+    let list: [VilageFcstList]?
+    
+    enum CodingKeys: String, CodingKey {
+        case list = "list"
+    }
+}
+
+struct VilageFcstList: Codable {
     let baseDate: String
     let baseTime: String
-    let category: String
+    let category: VilageCategoryEntity?
     let fcstDate: String
     let fcstTime: String
     let fcstValue: String
@@ -39,8 +57,8 @@ struct GetVilageForcastInfoEntity: Codable {
         case x = "nx"
         case y = "ny"
     }
-    
 }
+
 
 /*
  [
