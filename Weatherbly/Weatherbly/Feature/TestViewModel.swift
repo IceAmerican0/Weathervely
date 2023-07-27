@@ -22,8 +22,7 @@ public protocol TestViewModelLogic: ViewModelBusinessLogic {
 class TestViewModel: RxBaseViewModel, TestViewModelLogic {
     
     var viewAction: RxRelay.PublishRelay<TestViewAction>
-//    let testDataSource = LoginDataSource()
-    let testDataSource = GetVilageForcastInfoDataSource()
+    let testDataSource = LoginDataSource()
     
     override init() {
         self.viewAction = .init()
@@ -32,7 +31,7 @@ class TestViewModel: RxBaseViewModel, TestViewModelLogic {
     
     func testRequest(_ nickname: String) {
         
-        testDataSource.getCloset()
+        testDataSource.login(nickname)
             .subscribe(onNext: { result in
                 switch result {
                 case .success(let response):

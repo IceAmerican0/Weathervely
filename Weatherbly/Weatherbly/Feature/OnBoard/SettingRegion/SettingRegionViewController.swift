@@ -169,3 +169,18 @@ extension SettingRegionViewController: UITextFieldDelegate {
         string != " "
     }
 }
+
+// MARK: Keyboard Action
+extension SettingRegionViewController {
+    override func keyboardWillShow(_ notification: Notification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            inputRegion.pin.top(to: explanationLabel.edge.bottom).marginTop(22)
+            confirmButton.pin.bottom(keyboardSize.height + 30)
+        }
+    }
+    
+    override func keyboardWillHide(_ notification: Notification) {
+        inputRegion.pin.top(textFieldMarginHeight)
+        confirmButton.pin.bottom(buttonMarginBottom)
+    }
+}

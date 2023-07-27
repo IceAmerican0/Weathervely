@@ -73,8 +73,10 @@ final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
             .bind(onNext: viewModel.didTapConfirmButton)
             .disposed(by: bag)
     }
-    
-    // MARK: Keyboard Action
+}
+
+// MARK: Keyboard Action
+extension NicknameViewController {
     override func keyboardWillShow(_ notification: Notification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             confirmButton.pin.bottom(keyboardSize.height + 30)
