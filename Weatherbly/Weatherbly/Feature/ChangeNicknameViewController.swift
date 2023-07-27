@@ -11,7 +11,7 @@ import PinLayout
 import RxCocoa
 import RxSwift
 
-class ChangeNicknameViewController: RxBaseViewController<EmptyViewModel> {
+class ChangeNicknameViewController: RxBaseViewController<ChangeNicknameViewModel> {
     
     private var leftButtonDidTapRelay = PublishRelay<Void>()
     private var csNavigationView = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
@@ -96,7 +96,7 @@ class ChangeNicknameViewController: RxBaseViewController<EmptyViewModel> {
         nicknameTextField.do {
             $0.font = .systemFont(ofSize: 20)
             $0.text = "(닉네임)"
-            $0.setClearButton(AssetsImage.textClear.image, .whileEditing)
+            $0.setClearButton(AssetsImage.delete.image, .whileEditing)
             $0.becomeFirstResponder()
             $0.delegate = self
         }
@@ -250,7 +250,7 @@ class ChangeNicknameViewController: RxBaseViewController<EmptyViewModel> {
                 }
                 self?.womanButton.backgroundColor = CSColor._151_151_151.color
                 self?.womanButton.setTitleColor(.white, for: .normal)
-            }
+            }.disposed(by: bag)
         
         manButton.rx.tap
             .subscribe { [weak self] _ in
@@ -260,7 +260,7 @@ class ChangeNicknameViewController: RxBaseViewController<EmptyViewModel> {
                 }
                 self?.manButton.backgroundColor = CSColor._151_151_151.color
                 self?.manButton.setTitleColor(.white, for: .normal)
-            }
+            }.disposed(by: bag)
         
         bottomButton.rx.tap
             .subscribe { [weak self] _ in
@@ -268,7 +268,7 @@ class ChangeNicknameViewController: RxBaseViewController<EmptyViewModel> {
                 // 1. 데이터 수정값 저장하기
                 // 2. 화면 데이터 새로고침
                 self?.navigationController?.popViewController(animated: true)
-            }
+            }.disposed(by: bag)
     }
     
 }

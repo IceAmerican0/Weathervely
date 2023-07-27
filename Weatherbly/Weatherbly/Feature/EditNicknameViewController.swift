@@ -217,7 +217,7 @@ final class EditNicknameViewController: RxBaseViewController<EditNicknameViewMod
         bottomButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 
-                self?.present(ChangeNicknameViewController(EmptyViewModel()), animated: true)
+                self?.present(ChangeNicknameViewController(ChangeNicknameViewModel()), animated: true)
                 
 //                guard let displayMode = self?.viewModel.bottomButtonDidTap() else {
 //                    return

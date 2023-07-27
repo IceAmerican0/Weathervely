@@ -11,7 +11,7 @@ import FlexLayout
 import FSPagerView
 import RxSwift
 
-class HomeViewController: RxBaseViewController<EmptyViewModel> {
+class HomeViewController: RxBaseViewController<HomeViewModel> {
     
     private var backgroundView = UIView()
     private var backgroundImage = UIImageView()
@@ -152,13 +152,11 @@ class HomeViewController: RxBaseViewController<EmptyViewModel> {
             .disposed(by: bag)
         
         settingButton.rx.tap
-            .map { SettingViewController(SettingViewModel()) }
-            .bind(to: viewModel.navigationPushViewControllerRelay)
+            .bind(onNext: viewModel.toSettingView)
             .disposed(by: bag)
         
         calendarButton.rx.tap
-            .map { TenDaysForeCastViewController(EmptyViewModel()) }
-            .bind(to: viewModel.navigationPushViewControllerRelay)
+            .bind(onNext: viewModel.toTenDaysForecastView)
             .disposed(by: bag)
     }
     

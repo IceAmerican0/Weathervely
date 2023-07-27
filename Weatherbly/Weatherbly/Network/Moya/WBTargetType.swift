@@ -23,10 +23,8 @@ public extension WBTargetType {
         return URL(string: "http://15.164.224.138:3000")!
         #endif
     }
-//
-//    var headers: [String : String]? {
-//        ["Content-Type": "application/json"]
-//    }
-//
     
+    var headers: [String : String]? {
+        ["Content-Type": "application/json"]
+    }
 }
