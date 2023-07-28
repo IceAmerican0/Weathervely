@@ -15,15 +15,11 @@ final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
     private var navigationView = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
     private var explanationLabel = CSLabel(.bold, 25, "닉네임을 설정해주세요")
     private var guideLabel = CSLabel(.bold, 20, "(5글자 이내)")
-    private var inputNickname = UITextField()
+    private var inputNickname = UITextField.neatKeyboard()
     private var confirmButton = CSButton(.primary)
-    
-    private let buttonMarginBottom = UIScreen.main.bounds.height * 0.1
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        inputNickname.becomeFirstResponder()
         
         registerKeyboardNotifications()
         gestureEndEditing()
@@ -41,6 +37,8 @@ final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
             $0.textAlignment = .center
             $0.backgroundColor = CSColor._248_248_248.color
             $0.layer.cornerRadius = 13
+            $0.delegate = self
+            $0.becomeFirstResponder()
         }
         
         confirmButton.do {
@@ -60,7 +58,7 @@ final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
             flex.addItem(inputNickname).marginTop(36).width(330).height(50)
             flex.addItem(confirmButton).width(88%).height(62)
         }
-        confirmButton.pin.bottom(buttonMarginBottom)
+        confirmButton.pin.bottom(10%)
     }
     
     override func viewBinding() {
@@ -68,10 +66,34 @@ final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
             .bind(to: viewModel.navigationPopViewControllerRelay)
             .disposed(by: bag)
         
-        // TODO: 닉네임 입력 로직 만들기
         confirmButton.rx.tap
-            .bind(onNext: viewModel.didTapConfirmButton)
+            .bind(onNext: getInputNickname)
             .disposed(by: bag)
+    }
+    
+    private func getInputNickname() {
+        if let text = inputNickname.text {
+            viewModel.didTapConfirmButton(text)
+        }
+    }
+}
+
+// MARK: UITextFieldDelegate
+extension NicknameViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        /// 백스페이스 처리
+        if let char = string.cString(using: String.Encoding.utf8) {
+                      let isBackSpace = strcmp(char, "\\b")
+                      if isBackSpace == -92 {
+                          return true
+                      }
+                }
+        /// 글자수 제한
+        if let text = textField.text {
+            guard text.count < 5 else { return false }
+        }
+        /// 띄어쓰기 제한
+        return string != " "
     }
 }
 
@@ -84,6 +106,6 @@ extension NicknameViewController {
     }
     
     override func keyboardWillHide(_ notification: Notification) {
-        confirmButton.pin.bottom(buttonMarginBottom)
+        confirmButton.pin.bottom(10%)
     }
 }

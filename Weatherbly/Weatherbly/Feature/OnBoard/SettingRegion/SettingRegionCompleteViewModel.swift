@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import RxSwift
+import RxCocoa
 
 public protocol SettingRegionCompleteViewModelLogic: ViewModelBusinessLogic {
     func didTapConfirmButton()
@@ -14,10 +16,24 @@ public protocol SettingRegionCompleteViewModelLogic: ViewModelBusinessLogic {
 }
 
 public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegionCompleteViewModelLogic {
+    let regionDataRelay = BehaviorRelay<[Any]>(value: [])
     
     public func didTapConfirmButton() {
-        // TODO: 온보딩시 / 아닐시 구분
-        true ? toSelectGenderView() : toEditRegionView()
+        guard let requestData = regionDataRelay.value[0] as? AddressRequest else { return }
+        
+        let dataSource = AuthDataSource()
+        dataSource.setAddress(requestData)
+            .subscribe(onNext: { result in
+                switch result {
+                case .success(let response):
+                    // TODO: 온보딩시 / 아닐시 구분
+                    true ? self.toSelectGenderView() : self.toEditRegionView()
+                    print(response)
+                case .failure(let err):
+                    print(err.localizedDescription)
+                }
+            })
+            .disposed(by: bag)
     }
     
     public func toEditRegionView() {

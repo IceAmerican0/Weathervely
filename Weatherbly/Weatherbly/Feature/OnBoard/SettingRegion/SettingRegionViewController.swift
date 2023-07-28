@@ -164,10 +164,6 @@ extension SettingRegionViewController: UITextFieldDelegate {
         showResult()
         return true
     }
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        string != " "
-    }
 }
 
 // MARK: Keyboard Action
