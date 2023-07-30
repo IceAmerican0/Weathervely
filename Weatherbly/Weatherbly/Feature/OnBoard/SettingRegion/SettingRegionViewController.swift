@@ -115,6 +115,16 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
             .disposed(by: bag)
     }
     
+    override func viewModelBinding() {
+        super.viewModelBinding()
+        
+        viewModel.searchedListRelay
+            .subscribe(onNext: { [weak self] _ in
+                self?.regionTableView.reloadData()
+            })
+            .disposed(by: bag)
+    }
+    
     private func showResult() {
         unregisterKeyboardNotifications()
         inputRegion.pin.top(textFieldPinHeight)
@@ -145,15 +155,16 @@ extension SettingRegionViewController: UITableViewDelegate {
 
 extension SettingRegionViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        30
-//        viewModel.searchedListRelay.value[0].documents.count
+        if viewModel.searchedListRelay.value.isEmpty {
+            return 0
+        } else {
+            return viewModel.searchedListRelay.value[0].documents.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         tableView.dequeueCell(withType: RegionTableViewCell.self, for: indexPath).then {
-            $0.configureCellState("서울특별시")
-//            $0.configureCellState(viewModel.setRegionName(at: indexPath))
-            $0.layer.shadowColor = CSColor._0__03.cgColor
+            $0.configureCellState(viewModel.setRegionName(at: indexPath))
         }
     }
 }

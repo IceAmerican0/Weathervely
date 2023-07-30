@@ -16,7 +16,7 @@ public enum SettingRegionViewAction {
 public protocol SettingRegionViewModelLogic: ViewModelBusinessLogic {
     func searchRegion(_ region: String)
     func didTapTableViewCell(at: IndexPath)
-    func toCompleteViewController()
+    func toCompleteViewController(_ viewModel: SettingRegionCompleteViewModel)
     var viewAction: PublishRelay<SettingRegionViewAction> { get }
 }
 
@@ -36,8 +36,7 @@ public final class SettingRegionViewModel: RxBaseViewModel, SettingRegionViewMod
             .subscribe(onNext: { result in
                 switch result {
                 case .success(let response):
-                    self.searchedListRelay = BehaviorRelay<[SearchRegionEntity]>(value: [response])
-                    print(response)
+                    self.searchedListRelay.accept([response])
                 case .failure(let err):
                     print(err.localizedDescription)
                 }
@@ -46,23 +45,17 @@ public final class SettingRegionViewModel: RxBaseViewModel, SettingRegionViewMod
     }
     
     public func setRegionName(at: IndexPath) -> String {
-//        let filteredList = searchedListRelay.value.filter {
-//            guard let searchRegionEntity = $0 as? SearchRegionEntity else {
-//                return false
-//            }
-//            return searchRegionEntity.documents[at.row].addressName
-//        }
-//        let regionName = "\(address.region1DepthName) \(address.region2DepthName) \(address.region3DepthName)"
-        return ""
+        searchedListRelay.value[0].documents[at.row].addressName
     }
     
     public func didTapTableViewCell(at: IndexPath) {
-        toCompleteViewController()
+//        let nextModel = SettingRegionCompleteViewModel(regionDataRelay: searchedListRelay.value[0].documents[at.row] as AddressRequest)
+//        toCompleteViewController(nextModel)
     }
     
-    public func toCompleteViewController() {
+    public func toCompleteViewController(_ viewModel: SettingRegionCompleteViewModel) {
         // TODO: 온보딩시 / 아닐시 구분
-        let vc = SettingRegionCompleteViewController(SettingRegionCompleteViewModel())
+        let vc = SettingRegionCompleteViewController(viewModel)
         vc.isFromEdit = false ? true : false
         return navigationPushViewControllerRelay.accept(vc)
     }
