@@ -55,8 +55,8 @@ final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
             flex.addItem(navigationView).width(UIScreen.main.bounds.width)
             flex.addItem(explanationLabel).marginTop(27)
             flex.addItem(guideLabel)
-            flex.addItem(inputNickname).marginTop(36).width(330).height(50)
-            flex.addItem(confirmButton).width(88%).height(62)
+            flex.addItem(inputNickname).marginTop(36).width(85%).height(50)
+            flex.addItem(confirmButton).width(78%).height(62)
         }
         confirmButton.pin.bottom(10%)
     }

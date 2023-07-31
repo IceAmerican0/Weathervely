@@ -13,14 +13,14 @@ public protocol SettingRegionCompleteViewModelLogic: ViewModelBusinessLogic {
     func didTapConfirmButton()
     func toEditRegionView()
     func toSelectGenderView()
-    var regionDataRelay: BehaviorRelay<AddressRequest> { get }
 }
 
 public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegionCompleteViewModelLogic {
-    public var regionDataRelay: BehaviorRelay<AddressRequest>
+    public let regionDataRelay: BehaviorRelay<AddressRequest>
     
-    init(regionDataRelay: BehaviorRelay<AddressRequest>) {
-        self.regionDataRelay = regionDataRelay
+    init(_ item: AddressRequest) {
+        self.regionDataRelay = BehaviorRelay<AddressRequest>(value: item)
+        super.init()
     }
     
     public func didTapConfirmButton() {

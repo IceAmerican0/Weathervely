@@ -49,8 +49,17 @@ public final class SettingRegionViewModel: RxBaseViewModel, SettingRegionViewMod
     }
     
     public func didTapTableViewCell(at: IndexPath) {
-//        let nextModel = SettingRegionCompleteViewModel(regionDataRelay: searchedListRelay.value[0].documents[at.row] as AddressRequest)
-//        toCompleteViewController(nextModel)
+        let address = searchedListRelay.value[0].documents[at.row].address
+        let addressRequest = AddressRequest(address_name: address.addressName,
+                                            city: address.region1DepthName,
+                                            gu: address.region2DepthName,
+                                            dong: address.region3DepthName,
+                                            postal_code: "",
+                                            country: "kr",
+                                            x_code: Int(address.y),
+                                            y_code: Int(address.x))
+        let nextModel = SettingRegionCompleteViewModel(addressRequest)
+        toCompleteViewController(nextModel)
     }
     
     public func toCompleteViewController(_ viewModel: SettingRegionCompleteViewModel) {

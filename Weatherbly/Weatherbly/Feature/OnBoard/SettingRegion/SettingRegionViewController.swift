@@ -20,14 +20,7 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
     private var inputRegion = UITextField.neatKeyboard()
     
     private var confirmButton = CSButton(.primary)
-    
     private var regionTableView = UITableView()
-    
-    private let textFieldPinHeight = UIScreen.main.bounds.height * 0.177
-    private let textFieldMarginHeight = UIScreen.main.bounds.height * 0.33
-    private let textFieldWidth = UIScreen.main.bounds.width * 0.85
-    private let buttonMarginBottom = UIScreen.main.bounds.height * 0.1
-    private let tableViewHeight = UIScreen.main.bounds.height * 0.59
     
     var isFromEdit = false
     
@@ -48,6 +41,7 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
         
         explanationLabel.do {
             $0.backgroundColor = .white
+            $0.adjustsFontSizeToFitWidth = true
         }
         
         searchImage.do {
@@ -87,20 +81,19 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
         
         container.flex.alignItems(.center).define { flex in
             flex.addItem(progressBar)
-            flex.addItem(navigationView).width(UIScreen.main.bounds.width)
-            flex.addItem(explanationLabel).marginTop(27)
-            flex.addItem(inputRegion).marginHorizontal(30).width(textFieldWidth).height(50)
+            flex.addItem(navigationView).width(100%)
+            flex.addItem(explanationLabel).marginTop(27).marginHorizontal(35).width(85%)
+            flex.addItem(inputRegion).marginHorizontal(30).width(85%).height(50)
             flex.addItem(confirmButton).width(88%).height(62)
-            flex.addItem(regionTableView).marginHorizontal(30).height(tableViewHeight)
+            flex.addItem(regionTableView).marginHorizontal(30).height(59%)
         }
-        inputRegion.pin.top(textFieldMarginHeight)
-        confirmButton.pin.bottom(buttonMarginBottom)
+        inputRegion.pin.top(33%)
+        confirmButton.pin.bottom(10%)
         regionTableView.isHidden = true
         
         if isFromEdit {
             progressBar.isHidden = true
             navigationView.setTitle("동네 변경 / 추가")
-
             explanationLabel.isHidden = true
         }
     }
@@ -127,7 +120,7 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
     
     private func showResult() {
         unregisterKeyboardNotifications()
-        inputRegion.pin.top(textFieldPinHeight)
+        inputRegion.pin.top(17.7%)
         
         regionTableView.pin.bottom(12)
         regionTableView.isHidden = false
@@ -138,9 +131,7 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
             confirmButton.isHidden = true
             
             viewModel.searchRegion(text)
-            
         } else { return }
-
     }
 }
 
@@ -187,7 +178,7 @@ extension SettingRegionViewController {
     }
     
     override func keyboardWillHide(_ notification: Notification) {
-        inputRegion.pin.top(textFieldMarginHeight)
-        confirmButton.pin.bottom(buttonMarginBottom)
+        inputRegion.pin.top(33%)
+        confirmButton.pin.bottom(10%)
     }
 }
