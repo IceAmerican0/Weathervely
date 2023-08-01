@@ -36,7 +36,10 @@ final class NicknameViewModel: RxBaseViewModel, NicknameViewModelLogic {
                     self.toSettingRegionView()
                     print(response)
                 case .failure(let err):
-                    print(err.localizedDescription)
+                    guard let errorString = err.errorDescription else { return }
+                    AlertManager.shared.present(contents: .init(title: errorString,
+                                                                message: errorString,
+                                                                alertType: .Error))
                 }
             })
             .disposed(by: bag)

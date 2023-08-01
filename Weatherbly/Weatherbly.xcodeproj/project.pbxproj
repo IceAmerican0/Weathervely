@@ -17,6 +17,13 @@
 		5C23DBA02A65048200F41574 /* ReactiveMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 5C23DB9F2A65048200F41574 /* ReactiveMoya */; };
 		5C23DBA22A65048200F41574 /* RxMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 5C23DBA12A65048200F41574 /* RxMoya */; };
 		5C23DBA42A6505BF00F41574 /* KakaoErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C23DBA32A6505BF00F41574 /* KakaoErrorResponse.swift */; };
+		5C4691722A7893EA00E2CC70 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4691712A7893EA00E2CC70 /* AlertManager.swift */; };
+		5C4691762A789DBE00E2CC70 /* AlertViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4691752A789DBE00E2CC70 /* AlertViewState.swift */; };
+		5C4691782A78A02100E2CC70 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4691772A78A02100E2CC70 /* AlertView.swift */; };
+		5C46917A2A78DED000E2CC70 /* AlertWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4691792A78DED000E2CC70 /* AlertWindow.swift */; };
+		5C46917C2A78E0AC00E2CC70 /* AlertAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C46917B2A78E0AC00E2CC70 /* AlertAction.swift */; };
+		5C46917F2A78F95800E2CC70 /* ConnectionLostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C46917E2A78F95800E2CC70 /* ConnectionLostViewController.swift */; };
+		5C4691812A78F96D00E2CC70 /* LoadErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4691802A78F96D00E2CC70 /* LoadErrorViewController.swift */; };
 		5C4BE89B2A5E2D1200FD2CEF /* EditRegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4BE89A2A5E2D1200FD2CEF /* EditRegionViewController.swift */; };
 		5C4BE89D2A5E63C000FD2CEF /* RegionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4BE89C2A5E63C000FD2CEF /* RegionTableViewCell.swift */; };
 		5C9D02BA2A68EB3900AF2DA3 /* Observable+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9D02B92A68EB3900AF2DA3 /* Observable+Extension.swift */; };
@@ -118,6 +125,13 @@
 		5C1BCA162A67D2FF00D02D84 /* NicknameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewModel.swift; sourceTree = "<group>"; };
 		5C1D5A102A3C500A00E66788 /* CSLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSLabel.swift; sourceTree = "<group>"; };
 		5C23DBA32A6505BF00F41574 /* KakaoErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoErrorResponse.swift; sourceTree = "<group>"; };
+		5C4691712A7893EA00E2CC70 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
+		5C4691752A789DBE00E2CC70 /* AlertViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewState.swift; sourceTree = "<group>"; };
+		5C4691772A78A02100E2CC70 /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
+		5C4691792A78DED000E2CC70 /* AlertWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertWindow.swift; sourceTree = "<group>"; };
+		5C46917B2A78E0AC00E2CC70 /* AlertAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertAction.swift; sourceTree = "<group>"; };
+		5C46917E2A78F95800E2CC70 /* ConnectionLostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionLostViewController.swift; sourceTree = "<group>"; };
+		5C4691802A78F96D00E2CC70 /* LoadErrorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadErrorViewController.swift; sourceTree = "<group>"; };
 		5C4BE89A2A5E2D1200FD2CEF /* EditRegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRegionViewController.swift; sourceTree = "<group>"; };
 		5C4BE89C2A5E63C000FD2CEF /* RegionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionTableViewCell.swift; sourceTree = "<group>"; };
 		5C9D02B92A68EB3900AF2DA3 /* Observable+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Observable+Extension.swift"; sourceTree = "<group>"; };
@@ -244,6 +258,27 @@
 				5C1BCA162A67D2FF00D02D84 /* NicknameViewModel.swift */,
 			);
 			path = Nickname;
+			sourceTree = "<group>";
+		};
+		5C4691702A7893E000E2CC70 /* Alert */ = {
+			isa = PBXGroup;
+			children = (
+				5C4691792A78DED000E2CC70 /* AlertWindow.swift */,
+				5C4691712A7893EA00E2CC70 /* AlertManager.swift */,
+				5C46917B2A78E0AC00E2CC70 /* AlertAction.swift */,
+				5C4691752A789DBE00E2CC70 /* AlertViewState.swift */,
+				5C4691772A78A02100E2CC70 /* AlertView.swift */,
+			);
+			path = Alert;
+			sourceTree = "<group>";
+		};
+		5C46917D2A78F92F00E2CC70 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				5C46917E2A78F95800E2CC70 /* ConnectionLostViewController.swift */,
+				5C4691802A78F96D00E2CC70 /* LoadErrorViewController.swift */,
+			);
+			path = Error;
 			sourceTree = "<group>";
 		};
 		5C9D02C92A709CF300AF2DA3 /* Error */ = {
@@ -376,9 +411,10 @@
 		BD2D019C2A3887A3003A25D5 /* Feature */ = {
 			isa = PBXGroup;
 			children = (
-				BD69B8F32A54332C00DDCD7A /* Setting */,
 				BD2D01A12A3887E0003A25D5 /* OnBoard */,
 				BD2D01A02A3887D5003A25D5 /* Home */,
+				BD69B8F32A54332C00DDCD7A /* Setting */,
+				5C46917D2A78F92F00E2CC70 /* Error */,
 				BD7DAB282A6FC51400422D25 /* TestViewController.swift */,
 				BD7DAB2A2A6FC58200422D25 /* TestViewModel.swift */,
 			);
@@ -388,9 +424,10 @@
 		BD2D019D2A3887AA003A25D5 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
-				BD2D01AB2A38885B003A25D5 /* Protocol */,
+				5C4691702A7893E000E2CC70 /* Alert */,
 				BD2D01A92A388825003A25D5 /* Common */,
 				BD2D01A72A388817003A25D5 /* Enum */,
+				BD2D01AB2A38885B003A25D5 /* Protocol */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -790,6 +827,7 @@
 				5CAB60CF2A53F61700CD431A /* TenDaysForecastViewController.swift in Sources */,
 				5C9D02DD2A72284300AF2DA3 /* UserTarget.swift in Sources */,
 				BD7DAB212A6E678D00422D25 /* LoginProvider.swift in Sources */,
+				5C4691782A78A02100E2CC70 /* AlertView.swift in Sources */,
 				5C4BE89D2A5E63C000FD2CEF /* RegionTableViewCell.swift in Sources */,
 				696176B22A63E37F00B83B4C /* RxBaseViewModel.swift in Sources */,
 				BD7DAB2D2A70DEE100422D25 /* GetVilageForcastInfoDataSource.swift in Sources */,
@@ -797,6 +835,7 @@
 				BD4AC3932A669B0500537583 /* SlotMachineViewModel.swift in Sources */,
 				5CAB60D32A54FC6A00CD431A /* UITableViewCell+Extension.swift in Sources */,
 				5C9D02C82A6FC45300AF2DA3 /* EditRegionTableViewCell.swift in Sources */,
+				5C46917C2A78E0AC00E2CC70 /* AlertAction.swift in Sources */,
 				BD2D01B42A3888AA003A25D5 /* UIColor+Extension.swift in Sources */,
 				BD2D018D2A388753003A25D5 /* HomeViewController.swift in Sources */,
 				5CAB60BF2A4D6A9D00CD431A /* ClosetFSPagerViewCell.swift in Sources */,
@@ -805,6 +844,7 @@
 				5CCC91522A61197B0025B522 /* SearchRegionEntity.swift in Sources */,
 				5CAB60B92A4563B300CD431A /* NSMutableAttributedString+Extension.swift in Sources */,
 				5CC61E282A5BDCCC001435E6 /* UIViewController+Extension.swift in Sources */,
+				5C4691722A7893EA00E2CC70 /* AlertManager.swift in Sources */,
 				5C9D02D92A71F27B00AF2DA3 /* AuthDataSource.swift in Sources */,
 				5CAB60D52A54FDFE00CD431A /* TenDaysForecastTableViewCell.swift in Sources */,
 				BD5169492A5D6FEA00582BA9 /* UITextField+Extension.swift in Sources */,
@@ -826,6 +866,7 @@
 				BD4AC3912A66899500537583 /* UILabel+Extension.swift in Sources */,
 				69FDD4CC2A407FA400830927 /* CSProgressView.swift in Sources */,
 				BD77B8282A388C9400E7D57A /* CSColor.swift in Sources */,
+				5C4691812A78F96D00E2CC70 /* LoadErrorViewController.swift in Sources */,
 				BD51694F2A5EB43500582BA9 /* ChangeNicknameViewController.swift in Sources */,
 				BD7DAB292A6FC51400422D25 /* TestViewController.swift in Sources */,
 				5C9D02DB2A720DCC00AF2DA3 /* EmptyEntity.swift in Sources */,
@@ -838,6 +879,7 @@
 				5C9D02E82A72426D00AF2DA3 /* ClosetDataSource.swift in Sources */,
 				5CC61E212A579D66001435E6 /* DailyForecastViewController.swift in Sources */,
 				5CAB60C32A528C7A00CD431A /* UICollectionView+Extension.swift in Sources */,
+				5C46917F2A78F95800E2CC70 /* ConnectionLostViewController.swift in Sources */,
 				BD7DAB272A6E786E00422D25 /* LoginEntity.swift in Sources */,
 				BDA66FEA2A4075270061A1F0 /* UIImageView+Extension.swift in Sources */,
 				BD5D16932A63B3AD00435816 /* CALayer+Extension.swift in Sources */,
@@ -847,6 +889,7 @@
 				5CAB60D12A54FC5F00CD431A /* UITableView+Extension.swift in Sources */,
 				5C23DBA42A6505BF00F41574 /* KakaoErrorResponse.swift in Sources */,
 				BD7DAB3B2A72447E00422D25 /* WBNetWorkError.swift in Sources */,
+				5C46917A2A78DED000E2CC70 /* AlertWindow.swift in Sources */,
 				5CCC91562A613F010025B522 /* SettingRegionViewModel.swift in Sources */,
 				BD7DAB312A70DEF400422D25 /* ForcastTarget.swift in Sources */,
 				BD77B82E2A388D2E00E7D57A /* HomeViewModel.swift in Sources */,
@@ -881,6 +924,7 @@
 				5C9D02BA2A68EB3900AF2DA3 /* Observable+Extension.swift in Sources */,
 				5C9D02E62A72425200AF2DA3 /* ClosetTarget.swift in Sources */,
 				BD2D018B2A388753003A25D5 /* SceneDelegate.swift in Sources */,
+				5C4691762A789DBE00E2CC70 /* AlertViewState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

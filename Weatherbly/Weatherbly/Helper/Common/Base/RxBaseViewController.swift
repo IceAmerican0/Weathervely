@@ -65,6 +65,7 @@ public class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitiali
     func bind() {
         viewBinding()
         viewModelBinding()
+        alertMessageBinding()
     }
     
     func viewBinding() {}
@@ -127,6 +128,14 @@ public class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitiali
             .bind { [weak self] closure in
                 self?.dismiss(animated: true, completion: closure)
             }
+            .disposed(by: bag)
+    }
+    
+    func alertMessageBinding() {
+        viewModel.messageForUserRelay
+            .subscribe(onNext: { [weak self] message in
+                
+            })
             .disposed(by: bag)
     }
 

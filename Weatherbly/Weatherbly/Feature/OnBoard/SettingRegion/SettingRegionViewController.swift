@@ -83,11 +83,10 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
             flex.addItem(progressBar)
             flex.addItem(navigationView).width(100%)
             flex.addItem(explanationLabel).marginTop(27).marginHorizontal(35).width(85%)
-            flex.addItem(inputRegion).marginHorizontal(30).width(85%).height(50)
+            flex.addItem(inputRegion).marginTop(22).marginHorizontal(30).width(85%).height(50)
             flex.addItem(confirmButton).width(88%).height(62)
             flex.addItem(regionTableView).marginHorizontal(30).height(59%)
         }
-        inputRegion.pin.top(33%)
         confirmButton.pin.bottom(10%)
         regionTableView.isHidden = true
         
@@ -120,7 +119,6 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
     
     private func showResult() {
         unregisterKeyboardNotifications()
-        inputRegion.pin.top(17.7%)
         
         regionTableView.pin.bottom(12)
         regionTableView.isHidden = false
@@ -172,13 +170,11 @@ extension SettingRegionViewController: UITextFieldDelegate {
 extension SettingRegionViewController {
     override func keyboardWillShow(_ notification: Notification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            inputRegion.pin.top(to: explanationLabel.edge.bottom).marginTop(22)
             confirmButton.pin.bottom(keyboardSize.height + 30)
         }
     }
     
     override func keyboardWillHide(_ notification: Notification) {
-        inputRegion.pin.top(33%)
         confirmButton.pin.bottom(10%)
     }
 }
