@@ -19,9 +19,9 @@
 
 import Foundation
 
-struct GetVilageForcastInfoEntity: Codable {
+struct GetVilageForcastInfoEntity: Decodable {
     let status: Int
-    let data: [BodyData]?
+    let data: BodyData?
     
     enum CodingKeys: String, CodingKey {
         case status = "status"
@@ -29,18 +29,37 @@ struct GetVilageForcastInfoEntity: Codable {
     }
 }
 
-struct BodyData: Codable {
-    let list: [VilageFcstList]?
+struct BodyData: Decodable {
+    let list: [Int: DayForecast]
+    
+    init(from decoder: Decoder) throws {
+        var forecasts: [Int: DayForecast] = [:]
+        
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        var listContainer = try container.nestedUnkeyedContainer(forKey: .list)
+        
+        while !listContainer.isAtEnd {
+            let forecast = try listContainer.decode(VilageFcstList.self)
+            let date = Int(forecast.fcstDate)!
+            forecasts[date, default: DayForecast(searchDate: date, forecasts: [])].forecasts.append(forecast)
+        }
+        self.list = forecasts
+    }
     
     enum CodingKeys: String, CodingKey {
         case list = "list"
     }
 }
 
-struct VilageFcstList: Codable {
+struct DayForecast : Decodable {
+    let searchDate: Int
+    var forecasts: [VilageFcstList]
+}
+
+struct VilageFcstList: Decodable {
     let baseDate: String
     let baseTime: String
-    let category: VilageCategoryEntity?
+    let category: String
     let fcstDate: String
     let fcstTime: String
     let fcstValue: String
