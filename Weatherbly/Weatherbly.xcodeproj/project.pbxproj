@@ -103,7 +103,7 @@
 		BD7DAB292A6FC51400422D25 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB282A6FC51400422D25 /* TestViewController.swift */; };
 		BD7DAB2B2A6FC58200422D25 /* TestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB2A2A6FC58200422D25 /* TestViewModel.swift */; };
 		BD7DAB2D2A70DEE100422D25 /* GetVilageForcastInfoDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB2C2A70DEE100422D25 /* GetVilageForcastInfoDataSource.swift */; };
-		BD7DAB2F2A70DEED00422D25 /* GetVilageForcastInfoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB2E2A70DEED00422D25 /* GetVilageForcastInfoProvider.swift */; };
+		BD7DAB2F2A70DEED00422D25 /* GetVilageForecastInfoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB2E2A70DEED00422D25 /* GetVilageForecastInfoProvider.swift */; };
 		BD7DAB312A70DEF400422D25 /* ForcastTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB302A70DEF400422D25 /* ForcastTarget.swift */; };
 		BD7DAB332A70DEFC00422D25 /* GetVilageForcastInfoEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB322A70DEFC00422D25 /* GetVilageForcastInfoEntity.swift */; };
 		BD7DAB392A72414600422D25 /* VilageCategoryEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB382A72414600422D25 /* VilageCategoryEntity.swift */; };
@@ -206,7 +206,7 @@
 		BD7DAB282A6FC51400422D25 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		BD7DAB2A2A6FC58200422D25 /* TestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewModel.swift; sourceTree = "<group>"; };
 		BD7DAB2C2A70DEE100422D25 /* GetVilageForcastInfoDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetVilageForcastInfoDataSource.swift; sourceTree = "<group>"; };
-		BD7DAB2E2A70DEED00422D25 /* GetVilageForcastInfoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetVilageForcastInfoProvider.swift; sourceTree = "<group>"; };
+		BD7DAB2E2A70DEED00422D25 /* GetVilageForecastInfoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetVilageForecastInfoProvider.swift; sourceTree = "<group>"; };
 		BD7DAB302A70DEF400422D25 /* ForcastTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForcastTarget.swift; sourceTree = "<group>"; };
 		BD7DAB322A70DEFC00422D25 /* GetVilageForcastInfoEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetVilageForcastInfoEntity.swift; sourceTree = "<group>"; };
 		BD7DAB382A72414600422D25 /* VilageCategoryEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VilageCategoryEntity.swift; sourceTree = "<group>"; };
@@ -596,7 +596,7 @@
 			isa = PBXGroup;
 			children = (
 				BD7DAB2C2A70DEE100422D25 /* GetVilageForcastInfoDataSource.swift */,
-				BD7DAB2E2A70DEED00422D25 /* GetVilageForcastInfoProvider.swift */,
+				BD7DAB2E2A70DEED00422D25 /* GetVilageForecastInfoProvider.swift */,
 				BD7DAB322A70DEFC00422D25 /* GetVilageForcastInfoEntity.swift */,
 				BD7DAB382A72414600422D25 /* VilageCategoryEntity.swift */,
 			);
@@ -871,7 +871,7 @@
 				BD51694B2A5D763000582BA9 /* EditNicknameViewModel.swift in Sources */,
 				BD2D01B62A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift in Sources */,
 				BD2D01B22A38889E003A25D5 /* CSButton.swift in Sources */,
-				BD7DAB2F2A70DEED00422D25 /* GetVilageForcastInfoProvider.swift in Sources */,
+				BD7DAB2F2A70DEED00422D25 /* GetVilageForecastInfoProvider.swift in Sources */,
 				BD7DAB232A6E679700422D25 /* LoginTarget.swift in Sources */,
 				BD5169452A5A9BD600582BA9 /* SettingViewModel.swift in Sources */,
 				BD7DAB392A72414600422D25 /* VilageCategoryEntity.swift in Sources */,

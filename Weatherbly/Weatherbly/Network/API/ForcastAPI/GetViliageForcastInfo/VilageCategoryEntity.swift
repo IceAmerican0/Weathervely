@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct VilageCategoryEntity: Codable {
+struct VilageCategoryEntity: Decodable {
     let pcp: String
     let pop: String
     let pty: String
