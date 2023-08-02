@@ -132,7 +132,7 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
                 flex.addItem(commentLabel).marginTop(4).height(28)
                 flex.addItem(dustLabel).marginTop(22).width(dustLabelWidth).height(45)
             }
-            flex.addItem(pagerView).marginTop(26).width(UIScreen.main.bounds.width).height(closetWrapperHeight)
+            flex.addItem(pagerView).marginTop(26).width(UIScreen.main.bounds.width).height(closetWrapperHeight + 20)
             flex.addItem(bottomButtonWrapper).direction(.row).define { flex in
                 flex.addItem(todayButton).marginRight(20).width(100).height(40)
                 flex.addItem(tomorrowButton).marginLeft(20).width(100).height(40)
@@ -158,6 +158,13 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
         calendarButton.rx.tap
             .bind(onNext: viewModel.toTenDaysForecastView)
             .disposed(by: bag)
+    }
+    
+    
+    override func viewModelBinding() {
+        super.viewModelBinding()
+        
+        
     }
     
     private func configureBackgroundImage() -> AssetsImage {
