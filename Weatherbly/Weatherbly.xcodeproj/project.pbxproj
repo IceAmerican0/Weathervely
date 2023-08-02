@@ -105,7 +105,7 @@
 		BD7DAB2D2A70DEE100422D25 /* GetVilageForcastInfoDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB2C2A70DEE100422D25 /* GetVilageForcastInfoDataSource.swift */; };
 		BD7DAB2F2A70DEED00422D25 /* GetVilageForecastInfoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB2E2A70DEED00422D25 /* GetVilageForecastInfoProvider.swift */; };
 		BD7DAB312A70DEF400422D25 /* ForcastTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB302A70DEF400422D25 /* ForcastTarget.swift */; };
-		BD7DAB332A70DEFC00422D25 /* GetVilageForcastInfoEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB322A70DEFC00422D25 /* GetVilageForcastInfoEntity.swift */; };
+		BD7DAB332A70DEFC00422D25 /* VillageForecastInfoEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB322A70DEFC00422D25 /* VillageForecastInfoEntity.swift */; };
 		BD7DAB392A72414600422D25 /* VilageCategoryEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB382A72414600422D25 /* VilageCategoryEntity.swift */; };
 		BD7DAB3B2A72447E00422D25 /* WBNetWorkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB3A2A72447E00422D25 /* WBNetWorkError.swift */; };
 		BDA66FEA2A4075270061A1F0 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA66FE92A4075270061A1F0 /* UIImageView+Extension.swift */; };
@@ -208,7 +208,7 @@
 		BD7DAB2C2A70DEE100422D25 /* GetVilageForcastInfoDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetVilageForcastInfoDataSource.swift; sourceTree = "<group>"; };
 		BD7DAB2E2A70DEED00422D25 /* GetVilageForecastInfoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetVilageForecastInfoProvider.swift; sourceTree = "<group>"; };
 		BD7DAB302A70DEF400422D25 /* ForcastTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForcastTarget.swift; sourceTree = "<group>"; };
-		BD7DAB322A70DEFC00422D25 /* GetVilageForcastInfoEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetVilageForcastInfoEntity.swift; sourceTree = "<group>"; };
+		BD7DAB322A70DEFC00422D25 /* VillageForecastInfoEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VillageForecastInfoEntity.swift; sourceTree = "<group>"; };
 		BD7DAB382A72414600422D25 /* VilageCategoryEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VilageCategoryEntity.swift; sourceTree = "<group>"; };
 		BD7DAB3A2A72447E00422D25 /* WBNetWorkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBNetWorkError.swift; sourceTree = "<group>"; };
 		BDA66FE92A4075270061A1F0 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
@@ -597,7 +597,7 @@
 			children = (
 				BD7DAB2C2A70DEE100422D25 /* GetVilageForcastInfoDataSource.swift */,
 				BD7DAB2E2A70DEED00422D25 /* GetVilageForecastInfoProvider.swift */,
-				BD7DAB322A70DEFC00422D25 /* GetVilageForcastInfoEntity.swift */,
+				BD7DAB322A70DEFC00422D25 /* VillageForecastInfoEntity.swift */,
 				BD7DAB382A72414600422D25 /* VilageCategoryEntity.swift */,
 			);
 			path = GetViliageForcastInfo;
@@ -821,7 +821,7 @@
 				BD4316362A3C9DB700E86271 /* AssetsImage.swift in Sources */,
 				BDA66FED2A444C470061A1F0 /* SelectGenderViewController.swift in Sources */,
 				BD4316342A3C967900E86271 /* SensoryTempViewController.swift in Sources */,
-				BD7DAB332A70DEFC00422D25 /* GetVilageForcastInfoEntity.swift in Sources */,
+				BD7DAB332A70DEFC00422D25 /* VillageForecastInfoEntity.swift in Sources */,
 				BD4AC38F2A6671B500537583 /* SeonsoryTempViewModel.swift in Sources */,
 				5C4BE89B2A5E2D1200FD2CEF /* EditRegionViewController.swift in Sources */,
 				BD4AC3912A66899500537583 /* UILabel+Extension.swift in Sources */,

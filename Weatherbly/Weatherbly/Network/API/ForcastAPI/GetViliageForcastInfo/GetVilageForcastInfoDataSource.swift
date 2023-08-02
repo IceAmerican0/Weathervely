@@ -10,7 +10,7 @@ import Moya
 import RxMoya
 
 protocol GetClosetDataSourceProtocol {
-    func getVilageForcast() -> Observable<Result<GetVilageForcastInfoEntity, WBNetworkError>>
+    func getVilageForcast() -> Observable<Result<VillageForecastInfoEntity, WBNetworkError>>
 }
 
 final class GetVilageForcastInfoDataSource: GetClosetDataSourceProtocol {
@@ -20,11 +20,11 @@ final class GetVilageForcastInfoDataSource: GetClosetDataSourceProtocol {
         self.provider = provider
     }
     
-    func getVilageForcast() -> Observable<Result<GetVilageForcastInfoEntity,WBNetworkError>> {
+    func getVilageForcast() -> Observable<Result<VillageForecastInfoEntity,WBNetworkError>> {
         provider
             .rx
             .request(.getVilageForcastInfo)
-            .mapTo(GetVilageForcastInfoEntity.self)
+            .mapTo(VillageForecastInfoEntity.self)
         
     }
 }

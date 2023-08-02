@@ -164,11 +164,21 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
     override func viewModelBinding() {
         super.viewModelBinding()
         
-        
+        viewModel
+            .villageForeCastInfoEntityRelay
+            .subscribe(onNext: { [weak self] categoryInfo in
+                self?.setInfo(categoryInfo)
+            })
+            .disposed(by: bag)
     }
     
     private func configureBackgroundImage() -> AssetsImage {
         .cloudyEvening
+    }
+    
+    func setInfo(_ info: [String: String?]?) {
+        
+        
     }
 }
 

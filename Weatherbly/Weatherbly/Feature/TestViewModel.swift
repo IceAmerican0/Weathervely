@@ -50,12 +50,8 @@ class TestViewModel: RxBaseViewModel, TestViewModelLogic {
                 switch result {
                 case .success(let response):
                     
-                    let date = Date()
-                    let today = date.dayAfter(1)
-                    print(today)
-                    self.bindingDateWeather(response, 0)
+                    let category = self.bindingDateWeather(response, 0)
                     
-//                    print("viewModel response : ", response.data!.list[today]!)
                 case .failure(let error):
                     print("viewModel Error : ", error.localizedDescription)
                 }
@@ -64,7 +60,7 @@ class TestViewModel: RxBaseViewModel, TestViewModelLogic {
     }
     
     
-    func bindingDateWeather(_ response: GetVilageForcastInfoEntity, _ timeInterval: Int) {
+    func bindingDateWeather(_ response: VillageForecastInfoEntity, _ timeInterval: Int) -> [String: String] {
         
         let date = Date()
         let selectedDate = date.dayAfter(timeInterval)
@@ -83,21 +79,21 @@ class TestViewModel: RxBaseViewModel, TestViewModelLogic {
         }
 //        let allowedCategories: Set<String> = ["POP", "PTY", "PCP", "SKY", "TMP", "TMX", "TMN", "WSD", "REH"]
         
-        
         // 시간 오름차순
         let timeSortedCategoryValue = timeToCategoryValue.sorted { $0.key < $1.key }
 //        print(timeSortedCategoryValue)
         
         // 현재시간인 카테고리 가져오기
+        var categoriesAndValues: [String: String] = [:]
         for key in timeSortedCategoryValue {
             if key.key == currentHour {
                 // 카테고리 맵핑해서 저장하기
-                let a = key.value
-                print(a["TMP"]!)
-                
+                categoriesAndValues = key.value
                 break
             }
         }
+        
+        return categoriesAndValues
     }
     
     
