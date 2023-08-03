@@ -10,7 +10,6 @@ target 'Weatherbly' do
     pod 'Then'
     pod 'FSPagerView'
     pod 'UIViewBorders'
-    pod "RxGesture"
 
   # Pods for Weatherbly
 
