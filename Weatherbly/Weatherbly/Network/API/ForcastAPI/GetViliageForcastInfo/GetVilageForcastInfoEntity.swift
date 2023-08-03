@@ -19,7 +19,7 @@
 
 import Foundation
 
-struct VillageForecastInfoEntity: Codable {
+struct GetVilageForcastInfoEntity: Codable {
     let status: Int
     let data: BodyData?
     
