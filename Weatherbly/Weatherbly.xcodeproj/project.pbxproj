@@ -54,6 +54,7 @@
 		5CCC91522A61197B0025B522 /* SearchRegionEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC91512A61197B0025B522 /* SearchRegionEntity.swift */; };
 		5CCC91542A611FCE0025B522 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC91532A611FCE0025B522 /* NetworkManager.swift */; };
 		5CCC91562A613F010025B522 /* SettingRegionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC91552A613F010025B522 /* SettingRegionViewModel.swift */; };
+		6634CC2CAD88136EB8B2B027 /* Pods_Weatherbly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5451DE341E51F8EB4049CE6 /* Pods_Weatherbly.framework */; };
 		696176B22A63E37F00B83B4C /* RxBaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696176B12A63E37F00B83B4C /* RxBaseViewModel.swift */; };
 		696176B42A63E3C000B83B4C /* BaseDisposeBag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696176B32A63E3C000B83B4C /* BaseDisposeBag.swift */; };
 		696176B62A63E4A400B83B4C /* EmptyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696176B52A63E4A400B83B4C /* EmptyViewModel.swift */; };
@@ -164,6 +165,7 @@
 		69FDD4C52A39E42900830927 /* NicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewController.swift; sourceTree = "<group>"; };
 		69FDD4CB2A407FA400830927 /* CSProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSProgressView.swift; sourceTree = "<group>"; };
 		717A5E6B1C49792CF9FD73F1 /* Pods-Weatherbly.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Weatherbly.debug.xcconfig"; path = "Target Support Files/Pods-Weatherbly/Pods-Weatherbly.debug.xcconfig"; sourceTree = "<group>"; };
+		A5451DE341E51F8EB4049CE6 /* Pods_Weatherbly.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Weatherbly.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD2D01852A388753003A25D5 /* Weatherbly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Weatherbly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD2D01882A388753003A25D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BD2D018A2A388753003A25D5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -231,6 +233,7 @@
 				5C23DB8F2A65045C00F41574 /* RxCocoa in Frameworks */,
 				5C23DB932A65045C00F41574 /* RxRelay in Frameworks */,
 				5C23DB9C2A65048200F41574 /* CombineMoya in Frameworks */,
+				6634CC2CAD88136EB8B2B027 /* Pods_Weatherbly.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -348,6 +351,7 @@
 				BD2D01872A388753003A25D5 /* Weatherbly */,
 				BD2D01862A388753003A25D5 /* Products */,
 				ABF78B6D4AF3C3B85A8E6131 /* Pods */,
+				D208FAFA68075AB39306E632 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -657,6 +661,14 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		D208FAFA68075AB39306E632 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A5451DE341E51F8EB4049CE6 /* Pods_Weatherbly.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -714,7 +726,7 @@
 			);
 			mainGroup = BD2D017C2A388753003A25D5;
 			packageReferences = (
-				BD4AC38B2A655CE900537583 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
+				BD4AC38B2A655CE900537583 /* XCRemoteSwiftPackageReference "Toast-Swift.git" */,
 				5C23DB8D2A65045C00F41574 /* XCRemoteSwiftPackageReference "RxSwift" */,
 				5C23DB9A2A65048200F41574 /* XCRemoteSwiftPackageReference "Moya" */,
 			);
@@ -1116,7 +1128,7 @@
 				minimumVersion = 15.0.0;
 			};
 		};
-		BD4AC38B2A655CE900537583 /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
+		BD4AC38B2A655CE900537583 /* XCRemoteSwiftPackageReference "Toast-Swift.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/scalessec/Toast-Swift.git";
 			requirement = {
@@ -1164,7 +1176,7 @@
 		};
 		BD4AC38C2A655CE900537583 /* Toast */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BD4AC38B2A655CE900537583 /* XCRemoteSwiftPackageReference "Toast-Swift" */;
+			package = BD4AC38B2A655CE900537583 /* XCRemoteSwiftPackageReference "Toast-Swift.git" */;
 			productName = Toast;
 		};
 /* End XCSwiftPackageProductDependency section */
