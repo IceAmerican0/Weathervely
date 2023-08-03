@@ -182,7 +182,6 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
         viewModel
             .villageForeCastInfoEntityRelay
             .subscribe(onNext: { [weak self] result in
-                print(#function)
                 let today  = self?.viewModel.bindingDateWeather(result, 0)
 //                print(today)
 //                self?.setInfo(categoryInfo)

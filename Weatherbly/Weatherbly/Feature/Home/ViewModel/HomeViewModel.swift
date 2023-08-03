@@ -62,9 +62,9 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                      3. 다시 쏴야함...or 가지고 있어야한다.. 어디에?
                      */
                     
-                    print(response.data!)
+//                    print(response.data!)
                     self?.villageForeCastInfoEntityRelay.accept(response)
-                    print(123)
+//                    print(123)
                     
                     
                 case .failure(let error):
@@ -79,9 +79,12 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         
         let date = Date()
         let selectedDate = date.dayAfter(dayInterval)
+        // 원하는 날짜 멥핑
         let todayForecast = response?.data!.list[selectedDate]!.forecasts
         
         let selectedHour = "\((date.todayTime.components(separatedBy: " ").map { $0 })[3])00"
+        let TMXTime = 15
+        let TMNTime = 6
         
         
         var timeToCategoryValue: [String: [String: String]] = [:]
@@ -94,12 +97,12 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         }
         
         // 시간 오름차순
-        let timeSortedCategoryValue = timeToCategoryValue.sorted { $0.key < $1.key }
+        let timeSortedCategoryValue: [Dictionary<String, [String : String]>.Element]? = timeToCategoryValue.sorted { $0.key < $1.key }
 //        print(timeSortedCategoryValue)
         
         // 현재시간인 카테고리 가져오기
-        var categoriesAndValues: [String: String?] = [:]
-        for key in timeSortedCategoryValue {
+        var categoriesAndValues: [String: String] = [:]
+        for key in timeSortedCategoryValue! {
             if key.key == selectedHour {
                 // 카테고리 맵핑해서 저장하기
                 categoriesAndValues = key.value
@@ -107,7 +110,40 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             }
         }
         
+        // TODO: - 현재시간과 비교해서 15 또는 06이면 따로 가져오는 함수 실행하지 않는다.
+        
+        
+        // TODO: - TMN,TMX 값 추가하기
+        guard !timeSortedCategoryValue!.isEmpty else {
+            return [:]
+        }
+
+        for key in timeSortedCategoryValue![TMXTime].value {
+            if key.key == "TMX" {
+                print(key)
+                categoriesAndValues.updateValue(key.value, forKey: key.key)
+            }
+        }
+        for key in timeSortedCategoryValue![TMNTime].value {
+            if key.key == "TMN" {
+                print(key)
+                categoriesAndValues.updateValue(key.value, forKey: key.key)
+            }
+        }
+        
+        print(categoriesAndValues)
+
+        
+        
+        
         return categoriesAndValues
+    }
+    
+    func getMaxTMP(_ time: String, _ forecasts: [VilageFcstList]?) {
+        
+    }
+    func getMinTMP() {
+        
     }
     
     func swipeAndReloadData(_ dayInterval: Int) -> [String: String?]? {
