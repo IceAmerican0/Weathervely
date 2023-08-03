@@ -19,7 +19,7 @@
 
 import Foundation
 
-struct GetVilageForcastInfoEntity: Codable {
+struct VillageForecastInfoEntity: Codable {
     let status: Int
     let data: BodyData?
     
@@ -42,8 +42,6 @@ struct BodyData: Codable {
         while !listContainer.isAtEnd {
             let forecast = try listContainer.decode(VilageFcstList.self)
             let date = Int(forecast.fcstDate)!
-            let category = forecast.category
-            let value = forecast.fcstValue
             forecasts[date, default: DayForecast(searchDate: date, forecasts: [])].forecasts.append(forecast)
         }
         self.list = forecasts

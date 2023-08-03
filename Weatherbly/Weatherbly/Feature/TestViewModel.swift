@@ -32,17 +32,17 @@ class TestViewModel: RxBaseViewModel, TestViewModelLogic {
     
     func testRequest(_ nickname: String) {
         
-        //        loginDataSource.login(nickname)
-        //            .subscribe(onNext: { result in
-        //                switch result {
-        //                case .success(let response):
-        //                    print(response)
-        //                case .failure(let error):
-        //
-        //                    print("viewModel Error: ", error.asAFError)
-        //                }
-        //            })
-        //            .disposed(by: bag)
+                loginDataSource.login(nickname)
+                    .subscribe(onNext: { result in
+                        switch result {
+                        case .success(let response):
+                            print(response)
+                        case .failure(let error):
+        
+                            print("viewModel Error: ", error.asAFError)
+                        }
+                    })
+                    .disposed(by: bag)
         
         
         getVilageDataSource.getVilageForcast()
@@ -64,7 +64,7 @@ class TestViewModel: RxBaseViewModel, TestViewModelLogic {
     }
     
     
-    func bindingDateWeather(_ response: GetVilageForcastInfoEntity, _ timeInterval: Int) {
+    func bindingDateWeather(_ response: VillageForecastInfoEntity, _ timeInterval: Int) {
         
         let date = Date()
         let selectedDate = date.dayAfter(timeInterval)

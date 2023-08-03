@@ -164,7 +164,21 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
     override func viewModelBinding() {
         super.viewModelBinding()
         
+        viewModel
+            .villageForeCastInfoEntityRelay
+            .subscribe(onNext: { [weak self] result in
+                print(#function)
+                let today  = self?.viewModel.bindingDateWeather(result, 0)
+//                print(today)
+//                self?.setInfo(categoryInfo)
+            })
+            .disposed(by: bag)
         
+        /// [String: String]을 반환하는릴레이를 만든다음 구독하고있는다.
+        /// 스와이프 할 때 날짜와 시간을 가지고 있는 릴레이를 만든다.
+        /// 거기서 변경이 일어나면 [String: String]을 반환하는 함수를 호출한다...
+        /// 1. 처음 쏠때 viewModel에서 
+        viewModel.getVillageForecastInfo()
     }
     
     private func configureBackgroundImage() -> AssetsImage {
