@@ -10,6 +10,7 @@ import PinLayout
 import FlexLayout
 import FSPagerView
 import RxSwift
+import RxGesture
 
 class HomeViewController: RxBaseViewController<HomeViewModel> {
     
@@ -111,6 +112,7 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
         tomorrowButton.do {
             $0.setTitle("내일 옷차림", for: .normal)
         }
+        
     }
     
     override func layout() {
@@ -126,7 +128,9 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
                 flex.addItem(mainLabel).width(mainLabelWidth)
                 flex.addItem(calendarButton).size(44)
             }
-            flex.addItem(dailyWrapper).alignItems(.center).define { flex in
+            flex.addItem(dailyWrapper)
+                .width(110%)
+                .alignItems(.center).define { flex in
                 flex.addItem(weatherImageView).marginTop(7).width(97).height(90)
                 flex.addItem(temperatureLabel).marginTop(10).height(28)
                 flex.addItem(commentLabel).marginTop(4).height(28)
@@ -143,6 +147,17 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
     }
     
     override func viewBinding() {
+        dailyWrapper.rx.swipeGesture([.left,.right])
+            .when(.ended)
+            .subscribe (onNext: { [weak self] dircection in
+                if dircection.direction == .left {
+                    // 시간대 뒤로
+                } else {
+                    // 시간대 앞으로
+                }
+            })
+            .disposed(by: bag)
+        
         tapGesture.rx
             .event
             .map { _ in
@@ -203,4 +218,5 @@ extension HomeViewController: FSPagerViewDataSource {
             $0.clothImageSourceLabel.text = "by 0000"
         }
     }
+
 }
