@@ -63,7 +63,7 @@ class CSButton: UIButton, CodeBaseInitializerProtocol {
                 // TODO: - buttonTitle 설정
                 // setImage? or 함수?
                 
-            case.grayFilled:
+            case .grayFilled:
                 if self.isEnabled == true {
                     // background disabled 처리
                     if $0.state == .disabled {

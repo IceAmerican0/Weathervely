@@ -54,7 +54,7 @@ final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
             flex.addItem(progressBar)
             flex.addItem(navigationView).width(UIScreen.main.bounds.width)
             flex.addItem(explanationLabel).marginTop(27)
-            flex.addItem(guideLabel)
+            flex.addItem(guideLabel).marginTop(10)
             flex.addItem(inputNickname).marginTop(36).width(85%).height(50)
             flex.addItem(confirmButton).width(78%).height(62)
         }
@@ -94,6 +94,11 @@ extension NicknameViewController: UITextFieldDelegate {
         }
         /// 띄어쓰기 제한
         return string != " "
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        getInputNickname()
+        return true
     }
 }
 

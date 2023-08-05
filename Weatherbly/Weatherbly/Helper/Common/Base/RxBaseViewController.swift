@@ -43,7 +43,6 @@ public class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitiali
         container.flex.layout()
         
         layout()
-        attribute()
     }
     
     public override func viewDidLoad() {

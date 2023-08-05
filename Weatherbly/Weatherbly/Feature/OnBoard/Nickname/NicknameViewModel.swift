@@ -37,9 +37,10 @@ final class NicknameViewModel: RxBaseViewModel, NicknameViewModelLogic {
                     print(response)
                 case .failure(let err):
                     guard let errorString = err.errorDescription else { return }
-                    AlertManager.shared.present(contents: .init(title: errorString,
-                                                                message: errorString,
-                                                                alertType: .Error))
+                    let alertVC = AlertViewController(state: .init(title: errorString,
+                                                                   alertType: .Error))
+                    alertVC.modalPresentationStyle = .overCurrentContext
+                    self.presentViewControllerNoAnimationRelay.accept(alertVC)
                 }
             })
             .disposed(by: bag)
