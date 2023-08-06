@@ -229,6 +229,9 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
         
         mainTimeLabel.text = mainTimeText
         
+        // TODO: - 위치 / 날씨 이모티콘 멥핑
+        /// 위치 -> userDefault?
+        
         temperatureLabel.do {
             $0.attributedText = NSMutableAttributedString()
             .bold("\(info["TMP"] ?? "-")℃", 20, CSColor.none)
@@ -240,10 +243,6 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
         }
     }
     
-    func setClosetInfo(_ info: RecommendClosetEntity?) {
-        
-        
-    }
     private func configureBackgroundImage() -> AssetsImage {
         .cloudyEvening
     }
