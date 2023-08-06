@@ -19,9 +19,9 @@
 
 import Foundation
 
-struct GetVilageForcastInfoEntity: Decodable {
+struct VillageForecastInfoEntity: Codable {
     let status: Int
-    let data: BodyData?
+    let data: VilliageForecastBody?
     
     enum CodingKeys: String, CodingKey {
         case status = "status"
@@ -29,8 +29,9 @@ struct GetVilageForcastInfoEntity: Decodable {
     }
 }
 
-struct BodyData: Decodable {
+struct VilliageForecastBody: Codable {
     let list: [Int: DayForecast]
+
     
     init(from decoder: Decoder) throws {
         var forecasts: [Int: DayForecast] = [:]
@@ -51,12 +52,14 @@ struct BodyData: Decodable {
     }
 }
 
-struct DayForecast : Decodable {
+struct DayForecast : Codable {
     let searchDate: Int
     var forecasts: [VilageFcstList]
 }
 
-struct VilageFcstList: Decodable {
+
+                     
+struct VilageFcstList: Codable {
     let baseDate: String
     let baseTime: String
     let category: String
@@ -76,6 +79,29 @@ struct VilageFcstList: Decodable {
         case x = "nx"
         case y = "ny"
     }
+    
+ // TODO: - 디코딩하면서 필터링 할 수 있는 방법을 생각해보자.
+    // Define the set of categories you want to accept
+//    static let allowedCategories: Set<String> = ["POP", "PTY", "PCP", "SKY", "TMP", "TMX", "TMN", "WSD", "REH"]
+//
+//       init(from decoder: Decoder) throws {
+//           let container = try decoder.container(keyedBy: CodingKeys.self)
+//
+//           // Decode the category and check if it's in the allowed set
+//           let category = try container.decode(String.self, forKey: .category)
+//           애 VilageFcstList.allowedCategories.contains(category) else {
+//               throw DecodingError.dataCorruptedError(forKey: .category, in: container, debugDescription: "Category not allowed")
+//           }
+//
+//           self.category = category
+//           self.baseDate = try container.decode(String.self, forKey: .baseDate)
+//           self.baseTime = try container.decode(String.self, forKey: .baseTime)
+//           self.fcstDate = try container.decode(String.self, forKey: .fcstDate)
+//           self.fcstTime = try container.decode(String.self, forKey: .fcstTime)
+//           self.fcstValue = try container.decode(String.self, forKey: .fcstValue)
+//           self.x = try container.decode(Int.self, forKey: .x)
+//           self.y = try container.decode(Int.self, forKey: .y)
+//       }
 }
 
 
