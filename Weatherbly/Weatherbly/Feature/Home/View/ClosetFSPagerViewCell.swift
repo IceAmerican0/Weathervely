@@ -52,4 +52,8 @@ final class ClosetFSPagerViewCell: FSPagerViewCell {
         self.clipsToBounds = false
     }
     
+    func setUIInfo(_ imageData: Data, _ showName: String) {
+        self.clothImageSourceLabel.text = showName
+        self.clothImageView.image = UIImage(data: imageData)
+    }
 }

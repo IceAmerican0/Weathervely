@@ -9,15 +9,15 @@ import Moya
 import RxSwift
 import RxMoya
 
-public protocol ClosetDataSourceProtocol { // TODO: Entity 변경
+protocol ClosetDataSourceProtocol { // TODO: Entity 변경
     func getStyleList() -> Observable<Result<EmptyEntity, WBNetworkError>>
     func setStylePickedList(_ closetIDs: [Int]) -> Observable<Result<EmptyEntity, WBNetworkError>>
     func getSensoryTemperatureStyle(_ dateTime: String) -> Observable<Result<EmptyEntity, WBNetworkError>>
     func setSensoryTemperature(_ closetInfo: String) -> Observable<Result<EmptyEntity, WBNetworkError>>
-    func getRecommendStyleList(_ dateTime: String) -> Observable<Result<EmptyEntity, WBNetworkError>>
+    func gerRecommendCloset(_ dateTime: String) -> Observable<Result<RecommendClosetEntity, WBNetworkError>>
 }
 
-public final class ClosetDataSource: ClosetDataSourceProtocol {
+final class ClosetDataSource: ClosetDataSourceProtocol {
     private let provider: MoyaProvider<ClosetTarget>
     
     public init(provider: MoyaProvider<ClosetTarget> = MoyaProvider<ClosetTarget>()) {
@@ -48,9 +48,9 @@ public final class ClosetDataSource: ClosetDataSourceProtocol {
             .mapTo(EmptyEntity.self)
     }
     
-    public func getRecommendStyleList(_ dateTime: String) -> Observable<Result<EmptyEntity, WBNetworkError>> {
+    func gerRecommendCloset(_ dateTime: String) -> Observable<Result<RecommendClosetEntity, WBNetworkError>> {
         provider.rx
             .request(.getRecommendStyleList(dateTime))
-            .mapTo(EmptyEntity.self)
+            .mapTo(RecommendClosetEntity.self)
     }
 }

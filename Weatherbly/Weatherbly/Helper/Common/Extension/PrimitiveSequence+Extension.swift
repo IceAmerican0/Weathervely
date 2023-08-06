@@ -33,7 +33,7 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
                     guard let dictionary = try JSONSerialization.jsonObject(with: response.data, options: []) as? [String:Any] else {
                         return .just(.failure(.decodeError))
                     }
-                    print("PrimitiveSequence : ", dictionary)
+//                    print("PrimitiveSequence : ", dictionary)
                     return .just(.success(try response.map(D.self)))
                 } else {
                     // status : !(200 ~ 300)

@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 import Moya
 
-class GetVilageForcastInfoProvider<T: TargetType>: MoyaProvider<T> {
+class GetVilageForecastInfoProvider<T: TargetType>: MoyaProvider<T> {
     func request(_ token: T) -> Single<Response> {
         rx
             .request(token)

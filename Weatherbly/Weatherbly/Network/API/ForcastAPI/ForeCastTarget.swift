@@ -8,11 +8,11 @@
 import Moya
 import Foundation
 
-enum ForcastTarget {
+enum ForeCastTarget {
     case getVilageForcastInfo
 }
 
-extension ForcastTarget: WBTargetType {
+extension ForeCastTarget: WBTargetType {
     var path: String {
         switch self {
         case .getVilageForcastInfo:
