@@ -193,7 +193,8 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
         viewModel
             .villageForeCastInfoEntityRelay
             .subscribe(onNext: { [weak self] result in
-                let todayInfo  = self?.viewModel.bindingDateWeather(result, 0)
+                let todayInfo  = self?.viewModel.bindingDateWeather(result, 0, Date().today24Time)
+                self?.viewModel.getWeatherImage(todayInfo)
                 self?.setWeatherInfo(todayInfo, "현재")
             })
             .disposed(by: bag)
@@ -228,6 +229,9 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
         
         mainTimeLabel.text = mainTimeText
         
+        // TODO: - 위치 / 날씨 이모티콘 멥핑
+        /// 위치 -> userDefault?
+        
         temperatureLabel.do {
             $0.attributedText = NSMutableAttributedString()
             .bold("\(info["TMP"] ?? "-")℃", 20, CSColor.none)
@@ -239,10 +243,6 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
         }
     }
     
-    func setClosetInfo(_ info: RecommendClosetEntity?) {
-        
-        
-    }
     private func configureBackgroundImage() -> AssetsImage {
         .cloudyEvening
     }
@@ -279,15 +279,16 @@ extension HomeViewController: FSPagerViewDataSource {
             return cell
         }
         
-        
-        DispatchQueue.main.async {
-            if let url = URL(string: closetInfo.imageUrl) {
-                if let data = try? Data(contentsOf: url) {
-                    
-                    cell.setUIInfo(data, closetInfo.shopName)
+        if let url = URL(string: closetInfo.imageUrl) {
+            URLSession.shared.dataTask(with: url) { data, response, error in
+                if let data = data {
+                    DispatchQueue.main.async {
+                        cell.setUIInfo(data, closetInfo.shopName)
+                    }
                 }
-            }
+            }.resume()
         }
+        
         return cell
     }
 
