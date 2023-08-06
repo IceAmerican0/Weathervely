@@ -38,22 +38,22 @@ final class ClosetFSPagerViewCell: FSPagerViewCell {
             flex.addItem(clothImageView).marginTop(13).width(clothImageWidth).height(clothImageHeight)
             flex.addItem(clothImageSourceLabel).marginTop(8).width(clothImageWidth).height(14)
         }
-//        .shadow(color: .black.opacity(0.25), radius: 7.5, x: 0, y: 4)
         
         self.backgroundColor = .white
         self.layer.cornerRadius = 20
         self.layer.borderColor = UIColor.clear.cgColor
         self.layer.borderWidth = 1
-        self.layer.shadowOffset = CGSize(width: 0, height: 4)
-        self.layer.shadowOpacity = 0.25
-        self.layer.shadowColor = UIColor.black.cgColor
-        self.layer.shadowRadius = 7.5
+        self.contentView.layer.shadowColor = CSColor._255_255_255.cgColor
+        self.layer.setShadow(CGSize(width: 0, height: 4), CSColor.none.cgColor, 0.25, 7.5)
         self.layer.masksToBounds = false
         self.clipsToBounds = false
+        
+        clothImageView.layer.cornerRadius = 10
+        clothImageView.clipsToBounds = true
     }
     
     func setUIInfo(_ imageData: Data, _ showName: String) {
-            self.clothImageSourceLabel.text = showName
+            self.clothImageSourceLabel.text = "by \(showName)"
             self.clothImageView.image = UIImage(data: imageData)
     }
 }

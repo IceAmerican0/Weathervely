@@ -7,6 +7,7 @@
 
 import UIKit
 import PinLayout
+import FlexLayout
 
 class DailyForecastTableViewCell: UITableViewCell {
     
@@ -38,16 +39,18 @@ class DailyForecastTableViewCell: UITableViewCell {
             }
             flex.addItem(logoImageView).size(50)
         }
+        logoImageView.pin.sizeToFit().right(to: contentView.edge.right).margin(55)
         
         self.backgroundColor = .white
         self.layer.cornerRadius = 10
         self.layer.borderColor = UIColor.clear.cgColor
         self.layer.borderWidth = 1
-        self.layer.shadowOffset = CGSize(width: 0, height: 4)
-        self.layer.shadowOpacity = 0.25
-        self.layer.shadowColor = UIColor.black.cgColor
-        self.layer.shadowRadius = 2
+        self.setShadow(CGSize(width: 0, height: 4), CSColor.none.cgColor, 0.25, 2)
         self.layer.masksToBounds = false
         self.clipsToBounds = false
+    }
+    
+    func configureState() {
+        
     }
 }
