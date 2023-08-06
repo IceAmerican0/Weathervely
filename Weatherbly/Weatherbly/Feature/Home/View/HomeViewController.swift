@@ -29,12 +29,15 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
     private var commentLabel = CSLabel(.regular, 18, "찬바람이 세차게 불어요")
     private var dustLabel = CSLabel(.regular, 17, "😷 미세 먼지가 매우 심해요")
     
+    private var bottomWrapper = UIView()
     private lazy var pagerView = FSPagerView()
     
     private var bottomButtonWrapper = UIView()
     private var todayButton = CSButton(.primary)
     private var tomorrowButton = CSButton(.primary)
     
+    private let screenWidth = UIScreen.main.bounds.width
+    private let screenHeight = UIScreen.main.bounds.height
     private let backgroundImageHeight = UIScreen.main.bounds.height * 0.47
     private let mainLabelWidth = UIScreen.main.bounds.width * 0.67
     private let dustLabelWidth = UIScreen.main.bounds.width * 0.89
@@ -103,8 +106,7 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
             $0.register(ClosetFSPagerViewCell.self, forCellWithReuseIdentifier: ClosetFSPagerViewCell.identifier)
             $0.isInfinite = true
             $0.itemSize = CGSize(width: closetCellWidth, height: closetWrapperHeight)
-            $0.transformer = FSPagerViewTransformer(type: .overlap)
-            $0.interitemSpacing = 20
+            $0.transformer = FSPagerViewTransformer(type: .linear)
         }
         
         todayButton.do {
@@ -119,10 +121,6 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
     
     override func layout() {
         super.layout()
-        
-        backgroundView.flex.alignItems(.center).define { flex in
-            flex.addItem(backgroundImage).marginHorizontal(-31).marginTop(-20).width(UIScreen.main.bounds.width+62).height(backgroundImageHeight)
-        }
         
         container.flex.alignItems(.center).marginHorizontal(20).define { flex in
             flex.addItem(topLayoutWrapper).direction(.row).marginTop(7).define { flex in
@@ -139,19 +137,24 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
             flex.addItem(dailyWrapper)
                 .width(110%)
                 .alignItems(.center).define { flex in
-                flex.addItem(weatherImageView).marginTop(7).width(97).height(90)
-                flex.addItem(temperatureLabel).marginTop(10).width(50%).height(28)
-                flex.addItem(commentLabel).marginTop(4).height(28)
-                flex.addItem(dustLabel).marginTop(22).width(dustLabelWidth).height(45)
+                    flex.addItem(weatherImageView).marginTop(screenHeight * 0.008).width(screenWidth * 0.23).height(screenHeight * 0.1)
+                    flex.addItem(temperatureLabel).marginTop(screenHeight * 0.01).width(50%).height(screenHeight * 0.03)
+                    flex.addItem(commentLabel).marginTop(screenHeight * 0.004).height(screenHeight * 0.03)
+                    flex.addItem(dustLabel).marginTop(screenHeight * 0.026).width(dustLabelWidth).height(45)
             }
             
-            flex.addItem(pagerView).marginTop(26).width(UIScreen.main.bounds.width).height(closetWrapperHeight + 20)
+            flex.addItem(pagerView).width(screenWidth).height(closetWrapperHeight + 20)
             flex.addItem(bottomButtonWrapper).direction(.row).define { flex in
                 flex.addItem(todayButton).marginRight(20).width(100).height(40)
                 flex.addItem(tomorrowButton).marginLeft(20).width(100).height(40)
             }
             
+            pagerView.pin.top(to: dailyWrapper.edge.bottom).margin(screenHeight * 0.03)
             bottomButtonWrapper.pin.bottom(14)
+        }
+        
+        backgroundView.flex.alignItems(.center).define { flex in
+            flex.addItem(backgroundImage).marginHorizontal(-31).marginTop(-20).width(screenWidth + 62).height(backgroundImageHeight)
         }
     }
     

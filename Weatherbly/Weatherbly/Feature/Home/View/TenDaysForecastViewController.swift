@@ -50,10 +50,7 @@ class TenDaysForeCastViewController: RxBaseViewController<EmptyViewModel> {
             $0.layer.cornerRadius = 5
             $0.layer.borderColor = UIColor.clear.cgColor
             $0.layer.borderWidth = 1
-            $0.layer.shadowOffset = CGSize(width: 0, height: 4)
-            $0.layer.shadowOpacity = 0.25
-            $0.layer.shadowColor = UIColor.black.cgColor
-            $0.layer.shadowRadius = 2
+            $0.layer.setShadow(CGSize(width: 0, height: 4), CSColor.none.cgColor, 0.25, 2)
             $0.layer.masksToBounds = false
             $0.clipsToBounds = false
         }
