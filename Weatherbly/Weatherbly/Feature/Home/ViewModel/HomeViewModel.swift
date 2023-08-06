@@ -169,72 +169,73 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     
     func getWeatherImage(_ categoryValues: [String: String]?) {
         
-        guard let rainPossibility = Int(categoryValues!["POP"]!) else { return }
-        guard let rainForm = Int(categoryValues!["PTY"]!) else { return }
-        guard var rainfall: Int? = {
-            if (categoryValues!["PCP"] == "강수없음" || categoryValues!["PCP"] == "적설없음") {
-                return 0
-            } else {
-                return Int(categoryValues!["PCP"]!)
-            }
-        }() else { return }
-        guard let humidity = categoryValues!["REH"] else { return }
-        guard let skyStatus = Int(categoryValues!["SKY"]!) else { return }
-        guard let temp = categoryValues!["TMP"] else { return }
-        guard let maxTemp = categoryValues!["TMX"] else { return }
-        guard let minTemp = categoryValues!["TMN"] else { return }
-        guard let windSpeed = categoryValues!["WSD"] else { return }
-        
-        var weatherImage = ""
-        var message = ""
-        
-        switch rainPossibility {
-                /// 강수 확률 있는 경우
-                /// 강수 형태가 눈일수도 있기때문에 강수형태도 고려해야한다.
-            case 1...:
-                if rainfall! >= 40 {
-                    // weatherImage -> 비오는 거
-                    // rainForl 확인 -> 눈 ? 비 ?
-                    // message -> 비관련
-                } else {
-                    // WI -> ?
-                    // rainForl 확인 -> 눈 ? 비 ?
-                    // message -> ?
-                }
-            case ...0:
-                switch skyStatus {
-                    case 1:
-                        // WI -> 맑음
-                        // message -> 습도, 풍속
-                        break
-                    case 3:
-                        // WI -> 구름
-                        // message -> 습도, 풍속
-                        break
-                    case 4:
-                        // WI -> 흐림
-                        // message -> 습도, 풍속
-                        break
-                    default:
-                        break
-                }
-                break
-            default:
-                break
-        }
-        
-        if rainPossibility > 0 {
-            if rainfall! >= 40 {
-                // weatherImage -> 비오는 거
-                // message -> 비관련
-            } else {
-                // WI -> ?
-                // message -> ?
-            }
-        } else {
-            
-        }
-        print(categoryValues!)
+//        guard let categoryValues = categoryValues else { return }
+//        guard let rainPossibility = Int(categoryValues!["POP"]!) else { return }
+//        guard let rainForm = Int(categoryValues!["PTY"]!) else { return }
+//        guard var rainfall: Int? = {
+//            if (categoryValues!["PCP"] == "강수없음" || categoryValues!["PCP"] == "적설없음") {
+//                return 0
+//            } else {
+//                return Int(categoryValues!["PCP"]!)
+//            }
+//        }() else { return }
+//        guard let humidity = categoryValues!["REH"] else { return }
+//        guard let skyStatus = Int(categoryValues!["SKY"]!) else { return }
+//        guard let temp = categoryValues!["TMP"] else { return }
+//        guard let maxTemp = categoryValues!["TMX"] else { return }
+//        guard let minTemp = categoryValues!["TMN"] else { return }
+//        guard let windSpeed = categoryValues!["WSD"] else { return }
+//        
+//        var weatherImage = ""
+//        var message = ""
+//        
+//        switch rainPossibility {
+//                /// 강수 확률 있는 경우
+//                /// 강수 형태가 눈일수도 있기때문에 강수형태도 고려해야한다.
+//            case 1...:
+//                if rainfall! >= 40 {
+//                    // weatherImage -> 비오는 거
+//                    // rainForl 확인 -> 눈 ? 비 ?
+//                    // message -> 비관련
+//                } else {
+//                    // WI -> ?
+//                    // rainForl 확인 -> 눈 ? 비 ?
+//                    // message -> ?
+//                }
+//            case ...0:
+//                switch skyStatus {
+//                    case 1:
+//                        // WI -> 맑음
+//                        // message -> 습도, 풍속
+//                        break
+//                    case 3:
+//                        // WI -> 구름
+//                        // message -> 습도, 풍속
+//                        break
+//                    case 4:
+//                        // WI -> 흐림
+//                        // message -> 습도, 풍속
+//                        break
+//                    default:
+//                        break
+//                }
+//                break
+//            default:
+//                break
+//        }
+//        
+//        if rainPossibility > 0 {
+//            if rainfall! >= 40 {
+//                // weatherImage -> 비오는 거
+//                // message -> 비관련
+//            } else {
+//                // WI -> ?
+//                // message -> ?
+//            }
+//        } else {
+//            
+//        }
+//        print(categoryValues!)
         
     }
     
