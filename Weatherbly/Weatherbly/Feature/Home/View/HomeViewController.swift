@@ -193,7 +193,8 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
         viewModel
             .villageForeCastInfoEntityRelay
             .subscribe(onNext: { [weak self] result in
-                let todayInfo  = self?.viewModel.bindingDateWeather(result, 0)
+                let todayInfo  = self?.viewModel.bindingDateWeather(result, 0, Date().today24Time)
+                self?.viewModel.getWeatherImage(todayInfo)
                 self?.setWeatherInfo(todayInfo, "현재")
             })
             .disposed(by: bag)
