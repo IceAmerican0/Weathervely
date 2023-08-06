@@ -279,15 +279,16 @@ extension HomeViewController: FSPagerViewDataSource {
             return cell
         }
         
-        
-        DispatchQueue.main.async {
-            if let url = URL(string: closetInfo.imageUrl) {
-                if let data = try? Data(contentsOf: url) {
-                    
-                    cell.setUIInfo(data, closetInfo.shopName)
+        if let url = URL(string: closetInfo.imageUrl) {
+            URLSession.shared.dataTask(with: url) { data, response, error in
+                if let data = data {
+                    DispatchQueue.main.async {
+                        cell.setUIInfo(data, closetInfo.shopName)
+                    }
                 }
-            }
+            }.resume()
         }
+        
         return cell
     }
 
