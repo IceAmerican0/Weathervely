@@ -9,14 +9,14 @@ import RxSwift
 import Moya
 import RxMoya
 
-protocol GetClosetDataSourceProtocol {
+protocol ForcastDataSourceProtocol {
     func getVilageForcast() -> Observable<Result<VillageForecastInfoEntity, WBNetworkError>>
 }
 
-final class GetVilageForcastInfoDataSource: GetClosetDataSourceProtocol {
-    private var provider: MoyaProvider<ForcastTarget>
+final class ForecastDataSource: ForcastDataSourceProtocol {
+    private var provider: MoyaProvider<ForeCastTarget>
   
-    init(provider: MoyaProvider<ForcastTarget> = MoyaProvider<ForcastTarget>()) {
+    init(provider: MoyaProvider<ForeCastTarget> = MoyaProvider<ForeCastTarget>()) {
         self.provider = provider
     }
     

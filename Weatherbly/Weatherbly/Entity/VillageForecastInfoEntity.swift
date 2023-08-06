@@ -21,7 +21,7 @@ import Foundation
 
 struct VillageForecastInfoEntity: Codable {
     let status: Int
-    let data: BodyData?
+    let data: VilliageForecastBody?
     
     enum CodingKeys: String, CodingKey {
         case status = "status"
@@ -29,7 +29,7 @@ struct VillageForecastInfoEntity: Codable {
     }
 }
 
-struct BodyData: Codable {
+struct VilliageForecastBody: Codable {
     let list: [Int: DayForecast]
 
     

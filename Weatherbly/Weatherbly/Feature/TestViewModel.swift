@@ -23,7 +23,7 @@ class TestViewModel: RxBaseViewModel, TestViewModelLogic {
     
     var viewAction: RxRelay.PublishRelay<TestViewAction>
     let loginDataSource = LoginDataSource()
-    let getVilageDataSource = GetVilageForcastInfoDataSource()
+    let getVilageDataSource = ForecastDataSource()
     
     override init() {
         self.viewAction = .init()

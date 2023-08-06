@@ -25,15 +25,25 @@ public protocol HomeViewModelLogic: ViewModelBusinessLogic {
 public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     
     public var viewAction: RxRelay.PublishRelay<HomeViewAction>
+    
+    private let getVilageDataSource = ForecastDataSource()
+    private let getRecommendClosetDataSouce = ClosetDataSource()
 //    let villageForeCastInfoEntityRelay  = BehaviorRelay<[String: String?]?>(value: [:])
     let villageForeCastInfoEntityRelay  = BehaviorRelay<VillageForecastInfoEntity?>(value: nil)
-    let mappedCategoryDicRelay = BehaviorRelay<[String: String?]?>(value: [:])
+    let mappedCategoryDicRelay = BehaviorRelay<[String: String]?>(value: [:])
     let chageDateTimeRelay = BehaviorRelay<[String]?>(value: nil)
-    private let getVilageDataSource = GetVilageForcastInfoDataSource()
+    let recommendClosetEntityRelay = BehaviorRelay<RecommendClosetEntity?>(value: nil)
+    
+    
     
     override init() {
         self.viewAction = .init()
         super.init()
+    }
+    
+    func getInfo() {
+        getVillageForecastInfo()
+        getRecommendCloset()
     }
     
     public func getVillageForecastInfo() {
@@ -42,11 +52,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             .subscribe(onNext: { [weak self] result in
                 switch result {
                 case .success(let response):
-                    // 오늘, 지금 시간,
-//                    let todayInfo = self?.bindingDateWeather(response, 0)
-//                    self?.villageForeCastInfoEntityRelay.accept(todayInfo)
 
-                    
                     /// 시간대 변경 swipe할 때 마다 날짜와 시간을 준다.
                     /// 파라미터로받은 시간, 날짜로 맵핍을 하면 self?.bindingDateWeather(response, 0) 카테고리만 걸러진다.
                     /// 문제는 파라미터로 response를 받을 수 없다는 점.
@@ -61,12 +67,9 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                      2. 가능
                      3. 다시 쏴야함...or 가지고 있어야한다.. 어디에?
                      */
-                    
-//                    print(response.data!)
+
                     self?.villageForeCastInfoEntityRelay.accept(response)
-//                    print(123)
-                    
-                    
+                    self?.mappedCategoryDicRelay.accept(self?.bindingDateWeather(response, 0))
                 case .failure(let error):
                     print("viewModel Error : ", error.localizedDescription)
                 }
@@ -74,16 +77,36 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             .disposed(by: bag)
     }
     
+    private func getRecommendCloset() {
+        
+        let date = Date()
+        let dateFormmater = DateFormatter.shared
+        dateFormmater.dateFormat = "yyyy-MM-dd HH:00"
+        print(dateFormmater.string(from: date))
+        
+        getRecommendClosetDataSouce.gerRecommendCloset(dateFormmater.string(from: date))
+            .subscribe(onNext: { [weak self] result in
+                switch result {
+                case .success(let respone):
+                    self?.recommendClosetEntityRelay.accept(respone)
+                    print("result success")
+                case .failure(let error):
+                    print("viewModel Error, getRecommendCloset :" , error.localizedDescription)
+                }
+            })
+            .disposed(by: bag)
+    }
     
-    func bindingDateWeather(_ response: VillageForecastInfoEntity?, _ dayInterval: Int) -> [String: String?] {
+    
+    func bindingDateWeather(_ response: VillageForecastInfoEntity?, _ dayInterval: Int) -> [String: String]? {
         
         let date = Date()
         let selectedDate = date.dayAfter(dayInterval)
         // 원하는 날짜 멥핑
         let todayForecast = response?.data!.list[selectedDate]!.forecasts
         
-        let selectedHour = "\((date.todayTime.components(separatedBy: " ").map { $0 })[3])00"
-        
+//        let selectedHour = "\((date.today24Time.components(separatedBy: " ").map { $0 })[2])00"
+        let selectedHour = "\(date.today24Time)"
         
         var timeToCategoryValue: [String: [String: String]] = [:]
         // 시간을 key 값으로 재정렬
@@ -98,7 +121,8 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         let orderedByTimeCategories: [Dictionary<String, [String : String]>.Element]? = timeToCategoryValue.sorted { $0.key < $1.key }
         
         // 현재시간인 카테고리 가져오기
-        var categoryWithValue: [String: String] = [:]
+        var categoryWithValue: [String: String]? = [:]
+        
         for key in orderedByTimeCategories! {
             if key.key == selectedHour {
                 // 카테고리 맵핑해서 저장하기
@@ -112,10 +136,10 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         return categoryWithValue
     }
     
-    func getExtremeTemp(_ categoryWithValue: [String: String], _ orderedByTimeCategories: [Dictionary<String, [String : String]>.Element]?, _ selectedHour: String) -> [String: String] {
+    func getExtremeTemp(_ categoryWithValue: [String: String]?, _ orderedByTimeCategories: [Dictionary<String, [String : String]>.Element]?, _ selectedHour: String) -> [String: String] {
         let TMXTime = 15
         let TMNTime = 6
-        var returnCategoryValues: [String: String] = categoryWithValue
+        var returnCategoryValues: [String: String]? = categoryWithValue
         
         guard !orderedByTimeCategories!.isEmpty else {
             return [:]
@@ -126,7 +150,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             for key in orderedByTimeCategories![TMXTime].value {
                 if key.key == "TMX" {
                     print(key)
-                    returnCategoryValues.updateValue(key.value, forKey: key.key)
+                    returnCategoryValues?.updateValue(key.value, forKey: key.key)
                 }
             }
         }
@@ -135,15 +159,19 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             for key in orderedByTimeCategories![TMNTime].value {
                 if key.key == "TMN" {
                     print(key)
-                    returnCategoryValues.updateValue(key.value, forKey: key.key)
+                    returnCategoryValues?.updateValue(key.value, forKey: key.key)
                 }
             }
         }
-        return returnCategoryValues
+        return returnCategoryValues ?? [:]
+    }
+    
+    func getWeatherImage(_ categoryValues: [String: String]?) {
+        
     }
     
     func swipeAndReloadData(_ dayInterval: Int) -> [String: String?]? {
-     
+        print("Swipe:@@@@@@@@", self.villageForeCastInfoEntityRelay.value!)
         return [:]
     }
 

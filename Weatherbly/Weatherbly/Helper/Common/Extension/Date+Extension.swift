@@ -18,6 +18,15 @@ extension Date {
         return dateFormmater.string(from: date)
     }
     
+    var yesterday24Time: String {
+        
+        let date = Calendar.current.date(byAdding: .day, value: -1, to: self)!
+        let dateFormmater = DateFormatter.shared
+        dateFormmater.dateFormat = "HH00"
+        
+        return dateFormmater.string(from: date)
+    }
+    
     var yesterdayDate: String {
         
         let date = Calendar.current.date(byAdding: .day, value: -1, to: self)!
@@ -32,6 +41,14 @@ extension Date {
         let date = self
         let dateFormmater = DateFormatter.shared
         dateFormmater.dateFormat = "MM dd a hh"
+        
+        return dateFormmater.string(from: date)
+    }
+    
+    var today24Time: String {
+        let date = self
+        let dateFormmater = DateFormatter.shared
+        dateFormmater.dateFormat = "HH00"
         
         return dateFormmater.string(from: date)
     }

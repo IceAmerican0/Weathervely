@@ -91,6 +91,8 @@
 		BD5D168C2A612BC900435816 /* DateTimePickViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5D168B2A612BC900435816 /* DateTimePickViewController.swift */; };
 		BD5D168E2A612BD500435816 /* DateTimePickViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5D168D2A612BD500435816 /* DateTimePickViewModel.swift */; };
 		BD5D16932A63B3AD00435816 /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5D16922A63B3AD00435816 /* CALayer+Extension.swift */; };
+		BD6135CC2A7D5EAD00DB3DF9 /* message.json in Resources */ = {isa = PBXBuildFile; fileRef = BD6135CB2A7D5EAD00DB3DF9 /* message.json */; };
+		BD6135D32A7E3C9C00DB3DF9 /* RecommendClosetEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6135D22A7E3C9C00DB3DF9 /* RecommendClosetEntity.swift */; };
 		BD69B8F72A54337000DDCD7A /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD69B8F62A54337000DDCD7A /* SettingViewController.swift */; };
 		BD69B8F92A553A0C00DDCD7A /* CSNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD69B8F82A553A0C00DDCD7A /* CSNavigationView.swift */; };
 		BD77B8282A388C9400E7D57A /* CSColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD77B8272A388C9400E7D57A /* CSColor.swift */; };
@@ -104,11 +106,10 @@
 		BD7DAB272A6E786E00422D25 /* LoginEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB262A6E786E00422D25 /* LoginEntity.swift */; };
 		BD7DAB292A6FC51400422D25 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB282A6FC51400422D25 /* TestViewController.swift */; };
 		BD7DAB2B2A6FC58200422D25 /* TestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB2A2A6FC58200422D25 /* TestViewModel.swift */; };
-		BD7DAB2D2A70DEE100422D25 /* GetVilageForcastInfoDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB2C2A70DEE100422D25 /* GetVilageForcastInfoDataSource.swift */; };
+		BD7DAB2D2A70DEE100422D25 /* ForecastDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB2C2A70DEE100422D25 /* ForecastDataSource.swift */; };
 		BD7DAB2F2A70DEED00422D25 /* GetVilageForecastInfoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB2E2A70DEED00422D25 /* GetVilageForecastInfoProvider.swift */; };
-		BD7DAB312A70DEF400422D25 /* ForcastTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB302A70DEF400422D25 /* ForcastTarget.swift */; };
+		BD7DAB312A70DEF400422D25 /* ForeCastTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB302A70DEF400422D25 /* ForeCastTarget.swift */; };
 		BD7DAB332A70DEFC00422D25 /* VillageForecastInfoEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB322A70DEFC00422D25 /* VillageForecastInfoEntity.swift */; };
-		BD7DAB392A72414600422D25 /* VilageCategoryEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB382A72414600422D25 /* VilageCategoryEntity.swift */; };
 		BD7DAB3B2A72447E00422D25 /* WBNetWorkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB3A2A72447E00422D25 /* WBNetWorkError.swift */; };
 		BDA66FEA2A4075270061A1F0 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA66FE92A4075270061A1F0 /* UIImageView+Extension.swift */; };
 		BDA66FED2A444C470061A1F0 /* SelectGenderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA66FEC2A444C470061A1F0 /* SelectGenderViewController.swift */; };
@@ -195,6 +196,8 @@
 		BD5D168B2A612BC900435816 /* DateTimePickViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimePickViewController.swift; sourceTree = "<group>"; };
 		BD5D168D2A612BD500435816 /* DateTimePickViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimePickViewModel.swift; sourceTree = "<group>"; };
 		BD5D16922A63B3AD00435816 /* CALayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
+		BD6135CB2A7D5EAD00DB3DF9 /* message.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = message.json; sourceTree = "<group>"; };
+		BD6135D22A7E3C9C00DB3DF9 /* RecommendClosetEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendClosetEntity.swift; sourceTree = "<group>"; };
 		BD69B8F62A54337000DDCD7A /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		BD69B8F82A553A0C00DDCD7A /* CSNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSNavigationView.swift; sourceTree = "<group>"; };
 		BD77B8272A388C9400E7D57A /* CSColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSColor.swift; sourceTree = "<group>"; };
@@ -208,11 +211,10 @@
 		BD7DAB262A6E786E00422D25 /* LoginEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginEntity.swift; sourceTree = "<group>"; };
 		BD7DAB282A6FC51400422D25 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		BD7DAB2A2A6FC58200422D25 /* TestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewModel.swift; sourceTree = "<group>"; };
-		BD7DAB2C2A70DEE100422D25 /* GetVilageForcastInfoDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetVilageForcastInfoDataSource.swift; sourceTree = "<group>"; };
+		BD7DAB2C2A70DEE100422D25 /* ForecastDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastDataSource.swift; sourceTree = "<group>"; };
 		BD7DAB2E2A70DEED00422D25 /* GetVilageForecastInfoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetVilageForecastInfoProvider.swift; sourceTree = "<group>"; };
-		BD7DAB302A70DEF400422D25 /* ForcastTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForcastTarget.swift; sourceTree = "<group>"; };
+		BD7DAB302A70DEF400422D25 /* ForeCastTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForeCastTarget.swift; sourceTree = "<group>"; };
 		BD7DAB322A70DEFC00422D25 /* VillageForecastInfoEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VillageForecastInfoEntity.swift; sourceTree = "<group>"; };
-		BD7DAB382A72414600422D25 /* VilageCategoryEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VilageCategoryEntity.swift; sourceTree = "<group>"; };
 		BD7DAB3A2A72447E00422D25 /* WBNetWorkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBNetWorkError.swift; sourceTree = "<group>"; };
 		BDA66FE92A4075270061A1F0 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		BDA66FEC2A444C470061A1F0 /* SelectGenderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGenderViewController.swift; sourceTree = "<group>"; };
@@ -368,6 +370,8 @@
 		BD2D01872A388753003A25D5 /* Weatherbly */ = {
 			isa = PBXGroup;
 			children = (
+				BD6135D12A7E3C6700DB3DF9 /* Entity */,
+				BD6135CA2A7D5E9F00DB3DF9 /* Mock */,
 				BD2D019E2A3887B8003A25D5 /* Network */,
 				BD2D019D2A3887AA003A25D5 /* Helper */,
 				BD2D019C2A3887A3003A25D5 /* Feature */,
@@ -546,6 +550,24 @@
 			path = SesoryTemperature;
 			sourceTree = "<group>";
 		};
+		BD6135CA2A7D5E9F00DB3DF9 /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+				BD6135CB2A7D5EAD00DB3DF9 /* message.json */,
+			);
+			path = Mock;
+			sourceTree = "<group>";
+		};
+		BD6135D12A7E3C6700DB3DF9 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				BD7DAB262A6E786E00422D25 /* LoginEntity.swift */,
+				BD7DAB322A70DEFC00422D25 /* VillageForecastInfoEntity.swift */,
+				BD6135D22A7E3C9C00DB3DF9 /* RecommendClosetEntity.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
 		BD69B8F32A54332C00DDCD7A /* Setting */ = {
 			isa = PBXGroup;
 			children = (
@@ -581,7 +603,7 @@
 		BD7DAB1C2A6E62F600422D25 /* ForcastAPI */ = {
 			isa = PBXGroup;
 			children = (
-				BD7DAB302A70DEF400422D25 /* ForcastTarget.swift */,
+				BD7DAB302A70DEF400422D25 /* ForeCastTarget.swift */,
 				BD7DAB342A7119DC00422D25 /* GetViliageForcastInfo */,
 			);
 			path = ForcastAPI;
@@ -593,7 +615,6 @@
 				BD7DAB1E2A6E677D00422D25 /* LoginDataSource.swift */,
 				BD7DAB202A6E678D00422D25 /* LoginProvider.swift */,
 				BD7DAB222A6E679700422D25 /* LoginTarget.swift */,
-				BD7DAB262A6E786E00422D25 /* LoginEntity.swift */,
 			);
 			path = LoginAPI;
 			sourceTree = "<group>";
@@ -601,10 +622,8 @@
 		BD7DAB342A7119DC00422D25 /* GetViliageForcastInfo */ = {
 			isa = PBXGroup;
 			children = (
-				BD7DAB2C2A70DEE100422D25 /* GetVilageForcastInfoDataSource.swift */,
+				BD7DAB2C2A70DEE100422D25 /* ForecastDataSource.swift */,
 				BD7DAB2E2A70DEED00422D25 /* GetVilageForecastInfoProvider.swift */,
-				BD7DAB322A70DEFC00422D25 /* VillageForecastInfoEntity.swift */,
-				BD7DAB382A72414600422D25 /* VilageCategoryEntity.swift */,
 			);
 			path = GetViliageForcastInfo;
 			sourceTree = "<group>";
@@ -748,6 +767,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD6135CC2A7D5EAD00DB3DF9 /* message.json in Resources */,
 				BD2D01922A388755003A25D5 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -809,7 +829,7 @@
 				BD7DAB212A6E678D00422D25 /* LoginProvider.swift in Sources */,
 				5C4BE89D2A5E63C000FD2CEF /* RegionTableViewCell.swift in Sources */,
 				696176B22A63E37F00B83B4C /* RxBaseViewModel.swift in Sources */,
-				BD7DAB2D2A70DEE100422D25 /* GetVilageForcastInfoDataSource.swift in Sources */,
+				BD7DAB2D2A70DEE100422D25 /* ForecastDataSource.swift in Sources */,
 				BD5D168E2A612BD500435816 /* DateTimePickViewModel.swift in Sources */,
 				BD4AC3932A669B0500537583 /* SlotMachineViewModel.swift in Sources */,
 				5CAB60D32A54FC6A00CD431A /* UITableViewCell+Extension.swift in Sources */,
@@ -836,6 +856,7 @@
 				BD2D01AE2A38886C003A25D5 /* RxBaseViewController.swift in Sources */,
 				BD4316362A3C9DB700E86271 /* AssetsImage.swift in Sources */,
 				BDA66FED2A444C470061A1F0 /* SelectGenderViewController.swift in Sources */,
+				BD6135D32A7E3C9C00DB3DF9 /* RecommendClosetEntity.swift in Sources */,
 				BD4316342A3C967900E86271 /* SensoryTempViewController.swift in Sources */,
 				BD7DAB332A70DEFC00422D25 /* VillageForecastInfoEntity.swift in Sources */,
 				BD4AC38F2A6671B500537583 /* SeonsoryTempViewModel.swift in Sources */,
@@ -865,7 +886,7 @@
 				5C23DBA42A6505BF00F41574 /* KakaoErrorResponse.swift in Sources */,
 				BD7DAB3B2A72447E00422D25 /* WBNetWorkError.swift in Sources */,
 				5CCC91562A613F010025B522 /* SettingRegionViewModel.swift in Sources */,
-				BD7DAB312A70DEF400422D25 /* ForcastTarget.swift in Sources */,
+				BD7DAB312A70DEF400422D25 /* ForeCastTarget.swift in Sources */,
 				BD77B82E2A388D2E00E7D57A /* HomeViewModel.swift in Sources */,
 				5C9D02C42A6E61C700AF2DA3 /* SettingRegionCompleteViewModel.swift in Sources */,
 				69CCF1D12A63CDC200756127 /* RemoteError.swift in Sources */,
@@ -890,7 +911,6 @@
 				BD7DAB2F2A70DEED00422D25 /* GetVilageForecastInfoProvider.swift in Sources */,
 				BD7DAB232A6E679700422D25 /* LoginTarget.swift in Sources */,
 				BD5169452A5A9BD600582BA9 /* SettingViewModel.swift in Sources */,
-				BD7DAB392A72414600422D25 /* VilageCategoryEntity.swift in Sources */,
 				5C9D02BC2A68FC0200AF2DA3 /* Dependency.swift in Sources */,
 				BD2D01B02A38887D003A25D5 /* UIButton+Extension.swift in Sources */,
 				5C1D5A112A3C500A00E66788 /* CSLabel.swift in Sources */,
