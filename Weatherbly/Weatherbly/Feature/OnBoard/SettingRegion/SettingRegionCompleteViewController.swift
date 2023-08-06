@@ -23,19 +23,21 @@ public final class SettingRegionCompleteViewController: RxBaseViewController<Set
     private let negativeButton = CSButton(.grayFilled)
     private let confirmButton = CSButton(.primary)
     
-    private var regionCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-    
-    private let explanationMarginTop = UIScreen.main.bounds.height * 0.13
-    private let explanationWidth = UIScreen.main.bounds.width * 0.65
-    private let regionWrapperWidth = UIScreen.main.bounds.width * 0.89
-    private let regionWidth = UIScreen.main.bounds.width * 0.815
-    private let wrapperMarginTop = UIScreen.main.bounds.height * 0.26
-    private let buttonWidth = UIScreen.main.bounds.width * 0.39
-    
     var isFromEdit = false
     
     override func attribute() {
         super.attribute()
+        
+        regionWrapper.do {
+            $0.backgroundColor = CSColor._248_248_248.color
+            $0.addBorder(.top)
+            $0.addBorder(.bottom)
+        }
+        
+        regionLabel.do {
+            $0.text = viewModel.regionDataRelay.value.address_name
+            $0.adjustsFontSizeToFitWidth = true
+        }
         
         negativeButton.do {
             $0.setTitle("아니요", for: .normal)
@@ -57,18 +59,18 @@ public final class SettingRegionCompleteViewController: RxBaseViewController<Set
         container.flex.alignItems(.center).define { flex in
             flex.addItem(progressBar)
             flex.addItem(navigationView).width(UIScreen.main.bounds.width)
-            flex.addItem(explanationLabel).marginTop(explanationMarginTop).width(explanationWidth).height(34)
-            flex.addItem(regionWrapper).alignItems(.center)
-                .marginTop(27).marginHorizontal(20).width(regionWrapperWidth).height(55)
+            flex.addItem(explanationLabel).marginTop(13%).width(65%).height(34)
+            flex.addItem(regionWrapper).alignItems(.center).justifyContent(.center)
+                .marginTop(27).marginHorizontal(20).width(89%).height(55)
                 .define { flex in
-                flex.addItem(regionLabel).marginHorizontal(14).width(regionWidth).height(28)
+                    flex.addItem(regionLabel).marginHorizontal(14).width(81.5%).height(28)
             }
             flex.addItem(buttonWrapper).direction(.row).alignItems(.center)
-                .marginTop(wrapperMarginTop).marginHorizontal(32)
                 .define { flex in
-                flex.addItem(negativeButton).width(buttonWidth).height(62)
-                flex.addItem(confirmButton).marginLeft(22).width(buttonWidth).height(62)
+                flex.addItem(negativeButton).width(39%).height(62)
+                flex.addItem(confirmButton).marginLeft(22).width(39%).height(62)
             }
+            buttonWrapper.pin.bottom(22%).marginHorizontal(32)
         }
         
         if isFromEdit {

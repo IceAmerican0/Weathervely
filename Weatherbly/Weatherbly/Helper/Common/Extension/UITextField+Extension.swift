@@ -7,20 +7,21 @@
 
 import UIKit
 import FlexLayout
+import Then
 
 extension UITextField {
     
     /// 자동완성이나 스마트 대시 등을 없애고 키보드 영역을 깔끔하게 만들기 위해서 사용
     static func neatKeyboard() -> UITextField {
-        let textFiled = UITextField()
-        textFiled.autocorrectionType = .no
-        textFiled.autocapitalizationType = .none
-        textFiled.smartDashesType = .no
-        textFiled.smartQuotesType = .no
-        textFiled.smartInsertDeleteType = .no
-        textFiled.spellCheckingType = .no
-        textFiled.returnKeyType = .done
-        return textFiled
+        UITextField().then {
+            $0.autocorrectionType = .no
+            $0.autocapitalizationType = .none
+            $0.smartDashesType = .no
+            $0.smartQuotesType = .no
+            $0.smartInsertDeleteType = .no
+            $0.spellCheckingType = .no
+            $0.returnKeyType = .done
+        }
     }
     
     enum editMode {

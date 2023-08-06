@@ -20,14 +20,7 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
     private var inputRegion = UITextField.neatKeyboard()
     
     private var confirmButton = CSButton(.primary)
-    
     private var regionTableView = UITableView()
-    
-    private let textFieldPinHeight = UIScreen.main.bounds.height * 0.177
-    private let textFieldMarginHeight = UIScreen.main.bounds.height * 0.33
-    private let textFieldWidth = UIScreen.main.bounds.width * 0.85
-    private let buttonMarginBottom = UIScreen.main.bounds.height * 0.1
-    private let tableViewHeight = UIScreen.main.bounds.height * 0.59
     
     var isFromEdit = false
     
@@ -48,6 +41,7 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
         
         explanationLabel.do {
             $0.backgroundColor = .white
+            $0.adjustsFontSizeToFitWidth = true
         }
         
         searchImage.do {
@@ -87,20 +81,18 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
         
         container.flex.alignItems(.center).define { flex in
             flex.addItem(progressBar)
-            flex.addItem(navigationView).width(UIScreen.main.bounds.width)
-            flex.addItem(explanationLabel).marginTop(27)
-            flex.addItem(inputRegion).marginHorizontal(30).width(textFieldWidth).height(50)
+            flex.addItem(navigationView).width(100%)
+            flex.addItem(explanationLabel).marginTop(27).marginHorizontal(35).width(85%)
+            flex.addItem(inputRegion).marginTop(22).marginHorizontal(30).width(85%).height(50)
             flex.addItem(confirmButton).width(88%).height(62)
-            flex.addItem(regionTableView).marginHorizontal(30).height(tableViewHeight)
+            flex.addItem(regionTableView).marginHorizontal(30).height(59%)
         }
-        inputRegion.pin.top(textFieldMarginHeight)
-        confirmButton.pin.bottom(buttonMarginBottom)
+        confirmButton.pin.bottom(10%)
         regionTableView.isHidden = true
         
         if isFromEdit {
             progressBar.isHidden = true
             navigationView.setTitle("동네 변경 / 추가")
-
             explanationLabel.isHidden = true
         }
     }
@@ -115,9 +107,18 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
             .disposed(by: bag)
     }
     
+    override func viewModelBinding() {
+        super.viewModelBinding()
+        
+        viewModel.searchedListRelay
+            .subscribe(onNext: { [weak self] _ in
+                self?.regionTableView.reloadData()
+            })
+            .disposed(by: bag)
+    }
+    
     private func showResult() {
         unregisterKeyboardNotifications()
-        inputRegion.pin.top(textFieldPinHeight)
         
         regionTableView.pin.bottom(12)
         regionTableView.isHidden = false
@@ -128,9 +129,7 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
             confirmButton.isHidden = true
             
             viewModel.searchRegion(text)
-            
         } else { return }
-
     }
 }
 
@@ -145,15 +144,16 @@ extension SettingRegionViewController: UITableViewDelegate {
 
 extension SettingRegionViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        30
-//        viewModel.searchedListRelay.value[0].documents.count
+        if viewModel.searchedListRelay.value.isEmpty {
+            return 0
+        } else {
+            return viewModel.searchedListRelay.value[0].documents.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         tableView.dequeueCell(withType: RegionTableViewCell.self, for: indexPath).then {
-            $0.configureCellState("서울특별시")
-//            $0.configureCellState(viewModel.setRegionName(at: indexPath))
-            $0.layer.shadowColor = CSColor._0__03.cgColor
+            $0.configureCellState(viewModel.setRegionName(at: indexPath))
         }
     }
 }
@@ -164,23 +164,17 @@ extension SettingRegionViewController: UITextFieldDelegate {
         showResult()
         return true
     }
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        string != " "
-    }
 }
 
 // MARK: Keyboard Action
 extension SettingRegionViewController {
     override func keyboardWillShow(_ notification: Notification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            inputRegion.pin.top(to: explanationLabel.edge.bottom).marginTop(22)
             confirmButton.pin.bottom(keyboardSize.height + 30)
         }
     }
     
     override func keyboardWillHide(_ notification: Notification) {
-        inputRegion.pin.top(textFieldMarginHeight)
-        confirmButton.pin.bottom(buttonMarginBottom)
+        confirmButton.pin.bottom(10%)
     }
 }

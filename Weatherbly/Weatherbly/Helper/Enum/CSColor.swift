@@ -9,13 +9,15 @@ import UIKit
 
 enum CSColor {
     case none
-    case _0__54
     case _0__03
+    case _0__054
+    case _0__1
     case _40_106_167
     case _50_50_50
     case _102_102_102
     case _126_212_255
     case _151_151_151
+    case _155_155_155
     case _172_107_255
     case _172_107_255_004
     case _178_36_36
@@ -41,8 +43,10 @@ enum CSColor {
             return UIColor(r: 39, g: 39, b: 39)
         case ._0__03:
             return UIColor(r: 0, g: 0, b: 0, a: 0.3)
-        case ._0__54:
+        case ._0__054:
             return UIColor(r: 0, g: 0, b: 0, a: 0.54)
+        case ._0__1:
+            return UIColor(r: 0, g: 0, b: 0, a: 1)
         case ._40_106_167:
             return UIColor(r: 40, g: 106, b: 167)
         case ._50_50_50:
@@ -53,6 +57,8 @@ enum CSColor {
             return UIColor(r: 126, g: 212, b: 255)
         case ._151_151_151:
             return UIColor(r: 151, g: 151, b: 151)
+        case ._155_155_155:
+            return UIColor(r: 155, g: 155, b: 155)
         case ._172_107_255:
             return UIColor(r: 172, g: 107, b: 255)
         case ._172_107_255_004:
