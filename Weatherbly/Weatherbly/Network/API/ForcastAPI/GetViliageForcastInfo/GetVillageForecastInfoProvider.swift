@@ -1,20 +1,18 @@
 //
-//  LoginProvider.swift
+//  GetClosetProvider.swift
 //  Weatherbly
 //
-//  Created by 최수훈 on 2023/07/24.
+//  Created by 최수훈 on 2023/07/26.
 //
 
 import Foundation
-import Moya
 import RxSwift
+import Moya
 
-
-public final class LoginProvider<T: TargetType>: MoyaProvider<T> {
+class GetVillageForecastInfoProvider<T: TargetType>: MoyaProvider<T> {
     func request(_ token: T) -> Single<Response> {
         rx
             .request(token)
             .filterSuccessfulStatusCodes()
     }
-    
 }

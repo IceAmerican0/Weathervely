@@ -26,7 +26,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     
     public var viewAction: RxRelay.PublishRelay<HomeViewAction>
     
-    private let getVilageDataSource = ForecastDataSource()
+    private let getVillageDataSource = ForecastDataSource()
     private let getRecommendClosetDataSouce = ClosetDataSource()
     //    let villageForeCastInfoEntityRelay  = BehaviorRelay<[String: String?]?>(value: [:])
     let villageForeCastInfoEntityRelay  = BehaviorRelay<VillageForecastInfoEntity?>(value: nil)
@@ -48,7 +48,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     
     public func getVillageForecastInfo() {
         
-        getVilageDataSource.getVilageForcast()
+        getVillageDataSource.getVillageForcast()
             .subscribe(onNext: { [weak self] result in
                 switch result {
                 case .success(let response):

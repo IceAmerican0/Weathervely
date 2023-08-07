@@ -9,27 +9,27 @@ import Moya
 import Foundation
 
 enum ForeCastTarget {
-    case getVilageForcastInfo
+    case getVillageForcastInfo
 }
 
 extension ForeCastTarget: WBTargetType {
     var path: String {
         switch self {
-        case .getVilageForcastInfo:
+        case .getVillageForcastInfo:
             return "/forecast/getVilageForecastInfo"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .getVilageForcastInfo:
+        case .getVillageForcastInfo:
             return .get
         }
     }
     
     var headers: [String : String]? {
         switch self {
-        case .getVilageForcastInfo:
+        case .getVillageForcastInfo:
             return .none
         }
     }
@@ -37,7 +37,7 @@ extension ForeCastTarget: WBTargetType {
     
     var task: Moya.Task {
         switch self {
-        case .getVilageForcastInfo:
+        case .getVillageForcastInfo:
             return .requestPlain
         }
     }

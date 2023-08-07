@@ -26,9 +26,10 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         registerKeyboardNotifications()
-        gestureEndEditing()
+        
+        // TODO: 배경 터치했을때 키보드 내림 / 테이블뷰와 터치 겹치는 현상 수정
+//        gestureEndEditing()
     }
     
     override func viewDidDisappear(_ animated: Bool) {

@@ -55,19 +55,25 @@ extension UserTarget: WBTargetType {
     public var task: Moya.Task {
         switch self {
         case .getUserInfo(let nickname):
-            return .requestParameters(parameters: ["nickname": nickname], encoding: URLEncoding.queryString)
+            return .requestParameters(parameters: ["nickname": nickname],
+                                      encoding: URLEncoding.queryString)
         case .fetchUserInfo(let userInfo):
             return .requestParameters(parameters: ["nickname": "",
                                                    "gender": ""
-                                                  ], encoding: JSONEncoding.default)
+                                                  ],
+                                      encoding: JSONEncoding.default)
         case .getAddressList(let nickname):
-            return .requestParameters(parameters: ["nickname": nickname], encoding: URLEncoding.queryString)
+            return .requestParameters(parameters: ["nickname": nickname],
+                                      encoding: URLEncoding.queryString)
         case .addAddress(let addressInfo):
-            return .requestParameters(parameters: addressInfo.dictionary, encoding: JSONEncoding.default)
+            return .requestParameters(parameters: addressInfo.dictionary,
+                                      encoding: JSONEncoding.default)
         case .fetchAddress(let addressInfo):
-            return .requestParameters(parameters: addressInfo.dictionary, encoding: JSONEncoding.default)
+            return .requestParameters(parameters: addressInfo.dictionary,
+                                      encoding: JSONEncoding.default)
         case .deleteAddress(let addressID):
-            return .requestParameters(parameters: ["addressId": addressID], encoding: JSONEncoding.default)
+            return .requestParameters(parameters: ["addressId": addressID],
+                                      encoding: JSONEncoding.default)
         }
     }
 }

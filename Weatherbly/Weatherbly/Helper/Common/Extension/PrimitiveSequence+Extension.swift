@@ -15,7 +15,7 @@ import Moya
      "domain": "generic",
      "apiMessage": {
          "statusCode": 404,
-         "message": "Cannot GET /forecast/getVilageForeca",
+         "message": "Cannot GET /forecast/getVillageForeca",
          "error": "Not Found"
      },
      "status": 404,

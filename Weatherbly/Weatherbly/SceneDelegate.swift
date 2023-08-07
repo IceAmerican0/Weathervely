@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // TODO: 온보딩시 / 아닐시 구분
 //        let vc = TestViewController(TestViewModel())
-        let vc = true ? HomeViewController(HomeViewModel()) : HomeViewController(HomeViewModel())
+        let vc = false ? OnBoardViewController(OnBoardViewModel()) : HomeViewController(HomeViewModel())
         let rootVC = UINavigationController(rootViewController: vc)
         window?.rootViewController = rootVC
         window?.makeKeyAndVisible()

@@ -10,7 +10,7 @@ import RxSwift
 import RxMoya
 
 public protocol AuthDataSourceProtocol {
-    func getToken(_ nickname: String) -> Observable<Result<EmptyEntity, WBNetworkError>>
+    func getToken(_ nickname: String) -> Observable<Result<LoginEntity, WBNetworkError>>
     func setNickname(_ nickname: String) -> Observable<Result<EmptyEntity, WBNetworkError>>
     func setAddress(_ addressInfo: AddressRequest) -> Observable<Result<EmptyEntity, WBNetworkError>>
     func setGender(_ gender: String) -> Observable<Result<EmptyEntity, WBNetworkError>>
@@ -23,10 +23,10 @@ public final class AuthDataSource: AuthDataSourceProtocol {
         self.provider = provider
     }
     
-    public func getToken(_ nickname: String) -> Observable<Result<EmptyEntity, WBNetworkError>> {
+    public func getToken(_ nickname: String) -> Observable<Result<LoginEntity, WBNetworkError>> {
         provider.rx
             .request(.login(nickname))
-            .mapTo(EmptyEntity.self)
+            .mapTo(LoginEntity.self)
     }
     
     public func setNickname(_ nickname: String) -> Observable<Result<EmptyEntity, WBNetworkError>> {

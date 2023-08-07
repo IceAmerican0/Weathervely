@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct LoginEntity: Decodable {
+public struct LoginEntity: Decodable {
     var status: Int
     
     enum CodingKeys: String, CodingKey {

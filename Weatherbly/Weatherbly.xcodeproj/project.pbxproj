@@ -103,15 +103,12 @@
 		BD77B82A2A388CEF00E7D57A /* OnBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD77B8292A388CEF00E7D57A /* OnBoardViewController.swift */; };
 		BD77B82C2A388D2000E7D57A /* OnBoardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD77B82B2A388D2000E7D57A /* OnBoardViewModel.swift */; };
 		BD77B82E2A388D2E00E7D57A /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD77B82D2A388D2E00E7D57A /* HomeViewModel.swift */; };
-		BD7DAB1F2A6E677D00422D25 /* LoginDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB1E2A6E677D00422D25 /* LoginDataSource.swift */; };
-		BD7DAB212A6E678D00422D25 /* LoginProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB202A6E678D00422D25 /* LoginProvider.swift */; };
-		BD7DAB232A6E679700422D25 /* LoginTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB222A6E679700422D25 /* LoginTarget.swift */; };
 		BD7DAB252A6E757C00422D25 /* PrimitiveSequence+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB242A6E757C00422D25 /* PrimitiveSequence+Extension.swift */; };
 		BD7DAB272A6E786E00422D25 /* LoginEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB262A6E786E00422D25 /* LoginEntity.swift */; };
 		BD7DAB292A6FC51400422D25 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB282A6FC51400422D25 /* TestViewController.swift */; };
 		BD7DAB2B2A6FC58200422D25 /* TestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB2A2A6FC58200422D25 /* TestViewModel.swift */; };
 		BD7DAB2D2A70DEE100422D25 /* ForecastDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB2C2A70DEE100422D25 /* ForecastDataSource.swift */; };
-		BD7DAB2F2A70DEED00422D25 /* GetVilageForecastInfoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB2E2A70DEED00422D25 /* GetVilageForecastInfoProvider.swift */; };
+		BD7DAB2F2A70DEED00422D25 /* GetVillageForecastInfoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB2E2A70DEED00422D25 /* GetVillageForecastInfoProvider.swift */; };
 		BD7DAB312A70DEF400422D25 /* ForeCastTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB302A70DEF400422D25 /* ForeCastTarget.swift */; };
 		BD7DAB332A70DEFC00422D25 /* VillageForecastInfoEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB322A70DEFC00422D25 /* VillageForecastInfoEntity.swift */; };
 		BD7DAB3B2A72447E00422D25 /* WBNetWorkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB3A2A72447E00422D25 /* WBNetWorkError.swift */; };
@@ -212,15 +209,12 @@
 		BD77B8292A388CEF00E7D57A /* OnBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardViewController.swift; sourceTree = "<group>"; };
 		BD77B82B2A388D2000E7D57A /* OnBoardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardViewModel.swift; sourceTree = "<group>"; };
 		BD77B82D2A388D2E00E7D57A /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
-		BD7DAB1E2A6E677D00422D25 /* LoginDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginDataSource.swift; sourceTree = "<group>"; };
-		BD7DAB202A6E678D00422D25 /* LoginProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginProvider.swift; sourceTree = "<group>"; };
-		BD7DAB222A6E679700422D25 /* LoginTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTarget.swift; sourceTree = "<group>"; };
 		BD7DAB242A6E757C00422D25 /* PrimitiveSequence+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PrimitiveSequence+Extension.swift"; sourceTree = "<group>"; };
 		BD7DAB262A6E786E00422D25 /* LoginEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginEntity.swift; sourceTree = "<group>"; };
 		BD7DAB282A6FC51400422D25 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		BD7DAB2A2A6FC58200422D25 /* TestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewModel.swift; sourceTree = "<group>"; };
 		BD7DAB2C2A70DEE100422D25 /* ForecastDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastDataSource.swift; sourceTree = "<group>"; };
-		BD7DAB2E2A70DEED00422D25 /* GetVilageForecastInfoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetVilageForecastInfoProvider.swift; sourceTree = "<group>"; };
+		BD7DAB2E2A70DEED00422D25 /* GetVillageForecastInfoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetVillageForecastInfoProvider.swift; sourceTree = "<group>"; };
 		BD7DAB302A70DEF400422D25 /* ForeCastTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForeCastTarget.swift; sourceTree = "<group>"; };
 		BD7DAB322A70DEFC00422D25 /* VillageForecastInfoEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VillageForecastInfoEntity.swift; sourceTree = "<group>"; };
 		BD7DAB3A2A72447E00422D25 /* WBNetWorkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBNetWorkError.swift; sourceTree = "<group>"; };
@@ -348,7 +342,6 @@
 				5C9D02D32A71EE7F00AF2DA3 /* AuthAPI */,
 				5C9D02E42A72423900AF2DA3 /* ClosetAPI */,
 				BD7DAB1C2A6E62F600422D25 /* ForcastAPI */,
-				BD7DAB1D2A6E677100422D25 /* LoginAPI */,
 				BD7DAB362A7129E000422D25 /* TypeAPI */,
 				5C9D02D52A71EE9300AF2DA3 /* UserAPI */,
 				5CCC914E2A61195D0025B522 /* RegionAPI */,
@@ -637,21 +630,11 @@
 			path = ForcastAPI;
 			sourceTree = "<group>";
 		};
-		BD7DAB1D2A6E677100422D25 /* LoginAPI */ = {
-			isa = PBXGroup;
-			children = (
-				BD7DAB1E2A6E677D00422D25 /* LoginDataSource.swift */,
-				BD7DAB202A6E678D00422D25 /* LoginProvider.swift */,
-				BD7DAB222A6E679700422D25 /* LoginTarget.swift */,
-			);
-			path = LoginAPI;
-			sourceTree = "<group>";
-		};
 		BD7DAB342A7119DC00422D25 /* GetViliageForcastInfo */ = {
 			isa = PBXGroup;
 			children = (
 				BD7DAB2C2A70DEE100422D25 /* ForecastDataSource.swift */,
-				BD7DAB2E2A70DEED00422D25 /* GetVilageForecastInfoProvider.swift */,
+				BD7DAB2E2A70DEED00422D25 /* GetVillageForecastInfoProvider.swift */,
 			);
 			path = GetViliageForcastInfo;
 			sourceTree = "<group>";
@@ -853,7 +836,6 @@
 				BD69B8F92A553A0C00DDCD7A /* CSNavigationView.swift in Sources */,
 				5CAB60CF2A53F61700CD431A /* TenDaysForecastViewController.swift in Sources */,
 				5C9D02DD2A72284300AF2DA3 /* UserTarget.swift in Sources */,
-				BD7DAB212A6E678D00422D25 /* LoginProvider.swift in Sources */,
 				5C4691782A78A02100E2CC70 /* AlertViewController.swift in Sources */,
 				5C4BE89D2A5E63C000FD2CEF /* RegionTableViewCell.swift in Sources */,
 				696176B22A63E37F00B83B4C /* RxBaseViewModel.swift in Sources */,
@@ -932,12 +914,10 @@
 				69FDD4C62A39E42900830927 /* NicknameViewController.swift in Sources */,
 				69CCF1CB2A63CA5000756127 /* RegionDataSource.swift in Sources */,
 				696176B42A63E3C000B83B4C /* BaseDisposeBag.swift in Sources */,
-				BD7DAB1F2A6E677D00422D25 /* LoginDataSource.swift in Sources */,
 				BD51694B2A5D763000582BA9 /* EditNicknameViewModel.swift in Sources */,
 				BD2D01B62A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift in Sources */,
 				BD2D01B22A38889E003A25D5 /* CSButton.swift in Sources */,
-				BD7DAB2F2A70DEED00422D25 /* GetVilageForecastInfoProvider.swift in Sources */,
-				BD7DAB232A6E679700422D25 /* LoginTarget.swift in Sources */,
+				BD7DAB2F2A70DEED00422D25 /* GetVillageForecastInfoProvider.swift in Sources */,
 				BD5169452A5A9BD600582BA9 /* SettingViewModel.swift in Sources */,
 				5C9D02BC2A68FC0200AF2DA3 /* Dependency.swift in Sources */,
 				BD2D01B02A38887D003A25D5 /* UIButton+Extension.swift in Sources */,
