@@ -28,12 +28,19 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
         dataSource.setAddress(regionDataRelay.value)
             .subscribe(onNext: { result in
                 switch result {
-                case .success(let response):
-                    // TODO: 온보딩시 / 아닐시 구분
-                    true ? self.toSelectGenderView() : self.toEditRegionView()
-                    print(response)
+                case .success:
+                    if UserDefaultManager().isOnBoard() {
+                        userDefault.set(self.regionDataRelay.value, forKey: UserDefaultKey.region.rawValue)
+                        self.toSelectGenderView()
+                    } else {
+                        self.toEditRegionView()
+                    }
                 case .failure(let err):
-                    print(err.localizedDescription)
+                    guard let errorString = err.errorDescription else { return }
+                    let alertVC = AlertViewController(state: .init(title: errorString,
+                                                                   alertType: .Error))
+                    alertVC.modalPresentationStyle = .overCurrentContext
+                    self.presentViewControllerNoAnimationRelay.accept(alertVC)
                 }
             })
             .disposed(by: bag)

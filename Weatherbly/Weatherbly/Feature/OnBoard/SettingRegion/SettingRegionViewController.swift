@@ -22,8 +22,6 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
     private var confirmButton = CSButton(.primary)
     private var regionTableView = UITableView()
     
-    var isFromEdit = false
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         registerKeyboardNotifications()
@@ -91,7 +89,7 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
         confirmButton.pin.bottom(10%)
         regionTableView.isHidden = true
         
-        if isFromEdit {
+        if !UserDefaultManager().isOnBoard() {
             progressBar.isHidden = true
             navigationView.setTitle("동네 변경 / 추가")
             explanationLabel.isHidden = true

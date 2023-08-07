@@ -9,25 +9,14 @@ import RxRelay
 import RxSwift
 import UIKit
 
-public enum SettingRegionViewAction {
-    case showMessage(message: String, isError: Bool)
-}
-
 public protocol SettingRegionViewModelLogic: ViewModelBusinessLogic {
     func searchRegion(_ region: String)
     func didTapTableViewCell(at: IndexPath)
     func toCompleteViewController(_ viewModel: SettingRegionCompleteViewModel)
-    var viewAction: PublishRelay<SettingRegionViewAction> { get }
 }
 
 public final class SettingRegionViewModel: RxBaseViewModel, SettingRegionViewModelLogic {
-    public var viewAction: PublishRelay<SettingRegionViewAction>
     public var searchedListRelay = BehaviorRelay<[SearchRegionEntity]>(value: [])
-    
-    override public init() {
-        self.viewAction = .init()
-        super.init()
-    }
     
     public func searchRegion(_ region: String) {
         let datasource = RegionDataSource()
@@ -63,10 +52,8 @@ public final class SettingRegionViewModel: RxBaseViewModel, SettingRegionViewMod
     }
     
     public func toCompleteViewController(_ viewModel: SettingRegionCompleteViewModel) {
-        // TODO: 온보딩시 / 아닐시 구분
         let vc = SettingRegionCompleteViewController(viewModel)
-        vc.isFromEdit = false ? true : false
-        return navigationPushViewControllerRelay.accept(vc)
+        navigationPushViewControllerRelay.accept(vc)
     }
 }
 

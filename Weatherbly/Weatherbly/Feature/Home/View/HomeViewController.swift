@@ -12,8 +12,7 @@ import FSPagerView
 import RxSwift
 import RxGesture
 
-class HomeViewController: RxBaseViewController<HomeViewModel> {
-    
+final class HomeViewController: RxBaseViewController<HomeViewModel> {
     private var backgroundView = UIView()
     private var backgroundImage = UIImageView()
     private var topLayoutWrapper = UIView()

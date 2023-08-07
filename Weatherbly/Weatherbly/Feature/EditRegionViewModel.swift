@@ -27,7 +27,6 @@ public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogi
     
     public func toSettingRegionView() {
         let vc = SettingRegionViewController(SettingRegionViewModel())
-        vc.isFromEdit = true
         navigationPushViewControllerRelay.accept(vc)
     }
 }

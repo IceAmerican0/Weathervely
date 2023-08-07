@@ -24,10 +24,6 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
     private let tableViewWidth = UIScreen.main.bounds.width * 0.864
     private let buttonMarginBottom = UIScreen.main.bounds.height * 0.1
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
     override func attribute() {
         super.attribute()
         
@@ -99,7 +95,7 @@ extension EditRegionViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         return tableView.dequeueCell(withType: EditRegionTableViewCell.self, for: indexPath).then {
-            $0.regionLabel.text = "서울특별시"
+            $0.configureCellState(EditRegionCellState(region: "서울특별시", isOnly: false))
         }
     }
 }
