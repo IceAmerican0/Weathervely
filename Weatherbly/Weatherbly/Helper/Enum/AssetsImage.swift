@@ -39,6 +39,7 @@ enum AssetsImage: String {
     case search
     case thermometer
     case whiteHeart
+    case closeButton
     
     // Setting
     case editNameIcon

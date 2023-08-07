@@ -1,5 +1,5 @@
 //
-//  SensoryTempViewController.swift
+//  OnBoardSensoryTempViewController.swift
 //  Weatherbly
 //
 //  Created by 최수훈 on 2023/06/16.
@@ -9,7 +9,7 @@ import UIKit
 import FlexLayout
 import PinLayout
 
-final class SensoryTempViewController: RxBaseViewController<SensoryTempViewModel> {
+final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensoryTempViewModel> {
     
     var headerWrapper = UIView()
     var progressBar = CSProgressView(1.0)

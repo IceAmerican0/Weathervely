@@ -22,7 +22,7 @@ final class SelectGenderViewModel: RxBaseViewModel, SelectGenderViewModelLogic {
     }
     
     public func toSensoryTempView() {
-        let vc = SensoryTempViewController(SensoryTempViewModel())
+        let vc = OnBoardSensoryTempViewController(OnBoardSensoryTempViewModel())
         navigationPushViewControllerRelay.accept(vc)
     }
     

@@ -34,6 +34,7 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
     
     private var bottomButtonWrapper = UIView()
     private var todayButton = CSButton(.primary)
+    private var sensoryViewButton = CSButton(.primary)
     private var tomorrowButton = CSButton(.primary)
     
     private let screenWidth = UIScreen.main.bounds.width
@@ -113,6 +114,10 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
             $0.setTitle("오늘 옷차림", for: .normal)
         }
         
+        sensoryViewButton.do {
+            $0.setTitle("체감온도", for: .normal)
+        }
+        
         tomorrowButton.do {
             $0.setTitle("내일 옷차림", for: .normal)
         }
@@ -134,6 +139,7 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
                     }
                 flex.addItem(calendarButton).size(44)
             }
+            
             flex.addItem(dailyWrapper)
                 .width(110%)
                 .alignItems(.center).define { flex in
@@ -146,6 +152,7 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
             flex.addItem(pagerView).width(screenWidth).height(closetWrapperHeight + 20)
             flex.addItem(bottomButtonWrapper).direction(.row).define { flex in
                 flex.addItem(todayButton).marginRight(20).width(100).height(40)
+                flex.addItem(sensoryViewButton)
                 flex.addItem(tomorrowButton).marginLeft(20).width(100).height(40)
             }
             
@@ -171,6 +178,12 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
                 }
             })
             .disposed(by: bag)
+        
+        sensoryViewButton.rx.tapGesture()
+            .when(.ended)
+            .subscribe(onNext: { [weak self] _ in
+                self?.viewModel.toSensoryTempView()
+            }).disposed(by: bag)
         
         tapGesture.rx
             .event

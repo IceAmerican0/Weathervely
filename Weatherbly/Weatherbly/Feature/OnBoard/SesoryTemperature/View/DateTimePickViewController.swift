@@ -153,7 +153,7 @@ final class DateTimePickViewController: RxBaseViewController<DateTimePickViewMod
                                 self?.view.showToast(message: "미래 시간은 선택 할 수 없어요", font: .systemFont(ofSize: 16))
                                 
                             } else {
-                                self?.navigationController?.pushViewController(SensoryTempViewController(SensoryTempViewModel()), animated: true)
+                                self?.navigationController?.pushViewController(OnBoardSensoryTempViewController(OnBoardSensoryTempViewModel()), animated: true)
                                 
                             }
                         } else { // 선택시간이 오후
@@ -168,13 +168,13 @@ final class DateTimePickViewController: RxBaseViewController<DateTimePickViewMod
                             if Int(today[3])! < pickerTime {
                                 self?.view.showToast(message: "미래 시간은 선택 할 수 없어요", font: .systemFont(ofSize: 16))
                             } else {
-                                self?.navigationController?.pushViewController(SensoryTempViewController(SensoryTempViewModel()), animated: true)
+                                self?.navigationController?.pushViewController(OnBoardSensoryTempViewController(OnBoardSensoryTempViewModel()), animated: true)
                             }
                         } else {
-                            self?.navigationController?.pushViewController(SensoryTempViewController(SensoryTempViewModel()), animated: true)
+                            self?.navigationController?.pushViewController(OnBoardSensoryTempViewController(OnBoardSensoryTempViewModel()), animated: true)
                         }
                     } else {
-                        self?.navigationController?.pushViewController(SensoryTempViewController(SensoryTempViewModel()), animated: true)
+                        self?.navigationController?.pushViewController(OnBoardSensoryTempViewController(OnBoardSensoryTempViewModel()), animated: true)
                     }
                 }
 //                print("선택시간: ", pickerDay , pickerDayTime , pickerTime)
