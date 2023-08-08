@@ -89,7 +89,7 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
         confirmButton.pin.bottom(10%)
         regionTableView.isHidden = true
         
-        if !UserDefaultManager().isOnBoard() {
+        if !UserDefaultManager.shared.isOnBoard {
             progressBar.isHidden = true
             navigationView.setTitle("동네 변경 / 추가")
             explanationLabel.isHidden = true

@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func intro() {
         var vc: UIViewController {
-            if UserDefaultManager().isOnBoard() {
+            if UserDefaultManager.shared.isOnBoard {
                 if let nickname = userDefault.object(forKey: UserDefaultKey.nickname.rawValue) {
                     return SettingRegionViewController(SettingRegionViewModel())
                 } else {

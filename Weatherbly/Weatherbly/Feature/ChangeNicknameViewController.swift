@@ -264,11 +264,16 @@ class ChangeNicknameViewController: RxBaseViewController<ChangeNicknameViewModel
         
         bottomButton.rx.tap
             .subscribe { [weak self] _ in
-                // TODO: -
-                // 1. 데이터 수정값 저장하기
-                // 2. 화면 데이터 새로고침
-                self?.navigationController?.popViewController(animated: true)
+                guard let inputNickname = self?.nicknameTextField.text else { return }
+                self?.viewModel.didTapConfirmButton(inputNickname, "female")
             }.disposed(by: bag)
+    }
+    
+    func configureGender() {
+        if UserDefaultManager.shared.gender == "female" {
+            womanButton.isSelected = true
+            manButton.isSelected = false
+        }
     }
     
 }

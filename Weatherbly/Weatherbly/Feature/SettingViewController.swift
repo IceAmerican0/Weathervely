@@ -15,7 +15,6 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
     var leftButtonDidTapRelay = PublishRelay<Void>()
     
     // MARK: - Component
-
     private var navigationView = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
     private let contentWrapper = UIView()
     private var nickNameView = UIView()
@@ -36,20 +35,11 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
     private var bottomView = UIView()
     private var bottomLable = CSLabel(.regular,12,"개인정보 처리 방침 및 정보 제공처")
     
-    // MARK: - LifeCycle
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-
-    }
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
     }
 
     // MARK: - Attiribute
-
     override func attribute() {
         super.attribute()
         
@@ -63,8 +53,8 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
             $0.addBorder(.bottom)
         }
         
-        
         nickNameLabel.do {
+            $0.text = "\(UserDefaultManager.shared.nickname)님"
             $0.adjustsFontSizeToFitWidth = true
         }
         
@@ -135,9 +125,6 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
         bottomView.do {
             $0.addBorder(.top)
         }
-
-        
-        
     }
 
     // MARK: - Layout

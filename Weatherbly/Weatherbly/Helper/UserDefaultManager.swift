@@ -7,12 +7,30 @@
 
 import Foundation
 
-public struct UserDefaultManager {
-    public func isOnBoard() -> Bool {
+public final class UserDefaultManager {
+    public static let shared = UserDefaultManager()
+    
+    public var isOnBoard: Bool {
         if let isOnboard = userDefault.object(forKey: UserDefaultKey.isOnboard.rawValue) {
             return true
         } else {
             return false
+        }
+    }
+    
+    public var nickname: String {
+        if let nickname = userDefault.object(forKey: UserDefaultKey.nickname.rawValue) {
+            return "\(nickname)"
+        } else {
+            return "알수없음"
+        }
+    }
+    
+    public var gender: String {
+        if let gender = userDefault.object(forKey: UserDefaultKey.gender.rawValue) {
+            return "\(gender)"
+        } else {
+            return "여성"
         }
     }
 }

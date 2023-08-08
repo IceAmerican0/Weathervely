@@ -9,7 +9,12 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class EditNicknameViewModel: RxBaseViewModel {
+protocol EditNicknameViewModelLogic: ViewModelBusinessLogic {
+    func didTapCorrectionButton()
+    func toChangeNicknameView()
+}
+
+class EditNicknameViewModel: RxBaseViewModel, EditNicknameViewModelLogic {
     
     var bottomButtonDidTapRelay = BehaviorRelay<UITextField.editMode>(value: .justShow)
     
@@ -19,5 +24,14 @@ class EditNicknameViewModel: RxBaseViewModel {
         } else {
             bottomButtonDidTapRelay.accept(.justShow)
         }
+    }
+    
+    func didTapCorrectionButton() {
+        toChangeNicknameView()
+    }
+    
+    func toChangeNicknameView() {
+        let vc = ChangeNicknameViewController(ChangeNicknameViewModel())
+        navigationPushViewControllerRelay.accept(vc)
     }
 }

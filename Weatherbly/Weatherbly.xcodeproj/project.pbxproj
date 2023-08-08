@@ -65,6 +65,7 @@
 		69A7F0D92A80B42A00834974 /* UserDefaultKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A7F0D82A80B42A00834974 /* UserDefaultKey.swift */; };
 		69A7F0E02A80CDD800834974 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 69A7F0DF2A80CDD800834974 /* LaunchScreen.storyboard */; };
 		69A7F0E22A811EC000834974 /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A7F0E12A811EC000834974 /* UserDefaultManager.swift */; };
+		69A7F0E42A8208DB00834974 /* UserInfoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A7F0E32A8208DB00834974 /* UserInfoRequest.swift */; };
 		69CCF1CB2A63CA5000756127 /* RegionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CCF1CA2A63CA5000756127 /* RegionDataSource.swift */; };
 		69CCF1CF2A63CD5500756127 /* WBErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CCF1CE2A63CD5500756127 /* WBErrorResponse.swift */; };
 		69CCF1D12A63CDC200756127 /* RemoteError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CCF1D02A63CDC200756127 /* RemoteError.swift */; };
@@ -172,6 +173,7 @@
 		69A7F0D82A80B42A00834974 /* UserDefaultKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultKey.swift; sourceTree = "<group>"; };
 		69A7F0DF2A80CDD800834974 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		69A7F0E12A811EC000834974 /* UserDefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
+		69A7F0E32A8208DB00834974 /* UserInfoRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoRequest.swift; sourceTree = "<group>"; };
 		69CCF1CA2A63CA5000756127 /* RegionDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionDataSource.swift; sourceTree = "<group>"; };
 		69CCF1CE2A63CD5500756127 /* WBErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBErrorResponse.swift; sourceTree = "<group>"; };
 		69CCF1D02A63CDC200756127 /* RemoteError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteError.swift; sourceTree = "<group>"; };
@@ -303,6 +305,7 @@
 			children = (
 				5C9D02DC2A72284300AF2DA3 /* UserTarget.swift */,
 				5C9D02DE2A72304800AF2DA3 /* UserDataSource.swift */,
+				69A7F0E32A8208DB00834974 /* UserInfoRequest.swift */,
 			);
 			path = UserAPI;
 			sourceTree = "<group>";
@@ -336,7 +339,6 @@
 				5CCC914C2A61179F0025B522 /* WBTargetType.swift */,
 				BD7DAB3A2A72447E00422D25 /* WBNetWorkError.swift */,
 				5C9D02DA2A720DCC00AF2DA3 /* EmptyEntity.swift */,
-				5C9D02E92A725AC300AF2DA3 /* AddressRequest.swift */,
 			);
 			name = Moya;
 			path = Weatherbly/Network/Moya;
@@ -345,6 +347,7 @@
 		5CCC91492A6114640025B522 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				5C9D02E92A725AC300AF2DA3 /* AddressRequest.swift */,
 				5C9D02D32A71EE7F00AF2DA3 /* AuthAPI */,
 				5C9D02E42A72423900AF2DA3 /* ClosetAPI */,
 				BD7DAB1C2A6E62F600422D25 /* ForcastAPI */,
@@ -882,6 +885,7 @@
 				BD7DAB332A70DEFC00422D25 /* VillageForecastInfoEntity.swift in Sources */,
 				BD4AC38F2A6671B500537583 /* SeonsoryTempViewModel.swift in Sources */,
 				5C4BE89B2A5E2D1200FD2CEF /* EditRegionViewController.swift in Sources */,
+				69A7F0E42A8208DB00834974 /* UserInfoRequest.swift in Sources */,
 				BD4AC3912A66899500537583 /* UILabel+Extension.swift in Sources */,
 				69FDD4CC2A407FA400830927 /* CSProgressView.swift in Sources */,
 				BD77B8282A388C9400E7D57A /* CSColor.swift in Sources */,

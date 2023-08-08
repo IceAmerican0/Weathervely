@@ -28,7 +28,6 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
     private var commentLabel = CSLabel(.regular, 18, "찬바람이 세차게 불어요")
     private var dustLabel = CSLabel(.regular, 17, "😷 미세 먼지가 매우 심해요")
     
-    private var bottomWrapper = UIView()
     private lazy var pagerView = FSPagerView()
     
     private var bottomButtonWrapper = UIView()
@@ -115,7 +114,6 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         tomorrowButton.do {
             $0.setTitle("내일 옷차림", for: .normal)
         }
-        
     }
     
     override func layout() {
@@ -213,9 +211,6 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         viewModel
             .recommendClosetEntityRelay
             .subscribe(onNext: { [weak self] result in
-                
-//                guard let result = result else { return }
-//                print(result.data!)
                 self?.pagerView.reloadData()
             })
             .disposed(by: bag)

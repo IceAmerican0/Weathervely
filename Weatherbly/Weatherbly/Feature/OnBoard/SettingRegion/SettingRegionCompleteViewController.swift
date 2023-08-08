@@ -71,7 +71,7 @@ public final class SettingRegionCompleteViewController: RxBaseViewController<Set
             buttonWrapper.pin.bottom(22%).marginHorizontal(32)
         }
         
-        if !UserDefaultManager().isOnBoard() {
+        if !UserDefaultManager.shared.isOnBoard {
             progressBar.isHidden = true
         }
     }

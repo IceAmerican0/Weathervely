@@ -95,7 +95,7 @@ final class EditNicknameViewController: RxBaseViewController<EditNicknameViewMod
         
         nicknameTextField.do {
             $0.font = .systemFont(ofSize: 20)
-            $0.text = "(닉네임)"
+            $0.text = "\(UserDefaultManager.shared.nickname)"
             $0.isEnabled = false
         }
         
@@ -216,9 +216,7 @@ final class EditNicknameViewController: RxBaseViewController<EditNicknameViewMod
         
         bottomButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
-                
-                self?.present(ChangeNicknameViewController(ChangeNicknameViewModel()), animated: true)
-                
+                self?.viewModel.didTapCorrectionButton()
 //                guard let displayMode = self?.viewModel.bottomButtonDidTap() else {
 //                    return
 //                }
@@ -230,8 +228,6 @@ final class EditNicknameViewController: RxBaseViewController<EditNicknameViewMod
 //                self?.nicknameTextField.becomeFirstResponder()
 //                self?.nicknameTextFieldWrapper.backgroundColor = CSColor._248_248_248.color
             })
-
-
             .disposed(by: bag)
     }
     

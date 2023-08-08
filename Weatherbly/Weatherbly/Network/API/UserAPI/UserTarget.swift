@@ -12,7 +12,7 @@ public enum UserTarget { // TODO: 파라미터 값 수정
     /// 유저 정보 가져오기
     case getUserInfo(_ nickname: String)
     /// 유저 정보 수정
-    case fetchUserInfo(_ userInfo: String)
+    case fetchUserInfo(_ userInfo: UserInfoRequest)
     /// 주소 리스트 가져오기
     case getAddressList(_ nickname: String)
     /// 주소 추가
@@ -58,9 +58,7 @@ extension UserTarget: WBTargetType {
             return .requestParameters(parameters: ["nickname": nickname],
                                       encoding: URLEncoding.queryString)
         case .fetchUserInfo(let userInfo):
-            return .requestParameters(parameters: ["nickname": "",
-                                                   "gender": ""
-                                                  ],
+            return .requestParameters(parameters: userInfo.dictionary,
                                       encoding: JSONEncoding.default)
         case .getAddressList(let nickname):
             return .requestParameters(parameters: ["nickname": nickname],

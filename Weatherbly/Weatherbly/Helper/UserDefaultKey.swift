@@ -12,5 +12,6 @@ public let userDefault = UserDefaults.standard
 public enum UserDefaultKey: String {
     case isOnboard
     case nickname
+    case gender
     case region
 }

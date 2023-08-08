@@ -29,7 +29,7 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
             .subscribe(onNext: { result in
                 switch result {
                 case .success:
-                    if UserDefaultManager().isOnBoard() {
+                    if UserDefaultManager.shared.isOnBoard {
                         userDefault.set(self.regionDataRelay.value, forKey: UserDefaultKey.region.rawValue)
                         self.toSelectGenderView()
                     } else {
