@@ -35,8 +35,9 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
     private var bottomView = UIView()
     private var bottomLable = CSLabel(.regular,12,"개인정보 처리 방침 및 정보 제공처")
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        nickNameLabel.text = "\(UserDefaultManager.shared.nickname)님"
     }
 
     // MARK: - Attiribute
@@ -54,7 +55,6 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
         }
         
         nickNameLabel.do {
-            $0.text = "\(UserDefaultManager.shared.nickname)님"
             $0.adjustsFontSizeToFitWidth = true
         }
         

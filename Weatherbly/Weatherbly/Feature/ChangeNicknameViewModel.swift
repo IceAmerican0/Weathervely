@@ -8,18 +8,19 @@
 import RxSwift
 
 public protocol ChangeNicknameViewModelLogic: ViewModelBusinessLogic {
-    func didTapConfirmButton(_ nickname: String, _ gender: String)
+    func didTapConfirmButton(_ userInfo: UserInfoRequest)
 }
 
 class ChangeNicknameViewModel: RxBaseViewModel, ChangeNicknameViewModelLogic {
-    func didTapConfirmButton(_ nickname: String, _ gender: String) {
+    func didTapConfirmButton(_ userInfo: UserInfoRequest) {
         let dataSource = UserDataSource()
-        dataSource.fetchUserInfo(UserInfoRequest(nickname: nickname, gender: gender))
+        dataSource.fetchUserInfo(userInfo)
             .subscribe(onNext: { result in
                 switch result {
                 case .success:
-                    userDefault.set(nickname, forKey: UserDefaultKey.nickname.rawValue)
-                    userDefault.set(gender, forKey: UserDefaultKey.gender.rawValue)
+                    userDefault.set(userInfo.nickname, forKey: UserDefaultKey.nickname.rawValue)
+                    userDefault.set(userInfo.gender, forKey: UserDefaultKey.gender.rawValue)
+                    userDefault.synchronize()
                     self.navigationPopViewControllerRelay.accept(Void())
                 case .failure(let err):
                     guard let errorString = err.errorDescription else { return }

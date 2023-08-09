@@ -11,7 +11,7 @@ public final class UserDefaultManager {
     public static let shared = UserDefaultManager()
     
     public var isOnBoard: Bool {
-        if let isOnboard = userDefault.object(forKey: UserDefaultKey.isOnboard.rawValue) {
+        if userDefault.object(forKey: UserDefaultKey.isOnboard.rawValue) != nil {
             return true
         } else {
             return false
@@ -27,10 +27,14 @@ public final class UserDefaultManager {
     }
     
     public var gender: String {
+        return isFemale ? "여성" : "남성"
+    }
+    
+    public var isFemale: Bool {
         if let gender = userDefault.object(forKey: UserDefaultKey.gender.rawValue) {
-            return "\(gender)"
+            return gender as! String == "female" ? true : false
         } else {
-            return "여성"
+            return false
         }
     }
 }

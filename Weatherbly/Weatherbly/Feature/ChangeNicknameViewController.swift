@@ -45,15 +45,7 @@ class ChangeNicknameViewController: RxBaseViewController<ChangeNicknameViewModel
     typealias editMode = UITextField.editMode
     var displayMode: editMode = .justShow
     
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-    }
-
+    private var isFemale = UserDefaultManager.shared.isFemale
     
     override func attribute() {
         super.attribute()
@@ -95,7 +87,7 @@ class ChangeNicknameViewController: RxBaseViewController<ChangeNicknameViewModel
         
         nicknameTextField.do {
             $0.font = .systemFont(ofSize: 20)
-            $0.text = "(닉네임)"
+            $0.text = UserDefaultManager.shared.nickname
             $0.setClearButton(AssetsImage.delete.image, .whileEditing)
             $0.becomeFirstResponder()
             $0.delegate = self
@@ -114,41 +106,27 @@ class ChangeNicknameViewController: RxBaseViewController<ChangeNicknameViewModel
         womanButton.do {
             $0.setTitle("여성", for: .normal)
             $0.setTitleColor(.black, for: .normal)
+            $0.setTitleColor(.white, for: .selected)
             $0.titleLabel?.font = .boldSystemFont(ofSize: 20)
-            $0.backgroundColor = CSColor._248_248_248.color
             $0.layer.cornerRadius = 13
+            $0.isSelected = isFemale ? true : false
         }
         
         manButton.do {
             $0.setTitle("남성", for: .normal)
             $0.setTitleColor(.black, for: .normal)
+            $0.setTitleColor(.white, for: .selected)
             $0.titleLabel?.font = .boldSystemFont(ofSize: 20)
-            $0.backgroundColor = CSColor._248_248_248.color
             $0.layer.cornerRadius = 13
+            $0.isSelected = isFemale ? false : true
         }
+        
+        setButtonColor()
         
         bottomButton.do {
             $0.setTitle("확인", for: .normal)
             $0.setTitleColor(.white, for: .normal)
         }
-        
-        womanButton.do {
-            // TODO: - 전 화면에서 가져온 성별데이로 백그라운드컬러 세팅하기
-            $0.setTitle("여성", for: .normal)
-            $0.setTitleColor(.black, for: .normal)
-            $0.titleLabel?.font = .boldSystemFont(ofSize: 20)
-            $0.backgroundColor = CSColor._248_248_248.color
-            $0.layer.cornerRadius = 13
-        }
-        
-        manButton.do {
-            $0.setTitle("남성", for: .normal)
-            $0.setTitleColor(.black, for: .normal)
-            $0.titleLabel?.font = .boldSystemFont(ofSize: 20)
-            $0.backgroundColor = CSColor._248_248_248.color
-            $0.layer.cornerRadius = 13
-        }
-        
     }
     
     override func layout() {
@@ -244,42 +222,42 @@ class ChangeNicknameViewController: RxBaseViewController<ChangeNicknameViewModel
         // TODO: - 버튼 클릭시 데이터 저장하기
         womanButton.rx.tap
             .subscribe { [weak self] _ in
-                if self?.manButton.backgroundColor == CSColor._151_151_151.color {
-                    self?.manButton.backgroundColor = CSColor._248_248_248.color
-                    self?.manButton.setTitleColor(.black, for: .normal)
-                }
-                self?.womanButton.backgroundColor = CSColor._151_151_151.color
-                self?.womanButton.setTitleColor(.white, for: .normal)
+                if self?.isFemale == false { self?.buttonToggle() }
             }.disposed(by: bag)
         
         manButton.rx.tap
             .subscribe { [weak self] _ in
-                if self?.womanButton.backgroundColor == CSColor._151_151_151.color {
-                    self?.womanButton.backgroundColor = CSColor._248_248_248.color
-                    self?.womanButton.setTitleColor(.black, for: .normal)
-                }
-                self?.manButton.backgroundColor = CSColor._151_151_151.color
-                self?.manButton.setTitleColor(.white, for: .normal)
+                if self?.isFemale == true { self?.buttonToggle() }
             }.disposed(by: bag)
         
         bottomButton.rx.tap
             .subscribe { [weak self] _ in
                 guard let inputNickname = self?.nicknameTextField.text else { return }
-                self?.viewModel.didTapConfirmButton(inputNickname, "female")
+                self?.viewModel.didTapConfirmButton(UserInfoRequest(nickname: inputNickname,
+                                                                    gender: self?.isFemale == true ? "female" : "male"))
             }.disposed(by: bag)
     }
     
-    func configureGender() {
-        if UserDefaultManager.shared.gender == "female" {
-            womanButton.isSelected = true
-            manButton.isSelected = false
+    private func buttonToggle() {
+        womanButton.isSelected.toggle()
+        manButton.isSelected.toggle()
+        
+        if womanButton.isSelected {
+            isFemale = true
+        } else {
+            isFemale = false
         }
+        
+        setButtonColor()
     }
     
+    private func setButtonColor() {
+        womanButton.backgroundColor = isFemale ? CSColor._151_151_151.color : CSColor._248_248_248.color
+        manButton.backgroundColor = isFemale ? CSColor._248_248_248.color : CSColor._151_151_151.color
+    }
 }
 
 extension ChangeNicknameViewController: UITextFieldDelegate {
-
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
