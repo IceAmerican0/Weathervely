@@ -133,9 +133,10 @@ public class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitiali
     func alertBinding() {
         viewModel.alertMessageRelay
             .subscribe(onNext: { [weak self] message in
+                // TODO: alertType = .Info 일시 토스트 띄우게
                 let alertVC = AlertViewController(state: .init(title: message.title,
                                                                message: message.message,
-                                                               alertType: .Error))
+                                                               alertType: message.alertType))
                 alertVC.modalPresentationStyle = .overCurrentContext
                 self?.viewModel.presentViewControllerNoAnimationRelay.accept(alertVC)
             })

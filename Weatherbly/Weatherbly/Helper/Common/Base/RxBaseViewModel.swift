@@ -40,13 +40,29 @@ public class RxBaseViewModel: BaseDisposebag, ViewModelable {
     func baseBinding() {}
     
     func bindInnerViewModelPresentationBindingToSelf(_ innerViewModel: RxBaseViewModel) {
-        innerViewModel.navigationPopToSelfRelay.bind(to: navigationPopToSelfRelay).disposed(by: bag)
-        innerViewModel.navigationPopViewControllerRelay.bind(to: navigationPopViewControllerRelay).disposed(by: bag)
-        innerViewModel.navigationPushViewControllerRelay.bind(to: navigationPushViewControllerRelay).disposed(by: bag)
-        innerViewModel.presentViewControllerWithAnimationRelay.bind(to: presentViewControllerWithAnimationRelay).disposed(by: bag)
-        innerViewModel.presentViewControllerNoAnimationRelay.bind(to: presentViewControllerNoAnimationRelay).disposed(by: bag)
-        innerViewModel.dismissSelfWithAnimationRelay.bind(to: dismissSelfWithAnimationRelay).disposed(by: bag)
-        innerViewModel.dismissSelfNoAnimationRelay.bind(to: dismissSelfNoAnimationRelay).disposed(by: bag)
-        innerViewModel.dismissSelfAnimationClosureRelay.bind(to: dismissSelfAnimationClosureRelay).disposed(by: bag)
+        innerViewModel.navigationPopToSelfRelay
+            .bind(to: navigationPopToSelfRelay)
+            .disposed(by: bag)
+        innerViewModel.navigationPopViewControllerRelay
+            .bind(to: navigationPopViewControllerRelay)
+            .disposed(by: bag)
+        innerViewModel.navigationPushViewControllerRelay
+            .bind(to: navigationPushViewControllerRelay)
+            .disposed(by: bag)
+        innerViewModel.presentViewControllerWithAnimationRelay
+            .bind(to: presentViewControllerWithAnimationRelay)
+            .disposed(by: bag)
+        innerViewModel.presentViewControllerNoAnimationRelay
+            .bind(to: presentViewControllerNoAnimationRelay)
+            .disposed(by: bag)
+        innerViewModel.dismissSelfWithAnimationRelay
+            .bind(to: dismissSelfWithAnimationRelay)
+            .disposed(by: bag)
+        innerViewModel.dismissSelfNoAnimationRelay
+            .bind(to: dismissSelfNoAnimationRelay)
+            .disposed(by: bag)
+        innerViewModel.dismissSelfAnimationClosureRelay
+            .bind(to: dismissSelfAnimationClosureRelay)
+            .disposed(by: bag)
     }
 }

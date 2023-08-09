@@ -10,22 +10,14 @@ import RxSwift
 import RxCocoa
 import RxRelay
 
-public enum HomeViewAction {
-    case showMessage(message: String, isError: Bool)
-}
-
 public protocol HomeViewModelLogic: ViewModelBusinessLogic {
     func toSettingView()
     func toDailyForecastView()
     func toTenDaysForecastView()
     func didTapClosetCell()
-    var viewAction: PublishRelay<HomeViewAction> { get }
 }
 
 public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
-    
-    public var viewAction: RxRelay.PublishRelay<HomeViewAction>
-    
     private let getVillageDataSource = ForecastDataSource()
     private let getRecommendClosetDataSouce = ClosetDataSource()
     //    let villageForeCastInfoEntityRelay  = BehaviorRelay<[String: String?]?>(value: [:])
@@ -34,20 +26,12 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     let chageDateTimeRelay = BehaviorRelay<[String]?>(value: nil)
     let recommendClosetEntityRelay = BehaviorRelay<RecommendClosetEntity?>(value: nil)
     
-    
-    
-    override init() {
-        self.viewAction = .init()
-        super.init()
-    }
-    
     func getInfo() {
         getVillageForecastInfo()
         getRecommendCloset()
     }
     
     public func getVillageForecastInfo() {
-        
         getVillageDataSource.getVillageForcast()
             .subscribe(onNext: { [weak self] result in
                 switch result {
@@ -78,7 +62,6 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     }
     
     private func getRecommendCloset() {
-        
         let date = Date()
         let dateFormmater = DateFormatter.shared
         dateFormmater.dateFormat = "yyyy-MM-dd HH:00"
@@ -89,7 +72,6 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                 switch result {
                 case .success(let respone):
                     self?.recommendClosetEntityRelay.accept(respone)
-                    print("result success")
                 case .failure(let error):
                     print("viewModel Error, getRecommendCloset :" , error.localizedDescription)
                 }

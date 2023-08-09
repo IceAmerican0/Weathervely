@@ -6,9 +6,12 @@
 //
 
 import UIKit
+import RxSwift
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
+    var vc: UIViewController?
+    var bag = DisposeBag()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
@@ -18,21 +21,37 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func intro() {
-        var vc: UIViewController {
-            if UserDefaultManager.shared.isOnBoard {
-                if let nickname = userDefault.object(forKey: UserDefaultKey.nickname.rawValue) {
-                    return SettingRegionViewController(SettingRegionViewModel())
-                } else {
-                    return OnBoardViewController(OnBoardViewModel())
-                }
+        userDefault.removeObject(forKey: UserDefaultKey.isOnboard.rawValue) // TODO: 지우기
+        if UserDefaultManager.shared.isOnBoard {
+            vc = HomeViewController(HomeViewModel())
+            if let nickname = userDefault.object(forKey: UserDefaultKey.nickname.rawValue) {
+                vc = SettingRegionViewController(SettingRegionViewModel())
             } else {
-                return HomeViewController(HomeViewModel())
+                vc = OnBoardViewController(OnBoardViewModel())
             }
+        } else {
+            getToken()
         }
         
-        let rootVC = UINavigationController(rootViewController: vc)
+        let rootVC = UINavigationController(rootViewController: vc ?? HomeViewController(HomeViewModel()))
         window?.rootViewController = rootVC
         window?.makeKeyAndVisible()
+    }
+    
+    func getToken() {
+        userDefault.set("abcde", forKey: UserDefaultKey.nickname.rawValue) // TODO: 지우기
+        let loginDataSource = AuthDataSource()
+        loginDataSource.getToken(UserDefaultManager.shared.nickname)
+            .subscribe(onNext: { result in
+                switch result {
+                case .success:
+                    self.vc = HomeViewController(HomeViewModel())
+                case .failure(let err): // TODO: 토큰 실패시 에러 처리
+                    guard let errString = err.errorDescription else { return }
+//                    self.alertMessageRelay.accept(.init(title: errString, alertType: .Error))
+                }
+            })
+            .disposed(by: bag)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {}
