@@ -9,6 +9,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 import RxRelay
+import UIKit
 
 public enum HomeViewAction {
     case showMessage(message: String, isError: Bool)
@@ -34,7 +35,8 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     let chageDateTimeRelay = BehaviorRelay<[String]?>(value: nil)
     let recommendClosetEntityRelay = BehaviorRelay<RecommendClosetEntity?>(value: nil)
     
-    
+    var highlightedCellIndexRelay = BehaviorRelay<Int>(value: 0)
+    var weatherImageRelay = BehaviorRelay<UIImage?>(value: AssetsImage.weatherLoadingImage.image)
     
     override init() {
         self.viewAction = .init()
@@ -168,85 +170,145 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     }
     
     func getWeatherImage(_ categoryValues: [String: String]?) {
-        if !categoryValues!.isEmpty {
+        
+        if !(categoryValues!.isEmpty) {
+            
             let rainPossibility = Int(categoryValues!["POP"]!)!
             let rainForm = Int(categoryValues!["PTY"]!)
-            guard var rainfall: Int? = {
-                if (categoryValues!["PCP"] == "강수없음" || categoryValues!["PCP"] == "적설없음") {
+            
+            guard var rainfall: Int = {
+                if (categoryValues!["PCP"] == "강수없음") {
                     return 0
-                }else {
+                } else {
                     return Int(categoryValues!["PCP"]!)
                 }
             }() else { return }
-            let humidity = categoryValues!["REH"]
+            
+            guard var snowfall: Int = {
+                if(categoryValues!["SNO"] == "적설없음") {
+                    return 0
+                } else {
+                    return Int(categoryValues!["SNO"]!)
+                }
+            }() else { return }
+            
             let skyStatus = Int(categoryValues!["SKY"]!)!
+            let windSpeed = categoryValues!["WSD"]
+            
+            let humidity = categoryValues!["REH"]
             let temp = categoryValues!["TMP"]
             let maxTemp = categoryValues!["TMX"]
             let minTemp = categoryValues!["TMN"]
-            let windSpeed = categoryValues!["WSD"]
             
-            var weatherImage = ""
+
+            var weatherImage: UIImage?
             var message = ""
             
             switch rainPossibility {
+                
                 /// 강수 확률 있는 경우
                 /// 강수 형태가 눈일수도 있기때문에 강수형태도 고려해야한다.
-            case 1...:
-                if rainfall! >= 40 {
-                    // weatherImage -> 비오는 거
-                    // rainForl 확인 -> 눈 ? 비 ?
-                    // message -> 비관련
-                } else {
-                    // WI -> ?
-                    // rainForl 확인 -> 눈 ? 비 ?
-                    // message -> ?
-                }
-            case ...0:
-                switch skyStatus {
-                case 1:
-                    // WI -> 맑음
-                    // message -> 습도, 풍속
-                    break
-                case 3:
-                    // WI -> 구름
-                    // message -> 습도, 풍속
-                    break
-                case 4:
-                    // WI -> 흐림
-                    // message -> 습도, 풍속
-                    break
+                // TODO: - 메세지 필요
+                case 1...:
+                    if rainfall >= 40 {
+                        switch rainForm {
+                        // (단기) 없음(0), 비(1), 비/눈(2), 눈(3), 소나기(4)
+                        case 1:
+                            weatherImage = AssetsImage.rainnyImage.image
+                            self.weatherImageRelay.accept(weatherImage)
+                        case 2:
+                            // TODO: - 이미지 비/눈 변경
+                            weatherImage = AssetsImage.rainnyImage.image
+                            self.weatherImageRelay.accept(weatherImage)
+                        case 3:
+                            // TODO: - 이미지 눈 변경
+                            weatherImage = AssetsImage.rainnyImage.image
+                            self.weatherImageRelay.accept(weatherImage)
+                        case 4:
+                            // TODO: - 비 이미지 + 소나기 메세지
+                            weatherImage = AssetsImage.rainnyImage.image
+                            self.weatherImageRelay.accept(weatherImage)
+                        default:
+                            break
+                        }
+                        
+                        // message -> 비관련
+                    } else {
+                        self.weatherImageWitnNoRain(skyStatus)
+                    }
+                case ...0:
+                    self.weatherImageWitnNoRain(skyStatus)
                 default:
+                print(4)
                     break
                 }
-                break
-            default:
-                break
-            }
             
-            if rainPossibility > 0 {
-                if rainfall! >= 40 {
-                    // weatherImage -> 비오는 거
-                    // message -> 비관련
-                } else {
-                    // WI -> ?
-                    // message -> ?
-                }
-            } else {
-                
-            }
-            print(categoryValues)
+            print(categoryValues!)
         }
     }
     
-    func swipeAndReloadData(_ dayInterval: Int) -> [String: String?]? {
+    func weatherImageWitnNoRain (_ skyStatus: Int) {
+        
+        var weatherImage: UIImage?
+        // TODO: -
+        // WI -> ?
+        // rainForm 확인 -> 눈 ? 비 ?
+        // message -> ?
+        
+        switch skyStatus {
+        case 1:
+            // WI -> 맑음
+            weatherImage = AssetsImage.sunnyImage.image
+            self.weatherImageRelay.accept(weatherImage)
+            // message -> 습도, 풍속
+        case 3:
+            // WI -> 구름
+            weatherImage = AssetsImage.cloudyImage.image
+            self.weatherImageRelay.accept(weatherImage)
+            // message -> 습도, 풍속
+        case 4:
+            // WI -> 흐림
+            weatherImage = AssetsImage.blurCloudImage.image
+            self.weatherImageRelay.accept(weatherImage)
+            // message -> 습도, 풍속
+        default:
+            print(3)
+        }
+    }
+    
+    
+    func swipeRight(_ dayInterval: Int) -> [String: String?]? {
         
         /// 1. 현재시간 가져오기
         /// 2. 현재시간 보다 작으면 아무액션 없기.
         /// 3. 시간 배열 들고있기.
-        /// [ 0700, 0900, 1200, 1500, 1800, 2100, 0000 ]
-        /// 
+        ///
+        /// [ 0700, 0900, 1200, 1500, 1800, 2100 ]
+        ///
+        ///
+        ///ex) 현재 시간 10시. 왼쪽으로는 swipe못함.
+        ///현재시간 23시 오른쪽으로 스와이프하면 내일 날씨.
+
+        let date = Date()
+        let nowHour = date.today24Time
+        
+        var timeArray = [ "0700", "0900", "1200", "1500", "1800", "2100" ]
+        
+        timeArray.forEach { time in
+            
+        }
+        
+        guard let weatherInfo = self.villageForeCastInfoEntityRelay.value else { return [:] }
+        
+        
+        
+
         print("Swipe:@@@@@@@@", self.villageForeCastInfoEntityRelay.value!)
         return [:]
+    }
+    
+    func swipeLeft() {
+        
     }
     
     public func toSettingView() {
@@ -266,6 +328,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     
     public func toSensoryTempView() {
         let vc = HomeSensoryTempViewController(HomeSensoryTempViewModel())
+        vc.isModalInPresentation = true // prevent to dismiss the viewController when drag action 
         presentViewControllerWithAnimationRelay.accept(vc)
     }
     

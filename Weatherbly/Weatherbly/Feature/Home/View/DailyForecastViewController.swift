@@ -93,7 +93,7 @@ extension DailyForecastViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let itemName = ["기온","미세먼지","비 올 확률", "습도"]
-        let imageName = [AssetsImage.thermometer, AssetsImage.dust, AssetsImage.rain, AssetsImage.humidity]
+        let imageName = [AssetsImage.thermometer, AssetsImage.dust, AssetsImage.rainnyImage, AssetsImage.humidity]
         let shadowColor = [CSColor._255_163_163.cgColor, CSColor._214_214_214.cgColor, CSColor._126_212_255.cgColor, CSColor._210_175_255.cgColor]
         
         return tableView.dequeueCell(withType: DailyForecastTableViewCell.self, for: indexPath).then {

@@ -95,8 +95,8 @@ extension TenDaysForeCastViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         return tableView.dequeueCell(withType: TenDaysForecastTableViewCell.self, for: indexPath).then {
-            $0.amWeatherImageView.setAssetsImage(.cloudySunTen)
-            $0.pmWeatherImageView.setAssetsImage(.thunderTen)
+            $0.amWeatherImageView.setAssetsImage(.cloudyImage)
+            $0.pmWeatherImageView.setAssetsImage(.rainnyImage)
             $0.temperatureLabel.attributedText = NSMutableAttributedString()
                 .regular("20℃", 16, CSColor._40_106_167)
                 .regular(" / ", 16, CSColor.none)

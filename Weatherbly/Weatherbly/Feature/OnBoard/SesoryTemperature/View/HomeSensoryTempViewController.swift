@@ -68,7 +68,6 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
         
         navigationDismissButton.do {
             $0.setImage(AssetsImage.closeButton.image, for: .normal)
-            $0.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
         }
         
         mainLabel.do {
@@ -84,7 +83,6 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
             // TODO: - shadow처리
         }
         
-       
         scrollView.do {
             $0.isPagingEnabled = true
             $0.isScrollEnabled = true
@@ -176,8 +174,6 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
                 .marginTop(16)
                 .marginHorizontal(43)
                 .height(bottomButton.primaryHeight)
-            
-            
         }
         
         
@@ -185,12 +181,14 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
     
     // MARK: - Bind
 
-    override func bind() {
-        super.bind()
+    override func viewBinding() {
+        super.viewBinding()
+        
+        navigationDismissButton.rx.tap
+            .subscribe(onNext: { [ weak self ] _ in
+                self?.dismiss(animated: true)
+            })
+            .disposed(by: bag)
     }
- 
     
-    @objc func didTapBackButton() {
-        self.navigationController?.dismiss(animated: true)
-    }
 }

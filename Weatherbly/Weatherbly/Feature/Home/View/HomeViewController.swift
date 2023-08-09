@@ -76,12 +76,8 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
             $0.setImage(AssetsImage.schedule.image, for: .normal)
         }
         
-        dailyWrapper.do {
-            $0.addGestureRecognizer(tapGesture)
-        }
-        
         weatherImageView.do {
-            $0.setAssetsImage(.sunnyMain)
+            $0.setAssetsImage(.weatherLoadingImage)
         }
         
         temperatureLabel.do {
@@ -121,6 +117,7 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
         tomorrowButton.do {
             $0.setTitle("내일 옷차림", for: .normal)
         }
+        
         
     }
     
@@ -166,15 +163,18 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
     }
     
     override func viewBinding() {
+        
         dailyWrapper.rx.swipeGesture([.left,.right])
             .when(.ended)
             .subscribe (onNext: { [weak self] dircection in
                 // TODO: 현재시간 넣어서 보내기
-                self?.viewModel.swipeAndReloadData(0)
+//                self?.viewModel.swipeRight(0)
                 if dircection.direction == .left {
                     // 시간대 뒤로
+                    self?.viewModel.swipeLeft()
                 } else {
                     // 시간대 앞으로
+                    self?.viewModel.swipeRight(0)
                 }
             })
             .disposed(by: bag)
@@ -182,9 +182,18 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
         sensoryViewButton.rx.tapGesture()
             .when(.ended)
             .subscribe(onNext: { [weak self] _ in
+                // 지금 하이라이트 된 사진
+                // 선택시간, 온도
+                // 넣어서 화면 모달 띄우기
                 self?.viewModel.toSensoryTempView()
             }).disposed(by: bag)
         
+        dailyWrapper.rx.tapGesture()
+            .subscribe(onNext: { [weak self] _ in
+                self?.viewModel.toDailyForecastView()
+            })
+            .disposed(by: bag)
+
         tapGesture.rx
             .event
             .map { _ in
@@ -207,11 +216,20 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
         super.viewModelBinding()
         
         viewModel
+            .weatherImageRelay
+            .subscribe(onNext: { [weak self] image in
+                
+                self?.weatherImageView.image = image
+            })
+            .disposed(by: bag)
+        
+        viewModel
             .villageForeCastInfoEntityRelay
             .subscribe(onNext: { [weak self] result in
                 let todayInfo  = self?.viewModel.bindingDateWeather(result, 0, Date().today24Time)
-                self?.viewModel.getWeatherImage(todayInfo)
+                
                 self?.setWeatherInfo(todayInfo, "현재")
+                self?.viewModel.getWeatherImage(todayInfo)
             })
             .disposed(by: bag)
         
@@ -266,6 +284,11 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
 
 // MARK: FSPagerViewDelegate
 extension HomeViewController: FSPagerViewDelegate {
+    
+    func pagerView(_ pagerView: FSPagerView, didHighlightItemAt index: Int) {
+        
+        viewModel.highlightedCellIndexRelay.accept(index)
+    }
     func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
         pagerView.deselectItem(at: index, animated: true)
         pagerView.scrollToItem(at: index, animated: true)
@@ -307,5 +330,6 @@ extension HomeViewController: FSPagerViewDataSource {
         
         return cell
     }
+    
 
 }
