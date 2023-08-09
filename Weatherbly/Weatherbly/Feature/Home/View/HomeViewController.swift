@@ -33,9 +33,8 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
     private lazy var pagerView = FSPagerView()
     
     private var bottomButtonWrapper = UIView()
-    private var todayButton = CSButton(.primary)
     private var sensoryViewButton = CSButton(.primary)
-    private var tomorrowButton = CSButton(.primary)
+//    var sensoryViewButton = UIButton()
     
     private let screenWidth = UIScreen.main.bounds.width
     private let screenHeight = UIScreen.main.bounds.height
@@ -106,18 +105,14 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
             $0.transformer = FSPagerViewTransformer(type: .linear)
         }
         
-        todayButton.do {
-            $0.setTitle("오늘 옷차림", for: .normal)
-        }
-        
         sensoryViewButton.do {
+            $0.setBackgroundImage(AssetsImage.gradientButton.image, for: .normal)
+            $0.setTitleColor(.black, for: .normal)
+            $0.setCornerRadius(30)
+            $0.setBackgroundColor(.white)
+            $0.setShadow(CGSize(width: 0, height: 0), nil, 0, 0)
             $0.setTitle("체감온도", for: .normal)
         }
-        
-        tomorrowButton.do {
-            $0.setTitle("내일 옷차림", for: .normal)
-        }
-        
         
     }
     
@@ -148,9 +143,7 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
             
             flex.addItem(pagerView).width(screenWidth).height(closetWrapperHeight + 20)
             flex.addItem(bottomButtonWrapper).direction(.row).define { flex in
-                flex.addItem(todayButton).marginRight(20).width(100).height(40)
-                flex.addItem(sensoryViewButton)
-                flex.addItem(tomorrowButton).marginLeft(20).width(100).height(40)
+                flex.addItem(sensoryViewButton).padding(3, 13.5)
             }
             
             pagerView.pin.top(to: dailyWrapper.edge.bottom).margin(screenHeight * 0.03)
@@ -209,6 +202,7 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
         calendarButton.rx.tap
             .bind(onNext: viewModel.toTenDaysForecastView)
             .disposed(by: bag)
+        
     }
     
     
