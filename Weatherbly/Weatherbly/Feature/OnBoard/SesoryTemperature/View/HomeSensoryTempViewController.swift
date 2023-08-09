@@ -34,19 +34,29 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
     private var bottomButton = CSButton(.primary)
     private let imageHeight = UIScreen.main.bounds.height * 0.38
     
+    var didSet = false
     
     // MARK: - Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        print(#function)
+        
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         scrollView.delegate = self
-        addContentscrollView()
+        
+        // TODO: - Obsevable값으로 유무 판단 변경할 것.
+        if !didSet {
+            addContentscrollView()
+        }
+        
+        
     }
+    
+    
     
     func addContentscrollView() {
         for i in 0..<images.count {
@@ -57,6 +67,7 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
             scrollView.addSubview(imageView)
             scrollView.contentSize.height = imageView.frame.height * CGFloat(i + 1)
         }
+        didSet = true
     }
     
     // TODO: - Toast message 띄우기
