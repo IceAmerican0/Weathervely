@@ -40,6 +40,7 @@ enum AssetsImage: String {
     case thermometer
     case whiteHeart
     case closeButton
+    case gradientButton
     
     // Setting
     case editNameIcon
@@ -58,6 +59,7 @@ enum AssetsImage: String {
     case cloudyNightImage
     case blurCloudImage
     case windyImage
+    
     
     var image: UIImage? {
         return UIImage(named: self.rawValue)
