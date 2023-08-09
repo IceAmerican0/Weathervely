@@ -64,7 +64,7 @@ public class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitiali
     func bind() {
         viewBinding()
         viewModelBinding()
-        alertMessageBinding()
+        alertBinding()
     }
     
     func viewBinding() {}
@@ -130,10 +130,14 @@ public class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitiali
             .disposed(by: bag)
     }
     
-    func alertMessageBinding() {
-        viewModel.messageForUserRelay
+    func alertBinding() {
+        viewModel.alertMessageRelay
             .subscribe(onNext: { [weak self] message in
-                
+                let alertVC = AlertViewController(state: .init(title: message.title,
+                                                               message: message.message,
+                                                               alertType: .Error))
+                alertVC.modalPresentationStyle = .overCurrentContext
+                self?.viewModel.presentViewControllerNoAnimationRelay.accept(alertVC)
             })
             .disposed(by: bag)
     }

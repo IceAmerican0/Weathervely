@@ -17,7 +17,7 @@ public class RxBaseViewModel: BaseDisposebag, ViewModelable {
     
     let bag = DisposeBag()
     
-    let messageForUserRelay = PublishRelay<String?>()
+    let alertMessageRelay = PublishRelay<AlertViewState>()
     
     let viewWillAppearRelay = PublishRelay<Void>()
     let viewDidAppearRelay = PublishRelay<Void>()
@@ -49,8 +49,4 @@ public class RxBaseViewModel: BaseDisposebag, ViewModelable {
         innerViewModel.dismissSelfNoAnimationRelay.bind(to: dismissSelfNoAnimationRelay).disposed(by: bag)
         innerViewModel.dismissSelfAnimationClosureRelay.bind(to: dismissSelfAnimationClosureRelay).disposed(by: bag)
     }
-    
-//    func showNetworkErrorMessage() {
-//        messageForUserRelay.accept(CSString.checkNetwork.localizedString)
-//    }
 }

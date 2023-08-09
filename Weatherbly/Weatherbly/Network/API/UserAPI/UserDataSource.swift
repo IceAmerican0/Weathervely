@@ -12,7 +12,7 @@ import RxMoya
 public protocol UserDataSourceProtocol { // TODO: return값 수정
     func getUserInfo(_ nickname: String) -> Observable<Result<EmptyEntity, WBNetworkError>>
     func fetchUserInfo(_ userInfo: UserInfoRequest) -> Observable<Result<EmptyEntity, WBNetworkError>>
-    func getAddressList(_ nickname: String) -> Observable<Result<EmptyEntity, WBNetworkError>>
+    func getAddressList(_ nickname: String) -> Observable<Result<AddressEntity, WBNetworkError>>
     func addAddress(_ addressInfo: AddressRequest) -> Observable<Result<EmptyEntity, WBNetworkError>>
     func fetchAddress(_ addressInfo: AddressRequest) -> Observable<Result<EmptyEntity, WBNetworkError>>
     func deleteAddress(_ addressInfo: AddressRequest) -> Observable<Result<EmptyEntity, WBNetworkError>>
@@ -38,10 +38,10 @@ public final class UserDataSource: UserDataSourceProtocol {
             .mapTo(EmptyEntity.self)
     }
     
-    public func getAddressList(_ nickname: String) -> Observable<Result<EmptyEntity, WBNetworkError>> {
+    public func getAddressList(_ nickname: String) -> Observable<Result<AddressEntity, WBNetworkError>> {
         provider.rx
             .request(.getAddressList(nickname))
-            .mapTo(EmptyEntity.self)
+            .mapTo(AddressEntity.self)
     }
     
     public func addAddress(_ addressInfo: AddressRequest) -> Observable<Result<EmptyEntity, WBNetworkError>> {

@@ -76,6 +76,16 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
             .bind(onNext: viewModel.didTapConfirmButton)
             .disposed(by: bag)
     }
+    
+    override func viewModelBinding() {
+        viewModel.loadRegionList()
+        
+        viewModel.loadedListRelay
+            .subscribe(onNext: { [weak self] _ in
+                self?.favoriteTableView.reloadData()
+            })
+            .disposed(by: bag)
+    }
 }
 
 // MARK: UITableViewDelegate
@@ -91,7 +101,9 @@ extension EditRegionViewController: UITableViewDelegate {
 }
 
 extension EditRegionViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { 3 }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        viewModel.loadedListRelay.value[0].data?.list.count ?? 0
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         return tableView.dequeueCell(withType: EditRegionTableViewCell.self, for: indexPath).then {

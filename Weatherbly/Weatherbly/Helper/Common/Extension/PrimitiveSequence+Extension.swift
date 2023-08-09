@@ -42,7 +42,7 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
                     }
                     
                     if let status = dictionary["status"] as? Int , let apiMessage = dictionary["apiMessage"] as? [String:Any] {
-                        let errDescription = apiMessage["message"] as? String
+                        let errDescription = apiMessage["detail"] as? String
                         print(
                             """
                             =================

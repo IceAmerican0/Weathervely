@@ -40,6 +40,7 @@
 		5C9D02E82A72426D00AF2DA3 /* ClosetDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9D02E72A72426D00AF2DA3 /* ClosetDataSource.swift */; };
 		5C9D02EA2A725AC300AF2DA3 /* AddressRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9D02E92A725AC300AF2DA3 /* AddressRequest.swift */; };
 		5C9D02EC2A725BA200AF2DA3 /* Encodable+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9D02EB2A725BA200AF2DA3 /* Encodable+Extension.swift */; };
+		5C9F45562A8388130079ABA6 /* AddressEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9F45552A8388130079ABA6 /* AddressEntity.swift */; };
 		5CAB60B92A4563B300CD431A /* NSMutableAttributedString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAB60B82A4563B300CD431A /* NSMutableAttributedString+Extension.swift */; };
 		5CAB60BF2A4D6A9D00CD431A /* ClosetFSPagerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAB60BE2A4D6A9D00CD431A /* ClosetFSPagerViewCell.swift */; };
 		5CAB60C32A528C7A00CD431A /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAB60C22A528C7A00CD431A /* UICollectionView+Extension.swift */; };
@@ -149,6 +150,7 @@
 		5C9D02E72A72426D00AF2DA3 /* ClosetDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetDataSource.swift; sourceTree = "<group>"; };
 		5C9D02E92A725AC300AF2DA3 /* AddressRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressRequest.swift; sourceTree = "<group>"; };
 		5C9D02EB2A725BA200AF2DA3 /* Encodable+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Encodable+Extension.swift"; sourceTree = "<group>"; };
+		5C9F45552A8388130079ABA6 /* AddressEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressEntity.swift; sourceTree = "<group>"; };
 		5CAB60B82A4563B300CD431A /* NSMutableAttributedString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Extension.swift"; sourceTree = "<group>"; };
 		5CAB60BE2A4D6A9D00CD431A /* ClosetFSPagerViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetFSPagerViewCell.swift; sourceTree = "<group>"; };
 		5CAB60C22A528C7A00CD431A /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
@@ -399,7 +401,6 @@
 		BD2D01872A388753003A25D5 /* Weatherbly */ = {
 			isa = PBXGroup;
 			children = (
-				BD6135D12A7E3C6700DB3DF9 /* Entity */,
 				BD6135CA2A7D5E9F00DB3DF9 /* Mock */,
 				BD2D019E2A3887B8003A25D5 /* Network */,
 				BD2D019D2A3887AA003A25D5 /* Helper */,
@@ -441,8 +442,9 @@
 		BD2D019E2A3887B8003A25D5 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				5CCC91482A6107610025B522 /* Moya */,
 				5CCC91492A6114640025B522 /* API */,
+				BD6135D12A7E3C6700DB3DF9 /* Entity */,
+				5CCC91482A6107610025B522 /* Moya */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -597,6 +599,7 @@
 				BD7DAB262A6E786E00422D25 /* LoginEntity.swift */,
 				BD7DAB322A70DEFC00422D25 /* VillageForecastInfoEntity.swift */,
 				BD6135D22A7E3C9C00DB3DF9 /* RecommendClosetEntity.swift */,
+				5C9F45552A8388130079ABA6 /* AddressEntity.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -890,6 +893,7 @@
 				69FDD4CC2A407FA400830927 /* CSProgressView.swift in Sources */,
 				BD77B8282A388C9400E7D57A /* CSColor.swift in Sources */,
 				5C4691812A78F96D00E2CC70 /* LoadErrorViewController.swift in Sources */,
+				5C9F45562A8388130079ABA6 /* AddressEntity.swift in Sources */,
 				BD51694F2A5EB43500582BA9 /* ChangeNicknameViewController.swift in Sources */,
 				BD7DAB292A6FC51400422D25 /* TestViewController.swift in Sources */,
 				5C9D02DB2A720DCC00AF2DA3 /* EmptyEntity.swift in Sources */,
