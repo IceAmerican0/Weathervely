@@ -404,6 +404,7 @@
 		BD2D01872A388753003A25D5 /* Weatherbly */ = {
 			isa = PBXGroup;
 			children = (
+				BD6135D12A7E3C6700DB3DF9 /* Entity */,
 				BD6135CA2A7D5E9F00DB3DF9 /* Mock */,
 				BD2D019E2A3887B8003A25D5 /* Network */,
 				BD2D019D2A3887AA003A25D5 /* Helper */,
@@ -446,7 +447,6 @@
 			isa = PBXGroup;
 			children = (
 				5CCC91492A6114640025B522 /* API */,
-				BD6135D12A7E3C6700DB3DF9 /* Entity */,
 				5CCC91482A6107610025B522 /* Moya */,
 			);
 			path = Network;
