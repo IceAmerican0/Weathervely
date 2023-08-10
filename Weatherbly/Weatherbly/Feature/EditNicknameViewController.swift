@@ -44,8 +44,8 @@ final class EditNicknameViewController: RxBaseViewController<EditNicknameViewMod
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        nicknameTextField.text = UserDefaultManager.shared.nickname
-        genderLabel.text = UserDefaultManager.shared.isFemale ? "여성" : "남성"
+        nicknameTextField.text = viewModel.loadUserInfoRelay.value?.nickname
+        genderLabel.text = viewModel.loadUserInfoRelay.value?.gender == "female" ? "여성" : "남성"
     }
 
     override func attribute() {
@@ -179,8 +179,8 @@ final class EditNicknameViewController: RxBaseViewController<EditNicknameViewMod
             }
     }
     
-    override func bind() {
-        super.bind()
+    override func viewBinding() {
+        super.viewBinding()
         
         csNavigationView.leftButtonDidTapRelay
             .bind(onNext: { [weak self] _ in
@@ -191,7 +191,7 @@ final class EditNicknameViewController: RxBaseViewController<EditNicknameViewMod
         
         bottomButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
-                self?.viewModel.didTapCorrectionButton()
+                self?.viewModel.toChangeNicknameView()
 //                guard let displayMode = self?.viewModel.bottomButtonDidTap() else {
 //                    return
 //                }
@@ -204,6 +204,8 @@ final class EditNicknameViewController: RxBaseViewController<EditNicknameViewMod
 //                self?.nicknameTextFieldWrapper.backgroundColor = CSColor._248_248_248.color
             })
             .disposed(by: bag)
+        
+        viewModel.loadUserInfo()
     }
     
 }

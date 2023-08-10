@@ -10,13 +10,16 @@ import FlexLayout
 import PinLayout
 import Then
 import RxSwift
+import RxRelay
 
 public struct EditRegionCellState {
     let region: String
-    let isOnly: Bool
+    let count: Int
 }
 
 public final class EditRegionTableViewCell: UITableViewCell {
+    var bag = DisposeBag()
+    var buttonDidTapRelay = PublishRelay<Void>()
     
     public var regionLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 20)
@@ -32,6 +35,10 @@ public final class EditRegionTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         layout()
+        
+        button.rx.tap
+            .bind(to: buttonDidTapRelay)
+            .disposed(by: bag)
     }
     
     required init?(coder: NSCoder) {
@@ -58,6 +65,6 @@ public final class EditRegionTableViewCell: UITableViewCell {
     
     func configureCellState(_ cellState: EditRegionCellState) {
         regionLabel.text = cellState.region
-        cellState.isOnly ? button.setImage(AssetsImage.regionChange.image, for: .normal) : button.setImage(AssetsImage.delete.image, for: .normal)
+        cellState.count == 1 ? button.setImage(AssetsImage.regionChange.image, for: .normal) : button.setImage(AssetsImage.delete.image, for: .normal)
     }
 }

@@ -17,6 +17,8 @@ public protocol SettingRegionCompleteViewModelLogic: ViewModelBusinessLogic {
 
 public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegionCompleteViewModelLogic {
     public let regionDataRelay: BehaviorRelay<AddressRequest>
+    private let authDataSource = AuthDataSource()
+    private let userDataSource = UserDataSource()
     
     init(_ item: AddressRequest) {
         self.regionDataRelay = BehaviorRelay<AddressRequest>(value: item)
@@ -24,8 +26,33 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
     }
     
     public func didTapConfirmButton() {
-        let dataSource = AuthDataSource()
-        dataSource.setAddress(regionDataRelay.value)
+        if !UserDefaultManager.shared.isOnBoard {
+            changeAddress()
+        }
+        setAddress()
+    }
+    
+    public func setAddress() {
+        authDataSource.setAddress(regionDataRelay.value)
+            .subscribe(onNext: { result in
+                switch result {
+                case .success:
+                    if UserDefaultManager.shared.isOnBoard {
+                        userDefault.set(self.regionDataRelay.value, forKey: UserDefaultKey.region.rawValue)
+                        self.toSelectGenderView()
+                    } else {
+                        self.toEditRegionView()
+                    }
+                case .failure(let err):
+                    guard let errorString = err.errorDescription else { return }
+                    self.alertMessageRelay.accept(.init(title: errorString, alertType: .Error))
+                }
+            })
+            .disposed(by: bag)
+    }
+    
+    public func changeAddress() {
+        userDataSource.fetchAddress(10, regionDataRelay.value) // TODO: 주소변경 targetID 받아오기
             .subscribe(onNext: { result in
                 switch result {
                 case .success:

@@ -219,7 +219,6 @@ class ChangeNicknameViewController: RxBaseViewController<ChangeNicknameViewModel
             })
             .disposed(by: bag)
         
-        // TODO: - 버튼 클릭시 데이터 저장하기
         womanButton.rx.tap
             .subscribe { [weak self] _ in
                 if self?.isFemale == false { self?.buttonToggle() }
