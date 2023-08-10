@@ -53,17 +53,21 @@ extension ClosetTarget: WBTargetType {
         case .getStyleList:
             return .requestPlain
         case .styleStylePickedList(let closetIDs):
-            return .requestParameters(parameters: ["closet_ids": closetIDs], encoding: JSONEncoding.default)
+            return .requestParameters(parameters: ["closet_ids": closetIDs],
+                                      encoding: JSONEncoding.default)
         case .getSensoryTemperatureCloset(let dateTime):
-            return .requestParameters(parameters: ["dateTime": dateTime], encoding: URLEncoding.queryString)
+            return .requestParameters(parameters: ["dateTime": dateTime],
+                                      encoding: URLEncoding.queryString)
         case .setSensoryTemperature(let closetInfo):
             return .requestParameters(parameters: ["closet": 7,
                                                    "temperatureRange": 2,
                                                    "created_at": "",
                                                    "temperature": ""
-                                                  ], encoding: JSONEncoding.default)
+                                                  ],
+                                      encoding: JSONEncoding.default)
         case .getRecommendStyleList(let dateTime):
-            return .requestParameters(parameters: ["dateTime": dateTime], encoding: URLEncoding.queryString)
+            return .requestParameters(parameters: ["dateTime": dateTime],
+                                      encoding: URLEncoding.queryString)
         }
     }
 }

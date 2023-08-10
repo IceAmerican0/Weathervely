@@ -38,11 +38,14 @@ extension AuthTarget: WBTargetType {
         switch self {
         case .login(let nickname),
              .nickname(let nickname):
-            return .requestParameters(parameters: ["nickname": nickname], encoding: JSONEncoding.default)
+            return .requestParameters(parameters: ["nickname": nickname],
+                                      encoding: JSONEncoding.default)
         case .address(let addressInfo):
-            return .requestParameters(parameters: addressInfo.dictionary, encoding: JSONEncoding.default)
+            return .requestParameters(parameters: addressInfo.dictionary,
+                                      encoding: JSONEncoding.default)
         case .gender(let gender):
-            return .requestParameters(parameters: ["gender": gender], encoding: JSONEncoding.default)
+            return .requestParameters(parameters: ["gender": gender],
+                                      encoding: JSONEncoding.default)
         }
     }
 }

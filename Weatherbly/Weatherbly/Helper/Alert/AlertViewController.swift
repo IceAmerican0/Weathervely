@@ -62,7 +62,7 @@ final class AlertViewController: UIViewController, CodeBaseInitializerProtocol {
     
     func attribute() {
         dimView.do {
-            $0.backgroundColor = CSColor._0__054.color
+            $0.backgroundColor = CSColor._0__065.color
             $0.addGestureRecognizer(backgroundTapGesture)
         }
         

@@ -12,8 +12,7 @@ import FSPagerView
 import RxSwift
 import RxGesture
 
-class HomeViewController: RxBaseViewController<HomeViewModel> {
-    
+final class HomeViewController: RxBaseViewController<HomeViewModel> {
     private var backgroundView = UIView()
     private var backgroundImage = UIImageView()
     private var topLayoutWrapper = UIView()
@@ -29,7 +28,6 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
     private var commentLabel = CSLabel(.regular, 18, "찬바람이 세차게 불어요")
     private var dustLabel = CSLabel(.regular, 17, "😷 미세 먼지가 매우 심해요")
     
-    private var bottomWrapper = UIView()
     private lazy var pagerView = FSPagerView()
     
     private var bottomButtonWrapper = UIView()
@@ -114,7 +112,6 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
             $0.setShadow(CGSize(width: 0, height: 0), nil, 0, 0)
             $0.setTitle("체감온도", for: .normal)
         }
-        
     }
     
     override func layout() {
@@ -234,9 +231,6 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
         viewModel
             .recommendClosetEntityRelay
             .subscribe(onNext: { [weak self] result in
-                
-//                guard let result = result else { return }
-//                print(result.data!)
                 self?.pagerView.reloadData()
             })
             .disposed(by: bag)

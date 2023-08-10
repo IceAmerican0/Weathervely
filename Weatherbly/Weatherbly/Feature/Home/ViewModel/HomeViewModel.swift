@@ -11,10 +11,6 @@ import RxCocoa
 import RxRelay
 import UIKit
 
-public enum HomeViewAction {
-    case showMessage(message: String, isError: Bool)
-}
-
 public protocol HomeViewModelLogic: ViewModelBusinessLogic {
     func toSettingView()
     func toDailyForecastView()
@@ -25,14 +21,10 @@ public protocol HomeViewModelLogic: ViewModelBusinessLogic {
     func getRecommendCloset(_ dateString: String)
     func swipeRight(_ dayInterval: Int) -> [String : String?]?
     func swipeLeft()
-    var viewAction: PublishRelay<HomeViewAction> { get }
 }
 
 public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
-    
-    public var viewAction: RxRelay.PublishRelay<HomeViewAction>
-    
-    private let getVilageDataSource = ForecastDataSource()
+    private let getVillageDataSource = ForecastDataSource()
     private let getRecommendClosetDataSouce = ClosetDataSource()
     
     let villageForeCastInfoEntityRelay  = BehaviorRelay<VillageForecastInfoEntity?>(value: nil)
@@ -47,19 +39,13 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     var highlightedCellIndexRelay = BehaviorRelay<Int>(value: 0)
     var weatherImageRelay = BehaviorRelay<UIImage?>(value: AssetsImage.weatherLoadingImage.image)
     
-    override init() {
-        self.viewAction = .init()
-        super.init()
-    }
-    
     public func getInfo(_ dateString: String) {
         getVillageForecastInfo()
         getRecommendCloset(dateString)
     }
     
     public func getVillageForecastInfo() {
-        
-        getVilageDataSource.getVilageForcast()
+        getVillageDataSource.getVillageForcast()
             .subscribe(onNext: { [weak self] result in
                 switch result {
                 case .success(let response):
@@ -95,13 +81,12 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
 //        dateFormmater.dateFormat = "yyyy-MM-dd HH:00"
 //        print(dateFormmater.string(from: date))
         
-        getRecommendClosetDataSouce.gerRecommendCloset(dateString)
+        getRecommendClosetDataSouce.getRecommendCloset(dateString)
             .subscribe(onNext: { [weak self] result in
                 switch result {
                 case .success(let respone):
                     self?.recommendClosetEntityRelay.accept(respone)
-                    print("result success")
-                case .failure(let error):
+            case .failure(let error):
                     print("viewModel Error, getRecommendCloset :" , error.localizedDescription)
                 }
             })

@@ -5,7 +5,7 @@
 //  Created by 박성준 on 2023/07/27.
 //
 
-public struct AddressRequest: Encodable {
+public struct AddressRequest: Codable {
     var address_name: String?
     var city: String?
     var gu: String?

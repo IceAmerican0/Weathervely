@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct RecommendClosetEntity: Codable {
+public struct RecommendClosetEntity: Codable {
     let status: Int
     let data: RecommendClosetData?
     
@@ -25,7 +25,7 @@ struct RecommendClosetData: Codable {
     }
 }
 
-struct RecommendClosetInfo: Codable {
+public struct RecommendClosetInfo: Codable {
     let id: Int
     let name: String
     let minTemp: String

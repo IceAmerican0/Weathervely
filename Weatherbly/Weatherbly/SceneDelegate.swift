@@ -6,52 +6,63 @@
 //
 
 import UIKit
+import RxSwift
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
     var window: UIWindow?
-
+    var vc: UIViewController?
+    var bag = DisposeBag()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
 
-        // TODO: 온보딩시 / 아닐시 구분
-//        let vc = TestViewController(TestViewModel())
-        let vc = true ? HomeViewController(HomeViewModel()) : HomeViewController(HomeViewModel())
-        let rootVC = UINavigationController(rootViewController: vc)
+        intro()
+    }
+    
+    func intro() {
+        userDefault.set("abcde", forKey: UserDefaultKey.nickname.rawValue) // TODO: 지우기
+        userDefault.removeObject(forKey: UserDefaultKey.isOnboard.rawValue) // TODO: 지우기
+        
+        if let nickname = userDefault.object(forKey: UserDefaultKey.nickname.rawValue) {
+            if UserDefaultManager.shared.isOnBoard {
+                vc = SettingRegionViewController(SettingRegionViewModel())
+            } else {
+                getToken("\(nickname)")
+            }
+        } else {
+            vc = OnBoardViewController(OnBoardViewModel())
+        }
+        
+        let rootVC = UINavigationController(rootViewController: vc ?? HomeViewController(HomeViewModel()))
         window?.rootViewController = rootVC
         window?.makeKeyAndVisible()
     }
-
-    func sceneDidDisconnect(_ scene: UIScene) {
-        // Called as the scene is being released by the system.
-        // This occurs shortly after the scene enters the background, or when its session is discarded.
-        // Release any resources associated with this scene that can be re-created the next time the scene connects.
-        // The scene may re-connect later, as its session was not necessarily discarded (see `application:didDiscardSceneSessions` instead).
+    
+    func getToken(_ nickname: String) {
+        let loginDataSource = AuthDataSource()
+        loginDataSource.getToken(nickname)
+            .subscribe(onNext: { result in
+                switch result {
+                case .success:
+                    self.vc = HomeViewController(HomeViewModel())
+                case .failure(let err): // TODO: 토큰 실패시 에러 처리
+                    guard let errString = err.errorDescription else { return }
+//                    self.alertMessageRelay.accept(.init(title: errString, alertType: .Error))
+                }
+            })
+            .disposed(by: bag)
     }
 
-    func sceneDidBecomeActive(_ scene: UIScene) {
-        // Called when the scene has moved from an inactive state to an active state.
-        // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
-    }
+    func sceneDidDisconnect(_ scene: UIScene) {}
 
-    func sceneWillResignActive(_ scene: UIScene) {
-        // Called when the scene will move from an active state to an inactive state.
-        // This may occur due to temporary interruptions (ex. an incoming phone call).
-    }
+    func sceneDidBecomeActive(_ scene: UIScene) {}
 
-    func sceneWillEnterForeground(_ scene: UIScene) {
-        // Called as the scene transitions from the background to the foreground.
-        // Use this method to undo the changes made on entering the background.
-    }
+    func sceneWillResignActive(_ scene: UIScene) {}
 
-    func sceneDidEnterBackground(_ scene: UIScene) {
-        // Called as the scene transitions from the foreground to the background.
-        // Use this method to save data, release shared resources, and store enough scene-specific state information
-        // to restore the scene back to its current state.
-    }
+    func sceneWillEnterForeground(_ scene: UIScene) {}
+
+    func sceneDidEnterBackground(_ scene: UIScene) {}
 
 
 }

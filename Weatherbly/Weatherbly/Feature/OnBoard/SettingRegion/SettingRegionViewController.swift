@@ -22,13 +22,12 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
     private var confirmButton = CSButton(.primary)
     private var regionTableView = UITableView()
     
-    var isFromEdit = false
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         registerKeyboardNotifications()
-        gestureEndEditing()
+        
+        // TODO: 배경 터치했을때 키보드 내림 / 테이블뷰와 터치 겹치는 현상 수정
+//        gestureEndEditing()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -90,7 +89,7 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
         confirmButton.pin.bottom(10%)
         regionTableView.isHidden = true
         
-        if isFromEdit {
+        if !UserDefaultManager.shared.isOnBoard {
             progressBar.isHidden = true
             navigationView.setTitle("동네 변경 / 추가")
             explanationLabel.isHidden = true
@@ -147,13 +146,14 @@ extension SettingRegionViewController: UITableViewDataSource {
         if viewModel.searchedListRelay.value.isEmpty {
             return 0
         } else {
-            return viewModel.searchedListRelay.value[0].documents.count
+            return viewModel.searchedListRelay.value.count
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         tableView.dequeueCell(withType: RegionTableViewCell.self, for: indexPath).then {
-            $0.configureCellState(viewModel.setRegionName(at: indexPath))
+            let regionName = viewModel.searchedListRelay.value[indexPath.row].addressName
+            $0.configureCellState(regionName)
         }
     }
 }

@@ -15,7 +15,7 @@ import Moya
      "domain": "generic",
      "apiMessage": {
          "statusCode": 404,
-         "message": "Cannot GET /forecast/getVilageForeca",
+         "message": "Cannot GET /forecast/getVillageForeca",
          "error": "Not Found"
      },
      "status": 404,
@@ -38,7 +38,13 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
                     guard try JSONSerialization.jsonObject(with: response.data, options: []) is [String:Any] else {
                         return .just(.failure(.decodeError))
                     }
-//                    print("PrimitiveSequence : ", dictionary)
+                    print(
+                        """
+                        ==============================
+                        Request : \(type)
+                        Respone : \(response)
+                        """
+                    )
                     return .just(.success(try response.map(D.self)))
                 } else {
                     // status : !(200 ~ 300)
@@ -50,9 +56,9 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
                         let errDescription = apiMessage["message"] as? String
                         print(
                             """
-                            =================
-                            Status : \(status)
-                            message : \(errDescription!)
+                            ==============================
+                            Request : \(type)
+                            Response : \(dictionary)
                             """
                         )
                         return .just(.failure(.badRequestError(errDescription!)))

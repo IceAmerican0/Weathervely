@@ -24,9 +24,7 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
     private let tableViewWidth = UIScreen.main.bounds.width * 0.864
     private let buttonMarginBottom = UIScreen.main.bounds.height * 0.1
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
+    private var listCount = 0
     
     override func attribute() {
         super.attribute()
@@ -80,6 +78,30 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
             .bind(onNext: viewModel.didTapConfirmButton)
             .disposed(by: bag)
     }
+    
+    override func viewModelBinding() {
+        viewModel.loadRegionList()
+        
+        viewModel.loadedListRelay
+            .subscribe(onNext: { [weak self] _ in
+                self?.listCount = self?.viewModel.loadedListRelay.value.count ?? 0
+                self?.confirmButtonState()
+                self?.favoriteTableView.reloadData()
+            })
+            .disposed(by: bag)
+    }
+    
+    private func confirmButtonState() {
+        confirmButton.do {
+            if listCount == 3 {
+                $0.isEnabled = false
+                $0.setButtonStyle(.grayFilled)
+            } else {
+                $0.isEnabled = true
+                $0.setButtonStyle(.primary)
+            }
+        }
+    }
 }
 
 // MARK: UITableViewDelegate
@@ -89,17 +111,20 @@ extension EditRegionViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { 25 }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.didTapTableViewCell()
+        viewModel.didTapTableViewCell(indexPath)
     }
     
 }
 
 extension EditRegionViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { 3 }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        listCount
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         return tableView.dequeueCell(withType: EditRegionTableViewCell.self, for: indexPath).then {
-            $0.regionLabel.text = "서울특별시"
+            guard let regionName = viewModel.loadedListRelay.value[indexPath.row].address_name else { return }
+            $0.configureCellState(EditRegionCellState(region: regionName, count: listCount))
         }
     }
 }

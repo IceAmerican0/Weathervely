@@ -23,8 +23,6 @@ public final class SettingRegionCompleteViewController: RxBaseViewController<Set
     private let negativeButton = CSButton(.grayFilled)
     private let confirmButton = CSButton(.primary)
     
-    var isFromEdit = false
-    
     override func attribute() {
         super.attribute()
         
@@ -73,7 +71,7 @@ public final class SettingRegionCompleteViewController: RxBaseViewController<Set
             buttonWrapper.pin.bottom(22%).marginHorizontal(32)
         }
         
-        if isFromEdit {
+        if !UserDefaultManager.shared.isOnBoard {
             progressBar.isHidden = true
         }
     }
