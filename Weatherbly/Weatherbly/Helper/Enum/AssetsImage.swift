@@ -39,6 +39,9 @@ enum AssetsImage: String {
     case search
     case thermometer
     case whiteHeart
+    case closeButton
+    case gradientButton
+    case defaultImage
     
     // Setting
     case editNameIcon
@@ -49,20 +52,15 @@ enum AssetsImage: String {
     case settingTemperatureIcon
     
     // Weather
-    case cloudyMoonMain
-    case cloudySunMain
-    case cloudySunTen
-    case moonMain
-    case rain
-    case rainyMain
-    case rainyTen
-    case sunCloudyMain
-    case sunCloudyTen
-    case sunnyMain
-    case sunnyTen
-    case thunderMain
-    case thunderTen
-    case windyMoonMain
+    case weatherLoadingImage
+    case sunnyImage
+    case nightImage
+    case rainnyImage
+    case cloudyImage
+    case cloudyNightImage
+    case blurCloudImage
+    case windyImage
+    
     
     var image: UIImage? {
         return UIImage(named: self.rawValue)

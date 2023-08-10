@@ -9,7 +9,7 @@ import Foundation
 
 struct RecommendClosetEntity: Codable {
     let status: Int
-    let data: RecommendClosetBody?
+    let data: RecommendClosetData?
     
     enum CodingKeys: String, CodingKey {
         case status = "status"
@@ -17,7 +17,7 @@ struct RecommendClosetEntity: Codable {
     }
 }
 
-struct RecommendClosetBody: Codable {
+struct RecommendClosetData: Codable {
     let list: [RecommendClosetInfo]
     
     enum CodingKeys: String, CodingKey {

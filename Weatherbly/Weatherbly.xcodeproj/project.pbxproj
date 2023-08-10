@@ -77,12 +77,16 @@
 		BD2D01B22A38889E003A25D5 /* CSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D01B12A38889E003A25D5 /* CSButton.swift */; };
 		BD2D01B42A3888AA003A25D5 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D01B32A3888AA003A25D5 /* UIColor+Extension.swift */; };
 		BD2D01B62A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D01B52A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift */; };
-		BD4316342A3C967900E86271 /* SensoryTempViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4316332A3C967900E86271 /* SensoryTempViewController.swift */; };
+		BD4316342A3C967900E86271 /* OnBoardSensoryTempViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4316332A3C967900E86271 /* OnBoardSensoryTempViewController.swift */; };
 		BD4316362A3C9DB700E86271 /* AssetsImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4316352A3C9DB700E86271 /* AssetsImage.swift */; };
 		BD4316382A3CA20900E86271 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4316372A3CA20900E86271 /* UIView+Extension.swift */; };
+		BD49072D2A80DED70027DEE8 /* HomeSensoryTempViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD49072C2A80DED70027DEE8 /* HomeSensoryTempViewController.swift */; };
+		BD49072F2A80DEED0027DEE8 /* HomeSensoryTempViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD49072E2A80DEED0027DEE8 /* HomeSensoryTempViewModel.swift */; };
+		BD4907312A83C3C00027DEE8 /* SensoryTempClosetEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4907302A83C3C00027DEE8 /* SensoryTempClosetEntity.swift */; };
+		BD4907332A84D42F0027DEE8 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4907322A84D42F0027DEE8 /* String+Extension.swift */; };
 		BD4AC38A2A655AEC00537583 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4AC3892A655AEC00537583 /* Date+Extension.swift */; };
 		BD4AC38D2A655CE900537583 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = BD4AC38C2A655CE900537583 /* Toast */; };
-		BD4AC38F2A6671B500537583 /* SeonsoryTempViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4AC38E2A6671B500537583 /* SeonsoryTempViewModel.swift */; };
+		BD4AC38F2A6671B500537583 /* OnBoardSensoryTempViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4AC38E2A6671B500537583 /* OnBoardSensoryTempViewModel.swift */; };
 		BD4AC3912A66899500537583 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4AC3902A66899500537583 /* UILabel+Extension.swift */; };
 		BD4AC3932A669B0500537583 /* SlotMachineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4AC3922A669B0500537583 /* SlotMachineViewModel.swift */; };
 		BD50A5222A4C4072005F066E /* SlotMachineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD50A5212A4C4072005F066E /* SlotMachineViewController.swift */; };
@@ -187,11 +191,15 @@
 		BD2D01B12A38889E003A25D5 /* CSButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSButton.swift; sourceTree = "<group>"; };
 		BD2D01B32A3888AA003A25D5 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		BD2D01B52A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeBaseInitialzerProtocol.swift; sourceTree = "<group>"; };
-		BD4316332A3C967900E86271 /* SensoryTempViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensoryTempViewController.swift; sourceTree = "<group>"; };
+		BD4316332A3C967900E86271 /* OnBoardSensoryTempViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardSensoryTempViewController.swift; sourceTree = "<group>"; };
 		BD4316352A3C9DB700E86271 /* AssetsImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetsImage.swift; sourceTree = "<group>"; };
 		BD4316372A3CA20900E86271 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		BD49072C2A80DED70027DEE8 /* HomeSensoryTempViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSensoryTempViewController.swift; sourceTree = "<group>"; };
+		BD49072E2A80DEED0027DEE8 /* HomeSensoryTempViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSensoryTempViewModel.swift; sourceTree = "<group>"; };
+		BD4907302A83C3C00027DEE8 /* SensoryTempClosetEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensoryTempClosetEntity.swift; sourceTree = "<group>"; };
+		BD4907322A84D42F0027DEE8 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		BD4AC3892A655AEC00537583 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
-		BD4AC38E2A6671B500537583 /* SeonsoryTempViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeonsoryTempViewModel.swift; sourceTree = "<group>"; };
+		BD4AC38E2A6671B500537583 /* OnBoardSensoryTempViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardSensoryTempViewModel.swift; sourceTree = "<group>"; };
 		BD4AC3902A66899500537583 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		BD4AC3922A669B0500537583 /* SlotMachineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlotMachineViewModel.swift; sourceTree = "<group>"; };
 		BD50A5212A4C4072005F066E /* SlotMachineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlotMachineViewController.swift; sourceTree = "<group>"; };
@@ -532,6 +540,7 @@
 				5C9D02B92A68EB3900AF2DA3 /* Observable+Extension.swift */,
 				BD7DAB242A6E757C00422D25 /* PrimitiveSequence+Extension.swift */,
 				5C9D02EB2A725BA200AF2DA3 /* Encodable+Extension.swift */,
+				BD4907322A84D42F0027DEE8 /* String+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -592,6 +601,7 @@
 				BD7DAB262A6E786E00422D25 /* LoginEntity.swift */,
 				BD7DAB322A70DEFC00422D25 /* VillageForecastInfoEntity.swift */,
 				BD6135D22A7E3C9C00DB3DF9 /* RecommendClosetEntity.swift */,
+				BD4907302A83C3C00027DEE8 /* SensoryTempClosetEntity.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -677,9 +687,10 @@
 		BDA66FF02A4AD4E50061A1F0 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				BD4316332A3C967900E86271 /* SensoryTempViewController.swift */,
+				BD4316332A3C967900E86271 /* OnBoardSensoryTempViewController.swift */,
 				BD50A5212A4C4072005F066E /* SlotMachineViewController.swift */,
 				BD5D168B2A612BC900435816 /* DateTimePickViewController.swift */,
+				BD49072C2A80DED70027DEE8 /* HomeSensoryTempViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -688,8 +699,9 @@
 			isa = PBXGroup;
 			children = (
 				BD5D168D2A612BD500435816 /* DateTimePickViewModel.swift */,
-				BD4AC38E2A6671B500537583 /* SeonsoryTempViewModel.swift */,
+				BD4AC38E2A6671B500537583 /* OnBoardSensoryTempViewModel.swift */,
 				BD4AC3922A669B0500537583 /* SlotMachineViewModel.swift */,
+				BD49072E2A80DEED0027DEE8 /* HomeSensoryTempViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -878,16 +890,19 @@
 				5CCC91542A611FCE0025B522 /* NetworkManager.swift in Sources */,
 				5C1BCA172A67D2FF00D02D84 /* NicknameViewModel.swift in Sources */,
 				5CAB60C52A528C9700CD431A /* UICollectionViewCell+Extension.swift in Sources */,
+				BD49072F2A80DEED0027DEE8 /* HomeSensoryTempViewModel.swift in Sources */,
 				5C9D02C22A6E45D600AF2DA3 /* SettingRegionCompleteViewController.swift in Sources */,
 				5C9D02EA2A725AC300AF2DA3 /* AddressRequest.swift in Sources */,
+				BD4907332A84D42F0027DEE8 /* String+Extension.swift in Sources */,
 				BD4316382A3CA20900E86271 /* UIView+Extension.swift in Sources */,
 				BD2D01AE2A38886C003A25D5 /* RxBaseViewController.swift in Sources */,
 				BD4316362A3C9DB700E86271 /* AssetsImage.swift in Sources */,
 				BDA66FED2A444C470061A1F0 /* SelectGenderViewController.swift in Sources */,
 				BD6135D32A7E3C9C00DB3DF9 /* RecommendClosetEntity.swift in Sources */,
-				BD4316342A3C967900E86271 /* SensoryTempViewController.swift in Sources */,
+				BD49072D2A80DED70027DEE8 /* HomeSensoryTempViewController.swift in Sources */,
+				BD4316342A3C967900E86271 /* OnBoardSensoryTempViewController.swift in Sources */,
 				BD7DAB332A70DEFC00422D25 /* VillageForecastInfoEntity.swift in Sources */,
-				BD4AC38F2A6671B500537583 /* SeonsoryTempViewModel.swift in Sources */,
+				BD4AC38F2A6671B500537583 /* OnBoardSensoryTempViewModel.swift in Sources */,
 				5C4BE89B2A5E2D1200FD2CEF /* EditRegionViewController.swift in Sources */,
 				BD4AC3912A66899500537583 /* UILabel+Extension.swift in Sources */,
 				69FDD4CC2A407FA400830927 /* CSProgressView.swift in Sources */,
@@ -932,6 +947,7 @@
 				69FDD4C62A39E42900830927 /* NicknameViewController.swift in Sources */,
 				69CCF1CB2A63CA5000756127 /* RegionDataSource.swift in Sources */,
 				696176B42A63E3C000B83B4C /* BaseDisposeBag.swift in Sources */,
+				BD4907312A83C3C00027DEE8 /* SensoryTempClosetEntity.swift in Sources */,
 				BD7DAB1F2A6E677D00422D25 /* LoginDataSource.swift in Sources */,
 				BD51694B2A5D763000582BA9 /* EditNicknameViewModel.swift in Sources */,
 				BD2D01B62A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift in Sources */,

@@ -1,27 +1,26 @@
 //
-//  SlotMachineViewController.swift
+//  HomeSensoryTempViewController.swift
 //  Weatherbly
 //
-//  Created by 최수훈 on 2023/06/28.
+//  Created by 최수훈 on 2023/08/07.
 //
 
 import UIKit
 import FlexLayout
 import PinLayout
 
-final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel>, UIScrollViewDelegate {
+class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewModel>, UIScrollViewDelegate{
     
     // MARK: - Property
 
-    private var images = [UIImage(systemName: "star.fill"), UIImage(systemName: "book.fill"), UIImage(systemName:"scribble"),
+    var images = [UIImage(systemName: "star.fill"), UIImage(systemName: "book.fill"), UIImage(systemName:"scribble"),
                   UIImage(systemName:"lasso")]
 
     private var headerView = UIView()
-    private var progressBar = CSProgressView(1.0)
-    private var navigationBackButton = UIButton()
+    private var navigationDismissButton = UIButton()
     
     private var mainLabel = CSLabel(.bold, 22, "(닉네임) 님에게\n적당한 옷차림을 골라주세요")
-    private var discriptionLabel = CSLabel(.regular, 16 , "사진을 위아래로 쓸어보세요\n다른 두께감의 옷차림이 나와요")
+    private var discriptionLabel = CSLabel(.regular, 16 , "사진을 위로 밀면 옷이 더 두꺼워져요\n사진을 아래로 밀면 옷이 더 얇아져요")
     
     private var clothScrollViewWrapper = UIView()
     
@@ -36,18 +35,32 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
     private let imageHeight = UIScreen.main.bounds.height * 0.38
     
     
+    override init(_ viewModel: HomeSensoryTempViewModel) {
+        super.init(viewModel)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     // MARK: - Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         scrollView.delegate = self
-        addContentscrollView()
+        
+        // TODO: - Obsevable값으로 유무 판단 변경할 것.
+        if viewModel.closetListByTempRelay.value == nil  {
+            images = [AssetsImage.defaultImage.image]
+        } else {
+//            addContentscrollView()
+        }
     }
+    
     
     func addContentscrollView() {
         for i in 0..<images.count {
@@ -60,6 +73,9 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
         }
     }
     
+    
+   
+    
     // TODO: - Toast message 띄우기
     
     // MARK: - Attribute
@@ -67,9 +83,8 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
     override func attribute() {
         super.attribute()
         
-        navigationBackButton.do {
-            $0.setImage(AssetsImage.navigationBackButton.image, for: .normal)
-            $0.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
+        navigationDismissButton.do {
+            $0.setImage(AssetsImage.closeButton.image, for: .normal)
         }
         
         mainLabel.do {
@@ -82,9 +97,9 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
             $0.layer.cornerRadius = 20.0
             $0.backgroundColor = CSColor._253_253_253.color
             $0.setShadow(CGSize(width: 0, height: 4), CSColor._220_220_220.cgColor, 1, 10)
+            // TODO: - shadow처리
         }
         
-       
         scrollView.do {
             $0.isPagingEnabled = true
             $0.isScrollEnabled = true
@@ -141,8 +156,7 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
             .define { flex in
             flex.addItem(headerView)
                 .define { flex in
-                    flex.addItem(progressBar)
-                    flex.addItem(navigationBackButton)
+                    flex.addItem(navigationDismissButton)
                         .size(44)
                         .margin(15, 12, 0, 0)
             }
@@ -177,8 +191,6 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
                 .marginTop(16)
                 .marginHorizontal(43)
                 .height(bottomButton.primaryHeight)
-            
-            
         }
         
         
@@ -186,12 +198,25 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
     
     // MARK: - Bind
 
-    override func bind() {
-        super.bind()
+    override func viewBinding() {
+        super.viewBinding()
+        
+        navigationDismissButton.rx.tap
+            .subscribe(onNext: { [ weak self ] _ in
+                self?.dismiss(animated: true)
+            })
+            .disposed(by: bag)
+        
+        viewModel.closetListByTempRelay
+            .subscribe(onNext: { [ weak self ] result in
+//                switch result {
+//                case .succes():
+//                    
+//                }
+            })
+            .disposed(by: bag)
+        
+        viewModel.getClosetBySensoryTemp()
     }
- 
     
-    @objc func didTapBackButton() {
-        self.navigationController?.popViewController(animated: true)
-    }
 }

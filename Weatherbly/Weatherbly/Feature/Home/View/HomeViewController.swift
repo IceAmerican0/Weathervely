@@ -33,8 +33,8 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
     private lazy var pagerView = FSPagerView()
     
     private var bottomButtonWrapper = UIView()
-    private var todayButton = CSButton(.primary)
-    private var tomorrowButton = CSButton(.primary)
+    private var sensoryViewButton = CSButton(.primary)
+//    var sensoryViewButton = UIButton()
     
     private let screenWidth = UIScreen.main.bounds.width
     private let screenHeight = UIScreen.main.bounds.height
@@ -45,6 +45,7 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
     private let closetCellWidth = UIScreen.main.bounds.width * 0.44
     
     private let tapGesture = UITapGestureRecognizer()
+    var date = Date()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,12 +76,8 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
             $0.setImage(AssetsImage.schedule.image, for: .normal)
         }
         
-        dailyWrapper.do {
-            $0.addGestureRecognizer(tapGesture)
-        }
-        
         weatherImageView.do {
-            $0.setAssetsImage(.sunnyMain)
+            $0.setAssetsImage(.weatherLoadingImage)
         }
         
         temperatureLabel.do {
@@ -109,12 +106,13 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
             $0.transformer = FSPagerViewTransformer(type: .linear)
         }
         
-        todayButton.do {
-            $0.setTitle("오늘 옷차림", for: .normal)
-        }
-        
-        tomorrowButton.do {
-            $0.setTitle("내일 옷차림", for: .normal)
+        sensoryViewButton.do {
+            $0.setBackgroundImage(AssetsImage.gradientButton.image, for: .normal)
+            $0.setTitleColor(.black, for: .normal)
+            $0.setCornerRadius(30)
+            $0.setBackgroundColor(.white)
+            $0.setShadow(CGSize(width: 0, height: 0), nil, 0, 0)
+            $0.setTitle("체감온도", for: .normal)
         }
         
     }
@@ -134,6 +132,7 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
                     }
                 flex.addItem(calendarButton).size(44)
             }
+            
             flex.addItem(dailyWrapper)
                 .width(110%)
                 .alignItems(.center).define { flex in
@@ -145,8 +144,7 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
             
             flex.addItem(pagerView).width(screenWidth).height(closetWrapperHeight + 20)
             flex.addItem(bottomButtonWrapper).direction(.row).define { flex in
-                flex.addItem(todayButton).marginRight(20).width(100).height(40)
-                flex.addItem(tomorrowButton).marginLeft(20).width(100).height(40)
+                flex.addItem(sensoryViewButton).padding(3, 13.5)
             }
             
             pagerView.pin.top(to: dailyWrapper.edge.bottom).margin(screenHeight * 0.03)
@@ -159,19 +157,41 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
     }
     
     override func viewBinding() {
+        
         dailyWrapper.rx.swipeGesture([.left,.right])
             .when(.ended)
             .subscribe (onNext: { [weak self] dircection in
                 // TODO: 현재시간 넣어서 보내기
-                self?.viewModel.swipeAndReloadData(0)
+                // 1. 해당 시간대 시간 키값으로하는 카테고리 받아서 UI 세팅하기
+                // 2. 체감온도 파라미터로 보낼 시간 업데이트,
+                // 3. 메인에서 어제랑 비교하는 라벨 메세지 변경하기
+//                self?.viewModel.swipeRight(0)
                 if dircection.direction == .left {
                     // 시간대 뒤로
+                    self?.viewModel.swipeLeft()
                 } else {
                     // 시간대 앞으로
+                    self?.viewModel.swipeRight(0)
                 }
             })
             .disposed(by: bag)
         
+        sensoryViewButton.rx.tapGesture()
+            .when(.ended)
+            .subscribe(onNext: { [weak self] _ in
+                // 지금 하이라이트 된 사진
+                // 선택시간, 온도
+                // 넣어서 화면 모달 띄우기
+                // TODO: - 선택돼어있는 시간 넣기
+                self?.viewModel.toSensoryTempView("시간넣기")
+            }).disposed(by: bag)
+        
+        dailyWrapper.rx.tapGesture()
+            .subscribe(onNext: { [weak self] _ in
+                self?.viewModel.toDailyForecastView()
+            })
+            .disposed(by: bag)
+
         tapGesture.rx
             .event
             .map { _ in
@@ -194,22 +214,22 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
         super.viewModelBinding()
         
         viewModel
-            .villageForeCastInfoEntityRelay
-            .subscribe(onNext: { [weak self] result in
-                let todayInfo  = self?.viewModel.bindingDateWeather(result, 0, Date().today24Time)
-                self?.viewModel.getWeatherImage(todayInfo)
-                self?.setWeatherInfo(todayInfo, "현재")
+            .weatherImageRelay
+            .subscribe(onNext: { [weak self] image in
+                
+                self?.weatherImageView.image = image
             })
             .disposed(by: bag)
         
-        /// [String: String]을 반환하는릴레이를 만든다음 구독하고있는다.
-        /// 스와이프 할 때 날짜와 시간을 가지고 있는 릴레이를 만든다.
-        /// 거기서 변경이 일어나면 [String: String]을 반환하는 함수를 호출한다...
-        /// 1. 처음 쏠때 viewModel에서 Entity 방출
-        /// 2. 그 entity로 뷰 멤핑 -> [String: String] 타입 방출받아서 setInfo에 해준다.
-        /// 3. swipe하면 날짜, 타임 받아서  다시 [String: String] 방출 -> 멤핑
-        ///
-        /// 가능?
+        viewModel
+            .villageForeCastInfoEntityRelay
+            .subscribe(onNext: { [weak self] result in
+                let todayInfo  = self?.viewModel.bindingWeatherByDate(result, 0, (self?.date.today24Time)!)
+                
+                self?.setWeatherInfo(todayInfo, "현재")
+                self?.viewModel.getWeatherImage(todayInfo)
+            })
+            .disposed(by: bag)
         
         viewModel
             .recommendClosetEntityRelay
@@ -221,7 +241,13 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
             })
             .disposed(by: bag)
         
-        viewModel.getInfo()
+        viewModel.selectedJustHourRelay
+            .subscribe(onNext: { [weak self] justTimeString in
+                self?.mainTimeLabel.text = justTimeString
+            })
+            .disposed(by: bag)
+        
+        viewModel.getInfo(self.date.todayParamType)
     }
     
     func setWeatherInfo(_ info: [String: String]?, _ mainTimeText: String) {
@@ -253,6 +279,11 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
 
 // MARK: FSPagerViewDelegate
 extension HomeViewController: FSPagerViewDelegate {
+    
+    func pagerView(_ pagerView: FSPagerView, didHighlightItemAt index: Int) {
+        
+        viewModel.highlightedCellIndexRelay.accept(index)
+    }
     func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
         pagerView.deselectItem(at: index, animated: true)
         pagerView.scrollToItem(at: index, animated: true)
@@ -277,8 +308,7 @@ extension HomeViewController: FSPagerViewDataSource {
         
         guard let closetInfo = closetInfo else {
             cell.clothImageSourceLabel.text = "loading.."
-            cell.clothImageView.image = UIImage(systemName: "gear")
-            
+            cell.clothImageView.image = AssetsImage.defaultImage.image
             return cell
         }
         
@@ -294,5 +324,6 @@ extension HomeViewController: FSPagerViewDataSource {
         
         return cell
     }
+    
 
 }
