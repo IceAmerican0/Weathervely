@@ -45,6 +45,7 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
     private let closetCellWidth = UIScreen.main.bounds.width * 0.44
     
     private let tapGesture = UITapGestureRecognizer()
+    var date = Date()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -178,7 +179,8 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
                 // 지금 하이라이트 된 사진
                 // 선택시간, 온도
                 // 넣어서 화면 모달 띄우기
-                self?.viewModel.toSensoryTempView()
+                // TODO: - 선택돼어있는 시간 넣기
+                self?.viewModel.toSensoryTempView("시간넣기")
             }).disposed(by: bag)
         
         dailyWrapper.rx.tapGesture()
@@ -220,7 +222,7 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
         viewModel
             .villageForeCastInfoEntityRelay
             .subscribe(onNext: { [weak self] result in
-                let todayInfo  = self?.viewModel.bindingDateWeather(result, 0, Date().today24Time)
+                let todayInfo  = self?.viewModel.bindingDateWeather(result, 0, (self?.date.today24Time)!)
                 
                 self?.setWeatherInfo(todayInfo, "현재")
                 self?.viewModel.getWeatherImage(todayInfo)
@@ -246,7 +248,7 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
             })
             .disposed(by: bag)
         
-        viewModel.getInfo()
+        viewModel.getInfo(self.date.todayParamType)
     }
     
     func setWeatherInfo(_ info: [String: String]?, _ mainTimeText: String) {
@@ -307,8 +309,7 @@ extension HomeViewController: FSPagerViewDataSource {
         
         guard let closetInfo = closetInfo else {
             cell.clothImageSourceLabel.text = "loading.."
-            cell.clothImageView.image = UIImage(systemName: "gear")
-            
+            cell.clothImageView.image = AssetsImage.defaultImage.image
             return cell
         }
         

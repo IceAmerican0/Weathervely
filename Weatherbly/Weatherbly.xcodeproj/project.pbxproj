@@ -82,6 +82,7 @@
 		BD4316382A3CA20900E86271 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4316372A3CA20900E86271 /* UIView+Extension.swift */; };
 		BD49072D2A80DED70027DEE8 /* HomeSensoryTempViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD49072C2A80DED70027DEE8 /* HomeSensoryTempViewController.swift */; };
 		BD49072F2A80DEED0027DEE8 /* HomeSensoryTempViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD49072E2A80DEED0027DEE8 /* HomeSensoryTempViewModel.swift */; };
+		BD4907312A83C3C00027DEE8 /* SensoryTempClosetEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4907302A83C3C00027DEE8 /* SensoryTempClosetEntity.swift */; };
 		BD4AC38A2A655AEC00537583 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4AC3892A655AEC00537583 /* Date+Extension.swift */; };
 		BD4AC38D2A655CE900537583 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = BD4AC38C2A655CE900537583 /* Toast */; };
 		BD4AC38F2A6671B500537583 /* OnBoardSensoryTempViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4AC38E2A6671B500537583 /* OnBoardSensoryTempViewModel.swift */; };
@@ -194,6 +195,7 @@
 		BD4316372A3CA20900E86271 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		BD49072C2A80DED70027DEE8 /* HomeSensoryTempViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSensoryTempViewController.swift; sourceTree = "<group>"; };
 		BD49072E2A80DEED0027DEE8 /* HomeSensoryTempViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSensoryTempViewModel.swift; sourceTree = "<group>"; };
+		BD4907302A83C3C00027DEE8 /* SensoryTempClosetEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensoryTempClosetEntity.swift; sourceTree = "<group>"; };
 		BD4AC3892A655AEC00537583 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		BD4AC38E2A6671B500537583 /* OnBoardSensoryTempViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardSensoryTempViewModel.swift; sourceTree = "<group>"; };
 		BD4AC3902A66899500537583 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
@@ -596,6 +598,7 @@
 				BD7DAB262A6E786E00422D25 /* LoginEntity.swift */,
 				BD7DAB322A70DEFC00422D25 /* VillageForecastInfoEntity.swift */,
 				BD6135D22A7E3C9C00DB3DF9 /* RecommendClosetEntity.swift */,
+				BD4907302A83C3C00027DEE8 /* SensoryTempClosetEntity.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -940,6 +943,7 @@
 				69FDD4C62A39E42900830927 /* NicknameViewController.swift in Sources */,
 				69CCF1CB2A63CA5000756127 /* RegionDataSource.swift in Sources */,
 				696176B42A63E3C000B83B4C /* BaseDisposeBag.swift in Sources */,
+				BD4907312A83C3C00027DEE8 /* SensoryTempClosetEntity.swift in Sources */,
 				BD7DAB1F2A6E677D00422D25 /* LoginDataSource.swift in Sources */,
 				BD51694B2A5D763000582BA9 /* EditNicknameViewModel.swift in Sources */,
 				BD2D01B62A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift in Sources */,

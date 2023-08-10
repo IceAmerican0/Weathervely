@@ -13,7 +13,7 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
     
     // MARK: - Property
 
-    private var images = [UIImage(systemName: "star.fill"), UIImage(systemName: "book.fill"), UIImage(systemName:"scribble"),
+    var images = [UIImage(systemName: "star.fill"), UIImage(systemName: "book.fill"), UIImage(systemName:"scribble"),
                   UIImage(systemName:"lasso")]
 
     private var headerView = UIView()
@@ -34,13 +34,18 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
     private var bottomButton = CSButton(.primary)
     private let imageHeight = UIScreen.main.bounds.height * 0.38
     
-    var didSet = false
     
+    override init(_ viewModel: HomeSensoryTempViewModel) {
+        super.init(viewModel)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     // MARK: - Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(#function)
         
     }
     
@@ -49,13 +54,12 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
         scrollView.delegate = self
         
         // TODO: - Obsevable값으로 유무 판단 변경할 것.
-        if !didSet {
-            addContentscrollView()
+        if viewModel.closetListByTempRelay.value == nil  {
+            images = [AssetsImage.defaultImage.image]
+        } else {
+//            addContentscrollView()
         }
-        
-        
     }
-    
     
     
     func addContentscrollView() {
@@ -67,8 +71,10 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
             scrollView.addSubview(imageView)
             scrollView.contentSize.height = imageView.frame.height * CGFloat(i + 1)
         }
-        didSet = true
     }
+    
+    
+   
     
     // TODO: - Toast message 띄우기
     
@@ -200,6 +206,17 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
                 self?.dismiss(animated: true)
             })
             .disposed(by: bag)
+        
+        viewModel.closetListByTempRelay
+            .subscribe(onNext: { [ weak self ] result in
+//                switch result {
+//                case .succes():
+//                    
+//                }
+            })
+            .disposed(by: bag)
+        
+        viewModel.getClosetBySensoryTemp()
     }
     
 }

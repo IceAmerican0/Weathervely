@@ -12,7 +12,7 @@ import RxMoya
 protocol ClosetDataSourceProtocol { // TODO: Entity 변경
     func getStyleList() -> Observable<Result<EmptyEntity, WBNetworkError>>
     func setStylePickedList(_ closetIDs: [Int]) -> Observable<Result<EmptyEntity, WBNetworkError>>
-    func getSensoryTemperatureStyle(_ dateTime: String) -> Observable<Result<EmptyEntity, WBNetworkError>>
+    func getSensoryTemperatureCloset(_ dateTime: String) -> Observable<Result<SensoryTempClosetEntity, WBNetworkError>>
     func setSensoryTemperature(_ closetInfo: String) -> Observable<Result<EmptyEntity, WBNetworkError>>
     func gerRecommendCloset(_ dateTime: String) -> Observable<Result<RecommendClosetEntity, WBNetworkError>>
 }
@@ -36,10 +36,10 @@ final class ClosetDataSource: ClosetDataSourceProtocol {
             .mapTo(EmptyEntity.self)
     }
     
-    public func getSensoryTemperatureStyle(_ dateTime: String) -> Observable<Result<EmptyEntity, WBNetworkError>> {
+    public func getSensoryTemperatureCloset(_ dateTime: String) -> Observable<Result<SensoryTempClosetEntity, WBNetworkError>> {
         provider.rx
-            .request(.getSensoryTemperatureStyle(dateTime))
-            .mapTo(EmptyEntity.self)
+            .request(.getSensoryTemperatureCloset(dateTime))
+            .mapTo(SensoryTempClosetEntity.self)
     }
     
     public func setSensoryTemperature(_ closetInfo: String) -> Observable<Result<EmptyEntity, WBNetworkError>> {

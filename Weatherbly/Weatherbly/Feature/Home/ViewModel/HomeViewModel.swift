@@ -19,7 +19,12 @@ public protocol HomeViewModelLogic: ViewModelBusinessLogic {
     func toSettingView()
     func toDailyForecastView()
     func toTenDaysForecastView()
-    func didTapClosetCell()
+    func toSensoryTempView(_ selectedDate: String)
+    func getInfo(_ dateString: String)
+    func getVillageForecastInfo()
+    func getRecommendCloset(_ dateString: String)
+    func swipeRight(_ dayInterval: Int) -> [String : String?]?
+    func swipeLeft()
     var viewAction: PublishRelay<HomeViewAction> { get }
 }
 
@@ -43,9 +48,9 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         super.init()
     }
     
-    func getInfo() {
+    public func getInfo(_ dateString: String) {
         getVillageForecastInfo()
-        getRecommendCloset()
+        getRecommendCloset(dateString)
     }
     
     public func getVillageForecastInfo() {
@@ -79,14 +84,14 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             .disposed(by: bag)
     }
     
-    private func getRecommendCloset() {
+    public func getRecommendCloset(_ dateString: String) {
+        // TODO: - 시간 파라미터로 받기
+//        let date = Date()
+//        let dateFormmater = DateFormatter.shared
+//        dateFormmater.dateFormat = "yyyy-MM-dd HH:00"
+//        print(dateFormmater.string(from: date))
         
-        let date = Date()
-        let dateFormmater = DateFormatter.shared
-        dateFormmater.dateFormat = "yyyy-MM-dd HH:00"
-        print(dateFormmater.string(from: date))
-        
-        getRecommendClosetDataSouce.gerRecommendCloset(dateFormmater.string(from: date))
+        getRecommendClosetDataSouce.gerRecommendCloset(dateString)
             .subscribe(onNext: { [weak self] result in
                 switch result {
                 case .success(let respone):
@@ -152,7 +157,6 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             
             for key in orderedByTimeCategories![TMXTime].value {
                 if key.key == "TMX" {
-                    print(key)
                     returnCategoryValues?.updateValue(key.value, forKey: key.key)
                 }
             }
@@ -161,7 +165,6 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         if selectedHour != "\(TMNTime)00" {
             for key in orderedByTimeCategories![TMNTime].value {
                 if key.key == "TMN" {
-                    print(key)
                     returnCategoryValues?.updateValue(key.value, forKey: key.key)
                 }
             }
@@ -172,23 +175,29 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     func getWeatherImage(_ categoryValues: [String: String]?) {
         
         if !(categoryValues!.isEmpty) {
-            
+            print(0)
             let rainPossibility = Int(categoryValues!["POP"]!)!
             let rainForm = Int(categoryValues!["PTY"]!)
             
-            guard var rainfall: Int = {
+            
+            // let numericPart = stringValue.trimmingCharacters(in: CharacterSet.decimalDigits.inverted)
+
+            guard var rainfall: Double = {
                 if (categoryValues!["PCP"] == "강수없음") {
                     return 0
                 } else {
-                    return Int(categoryValues!["PCP"]!)
+                    var rainfall = Double((categoryValues!["PCP"]?.trimmingCharacters(in: CharacterSet.decimalDigits.inverted))!)
+                    return rainfall
                 }
             }() else { return }
             
-            guard var snowfall: Int = {
+            
+            guard var snowfall: Double = {
                 if(categoryValues!["SNO"] == "적설없음") {
                     return 0
                 } else {
-                    return Int(categoryValues!["SNO"]!)
+                    var snowfall = Double((categoryValues!["SNO"]?.trimmingCharacters(in: CharacterSet.decimalDigits.inverted))!)
+                    return snowfall
                 }
             }() else { return }
             
@@ -210,7 +219,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                 /// 강수 형태가 눈일수도 있기때문에 강수형태도 고려해야한다.
                 // TODO: - 메세지 필요
                 case 1...:
-                    if rainfall >= 40 {
+                    if rainPossibility >= 40 {
                         switch rainForm {
                         // (단기) 없음(0), 비(1), 비/눈(2), 눈(3), 소나기(4)
                         case 1:
@@ -234,10 +243,12 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                         
                         // message -> 비관련
                     } else {
-                        self.weatherImageWitnNoRain(skyStatus)
+                        // 강수확률 0...40 일 때
+                        self.noRainWeatherImage(skyStatus)
                     }
                 case ...0:
-                    self.weatherImageWitnNoRain(skyStatus)
+                print(3)
+                    self.noRainWeatherImage(skyStatus)
                 default:
                 print(4)
                     break
@@ -247,7 +258,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         }
     }
     
-    func weatherImageWitnNoRain (_ skyStatus: Int) {
+    func noRainWeatherImage (_ skyStatus: Int) {
         
         var weatherImage: UIImage?
         // TODO: -
@@ -277,7 +288,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     }
     
     
-    func swipeRight(_ dayInterval: Int) -> [String: String?]? {
+    public func swipeRight(_ dayInterval: Int) -> [String: String?]? {
         
         /// 1. 현재시간 가져오기
         /// 2. 현재시간 보다 작으면 아무액션 없기.
@@ -307,7 +318,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         return [:]
     }
     
-    func swipeLeft() {
+    public func swipeLeft() {
         
     }
     
@@ -326,15 +337,11 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         navigationPushViewControllerRelay.accept(vc)
     }
     
-    public func toSensoryTempView() {
-        let vc = HomeSensoryTempViewController(HomeSensoryTempViewModel())
+    public func toSensoryTempView(_ selectedDate: String) {
+        let vc = HomeSensoryTempViewController(HomeSensoryTempViewModel(selectedDate))
         vc.isModalInPresentation = true // prevent to dismiss the viewController when drag action 
         presentViewControllerWithAnimationRelay.accept(vc)
     }
-    
-    public func didTapClosetCell() {
-        
-    }
-    
+
     
 }

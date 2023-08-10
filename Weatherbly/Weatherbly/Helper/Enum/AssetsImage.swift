@@ -41,6 +41,7 @@ enum AssetsImage: String {
     case whiteHeart
     case closeButton
     case gradientButton
+    case defaultImage
     
     // Setting
     case editNameIcon
