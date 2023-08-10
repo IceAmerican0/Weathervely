@@ -162,6 +162,9 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
             .when(.ended)
             .subscribe (onNext: { [weak self] dircection in
                 // TODO: 현재시간 넣어서 보내기
+                // 1. 해당 시간대 시간 키값으로하는 카테고리 받아서 UI 세팅하기
+                // 2. 체감온도 파라미터로 보낼 시간 업데이트,
+                // 3. 메인에서 어제랑 비교하는 라벨 메세지 변경하기
 //                self?.viewModel.swipeRight(0)
                 if dircection.direction == .left {
                     // 시간대 뒤로
@@ -204,7 +207,6 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
         calendarButton.rx.tap
             .bind(onNext: viewModel.toTenDaysForecastView)
             .disposed(by: bag)
-        
     }
     
     
@@ -222,21 +224,12 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
         viewModel
             .villageForeCastInfoEntityRelay
             .subscribe(onNext: { [weak self] result in
-                let todayInfo  = self?.viewModel.bindingDateWeather(result, 0, (self?.date.today24Time)!)
+                let todayInfo  = self?.viewModel.bindingWeatherByDate(result, 0, (self?.date.today24Time)!)
                 
                 self?.setWeatherInfo(todayInfo, "현재")
                 self?.viewModel.getWeatherImage(todayInfo)
             })
             .disposed(by: bag)
-        
-        /// [String: String]을 반환하는릴레이를 만든다음 구독하고있는다.
-        /// 스와이프 할 때 날짜와 시간을 가지고 있는 릴레이를 만든다.
-        /// 거기서 변경이 일어나면 [String: String]을 반환하는 함수를 호출한다...
-        /// 1. 처음 쏠때 viewModel에서 Entity 방출
-        /// 2. 그 entity로 뷰 멤핑 -> [String: String] 타입 방출받아서 setInfo에 해준다.
-        /// 3. swipe하면 날짜, 타임 받아서  다시 [String: String] 방출 -> 멤핑
-        ///
-        /// 가능?
         
         viewModel
             .recommendClosetEntityRelay
@@ -245,6 +238,12 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
 //                guard let result = result else { return }
 //                print(result.data!)
                 self?.pagerView.reloadData()
+            })
+            .disposed(by: bag)
+        
+        viewModel.selectedJustHourRelay
+            .subscribe(onNext: { [weak self] justTimeString in
+                self?.mainTimeLabel.text = justTimeString
             })
             .disposed(by: bag)
         

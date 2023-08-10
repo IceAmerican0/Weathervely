@@ -34,11 +34,15 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     
     private let getVilageDataSource = ForecastDataSource()
     private let getRecommendClosetDataSouce = ClosetDataSource()
-    //    let villageForeCastInfoEntityRelay  = BehaviorRelay<[String: String?]?>(value: [:])
+    
     let villageForeCastInfoEntityRelay  = BehaviorRelay<VillageForecastInfoEntity?>(value: nil)
+    let recommendClosetEntityRelay = BehaviorRelay<RecommendClosetEntity?>(value: nil)
     let mappedCategoryDicRelay = BehaviorRelay<[String: String]?>(value: [:])
     let chageDateTimeRelay = BehaviorRelay<[String]?>(value: nil)
-    let recommendClosetEntityRelay = BehaviorRelay<RecommendClosetEntity?>(value: nil)
+    
+    
+    let selectedJustHourRelay = BehaviorRelay<String?>(value: Date().today24Time)
+    let selectedHourParamTypeRelay = BehaviorRelay<String?>(value: Date().todayParamType)
     
     var highlightedCellIndexRelay = BehaviorRelay<Int>(value: 0)
     var weatherImageRelay = BehaviorRelay<UIImage?>(value: AssetsImage.weatherLoadingImage.image)
@@ -76,7 +80,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                      */
                     
                     self?.villageForeCastInfoEntityRelay.accept(response)
-                    self?.mappedCategoryDicRelay.accept(self?.bindingDateWeather(response, 0, Date().today24Time))
+                    self?.mappedCategoryDicRelay.accept(self?.bindingWeatherByDate(response, 0, Date().today24Time))
                 case .failure(let error):
                     print("viewModel Error : ", error.localizedDescription)
                 }
@@ -105,15 +109,13 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     }
     
     
-    func bindingDateWeather(_ response: VillageForecastInfoEntity?, _ dayInterval: Int, _ selectedHour: String) -> [String: String]? {
+    func bindingWeatherByDate(_ response: VillageForecastInfoEntity?, _ dayInterval: Int, _ selectedHour: String) -> [String: String]? {
         
         let date = Date()
         let selectedDate = date.dayAfter(dayInterval)
         // 원하는 날짜 멥핑
         let todayForecast = response?.data!.list[selectedDate]!.forecasts
         
-        //        let selectedHour = "\((date.today24Time.components(separatedBy: " ").map { $0 })[2])00"
-        //        let selectedHour = "\(date.today24Time)"
         let selectedHour = selectedHour
         
         var timeToCategoryValue: [String: [String: String]] = [:]
@@ -202,12 +204,12 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             }() else { return }
             
             let skyStatus = Int(categoryValues!["SKY"]!)!
-            let windSpeed = categoryValues!["WSD"]
-            
-            let humidity = categoryValues!["REH"]
-            let temp = categoryValues!["TMP"]
-            let maxTemp = categoryValues!["TMX"]
-            let minTemp = categoryValues!["TMN"]
+//            let windSpeed = categoryValues!["WSD"]
+//
+//            let humidity = categoryValues!["REH"]
+//            let temp = categoryValues!["TMP"]
+//            let maxTemp = categoryValues!["TMX"]
+//            let minTemp = categoryValues!["TMN"]
             
 
             var weatherImage: UIImage?
@@ -301,20 +303,26 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         ///현재시간 23시 오른쪽으로 스와이프하면 내일 날씨.
 
         let date = Date()
-        let nowHour = date.today24Time
+        let dateFormatter = DateFormatter.shared
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
         
         var timeArray = [ "0700", "0900", "1200", "1500", "1800", "2100" ]
         
-        timeArray.forEach { time in
-            
+        for time in timeArray {
+            if time > selectedJustHourRelay.value! {
+                selectedJustHourRelay.accept(time) // HH00
+                selectedHourParamTypeRelay.accept("\(dateFormatter.string(from: date)) \(time.addColon)") // param format date
+                break
+            }
+//            else if {
+//
+//            }
         }
         
         guard let weatherInfo = self.villageForeCastInfoEntityRelay.value else { return [:] }
         
         
-        
-
-        print("Swipe:@@@@@@@@", self.villageForeCastInfoEntityRelay.value!)
         return [:]
     }
     
