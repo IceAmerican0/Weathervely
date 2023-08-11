@@ -13,11 +13,6 @@ import RxSwift
 import Toast
 
 final class DateTimePickViewController: RxBaseViewController<DateTimePickViewModel> {
-    
-    var pickerFirstRowData = ["어제","오늘"]
-    var pickerSecondRowData = ["오전","오후"]
-    var pickerThirdRowData = [1,2,3,4,5,6,7,8,9,10,11,12]
-    
     // MARK: - UI Property
     private let headerWrapper = UIView()
     private var progressBar = CSProgressView(1.0)
@@ -36,9 +31,11 @@ final class DateTimePickViewController: RxBaseViewController<DateTimePickViewMod
     
     private let bottomButton = CSButton(.primary)
     
+    var pickerFirstRowData = ["어제","오늘"]
+    var pickerSecondRowData = ["오전","오후"]
+    var pickerThirdRowData = [1,2,3,4,5,6,7,8,9,10,11,12]
     
     // MARK: - Life Cycle Propery
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         dateTimePickerView.delegate = self
@@ -46,12 +43,7 @@ final class DateTimePickViewController: RxBaseViewController<DateTimePickViewMod
         dateTimePickerView.selectRow(6, inComponent: 2, animated: true)
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-    }
-    
     // MARK: - layout
-    
     override func attribute() {
         super.attribute()
 
@@ -76,8 +68,6 @@ final class DateTimePickViewController: RxBaseViewController<DateTimePickViewMod
         discriptionLabel.do {
             $0.setLineHeight(1.3)
         }
-        
-
 //        dateTimePickerView.selectRow(6, inComponent: 2, animated: true)
     }
     
@@ -119,23 +109,18 @@ final class DateTimePickViewController: RxBaseViewController<DateTimePickViewMod
                 bottomButton.pin.bottom(53)
 //                    .bottom(view.pin.safeArea.bottom + 53)
 //                    .marginBottom(53)
-                
-                
             }
     }
     
     // MARK: - binding
-
     override func bind() {
         super.bind()
         
         bottomButton.rx.tap
-            .subscribe { [weak self] _ in
-                // TODO: - viewModel로 옮기기
-                                
+            .subscribe (onNext: { [weak self] _ in
                 let date = Date()
                 let today = date.todayTime.components(separatedBy: " ").map{ $0 }
-//                print("현재시간: ", today)
+        //                print("현재시간: ", today)
                 
                 // Get Picker value
                 let pickerDay: String = self?.pickerFirstRowData[(self?.dateTimePickerView.selectedRow(inComponent: 0))  ?? 0] ?? "어제"
@@ -143,51 +128,13 @@ final class DateTimePickViewController: RxBaseViewController<DateTimePickViewMod
                 let pickerDayTime: String = self?.pickerSecondRowData[(self?.dateTimePickerView.selectedRow(inComponent: 1)) ?? 0] ?? "오전"
                 
                 let pickerTime: Int = Int(self?.pickerThirdRowData[(self?.dateTimePickerView.selectedRow(inComponent: 2)) ?? 6] ?? 7)
-                
-                /// 시간비교
-                if today[2] == "오전" {
-                    if pickerDay == "오늘" {
-                        if pickerDayTime == "오전" {
-                            // 시간 비교
-                            if Int(today[3])! > pickerTime {
-                                self?.view.showToast(message: "미래 시간은 선택 할 수 없어요", font: .systemFont(ofSize: 16))
-                                
-                            } else {
-                                self?.navigationController?.pushViewController(OnBoardSensoryTempViewController(OnBoardSensoryTempViewModel()), animated: true)
-                                
-                            }
-                        } else { // 선택시간이 오후
-                            // Toast
-                            self?.view.showToast(message: "미래 시간은 선택 할 수 없어요", font: .systemFont(ofSize: 16))
-                        }
-                    }
-                } else { // 지금이 오후
-                    if pickerDay == "오늘" {
-                        if pickerDayTime == "오후" {
-                            //시간비교
-                            if Int(today[3])! < pickerTime {
-                                self?.view.showToast(message: "미래 시간은 선택 할 수 없어요", font: .systemFont(ofSize: 16))
-                            } else {
-                                self?.navigationController?.pushViewController(OnBoardSensoryTempViewController(OnBoardSensoryTempViewModel()), animated: true)
-                            }
-                        } else {
-                            self?.navigationController?.pushViewController(OnBoardSensoryTempViewController(OnBoardSensoryTempViewModel()), animated: true)
-                        }
-                    } else {
-                        self?.navigationController?.pushViewController(OnBoardSensoryTempViewController(OnBoardSensoryTempViewModel()), animated: true)
-                    }
-                }
-//                print("선택시간: ", pickerDay , pickerDayTime , pickerTime)
-            }
+                self?.viewModel.didTapConfirmButton(today, pickerDay, pickerDayTime, pickerTime)
+            })
+            .disposed(by: bag)
     }
-
-
-
 }
 
-
 extension DateTimePickViewController: UIPickerViewDelegate, UIPickerViewDataSource {
-    
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 3 // 어제,오늘/ 오전,오후/ 시
     }
@@ -215,7 +162,6 @@ extension DateTimePickViewController: UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-
         switch component {
         case 0:
             return NSAttributedString(string: pickerFirstRowData[row], attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20),NSAttributedString.Key.foregroundColor: UIColor.black])
@@ -225,6 +171,4 @@ extension DateTimePickViewController: UIPickerViewDelegate, UIPickerViewDataSour
             return NSAttributedString(string: "\(String(pickerThirdRowData[row])) 시", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20),NSAttributedString.Key.foregroundColor: UIColor.black])
         }
    }
-    
-    
 }
