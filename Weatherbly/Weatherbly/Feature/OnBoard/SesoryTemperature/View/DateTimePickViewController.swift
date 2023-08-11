@@ -198,9 +198,15 @@ extension DateTimePickViewController: UIPickerViewDelegate, UIPickerViewDataSour
             return pickerFirstRowData.count
         case 1:
             return pickerSecondRowData.count
-        default:
-            return pickerThirdRowData.count
-        }
+        case 2:
+           if pickerView.selectedRow(inComponent: 0) == 0 && pickerView.selectedRow(inComponent: 1) == 0 {
+               return pickerThirdRowData.count - 3 // to hide 1, 2, 3
+           } else {
+               return pickerThirdRowData.count
+           }
+       default:
+           return 0
+       }
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
@@ -209,21 +215,47 @@ extension DateTimePickViewController: UIPickerViewDelegate, UIPickerViewDataSour
             return pickerFirstRowData[row]
         case 1:
             return pickerSecondRowData[row]
+        case 2:
+                if pickerView.selectedRow(inComponent: 0) == 0 && pickerView.selectedRow(inComponent: 1) == 0 {
+                    return "\(pickerThirdRowData[row + 3])" // Offset by 3 to hide the first three numbers
+                } else {
+                    return "\(pickerThirdRowData[row])"
+                }
         default:
-            return "\(String(pickerThirdRowData[row])) 시"
+            return nil
+        
+        }
+    }
+    
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if component == 0 || component == 1 {
+            pickerView.reloadComponent(2)
         }
     }
     
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-
+        
+        let attributes = [
+               NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20),
+               NSAttributedString.Key.foregroundColor: UIColor.black
+           ]
+        
         switch component {
-        case 0:
-            return NSAttributedString(string: pickerFirstRowData[row], attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20),NSAttributedString.Key.foregroundColor: UIColor.black])
-        case 1:
-            return NSAttributedString(string: pickerSecondRowData[row], attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20),NSAttributedString.Key.foregroundColor: UIColor.black])
-        default:
-            return NSAttributedString(string: "\(String(pickerThirdRowData[row])) 시", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20),NSAttributedString.Key.foregroundColor: UIColor.black])
-        }
+           case 0:
+               return NSAttributedString(string: pickerFirstRowData[row], attributes: attributes)
+           case 1:
+               return NSAttributedString(string: pickerSecondRowData[row], attributes: attributes)
+           case 2:
+               if pickerView.selectedRow(inComponent: 0) == 0 && pickerView.selectedRow(inComponent: 1) == 0 {
+                   return NSAttributedString(string: "\(String(pickerThirdRowData[row + 3])) 시", attributes: attributes)
+               } else {
+                   return NSAttributedString(string: "\(String(pickerThirdRowData[row])) 시", attributes: attributes)
+               }
+           default:
+               return nil
+           }
+        
    }
     
     
