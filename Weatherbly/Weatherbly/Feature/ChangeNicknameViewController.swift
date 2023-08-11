@@ -240,13 +240,7 @@ class ChangeNicknameViewController: RxBaseViewController<ChangeNicknameViewModel
     private func buttonToggle() {
         womanButton.isSelected.toggle()
         manButton.isSelected.toggle()
-        
-        if womanButton.isSelected {
-            isFemale = true
-        } else {
-            isFemale = false
-        }
-        
+        isFemale = womanButton.isSelected
         setButtonColor()
     }
     

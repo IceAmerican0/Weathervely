@@ -19,7 +19,7 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
     private let searchImage = UIImageView()
     private var inputRegion = UITextField.neatKeyboard()
     
-    private var confirmButton = CSButton(.primary)
+    private var confirmButton = CSButton(.grayFilled)
     private var regionTableView = UITableView()
     
     override func viewDidLoad() {
@@ -63,6 +63,7 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
         confirmButton.do {
             $0.setTitle("확인", for: .normal)
             $0.setTitleColor(.white, for: .normal)
+            $0.isEnabled = false
         }
         
         regionTableView.do {
@@ -89,7 +90,7 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
         confirmButton.pin.bottom(10%)
         regionTableView.isHidden = true
         
-        if !UserDefaultManager.shared.isOnBoard {
+        if UserDefaultManager.shared.isOnBoard == false {
             progressBar.isHidden = true
             navigationView.setTitle("동네 변경 / 추가")
             explanationLabel.isHidden = true
@@ -103,6 +104,20 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
         
         confirmButton.rx.tap
             .bind(onNext: showResult)
+            .disposed(by: bag)
+        
+        inputRegion.rx.text
+            .subscribe(onNext: { _ in
+                if let value = self.inputRegion.text {
+                    if value.count > 1 {
+                        self.confirmButton.isEnabled = true
+                        self.confirmButton.setButtonStyle(.primary)
+                    } else {
+                        self.confirmButton.isEnabled = false
+                        self.confirmButton.setButtonStyle(.grayFilled)
+                    }
+                }
+            })
             .disposed(by: bag)
     }
     
@@ -160,6 +175,19 @@ extension SettingRegionViewController: UITableViewDataSource {
 
 // MARK: UITextFieldDelegate
 extension SettingRegionViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        /// 백스페이스 처리
+        if let char = string.cString(using: String.Encoding.utf8) {
+            let isBackSpace = strcmp(char, "\\b")
+            if isBackSpace == -92 { return true }
+        }
+        /// 글자수 제한
+        if let text = textField.text {
+            guard text.count < 20 else { return false }
+        }
+        return true
+    }
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         showResult()
         return true

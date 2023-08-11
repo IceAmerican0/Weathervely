@@ -45,7 +45,8 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
                     }
                 case .failure(let err):
                     guard let errorString = err.errorDescription else { return }
-                    self.alertMessageRelay.accept(.init(title: errorString, alertType: .Error))
+                    self.alertMessageRelay.accept(.init(title: errorString,
+                                                        alertType: .Error))
                 }
             })
             .disposed(by: bag)
@@ -64,7 +65,8 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
                     }
                 case .failure(let err):
                     guard let errorString = err.errorDescription else { return }
-                    self.alertMessageRelay.accept(.init(title: errorString, alertType: .Error))
+                    self.alertMessageRelay.accept(.init(title: errorString,
+                                                        alertType: .Error))
                 }
             })
             .disposed(by: bag)

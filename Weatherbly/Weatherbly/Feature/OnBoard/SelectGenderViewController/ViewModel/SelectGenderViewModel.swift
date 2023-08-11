@@ -5,24 +5,34 @@
 //  Created by 최수훈 on 2023/06/22.
 //
 
-import Foundation
-import FlexLayout
-import PinLayout
 import RxSwift
 import RxCocoa
 
 public protocol SelectGenderViewModelLogic: ViewModelBusinessLogic {
-    func didTapAcceptButton()
-    func toSensoryTempView()
+    func didTapAcceptButton(_ gender: String)
+    func toDateTimePickView()
 }
 
 final class SelectGenderViewModel: RxBaseViewModel, SelectGenderViewModelLogic {
-    public func didTapAcceptButton() {
-        toSensoryTempView()
+    public func didTapAcceptButton(_ gender: String) {
+        let dataSource = AuthDataSource()
+        dataSource.setGender(gender)
+            .subscribe(onNext: { result in
+                switch result {
+                case .success:
+                    userDefault.set(gender == "female" ? "여성" : "남성", forKey: UserDefaultKey.gender.rawValue)
+                    self.toDateTimePickView()
+                case .failure(let err):
+                    guard let errorString = err.errorDescription else { return }
+                    self.alertMessageRelay.accept(.init(title: errorString,
+                                                        alertType: .Error))
+                }
+            })
+            .disposed(by: bag)
     }
     
-    public func toSensoryTempView() {
-        let vc = OnBoardSensoryTempViewController(OnBoardSensoryTempViewModel())
+    public func toDateTimePickView() {
+        let vc = DateTimePickViewController(DateTimePickViewModel())
         navigationPushViewControllerRelay.accept(vc)
     }
     

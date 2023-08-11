@@ -30,7 +30,8 @@ public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogi
                     self.loadedListRelay.accept(data.list)
                 case .failure(let err):
                     guard let errorString = err.errorDescription else { return }
-                    self.alertMessageRelay.accept(.init(title: errorString, alertType: .Error))
+                    self.alertMessageRelay.accept(.init(title: errorString,
+                                                        alertType: .Error))
                 }
             })
             .disposed(by: bag)

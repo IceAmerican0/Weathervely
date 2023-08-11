@@ -38,7 +38,8 @@ class EditNicknameViewModel: RxBaseViewModel, EditNicknameViewModelLogic {
                     self.loadUserInfoRelay.accept(response)
                 case .failure(let err):
                     guard let errorString = err.errorDescription else { return }
-                    self.alertMessageRelay.accept(.init(title: errorString, alertType: .Error))
+                    self.alertMessageRelay.accept(.init(title: errorString,
+                                                        alertType: .Error))
                 }
             })
             .disposed(by: bag)

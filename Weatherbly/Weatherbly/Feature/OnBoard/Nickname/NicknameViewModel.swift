@@ -25,7 +25,8 @@ final class NicknameViewModel: RxBaseViewModel, NicknameViewModelLogic {
                     userDefault.set(text, forKey: UserDefaultKey.nickname.rawValue)
                 case .failure(let err):
                     guard let errorString = err.errorDescription else { return }
-                    self.alertMessageRelay.accept(.init(title: errorString, alertType: .Error))
+                    self.alertMessageRelay.accept(.init(title: errorString,
+                                                        alertType: .Error))
                 }
             })
             .disposed(by: bag)
