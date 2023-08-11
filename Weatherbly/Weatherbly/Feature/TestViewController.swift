@@ -43,7 +43,7 @@ class TestViewController: RxBaseViewController<TestViewModel> {
         
         button.rx.tap
             .subscribe { [weak self] _ in
-                self?.viewModel.testRequest("abcde")
+                self?.viewModel.testRequest("test1111")
             }
         .disposed(by: bag)    }
 }

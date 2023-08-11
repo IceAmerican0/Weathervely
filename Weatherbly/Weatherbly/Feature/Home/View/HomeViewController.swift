@@ -19,8 +19,7 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
     private var topLayoutWrapper = UIView()
     private var settingButton = UIButton()
     private var mainLabelWrapper = UIView()
-    private var mainLocationLabel = CSLabel(.bold, 20, "00동 | ")
-    private var mainTimeLabel = CSLabel(.bold,20,"현재")
+    private var mainLabel = CSLabel(.bold, 20, "00동 | 현재")
     private var calendarButton = UIButton()
     
     private var dailyWrapper = UIView()
@@ -60,7 +59,6 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
         backgroundView.pin.horizontally().top()
         backgroundView.flex.layout()
     }
-    
     override func attribute() {
         super.attribute()
         
@@ -115,6 +113,9 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
             $0.setTitle("체감온도", for: .normal)
         }
         
+        mainLabel.do {
+            $0.textAlignment = .center
+        }
     }
     
     override func layout() {
@@ -127,8 +128,7 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
                     .justifyContent(.center)
                     .direction(.row)
                     .define { flex in
-                        flex.addItem(mainLocationLabel)
-                        flex.addItem(mainTimeLabel)
+                        flex.addItem(mainLabel).width(100%)
                     }
                 flex.addItem(calendarButton).size(44)
             }
@@ -213,6 +213,29 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
     override func viewModelBinding() {
         super.viewModelBinding()
         
+        
+        /// TODO: - 여기서 entity를 구독하는건 생각해볼 필요가 있다. entity 자체를 이용해서 바인딩해주기보다 이걸 멥핑해서 사용한다
+        /// 그래서, 매핑한 값 bindingWeatherByDate 에 대한 return 값을 굳독해주는 게 더 맞아 보인다.
+        ///
+//        viewModel
+//            .villageForeCastInfoEntityRelay
+//            .subscribe(onNext: { [weak self] result in
+//                // 2023-08-11 16:00
+//                let todayInfo  = self?.viewModel.bindingWeatherByDate(result, 0, (self?.viewModel.headerTimeRelay.value!)!)
+//
+//                self?.setWeatherInfo(todayInfo, "현재")
+//                self?.viewModel.getWeatherImage(todayInfo)
+//            })
+//            .disposed(by: bag)
+        
+        viewModel.mappedCategoryDicRelay
+            .subscribe(onNext: { [weak self] mappedCategory in
+                
+                self?.setWeatherInfo(mappedCategory)
+                self?.viewModel.getWeatherImage(mappedCategory)
+            })
+            .disposed(by: bag)
+        
         viewModel
             .weatherImageRelay
             .subscribe(onNext: { [weak self] image in
@@ -222,41 +245,40 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
             .disposed(by: bag)
         
         viewModel
-            .villageForeCastInfoEntityRelay
-            .subscribe(onNext: { [weak self] result in
-                let todayInfo  = self?.viewModel.bindingWeatherByDate(result, 0, (self?.date.today24Time)!)
-                
-                self?.setWeatherInfo(todayInfo, "현재")
-                self?.viewModel.getWeatherImage(todayInfo)
-            })
-            .disposed(by: bag)
-        
-        viewModel
             .recommendClosetEntityRelay
             .subscribe(onNext: { [weak self] result in
                 
 //                guard let result = result else { return }
-//                print(result.data!)
                 self?.pagerView.reloadData()
             })
             .disposed(by: bag)
         
-        viewModel.selectedJustHourRelay
+        viewModel.headerTimeRelay
             .subscribe(onNext: { [weak self] justTimeString in
-                self?.mainTimeLabel.text = justTimeString
+                guard var mainTimeText = justTimeString else { return }
+                
+                if mainTimeText == Date().today24Time {
+                    mainTimeText = "현재"
+                }
+                if !(mainTimeText == "현재") {
+                    self?.mainLabel.text = "00동 | \(mainTimeText)"
+                    
+                } else {
+                    self?.mainLabel.text = "00동 | 현재"
+                }
+               
+                
             })
             .disposed(by: bag)
         
         viewModel.getInfo(self.date.todayParamType)
     }
     
-    func setWeatherInfo(_ info: [String: String]?, _ mainTimeText: String) {
+    func setWeatherInfo(_ info: [String: String]?) {
         
         guard let info = info else { return }
         let tmn = Int(Double(info["TMN"] ?? "-") ?? 0)
         let tmx = Int(Double(info["TMX"] ?? "-") ?? 0)
-        
-        mainTimeLabel.text = mainTimeText
         
         // TODO: - 위치 / 날씨 이모티콘 멥핑
         /// 위치 -> userDefault?
@@ -270,6 +292,7 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
                 .regular("\(tmx)", 18, CSColor._178_36_36)
                 .regular("℃)", 18, CSColor.none)
         }
+        
     }
     
     private func configureBackgroundImage() -> AssetsImage {
@@ -292,7 +315,7 @@ extension HomeViewController: FSPagerViewDelegate {
 
 extension HomeViewController: FSPagerViewDataSource {
     func numberOfItems(in pagerView: FSPagerView) -> Int {
-        var count = 2
+        var count = 5
         guard viewModel.recommendClosetEntityRelay.value != nil else {
             return count
         }
@@ -319,11 +342,14 @@ extension HomeViewController: FSPagerViewDataSource {
                         cell.setUIInfo(data, closetInfo.shopName)
                     }
                 }
-            }.resume()
+            }
+            .resume()
         }
+
         
         return cell
     }
+    
     
 
 }

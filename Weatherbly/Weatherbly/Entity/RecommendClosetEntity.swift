@@ -28,8 +28,6 @@ struct RecommendClosetData: Codable {
 struct RecommendClosetInfo: Codable {
     let id: Int
     let name: String
-    let minTemp: String
-    let maxTemp: String
     let shopName: String
     let shopUrl: String
     let imageUrl: String
@@ -39,8 +37,6 @@ struct RecommendClosetInfo: Codable {
     enum CodingKeys: String, CodingKey {
         case id = "id"
         case name = "name"
-        case minTemp = "min_temp"
-        case maxTemp = "max_temp"
         case shopName = "site_name"
         case shopUrl = "site_url"
         case imageUrl = "image_url"
@@ -51,25 +47,21 @@ struct RecommendClosetInfo: Codable {
 
 /*
  {
-        "id": 5,
-        "name": "워싱코튼루즈숏팬츠",
-        "min_temp": "26",
-        "max_temp": "32",
+        "id": 1,
+        "name": "썸머트위드미니OPS",
         "site_name": "66girls",
-        "site_url": "https://66girls.co.kr/product/%EC%9B%8C%EC%8B%B1%EC%BD%94%ED%8A%BC%EB%A3%A8%EC%A6%88%EC%88%8F%ED%8C%AC%EC%B8%A0/135978/category/756/display/1/",
-        "image_url": "https://weatherbly.s3.ap-northeast-2.amazonaws.com/image/135978.jpg",
+        "site_url": "https://www.66girls.co.kr/product/ll-%EC%8D%B8%EB%A8%B8%ED%8A%B8%EC%9C%84%EB%93%9C%EB%AF%B8%EB%8B%88ops-2size/135097/category/411/display/1/",
+        "image_url": "https://weatherbly.s3.ap-northeast-2.amazonaws.com/image/135097.jpg",
         "status": "Active",
         "is_onboarding": 0
       },
       {
-        "id": 6,
-        "name": "아일렛버튼레이스나시",
-        "min_temp": "26",
-        "max_temp": "29",
+        "id": 2,
+        "name": "폴셋라운드반팔jk",
         "site_name": "66girls",
-        "site_url": "https://66girls.co.kr/product/%EC%95%84%EC%9D%BC%EB%A0%9B%EB%B2%84%ED%8A%BC%EB%A0%88%EC%9D%B4%EC%8A%A4%EB%82%98%EC%8B%9C/135584/category/122/display/1/",
-        "image_url": "https://weatherbly.s3.ap-northeast-2.amazonaws.com/image/135584.jpg",
+        "site_url": "https://www.66girls.co.kr/product/%ED%8F%B4%EC%85%8B%EB%9D%BC%EC%9A%B4%EB%93%9C%EB%B0%98%ED%8C%94jk/134128/category/108/display/1/",
+        "image_url": "https://weatherbly.s3.ap-northeast-2.amazonaws.com/image/134128.jpg",
         "status": "Active",
         "is_onboarding": 0
-      }
+      },
  */

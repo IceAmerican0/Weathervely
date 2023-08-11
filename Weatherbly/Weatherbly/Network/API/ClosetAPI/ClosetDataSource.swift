@@ -14,7 +14,7 @@ protocol ClosetDataSourceProtocol { // TODO: Entity 변경
     func setStylePickedList(_ closetIDs: [Int]) -> Observable<Result<EmptyEntity, WBNetworkError>>
     func getSensoryTemperatureCloset(_ dateTime: String) -> Observable<Result<SensoryTempClosetEntity, WBNetworkError>>
     func setSensoryTemperature(_ closetInfo: String) -> Observable<Result<EmptyEntity, WBNetworkError>>
-    func gerRecommendCloset(_ dateTime: String) -> Observable<Result<RecommendClosetEntity, WBNetworkError>>
+    func getRecommendCloset(_ dateTime: String) -> Observable<Result<RecommendClosetEntity, WBNetworkError>>
 }
 
 final class ClosetDataSource: ClosetDataSourceProtocol {
@@ -48,7 +48,7 @@ final class ClosetDataSource: ClosetDataSourceProtocol {
             .mapTo(EmptyEntity.self)
     }
     
-    func gerRecommendCloset(_ dateTime: String) -> Observable<Result<RecommendClosetEntity, WBNetworkError>> {
+    func getRecommendCloset(_ dateTime: String) -> Observable<Result<RecommendClosetEntity, WBNetworkError>> {
         provider.rx
             .request(.getRecommendStyleList(dateTime))
             .mapTo(RecommendClosetEntity.self)
