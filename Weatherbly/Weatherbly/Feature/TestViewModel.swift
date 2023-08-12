@@ -52,7 +52,6 @@ class TestViewModel: RxBaseViewModel, TestViewModelLogic {
                     
                     let date = Date()
                     let today = date.dayAfter(1)
-                    print(today)
                     self.bindingDateWeather(response, 0)
                     
 //                    print("viewModel response : ", response.data!.list[today]!)
