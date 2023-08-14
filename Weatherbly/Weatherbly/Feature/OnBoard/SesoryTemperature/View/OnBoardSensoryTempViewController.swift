@@ -8,19 +8,19 @@
 import UIKit
 import FlexLayout
 import PinLayout
+import RxSwift
 
 final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensoryTempViewModel> {
     
-    var headerWrapper = UIView()
     var progressBar = CSProgressView(1.0)
-    var navigationBackButton = UIButton()
+    var navigationBackButton = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
     
-    var mainMessageLabel = CSLabel(.bold, 22, "\(UserDefaultManager.shared.nickname)님께도\n이 옷차림이 적당한가요?")
+    var mainMessageLabel = CSLabel(.bold, 22, "")
     
     var clothViewWrapper = UIView()
     
     var tempWrapper = UIView()
-    var tempLabel = CSLabel(.bold, 18, "선택 시간 (3℃)")
+    var tempLabel = UILabel()
     var tempImageView = UIImageView()
     var imageSourceLabel = CSLabel(.regular, 11, "by 0000")
     
@@ -35,20 +35,17 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
     private let imageHeight = UIScreen.main.bounds.height * 0.38
     private let buttonHeight = UIScreen.main.bounds.height * 0.054
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
+    private var labelTapGesture = UITapGestureRecognizer()
     
     override func attribute() {
         super.attribute()
         
-        navigationBackButton.do {
-            $0.setImage(AssetsImage.navigationBackButton.image, for: .normal)
-            $0.addTarget(self, action: #selector(didTapnavigationBackButton), for: .touchUpInside)
-        }
-        
         mainMessageLabel.do {
             $0.setLineHeight(1.07)
+            $0.textAlignment = .center
+            $0.numberOfLines = 0
+            $0.attributedText = NSMutableAttributedString()
+                .bold("\(UserDefaultManager.shared.nickname)님께도\n이 옷차림이 적당한가요?", 22, CSColor.none)
         }
         
         clothViewWrapper.do {
@@ -68,8 +65,9 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
             $0.setBackgroundColor(CSColor._172_107_255_004.color)
             $0.addBorders([.top, .left, .right, .bottom])
             $0.setCornerRadius(5)
+            $0.textAlignment = .center
             $0.attributedText = NSMutableAttributedString()
-                .bold($0.text ?? "", 16, CSColor._40_106_167)
+                .bold("선택 시간 \(viewModel.temperatureRelay.value)℃", 16, CSColor._172_107_255)
             $0.adjustsFontSizeToFitWidth = true
             $0.numberOfLines = 1
         }
@@ -91,7 +89,6 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
         
         denyButton.do {
             $0.setTitle("아니오", for: .normal)
-            $0.addTarget(self, action: #selector(didTapDenyButton), for: .touchUpInside)
         }
     }
     
@@ -103,10 +100,8 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
             .paddingBottom(20)
             .define { flex in
             
-            flex.addItem(headerWrapper).define { flex in
-                flex.addItem(progressBar)
-                flex.addItem(navigationBackButton).left(12).size(44).marginTop(15)
-            }
+            flex.addItem(progressBar)
+            flex.addItem(navigationBackButton).width(100%)
 
             flex.addItem(mainMessageLabel)
                     .marginTop(-20).marginBottom(24)
@@ -157,15 +152,25 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
     }
     
     override func viewBinding() {
-     // TODO: - selectOtherDayLabel에 RxGesture 추가
+        navigationBackButton.leftButtonDidTapRelay
+            .bind(to: viewModel.navigationPopViewControllerRelay)
+            .disposed(by: bag)
+        
+        denyButton.rx.tap
+            .bind(to: viewModel.navigationPopViewControllerRelay)
+            .disposed(by: bag)
+        
+        acceptButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                self?.viewModel.didTapAcceptButton()
+            })
+            .disposed(by: bag)
+        
+        labelTapGesture.rx
+            .event
+            .subscribe(onNext: { [weak self] _ in
+                self?.viewModel.navigationPopViewControllerRelay.accept(Void())
+            })
+            .disposed(by: bag)
     }
-    
-    @objc private func didTapnavigationBackButton(_ sender: UIButton) {
-        self.navigationController?.popViewController(animated: true)
-    }
-    
-    @objc func didTapDenyButton() {
-        self.navigationController?.pushViewController(SlotMachineViewController(SlotMachineViewModel()), animated: true)
-    }
-    
 }

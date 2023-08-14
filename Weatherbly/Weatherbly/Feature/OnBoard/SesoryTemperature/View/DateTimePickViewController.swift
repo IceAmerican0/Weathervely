@@ -56,7 +56,7 @@ final class DateTimePickViewController: RxBaseViewController<DateTimePickViewMod
         }
         
         gradientLayer.do {
-            $0.setGradient(color:[CSColor._237_237_237.cgColor,CSColor._255_255_255.cgColor,CSColor._255_255_255.cgColor,CSColor._255_255_255.cgColor,CSColor._210_210_210.cgColor],
+            $0.setGradient(color:[CSColor._237_237_237.cgColor,CSColor._255_255_255_05.cgColor,CSColor._255_255_255_05.cgColor,CSColor._255_255_255_05.cgColor,CSColor._210_210_210.cgColor],
                            locations: [0.0, 0.2, 0.4, 0,6, 0.8, 1.0], 20)
             $0.setShadow(CGSize(width: 0, height: 4),CSColor._220_220_220.cgColor , 1, 2)
         }

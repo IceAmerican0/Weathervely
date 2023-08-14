@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RxCocoa
 
 public protocol DateTimePickViewModelLogic: ViewModelBusinessLogic {
     func didTapConfirmButton(_ today: [String], _ pickerDay: String, _ pickerDayTime: String, _ pickerTime: Int)
@@ -59,7 +60,7 @@ public class DateTimePickViewModel: RxBaseViewModel, DateTimePickViewModelLogic 
     }
     
     public func toOnBoardSensoryTempView() {
-        let vc = OnBoardSensoryTempViewController(OnBoardSensoryTempViewModel())
+        let vc = OnBoardSensoryTempViewController(OnBoardSensoryTempViewModel("5"))
         navigationPushViewControllerRelay.accept(vc)
     }
 }
