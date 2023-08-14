@@ -331,6 +331,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         
         var categoryWithValue: [String: String]? = [:]
         var headerTime: String = ""
+        var selectedHour = selectedHourParamTypeRelay.value!
         
         if !(swipeIndex == swipeArray.count - 1) {
             swipeIndex += 1
@@ -348,19 +349,21 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             
             if time < 2400 {
                 // 오늘
+                selectedHour = hour
                 categoryWithValue = self.bindingWeatherByDate(forecastEntity, 0, hour) // HH00
                 headerTime = hour.hourToMainLabel
             } else {
                // 내일
-                var selectedHour = String(time - 2400)
+                    selectedHour = String(time - 2400)
                 if String(time - 2400).count == 3 {
                     selectedHour = "0\(selectedHour)"
                 }
-                self.selectedHourParamTypeRelay.accept(Date().tomorrowParamType(selectedHour.addColon))
-                print("selectedHourParamTypeRelay : ", selectedHourParamTypeRelay.value)
                 categoryWithValue = self.bindingWeatherByDate(forecastEntity, 1, selectedHour)
                 headerTime = hour.hourToMainLabel
             }
+            
+            self.selectedHourParamTypeRelay.accept(Date().tomorrowParamType(selectedHour.addColon))
+            getRecommendCloset(selectedHourParamTypeRelay.value!)
             self.headerTimeRelay.accept(headerTime)
             self.mappedCategoryDicRelay.accept(categoryWithValue)
             
@@ -386,6 +389,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         if !(swipeIndex == 0) {
             swipeIndex -= 1
             let time = Int(swipeArray[self.swipeIndex])!
+            var selectedHour = selectedHourParamTypeRelay.value!
             lazy var hour: String = {
                 let hour = String(time)
                 
@@ -400,19 +404,24 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             if time < 2400 {
                 // 오늘 안 시간일 때
             
+                selectedHour = hour
                 categoryWithValue = self.bindingWeatherByDate(forecastEntity, 0, hour) // HH00
                 headerTime = hour.hourToMainLabel
+                
             } else {
                
-                var selectedHour = String(time - 2400)
+                    selectedHour = String(time - 2400)
                 if String(time - 2400).count == 3 {
                     selectedHour = "0\(selectedHour)"
                 }
+                
                 categoryWithValue = self.bindingWeatherByDate(forecastEntity, 1, selectedHour)
                 headerTime = hour.hourToMainLabel
                 
             }
             
+            self.selectedHourParamTypeRelay.accept(Date().tomorrowParamType(selectedHour.addColon))
+            getRecommendCloset(selectedHourParamTypeRelay.value!)
             self.headerTimeRelay.accept(headerTime)
             self.mappedCategoryDicRelay.accept(categoryWithValue)
             
@@ -423,8 +432,6 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             // show Toast
         }
     }
-    
-    
     
     public func toSettingView() {
         let vc = SettingViewController(SettingViewModel())
