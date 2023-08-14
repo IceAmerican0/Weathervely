@@ -13,32 +13,38 @@ extension String {
         return String(self.prefix(2)) + ":" + String(self.suffix(2))
     }
     
-    var hourToMain: String {
+    var hourToMainLabel: String {
         
-        print(#function, self)
         var returnValue = ""
-        if self == Date().today24Time {
-            return "현재"
-        } else {
-            var hour = Int(self)!
-            
-            if hour < 2400 {
+        if self == Date().todayThousandFormat { return "현재" }
+            var hour = Int(self)! / 100
+            if hour < 24 {
                 // 오늘 시간
-                returnValue = (hour < 1200) ? "오전 \(returnValue)" : "오후 \(returnValue)"
-                returnValue = (hour < 1200)
-                ? returnValue + String(hour).trimmingCharacters(in: CharacterSet(charactersIn: "0"))
-                :
-                ((self == "2000")
-                 ? returnValue + String(hour - 1200).prefix(1)
-                 : returnValue + String(hour - 1200).trimmingCharacters(in: CharacterSet(charactersIn: "0")))
-                return returnValue + " 시"
+                
+                if hour < 12 {
+                    returnValue = "오전 \(String(hour))"
+                } else if hour == 12 {
+                    returnValue = "오후 \(String(hour))"
+                } else {
+                    returnValue = "오후 \(String(hour - 12))"
+                }
+                
+                return returnValue + "시"
             } else {
                 // 내일 시간
-                returnValue = (hour < 1200) ? "오전 \(returnValue)" : "오후 \(returnValue)"
-                returnValue = (((hour - 2400)) < 1000) ? returnValue + String(hour).trimmingCharacters(in: CharacterSet(charactersIn: "0")) : returnValue + String(hour - 1200).prefix(2)
-                return returnValue + " 시"
+                hour -= 24
+                
+                if hour < 12 {
+                    returnValue = "내일 오전 \(String(hour))"
+                } else if hour == 12 {
+                    returnValue = "내일 오후 \(String(hour))"
+                } else {
+                    returnValue = "내일 오후 \(String(hour - 12))"
+                }
+                
+                return returnValue + "시"
             }
-        }
+        
     }
     
 }

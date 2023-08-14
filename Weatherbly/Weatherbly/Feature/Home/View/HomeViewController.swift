@@ -135,13 +135,14 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
             
             flex.addItem(dailyWrapper)
                 .width(110%)
+                .height(screenHeight * 0.208 + 45)
                 .alignItems(.center).define { flex in
                     flex.addItem(weatherImageView).marginTop(screenHeight * 0.008).width(screenWidth * 0.23).height(screenHeight * 0.1)
                     flex.addItem(temperatureLabel).marginTop(screenHeight * 0.01).width(50%).height(screenHeight * 0.03)
                     flex.addItem(commentLabel).marginTop(screenHeight * 0.004).height(screenHeight * 0.03)
-                    flex.addItem(dustLabel).marginTop(screenHeight * 0.026).width(dustLabelWidth).height(45)
+//                    flex.addItem(dustLabel).marginTop(screenHeight * 0.026).width(dustLabelWidth).height(45)
             }
-            
+            flex.addItem(dustLabel).marginTop(-45).width(dustLabelWidth).height(45)
             flex.addItem(pagerView).width(screenWidth).height(closetWrapperHeight + 20)
             flex.addItem(bottomButtonWrapper).direction(.row).define { flex in
                 flex.addItem(sensoryViewButton).padding(3, 13.5)
@@ -161,17 +162,14 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
         dailyWrapper.rx.swipeGesture([.left,.right])
             .when(.ended)
             .subscribe (onNext: { [weak self] dircection in
-                // TODO: 현재시간 넣어서 보내기
-                // 1. 해당 시간대 시간 키값으로하는 카테고리 받아서 UI 세팅하기
-                // 2. 체감온도 파라미터로 보낼 시간 업데이트,
-                // 3. 메인에서 어제랑 비교하는 라벨 메세지 변경하기
-//                self?.viewModel.swipeRight(0)
+                
                 if dircection.direction == .left {
-                    // 시간대 뒤로
+                    self?.viewModel.swipeDirectionRelay.accept(.left)
                     self?.viewModel.swipeLeft()
+                    
                 } else {
-                    // 시간대 앞으로
-                    self?.viewModel.swipeRight(0)
+                    self?.viewModel.swipeDirectionRelay.accept(.right)
+                    self?.viewModel.swipeRight()
                 }
             })
             .disposed(by: bag)
@@ -216,7 +214,6 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
         
         /// TODO: - 여기서 entity를 구독하는건 생각해볼 필요가 있다. entity 자체를 이용해서 바인딩해주기보다 이걸 멥핑해서 사용한다
         /// 그래서, 매핑한 값 bindingWeatherByDate 에 대한 return 값을 굳독해주는 게 더 맞아 보인다.
-        ///
 //        viewModel
 //            .villageForeCastInfoEntityRelay
 //            .subscribe(onNext: { [weak self] result in
@@ -230,9 +227,7 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
         
         viewModel.mappedCategoryDicRelay
             .subscribe(onNext: { [weak self] mappedCategory in
-                
-                self?.setWeatherInfo(mappedCategory)
-                self?.viewModel.getWeatherImage(mappedCategory)
+                self?.reloadDailyWrapper(self?.viewModel.swipeDirectionRelay.value, mappedCategory)
             })
             .disposed(by: bag)
         
@@ -248,30 +243,79 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
             .recommendClosetEntityRelay
             .subscribe(onNext: { [weak self] result in
                 
-//                guard let result = result else { return }
+                guard result != nil else { return }
                 self?.pagerView.reloadData()
             })
             .disposed(by: bag)
         
         viewModel.headerTimeRelay
             .subscribe(onNext: { [weak self] justTimeString in
-                guard var mainTimeText = justTimeString else { return }
-                
-                if mainTimeText == Date().today24Time {
-                    mainTimeText = "현재"
-                }
-                if !(mainTimeText == "현재") {
-                    self?.mainLabel.text = "00동 | \(mainTimeText)"
-                    
-                } else {
-                    self?.mainLabel.text = "00동 | 현재"
-                }
                
-                
+                self?.setHeader(justTimeString)
+
             })
             .disposed(by: bag)
         
-        viewModel.getInfo(self.date.todayParamType)
+        viewModel.getInfo(self.date.todayHourFormat)
+    }
+    
+    
+    // MARK: - Method
+    
+    func reloadDailyWrapper (_ direction: UISwipeGestureRecognizer.Direction?, _ mappedCategory: [String : String]?) {
+        if direction == .left {
+            UIView.animate(withDuration: 0.2, animations: {
+                self.dailyWrapper.alpha = 0
+                self.setWeatherInfo(mappedCategory)
+                self.viewModel.getWeatherImage(mappedCategory)
+            }) { _ in
+                // Position the label to the right for the fade-in effect
+                self.dailyWrapper.transform = CGAffineTransform(translationX: 100, y: 0)
+                
+                UIView.animate(withDuration: 0.2) {
+                    self.dailyWrapper.alpha = 1
+                    self.dailyWrapper.transform = .identity // Reset to original position
+                }
+            }
+        } else {
+            UIView.animate(withDuration: 0.2, animations: {
+                self.dailyWrapper.alpha = 0
+                self.setWeatherInfo(mappedCategory)
+                self.viewModel.getWeatherImage(mappedCategory)
+            }) { _ in
+                // Position the label to the right for the fade-in effect
+                self.dailyWrapper.transform = CGAffineTransform(translationX: -100, y: 0)
+                
+                UIView.animate(withDuration: 0.2) {
+                    self.dailyWrapper.alpha = 1
+                    self.dailyWrapper.transform = .identity // Reset to original position
+                }
+            }
+        }
+    }
+
+    func setHeader(_ justTimeString: String?) {
+        
+        UIView.animate(withDuration: 0.2, animations: {
+                              self.mainLabel.alpha = 0
+            guard var mainTimeText = justTimeString else { return }
+            
+            if mainTimeText == Date().todayThousandFormat {
+                mainTimeText = "현재"
+            }
+            print("viewCon", mainTimeText )
+            
+            if !(mainTimeText == "현재") {
+                self.mainLabel.text = "00동 | \(mainTimeText)"
+            } else {
+                self.mainLabel.text = "00동 | 현재"
+            }
+            
+        }) { _ in
+            UIView.animate(withDuration: 0.2) {
+                self.mainLabel.alpha = 1
+            }
+        }
     }
     
     func setWeatherInfo(_ info: [String: String]?) {
@@ -325,6 +369,7 @@ extension HomeViewController: FSPagerViewDataSource {
         
     }
     
+    
     func pagerView(_ pagerView: FSPagerView, cellForItemAt index: Int) -> FSPagerViewCell {
         let cell = pagerView.dequeueCell(withType: ClosetFSPagerViewCell.self, for: index)
         let closetInfo = viewModel.recommendClosetEntityRelay.value?.data?.list[index]
@@ -349,6 +394,7 @@ extension HomeViewController: FSPagerViewDataSource {
         
         return cell
     }
+    
     
     
 

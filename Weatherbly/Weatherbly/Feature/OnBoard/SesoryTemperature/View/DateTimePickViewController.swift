@@ -134,7 +134,7 @@ final class DateTimePickViewController: RxBaseViewController<DateTimePickViewMod
                 // TODO: - viewModel로 옮기기
                                 
                 let date = Date()
-                let today = date.todayTime.components(separatedBy: " ").map{ $0 }
+                let today = date.todayDatePickerFormat.components(separatedBy: " ").map{ $0 }
 //                print("현재시간: ", today)
                 
                 // Get Picker value

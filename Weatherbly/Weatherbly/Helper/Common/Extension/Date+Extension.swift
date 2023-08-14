@@ -42,7 +42,7 @@ extension Date {
     // MARK: - Today
 
     // DateTimePicker 형식
-    var todayTime: String {
+    var todayDatePickerFormat: String {
         
         let date = self
         let dateFormmater = DateFormatter.shared
@@ -52,7 +52,7 @@ extension Date {
     }
     
     // 날짜별로 정렬된 날씨 Entity에서 특정시간대 카테고리 검색 시 사용
-    var today24Time: String {
+    var todayThousandFormat: String {
         let date = self
         let dateFormmater = DateFormatter.shared
         dateFormmater.dateFormat = "HH00"
@@ -60,7 +60,7 @@ extension Date {
         return dateFormmater.string(from: date)
     }
     
-    var todayDate: String {
+    var today: String {
         
         let date = self
         let dateFormmater = DateFormatter.shared
@@ -69,7 +69,7 @@ extension Date {
         return dateFormmater.string(from: date)
     }
     
-    var todayParamType: String {
+    var todayHourFormat: String {
         
         let date = self
         let dateFormmater = DateFormatter.shared
@@ -81,7 +81,7 @@ extension Date {
     // MARK: - Tomorrow
 
     // 메인 날씨 Entity에서 날짜별로 정렬할때 형식
-    var tomorrowDate: String {
+    var tomorrow: String {
         let date = self
         let dateFormmater = DateFormatter.shared
         dateFormmater.dateFormat = "yyyyMMdd"
@@ -89,17 +89,17 @@ extension Date {
         return dateFormmater.string(from: date)
     }
     
-    var tomorrowParamType: String {
+    func tomorrowParamType(_ selectedHour: String) -> String {
         let date = Calendar.current.date(byAdding: .day, value: +1, to: self)!
         let dateFormmater = DateFormatter.shared
-        dateFormmater.dateFormat = "yyyy-MM-dd HH:00"
+        dateFormmater.dateFormat = "yyyy-MM-dd \(selectedHour)"
         
         return dateFormmater.string(from: date)
     }
     
     // MARK: - Day after tomorrow
 
-    var dayAfterTomorrowDate: String {
+    var dayAfterTomorrow: String {
         let date = Calendar.current.date(byAdding: .day, value: +2, to: self)!
         let dateFormmater = DateFormatter.shared
         dateFormmater.dateFormat = "yyyyMMdd"
@@ -110,7 +110,7 @@ extension Date {
     
     // MARK: - two Day after tomorrow
 
-    var twoDaysAfterTomorrowDate: String {
+    var twoDaysAfterTomorrow: String {
         let date = Calendar.current.date(byAdding: .day, value: +3, to: self)!
         let dateFormmater = DateFormatter.shared
         dateFormmater.dateFormat = "yyyyMMdd"
