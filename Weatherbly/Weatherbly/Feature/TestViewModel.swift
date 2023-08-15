@@ -52,7 +52,6 @@ class TestViewModel: RxBaseViewModel, TestViewModelLogic {
                     
                     let date = Date()
                     let today = date.dayAfter(1)
-                    print(today)
                     self.bindingDateWeather(response, 0)
                     
 //                    print("viewModel response : ", response.data!.list[today]!)
@@ -70,7 +69,7 @@ class TestViewModel: RxBaseViewModel, TestViewModelLogic {
         let selectedDate = date.dayAfter(timeInterval)
         let todayForecast = response.data!.list[selectedDate]!.forecasts
         
-        let currentHour = "\((date.todayTime.components(separatedBy: " ").map { $0 })[3])00"
+        let currentHour = "\((date.todayDatePickerFormat.components(separatedBy: " ").map { $0 })[3])00"
         
         
         var timeToCategoryValue: [String: [String: String]] = [:]

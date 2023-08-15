@@ -19,7 +19,8 @@ public protocol HomeViewModelLogic: ViewModelBusinessLogic {
     func getInfo(_ dateString: String)
     func getVillageForecastInfo()
     func getRecommendCloset(_ dateString: String)
-    func swipeRight(_ dayInterval: Int) -> [String : String?]?
+    func getSwipeArray()
+    func swipeRight()
     func swipeLeft()
 }
 
@@ -30,11 +31,14 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     let villageForeCastInfoEntityRelay  = BehaviorRelay<VillageForecastInfoEntity?>(value: nil)
     let recommendClosetEntityRelay = BehaviorRelay<RecommendClosetEntity?>(value: nil)
     let mappedCategoryDicRelay = BehaviorRelay<[String: String]?>(value: [:])
-    let chageDateTimeRelay = BehaviorRelay<[String]?>(value: nil)
     
-    
-    let selectedJustHourRelay = BehaviorRelay<String?>(value: Date().today24Time)
-    let selectedHourParamTypeRelay = BehaviorRelay<String?>(value: Date().todayParamType)
+    var swipeArrayRelay = BehaviorRelay<[String]?>(value: nil)
+    var swipeIndex = 0
+    var swipeDirectionRelay = BehaviorRelay<UISwipeGestureRecognizer.Direction?>(value: .left)
+//    var main
+    // TODO: - 필요없는 거 없는지 확인하기
+    let headerTimeRelay = BehaviorRelay<String?>(value: Date().todayThousandFormat) // HH00
+    let selectedHourParamTypeRelay = BehaviorRelay<String?>(value: Date().todayHourFormat) // 2023-08-11 16:00
     
     var highlightedCellIndexRelay = BehaviorRelay<Int>(value: 0)
     var weatherImageRelay = BehaviorRelay<UIImage?>(value: AssetsImage.weatherLoadingImage.image)
@@ -42,6 +46,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     public func getInfo(_ dateString: String) {
         getVillageForecastInfo()
         getRecommendCloset(dateString)
+        getSwipeArray()
     }
     
     public func getVillageForecastInfo() {
@@ -49,24 +54,10 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             .subscribe(onNext: { [weak self] result in
                 switch result {
                 case .success(let response):
-                    
-                    /// 시간대 변경 swipe할 때 마다 날짜와 시간을 준다.
-                    /// 파라미터로받은 시간, 날짜로 맵핍을 하면 self?.bindingDateWeather(response, 0) 카테고리만 걸러진다.
-                    /// 문제는 파라미터로 response를 받을 수 없다는 점.
-                    /*
-                     카테고리만 걸러내려면 필요한 것
-                     1. 날짜
-                     2. 시간
-                     3. 맵핑할 response data
-                     =====================
-                     Swipe시 넘겨 줄 수 있나?
-                     1. 가능
-                     2. 가능
-                     3. 다시 쏴야함...or 가지고 있어야한다.. 어디에?
-                     */
-                    
                     self?.villageForeCastInfoEntityRelay.accept(response)
-                    self?.mappedCategoryDicRelay.accept(self?.bindingWeatherByDate(response, 0, Date().today24Time))
+                    
+                    // 시간대로 묶은 카테고리
+                    self?.mappedCategoryDicRelay.accept(self?.bindingWeatherByDate(response, 0, Date().todayThousandFormat))
                 case .failure(let error):
                     print("viewModel Error : ", error.localizedDescription)
                 }
@@ -75,18 +66,12 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     }
     
     public func getRecommendCloset(_ dateString: String) {
-        // TODO: - 시간 파라미터로 받기
-//        let date = Date()
-//        let dateFormmater = DateFormatter.shared
-//        dateFormmater.dateFormat = "yyyy-MM-dd HH:00"
-//        print(dateFormmater.string(from: date))
-        
         getRecommendClosetDataSouce.getRecommendCloset(dateString)
             .subscribe(onNext: { [weak self] result in
                 switch result {
                 case .success(let respone):
                     self?.recommendClosetEntityRelay.accept(respone)
-            case .failure(let error):
+                case .failure(let error):
                     print("viewModel Error, getRecommendCloset :" , error.localizedDescription)
                 }
             })
@@ -98,13 +83,14 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         
         let date = Date()
         let selectedDate = date.dayAfter(dayInterval)
+        print(selectedDate)
         // 원하는 날짜 멥핑
         let todayForecast = response?.data!.list[selectedDate]!.forecasts
-        
-        let selectedHour = selectedHour
+        let selectedHour = selectedHour // HH00
         
         var timeToCategoryValue: [String: [String: String]] = [:]
         // 시간을 key 값으로 재정렬
+        
         todayForecast?.forEach { forecast in
             if timeToCategoryValue[forecast.fcstTime] == nil {
                 timeToCategoryValue[forecast.fcstTime] = [:]
@@ -112,15 +98,20 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             timeToCategoryValue[forecast.fcstTime]?[forecast.category] = forecast.fcstValue
         }
         
+        
         // 시간 오름차순
         let orderedByTimeCategories: [Dictionary<String, [String : String]>.Element]? = timeToCategoryValue.sorted { $0.key < $1.key }
+        
         
         // 현재시간인 카테고리 가져오기
         var categoryWithValue: [String: String]? = [:]
         
         for key in orderedByTimeCategories! {
+//            print(key.key)
+//            print("selecteHour : ", selectedHour)
             if key.key == selectedHour {
                 // 카테고리 맵핑해서 저장하기
+                
                 categoryWithValue = key.value
                 break
             }
@@ -135,7 +126,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         let TMXTime = 15
         let TMNTime = 6
         var returnCategoryValues: [String: String]? = categoryWithValue
-        
+
         guard !orderedByTimeCategories!.isEmpty else {
             return [:]
         }
@@ -161,8 +152,8 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     
     func getWeatherImage(_ categoryValues: [String: String]?) {
         
+        
         if !(categoryValues!.isEmpty) {
-            print(0)
             let rainPossibility = Int(categoryValues!["POP"]!)!
             let rainForm = Int(categoryValues!["PTY"]!)
             
@@ -234,14 +225,12 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                         self.noRainWeatherImage(skyStatus)
                     }
                 case ...0:
-                print(3)
                     self.noRainWeatherImage(skyStatus)
                 default:
-                print(4)
                     break
                 }
             
-            print(categoryValues!)
+//            print(categoryValues!)
         }
     }
     
@@ -270,49 +259,162 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             self.weatherImageRelay.accept(weatherImage)
             // message -> 습도, 풍속
         default:
-            print(3)
+            break
         }
     }
     
-    
-    public func swipeRight(_ dayInterval: Int) -> [String: String?]? {
+    public func getSwipeArray() {
+     
+        guard let now = headerTimeRelay.value else { return }
         
-        /// 1. 현재시간 가져오기
-        /// 2. 현재시간 보다 작으면 아무액션 없기.
-        /// 3. 시간 배열 들고있기.
-        ///
-        /// [ 0700, 0900, 1200, 1500, 1800, 2100 ]
-        ///
-        ///
-        ///ex) 현재 시간 10시. 왼쪽으로는 swipe못함.
-        ///현재시간 23시 오른쪽으로 스와이프하면 내일 날씨.
-
-        let date = Date()
-        let dateFormatter = DateFormatter.shared
-        dateFormatter.dateFormat = "yyyy-MM-dd"
+        var swipeArray: [String] = []
+        var todayTimeArray = ["0700", "1500", "2000"]
+        var tomorrowTimeArray = ["3100", "3900", "4400"]
         
-        
-        var timeArray = [ "0700", "0900", "1200", "1500", "1800", "2100" ]
-        
-        for time in timeArray {
-            if time > selectedJustHourRelay.value! {
-                selectedJustHourRelay.accept(time) // HH00
-                selectedHourParamTypeRelay.accept("\(dateFormatter.string(from: date)) \(time.addColon)") // param format date
-                break
+            for i in todayTimeArray.indices {
+                if now < todayTimeArray[i] {
+                    todayTimeArray.insert(now, at: i)
+                    for _ in 0..<i {
+                        todayTimeArray.removeFirst()
+                    }
+                    break
+                } else if now == todayTimeArray[i] {
+                    todayTimeArray.remove(at: i)
+                    todayTimeArray.insert(now, at: i)
+                    for _ in 0..<i {
+                        todayTimeArray.removeFirst()
+                    }
+                    break
+                } else {
+                    if i == todayTimeArray.count - 1 {
+                        todayTimeArray.append(now)
+                        for _ in 0...i {
+                            todayTimeArray.removeFirst()
+                        }
+                    } else {
+                        continue
+                    }
+                }
             }
-//            else if {
-//
-//            }
-        }
         
-        guard let weatherInfo = self.villageForeCastInfoEntityRelay.value else { return [:] }
+        // TODO: - swipeIndex 를 구독해서 viewContorller 에서 사용할지는 생각해봐야한다.
+        swipeIndex = (todayTimeArray.indices.filter { todayTimeArray[$0] == now })[0]
         
+        todayTimeArray.map { swipeArray.append($0)}
+        tomorrowTimeArray.map { swipeArray.append($0)}
         
-        return [:]
+        swipeArrayRelay.accept(swipeArray)
     }
     
     public func swipeLeft() {
         
+        guard let forecastEntity = villageForeCastInfoEntityRelay.value,
+              let swipeArray = swipeArrayRelay.value
+        else { return }
+
+        
+        var categoryWithValue: [String: String]? = [:]
+        var headerTime: String = ""
+        var selectedHour = selectedHourParamTypeRelay.value!
+        
+        if !(swipeIndex == swipeArray.count - 1) {
+            swipeIndex += 1
+            let time = Int(swipeArray[self.swipeIndex])!
+            lazy var hour: String = {
+                let hour = String(time)
+                
+                if hour.count == 1 {
+                    return "0\(hour)00"
+                } else if hour.count == 3{
+                    return "0\(hour)"
+                }
+                return hour
+            }()
+            
+            if time < 2400 {
+                // 오늘
+                selectedHour = hour
+                categoryWithValue = self.bindingWeatherByDate(forecastEntity, 0, hour) // HH00
+                headerTime = hour.hourToMainLabel
+            } else {
+               // 내일
+                    selectedHour = String(time - 2400)
+                if String(time - 2400).count == 3 {
+                    selectedHour = "0\(selectedHour)"
+                }
+                categoryWithValue = self.bindingWeatherByDate(forecastEntity, 1, selectedHour)
+                headerTime = hour.hourToMainLabel
+            }
+            
+            self.selectedHourParamTypeRelay.accept(Date().tomorrowParamType(selectedHour.addColon))
+            getRecommendCloset(selectedHourParamTypeRelay.value!)
+            self.headerTimeRelay.accept(headerTime)
+            self.mappedCategoryDicRelay.accept(categoryWithValue)
+            
+            
+        } else {
+            print("can't Sipe no more")
+            
+            // show Toast
+        }
+        
+        
+    }
+    
+    public func swipeRight() {
+        guard let forecastEntity = villageForeCastInfoEntityRelay.value,
+              let swipeArray = swipeArrayRelay.value
+        else { return }
+
+        
+        var categoryWithValue: [String: String]? = [:]
+        var headerTime: String = ""
+        
+        if !(swipeIndex == 0) {
+            swipeIndex -= 1
+            let time = Int(swipeArray[self.swipeIndex])!
+            var selectedHour = selectedHourParamTypeRelay.value!
+            lazy var hour: String = {
+                let hour = String(time)
+                
+                if hour.count == 1 {
+                    return "0\(hour)00"
+                } else if hour.count == 3{
+                    return "0\(hour)"
+                }
+                return hour
+            }()
+            
+            if time < 2400 {
+                // 오늘 안 시간일 때
+            
+                selectedHour = hour
+                categoryWithValue = self.bindingWeatherByDate(forecastEntity, 0, hour) // HH00
+                headerTime = hour.hourToMainLabel
+                
+            } else {
+               
+                    selectedHour = String(time - 2400)
+                if String(time - 2400).count == 3 {
+                    selectedHour = "0\(selectedHour)"
+                }
+                
+                categoryWithValue = self.bindingWeatherByDate(forecastEntity, 1, selectedHour)
+                headerTime = hour.hourToMainLabel
+                
+            }
+            
+            self.selectedHourParamTypeRelay.accept(Date().tomorrowParamType(selectedHour.addColon))
+            getRecommendCloset(selectedHourParamTypeRelay.value!)
+            self.headerTimeRelay.accept(headerTime)
+            self.mappedCategoryDicRelay.accept(categoryWithValue)
+            
+            
+        } else {
+            print("can't Sipe no more")
+            
+            // show Toast
+        }
     }
     
     public func toSettingView() {
