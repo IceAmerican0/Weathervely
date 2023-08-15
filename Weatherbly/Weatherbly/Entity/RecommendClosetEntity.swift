@@ -32,7 +32,6 @@ struct RecommendClosetInfo: Codable {
     let shopUrl: String
     let imageUrl: String
     let status: String
-    let isOnboding: Int
     
     enum CodingKeys: String, CodingKey {
         case id = "id"
@@ -41,7 +40,6 @@ struct RecommendClosetInfo: Codable {
         case shopUrl = "site_url"
         case imageUrl = "image_url"
         case status = "status"
-        case isOnboding = "is_onboarding"
     }
 }
 
