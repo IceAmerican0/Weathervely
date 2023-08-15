@@ -12,6 +12,7 @@ enum AssetsImage: String {
     case downArrow
     case navigationBackButton
     case rightArrow
+    case toolTipArrow
     case upArrow
     
     // Background

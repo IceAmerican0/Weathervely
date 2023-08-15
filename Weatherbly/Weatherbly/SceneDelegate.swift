@@ -21,17 +21,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func intro() {
-        userDefault.set("abcde", forKey: UserDefaultKey.nickname.rawValue) // TODO: 지우기
+        userDefault.set("test1111", forKey: UserDefaultKey.nickname.rawValue) // TODO: 지우기
         userDefault.removeObject(forKey: UserDefaultKey.isOnboard.rawValue) // TODO: 지우기
-        
-        if let nickname = userDefault.object(forKey: UserDefaultKey.nickname.rawValue) {
+        if UserDefaultManager.shared.nickname == "알수없음" {
+            vc = OnBoardViewController(OnBoardViewModel())
+        } else {
             if UserDefaultManager.shared.isOnBoard {
                 vc = SettingRegionViewController(SettingRegionViewModel())
             } else {
-                getToken("\(nickname)")
+                getToken()
             }
-        } else {
-            vc = OnBoardViewController(OnBoardViewModel())
         }
         
         let rootVC = UINavigationController(rootViewController: vc ?? HomeViewController(HomeViewModel()))
@@ -39,9 +38,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
     }
     
-    func getToken(_ nickname: String) {
+    func getToken() {
         let loginDataSource = AuthDataSource()
-        loginDataSource.getToken(nickname)
+        loginDataSource.getToken(UserDefaultManager.shared.nickname)
             .subscribe(onNext: { result in
                 switch result {
                 case .success:

@@ -43,7 +43,7 @@ final class ClosetFSPagerViewCell: FSPagerViewCell {
         self.layer.cornerRadius = 20
         self.layer.borderColor = UIColor.clear.cgColor
         self.layer.borderWidth = 1
-        self.contentView.layer.shadowColor = CSColor._255_255_255.cgColor
+        self.contentView.layer.shadowColor = CSColor._255_255_255_05.cgColor
         self.layer.setShadow(CGSize(width: 0, height: 4), CSColor.none.cgColor, 0.25, 7.5)
         self.layer.masksToBounds = false
         self.clipsToBounds = false

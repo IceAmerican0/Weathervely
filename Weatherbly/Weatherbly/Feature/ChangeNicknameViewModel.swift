@@ -24,7 +24,8 @@ class ChangeNicknameViewModel: RxBaseViewModel, ChangeNicknameViewModelLogic {
                     self.navigationPopViewControllerRelay.accept(Void())
                 case .failure(let err):
                     guard let errorString = err.errorDescription else { return }
-                    self.alertMessageRelay.accept(.init(title: errorString, alertType: .Error))
+                    self.alertMessageRelay.accept(.init(title: errorString,
+                                                        alertType: .Error))
                 }
             })
             .disposed(by: bag)

@@ -19,7 +19,7 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
     private var headerView = UIView()
     private var navigationDismissButton = UIButton()
     
-    private var mainLabel = CSLabel(.bold, 22, "(닉네임) 님에게\n적당한 옷차림을 골라주세요")
+    private var mainLabel = CSLabel(.bold, 22, "\(UserDefaultManager.shared.nickname)님에게\n적당한 옷차림을 골라주세요")
     private var discriptionLabel = CSLabel(.regular, 16 , "사진을 위로 밀면 옷이 더 두꺼워져요\n사진을 아래로 밀면 옷이 더 얇아져요")
     
     private var clothScrollViewWrapper = UIView()
@@ -88,9 +88,7 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
         }
         
         mainLabel.do {
-            $0.text = "(닉네임) 님에게\n적당한 옷차림을 골라주세요"
             $0.setLineHeight(1.07)
-            
         }
         
         clothScrollViewWrapper.do {

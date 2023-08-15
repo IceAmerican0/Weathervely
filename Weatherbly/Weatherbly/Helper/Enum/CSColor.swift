@@ -12,6 +12,7 @@ enum CSColor {
     case _0__03
     case _0__054
     case _0__065
+    case _0__085
     case _0__1
     case _40_106_167
     case _50_50_50
@@ -35,7 +36,8 @@ enum CSColor {
     case _248_248_248
     case _253_253_253
     case _255_163_163
-    case _255_255_255
+    case _255_255_255_05
+    case _255_255_255_1
     
 
     var color: UIColor {
@@ -48,6 +50,8 @@ enum CSColor {
             return UIColor(r: 0, g: 0, b: 0, a: 0.54)
         case ._0__065:
             return UIColor(r: 0, g: 0, b: 0, a: 0.65)
+        case ._0__085:
+            return UIColor(r: Int(0.85), g: Int(0.85), b: Int(0.85), a: 0)
         case ._0__1:
             return UIColor(r: 0, g: 0, b: 0, a: 1)
         case ._40_106_167:
@@ -94,8 +98,10 @@ enum CSColor {
             return UIColor(r: 253, g: 253, b: 253)
         case ._255_163_163:
             return UIColor(r: 255, g: 163, b: 163)
-        case ._255_255_255:
+        case ._255_255_255_05:
             return UIColor(r: 255, g: 255, b: 255, a: 0.5)
+        case ._255_255_255_1:
+            return UIColor(r: 255, g: 255, b: 255, a: 1)
         }
     }
     

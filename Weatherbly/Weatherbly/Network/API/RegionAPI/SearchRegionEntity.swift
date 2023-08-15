@@ -44,8 +44,8 @@ public struct Address: Codable {
     let addressName: String
     let region1DepthName: String
     let region2DepthName: String
-    let region3DepthName: String
     let region3DepthHName: String
+    let region3DepthName: String
     let hCode: String
     let bCode: String
     let mountainYN: String
@@ -58,8 +58,8 @@ public struct Address: Codable {
         case addressName = "address_name"
         case region1DepthName = "region_1depth_name"
         case region2DepthName = "region_2depth_name"
-        case region3DepthName = "region_3depth_name"
         case region3DepthHName = "region_3depth_h_name"
+        case region3DepthName = "region_3depth_name"
         case hCode = "h_code"
         case bCode = "b_code"
         case mountainYN = "mountain_yn"

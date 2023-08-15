@@ -8,6 +8,8 @@
 import UIKit
 import FlexLayout
 import PinLayout
+import RxSwift
+import RxRelay
 
 final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
     
@@ -16,7 +18,7 @@ final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
     private var explanationLabel = CSLabel(.bold, 25, "닉네임을 설정해주세요")
     private var guideLabel = CSLabel(.bold, 20, "(10글자 이내 / 띄어쓰기, 쉼표 불가)")
     private var inputNickname = UITextField.neatKeyboard()
-    private var confirmButton = CSButton(.primary)
+    private var confirmButton = CSButton(.grayFilled)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +46,7 @@ final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
         confirmButton.do {
             $0.setTitle("확인", for: .normal)
             $0.setTitleColor(.white, for: .normal)
+            $0.isEnabled = false
         }
     }
     
@@ -69,6 +72,20 @@ final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
         confirmButton.rx.tap
             .bind(onNext: getInputNickname)
             .disposed(by: bag)
+        
+        inputNickname.rx.text
+            .subscribe(onNext: { _ in
+                if let value = self.inputNickname.text {
+                    if value.count > 1 {
+                        self.confirmButton.isEnabled = true
+                        self.confirmButton.setButtonStyle(.primary)
+                    } else {
+                        self.confirmButton.isEnabled = false
+                        self.confirmButton.setButtonStyle(.grayFilled)
+                    }
+                }
+            })
+            .disposed(by: bag)
     }
     
     private func getInputNickname() {
@@ -83,11 +100,9 @@ extension NicknameViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         /// 백스페이스 처리
         if let char = string.cString(using: String.Encoding.utf8) {
-                      let isBackSpace = strcmp(char, "\\b")
-                      if isBackSpace == -92 {
-                          return true
-                      }
-                }
+            let isBackSpace = strcmp(char, "\\b")
+            if isBackSpace == -92 { return true }
+        }
         /// 글자수 제한
         if let text = textField.text {
             guard text.count < 5 else { return false }
