@@ -244,6 +244,7 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
             .subscribe(onNext: { [weak self] result in
                 
                 guard result != nil else { return }
+                print(result)
                 self?.pagerView.reloadData()
             })
             .disposed(by: bag)
@@ -364,7 +365,7 @@ extension HomeViewController: FSPagerViewDataSource {
             return count
         }
         
-        count = (viewModel.recommendClosetEntityRelay.value?.data?.list.count)!
+        count = (viewModel.recommendClosetEntityRelay.value?.data?.list.closets.count)!
         return count
         
     }
@@ -372,7 +373,7 @@ extension HomeViewController: FSPagerViewDataSource {
     
     func pagerView(_ pagerView: FSPagerView, cellForItemAt index: Int) -> FSPagerViewCell {
         let cell = pagerView.dequeueCell(withType: ClosetFSPagerViewCell.self, for: index)
-        let closetInfo = viewModel.recommendClosetEntityRelay.value?.data?.list[index]
+        let closetInfo = viewModel.recommendClosetEntityRelay.value?.data?.list.closets[index]
         
         guard let closetInfo = closetInfo else {
             cell.clothImageSourceLabel.text = "loading.."
