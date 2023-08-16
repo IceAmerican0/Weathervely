@@ -15,7 +15,7 @@ import Toast
 final class DateTimePickViewController: RxBaseViewController<DateTimePickViewModel> {
     // MARK: - UI Property
     private let headerWrapper = UIView()
-    private var progressBar = CSProgressView(1.0)
+    private var progressBar = CSProgressView(0.75)
     private let navigationBackButton = UIButton()
     
     private let titleMessageLabel = CSLabel(.bold, 22, "나에게 딱 맞는\n체감온도를 설정해보세요")

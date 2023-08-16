@@ -7,17 +7,17 @@
 
 import Foundation
 
-struct SensoryTempClosetEntity: Codable {
+public struct SensoryTempClosetEntity: Codable {
     let status: Int
     let data: SensoryTempClosetData
 }
 
-struct SensoryTempClosetData: Codable {
+public struct SensoryTempClosetData: Codable {
     let list: [ClosetList]
     let fcstValue: String
 }
 
-struct ClosetList: Codable {
+public struct ClosetList: Codable {
     let id: Int
     let minTemp: String
     let maxTemp: String

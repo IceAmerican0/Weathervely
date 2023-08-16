@@ -8,8 +8,7 @@
 import UIKit
 import FlexLayout
 import PinLayout
-import RxSwift
-import RxRelay
+import RxCocoa
 
 final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
     
@@ -73,7 +72,7 @@ final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
             .bind(onNext: getInputNickname)
             .disposed(by: bag)
         
-        inputNickname.rx.text
+        inputNickname.rx.text.orEmpty
             .subscribe(onNext: { _ in
                 if let value = self.inputNickname.text {
                     if value.count > 1 {

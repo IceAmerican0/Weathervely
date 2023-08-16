@@ -12,23 +12,23 @@ import PinLayout
 final class ConnectionLostViewController: RxBaseViewController<EmptyViewModel> {
     private var imageView = UIImageView()
     private var topLabel = CSLabel(.regular, 45, "앗..!")
-    private var middleLabel = CSLabel(.bold, 18, "내부 서버에 문제가 생겼어요")
+    private var middleLabel = CSLabel(.bold, 18, "서버가 불안정해요")
     private var bottomLabel = CSLabel(.regular, 14, "죄송해요, 최대한 빨리 이 문제를 해결해볼게요")
     private var retryButton = CSButton(.primary)
     
     override func attribute() {
         super.attribute()
         
-//        imageView.do {
-//            $0.image = AssetsImage.
-//        }
+        imageView.do {
+            $0.image = AssetsImage.connectionLost.image
+        }
         
         topLabel.do {
             $0.attributedText = NSMutableAttributedString().regular("앗..!", 45, CSColor._172_107_255)
         }
         
         middleLabel.do {
-            $0.attributedText = NSMutableAttributedString().bold("내부 서버에 문제가 생겼어요", 18, CSColor.none)
+            $0.attributedText = NSMutableAttributedString().bold("서버가 불안정해요", 18, CSColor.none)
         }
         
         bottomLabel.do {
@@ -43,7 +43,8 @@ final class ConnectionLostViewController: RxBaseViewController<EmptyViewModel> {
     override func layout() {
         super.layout()
         
-        container.flex.alignItems(.center).define { flex in
+        container.flex.alignItems(.center).justifyContent(.spaceBetween)
+            .define { flex in
             flex.addItem(imageView).width(78%).height(31.5%)
             flex.addItem(topLabel).marginTop(38)
             flex.addItem(middleLabel).marginTop(15)

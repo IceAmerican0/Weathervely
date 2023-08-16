@@ -173,4 +173,8 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
             })
             .disposed(by: bag)
     }
+    
+    override func viewModelBinding() {
+        viewModel.getClosetBySensoryTemp()
+    }
 }

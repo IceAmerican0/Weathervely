@@ -13,6 +13,7 @@ public protocol SettingRegionCompleteViewModelLogic: ViewModelBusinessLogic {
     func didTapConfirmButton()
     func toEditRegionView()
     func toSelectGenderView()
+    func toDateTimePickView()
 }
 
 public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegionCompleteViewModelLogic {
@@ -39,7 +40,7 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
                 case .success:
                     if UserDefaultManager.shared.isOnBoard {
                         userDefault.set(self.regionDataRelay.value, forKey: UserDefaultKey.region.rawValue)
-                        self.toSelectGenderView()
+                        self.toDateTimePickView()
                     } else {
                         self.toEditRegionView()
                     }
@@ -57,12 +58,7 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
             .subscribe(onNext: { result in
                 switch result {
                 case .success:
-                    if UserDefaultManager.shared.isOnBoard {
-                        userDefault.set(self.regionDataRelay.value, forKey: UserDefaultKey.region.rawValue)
-                        self.toSelectGenderView()
-                    } else {
-                        self.toEditRegionView()
-                    }
+                    self.toEditRegionView()
                 case .failure(let err):
                     guard let errorString = err.errorDescription else { return }
                     self.alertMessageRelay.accept(.init(title: errorString,
@@ -79,6 +75,11 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
     
     public func toSelectGenderView() {
         let vc = SelectGenderViewController(SelectGenderViewModel())
+        navigationPushViewControllerRelay.accept(vc)
+    }
+    
+    public func toDateTimePickView() {
+        let vc = DateTimePickViewController(DateTimePickViewModel())
         navigationPushViewControllerRelay.accept(vc)
     }
 }
