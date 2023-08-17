@@ -19,7 +19,7 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
     private var topLayoutWrapper = UIView()
     private var settingButton = UIButton()
     private var mainLabelWrapper = UIView()
-    private var mainLabel = CSLabel(.bold, 20, "00동 | 현재")
+    private var mainLabel = CSLabel(.bold, 18, "00동 | 현재")
     private var calendarButton = UIButton()
     
     private var dailyWrapper = UIView()
@@ -142,14 +142,15 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
                     flex.addItem(commentLabel).marginTop(screenHeight * 0.004).height(screenHeight * 0.03)
 //                    flex.addItem(dustLabel).marginTop(screenHeight * 0.026).width(dustLabelWidth).height(45)
             }
-            flex.addItem(dustLabel).marginTop(-45).width(dustLabelWidth).height(45)
-            flex.addItem(pagerView).width(screenWidth).height(closetWrapperHeight + 20)
-            flex.addItem(bottomButtonWrapper).direction(.row).define { flex in
-                flex.addItem(sensoryViewButton).padding(3, 13.5)
-            }
+                flex.addItem(dustLabel).marginTop(-45).width(dustLabelWidth).height(45)
+                flex.addItem(pagerView).width(screenWidth).height(closetWrapperHeight + 20)
+                flex.addItem(bottomButtonWrapper).direction(.row).define { flex in
+                    flex.addItem(sensoryViewButton).padding(3, 13.5)
+                    
+                }
             
             pagerView.pin.top(to: dailyWrapper.edge.bottom).margin(screenHeight * 0.03)
-            bottomButtonWrapper.pin.bottom(14)
+            bottomButtonWrapper.pin.bottom(14).marginHorizontal(62)
         }
         
         backgroundView.flex.alignItems(.center).define { flex in
@@ -158,6 +159,15 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
     }
     
     override func viewBinding() {
+        
+        mainLabel.rx.tapGesture()
+            .when(.ended)
+            .subscribe(onNext: { [weak self] tap in
+                
+                self?.viewModel.mainLabelTap()
+                
+            })
+            .disposed(by: bag)
         
         dailyWrapper.rx.swipeGesture([.left,.right])
             .when(.ended)
@@ -186,7 +196,7 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
         
         dailyWrapper.rx.tapGesture()
             .subscribe(onNext: { [weak self] _ in
-                self?.viewModel.toDailyForecastView()
+                
             })
             .disposed(by: bag)
 
@@ -227,6 +237,7 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
         
         viewModel.mappedCategoryDicRelay
             .subscribe(onNext: { [weak self] mappedCategory in
+                print("123123123", mappedCategory)
                 self?.reloadDailyWrapper(self?.viewModel.swipeDirectionRelay.value, mappedCategory)
             })
             .disposed(by: bag)
@@ -244,7 +255,6 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
             .subscribe(onNext: { [weak self] result in
                 
                 guard result != nil else { return }
-                print(result)
                 self?.pagerView.reloadData()
             })
             .disposed(by: bag)
@@ -366,12 +376,14 @@ extension HomeViewController: FSPagerViewDataSource {
         }
         
         count = (viewModel.recommendClosetEntityRelay.value?.data?.list.closets.count)!
+        
         return count
         
     }
     
     
     func pagerView(_ pagerView: FSPagerView, cellForItemAt index: Int) -> FSPagerViewCell {
+        
         let cell = pagerView.dequeueCell(withType: ClosetFSPagerViewCell.self, for: index)
         let closetInfo = viewModel.recommendClosetEntityRelay.value?.data?.list.closets[index]
         
@@ -380,6 +392,12 @@ extension HomeViewController: FSPagerViewDataSource {
             cell.clothImageView.image = AssetsImage.defaultImage.image
             return cell
         }
+        
+        print("""
+ count : \(viewModel.recommendClosetEntityRelay.value?.data?.list.closets.count)
+ index: \(index)
+ url : \(closetInfo.imageUrl)
+""")
         
         if let url = URL(string: closetInfo.imageUrl) {
             URLSession.shared.dataTask(with: url) { data, response, error in
@@ -391,7 +409,7 @@ extension HomeViewController: FSPagerViewDataSource {
             }
             .resume()
         }
-
+        
         
         return cell
     }

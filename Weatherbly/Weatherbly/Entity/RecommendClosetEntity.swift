@@ -27,7 +27,7 @@ struct RecommendClosetData: Codable {
 
 struct RecommendClosetBody: Codable {
     let closets: [RecommendClosetInfo]
-    let userSensoryTemperature: Float
+    let temperatureDifference: Int
 }
 
 struct RecommendClosetInfo: Codable {

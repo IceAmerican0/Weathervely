@@ -78,6 +78,14 @@ extension Date {
         return dateFormmater.string(from: date)
     }
     
+    func todaySelectedFormat(_ selectedHour: String) -> String {
+        let date = self
+        let dateFormmater = DateFormatter.shared
+        dateFormmater.dateFormat = "yyyy-MM-dd \(selectedHour)"
+        
+        return dateFormmater.string(from: date)
+    }
+    
     // MARK: - Tomorrow
 
     // 메인 날씨 Entity에서 날짜별로 정렬할때 형식
@@ -89,7 +97,7 @@ extension Date {
         return dateFormmater.string(from: date)
     }
     
-    func tomorrowParamType(_ selectedHour: String) -> String {
+    func tomorrowSelectedFormat(_ selectedHour: String) -> String {
         let date = Calendar.current.date(byAdding: .day, value: +1, to: self)!
         let dateFormmater = DateFormatter.shared
         dateFormmater.dateFormat = "yyyy-MM-dd \(selectedHour)"

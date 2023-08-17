@@ -18,9 +18,9 @@ public extension WBTargetType {
     var baseURL: URL {
         
         #if DEBUG
-        return URL(string: "http://15.164.224.138:3000")!
+        return URL(string: "https://prod-server.weathervely.com")!
         #else
-        return URL(string: "http://15.164.224.138:3000")!
+        return URL(string: "https://prod-server.weathervely.com")!
         #endif
     }
     

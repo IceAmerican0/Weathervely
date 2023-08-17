@@ -26,6 +26,7 @@ public protocol HomeViewModelLogic: ViewModelBusinessLogic {
     func getSwipeArray()
     func swipeRight()
     func swipeLeft()
+    func mainLabelTap()
     var viewAction: PublishRelay<HomeViewAction> { get }
 }
 
@@ -43,7 +44,6 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     var swipeArrayRelay = BehaviorRelay<[String]?>(value: nil)
     var swipeIndex = 0
     var swipeDirectionRelay = BehaviorRelay<UISwipeGestureRecognizer.Direction?>(value: .left)
-//    var main
     // TODO: - 필요없는 거 없는지 확인하기
     let headerTimeRelay = BehaviorRelay<String?>(value: Date().todayThousandFormat) // HH00
     let selectedHourParamTypeRelay = BehaviorRelay<String?>(value: Date().todayHourFormat) // 2023-08-11 16:00
@@ -350,6 +350,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             if time < 2400 {
                 // 오늘
                 selectedHour = hour
+                self.selectedHourParamTypeRelay.accept(Date().todaySelectedFormat(selectedHour.addColon))
                 categoryWithValue = self.bindingWeatherByDate(forecastEntity, 0, hour) // HH00
                 headerTime = hour.hourToMainLabel
             } else {
@@ -358,11 +359,13 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                 if String(time - 2400).count == 3 {
                     selectedHour = "0\(selectedHour)"
                 }
+                self.selectedHourParamTypeRelay.accept(Date().tomorrowSelectedFormat(selectedHour.addColon))
                 categoryWithValue = self.bindingWeatherByDate(forecastEntity, 1, selectedHour)
                 headerTime = hour.hourToMainLabel
+                
             }
             
-            self.selectedHourParamTypeRelay.accept(Date().tomorrowParamType(selectedHour.addColon))
+            
             getRecommendCloset(selectedHourParamTypeRelay.value!)
             self.headerTimeRelay.accept(headerTime)
             self.mappedCategoryDicRelay.accept(categoryWithValue)
@@ -405,6 +408,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                 // 오늘 안 시간일 때
             
                 selectedHour = hour
+                self.selectedHourParamTypeRelay.accept(Date().todaySelectedFormat(selectedHour.addColon))
                 categoryWithValue = self.bindingWeatherByDate(forecastEntity, 0, hour) // HH00
                 headerTime = hour.hourToMainLabel
                 
@@ -415,22 +419,60 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                     selectedHour = "0\(selectedHour)"
                 }
                 
+                self.selectedHourParamTypeRelay.accept(Date().tomorrowSelectedFormat(selectedHour.addColon))
                 categoryWithValue = self.bindingWeatherByDate(forecastEntity, 1, selectedHour)
                 headerTime = hour.hourToMainLabel
                 
             }
             
-            self.selectedHourParamTypeRelay.accept(Date().tomorrowParamType(selectedHour.addColon))
             getRecommendCloset(selectedHourParamTypeRelay.value!)
             self.headerTimeRelay.accept(headerTime)
             self.mappedCategoryDicRelay.accept(categoryWithValue)
             
             
+            
         } else {
             print("can't Sipe no more")
-            
+//            self?.view?.showToast(message: "현재보다 이전 시간은 확인할 수 없어요", font: .systemFont(ofSize: 16))
             // show Toast
         }
+    }
+    
+    public func mainLabelTap() {
+        
+        let date = Date()
+        guard let forecastEntity  = villageForeCastInfoEntityRelay.value,
+              let swipeArray = swipeArrayRelay.value
+        else { return }
+        
+
+        var categoryWithValue: [String: String]? = [:]
+        
+        var selectedTimeValue = selectedHourParamTypeRelay.value
+        var selectedTime = selectedTimeValue.map { $0 }?.components(separatedBy: " ")
+        var now = date.todayHourFormat
+        var targetTime = "0700"
+        var headerTime = ""
+        
+        if (selectedTime![0] == date.todayHourFormat.components(separatedBy: " ")[0]) { // 오늘 중 어떤시간이라도
+            // 날씨, 옷, 헤더, 메세지 -> 내일 07시로
+            selectedHourParamTypeRelay.accept(date.tomorrowSelectedFormat(targetTime.addColon))
+            headerTime = targetTime.hourToMainLabel
+            getRecommendCloset(selectedHourParamTypeRelay.value!)
+            headerTimeRelay.accept("내일 \(headerTime)")
+            categoryWithValue = self.bindingWeatherByDate(forecastEntity, 1, targetTime)
+            swipeIndex = swipeArray.firstIndex(of: "3100")!
+            
+        } else { // 내일
+            selectedHourParamTypeRelay.accept(date.todayHourFormat)
+            targetTime = date.todayThousandFormat
+            headerTime = date.todayThousandFormat.hourToMainLabel
+            getRecommendCloset(selectedHourParamTypeRelay.value!)
+            headerTimeRelay.accept(headerTime)
+            categoryWithValue = self.bindingWeatherByDate(forecastEntity, 0, targetTime.addColon)
+            swipeIndex = swipeArray.firstIndex(of: targetTime)!
+        }
+        self.mappedCategoryDicRelay.accept(categoryWithValue)
     }
     
     public func toSettingView() {
