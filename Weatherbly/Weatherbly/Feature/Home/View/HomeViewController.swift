@@ -63,6 +63,7 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         backgroundView.pin.horizontally().top()
         backgroundView.flex.layout()
     }
+    
     override func attribute() {
         super.attribute()
         
@@ -157,7 +158,7 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         }
         
         backgroundView.flex.alignItems(.center).define { flex in
-            flex.addItem(backgroundImage).marginHorizontal(-31).marginTop(-20).width(screenWidth + 62).height(backgroundImageHeight)
+            flex.addItem(backgroundImage).width(screenWidth).height(backgroundImageHeight)
         }
     }
     
