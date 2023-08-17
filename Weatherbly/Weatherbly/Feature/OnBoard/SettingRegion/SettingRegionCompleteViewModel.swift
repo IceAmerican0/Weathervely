@@ -27,7 +27,7 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
     }
     
     public func didTapConfirmButton() {
-        if !UserDefaultManager.shared.isOnBoard {
+        if UserDefaultManager.shared.isOnBoard == false {
             changeAddress()
         }
         setAddress()
@@ -39,7 +39,6 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
                 switch result {
                 case .success:
                     if UserDefaultManager.shared.isOnBoard {
-                        userDefault.set(self.regionDataRelay.value, forKey: UserDefaultKey.region.rawValue)
                         self.toDateTimePickView()
                     } else {
                         self.toEditRegionView()
@@ -54,10 +53,11 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
     }
     
     public func changeAddress() {
-        userDataSource.fetchAddress(10, regionDataRelay.value) // TODO: 주소변경 targetID 받아오기
+        userDataSource.fetchAddress(UserDefaultManager.shared.regionID, regionDataRelay.value)
             .subscribe(onNext: { result in
                 switch result {
                 case .success:
+                    userDefault.removeObject(forKey: UserDefaultKey.regionID.rawValue)
                     self.toEditRegionView()
                 case .failure(let err):
                     guard let errorString = err.errorDescription else { return }

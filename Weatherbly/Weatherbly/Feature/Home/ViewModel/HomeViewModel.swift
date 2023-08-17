@@ -29,7 +29,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     private let getRecommendClosetDataSouce = ClosetDataSource()
     
     let villageForeCastInfoEntityRelay  = BehaviorRelay<VillageForecastInfoEntity?>(value: nil)
-    let recommendClosetEntityRelay = BehaviorRelay<RecommendClosetEntity?>(value: nil)
+    let recommendClosetEntityRelay = BehaviorRelay<[RecommendClosetInfo]>(value: [])
     let mappedCategoryDicRelay = BehaviorRelay<[String: String]?>(value: [:])
     
     var swipeArrayRelay = BehaviorRelay<[String]?>(value: nil)
@@ -69,8 +69,9 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         getRecommendClosetDataSouce.getRecommendCloset(dateString)
             .subscribe(onNext: { [weak self] result in
                 switch result {
-                case .success(let respone):
-                    self?.recommendClosetEntityRelay.accept(respone)
+                case .success(let response):
+                    guard let list = response.data?.list.closets else { return }
+                    self?.recommendClosetEntityRelay.accept(list)
                 case .failure(let error):
                     print("viewModel Error, getRecommendCloset :" , error.localizedDescription)
                 }

@@ -49,6 +49,12 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         
         view.addSubview(backgroundView)
         view.bringSubviewToFront(container)
+        
+        if UserDefaultManager.shared.isOnBoard == true {
+            let toolTipView = MainToolTipViewController()
+            toolTipView.modalPresentationStyle = .overCurrentContext
+            viewModel.presentViewControllerNoAnimationRelay.accept(toolTipView)
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -343,11 +349,10 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
 
 // MARK: FSPagerViewDelegate
 extension HomeViewController: FSPagerViewDelegate {
-    
     func pagerView(_ pagerView: FSPagerView, didHighlightItemAt index: Int) {
-        
         viewModel.highlightedCellIndexRelay.accept(index)
     }
+    
     func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
         pagerView.deselectItem(at: index, animated: true)
         pagerView.scrollToItem(at: index, animated: true)
@@ -356,26 +361,14 @@ extension HomeViewController: FSPagerViewDelegate {
 
 extension HomeViewController: FSPagerViewDataSource {
     func numberOfItems(in pagerView: FSPagerView) -> Int {
-        var count = 5
-        guard viewModel.recommendClosetEntityRelay.value != nil else {
-            return count
-        }
-        
-        count = (viewModel.recommendClosetEntityRelay.value?.data?.list.count)!
+        let count = viewModel.recommendClosetEntityRelay.value.count
         return count
         
     }
     
-    
     func pagerView(_ pagerView: FSPagerView, cellForItemAt index: Int) -> FSPagerViewCell {
         let cell = pagerView.dequeueCell(withType: ClosetFSPagerViewCell.self, for: index)
-        let closetInfo = viewModel.recommendClosetEntityRelay.value?.data?.list[index]
-        
-        guard let closetInfo = closetInfo else {
-            cell.clothImageSourceLabel.text = "loading.."
-            cell.clothImageView.image = AssetsImage.defaultImage.image
-            return cell
-        }
+        let closetInfo = viewModel.recommendClosetEntityRelay.value[index]
         
         if let url = URL(string: closetInfo.imageUrl) {
             URLSession.shared.dataTask(with: url) { data, response, error in
@@ -387,12 +380,7 @@ extension HomeViewController: FSPagerViewDataSource {
             }
             .resume()
         }
-
         
         return cell
     }
-    
-    
-    
-
 }

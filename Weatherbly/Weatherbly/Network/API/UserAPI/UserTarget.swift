@@ -8,19 +8,21 @@
 import Moya
 import Foundation
 
-public enum UserTarget { // TODO: 파라미터 값 수정
+public enum UserTarget {
     /// 유저 정보 가져오기
     case getUserInfo(_ nickname: String)
     /// 유저 정보 수정
     case fetchUserInfo(_ userInfo: UserInfoRequest)
     /// 주소 리스트 가져오기
-    case getAddressList(_ nickname: String)
+    case getAddressList
     /// 주소 추가
     case addAddress(_ addressInfo: AddressRequest)
+    /// 메인 주소 설정
+    case setMainAddress(_ addressID: Int)
     /// 설정된 주소 변경
-    case fetchAddress(_ targetID: Int, _ addressInfo: AddressRequest)
+    case fetchAddress(_ addressID: Int, _ addressInfo: AddressRequest)
     /// 설정된 주소 삭제
-    case deleteAddress(_ targetID: Int, _ addressInfo: AddressRequest)
+    case deleteAddress(_ addressID: Int)
 }
 
 extension UserTarget: WBTargetType {
@@ -32,9 +34,11 @@ extension UserTarget: WBTargetType {
         case .getAddressList,
              .addAddress:
             return "/user/address"
-        case .fetchAddress(let targetID, _),
-             .deleteAddress(let targetID, _):
-            return "/user/address/\(targetID)"
+        case .fetchAddress(let addressID, _),
+             .deleteAddress(let addressID):
+            return "/user/address/\(addressID)"
+        case .setMainAddress(let addressID):
+            return "/user/address/setMain/\(addressID)"
         }
     }
     
@@ -44,6 +48,7 @@ extension UserTarget: WBTargetType {
              .getAddressList:
             return .get
         case .addAddress,
+             .setMainAddress,
              .deleteAddress:
             return .post
         case .fetchUserInfo,
@@ -60,16 +65,16 @@ extension UserTarget: WBTargetType {
         case .fetchUserInfo(let userInfo):
             return .requestParameters(parameters: userInfo.dictionary,
                                       encoding: JSONEncoding.default)
-        case .getAddressList(let nickname):
-            return .requestParameters(parameters: ["nickname": nickname],
-                                      encoding: URLEncoding.queryString)
+        case .getAddressList:
+            return .requestPlain
         case .addAddress(let addressInfo):
             return .requestParameters(parameters: addressInfo.dictionary,
                                       encoding: JSONEncoding.default)
         case .fetchAddress(_, let addressInfo):
             return .requestParameters(parameters: addressInfo.dictionary,
                                       encoding: JSONEncoding.default)
-        case .deleteAddress(_, let addressID):
+        case .setMainAddress(let addressID),
+             .deleteAddress(let addressID):
             return .requestParameters(parameters: ["addressId": addressID],
                                       encoding: JSONEncoding.default)
         }

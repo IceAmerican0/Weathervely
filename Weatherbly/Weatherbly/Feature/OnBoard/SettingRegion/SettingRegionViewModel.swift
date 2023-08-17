@@ -46,7 +46,6 @@ public final class SettingRegionViewModel: RxBaseViewModel, SettingRegionViewMod
                                             city: address.region1DepthName,
                                             gu: address.region2DepthName,
                                             dong: address.region3DepthName,
-                                            postal_code: "",
                                             country: "kr",
                                             x_code: Int(address.y),
                                             y_code: Int(address.x))

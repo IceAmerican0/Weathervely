@@ -111,9 +111,8 @@ extension EditRegionViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { 25 }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.didTapTableViewCell(indexPath)
+        viewModel.updateMainRegion(indexPath)
     }
-    
 }
 
 extension EditRegionViewController: UITableViewDataSource {
@@ -123,8 +122,13 @@ extension EditRegionViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         return tableView.dequeueCell(withType: EditRegionTableViewCell.self, for: indexPath).then {
-            guard let regionName = viewModel.loadedListRelay.value[indexPath.row].address_name else { return }
+            let regionName = viewModel.loadedListRelay.value[indexPath.row].addressName
             $0.configureCellState(EditRegionCellState(region: regionName, count: listCount))
+            $0.buttonDidTapRelay
+                .subscribe(onNext: { [weak self] _ in
+                    self?.viewModel.didTapCellButton(indexPath)
+                })
+                .disposed(by: bag)
         }
     }
 }

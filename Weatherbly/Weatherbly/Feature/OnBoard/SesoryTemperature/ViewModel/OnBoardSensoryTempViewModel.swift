@@ -51,7 +51,6 @@ public final class OnBoardSensoryTempViewModel: RxBaseViewModel, OnBoardSensoryT
     }
     
     public func toHomeView() {
-        userDefault.removeObject(forKey: UserDefaultKey.isOnboard.rawValue)
         let vc = HomeViewController(HomeViewModel())
         self.navigationPushViewControllerRelay.accept(vc)
     }

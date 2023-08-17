@@ -25,14 +25,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         userDefault.removeObject(forKey: UserDefaultKey.isOnboard.rawValue) // TODO: 지우기
         if UserDefaultManager.shared.nickname == "알수없음" {
             vc = OnBoardViewController(OnBoardViewModel())
+            setWindow()
         } else {
             if UserDefaultManager.shared.isOnBoard {
                 vc = SettingRegionViewController(SettingRegionViewModel())
+                setWindow()
             } else {
                 getToken()
             }
         }
-        
+    }
+    
+    func setWindow() {
         let rootVC = UINavigationController(rootViewController: vc ?? HomeViewController(HomeViewModel()))
         window?.rootViewController = rootVC
         window?.makeKeyAndVisible()
@@ -45,6 +49,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 switch result {
                 case .success:
                     self.vc = HomeViewController(HomeViewModel())
+                    self.setWindow()
                 case .failure(let err): // TODO: 토큰 실패시 에러 처리
                     guard let errString = err.errorDescription else { return }
 //                    self.alertMessageRelay.accept(.init(title: errString, alertType: .Error))
@@ -62,7 +67,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillEnterForeground(_ scene: UIScene) {}
 
     func sceneDidEnterBackground(_ scene: UIScene) {}
-
-
+    
 }
 

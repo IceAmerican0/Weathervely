@@ -30,12 +30,11 @@ public struct AddressInfo: Codable {
     var city: String?
     var gu: String?
     var dong: String?
-    var postal_code: String?
     var country: String?
     var x_code: Int?
     var y_code: Int?
     
     enum CodingKeys: String, CodingKey {
-        case address_name, city, gu, dong, postal_code, country, x_code, y_code
+        case address_name, city, gu, dong, country, x_code, y_code
     }
 }

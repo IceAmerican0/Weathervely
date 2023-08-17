@@ -17,11 +17,21 @@ public struct RecommendClosetEntity: Codable {
     }
 }
 
-struct RecommendClosetData: Codable {
-    let list: [RecommendClosetInfo]
+public struct RecommendClosetData: Codable {
+    let list: RecommendClosetBody
     
     enum CodingKeys: String, CodingKey {
         case list = "list"
+    }
+}
+
+public struct RecommendClosetBody: Codable {
+    let closets: [RecommendClosetInfo]
+//    let userSensoryTemperature: Float
+    
+    enum CodingKeys: String, CodingKey {
+        case closets = "closets"
+//        case userSensoryTemperature = "userSensoryTemperature"
     }
 }
 

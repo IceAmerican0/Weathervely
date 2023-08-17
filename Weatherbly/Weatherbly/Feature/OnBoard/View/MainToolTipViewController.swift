@@ -121,11 +121,18 @@ public final class MainToolTipViewController: UIViewController, CodeBaseInitiali
                     self.outerRightArrow.isHidden = true
                     self.innerRightArrow.isHidden = true
                 case 1:
-                    self.dismiss(animated: false)
+                    self.remove()
                 default:
-                    self.dismiss(animated: false)
+                    self.remove()
                 }
             })
             .disposed(by: bag)
+    }
+    
+    func remove() {
+        userDefault.removeObject(forKey: UserDefaultKey.isOnboard.rawValue)
+        self.removeFromParent()
+        self.view.removeFromSuperview()
+        self.dismiss(animated: false)
     }
 }
