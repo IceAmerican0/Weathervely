@@ -41,7 +41,7 @@ public final class SettingRegionViewModel: RxBaseViewModel, SettingRegionViewMod
     }
     
     public func didTapTableViewCell(at: IndexPath) {
-        let address = searchedListRelay.value[at.row].address
+        guard let address = searchedListRelay.value[at.row].address else { return }
         let addressRequest = AddressRequest(address_name: address.addressName,
                                             city: address.region1DepthName,
                                             gu: address.region2DepthName,

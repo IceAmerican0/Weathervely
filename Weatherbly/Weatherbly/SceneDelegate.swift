@@ -21,13 +21,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func intro() {
-        userDefault.set("test1111", forKey: UserDefaultKey.nickname.rawValue) // TODO: 지우기
-        userDefault.removeObject(forKey: UserDefaultKey.isOnboard.rawValue) // TODO: 지우기
+//        userDefault.set("test1111", forKey: UserDefaultKey.nickname.rawValue) // TODO: 지우기
+//        userDefault.removeObject(forKey: UserDefaultKey.isOnboard.rawValue) // TODO: 지우기
         if UserDefaultManager.shared.nickname == "알수없음" {
             vc = OnBoardViewController(OnBoardViewModel())
             setWindow()
         } else {
-            if UserDefaultManager.shared.isOnBoard {
+            if UserDefaultManager.shared.isOnBoard == true {
                 vc = SettingRegionViewController(SettingRegionViewModel())
                 setWindow()
             } else {
