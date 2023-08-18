@@ -33,7 +33,7 @@ final class NicknameViewModel: RxBaseViewModel, NicknameViewModelLogic {
     }
     
     func toSettingRegionView() {
-        let vc = SettingRegionViewController(SettingRegionViewModel())
+        let vc = SettingRegionViewController(SettingRegionViewModel(.onboard))
         navigationPushViewControllerRelay.accept(vc)
     }
 }

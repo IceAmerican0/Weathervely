@@ -11,25 +11,35 @@ import RxCocoa
 
 public protocol SettingRegionCompleteViewModelLogic: ViewModelBusinessLogic {
     func didTapConfirmButton()
+    func setAddress()
+    func changeAddress()
+    func addAddress()
     func toEditRegionView()
     func toSelectGenderView()
+    func toDateTimePickView()
 }
 
 public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegionCompleteViewModelLogic {
     public let regionDataRelay: BehaviorRelay<AddressRequest>
+    public let settingRegionState: SettingRegionState
     private let authDataSource = AuthDataSource()
     private let userDataSource = UserDataSource()
     
-    init(_ item: AddressRequest) {
+    public init(_ item: AddressRequest, _ settingRegionState: SettingRegionState) {
         self.regionDataRelay = BehaviorRelay<AddressRequest>(value: item)
+        self.settingRegionState = settingRegionState
         super.init()
     }
     
     public func didTapConfirmButton() {
-        if !UserDefaultManager.shared.isOnBoard {
+        switch settingRegionState {
+        case .onboard:
+            setAddress()
+        case .change:
             changeAddress()
+        case .add:
+            addAddress()
         }
-        setAddress()
     }
     
     public func setAddress() {
@@ -38,8 +48,7 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
                 switch result {
                 case .success:
                     if UserDefaultManager.shared.isOnBoard {
-                        userDefault.set(self.regionDataRelay.value, forKey: UserDefaultKey.region.rawValue)
-                        self.toSelectGenderView()
+                        self.toDateTimePickView()
                     } else {
                         self.toEditRegionView()
                     }
@@ -53,19 +62,30 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
     }
     
     public func changeAddress() {
-        userDataSource.fetchAddress(10, regionDataRelay.value) // TODO: 주소변경 targetID 받아오기
-            .subscribe(onNext: { result in
+        userDataSource.fetchAddress(UserDefaultManager.shared.regionID, regionDataRelay.value)
+            .subscribe(onNext: { [weak self] result in
                 switch result {
                 case .success:
-                    if UserDefaultManager.shared.isOnBoard {
-                        userDefault.set(self.regionDataRelay.value, forKey: UserDefaultKey.region.rawValue)
-                        self.toSelectGenderView()
-                    } else {
-                        self.toEditRegionView()
-                    }
+                    userDefault.removeObject(forKey: UserDefaultKey.regionID.rawValue)
+                    self?.toEditRegionView()
                 case .failure(let err):
                     guard let errorString = err.errorDescription else { return }
-                    self.alertMessageRelay.accept(.init(title: errorString,
+                    self?.alertMessageRelay.accept(.init(title: errorString,
+                                                        alertType: .Error))
+                }
+            })
+            .disposed(by: bag)
+    }
+    
+    public func addAddress() {
+        userDataSource.addAddress(regionDataRelay.value)
+            .subscribe(onNext: { [weak self] result in
+                switch result {
+                case .success:
+                    self?.toEditRegionView()
+                case .failure(let err):
+                    guard let errorString = err.errorDescription else { return }
+                    self?.alertMessageRelay.accept(.init(title: errorString,
                                                         alertType: .Error))
                 }
             })
@@ -79,6 +99,11 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
     
     public func toSelectGenderView() {
         let vc = SelectGenderViewController(SelectGenderViewModel())
+        navigationPushViewControllerRelay.accept(vc)
+    }
+    
+    public func toDateTimePickView() {
+        let vc = DateTimePickViewController(DateTimePickViewModel())
         navigationPushViewControllerRelay.accept(vc)
     }
 }

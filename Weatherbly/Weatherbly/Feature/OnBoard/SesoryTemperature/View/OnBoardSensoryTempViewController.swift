@@ -90,6 +90,10 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
         denyButton.do {
             $0.setTitle("아니오", for: .normal)
         }
+        
+        selectOtherDayLabel.do {
+            $0.addGestureRecognizer(labelTapGesture)
+        }
     }
     
     override func layout() {
@@ -152,6 +156,8 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
     }
     
     override func viewBinding() {
+        super.viewBinding()
+        
         navigationBackButton.leftButtonDidTapRelay
             .bind(to: viewModel.navigationPopViewControllerRelay)
             .disposed(by: bag)
@@ -172,5 +178,11 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
                 self?.viewModel.navigationPopViewControllerRelay.accept(Void())
             })
             .disposed(by: bag)
+    }
+    
+    override func viewModelBinding() {
+        super.viewModelBinding()
+        
+        viewModel.getSensoryTemp()
     }
 }

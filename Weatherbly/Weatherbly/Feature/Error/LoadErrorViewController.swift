@@ -19,9 +19,9 @@ final class LoadErrorViewController: RxBaseViewController<EmptyViewModel> {
     override func attribute() {
         super.attribute()
         
-//        imageView.do {
-//            $0.image = AssetsImage.
-//        }
+        imageView.do {
+            $0.image = AssetsImage.wifiError.image
+        }
         
         topLabel.do {
             $0.attributedText = NSMutableAttributedString().regular("Oops..!", 45, CSColor._172_107_255)
@@ -43,7 +43,8 @@ final class LoadErrorViewController: RxBaseViewController<EmptyViewModel> {
     override func layout() {
         super.layout()
         
-        container.flex.alignItems(.center).define { flex in
+        container.flex.alignItems(.center).justifyContent(.spaceBetween)
+            .define { flex in
             flex.addItem(imageView).width(78%).height(31.5%)
             flex.addItem(topLabel).marginTop(38)
             flex.addItem(middleLabel).marginTop(15)

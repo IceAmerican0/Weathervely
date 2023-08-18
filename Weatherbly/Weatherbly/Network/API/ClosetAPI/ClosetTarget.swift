@@ -15,7 +15,7 @@ public enum ClosetTarget { // TODO: 파라미터 값 변경
     /// 온보딩 > 체감온도 진입시 스타일 리스트 가져오기
     case getSensoryTemperatureCloset(_ dateTime: String)
     /// 체감온도 설정
-    case setSensoryTemperature(_ closetInfo: String)
+    case setSensoryTemperature(_ sensoryTempRequest: SetSensoryTempRequest)
     /// 메인 > 스타일 추천 리스트 가져오기
     case getRecommendStyleList(_ dateTime: String)
 }
@@ -58,11 +58,9 @@ extension ClosetTarget: WBTargetType {
         case .getSensoryTemperatureCloset(let dateTime):
             return .requestParameters(parameters: ["dateTime": dateTime],
                                       encoding: URLEncoding.queryString)
-        case .setSensoryTemperature(let closetInfo):
-            return .requestParameters(parameters: ["closet": 7,
-                                                   "temperatureRange": 2,
-                                                   "created_at": "",
-                                                   "temperature": ""
+        case .setSensoryTemperature(let sensoryTempRequest):
+            return .requestParameters(parameters: ["closet": sensoryTempRequest.closet,
+                                                   "current_temperature": sensoryTempRequest.currentTemp,
                                                   ],
                                       encoding: JSONEncoding.default)
         case .getRecommendStyleList(let dateTime):

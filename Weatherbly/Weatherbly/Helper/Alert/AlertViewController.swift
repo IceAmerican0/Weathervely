@@ -92,6 +92,7 @@ final class AlertViewController: UIViewController, CodeBaseInitializerProtocol {
         
         confirmButton.do {
             $0.setTitle("확인", for: .normal)
+            $0.titleLabel?.font = .boldSystemFont(ofSize: 16)
             $0.setTitleColor(.black, for: .normal)
             $0.setCornerRadius(10)
         }

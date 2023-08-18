@@ -14,7 +14,7 @@ import FSPagerView
 final class ClosetFSPagerViewCell: FSPagerViewCell {
     
     var clothImageView = UIImageView()
-    var clothImageSourceLabel = CSLabel(.regular, 11, "by 0000")
+    var clothImageSourceLabel = CSLabel(.regular, 11, "loading...")
     
     private let clothImageHeight = UIScreen.main.bounds.height * 0.38
     private let clothImageWidth = UIScreen.main.bounds.width * 0.38
@@ -54,8 +54,13 @@ final class ClosetFSPagerViewCell: FSPagerViewCell {
         clothImageView.clipsToBounds = true
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        clothImageView.image = AssetsImage.defaultImage.image
+    }
+    
     func setUIInfo(_ imageData: Data, _ showName: String) {
-            self.clothImageSourceLabel.text = "by \(showName)"
-            self.clothImageView.image = UIImage(data: imageData)
+        self.clothImageSourceLabel.text = "by \(showName)"
+        self.clothImageView.image = UIImage(data: imageData)
     }
 }

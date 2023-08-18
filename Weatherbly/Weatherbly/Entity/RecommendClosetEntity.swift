@@ -17,7 +17,7 @@ public struct RecommendClosetEntity: Codable {
     }
 }
 
-struct RecommendClosetData: Codable {
+public struct RecommendClosetData: Codable {
     let list: RecommendClosetBody
     
     enum CodingKeys: String, CodingKey {

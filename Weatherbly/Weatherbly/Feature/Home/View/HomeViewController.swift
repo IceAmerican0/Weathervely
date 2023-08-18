@@ -11,6 +11,8 @@ import FlexLayout
 import FSPagerView
 import RxSwift
 import RxGesture
+import Kingfisher
+import WebKit
 
 final class HomeViewController: RxBaseViewController<HomeViewModel> {
     private var backgroundView = UIView()
@@ -44,19 +46,31 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
     private let tapGesture = UITapGestureRecognizer()
     var date = Date()
     
+    let webView = WKWebView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.addSubview(backgroundView)
         view.bringSubviewToFront(container)
+        
+        if UserDefaultManager.shared.isOnBoard == true {
+            let toolTipView = MainToolTipViewController()
+            toolTipView.modalPresentationStyle = .overCurrentContext
+            viewModel.presentViewControllerNoAnimationRelay.accept(toolTipView)
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
         backgroundView.pin.horizontally().top()
         backgroundView.flex.layout()
     }
+    
+    // MARK: Attribute
     override func attribute() {
         super.attribute()
         
@@ -115,8 +129,14 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         mainLabel.do {
             $0.textAlignment = .center
         }
+        
+        webView.do {
+            $0.frame = view.frame
+            $0.allowsBackForwardNavigationGestures = true
+        }
     }
     
+    // MARK: Layout
     override func layout() {
         super.layout()
         
@@ -153,10 +173,11 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         }
         
         backgroundView.flex.alignItems(.center).define { flex in
-            flex.addItem(backgroundImage).marginHorizontal(-31).marginTop(-20).width(screenWidth + 62).height(backgroundImageHeight)
+            flex.addItem(backgroundImage).width(screenWidth).height(backgroundImageHeight)
         }
     }
     
+    // MARK: ViewBind
     override func viewBinding() {
         super.viewBinding()
         
@@ -217,10 +238,9 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
             .disposed(by: bag)
     }
     
-    
+    // MARK: ViewModelBind
     override func viewModelBinding() {
         super.viewModelBinding()
-        
         
         /// MARK: - 여기서 entity를 구독하는건 생각해볼 필요가 있다. entity 자체를 이용해서 바인딩해주기보다 이걸 멥핑해서 사용한다
         /// 그래서, 매핑한 값 bindingWeatherByDate 에 대한 return 값을 굳독해주는 게 더 맞아 보인다.
@@ -244,7 +264,6 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         viewModel
             .weatherImageRelay
             .subscribe(onNext: { [weak self] image in
-                
                 self?.weatherImageView.image = image
             })
             .disposed(by: bag)
@@ -259,9 +278,7 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         
         viewModel.headerTimeRelay
             .subscribe(onNext: { [weak self] justTimeString in
-               
                 self?.setHeader(justTimeString)
-
             })
             .disposed(by: bag)
         
@@ -286,7 +303,6 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         
         viewModel.getInfo(self.date.todayHourFormat)
     }
-    
     
     // MARK: - Method
     
@@ -354,7 +370,6 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
     }
 
     func setHeader(_ justTimeString: String?) {
-        
         UIView.animate(withDuration: 0.2, animations: {
                               self.mainLabel.alpha = 0
             guard var mainTimeText = justTimeString else { return }
@@ -377,7 +392,6 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
     }
     
     func setWeatherInfo(_ info: [String: String]?) {
-        
         guard let info = info else { return }
         let tmn = Int(Double(info["TMN"] ?? "-") ?? 0)
         let tmx = Int(Double(info["TMX"] ?? "-") ?? 0)
@@ -394,7 +408,6 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
                 .regular("\(tmx)", 18, CSColor._178_36_36)
                 .regular("℃)", 18, CSColor.none)
         }
-        
     }
     
     private func configureBackgroundImage() -> AssetsImage {
@@ -404,17 +417,27 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
 
 // MARK: FSPagerViewDelegate
 extension HomeViewController: FSPagerViewDelegate {
-    
     func pagerView(_ pagerView: FSPagerView, didHighlightItemAt index: Int) {
-        
         viewModel.highlightedCellIndexRelay.accept(index)
     }
+    
     func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
         pagerView.deselectItem(at: index, animated: true)
         pagerView.scrollToItem(at: index, animated: true)
     }
+    
+    func pagerView(_ pagerView: FSPagerView, shouldSelectItemAt index: Int) -> Bool {
+        let closetInfo = viewModel.recommendClosetEntityRelay.value?.data?.list.closets[index]
+        if let shopUrl = closetInfo?.shopUrl {
+            if let url = URL(string: shopUrl) {
+                webView.load(URLRequest(url: url))
+            }
+        }
+        return true
+    }
 }
 
+// MARK: FSPagerViewDataSource
 extension HomeViewController: FSPagerViewDataSource {
     func numberOfItems(in pagerView: FSPagerView) -> Int {
         var count = 5
@@ -423,45 +446,33 @@ extension HomeViewController: FSPagerViewDataSource {
         }
         
         count = (viewModel.recommendClosetEntityRelay.value?.data?.list.closets.count)!
-        
         return count
         
     }
-    
     
     func pagerView(_ pagerView: FSPagerView, cellForItemAt index: Int) -> FSPagerViewCell {
         
         let cell = pagerView.dequeueCell(withType: ClosetFSPagerViewCell.self, for: index)
         let closetInfo = viewModel.recommendClosetEntityRelay.value?.data?.list.closets[index]
         
-        guard let closetInfo = closetInfo else {
-            cell.clothImageSourceLabel.text = "loading.."
-            cell.clothImageView.image = AssetsImage.defaultImage.image
-            return cell
-        }
-//        
-//        print("""
-// count : \(viewModel.recommendClosetEntityRelay.value?.data?.list.closets.count)
-// index: \(index)
-// url : \(closetInfo.imageUrl)
-//""")
-        
-        if let url = URL(string: closetInfo.imageUrl) {
-            URLSession.shared.dataTask(with: url) { data, response, error in
-                if let data = data {
-                    DispatchQueue.main.async {
-                        cell.setUIInfo(data, closetInfo.shopName)
+        if let imageUrl = closetInfo?.imageUrl, let shopName = closetInfo?.shopName {
+            if let url = URL(string: imageUrl) {
+                cell.clothImageView.kf.indicatorType = .activity
+                cell.clothImageView.kf.setImage(with: url,
+                                                placeholder: nil,
+                                                options: [.retryStrategy(DelayRetryStrategy(maxRetryCount: 2, retryInterval: .seconds(2))),
+                                                          .transition(.fade(0.1)),
+                                                          .cacheOriginalImage]) { result in
+                    switch result {
+                    case .success:
+                        cell.clothImageSourceLabel.text = "\(shopName)"
+                    case .failure:
+                        break
                     }
                 }
             }
-            .resume()
         }
-        
         
         return cell
     }
-    
-    
-    
-
 }

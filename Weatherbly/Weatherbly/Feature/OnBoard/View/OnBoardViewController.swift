@@ -21,7 +21,7 @@ final class OnBoardViewController: RxBaseViewController<OnBoardViewModel> {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        userDefault.bool(forKey: UserDefaultKey.isOnboard.rawValue)
+        userDefault.set(true, forKey: UserDefaultKey.isOnboard.rawValue)
     }
     
     override func attribute() {

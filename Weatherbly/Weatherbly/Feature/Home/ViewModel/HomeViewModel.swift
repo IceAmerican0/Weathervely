@@ -76,8 +76,8 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         getRecommendClosetDataSouce.getRecommendCloset(dateString)
             .subscribe(onNext: { [weak self] result in
                 switch result {
-                case .success(let respone):
-                    self?.recommendClosetEntityRelay.accept(respone)
+                case .success(let response):
+                    self?.recommendClosetEntityRelay.accept(response)
                 case .failure(let error):
                     print("viewModel Error, getRecommendCloset :" , error.localizedDescription)
                 }

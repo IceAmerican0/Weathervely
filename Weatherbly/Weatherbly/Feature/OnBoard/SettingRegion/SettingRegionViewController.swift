@@ -8,7 +8,7 @@
 import UIKit
 import PinLayout
 import FlexLayout
-import RxSwift
+import RxCocoa
 
 final class SettingRegionViewController: RxBaseViewController<SettingRegionViewModel> {
     
@@ -98,6 +98,8 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
     }
     
     override func viewBinding() {
+        super.viewBinding()
+        
         navigationView.leftButtonDidTapRelay
             .bind(to: viewModel.navigationPopViewControllerRelay)
             .disposed(by: bag)
@@ -106,7 +108,7 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
             .bind(onNext: showResult)
             .disposed(by: bag)
         
-        inputRegion.rx.text
+        inputRegion.rx.text.orEmpty
             .subscribe(onNext: { _ in
                 if let value = self.inputRegion.text {
                     if value.count > 1 {

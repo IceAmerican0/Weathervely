@@ -12,10 +12,11 @@ import RxMoya
 public protocol UserDataSourceProtocol { // TODO: return값 수정
     func getUserInfo(_ nickname: String) -> Observable<Result<UserInfoEntity, WBNetworkError>>
     func fetchUserInfo(_ userInfo: UserInfoRequest) -> Observable<Result<EmptyEntity, WBNetworkError>>
-    func getAddressList(_ nickname: String) -> Observable<Result<AddressEntity, WBNetworkError>>
+    func getAddressList() -> Observable<Result<AddressListEntity, WBNetworkError>>
     func addAddress(_ addressInfo: AddressRequest) -> Observable<Result<EmptyEntity, WBNetworkError>>
-    func fetchAddress(_ targetID: Int, _ addressInfo: AddressRequest) -> Observable<Result<EmptyEntity, WBNetworkError>>
-    func deleteAddress(_ targetID: Int, _ addressInfo: AddressRequest) -> Observable<Result<EmptyEntity, WBNetworkError>>
+    func setMainAddress(_ addressID: Int) -> Observable<Result<EmptyEntity, WBNetworkError>>
+    func fetchAddress(_ addressID: Int, _ addressInfo: AddressRequest) -> Observable<Result<EmptyEntity, WBNetworkError>>
+    func deleteAddress(_ addressID: Int) -> Observable<Result<EmptyEntity, WBNetworkError>>
 }
 
 public final class UserDataSource: UserDataSourceProtocol {
@@ -38,10 +39,10 @@ public final class UserDataSource: UserDataSourceProtocol {
             .mapTo(EmptyEntity.self)
     }
     
-    public func getAddressList(_ nickname: String) -> Observable<Result<AddressEntity, WBNetworkError>> {
+    public func getAddressList() -> Observable<Result<AddressListEntity, WBNetworkError>> {
         provider.rx
-            .request(.getAddressList(nickname))
-            .mapTo(AddressEntity.self)
+            .request(.getAddressList)
+            .mapTo(AddressListEntity.self)
     }
     
     public func addAddress(_ addressInfo: AddressRequest) -> Observable<Result<EmptyEntity, WBNetworkError>> {
@@ -50,15 +51,21 @@ public final class UserDataSource: UserDataSourceProtocol {
             .mapTo(EmptyEntity.self)
     }
     
-    public func fetchAddress(_ targetID: Int, _ addressInfo: AddressRequest) -> Observable<Result<EmptyEntity, WBNetworkError>> {
+    public func setMainAddress(_ addressID: Int) -> Observable<Result<EmptyEntity, WBNetworkError>> {
         provider.rx
-            .request(.fetchAddress(targetID, addressInfo))
+            .request(.setMainAddress(addressID))
             .mapTo(EmptyEntity.self)
     }
     
-    public func deleteAddress(_ targetID: Int, _ addressInfo: AddressRequest) -> Observable<Result<EmptyEntity, WBNetworkError>> {
+    public func fetchAddress(_ addressID: Int, _ addressInfo: AddressRequest) -> Observable<Result<EmptyEntity, WBNetworkError>> {
         provider.rx
-            .request(.deleteAddress(targetID, addressInfo))
+            .request(.fetchAddress(addressID, addressInfo))
+            .mapTo(EmptyEntity.self)
+    }
+    
+    public func deleteAddress(_ addressID: Int) -> Observable<Result<EmptyEntity, WBNetworkError>> {
+        provider.rx
+            .request(.deleteAddress(addressID))
             .mapTo(EmptyEntity.self)
     }
 }

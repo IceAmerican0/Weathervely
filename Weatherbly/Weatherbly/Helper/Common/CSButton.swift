@@ -78,7 +78,6 @@ class CSButton: UIButton, CodeBaseInitializerProtocol {
                 
                 $0.layer.cornerRadius = 10.0
                 $0.titleLabel?.textColor = .white
-                $0.setShadow(CGSize(width: 0, height: 3), CSColor._0__03.cgColor, 1, 2)
                 
                 if UIScreen.main.bounds.width < 376 {
                     $0.titleLabel?.font = .boldSystemFont(ofSize: 16)

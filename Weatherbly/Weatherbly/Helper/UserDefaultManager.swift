@@ -37,4 +37,12 @@ public final class UserDefaultManager {
             return false
         }
     }
+    
+    public var regionID: Int {
+        if let regionID = userDefault.object(forKey: UserDefaultKey.regionID.rawValue) {
+            return regionID as! Int
+        } else {
+            return 0
+        }
+    }
 }

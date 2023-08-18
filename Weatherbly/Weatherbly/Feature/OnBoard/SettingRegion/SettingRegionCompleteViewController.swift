@@ -77,6 +77,8 @@ public final class SettingRegionCompleteViewController: RxBaseViewController<Set
     }
     
     override func viewBinding() {
+        super.viewBinding()
+        
         navigationView.leftButtonDidTapRelay
             .bind(to: viewModel.navigationPopViewControllerRelay)
             .disposed(by: bag)

@@ -13,5 +13,5 @@ public enum UserDefaultKey: String {
     case isOnboard
     case nickname
     case gender
-    case region
+    case regionID
 }

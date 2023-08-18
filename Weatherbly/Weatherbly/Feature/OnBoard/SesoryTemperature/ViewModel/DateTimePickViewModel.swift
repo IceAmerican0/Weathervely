@@ -11,7 +11,7 @@ import RxCocoa
 public protocol DateTimePickViewModelLogic: ViewModelBusinessLogic {
     func didTapConfirmButton(_ today: [String], _ pickerDay: String, _ pickerDayTime: String, _ pickerTime: Int)
     func getTempBaseOnTime()
-    func toOnBoardSensoryTempView()
+    func toOnBoardSensoryTempView(_ dateString: String)
 }
 
 public class DateTimePickViewModel: RxBaseViewModel, DateTimePickViewModelLogic {
@@ -56,11 +56,11 @@ public class DateTimePickViewModel: RxBaseViewModel, DateTimePickViewModelLogic 
     
     public func getTempBaseOnTime() {
         // TODO: 시간으로 온도 받아오기
-        toOnBoardSensoryTempView()
+        toOnBoardSensoryTempView("15")
     }
     
-    public func toOnBoardSensoryTempView() {
-        let vc = OnBoardSensoryTempViewController(OnBoardSensoryTempViewModel("5"))
+    public func toOnBoardSensoryTempView(_ temperature: String) {
+        let vc = OnBoardSensoryTempViewController(OnBoardSensoryTempViewModel(temperature))
         navigationPushViewControllerRelay.accept(vc)
     }
 }

@@ -29,7 +29,8 @@ public struct Document: Codable {
     let y: String
     let x: String
     let addresstype: String
-    let address: Address
+    let address: Address?
+    let roadAddress: RoadAddress?
     
     enum CodingKeys: String, CodingKey {
         case addressName = "address_name"
@@ -37,6 +38,7 @@ public struct Document: Codable {
         case x
         case addresstype = "address_type"
         case address
+        case roadAddress = "road_address"
     }
 }
 

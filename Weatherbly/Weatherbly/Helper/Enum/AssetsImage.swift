@@ -29,20 +29,23 @@ enum AssetsImage: String {
     
     // Common
     case clockIcon
+    case closeButton
+    case connectionLost
     case daily
+    case defaultImage
     case delete
     case dust
+    case gradientButton
     case humidity
+    case launchLogo
     case mainLogo
     case regionChange
     case sampleCloth
     case schedule
     case search
     case thermometer
-    case whiteHeart
-    case closeButton
-    case gradientButton
-    case defaultImage
+    case touchIcon
+    case wifiError
     
     // Setting
     case editNameIcon
@@ -51,6 +54,7 @@ enum AssetsImage: String {
     case settingLocationIcon
     case settingStyleIcon
     case settingTemperatureIcon
+    case whiteHeart
     
     // Weather
     case weatherLoadingImage
