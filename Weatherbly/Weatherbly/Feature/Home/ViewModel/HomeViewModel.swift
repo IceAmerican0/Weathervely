@@ -99,7 +99,6 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         
         let date = Date()
         let selectedDate = date.dayAfter(dayInterval)
-        print(selectedDate)
         // 원하는 날짜 멥핑
         let todayForecast = response?.data!.list[selectedDate]!.forecasts
         let selectedHour = selectedHour // HH00
@@ -123,8 +122,6 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         var categoryWithValue: [String: String]? = [:]
         
         for key in orderedByTimeCategories! {
-//            print(key.key)
-//            print("selecteHour : ", selectedHour)
             if key.key == selectedHour {
                 // 카테고리 맵핑해서 저장하기
                 
@@ -246,7 +243,6 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                     break
                 }
             
-//            print(categoryValues!)
         }
     }
     
@@ -469,7 +465,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             headerTime = date.todayThousandFormat.hourToMainLabel
             getRecommendCloset(selectedHourParamTypeRelay.value!)
             headerTimeRelay.accept(headerTime)
-            categoryWithValue = self.bindingWeatherByDate(forecastEntity, 0, targetTime.addColon)
+            categoryWithValue = self.bindingWeatherByDate(forecastEntity, 0, targetTime)
             swipeIndex = swipeArray.firstIndex(of: targetTime)!
         }
         self.mappedCategoryDicRelay.accept(categoryWithValue)

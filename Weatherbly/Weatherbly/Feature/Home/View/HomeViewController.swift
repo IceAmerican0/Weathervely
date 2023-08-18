@@ -314,7 +314,6 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
             if mainTimeText == Date().todayThousandFormat {
                 mainTimeText = "현재"
             }
-            print("viewCon", mainTimeText )
             
             if !(mainTimeText == "현재") {
                 self.mainLabel.text = "00동 | \(mainTimeText)"
@@ -392,12 +391,12 @@ extension HomeViewController: FSPagerViewDataSource {
             cell.clothImageView.image = AssetsImage.defaultImage.image
             return cell
         }
-        
-        print("""
- count : \(viewModel.recommendClosetEntityRelay.value?.data?.list.closets.count)
- index: \(index)
- url : \(closetInfo.imageUrl)
-""")
+//        
+//        print("""
+// count : \(viewModel.recommendClosetEntityRelay.value?.data?.list.closets.count)
+// index: \(index)
+// url : \(closetInfo.imageUrl)
+//""")
         
         if let url = URL(string: closetInfo.imageUrl) {
             URLSession.shared.dataTask(with: url) { data, response, error in
