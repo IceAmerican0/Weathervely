@@ -16,7 +16,7 @@ extension ForeCastTarget: WBTargetType {
     var path: String {
         switch self {
         case .getVillageForcastInfo:
-            return "/forecast/getVilageForecastInfo"
+            return "/v1/forecast/getVilageForecastInfo"
         }
     }
     

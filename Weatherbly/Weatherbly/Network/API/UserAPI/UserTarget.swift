@@ -30,15 +30,15 @@ extension UserTarget: WBTargetType {
         switch self {
         case .getUserInfo,
              .fetchUserInfo:
-            return "/user"
+            return "/v1/user"
         case .getAddressList,
              .addAddress:
-            return "/user/address"
+            return "/v1/user/address"
         case .fetchAddress(let addressID, _),
              .deleteAddress(let addressID):
-            return "/user/address/\(addressID)"
+            return "/v1/user/address/\(addressID)"
         case .setMainAddress(let addressID):
-            return "/user/address/setMain/\(addressID)"
+            return "/v1/user/address/setMain/\(addressID)"
         }
     }
     

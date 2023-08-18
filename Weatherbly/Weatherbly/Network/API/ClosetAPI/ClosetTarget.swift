@@ -24,15 +24,15 @@ extension ClosetTarget: WBTargetType {
     public var path: String {
         switch self {
         case .getStyleList:
-            return "/closet"
+            return "/v1/closet"
         case .styleStylePickedList:
-            return "/closet/pick"
+            return "/v1/closet/pick"
         case .getSensoryTemperatureCloset:
-            return "/closet/getClosetByTemperature"
+            return "/v1/closet/getClosetByTemperature"
         case .setSensoryTemperature:
-            return "/closet/setTemperature"
+            return "/v1/closet/setTemperature"
         case .getRecommendStyleList:
-            return "/closet/getRecommendCloset"
+            return "/v1/closet/getRecommendCloset"
         }
     }
     

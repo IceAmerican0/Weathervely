@@ -22,13 +22,13 @@ extension AuthTarget: WBTargetType {
     public var path: String {
         switch self {
         case .login:
-            return "/auth/login"
+            return "/v1/auth/login"
         case .nickname:
-            return "/auth/nickName"
+            return "/v1/auth/nickName"
         case .address:
-            return "/auth/address"
+            return "/v1/auth/address"
         case .gender:
-            return "/auth/gender"
+            return "/v1/auth/gender"
         }
     }
     

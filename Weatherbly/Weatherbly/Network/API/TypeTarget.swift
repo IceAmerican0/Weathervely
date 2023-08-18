@@ -16,7 +16,7 @@ extension TypeTarget: WBTargetType {
     public var path: String {
         switch self {
         case .getTypeList:
-            return "/type"
+            return "/v1/type"
         }
     }
     
