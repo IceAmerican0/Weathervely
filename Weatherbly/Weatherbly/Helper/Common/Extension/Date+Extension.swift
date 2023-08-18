@@ -20,7 +20,7 @@ extension Date {
         return dateFormmater.string(from: date)
     }
     
-    var yesterday24Time: String {
+    var yesterdayThousandFormat: String {
         
         let date = Calendar.current.date(byAdding: .day, value: -1, to: self)!
         let dateFormmater = DateFormatter.shared
@@ -28,6 +28,7 @@ extension Date {
         
         return dateFormmater.string(from: date)
     }
+    
     
     var yesterdayDate: String {
         

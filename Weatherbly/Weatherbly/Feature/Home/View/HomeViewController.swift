@@ -25,8 +25,8 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
     private var dailyWrapper = UIView()
     private var weatherImageView = UIImageView()
     private var temperatureLabel = CSLabel(.bold, 15, "")
-    private var commentLabel = CSLabel(.regular, 18, "찬바람이 세차게 불어요")
-    private var dustLabel = CSLabel(.regular, 17, "😷 미세 먼지가 매우 심해요")
+    private var weatherCommentLabel = CSLabel(.regular, 18, "찬바람이 세차게 불어요")
+    private var messageLabel = CSLabel(.regular, 17, "😷 미세 먼지가 매우 심해요")
     
     private var bottomWrapper = UIView()
     private lazy var pagerView = FSPagerView()
@@ -88,10 +88,11 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
                 .regular("℃)", 18, CSColor.none)
         }
         
-        dustLabel.do {
+        messageLabel.do {
             $0.backgroundColor = .white
             $0.clipsToBounds = true
             $0.layer.cornerRadius = 15
+            $0.adjustsFontSizeToFitWidth
         }
         
         pagerView.do {
@@ -139,10 +140,10 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
                 .alignItems(.center).define { flex in
                     flex.addItem(weatherImageView).marginTop(screenHeight * 0.008).width(screenWidth * 0.23).height(screenHeight * 0.1)
                     flex.addItem(temperatureLabel).marginTop(screenHeight * 0.01).width(50%).height(screenHeight * 0.03)
-                    flex.addItem(commentLabel).marginTop(screenHeight * 0.004).height(screenHeight * 0.03)
+                    flex.addItem(weatherCommentLabel).marginTop(screenHeight * 0.004).height(screenHeight * 0.03)
 //                    flex.addItem(dustLabel).marginTop(screenHeight * 0.026).width(dustLabelWidth).height(45)
             }
-                flex.addItem(dustLabel).marginTop(-45).width(dustLabelWidth).height(45)
+                flex.addItem(messageLabel).marginTop(-45).width(dustLabelWidth).height(45)
                 flex.addItem(pagerView).width(screenWidth).height(closetWrapperHeight + 20)
                 flex.addItem(bottomButtonWrapper).direction(.row).define { flex in
                     flex.addItem(sensoryViewButton).padding(3, 13.5)
@@ -159,6 +160,7 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
     }
     
     override func viewBinding() {
+        super.viewBinding()
         
         mainLabel.rx.tapGesture()
             .when(.ended)
@@ -266,11 +268,61 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
             })
             .disposed(by: bag)
         
+        viewModel.yesterdayCategoryRelay
+            .subscribe (onNext: { [weak self] yesterdayInfo in
+//                print("123123123", yesterdayInfo)
+                guard let yesterdayInfo = yesterdayInfo,
+                      let mainInfo = self?.viewModel.mappedCategoryDicRelay.value
+                else { return }
+                
+                self?.setWeatherCommentLableInfo(yesterdayInfo, mainInfo)
+            })
+            .disposed(by: bag)
+        
+        viewModel.weatherMsgRelay
+            .subscribe(onNext: { [weak self] message in
+                
+                guard let message = message else { return }
+                self?.setWeatherMsgInfo(message)
+               
+            }).disposed(by: bag)
+        
         viewModel.getInfo(self.date.todayHourFormat)
     }
     
     
     // MARK: - Method
+    
+    func setWeatherCommentLableInfo(_ yesterDayInfo: [String : String], _ mainInfo: [String: String]) {
+        
+        let yesterdayTmp = Int(yesterDayInfo["TMP"]!)!
+        let mainTmp = Int(mainInfo["TMP"]!)!
+        
+        let tempDiff = yesterdayTmp - mainTmp
+        switch tempDiff {
+        case ..<0:
+            self.weatherCommentLabel.text = "어제보다 \(tempDiff)℃ 낮아요"
+        case 0:
+            self.weatherCommentLabel.text = "어제와 같은 기온이에요"
+        case 1...:
+            self.weatherCommentLabel.text = "어제보다 \(tempDiff)℃ 높아요"
+        default:
+            break
+        }
+        
+    }
+    
+    func setWeatherMsgInfo(_ weatherMsg: String) {
+        
+        guard ((self.viewModel.recommendClosetEntityRelay.value) != nil) else {
+            self.messageLabel.text = weatherMsg
+            return }
+        var weatherMsg =  weatherMsg
+        if self.viewModel.selectedHourParamTypeRelay.value == self.date.todayHourFormat {
+            weatherMsg = WeatherMsgEnum.seonsoryDiffMsg(userTempDiff: (self.viewModel.recommendClosetEntityRelay.value?.data?.list.temperatureDifference)!).msg
+        }
+        self.messageLabel.text = weatherMsg
+    }
     
     func reloadDailyWrapper (_ direction: UISwipeGestureRecognizer.Direction?, _ mappedCategory: [String : String]?) {
         if direction == .left {
