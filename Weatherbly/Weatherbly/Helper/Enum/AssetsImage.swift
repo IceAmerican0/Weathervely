@@ -54,13 +54,15 @@ enum AssetsImage: String {
     
     // Weather
     case weatherLoadingImage
-    case sunnyImage
-    case nightImage
-    case rainnyImage
-    case cloudyImage
-    case cloudyNightImage
-    case blurCloudImage
-    case windyImage
+    case sun
+    case moon
+    case rainny
+    case rainsnow
+    case snow
+    case sunCloudy
+    case moonCloudy
+    case clouds
+    case windy
     
     
     var image: UIImage? {

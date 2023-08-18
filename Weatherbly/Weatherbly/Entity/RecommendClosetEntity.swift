@@ -18,14 +18,21 @@ public struct RecommendClosetEntity: Codable {
 }
 
 struct RecommendClosetData: Codable {
-    let list: [RecommendClosetInfo]
+    let list: RecommendClosetBody
     
     enum CodingKeys: String, CodingKey {
         case list = "list"
     }
 }
 
-public struct RecommendClosetInfo: Codable {
+
+struct RecommendClosetBody: Codable {
+    let closets: [RecommendClosetInfo]
+    let temperatureDifference: Int
+}
+
+struct RecommendClosetInfo: Codable {
+
     let id: Int
     let name: String
     let shopName: String
@@ -44,7 +51,8 @@ public struct RecommendClosetInfo: Codable {
 }
 
 /*
- {
+ [
+     {
         "id": 1,
         "name": "썸머트위드미니OPS",
         "site_name": "66girls",
@@ -62,4 +70,7 @@ public struct RecommendClosetInfo: Codable {
         "status": "Active",
         "is_onboarding": 0
       },
+ ],
+ 
+ "userSensoryTemperature": 26.873427996098876
  */

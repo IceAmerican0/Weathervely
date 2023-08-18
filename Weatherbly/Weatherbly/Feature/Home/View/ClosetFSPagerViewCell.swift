@@ -19,7 +19,9 @@ final class ClosetFSPagerViewCell: FSPagerViewCell {
     private let clothImageHeight = UIScreen.main.bounds.height * 0.38
     private let clothImageWidth = UIScreen.main.bounds.width * 0.38
     
+    
     override init(frame: CGRect) {
+        
         super.init(frame: .zero)
         layout()
     }
