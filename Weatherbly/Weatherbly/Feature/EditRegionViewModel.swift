@@ -44,6 +44,7 @@ public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogi
             .subscribe(onNext: { [weak self] result in
                 switch result {
                 case .success:
+                    self?.loadRegionList()
                     self?.alertMessageRelay.accept(.init(title: "선택한 주소가 삭제됐어요",
                                                          alertType: .Info))
                 case .failure(let err):

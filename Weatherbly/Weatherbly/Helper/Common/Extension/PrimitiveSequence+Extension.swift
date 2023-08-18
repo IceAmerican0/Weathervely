@@ -42,7 +42,7 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
                         """
                         ==============================
                         Request : \(type)
-                        Respone : \(String(decoding: response.data, as: UTF8.self))
+                        Response : \(String(decoding: response.data, as: UTF8.self))
                         """
                     )
                     return .just(.success(try response.map(D.self)))

@@ -60,6 +60,10 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         backgroundView.pin.horizontally().top()
@@ -173,6 +177,8 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
     
     // MARK: ViewBind
     override func viewBinding() {
+        super.viewBinding()
+        
         dailyWrapper.rx.swipeGesture([.left,.right])
             .when(.ended)
             .subscribe (onNext: { [weak self] dircection in

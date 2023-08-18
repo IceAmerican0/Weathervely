@@ -70,6 +70,8 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
     }
     
     override func viewBinding() {
+        super.viewBinding()
+        
         navigationView.leftButtonDidTapRelay
             .bind(to: viewModel.navigationPopViewControllerRelay)
             .disposed(by: bag)
@@ -80,6 +82,8 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
     }
     
     override func viewModelBinding() {
+        super.viewModelBinding()
+        
         viewModel.loadRegionList()
         
         viewModel.loadedListRelay

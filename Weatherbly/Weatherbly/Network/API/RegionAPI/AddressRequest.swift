@@ -11,8 +11,8 @@ public struct AddressRequest: Codable {
     var gu: String?
     var dong: String?
     var country: String?
-    var x_code: Int?
-    var y_code: Int?
+    var x_code: Double?
+    var y_code: Double?
     
     enum CodingKeys: String, CodingKey {
         case address_name, city, gu, dong, country, x_code, y_code

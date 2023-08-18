@@ -28,7 +28,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             setWindow()
         } else {
             if UserDefaultManager.shared.isOnBoard == true {
-                vc = SettingRegionViewController(SettingRegionViewModel())
+                vc = SettingRegionViewController(SettingRegionViewModel(.onboard))
                 setWindow()
             } else {
                 getToken()

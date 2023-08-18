@@ -67,6 +67,8 @@ class DailyForecastViewController: RxBaseViewController<EmptyViewModel> {
     }
     
     override func viewBinding() {
+        super.viewBinding()
+        
         settingButton.rx.tap
             .map { SettingViewController(SettingViewModel()) }
             .bind(to: viewModel.navigationPushViewControllerRelay)

@@ -6,6 +6,7 @@
 //
 
 import RxCocoa
+import RxSwift
 
 public protocol OnBoardSensoryTempViewModelLogic: ViewModelBusinessLogic {
     func getSensoryTemp()

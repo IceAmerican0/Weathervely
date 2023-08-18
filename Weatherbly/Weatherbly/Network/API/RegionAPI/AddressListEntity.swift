@@ -28,7 +28,7 @@ public struct AddressListBody: Codable {
 public struct AddressListInfo: Codable {
     let id: Int
     let addressName: String
-    let isMainAddress: Bool
+    let isMainAddress: String
     
     
     enum CodingKeys: String, CodingKey {

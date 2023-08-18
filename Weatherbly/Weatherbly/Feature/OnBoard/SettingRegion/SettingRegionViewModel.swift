@@ -60,10 +60,10 @@ public final class SettingRegionViewModel: RxBaseViewModel, SettingRegionViewMod
             addressRequest = AddressRequest(address_name: address.addressName,
                                                 city: address.region1DepthName,
                                                 gu: address.region2DepthName,
-                                                dong: address.region3DepthName,
+                                                dong: address.region3DepthName.isEmpty ? address.region3DepthHName : address.region3DepthName,
                                                 country: "kr",
-                                                x_code: Int(address.y),
-                                                y_code: Int(address.x))
+                                                x_code: Double(address.y) ?? 0,
+                                                y_code: Double(address.x) ?? 0)
         } else {
             guard let address = searchedListRelay.value[at.row].roadAddress else { return }
             addressRequest = AddressRequest(address_name: address.addressName,
@@ -71,8 +71,8 @@ public final class SettingRegionViewModel: RxBaseViewModel, SettingRegionViewMod
                                             gu: address.region2DepthName,
                                             dong: address.region3DepthName,
                                             country: "kr",
-                                            x_code: Int(address.y),
-                                            y_code: Int(address.x))
+                                            x_code: Double(address.y) ?? 0,
+                                            y_code: Double(address.x) ?? 0)
         }
         
         var nextModel: SettingRegionCompleteViewModel {

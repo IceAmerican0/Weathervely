@@ -63,14 +63,14 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
     
     public func changeAddress() {
         userDataSource.fetchAddress(UserDefaultManager.shared.regionID, regionDataRelay.value)
-            .subscribe(onNext: { result in
+            .subscribe(onNext: { [weak self] result in
                 switch result {
                 case .success:
                     userDefault.removeObject(forKey: UserDefaultKey.regionID.rawValue)
-                    self.toEditRegionView()
+                    self?.toEditRegionView()
                 case .failure(let err):
                     guard let errorString = err.errorDescription else { return }
-                    self.alertMessageRelay.accept(.init(title: errorString,
+                    self?.alertMessageRelay.accept(.init(title: errorString,
                                                         alertType: .Error))
                 }
             })
@@ -79,13 +79,13 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
     
     public func addAddress() {
         userDataSource.addAddress(regionDataRelay.value)
-            .subscribe(onNext: { result in
+            .subscribe(onNext: { [weak self] result in
                 switch result {
                 case .success:
-                    self.toEditRegionView()
+                    self?.toEditRegionView()
                 case .failure(let err):
                     guard let errorString = err.errorDescription else { return }
-                    self.alertMessageRelay.accept(.init(title: errorString,
+                    self?.alertMessageRelay.accept(.init(title: errorString,
                                                         alertType: .Error))
                 }
             })
