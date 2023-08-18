@@ -222,7 +222,7 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
         super.viewModelBinding()
         
         
-        /// TODO: - 여기서 entity를 구독하는건 생각해볼 필요가 있다. entity 자체를 이용해서 바인딩해주기보다 이걸 멥핑해서 사용한다
+        /// MARK: - 여기서 entity를 구독하는건 생각해볼 필요가 있다. entity 자체를 이용해서 바인딩해주기보다 이걸 멥핑해서 사용한다
         /// 그래서, 매핑한 값 bindingWeatherByDate 에 대한 return 값을 굳독해주는 게 더 맞아 보인다.
 //        viewModel
 //            .villageForeCastInfoEntityRelay
@@ -237,7 +237,6 @@ class HomeViewController: RxBaseViewController<HomeViewModel> {
         
         viewModel.mappedCategoryDicRelay
             .subscribe(onNext: { [weak self] mappedCategory in
-                print("123123123", mappedCategory)
                 self?.reloadDailyWrapper(self?.viewModel.swipeDirectionRelay.value, mappedCategory)
             })
             .disposed(by: bag)

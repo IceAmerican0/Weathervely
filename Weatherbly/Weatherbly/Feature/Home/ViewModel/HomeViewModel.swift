@@ -80,8 +80,6 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     }
     
     public func getRecommendCloset(_ dateString: String) {
-        // TODO: - 시간 파라미터로 받기
-//        print("dateString, ", dateString)
         getRecommendClosetDataSouce.getRecommendCloset(dateString)
             .subscribe(onNext: { [weak self] result in
                 switch result {
@@ -214,19 +212,19 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                         switch rainForm {
                         // (단기) 없음(0), 비(1), 비/눈(2), 눈(3), 소나기(4)
                         case 1:
-                            weatherImage = AssetsImage.rainnyImage.image
+                            weatherImage = AssetsImage.rainny.image
                             self.weatherImageRelay.accept(weatherImage)
                         case 2:
                             // TODO: - 이미지 비/눈 변경
-                            weatherImage = AssetsImage.rainnyImage.image
+                            weatherImage = AssetsImage.rainny.image
                             self.weatherImageRelay.accept(weatherImage)
                         case 3:
                             // TODO: - 이미지 눈 변경
-                            weatherImage = AssetsImage.rainnyImage.image
+                            weatherImage = AssetsImage.rainny.image
                             self.weatherImageRelay.accept(weatherImage)
                         case 4:
                             // TODO: - 비 이미지 + 소나기 메세지
-                            weatherImage = AssetsImage.rainnyImage.image
+                            weatherImage = AssetsImage.rainny.image
                             self.weatherImageRelay.accept(weatherImage)
                         default:
                             break
@@ -257,17 +255,17 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         switch skyStatus {
         case 1:
             // WI -> 맑음
-            weatherImage = AssetsImage.sunnyImage.image
+            weatherImage = AssetsImage.sun.image
             self.weatherImageRelay.accept(weatherImage)
             // message -> 습도, 풍속
         case 3:
             // WI -> 구름
-            weatherImage = AssetsImage.cloudyImage.image
+            weatherImage = AssetsImage.sunCloudy.image
             self.weatherImageRelay.accept(weatherImage)
             // message -> 습도, 풍속
         case 4:
             // WI -> 흐림
-            weatherImage = AssetsImage.blurCloudImage.image
+            weatherImage = AssetsImage.clouds.image
             self.weatherImageRelay.accept(weatherImage)
             // message -> 습도, 풍속
         default:
