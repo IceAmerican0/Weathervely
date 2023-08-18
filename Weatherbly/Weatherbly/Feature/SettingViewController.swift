@@ -248,7 +248,7 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
         
         bottomLabelTapGesture.rx.event
             .subscribe(onNext: { [weak self] _ in
-                self?.viewModel.toBeContinue()
+                self?.viewModel.toPrivacyPolicyView()
             })
             .disposed(by: bag)
     }

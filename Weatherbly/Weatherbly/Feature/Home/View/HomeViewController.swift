@@ -52,16 +52,16 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         super.viewDidLoad()
         view.addSubview(backgroundView)
         view.bringSubviewToFront(container)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(true, animated: animated)
         
         if UserDefaultManager.shared.isOnBoard == true {
             let toolTipView = MainToolTipViewController()
             toolTipView.modalPresentationStyle = .overCurrentContext
             viewModel.presentViewControllerNoAnimationRelay.accept(toolTipView)
         }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
     override func viewDidLayoutSubviews() {
@@ -429,10 +429,11 @@ extension HomeViewController: FSPagerViewDelegate {
     func pagerView(_ pagerView: FSPagerView, shouldSelectItemAt index: Int) -> Bool {
         let closetInfo = viewModel.recommendClosetEntityRelay.value?.data?.list.closets[index]
         if let shopUrl = closetInfo?.shopUrl {
-            if let url = URL(string: shopUrl) {
-                webView.load(URLRequest(url: url))
-            }
+            let webView = WebViewController(shopUrl)
+            webView.modalPresentationStyle = .overCurrentContext
+            viewModel.presentViewControllerNoAnimationRelay.accept(webView)
         }
+        
         return true
     }
 }

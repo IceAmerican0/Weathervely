@@ -27,8 +27,12 @@ final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
     }
     
     func toPrivacyPolicyView() {
-        let vc = PrivatePolicyViewController(PrivatePolicyViewModel())
-        navigationPushViewControllerRelay.accept(vc)
+//        let vc = PrivatePolicyViewController(PrivatePolicyViewModel())
+//        navigationPushViewControllerRelay.accept(vc)
+        let url = "https://docs.google.com/document/d/1MnwR04jGms26yha2oSdps06Ju0wMn-hGS1Zs6JtDAf8/edit?usp=sharing"
+        let webView = WebViewController(url)
+        webView.modalPresentationStyle = .overCurrentContext
+        presentViewControllerNoAnimationRelay.accept(webView)
     }
     
     func toBeContinue() {
