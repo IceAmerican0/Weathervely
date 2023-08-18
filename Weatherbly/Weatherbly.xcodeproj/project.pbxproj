@@ -62,6 +62,7 @@
 		5CCC91562A613F010025B522 /* SettingRegionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC91552A613F010025B522 /* SettingRegionViewModel.swift */; };
 		5CDE81CE2A89F4780099FF87 /* MainToolTipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE81CD2A89F4780099FF87 /* MainToolTipViewController.swift */; };
 		5CE0FEAD2A8DDE9200A0E655 /* AddressListEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE0FEAC2A8DDE9200A0E655 /* AddressListEntity.swift */; };
+		5CE0FEB02A8EEC0000A0E655 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5CE0FEAF2A8EEC0000A0E655 /* Kingfisher */; };
 		6634CC2CAD88136EB8B2B027 /* Pods_Weatherbly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5451DE341E51F8EB4049CE6 /* Pods_Weatherbly.framework */; };
 		696176B22A63E37F00B83B4C /* RxBaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696176B12A63E37F00B83B4C /* RxBaseViewModel.swift */; };
 		696176B42A63E3C000B83B4C /* BaseDisposeBag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696176B32A63E3C000B83B4C /* BaseDisposeBag.swift */; };
@@ -262,6 +263,7 @@
 				5C23DBA02A65048200F41574 /* ReactiveMoya in Frameworks */,
 				5C23DB8F2A65045C00F41574 /* RxCocoa in Frameworks */,
 				5C23DB932A65045C00F41574 /* RxRelay in Frameworks */,
+				5CE0FEB02A8EEC0000A0E655 /* Kingfisher in Frameworks */,
 				5C23DB9C2A65048200F41574 /* CombineMoya in Frameworks */,
 				6634CC2CAD88136EB8B2B027 /* Pods_Weatherbly.framework in Frameworks */,
 			);
@@ -765,6 +767,7 @@
 				5C23DB9F2A65048200F41574 /* ReactiveMoya */,
 				5C23DBA12A65048200F41574 /* RxMoya */,
 				BD1F3AF02A7BA08100E528DC /* RxGesture */,
+				5CE0FEAF2A8EEC0000A0E655 /* Kingfisher */,
 			);
 			productName = Weatherbly;
 			productReference = BD2D01852A388753003A25D5 /* Weatherbly.app */;
@@ -799,6 +802,7 @@
 				5C23DB8D2A65045C00F41574 /* XCRemoteSwiftPackageReference "RxSwift" */,
 				5C23DB9A2A65048200F41574 /* XCRemoteSwiftPackageReference "Moya" */,
 				BD1F3AEF2A7BA08100E528DC /* XCRemoteSwiftPackageReference "RxGesture" */,
+				5CE0FEAE2A8EEC0000A0E655 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = BD2D01862A388753003A25D5 /* Products */;
 			projectDirPath = "";
@@ -1209,6 +1213,14 @@
 				minimumVersion = 15.0.0;
 			};
 		};
+		5CE0FEAE2A8EEC0000A0E655 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
 		BD1F3AEF2A7BA08100E528DC /* XCRemoteSwiftPackageReference "RxGesture" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/RxSwiftCommunity/RxGesture";
@@ -1262,6 +1274,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5C23DB9A2A65048200F41574 /* XCRemoteSwiftPackageReference "Moya" */;
 			productName = RxMoya;
+		};
+		5CE0FEAF2A8EEC0000A0E655 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5CE0FEAE2A8EEC0000A0E655 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 		BD1F3AF02A7BA08100E528DC /* RxGesture */ = {
 			isa = XCSwiftPackageProductDependency;

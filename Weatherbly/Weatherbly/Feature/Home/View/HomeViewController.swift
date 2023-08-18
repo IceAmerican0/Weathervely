@@ -11,6 +11,7 @@ import FlexLayout
 import FSPagerView
 import RxSwift
 import RxGesture
+import Kingfisher
 
 final class HomeViewController: RxBaseViewController<HomeViewModel> {
     private var backgroundView = UIView()
@@ -371,15 +372,22 @@ extension HomeViewController: FSPagerViewDataSource {
         let cell = pagerView.dequeueCell(withType: ClosetFSPagerViewCell.self, for: index)
         let closetInfo = viewModel.recommendClosetEntityRelay.value[index]
         
-        if let url = URL(string: closetInfo.imageUrl) {
-            URLSession.shared.dataTask(with: url) { data, response, error in
-                if let data = data {
-                    DispatchQueue.main.async {
-                        cell.setUIInfo(data, closetInfo.shopName)
+        if index < viewModel.recommendClosetEntityRelay.value.count {
+            if let url = URL(string: closetInfo.imageUrl) {
+                cell.clothImageView.kf.indicatorType = .activity
+                cell.clothImageView.kf.setImage(with: url,
+                                                placeholder: AssetsImage.defaultImage.image,
+                                                options: [.retryStrategy(DelayRetryStrategy(maxRetryCount: 2, retryInterval: .seconds(2))),
+                                                          .transition(.fade(0.5)),
+                                                          .cacheOriginalImage]) { result in
+                    switch result {
+                    case .success:
+                        cell.clothImageSourceLabel.text = "\(closetInfo.shopName)"
+                    case .failure:
+                        break
                     }
                 }
             }
-            .resume()
         }
         
         return cell
