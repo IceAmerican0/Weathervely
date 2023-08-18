@@ -11,6 +11,9 @@ import RxCocoa
 
 public protocol SettingRegionCompleteViewModelLogic: ViewModelBusinessLogic {
     func didTapConfirmButton()
+    func setAddress()
+    func changeAddress()
+    func addAddress()
     func toEditRegionView()
     func toSelectGenderView()
     func toDateTimePickView()
@@ -18,19 +21,25 @@ public protocol SettingRegionCompleteViewModelLogic: ViewModelBusinessLogic {
 
 public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegionCompleteViewModelLogic {
     public let regionDataRelay: BehaviorRelay<AddressRequest>
+    public let settingRegionState: SettingRegionState
     private let authDataSource = AuthDataSource()
     private let userDataSource = UserDataSource()
     
-    init(_ item: AddressRequest) {
+    public init(_ item: AddressRequest, _ settingRegionState: SettingRegionState) {
         self.regionDataRelay = BehaviorRelay<AddressRequest>(value: item)
+        self.settingRegionState = settingRegionState
         super.init()
     }
     
     public func didTapConfirmButton() {
-        if UserDefaultManager.shared.isOnBoard == false {
+        switch settingRegionState {
+        case .onboard:
+            setAddress()
+        case .change:
             changeAddress()
+        case .add:
+            addAddress()
         }
-        setAddress()
     }
     
     public func setAddress() {
@@ -58,6 +67,21 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
                 switch result {
                 case .success:
                     userDefault.removeObject(forKey: UserDefaultKey.regionID.rawValue)
+                    self.toEditRegionView()
+                case .failure(let err):
+                    guard let errorString = err.errorDescription else { return }
+                    self.alertMessageRelay.accept(.init(title: errorString,
+                                                        alertType: .Error))
+                }
+            })
+            .disposed(by: bag)
+    }
+    
+    public func addAddress() {
+        userDataSource.addAddress(regionDataRelay.value)
+            .subscribe(onNext: { result in
+                switch result {
+                case .success:
                     self.toEditRegionView()
                 case .failure(let err):
                     guard let errorString = err.errorDescription else { return }

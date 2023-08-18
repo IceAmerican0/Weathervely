@@ -8,6 +8,7 @@
 import RxCocoa
 
 public protocol OnBoardSensoryTempViewModelLogic: ViewModelBusinessLogic {
+    func getSensoryTemp()
     func getClosetBySensoryTemp()
     func didTapAcceptButton()
     func toSlotMachineView()
@@ -15,25 +16,30 @@ public protocol OnBoardSensoryTempViewModelLogic: ViewModelBusinessLogic {
 }
 
 public final class OnBoardSensoryTempViewModel: RxBaseViewModel, OnBoardSensoryTempViewModelLogic {
-    public let temperatureRelay: BehaviorRelay<String>
-    public var dateString = ""
+    public let temperatureRelay = BehaviorRelay<String>(value: "")
+    public let dateStringRelay: BehaviorRelay<String>
     public let recommendClosetEntityRelay = BehaviorRelay<RecommendClosetEntity?>(value: nil)
     public let closetListByTempRelay = BehaviorRelay<[ClosetList]?>(value: nil)
     private let closetDataSource = ClosetDataSource()
     
-    init(_ temperature: String) {
-        self.temperatureRelay = BehaviorRelay<String>(value: temperature)
+    init(_ dateString: String) {
+        self.dateStringRelay = BehaviorRelay<String>(value: dateString)
+    }
+    
+    public func getSensoryTemp() {
+        // TODO: 체감온도 받아오기
+        getClosetBySensoryTemp()
     }
     
     public func getClosetBySensoryTemp() {
-        closetDataSource.getSensoryTemperatureCloset(dateString)
+        closetDataSource.getSensoryTemperatureCloset(temperatureRelay.value)
             .subscribe(onNext: { [weak self] result in
                 switch result {
                 case .success(let response):
                     let closets = response.data.list
                     self?.closetListByTempRelay.accept(closets)
-                case .failure(let error):
-                    guard let errorString = error.errorDescription else { return }
+                case .failure(let err):
+                    guard let errorString = err.errorDescription else { return }
                     self?.alertMessageRelay.accept(.init(title: errorString,
                                                          alertType: .Error))
                 }
@@ -42,7 +48,19 @@ public final class OnBoardSensoryTempViewModel: RxBaseViewModel, OnBoardSensoryT
     }
     
     public func didTapAcceptButton() {
-        toHomeView()
+        closetDataSource.setSensoryTemperature(.init(closet: 1,
+                                                     currentTemp: "25"))
+            .subscribe(onNext: { [weak self] result in
+                switch result {
+                case .success:
+                    self?.toHomeView()
+                case .failure(let err):
+                    guard let errorString = err.errorDescription else { return }
+                    self?.alertMessageRelay.accept(.init(title: errorString,
+                                                         alertType: .Error))
+                }
+            })
+            .disposed(by: bag)
     }
     
     public func toSlotMachineView() {

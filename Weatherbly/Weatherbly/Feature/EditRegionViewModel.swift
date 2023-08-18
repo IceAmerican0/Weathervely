@@ -15,9 +15,8 @@ public protocol EditRegionViewModelLogic: ViewModelBusinessLogic {
     func updateMainRegion(_ indexPath: IndexPath)
     func didTapCellButton(_ indexPath: IndexPath)
     func didTapConfirmButton()
-    func toSettingRegionView()
+    func toSettingRegionView(_ settingRegionState: SettingRegionState)
 }
-
 
 public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogic {
     private let dataSource = UserDataSource()
@@ -77,18 +76,23 @@ public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogi
         let regionInfo = loadedListRelay.value
         if regionInfo.count == 1 {
             userDefault.set(regionInfo[indexPath.row].id, forKey: UserDefaultKey.regionID.rawValue)
-            toSettingRegionView()
+            toSettingRegionView(.change)
         } else {
             deleteRegion(indexPath)
         }
     }
     
     public func didTapConfirmButton() {
-        toSettingRegionView()
+        if loadedListRelay.value.count == 3 {
+            alertMessageRelay.accept(.init(title: "동네는 최대 3개까지 지정할 수 있어요",
+                                           alertType: .Info))
+        } else {
+            toSettingRegionView(.add)
+        }
     }
     
-    public func toSettingRegionView() {
-        let vc = SettingRegionViewController(SettingRegionViewModel())
+    public func toSettingRegionView(_ settingRegionState: SettingRegionState) {
+        let vc = SettingRegionViewController(SettingRegionViewModel(settingRegionState))
         navigationPushViewControllerRelay.accept(vc)
     }
 }

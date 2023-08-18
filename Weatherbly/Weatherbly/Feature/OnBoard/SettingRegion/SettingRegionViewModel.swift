@@ -9,6 +9,15 @@ import RxRelay
 import RxSwift
 import UIKit
 
+public enum SettingRegionState: String {
+    /// 온보딩
+    case onboard
+    /// 주소 변경
+    case change
+    /// 주소 추가
+    case add
+}
+
 public protocol SettingRegionViewModelLogic: ViewModelBusinessLogic {
     func searchRegion(_ region: String)
     func didTapTableViewCell(at: IndexPath)
@@ -17,6 +26,11 @@ public protocol SettingRegionViewModelLogic: ViewModelBusinessLogic {
 
 public final class SettingRegionViewModel: RxBaseViewModel, SettingRegionViewModelLogic {
     public var searchedListRelay = BehaviorRelay<[Document]>(value: [])
+    public let settingRegionState: SettingRegionState
+    
+    public init(_ settingRegionState: SettingRegionState) {
+        self.settingRegionState = settingRegionState
+    }
     
     public func searchRegion(_ region: String) {
         let datasource = RegionDataSource()
@@ -41,15 +55,37 @@ public final class SettingRegionViewModel: RxBaseViewModel, SettingRegionViewMod
     }
     
     public func didTapTableViewCell(at: IndexPath) {
-        guard let address = searchedListRelay.value[at.row].address else { return }
-        let addressRequest = AddressRequest(address_name: address.addressName,
+        var addressRequest = AddressRequest()
+        if let address = searchedListRelay.value[at.row].address {
+            addressRequest = AddressRequest(address_name: address.addressName,
+                                                city: address.region1DepthName,
+                                                gu: address.region2DepthName,
+                                                dong: address.region3DepthName,
+                                                country: "kr",
+                                                x_code: Int(address.y),
+                                                y_code: Int(address.x))
+        } else {
+            guard let address = searchedListRelay.value[at.row].roadAddress else { return }
+            addressRequest = AddressRequest(address_name: address.addressName,
                                             city: address.region1DepthName,
                                             gu: address.region2DepthName,
                                             dong: address.region3DepthName,
                                             country: "kr",
                                             x_code: Int(address.y),
                                             y_code: Int(address.x))
-        let nextModel = SettingRegionCompleteViewModel(addressRequest)
+        }
+        
+        var nextModel: SettingRegionCompleteViewModel {
+            switch settingRegionState {
+            case .onboard:
+                return SettingRegionCompleteViewModel(addressRequest, .onboard)
+            case .change:
+                return SettingRegionCompleteViewModel(addressRequest, .change)
+            case .add:
+                return SettingRegionCompleteViewModel(addressRequest, .add)
+            }
+        }
+        
         toCompleteViewController(nextModel)
     }
     

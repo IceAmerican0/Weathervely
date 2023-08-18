@@ -21,6 +21,7 @@ public final class MainToolTipViewController: UIViewController, CodeBaseInitiali
     private let innerLeftArrow = UIImageView()
     private let innerRightArrow = UIImageView()
     private let outerRightArrow = UIImageView()
+    private let touchImage = UIImageView()
     
     private let topMargin = UIScreen.main.bounds.height * 0.274
     
@@ -91,6 +92,12 @@ public final class MainToolTipViewController: UIViewController, CodeBaseInitiali
             $0.image = AssetsImage.toolTipArrow.image
             $0.transform = $0.transform.rotated(by: .pi * 1.5)
         }
+        
+        touchImage.do {
+            $0.image = AssetsImage.touchIcon.image
+            $0.isHidden = true
+            
+        }
     }
     
     func layout() {
@@ -104,26 +111,40 @@ public final class MainToolTipViewController: UIViewController, CodeBaseInitiali
                     flex.addItem(outerRightArrow).width(30).height(40).marginLeft(-15)
             }
             flex.addItem(lowerLabel).marginTop(13)
+            flex.addItem(touchImage).size(90)
         }
+        
+        touchImage.pin.vCenter().top(37)
     }
     
     func bind() {
         backgroundTapGesture.rx
             .event
-            .subscribe(onNext: { _ in
-                switch self.touchCount {
-                case 0:
-                    self.touchCount += 1
-                    self.upperLabel.text = "💡 양 옆 카드를 클릭해보세요"
-                    self.lowerLabel.text = "더 자세히 볼 수 있어요"
-                    self.outerLeftArrow.isHidden = true
-                    self.innerLeftArrow.isHidden = true
-                    self.outerRightArrow.isHidden = true
-                    self.innerRightArrow.isHidden = true
+            .subscribe(onNext: { [weak self] _ in
+                self?.touchCount += 1
+                switch self?.touchCount {
                 case 1:
-                    self.remove()
+                    self?.upperLabel.text = "💡 상단 영역을 클릭해보세요"
+                    self?.lowerLabel.text = "현재 날씨 / 내일 날씨로 빠르게 이동할 수 있어요"
+                    self?.touchImage.isHidden = false
+                    self?.outerLeftArrow.isHidden = true
+                    self?.innerLeftArrow.isHidden = true
+                    self?.outerRightArrow.isHidden = true
+                    self?.innerRightArrow.isHidden = true
+                case 2:
+                    self?.upperLabel.text = "💡 날씨 아이콘을 클릭해보세요"
+                    self?.lowerLabel.text = "상세 날씨를 볼 수 있어요"
+                    self?.touchImage.pin.top(13%).right(27%)
+                case 3:
+                    self?.upperLabel.text = "💡 양 옆 카드를 클릭해보세요"
+                    self?.lowerLabel.text = "더 자세히 볼 수 있어요"
+                    self?.touchImage.pin.top(53%).left(4%)
+                case 4:
+                    self?.upperLabel.text = "💡 '너의 온도는?'버튼을 클릭해보세요"
+                    self?.lowerLabel.text = "체감온도에 맞게 옷 겹수를 바꿀 수 있어요"
+                    self?.touchImage.pin.top(85%).right(12%)
                 default:
-                    self.remove()
+                    self?.remove()
                 }
             })
             .disposed(by: bag)

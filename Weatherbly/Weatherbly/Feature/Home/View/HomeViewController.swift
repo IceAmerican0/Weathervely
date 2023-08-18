@@ -12,6 +12,7 @@ import FSPagerView
 import RxSwift
 import RxGesture
 import Kingfisher
+import WebKit
 
 final class HomeViewController: RxBaseViewController<HomeViewModel> {
     private var backgroundView = UIView()
@@ -45,9 +46,10 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
     private let tapGesture = UITapGestureRecognizer()
     var date = Date()
     
+    let webView = WKWebView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.addSubview(backgroundView)
         view.bringSubviewToFront(container)
         
@@ -60,11 +62,11 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
         backgroundView.pin.horizontally().top()
         backgroundView.flex.layout()
     }
     
+    // MARK: Attribute
     override func attribute() {
         super.attribute()
         
@@ -122,8 +124,14 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         mainLabel.do {
             $0.textAlignment = .center
         }
+        
+        webView.do {
+            $0.frame = view.frame
+            $0.allowsBackForwardNavigationGestures = true
+        }
     }
     
+    // MARK: Layout
     override func layout() {
         super.layout()
         
@@ -163,8 +171,8 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         }
     }
     
+    // MARK: ViewBind
     override func viewBinding() {
-        
         dailyWrapper.rx.swipeGesture([.left,.right])
             .when(.ended)
             .subscribe (onNext: { [weak self] dircection in
@@ -213,10 +221,9 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
             .disposed(by: bag)
     }
     
-    
+    // MARK: ViewModelBind
     override func viewModelBinding() {
         super.viewModelBinding()
-        
         
         /// TODO: - 여기서 entity를 구독하는건 생각해볼 필요가 있다. entity 자체를 이용해서 바인딩해주기보다 이걸 멥핑해서 사용한다
         /// 그래서, 매핑한 값 bindingWeatherByDate 에 대한 return 값을 굳독해주는 게 더 맞아 보인다.
@@ -240,7 +247,6 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         viewModel
             .weatherImageRelay
             .subscribe(onNext: { [weak self] image in
-                
                 self?.weatherImageView.image = image
             })
             .disposed(by: bag)
@@ -255,18 +261,14 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         
         viewModel.headerTimeRelay
             .subscribe(onNext: { [weak self] justTimeString in
-               
                 self?.setHeader(justTimeString)
-
             })
             .disposed(by: bag)
         
         viewModel.getInfo(self.date.todayHourFormat)
     }
     
-    
     // MARK: - Method
-    
     func reloadDailyWrapper (_ direction: UISwipeGestureRecognizer.Direction?, _ mappedCategory: [String : String]?) {
         if direction == .left {
             UIView.animate(withDuration: 0.2, animations: {
@@ -300,7 +302,6 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
     }
 
     func setHeader(_ justTimeString: String?) {
-        
         UIView.animate(withDuration: 0.2, animations: {
                               self.mainLabel.alpha = 0
             guard var mainTimeText = justTimeString else { return }
@@ -324,7 +325,6 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
     }
     
     func setWeatherInfo(_ info: [String: String]?) {
-        
         guard let info = info else { return }
         let tmn = Int(Double(info["TMN"] ?? "-") ?? 0)
         let tmx = Int(Double(info["TMX"] ?? "-") ?? 0)
@@ -341,7 +341,6 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
                 .regular("\(tmx)", 18, CSColor._178_36_36)
                 .regular("℃)", 18, CSColor.none)
         }
-        
     }
     
     private func configureBackgroundImage() -> AssetsImage {
@@ -359,8 +358,17 @@ extension HomeViewController: FSPagerViewDelegate {
         pagerView.deselectItem(at: index, animated: true)
         pagerView.scrollToItem(at: index, animated: true)
     }
+    
+    func pagerView(_ pagerView: FSPagerView, shouldSelectItemAt index: Int) -> Bool {
+        let closetInfo = viewModel.recommendClosetEntityRelay.value[index]
+        if let url = URL(string: closetInfo.shopUrl) {
+            webView.load(URLRequest(url: url))
+        }
+        return true
+    }
 }
 
+// MARK: FSPagerViewDataSource
 extension HomeViewController: FSPagerViewDataSource {
     func numberOfItems(in pagerView: FSPagerView) -> Int {
         let count = viewModel.recommendClosetEntityRelay.value.count

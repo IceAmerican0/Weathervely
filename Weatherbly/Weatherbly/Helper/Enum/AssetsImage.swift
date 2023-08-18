@@ -44,6 +44,7 @@ enum AssetsImage: String {
     case schedule
     case search
     case thermometer
+    case touchIcon
     case wifiError
     
     // Setting

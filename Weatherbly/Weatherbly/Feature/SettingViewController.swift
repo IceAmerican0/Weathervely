@@ -33,7 +33,9 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
     private var inquryButton = UIButton()
     
     private var bottomView = UIView()
-    private var bottomLable = CSLabel(.regular,12,"개인정보 처리 방침 및 정보 제공처")
+    private var bottomLabel = CSLabel(.regular,12,"개인정보 처리 방침 및 정보 제공처")
+    
+    private let bottomLabelTapGesture = UITapGestureRecognizer()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -122,6 +124,10 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
             $0.setCornerRadius(24)
         }
         
+        bottomLabel.do {
+            $0.addGestureRecognizer(bottomLabelTapGesture)
+        }
+        
         bottomView.do {
             $0.addBorder(.top)
         }
@@ -207,7 +213,7 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
                         
                         .padding(12)
                         .define { flex in
-                            flex.addItem(bottomLable)
+                            flex.addItem(bottomLabel)
                         }
                     bottomView.pin.bottom(to: contentWrapper.edge.bottom).marginBottom(5)
                     
@@ -232,6 +238,19 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
             .bind(onNext: viewModel.toEditRegionView)
             .disposed(by: bag)
         
+        styleButton.rx.tap
+            .bind(onNext: viewModel.toBeContinue)
+            .disposed(by: bag)
+        
+        inquryButton.rx.tap
+            .bind(onNext: viewModel.toBeContinue)
+            .disposed(by: bag)
+        
+        bottomLabelTapGesture.rx.event
+            .subscribe(onNext: { [weak self] _ in
+                self?.viewModel.toBeContinue()
+            })
+            .disposed(by: bag)
     }
 
 }
