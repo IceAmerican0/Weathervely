@@ -10,93 +10,93 @@ import Foundation
 public struct SearchRegionEntity: Codable {
     let meta: Meta
     let documents: [Document]
+}
+
+public struct Meta: Codable {
+    let totalCount: Int
+    let pageableCount: Int
+    let isEnd: Bool
     
-    struct Meta: Codable {
-        let totalCount: Int
-        let pageableCount: Int
-        let isEnd: Bool
-        
-        private enum CodingKeys: String, CodingKey {
-            case totalCount = "total_count"
-            case pageableCount = "pageable_count"
-            case isEnd = "is_end"
-        }
+    enum CodingKeys: String, CodingKey {
+        case totalCount = "total_count"
+        case pageableCount = "pageable_count"
+        case isEnd = "is_end"
     }
+}
+
+public struct Document: Codable {
+    let addressName: String
+    let y: String
+    let x: String
+    let addresstype: String
+    let address: Address
     
-    struct Document: Codable {
-        let addressName: String
-        let y: String
-        let x: String
-        let addresstype: String
-        let address: Address
-        
-        private enum CodingKeys: String, CodingKey {
-            case addressName = "address_name"
-            case y
-            case x
-            case addresstype = "address_type"
-            case address
-        }
-        
-        struct Address: Codable {
-            let addressName: String
-            let region1DepthName: String
-            let region2DepthName: String
-            let region3DepthName: String
-            let region3DepthHName: String
-            let hCode: String
-            let bCode: String
-            let mountainYN: String
-            let mainAddressNo: String
-            let subAddressNo: String
-            let x: String
-            let y: String
-            
-            private enum CodingKeys: String, CodingKey {
-                case addressName = "address_name"
-                case region1DepthName = "region_1depth_name"
-                case region2DepthName = "region_2depth_name"
-                case region3DepthName = "region_3depth_name"
-                case region3DepthHName = "region_3depth_h_name"
-                case hCode = "h_code"
-                case bCode = "b_code"
-                case mountainYN = "mountain_yn"
-                case mainAddressNo = "main_address_no"
-                case subAddressNo = "sub_address_no"
-                case x
-                case y
-            }
-        }
-        
-        struct RoadAddress: Codable {
-            let addressName: String
-            let region1DepthName: String
-            let region2DepthName: String
-            let region3DepthName: String
-            let roadName: String
-            let undergroundYN: String
-            let mainBuildingNo: String
-            let subBuildingNo: String
-            let buildingName: String
-            let zoneNo: String
-            let y: String
-            let x: String
-            
-            private enum CodingKeys: String, CodingKey {
-                case addressName = "address_name"
-                case region1DepthName = "region_1depth_name"
-                case region2DepthName = "region_2depth_name"
-                case region3DepthName = "region_3depth_name"
-                case roadName = "road_name"
-                case undergroundYN = "underground_yn"
-                case mainBuildingNo = "main_building_no"
-                case subBuildingNo = "sub_building_no"
-                case buildingName = "building_name"
-                case zoneNo = "zone_no"
-                case y
-                case x
-            }
-        }
+    enum CodingKeys: String, CodingKey {
+        case addressName = "address_name"
+        case y
+        case x
+        case addresstype = "address_type"
+        case address
+    }
+}
+
+public struct Address: Codable {
+    let addressName: String
+    let region1DepthName: String
+    let region2DepthName: String
+    let region3DepthHName: String
+    let region3DepthName: String
+    let hCode: String
+    let bCode: String
+    let mountainYN: String
+    let mainAddressNo: String
+    let subAddressNo: String
+    let x: String
+    let y: String
+    
+    enum CodingKeys: String, CodingKey {
+        case addressName = "address_name"
+        case region1DepthName = "region_1depth_name"
+        case region2DepthName = "region_2depth_name"
+        case region3DepthHName = "region_3depth_h_name"
+        case region3DepthName = "region_3depth_name"
+        case hCode = "h_code"
+        case bCode = "b_code"
+        case mountainYN = "mountain_yn"
+        case mainAddressNo = "main_address_no"
+        case subAddressNo = "sub_address_no"
+        case x
+        case y
+    }
+}
+
+public struct RoadAddress: Codable {
+    let addressName: String
+    let region1DepthName: String
+    let region2DepthName: String
+    let region3DepthName: String
+    let roadName: String
+    let undergroundYN: String
+    let mainBuildingNo: String
+    let subBuildingNo: String
+    let buildingName: String
+    let zoneNo: String
+    let y: String
+    let x: String
+    
+    enum CodingKeys: String, CodingKey {
+        case addressName = "address_name"
+        case region1DepthName = "region_1depth_name"
+        case region2DepthName = "region_2depth_name"
+        case region3DepthName = "region_3depth_name"
+        case roadName = "road_name"
+        case undergroundYN = "underground_yn"
+        case mainBuildingNo = "main_building_no"
+        case subBuildingNo = "sub_building_no"
+        case buildingName = "building_name"
+        case zoneNo = "zone_no"
+        case y
+        case x
     }
 }
 

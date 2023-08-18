@@ -24,6 +24,8 @@ final class SelectGenderViewController: RxBaseViewController<SelectGenderViewMod
 
     var acceptButton = CSButton(.primary)
     
+    var isFemale = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -34,7 +36,7 @@ final class SelectGenderViewController: RxBaseViewController<SelectGenderViewMod
         super.attribute()
         
         headerLabel.do {
-            $0.text = "(닉네임) 님의\n성별을 골라주세요"
+            $0.text = "\(UserDefaultManager.shared.nickname)님의\n성별을 골라주세요"
             $0.font = .boldSystemFont(ofSize: 24)
             $0.textAlignment = .center
             $0.numberOfLines = 0
@@ -44,22 +46,24 @@ final class SelectGenderViewController: RxBaseViewController<SelectGenderViewMod
         womanButton.do {
             $0.setTitle("여성", for: .normal)
             $0.setTitleColor(.black, for: .normal)
+            $0.setTitleColor(.white, for: .selected)
             $0.titleLabel?.font = .boldSystemFont(ofSize: 20)
-            $0.backgroundColor = CSColor._248_248_248.color
             $0.layer.cornerRadius = 13
+            $0.isSelected = true
         }
         
         manButton.do {
             $0.setTitle("남성", for: .normal)
             $0.setTitleColor(.black, for: .normal)
+            $0.setTitleColor(.white, for: .selected)
             $0.titleLabel?.font = .boldSystemFont(ofSize: 20)
-            $0.backgroundColor = CSColor._248_248_248.color
             $0.layer.cornerRadius = 13
         }
         
+        setButtonColor()
+        
         acceptButton.do {
             $0.setTitle("확인", for: .normal)
-            $0.isEnabled = false
         }
     }
     
@@ -106,24 +110,32 @@ final class SelectGenderViewController: RxBaseViewController<SelectGenderViewMod
         
         womanButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
-                if self?.manButton.backgroundColor == CSColor._151_151_151.color {
-                    self?.manButton.backgroundColor = CSColor._248_248_248.color
-                }
-                self?.womanButton.backgroundColor = CSColor._151_151_151.color
+                if self?.isFemale == false { self?.buttonToggle() }
             })
             .disposed(by: bag)
         
         manButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
-                if self?.womanButton.backgroundColor == CSColor._151_151_151.color {
-                    self?.womanButton.backgroundColor = CSColor._248_248_248.color
-                }
-                self?.manButton.backgroundColor = CSColor._151_151_151.color
+                if self?.isFemale == true { self?.buttonToggle() }
             })
             .disposed(by: bag)
         
         acceptButton.rx.tap
-            .bind(onNext: viewModel.didTapAcceptButton)
+            .subscribe(onNext: { [weak self] _ in
+                self?.viewModel.didTapAcceptButton(self?.isFemale == true ? "female" : "male")
+            })
             .disposed(by: bag)
+    }
+    
+    private func buttonToggle() {
+        womanButton.isSelected.toggle()
+        manButton.isSelected.toggle()
+        isFemale = womanButton.isSelected
+        setButtonColor()
+    }
+    
+    private func setButtonColor() {
+        womanButton.backgroundColor = isFemale ? CSColor._151_151_151.color : CSColor._248_248_248.color
+        manButton.backgroundColor = isFemale ? CSColor._248_248_248.color : CSColor._151_151_151.color
     }
 }

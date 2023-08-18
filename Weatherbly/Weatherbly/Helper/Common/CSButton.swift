@@ -64,7 +64,7 @@ class CSButton: UIButton, CodeBaseInitializerProtocol {
                 // setImage? or 함수?
                 
             case .grayFilled:
-                if self.isEnabled == true {
+                if $0.isEnabled == true {
                     // background disabled 처리
                     if $0.state == .disabled {
                         $0.backgroundColor = CSColor._220_220_220.color
@@ -73,13 +73,18 @@ class CSButton: UIButton, CodeBaseInitializerProtocol {
                     }
                     
                 } else {
-                    self.backgroundColor = CSColor._220_220_220.color
+                    $0.backgroundColor = CSColor._220_220_220.color
                 }
-
+                
                 $0.layer.cornerRadius = 10.0
                 $0.titleLabel?.textColor = .white
-                $0.titleLabel?.font = .boldSystemFont(ofSize: 16)
                 $0.setShadow(CGSize(width: 0, height: 3), CSColor._0__03.cgColor, 1, 2)
+                
+                if UIScreen.main.bounds.width < 376 {
+                    $0.titleLabel?.font = .boldSystemFont(ofSize: 16)
+                } else {
+                    $0.titleLabel?.font = .boldSystemFont(ofSize: 20)
+                }
                 // TODO: - Hilighted 이미지 처리 필요
                 // TODO: - buttonTitle 설정
                 

@@ -23,7 +23,7 @@ final class AlertViewController: UIViewController, CodeBaseInitializerProtocol {
     private let confirmButton = UIButton()
     
     let bag = DisposeBag()
-    private let backgroundTapGesture = UITapGestureRecognizer()
+//    private let backgroundTapGesture = UITapGestureRecognizer()
     private var closeAction: (() -> Void) = ({})
     
     private let alertWidth = UIScreen.main.bounds.width * 0.78
@@ -62,8 +62,8 @@ final class AlertViewController: UIViewController, CodeBaseInitializerProtocol {
     
     func attribute() {
         dimView.do {
-            $0.backgroundColor = CSColor._0__054.color
-            $0.addGestureRecognizer(backgroundTapGesture)
+            $0.backgroundColor = CSColor._0__065.color
+//            $0.addGestureRecognizer(backgroundTapGesture)
         }
         
         alertContainer.do {
@@ -113,12 +113,13 @@ final class AlertViewController: UIViewController, CodeBaseInitializerProtocol {
     }
     
     func bind() {
-        backgroundTapGesture.rx
-            .event
-            .subscribe(onNext: { _ in
-                self.dismiss(animated: false)
-            })
-            .disposed(by: bag)
+        // TODO: 백그라운드 터치시 알럿 지우기 추후 고민
+//        backgroundTapGesture.rx
+//            .event
+//            .subscribe(onNext: { _ in
+//                self.dismiss(animated: false)
+//            })
+//            .disposed(by: bag)
         
         confirmButton.rx.tap
             .subscribe(onNext: {

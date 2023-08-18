@@ -37,21 +37,15 @@ final class EditNicknameViewController: RxBaseViewController<EditNicknameViewMod
     
     private var bottomButton = CSButton(.primary)
     
-    private let buttonWrapper = UIView()
-    private let womanButton = UIButton()
-    private let manButton = UIButton()
-    
     private let imageHeight = UIScreen.main.bounds.height * 0.34
     
     typealias editMode = UITextField.editMode
     var displayMode: editMode = .justShow
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        nicknameTextField.text = UserDefaultManager.shared.nickname
+        genderLabel.text = UserDefaultManager.shared.gender
     }
 
     override func attribute() {
@@ -95,7 +89,6 @@ final class EditNicknameViewController: RxBaseViewController<EditNicknameViewMod
         
         nicknameTextField.do {
             $0.font = .systemFont(ofSize: 20)
-            $0.text = "(닉네임)"
             $0.isEnabled = false
         }
         
@@ -111,7 +104,6 @@ final class EditNicknameViewController: RxBaseViewController<EditNicknameViewMod
         
         genderLabel.do {
             $0.font = .systemFont(ofSize: 20)
-            $0.text = "여성"
             $0.textAlignment = .natural
         }
         
@@ -119,23 +111,6 @@ final class EditNicknameViewController: RxBaseViewController<EditNicknameViewMod
             $0.setTitle("수정하기", for: .normal)
             $0.setTitleColor(.white, for: .normal)
         }
-        
-        womanButton.do {
-            $0.setTitle("여성", for: .normal)
-            $0.setTitleColor(.black, for: .normal)
-            $0.titleLabel?.font = .boldSystemFont(ofSize: 20)
-            $0.backgroundColor = CSColor._248_248_248.color
-            $0.layer.cornerRadius = 13
-        }
-        
-        manButton.do {
-            $0.setTitle("남성", for: .normal)
-            $0.setTitleColor(.black, for: .normal)
-            $0.titleLabel?.font = .boldSystemFont(ofSize: 20)
-            $0.backgroundColor = CSColor._248_248_248.color
-            $0.layer.cornerRadius = 13
-        }
-        
     }
     
     override func layout() {
@@ -204,8 +179,8 @@ final class EditNicknameViewController: RxBaseViewController<EditNicknameViewMod
             }
     }
     
-    override func bind() {
-        super.bind()
+    override func viewBinding() {
+        super.viewBinding()
         
         csNavigationView.leftButtonDidTapRelay
             .bind(onNext: { [weak self] _ in
@@ -216,9 +191,7 @@ final class EditNicknameViewController: RxBaseViewController<EditNicknameViewMod
         
         bottomButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
-                
-                self?.present(ChangeNicknameViewController(ChangeNicknameViewModel()), animated: true)
-                
+                self?.viewModel.toChangeNicknameView()
 //                guard let displayMode = self?.viewModel.bottomButtonDidTap() else {
 //                    return
 //                }
@@ -230,9 +203,9 @@ final class EditNicknameViewController: RxBaseViewController<EditNicknameViewMod
 //                self?.nicknameTextField.becomeFirstResponder()
 //                self?.nicknameTextFieldWrapper.backgroundColor = CSColor._248_248_248.color
             })
-
-
             .disposed(by: bag)
+        
+        viewModel.loadUserInfo()
     }
     
 }

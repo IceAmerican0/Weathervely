@@ -22,8 +22,8 @@ public protocol TestViewModelLogic: ViewModelBusinessLogic {
 class TestViewModel: RxBaseViewModel, TestViewModelLogic {
     
     var viewAction: RxRelay.PublishRelay<TestViewAction>
-    let loginDataSource = LoginDataSource()
-    let getVilageDataSource = ForecastDataSource()
+    let loginDataSource = AuthDataSource()
+    let getVillageDataSource = ForecastDataSource()
     
     override init() {
         self.viewAction = .init()
@@ -32,20 +32,20 @@ class TestViewModel: RxBaseViewModel, TestViewModelLogic {
     
     func testRequest(_ nickname: String) {
         
-                loginDataSource.login(nickname)
-                    .subscribe(onNext: { result in
-                        switch result {
-                        case .success(let response):
-                            print(response)
-                        case .failure(let error):
+        loginDataSource.getToken(nickname)
+            .subscribe(onNext: { result in
+                switch result {
+                case .success(let response):
+                    print(response)
+                case .failure(let error):
+
+                    print("viewModel Error: ", error.asAFError)
+                }
+            })
+            .disposed(by: bag)
         
-                            print("viewModel Error: ", error.asAFError)
-                        }
-                    })
-                    .disposed(by: bag)
         
-        
-        getVilageDataSource.getVilageForcast()
+        getVillageDataSource.getVillageForcast()
             .subscribe(onNext: { result in
                 switch result {
                 case .success(let response):

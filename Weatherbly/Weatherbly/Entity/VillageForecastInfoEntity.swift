@@ -1,5 +1,5 @@
 //
-//  GetVilageForcastInfoEntity.swift
+//  GetVillageForcastInfoEntity.swift
 //  Weatherbly
 //
 //  Created by 최수훈 on 2023/07/26.
@@ -19,9 +19,9 @@
 
 import Foundation
 
-struct VillageForecastInfoEntity: Codable {
+public struct VillageForecastInfoEntity: Codable {
     let status: Int
-    let data: VilliageForecastBody?
+    let data: VillageForecastBody?
     
     enum CodingKeys: String, CodingKey {
         case status = "status"
@@ -29,18 +29,17 @@ struct VillageForecastInfoEntity: Codable {
     }
 }
 
-struct VilliageForecastBody: Codable {
+public struct VillageForecastBody: Codable {
     let list: [Int: DayForecast]
-
     
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         var forecasts: [Int: DayForecast] = [:]
         
         let container = try decoder.container(keyedBy: CodingKeys.self)
         var listContainer = try container.nestedUnkeyedContainer(forKey: .list)
         
         while !listContainer.isAtEnd {
-            let forecast = try listContainer.decode(VilageFcstList.self)
+            let forecast = try listContainer.decode(VillageFcstList.self)
             let date = Int(forecast.fcstDate)!
             forecasts[date, default: DayForecast(searchDate: date, forecasts: [])].forecasts.append(forecast)
         }
@@ -52,14 +51,12 @@ struct VilliageForecastBody: Codable {
     }
 }
 
-struct DayForecast : Codable {
+public struct DayForecast : Codable {
     let searchDate: Int
-    var forecasts: [VilageFcstList]
+    var forecasts: [VillageFcstList]
 }
-
-
                      
-struct VilageFcstList: Codable {
+public struct VillageFcstList: Codable {
     let baseDate: String
     let baseTime: String
     let category: String
@@ -89,7 +86,7 @@ struct VilageFcstList: Codable {
 //
 //           // Decode the category and check if it's in the allowed set
 //           let category = try container.decode(String.self, forKey: .category)
-//           애 VilageFcstList.allowedCategories.contains(category) else {
+//           애 VillageFcstList.allowedCategories.contains(category) else {
 //               throw DecodingError.dataCorruptedError(forKey: .category, in: container, debugDescription: "Category not allowed")
 //           }
 //

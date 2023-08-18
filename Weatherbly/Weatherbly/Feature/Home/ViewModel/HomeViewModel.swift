@@ -11,10 +11,6 @@ import RxCocoa
 import RxRelay
 import UIKit
 
-public enum HomeViewAction {
-    case showMessage(message: String, isError: Bool)
-}
-
 public protocol HomeViewModelLogic: ViewModelBusinessLogic {
     func toSettingView()
     func toDailyForecastView()
@@ -26,15 +22,13 @@ public protocol HomeViewModelLogic: ViewModelBusinessLogic {
     func getSwipeArray()
     func swipeRight()
     func swipeLeft()
+
     func mainLabelTap()
     var viewAction: PublishRelay<HomeViewAction> { get }
 }
 
 public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
-    
-    public var viewAction: RxRelay.PublishRelay<HomeViewAction>
-    
-    private let getVilageDataSource = ForecastDataSource()
+    private let getVillageDataSource = ForecastDataSource()
     private let getRecommendClosetDataSouce = ClosetDataSource()
     
     let villageForeCastInfoEntityRelay  = BehaviorRelay<VillageForecastInfoEntity?>(value: nil)
@@ -52,11 +46,6 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     var weatherMsgRelay = BehaviorRelay<String?>(value: "오늘 하루 어떠셨나요?")
     var yesterdayCategoryRelay = BehaviorRelay<[String: String]?>(value: nil)
     
-    override init() {
-        self.viewAction = .init()
-        super.init()
-    }
-    
     public func getInfo(_ dateString: String) {
         getVillageForecastInfo()
         getRecommendCloset(dateString)
@@ -68,6 +57,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         let date = Date()
         
         getVilageDataSource.getVilageForcast()
+
             .subscribe(onNext: { [weak self] result in
                 switch result {
                 case .success(let response):

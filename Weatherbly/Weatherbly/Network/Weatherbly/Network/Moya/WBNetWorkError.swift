@@ -11,7 +11,7 @@ import Foundation
 /// 나머지 커스텀 error는 clientError로 커스텀 한다
 public enum WBNetworkError: Error {
     case badRequestError(_ msg: String)
-    case clienError(_ msg: String)
+    case clientError(_ msg: String)
     case decodeError
     case encodeError
 }
@@ -22,7 +22,7 @@ extension WBNetworkError: LocalizedError {
         switch self {
         case .badRequestError(let msg):
             return msg
-        case .clienError(let msg):
+        case .clientError(let msg):
             return msg
         case .decodeError:
             return "WBNetworkError : Decoding Error"
