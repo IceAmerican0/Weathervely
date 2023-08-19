@@ -16,6 +16,7 @@ public protocol DateTimePickViewModelLogic: ViewModelBusinessLogic {
 
 public class DateTimePickViewModel: RxBaseViewModel, DateTimePickViewModelLogic {
     public func didTapConfirmButton(_ today: [String], _ pickerDay: String, _ pickerDayTime: String, _ pickerTime: Int) {
+        print("선택시간: ", today, pickerDay , pickerDayTime , pickerTime)
         /// 시간비교
         if today[2] == "오전" {
             if pickerDay == "오늘" {

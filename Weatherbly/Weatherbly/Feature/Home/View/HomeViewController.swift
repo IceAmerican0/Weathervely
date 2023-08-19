@@ -12,7 +12,7 @@ import FSPagerView
 import RxSwift
 import RxGesture
 import Kingfisher
-import WebKit
+import SafariServices
 
 final class HomeViewController: RxBaseViewController<HomeViewModel> {
     private var backgroundView = UIView()
@@ -45,8 +45,6 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
     
     private let tapGesture = UITapGestureRecognizer()
     var date = Date()
-    
-    let webView = WKWebView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -128,11 +126,6 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         
         mainLabel.do {
             $0.textAlignment = .center
-        }
-        
-        webView.do {
-            $0.frame = view.frame
-            $0.allowsBackForwardNavigationGestures = true
         }
     }
     
@@ -427,9 +420,10 @@ extension HomeViewController: FSPagerViewDelegate {
                         
                         viewModel.highlightedClosetIdRelay.accept(closetId)
                         
-                        let webView = WebViewController(shopUrl)
-                        webView.modalPresentationStyle = .overCurrentContext
-                        viewModel.presentViewControllerNoAnimationRelay.accept(webView)
+                        if let url = URL(string: shopUrl) {
+                            let webView = SFSafariViewController(url: url)
+                            viewModel.presentViewControllerNoAnimationRelay.accept(webView)
+                        }
                     }
         } else {
             pagerView.deselectItem(at: index, animated: true)
@@ -439,12 +433,13 @@ extension HomeViewController: FSPagerViewDelegate {
     }
     
     func pagerView(_ pagerView: FSPagerView, shouldSelectItemAt index: Int) -> Bool {
-//        let closetInfo = viewModel.recommendClosetEntityRelay.value?.data?.list.closets[index]
-//                if let shopUrl = closetInfo?.shopUrl {
-//                    let webView = WebViewController(shopUrl)
-//                    webView.modalPresentationStyle = .overCurrentContext
-//                    viewModel.presentViewControllerNoAnimationRelay.accept(webView)
-//                }
+        let closetInfo = viewModel.recommendClosetEntityRelay.value?.data?.list.closets[index]
+        if let shopUrl = closetInfo?.shopUrl {
+            if let url = URL(string: shopUrl) {
+                let webView = SFSafariViewController(url: url)
+                viewModel.presentViewControllerNoAnimationRelay.accept(webView)
+            }
+        }
         
         return true
     }
@@ -480,7 +475,7 @@ extension HomeViewController: FSPagerViewDataSource {
                                                           .cacheOriginalImage]) { result in
                     switch result {
                     case .success:
-                        cell.clothImageSourceLabel.text = "\(shopName)"
+                        cell.clothImageSourceLabel.text = "by \(shopName)"
                     case .failure:
                         break
                     }
