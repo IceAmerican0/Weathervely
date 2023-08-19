@@ -43,13 +43,7 @@ public final class SettingRegionViewModel: RxBaseViewModel, SettingRegionViewMod
                                                             message: "동네 이름을 확인해주세요",
                                                             alertType: .Error))
                     } else {
-                        let validDocuments = response.documents.filter { document in
-                            // 필요한 검증 조건을 추가하십시오.
-                            // 예를 들어, region2DepthName, region3DepthHName, region3DepthName 이 nil이 아닐 때를 조건으로 추가
-                            return document.address?.region3DepthHName != nil && document.address?.region3DepthName != nil && document.roadAddress?.region3DepthName != nil
-                        }
-                        print(validDocuments)
-                        self.searchedListRelay.accept(validDocuments)
+                        self.searchedListRelay.accept(response.documents)
                     }
                 case .failure(let err):
                     guard let errorString = err.errorDescription else { return }

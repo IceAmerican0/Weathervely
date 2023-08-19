@@ -202,25 +202,22 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                     case 1:
                         weatherImage = AssetsImage.rainny.image
                         message = WeatherMsgEnum.currentRainMsg.msg
-                        self.weatherImageRelay.accept(weatherImage)
                     case 2:
                         // TODO: - 이미지 비/눈 변경
                         weatherImage = AssetsImage.rainsnow.image
                         message = WeatherMsgEnum.currrentRainSnowMsg.msg
-                        self.weatherImageRelay.accept(weatherImage)
                     case 3:
                         // TODO: - 이미지 눈 변경
                         weatherImage = AssetsImage.snow.image
                         message = WeatherMsgEnum.currentSnowMsg.msg
-                        self.weatherImageRelay.accept(weatherImage)
                     case 4:
                         // TODO: - 비 이미지 + 소나기 메세지
                         weatherImage = AssetsImage.rainny.image
                         message = WeatherMsgEnum.currenstShowerMsg.msg
-                        self.weatherImageRelay.accept(weatherImage)
                     default:
                         break
                     }
+                    self.weatherImageRelay.accept(weatherImage)
                     
                     // message -> 비관련
                 } else {
