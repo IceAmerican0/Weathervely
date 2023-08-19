@@ -104,7 +104,7 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
             $0.backgroundColor = .white
             $0.clipsToBounds = true
             $0.layer.cornerRadius = 15
-            $0.adjustsFontSizeToFitWidth
+            $0.adjustsFontSizeToFitWidth = true
         }
         
         pagerView.do {
@@ -123,7 +123,7 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
             $0.setCornerRadius(30)
             $0.setBackgroundColor(.white)
             $0.setShadow(CGSize(width: 0, height: 0), nil, 0, 0)
-            $0.setTitle("체감온도", for: .normal)
+            $0.setTitle("너의 온도는? 🥰", for: .normal)
         }
         
         mainLabel.do {
@@ -161,12 +161,13 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
                     flex.addItem(weatherCommentLabel).marginTop(screenHeight * 0.004).height(screenHeight * 0.03)
 //                    flex.addItem(dustLabel).marginTop(screenHeight * 0.026).width(dustLabelWidth).height(45)
             }
-                flex.addItem(messageLabel).marginTop(-45).width(dustLabelWidth).height(45)
-                flex.addItem(pagerView).width(screenWidth).height(closetWrapperHeight + 20)
-                flex.addItem(bottomButtonWrapper).direction(.row).define { flex in
-                    flex.addItem(sensoryViewButton).padding(3, 13.5)
-                    
-                }
+            
+            flex.addItem(messageLabel).marginTop(-45).width(dustLabelWidth).height(45)
+            flex.addItem(pagerView).width(screenWidth).height(closetWrapperHeight + 20)
+            flex.addItem(bottomButtonWrapper).direction(.row).define { flex in
+                flex.addItem(sensoryViewButton).padding(3, 13.5)
+                
+            }
             
             pagerView.pin.top(to: dailyWrapper.edge.bottom).margin(screenHeight * 0.03)
             bottomButtonWrapper.pin.bottom(14).marginHorizontal(62)
@@ -184,9 +185,7 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         mainLabel.rx.tapGesture()
             .when(.ended)
             .subscribe(onNext: { [weak self] tap in
-                
                 self?.viewModel.mainLabelTap()
-                
             })
             .disposed(by: bag)
         
@@ -212,7 +211,7 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
                 // 선택시간, 온도
                 // 넣어서 화면 모달 띄우기
                 // TODO: - 선택돼어있는 시간 넣기
-                self?.viewModel.toSensoryTempView("시간넣기")
+                self?.viewModel.toSensoryTempView("시간넣기", 0)
             }).disposed(by: bag)
         
         dailyWrapper.rx.tapGesture()
@@ -417,25 +416,40 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
 
 // MARK: FSPagerViewDelegate
 extension HomeViewController: FSPagerViewDelegate {
-    func pagerView(_ pagerView: FSPagerView, didHighlightItemAt index: Int) {
+    
+    func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
+        
+        if viewModel.highlightedCellIndexRelay.value == index {
+            let closetInfo = viewModel.recommendClosetEntityRelay.value?.data?.list.closets[index]
+            
+                    if let shopUrl = closetInfo?.shopUrl,
+                       let closetId = closetInfo?.id {
+                        
+                        viewModel.highlightedClosetIdRelay.accept(closetId)
+                        
+                        let webView = WebViewController(shopUrl)
+                        webView.modalPresentationStyle = .overCurrentContext
+                        viewModel.presentViewControllerNoAnimationRelay.accept(webView)
+                    }
+        } else {
+            pagerView.deselectItem(at: index, animated: true)
+            pagerView.scrollToItem(at: index, animated: true)
+        }
         viewModel.highlightedCellIndexRelay.accept(index)
     }
     
-    func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
-        pagerView.deselectItem(at: index, animated: true)
-        pagerView.scrollToItem(at: index, animated: true)
-    }
-    
     func pagerView(_ pagerView: FSPagerView, shouldSelectItemAt index: Int) -> Bool {
-        let closetInfo = viewModel.recommendClosetEntityRelay.value?.data?.list.closets[index]
-        if let shopUrl = closetInfo?.shopUrl {
-            let webView = WebViewController(shopUrl)
-            webView.modalPresentationStyle = .overCurrentContext
-            viewModel.presentViewControllerNoAnimationRelay.accept(webView)
-        }
+//        let closetInfo = viewModel.recommendClosetEntityRelay.value?.data?.list.closets[index]
+//                if let shopUrl = closetInfo?.shopUrl {
+//                    let webView = WebViewController(shopUrl)
+//                    webView.modalPresentationStyle = .overCurrentContext
+//                    viewModel.presentViewControllerNoAnimationRelay.accept(webView)
+//                }
         
         return true
     }
+    
+    
 }
 
 // MARK: FSPagerViewDataSource
