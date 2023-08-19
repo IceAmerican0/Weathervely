@@ -227,7 +227,7 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
         super.bind()
         
         navigationView.leftButtonDidTapRelay
-            .bind(to: viewModel.navigationPopViewControllerRelay)
+            .bind(onNext: viewModel.toHomeView)
             .disposed(by: bag)
         
         editButton.rx.tap

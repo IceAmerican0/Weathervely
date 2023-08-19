@@ -68,6 +68,8 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
                 case .success:
                     userDefault.removeObject(forKey: UserDefaultKey.regionID.rawValue)
                     self?.toEditRegionView()
+                    self?.alertMessageRelay.accept(.init(title: "현재 동네가 변경됐어요",
+                                                         alertType: .Info))
                 case .failure(let err):
                     guard let errorString = err.errorDescription else { return }
                     self?.alertMessageRelay.accept(.init(title: errorString,
@@ -83,6 +85,8 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
                 switch result {
                 case .success:
                     self?.toEditRegionView()
+                    self?.alertMessageRelay.accept(.init(title: "동네가 추가됐어요",
+                                                         alertType: .Info))
                 case .failure(let err):
                     guard let errorString = err.errorDescription else { return }
                     self?.alertMessageRelay.accept(.init(title: errorString,

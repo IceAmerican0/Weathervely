@@ -73,7 +73,7 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
         super.viewBinding()
         
         navigationView.leftButtonDidTapRelay
-            .bind(to: viewModel.navigationPopViewControllerRelay)
+            .bind(onNext: viewModel.toSettingView)
             .disposed(by: bag)
         
         confirmButton.rx.tap

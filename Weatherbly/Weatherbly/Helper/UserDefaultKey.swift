@@ -14,4 +14,5 @@ public enum UserDefaultKey: String {
     case nickname
     case gender
     case regionID
+    case regionInfo
 }
