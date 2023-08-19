@@ -202,16 +202,20 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
             .subscribe(onNext: { [weak self] _ in
                 // 지금 하이라이트 된 사진
                 // 선택시간, 온도
-                // 넣어서 화면 모달 띄우기
                 // TODO: - 선택돼어있는 시간 넣기
-                self?.viewModel.toSensoryTempView("시간넣기", 0)
+                
+                guard var selectedDate = self?.viewModel.selectedHourParamTypeRelay.value,
+                      var closetId = self?.viewModel.highlightedClosetIdRelay.value,
+                      var selectedTmp = self?.viewModel.mappedCategoryDicRelay.value!["TMP"]
+                else { return }
+                self?.viewModel.toSensoryTempView(selectedDate, closetId )
             }).disposed(by: bag)
         
-        dailyWrapper.rx.tapGesture()
-            .subscribe(onNext: { [weak self] _ in
-                
-            })
-            .disposed(by: bag)
+//        dailyWrapper.rx.tapGesture()
+//            .subscribe(onNext: { [weak self] _ in
+//                
+//            })
+//            .disposed(by: bag)
 
         tapGesture.rx
             .event
@@ -265,6 +269,7 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
             .subscribe(onNext: { [weak self] result in
                 guard result != nil else { return }
                 self?.pagerView.reloadData()
+                self?.viewModel.setCurrentIndex((self?.pagerView.currentIndex)!)
             })
             .disposed(by: bag)
         
@@ -276,7 +281,6 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         
         viewModel.yesterdayCategoryRelay
             .subscribe (onNext: { [weak self] yesterdayInfo in
-//                print("123123123", yesterdayInfo)
                 guard let yesterdayInfo = yesterdayInfo,
                       let mainInfo = self?.viewModel.mappedCategoryDicRelay.value
                 else { return }
@@ -409,7 +413,24 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
 
 // MARK: FSPagerViewDelegate
 extension HomeViewController: FSPagerViewDelegate {
-    
+//
+    func pagerViewDidEndDecelerating(_ pagerView: FSPagerView) {
+        viewModel.setCurrentIndex(pagerView.currentIndex)
+        viewModel.highlightedCellIndexRelay.accept(pagerView.currentIndex)
+    }
+//
+//    func pagerView(_ pagerView: FSPagerView, didHighlightItemAt index: Int) {
+//
+//        let closetInfo = viewModel.recommendClosetEntityRelay.value?.data?.list.closets[index]
+//        if let closetId = closetInfo?.id {
+//            print(index, closetId)
+//            viewModel.highlightedClosetIdRelay.accept(closetId)
+//        }
+//    }
+//
+//    func pagerViewWillBeginDragging(_ pagerView: FSPagerView) {
+//        <#code#>
+//    }
     func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
         
         if viewModel.highlightedCellIndexRelay.value == index {
@@ -429,20 +450,19 @@ extension HomeViewController: FSPagerViewDelegate {
             pagerView.deselectItem(at: index, animated: true)
             pagerView.scrollToItem(at: index, animated: true)
         }
+        viewModel.setCurrentIndex(index)
         viewModel.highlightedCellIndexRelay.accept(index)
     }
     
-    func pagerView(_ pagerView: FSPagerView, shouldSelectItemAt index: Int) -> Bool {
-        let closetInfo = viewModel.recommendClosetEntityRelay.value?.data?.list.closets[index]
-        if let shopUrl = closetInfo?.shopUrl {
-            if let url = URL(string: shopUrl) {
-                let webView = SFSafariViewController(url: url)
-                viewModel.presentViewControllerNoAnimationRelay.accept(webView)
-            }
-        }
-        
-        return true
-    }
+//
+//    func pagerView(_ pagerView: FSPagerView, willDisplay cell: FSPagerViewCell, forItemAt index: Int) {
+//        let closetInfo = viewModel.recommendClosetEntityRelay.value?.data?.list.closets[index]
+//        if let closetId = closetInfo?.id {
+//            print(index, closetId)
+//            viewModel.highlightedClosetIdRelay.accept(closetId)
+//        }
+//    }
+    
     
     
 }
