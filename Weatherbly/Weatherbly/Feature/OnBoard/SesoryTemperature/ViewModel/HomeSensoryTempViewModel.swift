@@ -16,25 +16,33 @@ protocol HomeSensoryLogic {
 class HomeSensoryTempViewModel: RxBaseViewModel {
     
     let closetDataSource = ClosetDataSource()
-    var selectedDate: String = ""
+    var selectedDateRelay = BehaviorRelay<String?>(value: nil)
     var closetIdRelay = BehaviorRelay<Int?>(value: nil)
     var closetListByTempRelay = BehaviorRelay<[ClosetList]?>(value: nil)
+    var slotMachineIndexRelay = BehaviorRelay<Int>(value: 0)
+    var testRelay = BehaviorRelay<CGFloat>(value: CGFloat())
     
     init(_ selectedDate: String, _ closetId: Int) {
         print(selectedDate)
-        self.selectedDate = selectedDate
+        self.selectedDateRelay.accept(selectedDate)
         self.closetIdRelay.accept(closetId)
 
     }
     
     func getClosetBySensoryTemp() {
-        closetDataSource.getMainSensoryTemperatureCloset(selectedDate, closetIdRelay.value!)
+        
+        guard let selectedDate = self.selectedDateRelay.value,
+              let closetId = self.closetIdRelay.value
+        else { return }
+        
+        closetDataSource.getMainSensoryTemperatureCloset(selectedDate, closetId)
             .subscribe(onNext: { [ weak self ] result in
                 switch result {
                 case .success(let response):
                     print(response)
                     let closets = response.data.list
-                    self?.closetListByTempRelay.accept(closets)
+                    self?.getCurrentIndex(closets)
+//                    self?.closetListByTempRelay.accept(closets)
                 case .failure(let error):
                     print("viewModel error GetSensoryTemp", error.localizedDescription)
                 }
@@ -43,9 +51,17 @@ class HomeSensoryTempViewModel: RxBaseViewModel {
     }
     
     func getCurrentIndex(_ closets: [ClosetList]) {
-        
-        closets.forEach { element in
-            element.id
+       
+        for i in 0..<closets.count {
+            if (closets[i].closetId == self.closetIdRelay.value!) {
+                // index 없데이트
+                
+                self.slotMachineIndexRelay.accept(i)
+                break
+            }
         }
+        self.closetListByTempRelay.accept(closets)
     }
+    
+    
 }
