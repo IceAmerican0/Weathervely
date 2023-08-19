@@ -23,20 +23,20 @@ public struct ClosetList: Codable {
     let maxTemp: String
     let closetId: Int
     let name: String
-    let imageUrl: String
+    let imageUrl: String?
     let typeName: String
     let tempId: Int
-    let isTemperatureRange: String
+    let isCurrentTemperature: String
 
     enum CodingKeys: String, CodingKey {
-        case id
+        case id = "id"
         case minTemp = "min_temp"
         case maxTemp = "max_temp"
         case closetId = "closet_id"
-        case name
+        case name = "name"
         case imageUrl = "image_url"
         case typeName = "type_name"
         case tempId = "temp_id"
-        case isTemperatureRange
+        case isCurrentTemperature = "isCurrentTemperature"
     }
 }

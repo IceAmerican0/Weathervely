@@ -8,6 +8,7 @@
 import UIKit
 import FlexLayout
 import PinLayout
+import Kingfisher
 
 class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewModel>, UIScrollViewDelegate{
     
@@ -43,38 +44,48 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
         fatalError("init(coder:) has not been implemented")
     }
     // MARK: - Life Cycle
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-    }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         scrollView.delegate = self
-        
-        // TODO: - Obsevable값으로 유무 판단 변경할 것.
-        if viewModel.closetListByTempRelay.value == nil  {
-            images = [AssetsImage.defaultImage.image]
-        } else {
-//            addContentscrollView()
-        }
     }
     
-    
     func addContentscrollView() {
-        for i in 0..<images.count {
+        guard let closetsList = viewModel.closetListByTempRelay.value else { return }
+        for i in 0..<closetsList.count {
             let imageView = UIImageView()
             let yPos = scrollView.frame.height * CGFloat(i)
             imageView.frame = CGRect(x: 0, y: yPos, width: scrollView.bounds.width, height: scrollView.bounds.height)
-            imageView.image = images[i]
+            
+            if let imageUrl = closetsList[i].imageUrl {
+                if let url = URL(string: imageUrl) {
+                    imageView.kf.indicatorType = .activity
+                    imageView.kf.setImage(with: url,
+                                          placeholder: nil,
+                                          options: [.retryStrategy(DelayRetryStrategy(maxRetryCount: 2, retryInterval: .seconds(2))),
+                                                    .transition(.fade(0.1)),
+                                                    .cacheOriginalImage]) { result in
+                     
+                                                        switch result {
+                                                        case .success:
+                                                            break
+                                                        case .failure:
+                                                            break
+                                                        }
+                    }
+                }
+            }
             scrollView.addSubview(imageView)
             scrollView.contentSize.height = imageView.frame.height * CGFloat(i + 1)
         }
     }
     
-    
-   
+    func yOffsetForIndex(_ index: Int) {
+        var slotMachineIndex = viewModel.slotMachineIndexRelay.value
+        print("slotMachineIndex", slotMachineIndex)
+        viewModel.testRelay.accept(CGFloat(slotMachineIndex) * scrollView.bounds.height)
+        print("testRelay : ", viewModel.testRelay.value)
+    }
     
     // TODO: - Toast message 띄우기
     
@@ -137,7 +148,6 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
                 .bold("얇아져요", 17, CSColor._102_102_102)
         }
         
-    
         bottomButton.do {
             $0.setTitle("확인", for: .normal)
         }
@@ -204,17 +214,33 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
                 self?.dismiss(animated: true)
             })
             .disposed(by: bag)
+    }
+    
+    override func viewModelBinding() {
+        super.viewModelBinding()
         
         viewModel.closetListByTempRelay
-            .subscribe(onNext: { [ weak self ] result in
-//                switch result {
-//                case .succes():
-//                    
-//                }
+            .subscribe(onNext: { [ weak self ] closetList in
+                guard let closetList = closetList else { return }
+                self?.addContentscrollView()
+                
+//                self?.scrollView.contentOffset = CGPoint(x: 0, y: (self?.yOffsetForIndex())!)
+                self?.scrollView.setContentOffset(CGPoint(x: 0, y: (self?.viewModel.testRelay.value)!), animated: true)
+                
             })
             .disposed(by: bag)
         
+        
+        viewModel.slotMachineIndexRelay
+            .subscribe(onNext: { [weak self] index in
+                self?.yOffsetForIndex(index)
+                
+            })
+            .disposed(by: bag)
         viewModel.getClosetBySensoryTemp()
     }
-    
+}
+
+extension HomeSensoryTempViewController {
+//    scroll
 }
