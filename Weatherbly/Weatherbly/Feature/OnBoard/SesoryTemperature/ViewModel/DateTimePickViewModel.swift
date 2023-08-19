@@ -51,7 +51,6 @@ public class DateTimePickViewModel: RxBaseViewModel, DateTimePickViewModelLogic 
                 getTempBaseOnTime()
             }
         }
-//                print("선택시간: ", pickerDay , pickerDayTime , pickerTime)
     }
     
     public func getTempBaseOnTime() {
@@ -60,6 +59,7 @@ public class DateTimePickViewModel: RxBaseViewModel, DateTimePickViewModelLogic 
     }
     
     public func toOnBoardSensoryTempView(_ temperature: String) {
+        
         let vc = OnBoardSensoryTempViewController(OnBoardSensoryTempViewModel(temperature))
         navigationPushViewControllerRelay.accept(vc)
     }

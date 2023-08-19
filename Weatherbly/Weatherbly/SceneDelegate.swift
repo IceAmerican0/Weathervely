@@ -21,18 +21,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func intro() {
-//        userDefault.set("test1111", forKey: UserDefaultKey.nickname.rawValue) // TODO: 지우기
-//        userDefault.removeObject(forKey: UserDefaultKey.isOnboard.rawValue) // TODO: 지우기
-        if UserDefaultManager.shared.nickname == "알수없음" {
+        if UserDefaultManager.shared.nickname.isEmpty == true {
             vc = OnBoardViewController(OnBoardViewModel())
             setWindow()
         } else {
-            if UserDefaultManager.shared.isOnBoard == true {
-                vc = SettingRegionViewController(SettingRegionViewModel(.onboard))
-                setWindow()
-            } else {
-                getToken()
-            }
+            getToken()
         }
     }
     
@@ -45,11 +38,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func getToken() {
         let loginDataSource = AuthDataSource()
         loginDataSource.getToken(UserDefaultManager.shared.nickname)
-            .subscribe(onNext: { result in
+            .subscribe(onNext: { [weak self] result in
                 switch result {
                 case .success:
-                    self.vc = HomeViewController(HomeViewModel())
-                    self.setWindow()
+                    if UserDefaultManager.shared.isOnBoard == true {
+                        self?.vc = SettingRegionViewController(SettingRegionViewModel(.onboard))
+                    } else {
+                        self?.vc = HomeViewController(HomeViewModel())
+                    }
+                    self?.setWindow()
                 case .failure(let err): // TODO: 토큰 실패시 에러 처리
                     guard let errString = err.errorDescription else { return }
 //                    self.alertMessageRelay.accept(.init(title: errString, alertType: .Error))

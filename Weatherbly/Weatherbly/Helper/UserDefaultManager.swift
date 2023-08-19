@@ -22,7 +22,7 @@ public final class UserDefaultManager {
         if let nickname = userDefault.object(forKey: UserDefaultKey.nickname.rawValue) {
             return "\(nickname)"
         } else {
-            return "알수없음"
+            return ""
         }
     }
     
