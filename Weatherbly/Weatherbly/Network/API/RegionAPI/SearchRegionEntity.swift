@@ -10,6 +10,28 @@ import Foundation
 public struct SearchRegionEntity: Codable {
     let meta: Meta
     let documents: [Document]
+    
+    public init(from decoder: Decoder) throws {
+           let container = try decoder.container(keyedBy: CodingKeys.self)
+           
+           let allDocuments = try container.decode([Document].self, forKey: .documents)
+           self.documents = allDocuments.filter { document in
+               var isAddressValid = true
+               var isRoadAddressValid = true
+               
+               if let addr = document.address {
+                   isAddressValid = !(addr.region3DepthHName.isEmpty && addr.region3DepthName.isEmpty)
+               }
+               
+               if let roadAddr = document.roadAddress {
+                   isRoadAddressValid = !roadAddr.region3DepthName.isEmpty
+               }
+               
+               return isAddressValid && isRoadAddressValid
+           }
+           
+           self.meta = try container.decode(Meta.self, forKey: .meta)
+       }
 }
 
 public struct Meta: Codable {
@@ -40,6 +62,7 @@ public struct Document: Codable {
         case address
         case roadAddress = "road_address"
     }
+    
 }
 
 public struct Address: Codable {
