@@ -17,16 +17,18 @@ class HomeSensoryTempViewModel: RxBaseViewModel {
     
     let closetDataSource = ClosetDataSource()
     var selectedDate: String = ""
+    var closetIdRelay = BehaviorRelay<Int?>(value: nil)
     var closetListByTempRelay = BehaviorRelay<[ClosetList]?>(value: nil)
     
-    init(_ selectedDate: String) {
+    init(_ selectedDate: String, _ closetId: Int) {
         print(selectedDate)
         self.selectedDate = selectedDate
+        self.closetIdRelay.accept(closetId)
 
     }
     
     func getClosetBySensoryTemp() {
-        closetDataSource.getSensoryTemperatureCloset(self.selectedDate)
+        closetDataSource.getMainSensoryTemperatureCloset(selectedDate, closetIdRelay.value!)
             .subscribe(onNext: { [ weak self ] result in
                 switch result {
                 case .success(let response):
@@ -40,5 +42,10 @@ class HomeSensoryTempViewModel: RxBaseViewModel {
             .disposed(by: bag)
     }
     
-    
+    func getCurrentIndex(_ closets: [ClosetList]) {
+        
+        closets.forEach { element in
+            element.id
+        }
+    }
 }

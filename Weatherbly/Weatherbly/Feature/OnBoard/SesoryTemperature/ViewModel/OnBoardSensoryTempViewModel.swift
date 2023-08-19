@@ -33,7 +33,7 @@ public final class OnBoardSensoryTempViewModel: RxBaseViewModel, OnBoardSensoryT
     }
     
     public func getClosetBySensoryTemp() {
-        closetDataSource.getSensoryTemperatureCloset(temperatureRelay.value)
+        closetDataSource.getOnBoardSensoryTemperatureCloset(temperatureRelay.value)
             .subscribe(onNext: { [weak self] result in
                 switch result {
                 case .success(let response):

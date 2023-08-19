@@ -15,7 +15,7 @@ public protocol HomeViewModelLogic: ViewModelBusinessLogic {
     func toSettingView()
     func toDailyForecastView()
     func toTenDaysForecastView()
-    func toSensoryTempView(_ selectedDate: String)
+    func toSensoryTempView(_ selectedDate: String, _ closetId: Int)
     func getInfo(_ dateString: String)
     func getVillageForecastInfo()
     func getRecommendCloset(_ dateString: String)
@@ -40,7 +40,8 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     let headerTimeRelay = BehaviorRelay<String?>(value: Date().todayThousandFormat) // HH00
     let selectedHourParamTypeRelay = BehaviorRelay<String?>(value: Date().todayHourFormat) // 2023-08-11 16:00
     
-    var highlightedCellIndexRelay = BehaviorRelay<Int>(value: 0)
+    var highlightedCellIndexRelay = BehaviorRelay<Int>(value: 100)
+    var highlightedClosetIdRelay = BehaviorRelay<Int>(value: 0)
     var weatherImageRelay = BehaviorRelay<UIImage?>(value: AssetsImage.weatherLoadingImage.image)
     var weatherMsgRelay = BehaviorRelay<String?>(value: "오늘 하루 어떠셨나요?")
     var yesterdayCategoryRelay = BehaviorRelay<[String: String]?>(value: nil)
@@ -509,8 +510,8 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         navigationPushViewControllerRelay.accept(vc)
     }
     
-    public func toSensoryTempView(_ selectedDate: String) {
-        let vc = HomeSensoryTempViewController(HomeSensoryTempViewModel(selectedDate))
+    public func toSensoryTempView(_ selectedDate: String, _ closetId: Int) {
+        let vc = HomeSensoryTempViewController(HomeSensoryTempViewModel(selectedDate, closetId))
         vc.isModalInPresentation = true // prevent to dismiss the viewController when drag action 
         presentViewControllerWithAnimationRelay.accept(vc)
     }
