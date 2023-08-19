@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxRelay
+import SafariServices
 
 public protocol SettingViewModelLogic: ViewModelBusinessLogic {
     func toHomeView()
@@ -35,10 +36,11 @@ final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
     func toPrivacyPolicyView() {
 //        let vc = PrivatePolicyViewController(PrivatePolicyViewModel())
 //        navigationPushViewControllerRelay.accept(vc)
-        let url = "https://docs.google.com/document/d/1MnwR04jGms26yha2oSdps06Ju0wMn-hGS1Zs6JtDAf8/edit?usp=sharing"
-        let webView = WebViewController(url)
-        webView.modalPresentationStyle = .overCurrentContext
-        presentViewControllerNoAnimationRelay.accept(webView)
+        let urlString = "https://docs.google.com/document/d/1MnwR04jGms26yha2oSdps06Ju0wMn-hGS1Zs6JtDAf8/edit?usp=sharing"
+        if let url = URL(string: urlString) {
+            let webView = SFSafariViewController(url: url)
+            presentViewControllerNoAnimationRelay.accept(webView)
+        }
     }
     
     func toBeContinue() {

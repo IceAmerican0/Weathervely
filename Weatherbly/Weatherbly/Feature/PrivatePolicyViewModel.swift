@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import WebKit
+import SafariServices
 
 public protocol PrivatePolicyViewModelLogic: ViewModelBusinessLogic {
     func toPrivatePolicyWebView()
@@ -14,9 +14,10 @@ public protocol PrivatePolicyViewModelLogic: ViewModelBusinessLogic {
 
 public final class PrivatePolicyViewModel: RxBaseViewModel, PrivatePolicyViewModelLogic {
     public func toPrivatePolicyWebView() {
-        let url = "https://docs.google.com/document/d/1MnwR04jGms26yha2oSdps06Ju0wMn-hGS1Zs6JtDAf8/edit?usp=sharing"
-        let webView = WebViewController(url)
-        webView.modalPresentationStyle = .overCurrentContext
-        presentViewControllerNoAnimationRelay.accept(webView)
+        let urlString = "https://docs.google.com/document/d/1MnwR04jGms26yha2oSdps06Ju0wMn-hGS1Zs6JtDAf8/edit?usp=sharing"
+        if let url = URL(string: urlString) {
+            let webView = SFSafariViewController(url: url)
+            presentViewControllerNoAnimationRelay.accept(webView)
+        }
     }
 }

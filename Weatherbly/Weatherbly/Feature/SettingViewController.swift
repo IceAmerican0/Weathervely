@@ -12,8 +12,6 @@ import RxSwift
 
 final class SettingViewController: RxBaseViewController<SettingViewModel> {
     
-    var leftButtonDidTapRelay = PublishRelay<Void>()
-    
     // MARK: - Component
     private var navigationView = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
     private let contentWrapper = UIView()

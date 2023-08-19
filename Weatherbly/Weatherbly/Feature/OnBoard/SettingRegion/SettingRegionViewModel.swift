@@ -38,7 +38,7 @@ public final class SettingRegionViewModel: RxBaseViewModel, SettingRegionViewMod
             .subscribe(onNext: { result in
                 switch result {
                 case .success(let response):
-                    if response.meta.totalCount == 0 {
+                    if response.documents.count == 0 {
                         self.alertMessageRelay.accept(.init(title: "해당하는 동네 정보가 없어요",
                                                             message: "동네 이름을 확인해주세요",
                                                             alertType: .Error))

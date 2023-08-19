@@ -65,7 +65,7 @@ public final class OnBoardSensoryTempViewModel: RxBaseViewModel, OnBoardSensoryT
     }
     
     public func toSlotMachineView() {
-        let vc = HomeViewController(HomeViewModel())
+        let vc = SlotMachineViewController(SlotMachineViewModel())
         self.navigationPushViewControllerRelay.accept(vc)
     }
     

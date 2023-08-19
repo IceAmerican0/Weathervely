@@ -73,6 +73,7 @@ final class AlertViewController: UIViewController, CodeBaseInitializerProtocol {
         
         titleLabel.do {
             $0.attributedText = NSMutableAttributedString().bold(state.title, 19, CSColor._172_107_255)
+            $0.adjustsFontSizeToFitWidth = true
             $0.sizeToFit()
             $0.isHidden = state.title.isEmpty
         }
@@ -83,6 +84,7 @@ final class AlertViewController: UIViewController, CodeBaseInitializerProtocol {
             } else {
                 $0.isHidden = true
             }
+            $0.adjustsFontSizeToFitWidth = true
             $0.sizeToFit()
         }
         

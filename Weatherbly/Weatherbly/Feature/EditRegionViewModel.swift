@@ -63,6 +63,7 @@ public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogi
             .subscribe(onNext: { [weak self] result in
                 switch result {
                 case .success:
+                    self?.loadRegionList()
                     self?.alertMessageRelay.accept(.init(title: "현재 동네가 \(regionInfo.addressName)으로 변경됐어요",
                                                          alertType: .Info))
                 case .failure(let err):

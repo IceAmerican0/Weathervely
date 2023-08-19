@@ -163,7 +163,7 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
             .disposed(by: bag)
         
         denyButton.rx.tap
-            .bind(to: viewModel.navigationPopViewControllerRelay)
+            .bind(onNext: viewModel.toSlotMachineView)
             .disposed(by: bag)
         
         acceptButton.rx.tap
