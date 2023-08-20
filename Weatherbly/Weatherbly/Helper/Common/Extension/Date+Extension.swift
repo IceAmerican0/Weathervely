@@ -39,6 +39,14 @@ extension Date {
         return dateFormmater.string(from: date)
     }
     
+    var yesterdayHyphenFormat: String {
+        let date = Calendar.current.date(byAdding: .day, value: -1, to: self)!
+        let dateFormmater = DateFormatter.shared
+        dateFormmater.dateFormat = "yyyy-MM-dd"
+        
+        return dateFormmater.string(from: date)
+    }
+    
     
     // MARK: - Today
 
@@ -66,6 +74,14 @@ extension Date {
         let date = self
         let dateFormmater = DateFormatter.shared
         dateFormmater.dateFormat = "yyyyMMdd"
+        
+        return dateFormmater.string(from: date)
+    }
+    
+    var todayphenFormat: String {
+        let date = self
+        let dateFormmater = DateFormatter.shared
+        dateFormmater.dateFormat = "yyyy-MM-dd"
         
         return dateFormmater.string(from: date)
     }

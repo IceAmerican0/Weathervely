@@ -26,7 +26,8 @@ public struct ClosetList: Codable {
     let imageUrl: String
     let typeName: String
     let tempId: Int
-    let isTemperatureRange: String
+    let shopName: String
+    let isCurrentTemperature: String
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -37,6 +38,7 @@ public struct ClosetList: Codable {
         case imageUrl = "image_url"
         case typeName = "type_name"
         case tempId = "temp_id"
-        case isTemperatureRange
+        case shopName = "site_name"
+        case isCurrentTemperature = "isCurrentTemperature"
     }
 }

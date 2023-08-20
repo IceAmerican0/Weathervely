@@ -29,7 +29,8 @@ extension ClosetTarget: WBTargetType {
             return "/closet"
         case .styleStylePickedList:
             return "/closet/pick"
-        case .getOnBoardClosetByTemperature, .getMainClosetByTemperature:
+        case .getOnBoardClosetByTemperature,
+             .getMainClosetByTemperature:
             return "/closet/getClosetByTemperature"
         case .setSensoryTemperature:
             return "/closet/setTemperature"
@@ -62,7 +63,8 @@ extension ClosetTarget: WBTargetType {
             return .requestParameters(parameters: ["dateTime": dateTime],
                                       encoding: URLEncoding.queryString)
         case .getMainClosetByTemperature(let dateTime, let closetId):
-            return .requestParameters(parameters: ["dateTime": dateTime, "closet_id": closetId],
+            return .requestParameters(parameters: ["dateTime": dateTime,
+                                                   "closet_id": closetId],
                                           encoding: URLEncoding.queryString)
         case .setSensoryTemperature(let sensoryTempRequest):
             return .requestParameters(parameters: ["closet": sensoryTempRequest.closet,

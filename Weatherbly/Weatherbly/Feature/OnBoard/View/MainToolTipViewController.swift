@@ -10,7 +10,12 @@ import PinLayout
 import FlexLayout
 import RxSwift
 
+public protocol MainToolTipViewDelegate: AnyObject {
+    func toolTipDismiss()
+}
+
 public final class MainToolTipViewController: UIViewController, CodeBaseInitializerProtocol {
+    weak var delegate: MainToolTipViewDelegate?
     
     private let dimView = UIView()
     private let upperWrapper = UIView()
@@ -59,11 +64,13 @@ public final class MainToolTipViewController: UIViewController, CodeBaseInitiali
         
         upperLabel.do {
             $0.backgroundColor = .black
-            $0.layer.cornerRadius = 35
+            $0.layer.cornerRadius = 20
+            $0.layer.masksToBounds = true
             $0.numberOfLines = 1
             $0.textAlignment = .center
             $0.attributedText = NSMutableAttributedString()
                 .regular("💡 화면을 좌우로 넘겨보세요", 20, CSColor._255_255_255_1)
+            $0.adjustsFontSizeToFitWidth = true
         }
         
         lowerLabel.do {
@@ -71,6 +78,7 @@ public final class MainToolTipViewController: UIViewController, CodeBaseInitiali
             $0.textAlignment = .center
             $0.attributedText = NSMutableAttributedString()
                 .regular("다른 시간대의 날씨와 옷을 볼 수 있어요", 18, CSColor.none)
+            $0.adjustsFontSizeToFitWidth = true
         }
         
         outerLeftArrow.do {
@@ -126,34 +134,26 @@ public final class MainToolTipViewController: UIViewController, CodeBaseInitiali
                 case 1:
                     self?.upperLabel.text = "💡 상단 영역을 클릭해보세요"
                     self?.lowerLabel.text = "현재 날씨 / 내일 날씨로 빠르게 이동할 수 있어요"
+                    self?.touchImage.pin.top(8%).left(50%)
                     self?.touchImage.isHidden = false
                     self?.outerLeftArrow.isHidden = true
                     self?.innerLeftArrow.isHidden = true
                     self?.outerRightArrow.isHidden = true
                     self?.innerRightArrow.isHidden = true
                 case 2:
-                    self?.upperLabel.text = "💡 날씨 아이콘을 클릭해보세요"
-                    self?.lowerLabel.text = "상세 날씨를 볼 수 있어요"
-                    self?.touchImage.pin.top(13%).right(27%)
-                case 3:
                     self?.upperLabel.text = "💡 양 옆 카드를 클릭해보세요"
                     self?.lowerLabel.text = "더 자세히 볼 수 있어요"
                     self?.touchImage.pin.top(53%).left(4%)
-                case 4:
-                    self?.upperLabel.text = "💡 '너의 온도는?'버튼을 클릭해보세요"
+                case 3:
+                    self?.upperLabel.text = "💡 '너의 온도는?' 버튼을 클릭해보세요"
+                    self?.upperLabel.pin.hCenter().width(85%)
                     self?.lowerLabel.text = "체감온도에 맞게 옷 겹수를 바꿀 수 있어요"
-                    self?.touchImage.pin.top(85%).right(12%)
+                    self?.touchImage.pin.top(89%).right(12%)
                 default:
-                    self?.remove()
+                    self?.delegate?.toolTipDismiss()
+                    self?.dismiss(animated: false)
                 }
             })
             .disposed(by: bag)
-    }
-    
-    func remove() {
-        userDefault.removeObject(forKey: UserDefaultKey.isOnboard.rawValue)
-        self.removeFromParent()
-        self.view.removeFromSuperview()
-        self.dismiss(animated: false)
     }
 }

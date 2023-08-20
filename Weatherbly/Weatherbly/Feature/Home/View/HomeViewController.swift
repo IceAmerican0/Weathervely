@@ -56,9 +56,15 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         navigationController?.setNavigationBarHidden(true, animated: animated)
         
         if UserDefaultManager.shared.isOnBoard == true {
+            userDefault.removeObject(forKey: UserDefaultKey.isOnboard.rawValue)
+            
             let toolTipView = MainToolTipViewController()
+            toolTipView.delegate = self
             toolTipView.modalPresentationStyle = .overCurrentContext
             viewModel.presentViewControllerNoAnimationRelay.accept(toolTipView)
+            
+            weatherCommentLabel.isHidden = true
+            messageLabel.isHidden = true
         }
     }
     
@@ -403,7 +409,7 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
     }
     
     private func configureBackgroundImage() -> AssetsImage {
-        .cloudyEvening
+        .sunnyAfternoon
     }
 }
 
@@ -484,5 +490,12 @@ extension HomeViewController: FSPagerViewDataSource {
         }
         
         return cell
+    }
+}
+
+extension HomeViewController: MainToolTipViewDelegate {
+    func toolTipDismiss() {
+        weatherCommentLabel.isHidden = false
+        messageLabel.isHidden = false
     }
 }

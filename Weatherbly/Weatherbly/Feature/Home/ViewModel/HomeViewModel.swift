@@ -386,17 +386,15 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             self.yesterdayCategoryRelay.accept(yesterdayCategoryValue)
             
         } else {
-            print("can't Sipe no more")
+            alertMessageRelay.accept(.init(title: "이후 시간은 확인할 수 없어요",
+                                                 alertType: .Info))
         }
-        
-        
     }
     
     public func swipeRight() {
         guard let forecastEntity = villageForeCastInfoEntityRelay.value,
               let swipeArray = swipeArrayRelay.value
         else { return }
-
         
         var categoryWithValue: [String: String]? = [:]
         var yesterdayCategoryValue: [String: String]? = [:]
@@ -444,13 +442,9 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             self.headerTimeRelay.accept(headerTime)
             self.mappedCategoryDicRelay.accept(categoryWithValue)
             self.yesterdayCategoryRelay.accept(yesterdayCategoryValue)
-            
-            
-            
         } else {
-            print("can't Sipe no more")
-//            self?.view?.showToast(message: "현재보다 이전 시간은 확인할 수 없어요", font: .systemFont(ofSize: 16))
-            // show Toast
+            alertMessageRelay.accept(.init(title: "현재보다 이전 시간은 확인할 수 없어요",
+                                                 alertType: .Info))
         }
     }
     
@@ -460,7 +454,6 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         guard let forecastEntity  = villageForeCastInfoEntityRelay.value,
               let swipeArray = swipeArrayRelay.value
         else { return }
-        
 
         var categoryWithValue: [String: String]? = [:]
         var yesterdayCategoryValue: [String: String]? = [:]
@@ -515,6 +508,4 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         vc.isModalInPresentation = true // prevent to dismiss the viewController when drag action 
         presentViewControllerWithAnimationRelay.accept(vc)
     }
-
-    
 }

@@ -30,7 +30,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func setWindow() {
-        let rootVC = UINavigationController(rootViewController: vc ?? HomeViewController(HomeViewModel()))
+        guard let vc = vc else { return }
+        let rootVC = UINavigationController(rootViewController: vc)
         window?.rootViewController = rootVC
         window?.makeKeyAndVisible()
     }

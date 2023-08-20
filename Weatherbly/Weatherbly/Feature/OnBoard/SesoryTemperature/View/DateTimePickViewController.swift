@@ -156,25 +156,6 @@ extension DateTimePickViewController: UIPickerViewDelegate, UIPickerViewDataSour
        }
     }
     
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        switch component {
-        case 0:
-            return pickerFirstRowData[row]
-        case 1:
-            return pickerSecondRowData[row]
-        case 2:
-                if pickerView.selectedRow(inComponent: 0) == 0 && pickerView.selectedRow(inComponent: 1) == 0 {
-                    return "\(pickerThirdRowData[row + 3])" // Offset by 3 to hide the first three numbers
-                } else {
-                    return "\(pickerThirdRowData[row])"
-                }
-        default:
-            return nil
-        
-        }
-    }
-    
-    
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if component == 0 || component == 1 {
             pickerView.reloadComponent(2)
