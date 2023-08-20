@@ -247,7 +247,9 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
             .disposed(by: bag)
         
         calendarButton.rx.tap
-            .bind(onNext: viewModel.toTenDaysForecastView)
+            .bind(onNext: { [weak self] _ in
+                self?.viewModel.alertMessageRelay.accept(.init(title: "아직 준비중인 기능이에요", alertType: .Info))
+            })
             .disposed(by: bag)
         
         
