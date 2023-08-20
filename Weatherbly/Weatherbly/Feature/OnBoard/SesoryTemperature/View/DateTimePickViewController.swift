@@ -120,7 +120,7 @@ final class DateTimePickViewController: RxBaseViewController<DateTimePickViewMod
             .subscribe (onNext: { [weak self] _ in
                 let date = Date()
                 let today = date.todayDatePickerFormat.components(separatedBy: " ").map{ $0 }
-//                print("현재시간: ", today)
+//                debugPrint("현재시간: ", today)
                 
                 // Get Picker value
                 let pickerDay: String = self?.pickerFirstRowData[(self?.dateTimePickerView.selectedRow(inComponent: 0))  ?? 0] ?? "어제"
