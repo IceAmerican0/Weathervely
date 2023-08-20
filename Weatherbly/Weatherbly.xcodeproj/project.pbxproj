@@ -122,8 +122,6 @@
 		BD77B82E2A388D2E00E7D57A /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD77B82D2A388D2E00E7D57A /* HomeViewModel.swift */; };
 		BD7DAB252A6E757C00422D25 /* PrimitiveSequence+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB242A6E757C00422D25 /* PrimitiveSequence+Extension.swift */; };
 		BD7DAB272A6E786E00422D25 /* StatusOnlyEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB262A6E786E00422D25 /* StatusOnlyEntity.swift */; };
-		BD7DAB292A6FC51400422D25 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB282A6FC51400422D25 /* TestViewController.swift */; };
-		BD7DAB2B2A6FC58200422D25 /* TestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB2A2A6FC58200422D25 /* TestViewModel.swift */; };
 		BD7DAB2D2A70DEE100422D25 /* ForecastDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB2C2A70DEE100422D25 /* ForecastDataSource.swift */; };
 		BD7DAB2F2A70DEED00422D25 /* GetVillageForecastInfoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB2E2A70DEED00422D25 /* GetVillageForecastInfoProvider.swift */; };
 		BD7DAB312A70DEF400422D25 /* ForeCastTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB302A70DEF400422D25 /* ForeCastTarget.swift */; };
@@ -245,8 +243,6 @@
 		BD77B82D2A388D2E00E7D57A /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		BD7DAB242A6E757C00422D25 /* PrimitiveSequence+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PrimitiveSequence+Extension.swift"; sourceTree = "<group>"; };
 		BD7DAB262A6E786E00422D25 /* StatusOnlyEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusOnlyEntity.swift; sourceTree = "<group>"; };
-		BD7DAB282A6FC51400422D25 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
-		BD7DAB2A2A6FC58200422D25 /* TestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewModel.swift; sourceTree = "<group>"; };
 		BD7DAB2C2A70DEE100422D25 /* ForecastDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastDataSource.swift; sourceTree = "<group>"; };
 		BD7DAB2E2A70DEED00422D25 /* GetVillageForecastInfoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetVillageForecastInfoProvider.swift; sourceTree = "<group>"; };
 		BD7DAB302A70DEF400422D25 /* ForeCastTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForeCastTarget.swift; sourceTree = "<group>"; };
@@ -452,8 +448,6 @@
 				BD2D01A02A3887D5003A25D5 /* Home */,
 				BD69B8F32A54332C00DDCD7A /* Setting */,
 				5C46917D2A78F92F00E2CC70 /* Error */,
-				BD7DAB282A6FC51400422D25 /* TestViewController.swift */,
-				BD7DAB2A2A6FC58200422D25 /* TestViewModel.swift */,
 			);
 			path = Feature;
 			sourceTree = "<group>";
@@ -943,7 +937,6 @@
 				5C4691812A78F96D00E2CC70 /* LoadErrorViewController.swift in Sources */,
 				5C9F45562A8388130079ABA6 /* AddressEntity.swift in Sources */,
 				BD51694F2A5EB43500582BA9 /* ChangeNicknameViewController.swift in Sources */,
-				BD7DAB292A6FC51400422D25 /* TestViewController.swift in Sources */,
 				5C9D02DB2A720DCC00AF2DA3 /* EmptyEntity.swift in Sources */,
 				BD77B82A2A388CEF00E7D57A /* OnBoardViewController.swift in Sources */,
 				5CC61E232A57C617001435E6 /* DailyForecastTableViewCell.swift in Sources */,
@@ -973,7 +966,6 @@
 				5C9D02C42A6E61C700AF2DA3 /* SettingRegionCompleteViewModel.swift in Sources */,
 				69CCF1D12A63CDC200756127 /* RemoteError.swift in Sources */,
 				BD5169472A5AA39000582BA9 /* EditNicknameViewController.swift in Sources */,
-				BD7DAB2B2A6FC58200422D25 /* TestViewModel.swift in Sources */,
 				BD69B8F72A54337000DDCD7A /* SettingViewController.swift in Sources */,
 				5CCC914D2A61179F0025B522 /* WBTargetType.swift in Sources */,
 				69CCF1CF2A63CD5500756127 /* WBErrorResponse.swift in Sources */,

@@ -15,7 +15,7 @@ public protocol HomeViewModelLogic: ViewModelBusinessLogic {
     func toSettingView()
     func toDailyForecastView()
     func toTenDaysForecastView()
-    func toSensoryTempView(_ selectedDate: String, _ closetId: Int)
+    func toSensoryTempView(_ selectedDate: String, _ selectedTime: String, _ selectedTemp: String, _ closetId: Int)
     func getInfo(_ dateString: String)
     func getVillageForecastInfo()
     func getRecommendCloset(_ dateString: String)
@@ -27,6 +27,7 @@ public protocol HomeViewModelLogic: ViewModelBusinessLogic {
 }
 
 public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
+    
     private let getVillageDataSource = ForecastDataSource()
     private let getRecommendClosetDataSouce = ClosetDataSource()
     
@@ -76,7 +77,8 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                     self?.yesterdayCategoryRelay.accept(self?.bindingWeatherByDate(response, -1, yesterDayHour))
                     
                 case .failure(let error):
-                    print("viewModel Error : ", error.localizedDescription)
+                    debugPrint("viewModel Error : ", error.localizedDescription)
+                    
                 }
             })
             .disposed(by: bag)
@@ -89,7 +91,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                 case .success(let response):
                     self?.recommendClosetEntityRelay.accept(response)
                 case .failure(let error):
-                    print("viewModel Error, getRecommendCloset :" , error.localizedDescription)
+                    debugPrint("viewModel Error, getRecommendCloset :" , error.localizedDescription)
                 }
             })
             .disposed(by: bag)
@@ -99,7 +101,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         guard self.recommendClosetEntityRelay.value != nil else { return }
         let closetInfo = self.recommendClosetEntityRelay.value?.data?.list.closets[index]
         if let closetId = closetInfo?.id {
-//                    print(index, closetId)
+//                    debugPrint(index, closetId)
             highlightedClosetIdRelay.accept(closetId)
         }
     }
@@ -178,7 +180,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             let rainPossibility = Int(categoryValues!["POP"]!) ?? 0
             let rainForm = Int(categoryValues!["PTY"]!) ?? 0
             
-            print(categoryValues!)
+            debugPrint(categoryValues!)
             // let numericPart = stringValue.trimmingCharacters(in: CharacterSet.decimalDigits.inverted)
 
 //            guard var rainfall: Double = {
@@ -417,7 +419,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             self.yesterdayCategoryRelay.accept(yesterdayCategoryValue)
             
         } else {
-            print("can't Sipe no more")
+            debugPrint("can't Sipe no more")
         }
         
         
@@ -494,7 +496,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             
             
         } else {
-            print("can't Sipe no more")
+            debugPrint("can't Sipe no more")
 //            self?.view?.showToast(message: "현재보다 이전 시간은 확인할 수 없어요", font: .systemFont(ofSize: 16))
             // show Toast
         }
@@ -572,11 +574,23 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         navigationPushViewControllerRelay.accept(vc)
     }
     
-    public func toSensoryTempView(_ selectedDate: String, _ closetId: Int) {
-        let vc = HomeSensoryTempViewController(HomeSensoryTempViewModel(selectedDate, closetId))
-        vc.isModalInPresentation = true // prevent to dismiss the viewController when drag action 
+    public func toSensoryTempView(_ selectedDate: String, _ selectedTime: String, _ selectedTemp: String, _ closetId: Int) {
+        let vm = HomeSensoryTempViewModel(selectedDate, selectedTime, selectedTemp, closetId)
+        let vc = HomeSensoryTempViewController(vm)
+        vm.delegate = self
+        vc.isModalInPresentation = true // prevent to dismiss the viewController when drag action
         presentViewControllerWithAnimationRelay.accept(vc)
     }
+    
 
     
+}
+
+extension HomeViewModel: HomeSensoryTempViewControllerDelegate {
+    func willDismiss() {
+        let nickname = UserDefaultManager.shared.nickname
+        
+        self.getRecommendCloset(self.selectedHourParamTypeRelay.value!)
+        self.alertMessageRelay.accept(.init(title: "\(nickname) 님의 체감온도가 반영되었어요", alertType: .Info))
+    }
 }

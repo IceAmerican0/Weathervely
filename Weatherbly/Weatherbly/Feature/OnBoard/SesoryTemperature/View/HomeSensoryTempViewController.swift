@@ -10,10 +10,13 @@ import FlexLayout
 import PinLayout
 import Kingfisher
 
+
+
 class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewModel>, UIScrollViewDelegate{
     
+//    weak var delegate: HomeSensoryTempViewControllerDelegate?
     // MARK: - Property
-
+    
     var images = [UIImage(systemName: "star.fill"), UIImage(systemName: "book.fill"), UIImage(systemName:"scribble"),
                   UIImage(systemName:"lasso")]
 
@@ -52,12 +55,13 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
     
     func addContentscrollView() {
         guard let closetsList = viewModel.closetListByTempRelay.value else { return }
+        
         for i in 0..<closetsList.count {
             let imageView = UIImageView()
             let yPos = scrollView.frame.height * CGFloat(i)
             imageView.frame = CGRect(x: 0, y: yPos, width: scrollView.bounds.width, height: scrollView.bounds.height)
             
-            if let imageUrl = closetsList[i].imageUrl {
+            let imageUrl = closetsList[i].imageUrl
                 if let url = URL(string: imageUrl) {
                     imageView.kf.indicatorType = .activity
                     imageView.kf.setImage(with: url,
@@ -74,18 +78,13 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
                                                         }
                     }
                 }
-            }
+            
             scrollView.addSubview(imageView)
             scrollView.contentSize.height = imageView.frame.height * CGFloat(i + 1)
         }
     }
     
-    func yOffsetForIndex(_ index: Int) {
-        var slotMachineIndex = viewModel.slotMachineIndexRelay.value
-        print("slotMachineIndex", slotMachineIndex)
-        viewModel.testRelay.accept(CGFloat(slotMachineIndex) * scrollView.bounds.height)
-        print("testRelay : ", viewModel.testRelay.value)
-    }
+    
     
     // TODO: - Toast message 띄우기
     
@@ -214,6 +213,13 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
                 self?.dismiss(animated: true)
             })
             .disposed(by: bag)
+        
+        bottomButton.rx.tap
+            .subscribe(onNext: { [weak self] tap in
+                self?.viewModel.setSensoryTemperature()
+//                self?.viewModel.dismissSelfWithAnimationRelay.accept(Void())
+                
+            }).disposed(by: bag)
     }
     
     override func viewModelBinding() {
@@ -223,24 +229,44 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
             .subscribe(onNext: { [ weak self ] closetList in
                 guard let closetList = closetList else { return }
                 self?.addContentscrollView()
-                
-//                self?.scrollView.contentOffset = CGPoint(x: 0, y: (self?.yOffsetForIndex())!)
-                self?.scrollView.setContentOffset(CGPoint(x: 0, y: (self?.viewModel.testRelay.value)!), animated: true)
+                self?.scrollView.setContentOffset(CGPoint(x: 0, y: (self?.viewModel.focusingIndexRelay.value)!), animated: true)
                 
             })
             .disposed(by: bag)
-        
         
         viewModel.slotMachineIndexRelay
             .subscribe(onNext: { [weak self] index in
-                self?.yOffsetForIndex(index)
-                
+                self?.viewModel.yOffsetForIndex(index, self?.scrollView)
             })
             .disposed(by: bag)
+
+        viewModel.selectedTimeRelay
+            .subscribe(onNext: {[weak self] text in
+                guard var selectedTime = text,
+                      let selectedTemp = self?.viewModel.selectedTempRelay.value
+                else { return }
+                
+                if selectedTime == Date().todayThousandFormat { selectedTime = "현재"}
+                self?.tempLabel.attributedText = NSMutableAttributedString()
+                    .bold("\(selectedTime) (\(selectedTemp))", 16, CSColor._40_106_167)
+            }).disposed(by: bag)
+        
+//        viewModel.emptyEntityRelay
+//            .subscribe(onNext: { [weak self] result in
+//                debugPrint("complete!!!")
+//            }).disposed(by: bag)
+        
         viewModel.getClosetBySensoryTemp()
     }
 }
 
 extension HomeSensoryTempViewController {
-//    scroll
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let pageIndex = Int(scrollView.contentOffset.y / scrollView.frame.height)
+        
+        if let list = viewModel.closetListByTempRelay.value, pageIndex >= 0 && pageIndex < list.count {
+            viewModel.setClosetIdRelay.accept(list[pageIndex].closetId)
+            imageSourceLabel.text = "by \(list[pageIndex].shopName)"
+        }
+    }
 }

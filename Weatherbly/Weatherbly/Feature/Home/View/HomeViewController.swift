@@ -25,7 +25,9 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
     
     private var dailyWrapper = UIView()
     private var weatherImageView = UIImageView()
+    private var temperatureLabelWrapper = UIView()
     private var temperatureLabel = CSLabel(.bold, 15, "")
+    private var extremeTempLable = CSLabel(.bold, 15, "")
     private var weatherCommentLabel = CSLabel(.regular, 18, "찬바람이 세차게 불어요")
     private var messageLabel = CSLabel(.regular, 17, "😷 미세 먼지가 매우 심해요")
     
@@ -89,13 +91,18 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         }
         
         temperatureLabel.do {
-            $0.attributedText = NSMutableAttributedString()
-                .bold("8℃", 20, CSColor.none)
-                .regular(" (", 18, CSColor.none)
-                .regular("-2", 18, CSColor._40_106_167)
-                .regular("/", 18, CSColor.none)
-                .regular("16", 18, CSColor._178_36_36)
-                .regular("℃)", 18, CSColor.none)
+//            $0.attributedText = NSMutableAttributedString()
+//                .bold("8℃", 20, CSColor.none)
+//                .regular(" (", 18, CSColor.none)
+//                .regular("-2", 18, CSColor._40_106_167)
+//                .regular("/", 18, CSColor.none)
+//                .regular("16", 18, CSColor._178_36_36)
+//                .regular("℃)", 18, CSColor.none)
+            $0.numberOfLines = 0
+        }
+        
+        extremeTempLable.do {
+            $0.numberOfLines = 0
         }
         
         messageLabel.do {
@@ -150,7 +157,14 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
                 .height(screenHeight * 0.208 + 45)
                 .alignItems(.center).define { flex in
                     flex.addItem(weatherImageView).marginTop(screenHeight * 0.008).width(screenWidth * 0.23).height(screenHeight * 0.1)
-                    flex.addItem(temperatureLabel).marginTop(screenHeight * 0.01).width(50%).height(screenHeight * 0.03)
+                    flex.addItem(temperatureLabelWrapper).marginTop(screenHeight * 0.01).width(40%).height(screenHeight * 0.03)
+                        .direction(.row)
+                        .justifyContent(.center)
+                        .define { flex in
+                            flex.addItem(temperatureLabel).grow(1).shrink(1)
+                            flex.addItem(extremeTempLable).grow(1).shrink(1)
+                    }
+                    
                     flex.addItem(weatherCommentLabel).marginTop(screenHeight * 0.004).height(screenHeight * 0.03)
 //                    flex.addItem(dustLabel).marginTop(screenHeight * 0.026).width(dustLabelWidth).height(45)
             }
@@ -206,10 +220,15 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
                 
                 guard var selectedDate = self?.viewModel.selectedHourParamTypeRelay.value,
                       var closetId = self?.viewModel.highlightedClosetIdRelay.value,
-                      var selectedTmp = self?.viewModel.mappedCategoryDicRelay.value!["TMP"]
+                      var selectedTmp = self?.temperatureLabel.text,
+                        var selectedTime = self?.viewModel.headerTimeRelay.value
                 else { return }
-                self?.viewModel.toSensoryTempView(selectedDate, closetId )
-            }).disposed(by: bag)
+                
+//                debugPrint("selectedTMP: ", selectedTmp)
+                self?.viewModel.toSensoryTempView(selectedDate, selectedTime, selectedTmp, closetId)
+            })
+            .disposed(by: bag)
+        
         
 //        dailyWrapper.rx.tapGesture()
 //            .subscribe(onNext: { [weak self] _ in
@@ -232,6 +251,8 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         calendarButton.rx.tap
             .bind(onNext: viewModel.toTenDaysForecastView)
             .disposed(by: bag)
+        
+        
     }
     
     // MARK: ViewModelBind
@@ -373,7 +394,7 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
             if mainTimeText == Date().todayThousandFormat {
                 mainTimeText = "현재"
             }
-            
+            debugPrint("123123", mainTimeText)
             if !(mainTimeText == "현재") {
                 self.mainLabel.text = "00동 | \(mainTimeText)"
             } else {
@@ -398,7 +419,16 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         temperatureLabel.do {
             $0.attributedText = NSMutableAttributedString()
             .bold("\(info["TMP"] ?? "-")℃", 20, CSColor.none)
-                .regular(" (", 18, CSColor.none)
+//                .regular(" (", 18, CSColor.none)
+//                .regular("\(tmn)", 18, CSColor._40_106_167)
+//                .regular(" / ", 18, CSColor.none)
+//                .regular("\(tmx)", 18, CSColor._178_36_36)
+//                .regular("℃)", 18, CSColor.none)
+        }
+        
+        extremeTempLable.do {
+            $0.attributedText = NSMutableAttributedString()
+                .regular("(", 18, CSColor.none)
                 .regular("\(tmn)", 18, CSColor._40_106_167)
                 .regular(" / ", 18, CSColor.none)
                 .regular("\(tmx)", 18, CSColor._178_36_36)
@@ -423,7 +453,7 @@ extension HomeViewController: FSPagerViewDelegate {
 //
 //        let closetInfo = viewModel.recommendClosetEntityRelay.value?.data?.list.closets[index]
 //        if let closetId = closetInfo?.id {
-//            print(index, closetId)
+//            debugPrint(index, closetId)
 //            viewModel.highlightedClosetIdRelay.accept(closetId)
 //        }
 //    }
@@ -458,7 +488,7 @@ extension HomeViewController: FSPagerViewDelegate {
 //    func pagerView(_ pagerView: FSPagerView, willDisplay cell: FSPagerViewCell, forItemAt index: Int) {
 //        let closetInfo = viewModel.recommendClosetEntityRelay.value?.data?.list.closets[index]
 //        if let closetId = closetInfo?.id {
-//            print(index, closetId)
+//            debugPrint(index, closetId)
 //            viewModel.highlightedClosetIdRelay.accept(closetId)
 //        }
 //    }
@@ -506,3 +536,4 @@ extension HomeViewController: FSPagerViewDataSource {
         return cell
     }
 }
+
