@@ -101,7 +101,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         guard self.recommendClosetEntityRelay.value != nil else { return }
         let closetInfo = self.recommendClosetEntityRelay.value?.data?.list.closets[index]
         if let closetId = closetInfo?.id {
-//                    debugPrint(index, closetId)
+            //                    debugPrint(index, closetId)
             highlightedClosetIdRelay.accept(closetId)
         }
     }
@@ -150,7 +150,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         let TMXTime = 15
         let TMNTime = 6
         var returnCategoryValues: [String: String]? = categoryWithValue
-
+        
         guard !orderedByTimeCategories!.isEmpty else {
             return [:]
         }
@@ -182,34 +182,34 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             
             debugPrint(categoryValues!)
             // let numericPart = stringValue.trimmingCharacters(in: CharacterSet.decimalDigits.inverted)
-
-//            guard var rainfall: Double = {
-//                if (categoryValues!["PCP"] == "강수없음") {
-//                    return 0
-//                } else {
-//                    var rainfall = Double((categoryValues!["PCP"]?.trimmingCharacters(in: CharacterSet.decimalDigits.inverted))!)
-//                    return rainfall
-//                }
-//            }() else { return }
-//
-//
-//            guard var snowfall: Double = {
-//                if(categoryValues!["SNO"] == "적설없음") {
-//                    return 0
-//                } else {
-//                    var snowfall = Double((categoryValues!["SNO"]?.trimmingCharacters(in: CharacterSet.decimalDigits.inverted))!)
-//                    return snowfall
-//                }
-//            }() else { return }
+            
+            //            guard var rainfall: Double = {
+            //                if (categoryValues!["PCP"] == "강수없음") {
+            //                    return 0
+            //                } else {
+            //                    var rainfall = Double((categoryValues!["PCP"]?.trimmingCharacters(in: CharacterSet.decimalDigits.inverted))!)
+            //                    return rainfall
+            //                }
+            //            }() else { return }
+            //
+            //
+            //            guard var snowfall: Double = {
+            //                if(categoryValues!["SNO"] == "적설없음") {
+            //                    return 0
+            //                } else {
+            //                    var snowfall = Double((categoryValues!["SNO"]?.trimmingCharacters(in: CharacterSet.decimalDigits.inverted))!)
+            //                    return snowfall
+            //                }
+            //            }() else { return }
             
             let skyStatus = Int(categoryValues!["SKY"]!) ?? 3
             let windSpeed = Double(categoryValues!["WSD"]!) ?? 0
             let humidity = Int(categoryValues!["REH"]!) ?? 0
             let temp = Int(categoryValues!["TMP"]!)!
-//            let maxTemp = categoryValues!["TMX"]
-//            let minTemp = categoryValues!["TMN"]
+            //            let maxTemp = categoryValues!["TMX"]
+            //            let minTemp = categoryValues!["TMN"]
             
-
+            
             var weatherImage: UIImage?
             var message = ""
             
@@ -258,7 +258,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         var weatherImage: UIImage?
         var message = ""
         // TODO: -
-//         message -> ?
+        //         message -> ?
         if windSpeed >= 5.5 {
             weatherImage = AssetsImage.windy.image
             message = WeatherMsgEnum.strongWindMsg.msg
@@ -310,38 +310,38 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     }
     
     public func getSwipeArray() {
-     
+        
         guard let now = headerTimeRelay.value else { return }
         
         var swipeArray: [String] = []
         var todayTimeArray = ["0700", "1500", "2000"]
         var tomorrowTimeArray = ["3100", "3900", "4400"]
         
-            for i in todayTimeArray.indices {
-                if now < todayTimeArray[i] {
-                    todayTimeArray.insert(now, at: i)
-                    for _ in 0..<i {
+        for i in todayTimeArray.indices {
+            if now < todayTimeArray[i] {
+                todayTimeArray.insert(now, at: i)
+                for _ in 0..<i {
+                    todayTimeArray.removeFirst()
+                }
+                break
+            } else if now == todayTimeArray[i] {
+                todayTimeArray.remove(at: i)
+                todayTimeArray.insert(now, at: i)
+                for _ in 0..<i {
+                    todayTimeArray.removeFirst()
+                }
+                break
+            } else {
+                if i == todayTimeArray.count - 1 {
+                    todayTimeArray.append(now)
+                    for _ in 0...i {
                         todayTimeArray.removeFirst()
                     }
-                    break
-                } else if now == todayTimeArray[i] {
-                    todayTimeArray.remove(at: i)
-                    todayTimeArray.insert(now, at: i)
-                    for _ in 0..<i {
-                        todayTimeArray.removeFirst()
-                    }
-                    break
                 } else {
-                    if i == todayTimeArray.count - 1 {
-                        todayTimeArray.append(now)
-                        for _ in 0...i {
-                            todayTimeArray.removeFirst()
-                        }
-                    } else {
-                        continue
-                    }
+                    continue
                 }
             }
+        }
         
         // TODO: - swipeIndex 를 구독해서 viewContorller 에서 사용할지는 생각해봐야한다.
         swipeIndex = (todayTimeArray.indices.filter { todayTimeArray[$0] == now })[0]
@@ -357,7 +357,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         guard let forecastEntity = villageForeCastInfoEntityRelay.value,
               let swipeArray = swipeArrayRelay.value
         else { return }
-
+        
         
         var categoryWithValue: [String: String]? = [:]
         var yesterdayCategoryValue: [String: String]? = [:]
@@ -394,8 +394,8 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                 headerTime = hour.hourToMainLabel
                 
             } else {
-               // 내일
-                    selectedHour = String(time - 2400)
+                // 내일
+                selectedHour = String(time - 2400)
                 if String(time - 2400).count == 3 {
                     selectedHour = "0\(selectedHour)"
                 }
@@ -419,17 +419,15 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             self.yesterdayCategoryRelay.accept(yesterdayCategoryValue)
             
         } else {
-            debugPrint("can't Sipe no more")
+            alertMessageRelay.accept(.init(title: "이후 시간은 확인할 수 없어요",
+                                           alertType: .Info))
         }
-        
-        
     }
     
     public func swipeRight() {
         guard let forecastEntity = villageForeCastInfoEntityRelay.value,
               let swipeArray = swipeArrayRelay.value
         else { return }
-
         
         var categoryWithValue: [String: String]? = [:]
         var yesterdayCategoryValue: [String: String]? = [:]
@@ -453,7 +451,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             
             if time < 2400 {
                 // 오늘 안 시간일 때
-            
+                
                 selectedHour = hour
                 self.selectedHourParamTypeRelay.accept(Date().todaySelectedFormat(selectedHour.addColon))
                 categoryWithValue = self.bindingWeatherByDate(forecastEntity, 0, hour) // HH00
@@ -468,8 +466,8 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                 headerTime = hour.hourToMainLabel
                 
             } else {
-               
-                    selectedHour = String(time - 2400)
+                
+                selectedHour = String(time - 2400)
                 if String(time - 2400).count == 3 {
                     selectedHour = "0\(selectedHour)"
                 }
@@ -492,13 +490,9 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             self.headerTimeRelay.accept(headerTime)
             self.mappedCategoryDicRelay.accept(categoryWithValue)
             self.yesterdayCategoryRelay.accept(yesterdayCategoryValue)
-            
-            
-            
         } else {
-            debugPrint("can't Sipe no more")
-//            self?.view?.showToast(message: "현재보다 이전 시간은 확인할 수 없어요", font: .systemFont(ofSize: 16))
-            // show Toast
+            alertMessageRelay.accept(.init(title: "현재보다 이전 시간은 확인할 수 없어요",
+                                           alertType: .Info))
         }
     }
     
@@ -509,7 +503,6 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
               let swipeArray = swipeArrayRelay.value
         else { return }
         
-
         var categoryWithValue: [String: String]? = [:]
         var yesterdayCategoryValue: [String: String]? = [:]
         
@@ -581,9 +574,6 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         vc.isModalInPresentation = true // prevent to dismiss the viewController when drag action
         presentViewControllerWithAnimationRelay.accept(vc)
     }
-    
-
-    
 }
 
 extension HomeViewModel: HomeSensoryTempViewControllerDelegate {

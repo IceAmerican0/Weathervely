@@ -44,17 +44,18 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
     
     public func setAddress() {
         authDataSource.setAddress(regionDataRelay.value)
-            .subscribe(onNext: { result in
+            .subscribe(onNext: { [weak self] result in
                 switch result {
                 case .success:
+                    userDefault.set(self?.regionDataRelay.value.dong, forKey: UserDefaultKey.dong.rawValue)
                     if UserDefaultManager.shared.isOnBoard {
-                        self.toDateTimePickView()
+                        self?.toDateTimePickView()
                     } else {
-                        self.toEditRegionView()
+                        self?.toEditRegionView()
                     }
                 case .failure(let err):
                     guard let errorString = err.errorDescription else { return }
-                    self.alertMessageRelay.accept(.init(title: errorString,
+                    self?.alertMessageRelay.accept(.init(title: errorString,
                                                         alertType: .Error))
                 }
             })
@@ -66,6 +67,7 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
             .subscribe(onNext: { [weak self] result in
                 switch result {
                 case .success:
+                    userDefault.set(self?.regionDataRelay.value.dong, forKey: UserDefaultKey.dong.rawValue)
                     userDefault.removeObject(forKey: UserDefaultKey.regionID.rawValue)
                     self?.toEditRegionView()
                     self?.alertMessageRelay.accept(.init(title: "현재 동네가 변경됐어요",

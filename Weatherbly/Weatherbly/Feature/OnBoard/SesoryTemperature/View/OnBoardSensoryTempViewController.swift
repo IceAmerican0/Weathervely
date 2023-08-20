@@ -9,6 +9,7 @@ import UIKit
 import FlexLayout
 import PinLayout
 import RxSwift
+import Kingfisher
 
 final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensoryTempViewModel> {
     
@@ -32,10 +33,10 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
     
     var selectOtherDayLabel = CSLabel(.underline, 15, "다른 시간대 선택하기")
     
+    private var labelTapGesture = UITapGestureRecognizer()
+    
     private let imageHeight = UIScreen.main.bounds.height * 0.38
     private let buttonHeight = UIScreen.main.bounds.height * 0.054
-    
-    private var labelTapGesture = UITapGestureRecognizer()
     
     override func attribute() {
         super.attribute()
@@ -66,14 +67,12 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
             $0.addBorders([.top, .left, .right, .bottom])
             $0.setCornerRadius(5)
             $0.textAlignment = .center
-            $0.attributedText = NSMutableAttributedString()
-                .bold("선택 시간 \(viewModel.temperatureRelay.value)℃", 16, CSColor._172_107_255)
             $0.adjustsFontSizeToFitWidth = true
             $0.numberOfLines = 1
         }
         
         tempImageView.do {
-            $0.image = AssetsImage.sampleCloth.image
+            $0.image = AssetsImage.defaultImage.image
         }
         
         discriptionLabel.do {
@@ -128,7 +127,6 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
                     flex.addItem(imageSourceLabel)
                         .marginTop(7)
                         .marginBottom(7)
-                
             }
             
             flex.addItem(discriptionLabel)
@@ -139,7 +137,6 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
                 .direction(.row)
                 .justifyContent(.center)
                 .marginHorizontal(54)
-//                .marginTop(10)
                 .define { flex in
                     flex.addItem(acceptButton)
                         .grow(1)
@@ -151,7 +148,7 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
                         .marginLeft(12).paddingVertical(9)
             }
             
-                flex.addItem(selectOtherDayLabel).marginTop(27)
+            flex.addItem(selectOtherDayLabel).marginTop(27)
         }
     }
     
@@ -183,6 +180,39 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
     override func viewModelBinding() {
         super.viewModelBinding()
         
-        viewModel.getSensoryTemp()
+        viewModel.getInfo()
+        
+        viewModel.closetListRelay
+            .subscribe(onNext: { [weak self] _ in
+                guard let closets = self?.viewModel.closetListRelay.value else { return }
+                let middle = Int((Double(closets.count) / 2.0).rounded())
+                
+                if let url = URL(string: closets[middle-1].imageUrl) {
+                    self?.tempImageView.kf.indicatorType = .activity
+                    self?.tempImageView.kf.setImage(with: url,
+                                                    placeholder: nil,
+                                                    options: [.retryStrategy(DelayRetryStrategy(maxRetryCount: 2, retryInterval: .seconds(2))),
+                                                              .transition(.fade(0.1)),
+                                                              .cacheOriginalImage]) { result in
+                        switch result {
+                        case .success:
+                            self?.imageSourceLabel.text = "by \(closets[middle].shopName)"
+                            self?.viewModel.closetIDRelay.accept(closets[middle-1].closetId)
+                        case .failure:
+                            break
+                        }
+                    }
+                }
+            })
+            .disposed(by: bag)
+        
+        viewModel.temperatureRelay
+            .subscribe(onNext: { [weak self] _ in
+                guard let time = self?.viewModel.dateStringRelay.value else { return }
+                guard let temp = self?.viewModel.temperatureRelay.value else { return }
+                self?.tempLabel.attributedText = NSMutableAttributedString()
+                    .bold("\(time)시 (\(temp)℃)", 16, CSColor._172_107_255)
+            })
+            .disposed(by: bag)
     }
 }

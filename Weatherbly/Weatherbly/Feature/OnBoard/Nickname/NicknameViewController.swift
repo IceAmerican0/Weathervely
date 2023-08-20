@@ -106,7 +106,7 @@ extension NicknameViewController: UITextFieldDelegate {
         }
         /// 글자수 제한
         if let text = textField.text {
-            guard text.count < 5 else { return false }
+            guard text.count < 10 else { return false }
         }
         /// 띄어쓰기 제한
         return string != " "

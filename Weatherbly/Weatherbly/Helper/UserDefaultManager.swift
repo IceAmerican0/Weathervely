@@ -45,4 +45,20 @@ public final class UserDefaultManager {
             return 0
         }
     }
+    
+    public var closetID: Int {
+        if let closetID = userDefault.object(forKey: UserDefaultKey.closetID.rawValue) {
+            return closetID as! Int
+        } else {
+            return 0
+        }
+    }
+    
+    public var dong: String {
+        if let dong = userDefault.object(forKey: UserDefaultKey.dong.rawValue) {
+            return "\(dong)"
+        } else {
+            return "00동"
+        }
+    }
 }

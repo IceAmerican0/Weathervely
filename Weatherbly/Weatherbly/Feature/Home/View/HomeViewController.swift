@@ -58,9 +58,15 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         navigationController?.setNavigationBarHidden(true, animated: animated)
         
         if UserDefaultManager.shared.isOnBoard == true {
+            userDefault.removeObject(forKey: UserDefaultKey.isOnboard.rawValue)
+            
             let toolTipView = MainToolTipViewController()
+            toolTipView.delegate = self
             toolTipView.modalPresentationStyle = .overCurrentContext
             viewModel.presentViewControllerNoAnimationRelay.accept(toolTipView)
+            
+            weatherCommentLabel.isHidden = true
+            messageLabel.isHidden = true
         }
     }
     
@@ -91,13 +97,6 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         }
         
         temperatureLabel.do {
-//            $0.attributedText = NSMutableAttributedString()
-//                .bold("8℃", 20, CSColor.none)
-//                .regular(" (", 18, CSColor.none)
-//                .regular("-2", 18, CSColor._40_106_167)
-//                .regular("/", 18, CSColor.none)
-//                .regular("16", 18, CSColor._178_36_36)
-//                .regular("℃)", 18, CSColor.none)
             $0.numberOfLines = 0
         }
         
@@ -224,7 +223,6 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
                         var selectedTime = self?.viewModel.headerTimeRelay.value
                 else { return }
                 
-//                debugPrint("selectedTMP: ", selectedTmp)
                 self?.viewModel.toSensoryTempView(selectedDate, selectedTime, selectedTmp, closetId)
             })
             .disposed(by: bag)
@@ -394,11 +392,11 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
             if mainTimeText == Date().todayThousandFormat {
                 mainTimeText = "현재"
             }
-            debugPrint("123123", mainTimeText)
+            let dong = UserDefaultManager.shared.dong
             if !(mainTimeText == "현재") {
-                self.mainLabel.text = "00동 | \(mainTimeText)"
+                self.mainLabel.text = "\(dong) | \(mainTimeText)"
             } else {
-                self.mainLabel.text = "00동 | 현재"
+                self.mainLabel.text = "\(dong) | 현재"
             }
             
         }) { _ in
@@ -437,7 +435,7 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
     }
     
     private func configureBackgroundImage() -> AssetsImage {
-        .cloudyEvening
+        .sunnyAfternoon
     }
 }
 
@@ -448,34 +446,22 @@ extension HomeViewController: FSPagerViewDelegate {
         viewModel.setCurrentIndex(pagerView.currentIndex)
         viewModel.highlightedCellIndexRelay.accept(pagerView.currentIndex)
     }
-//
-//    func pagerView(_ pagerView: FSPagerView, didHighlightItemAt index: Int) {
-//
-//        let closetInfo = viewModel.recommendClosetEntityRelay.value?.data?.list.closets[index]
-//        if let closetId = closetInfo?.id {
-//            debugPrint(index, closetId)
-//            viewModel.highlightedClosetIdRelay.accept(closetId)
-//        }
-//    }
-//
-//    func pagerViewWillBeginDragging(_ pagerView: FSPagerView) {
-//        <#code#>
-//    }
+    
     func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
         
         if viewModel.highlightedCellIndexRelay.value == index {
             let closetInfo = viewModel.recommendClosetEntityRelay.value?.data?.list.closets[index]
             
-                    if let shopUrl = closetInfo?.shopUrl,
-                       let closetId = closetInfo?.id {
-                        
-                        viewModel.highlightedClosetIdRelay.accept(closetId)
-                        
-                        if let url = URL(string: shopUrl) {
-                            let webView = SFSafariViewController(url: url)
-                            viewModel.presentViewControllerNoAnimationRelay.accept(webView)
-                        }
-                    }
+            if let shopUrl = closetInfo?.shopUrl,
+               let closetId = closetInfo?.id {
+                
+                viewModel.highlightedClosetIdRelay.accept(closetId)
+                
+                if let url = URL(string: shopUrl) {
+                    let webView = SFSafariViewController(url: url)
+                    viewModel.presentViewControllerNoAnimationRelay.accept(webView)
+                }
+            }
         } else {
             pagerView.deselectItem(at: index, animated: true)
             pagerView.scrollToItem(at: index, animated: true)
@@ -483,18 +469,6 @@ extension HomeViewController: FSPagerViewDelegate {
         viewModel.setCurrentIndex(index)
         viewModel.highlightedCellIndexRelay.accept(index)
     }
-    
-//
-//    func pagerView(_ pagerView: FSPagerView, willDisplay cell: FSPagerViewCell, forItemAt index: Int) {
-//        let closetInfo = viewModel.recommendClosetEntityRelay.value?.data?.list.closets[index]
-//        if let closetId = closetInfo?.id {
-//            debugPrint(index, closetId)
-//            viewModel.highlightedClosetIdRelay.accept(closetId)
-//        }
-//    }
-    
-    
-    
 }
 
 // MARK: FSPagerViewDataSource
@@ -537,3 +511,9 @@ extension HomeViewController: FSPagerViewDataSource {
     }
 }
 
+extension HomeViewController: MainToolTipViewDelegate {
+    func toolTipDismiss() {
+        weatherCommentLabel.isHidden = false
+        messageLabel.isHidden = false
+    }
+}

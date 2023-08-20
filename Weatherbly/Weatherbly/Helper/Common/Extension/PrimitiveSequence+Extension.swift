@@ -39,13 +39,13 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
                         return .just(.failure(.decodeError))
                     }
                     
-//                    debugPrint(
-//                        """
-//                        ==============================
-//                        Request : \(type)
-//                        Response : \(String(decoding: response.data, as: UTF8.self))
-//                        """
-//                    )
+                    debugPrint(
+                        """
+                        ==============================
+                        Request : \(type)
+                        Response : \(String(decoding: response.data, as: UTF8.self))
+                        """
+                    )
                     return .just(.success(try response.map(D.self)))
                 } else {
                     // status : !(200 ~ 300)
@@ -55,19 +55,19 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
                     
                     if let status = dictionary["status"] as? Int , let apiMessage = dictionary["apiMessage"] as? [String:Any] {
                         let errDescription = apiMessage["message"] as? String
-//                        debugPrint(
-//                            """
-//                            ==============================
-//                            Request : \(type)
-//                            Response : \(dictionary)
-//                            """
-//                        )
+                        debugPrint(
+                            """
+                            ==============================
+                            Request : \(type)
+                            Response : \(dictionary)
+                            """
+                        )
                         return .just(.failure(.badRequestError(errDescription!)))
                     }
                 }
             } catch(let error) {
-//                debugPrint(error)
-//                debugPrint(String(decoding: response.data, as: UTF8.self))
+                debugPrint(error)
+                debugPrint(String(decoding: response.data, as: UTF8.self))
                 return .just(.failure(.decodeError))
             }
             
