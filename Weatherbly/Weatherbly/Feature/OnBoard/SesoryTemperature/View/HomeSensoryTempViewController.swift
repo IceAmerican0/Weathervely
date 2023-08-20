@@ -204,7 +204,6 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
     }
     
     // MARK: - Bind
-
     override func viewBinding() {
         super.viewBinding()
         
@@ -264,9 +263,32 @@ extension HomeSensoryTempViewController {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let pageIndex = Int(scrollView.contentOffset.y / scrollView.frame.height)
         
-        if let list = viewModel.closetListByTempRelay.value, pageIndex >= 0 && pageIndex < list.count {
+        guard let list = viewModel.closetListByTempRelay.value else { return }
+        if pageIndex >= 0 && pageIndex < list.count {
             viewModel.setClosetIdRelay.accept(list[pageIndex].closetId)
             imageSourceLabel.text = "by \(list[pageIndex].shopName)"
+        }
+        
+        let contentHeight = scrollView.contentSize.height
+        let scrollViewHeight = scrollView.frame.height
+        let contentOffsetY = scrollView.contentOffset.y
+        
+        // 스크롤뷰의 맨 위에 도달했을 때
+        if contentOffsetY <= 0 {
+            viewModel.alertMessageRelay.accept(.init(title: "이게 가장 두꺼운 옷차림이에요",
+                                                     alertType: .Info))
+            let middleContentOffset = CGPoint(x: 0, y: 0)
+            scrollView.setContentOffset(middleContentOffset, animated: false)
+            imageSourceLabel.text = "by \(list[0].shopName)"
+        }
+        
+        // 스크롤뷰의 맨 아래에 도달했을 때
+        if contentOffsetY + scrollViewHeight > contentHeight {
+            viewModel.alertMessageRelay.accept(.init(title: "이게 가장 얇은 옷차림이에요",
+                                                     alertType: .Info))
+            let middleContentOffset = CGPoint(x: 0, y: scrollView.frame.height * CGFloat(list.count - 1))
+            scrollView.setContentOffset(middleContentOffset, animated: false)
+            imageSourceLabel.text = "by \(list[list.count-1].shopName)"
         }
     }
 }
