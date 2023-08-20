@@ -460,6 +460,8 @@ extension HomeViewController: FSPagerViewDelegate {
                 if let url = URL(string: shopUrl) {
                     let webView = SFSafariViewController(url: url)
                     viewModel.presentViewControllerNoAnimationRelay.accept(webView)
+                    // TODO: 추후 주석 풀기
+//                    viewModel.didEnterMall()
                 }
             }
         } else {

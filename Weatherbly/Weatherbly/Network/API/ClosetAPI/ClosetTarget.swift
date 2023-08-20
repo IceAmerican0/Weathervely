@@ -20,6 +20,8 @@ public enum ClosetTarget { // TODO: 파라미터 값 변경
     case setSensoryTemperature(_ sensoryTempRequest: SetSensoryTempRequest)
     /// 메인 > 스타일 추천 리스트 가져오기
     case getRecommendStyleList(_ dateTime: String)
+    /// 메인 > 메인 카드 클릭시 히스토리 저장
+    case pagerViewClicked(_ closetID: Int)
 }
 
 extension ClosetTarget: WBTargetType {
@@ -36,6 +38,8 @@ extension ClosetTarget: WBTargetType {
             return "/closet/setTemperature"
         case .getRecommendStyleList:
             return "/closet/getRecommendCloset"
+        case .pagerViewClicked(let closetID):
+            return "/closet/pick/\(closetID)"
         }
     }
     
@@ -47,7 +51,8 @@ extension ClosetTarget: WBTargetType {
              .getRecommendStyleList:
             return .get
         case .styleStylePickedList,
-             .setSensoryTemperature:
+             .setSensoryTemperature,
+             .pagerViewClicked:
             return .post
         }
     }
@@ -74,6 +79,8 @@ extension ClosetTarget: WBTargetType {
         case .getRecommendStyleList(let dateTime):
             return .requestParameters(parameters: ["dateTime": dateTime],
                                       encoding: URLEncoding.queryString)
+        case .pagerViewClicked:
+            return .requestPlain
         }
     }
 }

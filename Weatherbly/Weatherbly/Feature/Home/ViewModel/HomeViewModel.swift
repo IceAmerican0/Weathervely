@@ -24,12 +24,13 @@ public protocol HomeViewModelLogic: ViewModelBusinessLogic {
     func swipeLeft()
 
     func mainLabelTap()
+    func didEnterMall()
 }
 
 public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     
     private let getVillageDataSource = ForecastDataSource()
-    private let getRecommendClosetDataSouce = ClosetDataSource()
+    private let getClosetDataSource = ClosetDataSource()
     
     let villageForeCastInfoEntityRelay  = BehaviorRelay<VillageForecastInfoEntity?>(value: nil)
     let recommendClosetEntityRelay = BehaviorRelay<RecommendClosetEntity?>(value: nil)
@@ -85,7 +86,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     }
     
     public func getRecommendCloset(_ dateString: String) {
-        getRecommendClosetDataSouce.getRecommendCloset(dateString)
+        getClosetDataSource.getRecommendCloset(dateString)
             .subscribe(onNext: { [weak self] result in
                 switch result {
                 case .success(let response):
@@ -550,6 +551,19 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         }
         self.mappedCategoryDicRelay.accept(categoryWithValue)
         self.yesterdayCategoryRelay.accept(yesterdayCategoryValue)
+    }
+    
+    public func didEnterMall() {
+        getClosetDataSource.pagerViewClicked(highlightedClosetIdRelay.value)
+            .subscribe(onNext: { [weak self] result in
+                switch result {
+                case .success:
+                    break
+                case .failure(let err):
+                    debugPrint("쇼핑몰 클릭 횟수 저장안됨!")
+                }
+            })
+            .disposed(by: bag)
     }
     
     public func toSettingView() {
