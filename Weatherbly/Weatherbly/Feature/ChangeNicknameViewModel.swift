@@ -19,7 +19,8 @@ class ChangeNicknameViewModel: RxBaseViewModel, ChangeNicknameViewModelLogic {
                 switch result {
                 case .success:
                     userDefault.set(userInfo.nickname, forKey: UserDefaultKey.nickname.rawValue)
-                    userDefault.set(userInfo.gender, forKey: UserDefaultKey.gender.rawValue)
+                    // TODO: 추후 성별 추가시 주석 풀기
+//                    userDefault.set(userInfo.gender, forKey: UserDefaultKey.gender.rawValue)
                     userDefault.synchronize()
                     self.navigationPopViewControllerRelay.accept(Void())
                 case .failure(let err):

@@ -184,11 +184,11 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
         
         viewModel.closetListRelay
             .subscribe(onNext: { [weak self] _ in
-                guard let closets = self?.viewModel.closetListRelay.value else { return }
                 guard let temperature = self?.viewModel.temperatureRelay.value else { return }
+                guard let closets = self?.viewModel.closetListRelay.value else { return }
                 
                 for i in 0..<closets.count {
-                    if temperature >= closets[i].minTemp && temperature <= closets[i].maxTemp {
+                    if temperature >= closets[i].minTemp && temperature < closets[i].maxTemp {
                         if let url = URL(string: closets[i].imageUrl) {
                             self?.tempImageView.kf.indicatorType = .activity
                             self?.tempImageView.kf.setImage(with: url,

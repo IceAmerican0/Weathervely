@@ -53,6 +53,7 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
     
     func addContentscrollView() {
         guard let list = viewModel.closetListRelay.value else { return }
+        var index = 0
         for i in 0..<list.count {
             let imageView = UIImageView()
             let yPos = scrollView.frame.height * CGFloat(i)
@@ -73,12 +74,14 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
             }
             scrollView.addSubview(imageView)
             scrollView.contentSize.height = imageView.frame.height * CGFloat(i + 1)
+            print(viewModel.closetIDRelay.value)
+            if list[i].closetId == viewModel.closetIDRelay.value { index = i }
         }
         
-        let middlePageIndex = Int((Double(list.count) / 2.0).rounded()) - 1
-        let middleContentOffset = CGPoint(x: 0, y: scrollView.frame.height * CGFloat(middlePageIndex))
+        
+        let middleContentOffset = CGPoint(x: 0, y: scrollView.frame.height * CGFloat(index))
         scrollView.setContentOffset(middleContentOffset, animated: false)
-        imageSourceLabel.text = "by \(list[middlePageIndex-1].shopName)"
+        imageSourceLabel.text = "by \(list[index].shopName)"
     }
     
     // MARK: - Attribute

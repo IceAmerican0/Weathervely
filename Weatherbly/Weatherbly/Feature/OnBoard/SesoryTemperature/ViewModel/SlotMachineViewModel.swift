@@ -16,14 +16,16 @@ public class SlotMachineViewModel: RxBaseViewModel, SlotMachineViewModelLogic {
     public let labelStringRelay: BehaviorRelay<String>
     public let temperatureRelay: BehaviorRelay<String>
     public let closetListRelay: BehaviorRelay<[ClosetList]?>
-    public let closetIDRelay = BehaviorRelay<Int>(value: 0)
+    public let closetIDRelay: BehaviorRelay<Int>
     
     init(_ labelStringRelay: BehaviorRelay<String>,
          _ temperatureRelay: BehaviorRelay<String>,
-         _ closetListRelay: BehaviorRelay<[ClosetList]?>) {
+         _ closetListRelay: BehaviorRelay<[ClosetList]?>,
+         _ closetIDRelay: BehaviorRelay<Int>) {
         self.labelStringRelay = labelStringRelay
         self.temperatureRelay = temperatureRelay
         self.closetListRelay = closetListRelay
+        self.closetIDRelay = closetIDRelay
     }
     
     public func didTapAcceptButton() {

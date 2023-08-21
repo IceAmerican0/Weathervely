@@ -18,7 +18,7 @@ public struct AuthLoginEntity: Codable {
 
 public struct AuthData: Codable {
     var user: UserInfo
-    var address: AddressIDInfo
+    var address: AddressIDInfo?
     var setTemperature: Bool
     
     enum CodingKeys: String, CodingKey {

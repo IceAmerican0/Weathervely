@@ -74,8 +74,8 @@ public final class OnBoardSensoryTempViewModel: RxBaseViewModel, OnBoardSensoryT
                 switch result {
                 case .success(let response):
                     let data = response.data
-                    self?.closetListRelay.accept(data.list)
                     self?.temperatureRelay.accept(data.fcstValue)
+                    self?.closetListRelay.accept(data.list)
                 case .failure(let err):
                     guard let errorString = err.errorDescription else { return }
                     self?.alertMessageRelay.accept(.init(title: errorString,
@@ -104,7 +104,8 @@ public final class OnBoardSensoryTempViewModel: RxBaseViewModel, OnBoardSensoryT
     public func toSlotMachineView() {
         let vc = SlotMachineViewController(SlotMachineViewModel(dateStringRelay,
                                                                 temperatureRelay,
-                                                                closetListRelay))
+                                                                closetListRelay,
+                                                                closetIDRelay))
         self.navigationPushViewControllerRelay.accept(vc)
     }
     

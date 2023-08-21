@@ -34,6 +34,9 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
         flatMap { response in
             do {
                 if (200..<300 ~= response.statusCode) { // status : 200
+                    guard try JSONSerialization.jsonObject(with: response.data, options: []) is [String:Any] else {
+                        return .just(.failure(.decodeError))
+                    }
                     
                     debugPrint(
                         """
@@ -42,10 +45,6 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
                         Response : \(String(decoding: response.data, as: UTF8.self))
                         """
                     )
-                    
-                    guard try JSONSerialization.jsonObject(with: response.data, options: []) is [String:Any] else {
-                        return .just(.failure(.decodeError))
-                    }
                     
                     return .just(.success(try response.map(D.self)))
                 } else { // status : !(200 ~ 300)
