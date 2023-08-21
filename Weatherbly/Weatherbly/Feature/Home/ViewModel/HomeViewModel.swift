@@ -258,8 +258,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         
         var weatherImage: UIImage?
         var message = ""
-        // TODO: -
-        //         message -> ?
+        // FIXME: - 파라미터로 가지고 오지 말고 relay로 가져와서 멥핑해야 체감온도 이후 리로드할떄 메세지도 리로드 됨.
         if windSpeed >= 5.5 {
             weatherImage = AssetsImage.windy.image
             message = WeatherMsgEnum.strongWindMsg.msg
@@ -507,8 +506,8 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         var categoryWithValue: [String: String]? = [:]
         var yesterdayCategoryValue: [String: String]? = [:]
         
-        let selectedTimeRelayValue = selectedHourParamTypeRelay.value // yyyy-MM-dd HH:00
-        let selectedDate = selectedTimeRelayValue.map { $0 }?.components(separatedBy: " ") // ["2023-08-21", "17:00"]
+        let selectedTimeValue = selectedHourParamTypeRelay.value // yyyy-MM-dd HH:00
+        let selectedDate = selectedTimeValue.map { $0 }?.components(separatedBy: " ") // ["2023-08-21", "17:00"]
         let now = date.todayHourFormat // yyyy-MM-dd HH:00
         var targetTime = "0700"
         var headerTime = ""

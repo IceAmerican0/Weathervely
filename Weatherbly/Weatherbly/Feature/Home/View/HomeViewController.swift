@@ -218,10 +218,17 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
                 // TODO: - 선택돼어있는 시간 넣기
                 
                 guard var selectedDate = self?.viewModel.selectedHourParamTypeRelay.value,
-                      var closetId = self?.viewModel.highlightedClosetIdRelay.value,
-                      var selectedTmp = self?.temperatureLabel.text,
-                        var selectedTime = self?.viewModel.headerTimeRelay.value
+                      let closetId = self?.viewModel.highlightedClosetIdRelay.value,
+                      let selectedTmp = self?.temperatureLabel.text,
+                        let selectedTime = self?.viewModel.headerTimeRelay.value
                 else { return }
+                
+                if self?.viewModel.headerTimeRelay.value == self?.date.todayThousandFormat && selectedDate != self?.date.todayHourFormat {
+                    self?.viewModel.selectedHourParamTypeRelay.accept(self?.date.todayHourFormat)
+                
+                    let newSelectedDate = self?.viewModel.selectedHourParamTypeRelay.value
+                    selectedDate = newSelectedDate ?? (self?.date.todayHourFormat)!
+                }
                 
                 self?.viewModel.toSensoryTempView(selectedDate, selectedTime, selectedTmp, closetId)
             })
@@ -296,6 +303,7 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         
         viewModel.headerTimeRelay
             .subscribe(onNext: { [weak self] justTimeString in
+                print("justTimeString : ",justTimeString)
                 self?.setHeader(justTimeString)
             })
             .disposed(by: bag)
