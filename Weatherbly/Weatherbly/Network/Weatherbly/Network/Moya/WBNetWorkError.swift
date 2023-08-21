@@ -25,7 +25,7 @@ extension WBNetworkError: LocalizedError {
         case .clientError(let msg):
             return msg
         case .decodeError:
-            return "WBNetworkError : Decoding Error"
+            return "서버가 불안정 합니다"
         case .encodeError:
             return "WBNetworkError : Encoding Error"
         }
