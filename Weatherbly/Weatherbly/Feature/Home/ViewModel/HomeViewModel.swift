@@ -507,10 +507,9 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         var categoryWithValue: [String: String]? = [:]
         var yesterdayCategoryValue: [String: String]? = [:]
         
-        var selectedTimeValue = selectedHourParamTypeRelay.value // yyyy-MM-dd HH:00
-        var selectedDate = selectedTimeValue.map { $0 }?.components(separatedBy: " ") // ["2023-08-21", "17:00"]
-        print("selectedTime : \(selectedDate)")
-        var now = date.todayHourFormat // yyyy-MM-dd HH:00
+        let selectedTimeRelayValue = selectedHourParamTypeRelay.value // yyyy-MM-dd HH:00
+        let selectedDate = selectedTimeRelayValue.map { $0 }?.components(separatedBy: " ") // ["2023-08-21", "17:00"]
+        let now = date.todayHourFormat // yyyy-MM-dd HH:00
         var targetTime = "0700"
         var headerTime = ""
         
