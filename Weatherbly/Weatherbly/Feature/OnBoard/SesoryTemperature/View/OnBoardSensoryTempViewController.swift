@@ -184,22 +184,26 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
         
         viewModel.closetListRelay
             .subscribe(onNext: { [weak self] _ in
+                guard let temperature = self?.viewModel.temperatureRelay.value else { return }
                 guard let closets = self?.viewModel.closetListRelay.value else { return }
-                let middle = Int((Double(closets.count) / 2.0).rounded())
                 
-                if let url = URL(string: closets[middle-1].imageUrl) {
-                    self?.tempImageView.kf.indicatorType = .activity
-                    self?.tempImageView.kf.setImage(with: url,
-                                                    placeholder: nil,
-                                                    options: [.retryStrategy(DelayRetryStrategy(maxRetryCount: 2, retryInterval: .seconds(2))),
-                                                              .transition(.fade(0.1)),
-                                                              .cacheOriginalImage]) { result in
-                        switch result {
-                        case .success:
-                            self?.imageSourceLabel.text = "by \(closets[middle].shopName)"
-                            self?.viewModel.closetIDRelay.accept(closets[middle-1].closetId)
-                        case .failure:
-                            break
+                for i in 0..<closets.count {
+                    if temperature >= closets[i].minTemp && temperature < closets[i].maxTemp {
+                        if let url = URL(string: closets[i].imageUrl) {
+                            self?.tempImageView.kf.indicatorType = .activity
+                            self?.tempImageView.kf.setImage(with: url,
+                                                            placeholder: nil,
+                                                            options: [.retryStrategy(DelayRetryStrategy(maxRetryCount: 2, retryInterval: .seconds(2))),
+                                                                      .transition(.fade(0.1)),
+                                                                      .cacheOriginalImage]) { result in
+                                switch result {
+                                case .success:
+                                    self?.imageSourceLabel.text = "by \(closets[i].shopName)"
+                                    self?.viewModel.closetIDRelay.accept(closets[i].closetId)
+                                case .failure:
+                                    break
+                                }
+                            }
                         }
                     }
                 }
