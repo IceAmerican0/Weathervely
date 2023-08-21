@@ -188,6 +188,19 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
             .bind(to: viewModel.navigationPopViewControllerRelay)
             .disposed(by: bag)
         
+        // TODO: 버튼 클릭으로 스크롤뷰 움직이기
+//        upperArrowButton.rx.tap
+//            .subscribe(onNext: { [weak self] _ in
+//
+//            })
+//            .disposed(by: bag)
+//
+//        downArrowButton.rx.tap
+//            .subscribe(onNext: { [weak self] _ in
+//
+//            })
+//            .disposed(by: bag)
+        
         bottomButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 self?.viewModel.didTapAcceptButton()
