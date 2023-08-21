@@ -7,10 +7,8 @@
 
 import Foundation
 import RxSwift
-import RxRelay
 import RxCocoa
 import UIKit
-
 
 protocol HomeSensoryTempViewControllerDelegate: AnyObject {
     func willDismiss()
@@ -29,7 +27,6 @@ class HomeSensoryTempViewModel: RxBaseViewModel {
     
     var closetIdFromHomeViewRelay = BehaviorRelay<Int?>(value: nil)
     var closetListByTempRelay = BehaviorRelay<[ClosetList]?>(value: nil)
-
     
     var selectedDateRelay = BehaviorRelay<String?>(value: nil)
     var selectedTimeRelay = BehaviorRelay<String?>(value: nil)
@@ -51,7 +48,6 @@ class HomeSensoryTempViewModel: RxBaseViewModel {
         self.selectedTimeRelay.accept(selectedTime)
         self.selectedTempRelay.accept(selectedTemp)
         self.closetIdFromHomeViewRelay.accept(closetId)
-
     }
     
     func getClosetBySensoryTemp() {
@@ -66,7 +62,6 @@ class HomeSensoryTempViewModel: RxBaseViewModel {
                 case .success(let response):
                     let closets = response.data.list
                     self?.getCurrentIndex(closets)
-                    
 //                    self?.closetListByTempRelay.accept(closets)
                 case .failure(let error):
                     debugPrint("viewModel error GetSensoryTemp", error.localizedDescription)
@@ -84,14 +79,12 @@ class HomeSensoryTempViewModel: RxBaseViewModel {
         closetDataSource.setSensoryTemperature(.init(closet: closetId, currentTemp: String(currentTemp)))
             .subscribe(onNext: { [weak self] result in
                 switch result {
-                case.success(let response):
+                case.success:
                     self?.delegate?.willDismiss()
                     self?.dismissSelfWithAnimationRelay.accept(Void())
                     break
                 case .failure(let error):
-                
                     debugPrint("viewModel error setTemperature", error.localizedDescription)
-
                 }
             })
             .disposed(by: bag)
@@ -116,6 +109,4 @@ class HomeSensoryTempViewModel: RxBaseViewModel {
         var slotMachineIndex = slotMachineIndexRelay.value
         focusingIndexRelay.accept(CGFloat(slotMachineIndex) * (scrollView?.bounds.height)!)
     }
-    
-    
 }

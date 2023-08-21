@@ -14,9 +14,7 @@ import Kingfisher
 
 class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewModel>, UIScrollViewDelegate{
     
-//    weak var delegate: HomeSensoryTempViewControllerDelegate?
     // MARK: - Property
-    
     var images = [UIImage(systemName: "star.fill"), UIImage(systemName: "book.fill"), UIImage(systemName:"scribble"),
                   UIImage(systemName:"lasso")]
 
@@ -38,7 +36,6 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
     private var bottomButton = CSButton(.primary)
     private let imageHeight = UIScreen.main.bounds.height * 0.38
     
-    
     override init(_ viewModel: HomeSensoryTempViewModel) {
         super.init(viewModel)
     }
@@ -47,7 +44,6 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
         fatalError("init(coder:) has not been implemented")
     }
     // MARK: - Life Cycle
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         scrollView.delegate = self
@@ -66,16 +62,18 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
                     imageView.kf.indicatorType = .activity
                     imageView.kf.setImage(with: url,
                                           placeholder: nil,
-                                          options: [.retryStrategy(DelayRetryStrategy(maxRetryCount: 2, retryInterval: .seconds(2))),
-                                                    .transition(.fade(0.1)),
-                                                    .cacheOriginalImage]) { result in
-                     
-                                                        switch result {
-                                                        case .success:
-                                                            break
-                                                        case .failure:
-                                                            break
-                                                        }
+                                          options: [
+                                            .retryStrategy(
+                                                DelayRetryStrategy(maxRetryCount: 2,
+                                                                   retryInterval: .seconds(2))),
+                                            .transition(.fade(0.1)),
+                                            .cacheOriginalImage]) { result in
+                        switch result {
+                        case .success:
+                            break
+                        case .failure:
+                            break
+                        }
                     }
                 }
             
@@ -84,12 +82,7 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
         }
     }
     
-    
-    
-    // TODO: - Toast message 띄우기
-    
     // MARK: - Attribute
-    
     override func attribute() {
         super.attribute()
         
@@ -153,7 +146,6 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
     }
     
     // MARK: - Layout
-
     override func layout() {
         super.layout()
         
@@ -172,7 +164,6 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
                     .marginTop(-20)
             flex.addItem(clothScrollViewWrapper)
                 .grow(1).shrink(1)
-//                    .height(UIScreen.main.bounds.height * 0.52)
                 .marginTop(20)
                 .marginHorizontal(65)
                 .paddingVertical(5)
@@ -186,7 +177,6 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
                         .marginTop(13)
                         .width(50%)
                         .height(UIScreen.main.bounds.height * 0.37)
-//                        .height(73%)
                         .alignSelf(.center)
                     flex.addItem(imageSourceLabel)
                         .marginTop(12)
@@ -199,8 +189,6 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
                 .marginHorizontal(43)
                 .height(bottomButton.primaryHeight)
         }
-        
-        
     }
     
     // MARK: - Bind
@@ -216,8 +204,6 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
         bottomButton.rx.tap
             .subscribe(onNext: { [weak self] tap in
                 self?.viewModel.setSensoryTemperature()
-//                self?.viewModel.dismissSelfWithAnimationRelay.accept(Void())
-                
             }).disposed(by: bag)
     }
     

@@ -43,7 +43,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 switch result {
                 case .success:
                     if UserDefaultManager.shared.isOnBoard == true {
-                        self?.vc = SettingRegionViewController(SettingRegionViewModel(.onboard))
+                        if UserDefaultManager.shared.dong == "00동" {
+                            self?.vc = SettingRegionViewController(SettingRegionViewModel(.onboard))
+                        } else {
+                            self?.vc = DateTimePickViewController(DateTimePickViewModel())
+                        }
                     } else {
                         self?.vc = HomeViewController(HomeViewModel())
                     }

@@ -47,6 +47,26 @@ public final class MainToolTipViewController: UIViewController, CodeBaseInitiali
     public override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(dimView)
+        
+        UIView.animate(withDuration: 1.0,
+                       delay: 0.5,
+                       options: .repeat,
+                       animations: {
+            self.touchImage.alpha = 1.0
+            self.innerLeftArrow.alpha = 1.0
+            self.innerRightArrow.alpha = 1.0
+            self.outerLeftArrow.alpha = 0.75
+            self.outerRightArrow.alpha = 0.75
+        }, completion: { _ in
+            UIView.animate(withDuration: 0.5,
+                           animations: {
+                self.touchImage.alpha = 0.75
+                self.innerLeftArrow.alpha = 0.75
+                self.innerRightArrow.alpha = 0.75
+                self.outerLeftArrow.alpha = 1.0
+                self.outerRightArrow.alpha = 1.0
+            })
+        })
     }
     
     public override func viewDidLayoutSubviews() {
@@ -84,27 +104,31 @@ public final class MainToolTipViewController: UIViewController, CodeBaseInitiali
         outerLeftArrow.do {
             $0.image = AssetsImage.toolTipArrow.image
             $0.transform = $0.transform.rotated(by: .pi / 2)
+            $0.alpha = 0.75
         }
         
         innerLeftArrow.do {
             $0.image = AssetsImage.toolTipArrow.image
             $0.transform = $0.transform.rotated(by: .pi / 2)
+            $0.alpha = 0.75
         }
         
         innerRightArrow.do {
             $0.image = AssetsImage.toolTipArrow.image
             $0.transform = $0.transform.rotated(by: .pi * 1.5)
+            $0.alpha = 0.75
         }
         
         outerRightArrow.do {
             $0.image = AssetsImage.toolTipArrow.image
             $0.transform = $0.transform.rotated(by: .pi * 1.5)
+            $0.alpha = 0.75
         }
         
         touchImage.do {
             $0.image = AssetsImage.touchIcon.image
             $0.isHidden = true
-            
+            $0.alpha = 0.75
         }
     }
     
