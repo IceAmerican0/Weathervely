@@ -391,10 +391,13 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
                               self.mainLabel.alpha = 0
             guard var mainTimeText = justTimeString else { return }
             
+            // 처음 메인 들어왔을 시점을 위한 케이스 분류
             if mainTimeText == Date().todayThousandFormat {
                 mainTimeText = "현재"
             }
+            
             let dong = UserDefaultManager.shared.dong
+            
             if !(mainTimeText == "현재") {
                 self.mainLabel.text = "\(dong) | \(mainTimeText)"
             } else {
