@@ -67,6 +67,7 @@
 		5CE0FEB42A8F3BE000A0E655 /* PrivatePolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE0FEB32A8F3BE000A0E655 /* PrivatePolicyViewController.swift */; };
 		5CE0FEB62A8F401100A0E655 /* PrivatePolicyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE0FEB52A8F401100A0E655 /* PrivatePolicyViewModel.swift */; };
 		5CE0FEB82A8F4CE200A0E655 /* SetSensoryTempRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE0FEB72A8F4CE200A0E655 /* SetSensoryTempRequest.swift */; };
+		5CE0FEBA2A93529100A0E655 /* AuthLoginEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE0FEB92A93529100A0E655 /* AuthLoginEntity.swift */; };
 		6634CC2CAD88136EB8B2B027 /* Pods_Weatherbly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5451DE341E51F8EB4049CE6 /* Pods_Weatherbly.framework */; };
 		696176B22A63E37F00B83B4C /* RxBaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696176B12A63E37F00B83B4C /* RxBaseViewModel.swift */; };
 		696176B42A63E3C000B83B4C /* BaseDisposeBag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696176B32A63E3C000B83B4C /* BaseDisposeBag.swift */; };
@@ -186,6 +187,7 @@
 		5CE0FEB32A8F3BE000A0E655 /* PrivatePolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivatePolicyViewController.swift; sourceTree = "<group>"; };
 		5CE0FEB52A8F401100A0E655 /* PrivatePolicyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivatePolicyViewModel.swift; sourceTree = "<group>"; };
 		5CE0FEB72A8F4CE200A0E655 /* SetSensoryTempRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetSensoryTempRequest.swift; sourceTree = "<group>"; };
+		5CE0FEB92A93529100A0E655 /* AuthLoginEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthLoginEntity.swift; sourceTree = "<group>"; };
 		696176B12A63E37F00B83B4C /* RxBaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxBaseViewModel.swift; sourceTree = "<group>"; };
 		696176B32A63E3C000B83B4C /* BaseDisposeBag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDisposeBag.swift; sourceTree = "<group>"; };
 		696176B52A63E4A400B83B4C /* EmptyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyViewModel.swift; sourceTree = "<group>"; };
@@ -319,6 +321,7 @@
 			children = (
 				5C9D02D62A71EEC900AF2DA3 /* AuthTarget.swift */,
 				5C9D02D82A71F27B00AF2DA3 /* AuthDataSource.swift */,
+				5CE0FEB92A93529100A0E655 /* AuthLoginEntity.swift */,
 			);
 			path = AuthAPI;
 			sourceTree = "<group>";
@@ -896,6 +899,7 @@
 				5CAB60B92A4563B300CD431A /* NSMutableAttributedString+Extension.swift in Sources */,
 				5CC61E282A5BDCCC001435E6 /* UIViewController+Extension.swift in Sources */,
 				5C9D02D92A71F27B00AF2DA3 /* AuthDataSource.swift in Sources */,
+				5CE0FEBA2A93529100A0E655 /* AuthLoginEntity.swift in Sources */,
 				5CAB60D52A54FDFE00CD431A /* TenDaysForecastTableViewCell.swift in Sources */,
 				69A7F0D92A80B42A00834974 /* UserDefaultKey.swift in Sources */,
 				BD5169492A5D6FEA00582BA9 /* UITextField+Extension.swift in Sources */,
