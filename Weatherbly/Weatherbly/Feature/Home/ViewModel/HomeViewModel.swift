@@ -609,6 +609,8 @@ extension HomeViewModel: HomeSensoryTempViewControllerDelegate {
         let nickname = UserDefaultManager.shared.nickname
         
         self.getRecommendCloset(self.selectedHourParamTypeRelay.value!)
+        var newTemperatureDiff = self.recommendClosetEntityRelay.value?.data?.list.temperatureDifference
+        self.weatherMsgRelay.accept(WeatherMsgEnum.seonsoryDiffMsg(userTempDiff: newTemperatureDiff!).msg)
         self.alertMessageRelay.accept(.init(title: "\(nickname) 님의 체감온도가 반영되었어요", alertType: .Info))
     }
 }
