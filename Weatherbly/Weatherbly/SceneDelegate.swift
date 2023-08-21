@@ -17,16 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
 
-        intro()
-    }
-    
-    func intro() {
-        if UserDefaultManager.shared.nickname.isEmpty == true {
-            vc = OnBoardViewController(OnBoardViewModel())
-            setWindow()
-        } else {
-            getToken()
-        }
+        getToken()
     }
     
     func setWindow() {
@@ -41,16 +32,27 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         loginDataSource.getToken(UserDefaultManager.shared.nickname)
             .subscribe(onNext: { [weak self] result in
                 switch result {
-                case .success:
-                    if UserDefaultManager.shared.isOnBoard == true {
-                        self?.vc = SettingRegionViewController(SettingRegionViewModel(.onboard))
+                case .success(let response):
+                    let data = response.data
+                    userDefault.set(data.user.nickname, forKey: UserDefaultKey.nickname.rawValue)
+
+                    if let address = data.address {
+                        userDefault.set(address.dong, forKey: UserDefaultKey.dong.rawValue)
+                        if data.setTemperature == true {
+                            self?.vc = HomeViewController(HomeViewModel())
+                        } else {
+                            self?.vc = DateTimePickViewController(DateTimePickViewModel())
+                        }
                     } else {
-                        self?.vc = HomeViewController(HomeViewModel())
+                        self?.vc = SettingRegionViewController(SettingRegionViewModel(.onboard))
                     }
                     self?.setWindow()
                 case .failure(let err): // TODO: 토큰 실패시 에러 처리
                     guard let errString = err.errorDescription else { return }
-//                    self.alertMessageRelay.accept(.init(title: errString, alertType: .Error))
+                    if errString == "닉네임" {
+                        self?.vc = OnBoardViewController(OnBoardViewModel())
+                        self?.setWindow()
+                    }
                 }
             })
             .disposed(by: bag)

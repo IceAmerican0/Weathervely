@@ -18,7 +18,7 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
     private var progressBar = CSProgressView(1)
     private var navigationView = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
     
-    private var mainLabel = CSLabel(.bold, 22, "\(UserDefaultManager.shared.nickname)님에게\n적당한 옷차림을 골라주세요")
+    private var mainLabel = CSLabel(.bold, 22, "\(UserDefaultManager.shared.nickname) 님에게\n적당한 옷차림을 골라주세요")
     private var discriptionLabel = CSLabel(.regular, 16 , "사진을 위아래로 쓸어보세요\n다른 두께감의 옷차림이 나와요")
     
     private var clothScrollViewWrapper = UIView()
@@ -53,6 +53,7 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
     
     func addContentscrollView() {
         guard let list = viewModel.closetListRelay.value else { return }
+        var index = 0
         for i in 0..<list.count {
             let imageView = UIImageView()
             let yPos = scrollView.frame.height * CGFloat(i)
@@ -73,12 +74,14 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
             }
             scrollView.addSubview(imageView)
             scrollView.contentSize.height = imageView.frame.height * CGFloat(i + 1)
+            print(viewModel.closetIDRelay.value)
+            if list[i].closetId == viewModel.closetIDRelay.value { index = i }
         }
         
-        let middlePageIndex = Int((Double(list.count) / 2.0).rounded()) - 1
-        let middleContentOffset = CGPoint(x: 0, y: scrollView.frame.height * CGFloat(middlePageIndex))
+        
+        let middleContentOffset = CGPoint(x: 0, y: scrollView.frame.height * CGFloat(index))
         scrollView.setContentOffset(middleContentOffset, animated: false)
-        imageSourceLabel.text = "by \(list[middlePageIndex-1].shopName)"
+        imageSourceLabel.text = "by \(list[index].shopName)"
     }
     
     // MARK: - Attribute
@@ -187,6 +190,19 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
         navigationView.leftButtonDidTapRelay
             .bind(to: viewModel.navigationPopViewControllerRelay)
             .disposed(by: bag)
+        
+        // TODO: 버튼 클릭으로 스크롤뷰 움직이기
+//        upperArrowButton.rx.tap
+//            .subscribe(onNext: { [weak self] _ in
+//
+//            })
+//            .disposed(by: bag)
+//
+//        downArrowButton.rx.tap
+//            .subscribe(onNext: { [weak self] _ in
+//
+//            })
+//            .disposed(by: bag)
         
         bottomButton.rx.tap
             .subscribe(onNext: { [weak self] _ in

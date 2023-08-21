@@ -9,6 +9,15 @@ import Foundation
 import RxSwift
 import RxCocoa
 
+public enum EditRegionState {
+    /// 설정페이지에서 진입시
+    case none
+    /// 주소 변경
+    case change
+    /// 주소 추가
+    case add
+}
+
 public protocol EditRegionViewModelLogic: ViewModelBusinessLogic {
     func loadRegionList()
     func deleteRegion(_ indexPath: IndexPath)
@@ -20,10 +29,28 @@ public protocol EditRegionViewModelLogic: ViewModelBusinessLogic {
 }
 
 public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogic {
-    private let dataSource = UserDataSource()
     public var loadedListRelay = BehaviorRelay<[AddressListInfo]>(value: [])
     
+    private let dataSource = UserDataSource()
+    
+    public let editRegionState: EditRegionState
+    
+    public init(_ editRegionState: EditRegionState) {
+        self.editRegionState = editRegionState
+    }
+    
     public func loadRegionList() {
+        switch editRegionState {
+        case .none:
+            break
+        case .change:
+            alertMessageRelay.accept(.init(title: "현재 동네가 변경됐어요",
+                                                 alertType: .Info))
+        case .add:
+            alertMessageRelay.accept(.init(title: "동네가 추가됐어요",
+                                                 alertType: .Info))
+        }
+        
         dataSource.getAddressList()
             .subscribe(onNext: { [weak self] result in
                 switch result {
@@ -65,7 +92,7 @@ public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogi
                 case .success:
                     self?.loadRegionList()
                     userDefault.set(regionInfo.dong, forKey: UserDefaultKey.dong.rawValue)
-                    self?.alertMessageRelay.accept(.init(title: "현재 동네가 \(regionInfo.addressName)으로 변경됐어요",
+                    self?.alertMessageRelay.accept(.init(title: "현재 동네가 \(regionInfo.dong)으로 변경됐어요",
                                                          alertType: .Info))
                 case .failure(let err):
                     guard let errorString = err.errorDescription else { return }

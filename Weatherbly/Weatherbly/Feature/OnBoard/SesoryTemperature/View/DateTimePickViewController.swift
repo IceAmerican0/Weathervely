@@ -16,7 +16,6 @@ final class DateTimePickViewController: RxBaseViewController<DateTimePickViewMod
     // MARK: - UI Property
     private let headerWrapper = UIView()
     private var progressBar = CSProgressView(0.75)
-    private let navigationBackButton = UIButton()
     
     private let titleMessageLabel = CSLabel(.bold, 22, "나에게 딱 맞는\n체감온도를 설정해보세요")
     private let clockImage = UIImageView(image: AssetsImage.clockIcon.image)
@@ -46,10 +45,6 @@ final class DateTimePickViewController: RxBaseViewController<DateTimePickViewMod
     // MARK: - layout
     override func attribute() {
         super.attribute()
-
-        navigationBackButton.do {
-            $0.setImage(AssetsImage.navigationBackButton.image, for: .normal)
-        }
         
         bottomButton.do {
             $0.setTitle("확인", for: .normal)
@@ -76,13 +71,10 @@ final class DateTimePickViewController: RxBaseViewController<DateTimePickViewMod
         
         container.flex
             .define { flex in
-                flex.addItem(headerWrapper).define { flex in
-                    flex.addItem(progressBar)
-                    flex.addItem(navigationBackButton).left(12).size(44).marginTop(15)
-                }
+                flex.addItem(progressBar)
                 
                 flex.addItem(titleMessageLabel)
-                    .marginTop(4)
+                    .marginTop(UIScreen.main.bounds.height * 0.09)
                     .marginHorizontal(65)
                 
                 flex.addItem(clockImage)
@@ -107,8 +99,6 @@ final class DateTimePickViewController: RxBaseViewController<DateTimePickViewMod
                     .marginHorizontal(43)
                     
                 bottomButton.pin.bottom(53)
-//                    .bottom(view.pin.safeArea.bottom + 53)
-//                    .marginBottom(53)
             }
     }
     
@@ -120,7 +110,6 @@ final class DateTimePickViewController: RxBaseViewController<DateTimePickViewMod
             .subscribe (onNext: { [weak self] _ in
                 let date = Date()
                 let today = date.todayDatePickerFormat.components(separatedBy: " ").map{ $0 }
-//                debugPrint("현재시간: ", today)
                 
                 // Get Picker value
                 let pickerDay: String = self?.pickerFirstRowData[(self?.dateTimePickerView.selectedRow(inComponent: 0))  ?? 0] ?? "어제"

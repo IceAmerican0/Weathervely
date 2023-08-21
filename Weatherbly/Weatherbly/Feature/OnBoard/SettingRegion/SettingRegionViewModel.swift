@@ -9,7 +9,7 @@ import RxRelay
 import RxSwift
 import UIKit
 
-public enum SettingRegionState: String {
+public enum SettingRegionState {
     /// 온보딩
     case onboard
     /// 주소 변경

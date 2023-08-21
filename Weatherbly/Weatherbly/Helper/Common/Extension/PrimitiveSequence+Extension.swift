@@ -33,7 +33,6 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
     func mapTo<D: Decodable>(_ type: D.Type) -> Observable<Result<D, WBNetworkError>> {
         flatMap { response in
             do {
-                
                 if (200..<300 ~= response.statusCode) { // status : 200
                     guard try JSONSerialization.jsonObject(with: response.data, options: []) is [String:Any] else {
                         return .just(.failure(.decodeError))
@@ -46,15 +45,17 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
                         Response : \(String(decoding: response.data, as: UTF8.self))
                         """
                     )
+                    
                     return .just(.success(try response.map(D.self)))
-                } else {
-                    // status : !(200 ~ 300)
+                } else { // status : !(200 ~ 300)
                     guard let dictionary = try JSONSerialization.jsonObject(with: response.data, options: []) as? [String:Any] else {
                         return .just(.failure(.decodeError))
                     }
                     
-                    if let status = dictionary["status"] as? Int , let apiMessage = dictionary["apiMessage"] as? [String:Any] {
-                        let errDescription = apiMessage["message"] as? String
+                    if let apiMessage = dictionary["apiMessage"] as? [String:Any] {
+                        let errMessage = apiMessage["message"] as? String ?? ""
+                        let errDetail = apiMessage["detail"] as? String ?? ""
+                        
                         debugPrint(
                             """
                             ==============================
@@ -62,7 +63,8 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
                             Response : \(dictionary)
                             """
                         )
-                        return .just(.failure(.badRequestError(errDescription!)))
+                        
+                        return .just(.failure(.badRequestError(errDetail.isEmpty ? errMessage : errDetail)))
                     }
                 }
             } catch(let error) {

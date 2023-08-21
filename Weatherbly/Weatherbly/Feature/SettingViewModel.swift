@@ -29,7 +29,7 @@ final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
     }
     
     func toEditRegionView() {
-        let vc = EditRegionViewController(EditRegionViewModel())
+        let vc = EditRegionViewController(EditRegionViewModel(.none))
         navigationPushViewControllerRelay.accept(vc)
     }
     

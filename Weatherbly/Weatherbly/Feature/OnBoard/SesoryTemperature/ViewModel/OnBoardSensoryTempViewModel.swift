@@ -19,10 +19,6 @@ public protocol OnBoardSensoryTempViewModelLogic: ViewModelBusinessLogic {
 }
 
 public final class OnBoardSensoryTempViewModel: RxBaseViewModel, OnBoardSensoryTempViewModelLogic {
-    private let pickerDay: String
-    private let pickerDayTime: String
-    private let pickerTime: Int
-    
     public var temperatureRelay = BehaviorRelay<String>(value: "")
     public var dateStringRelay = BehaviorRelay<String>(value: "")
     public var formattedDateStringRelay = BehaviorRelay<String>(value: "")
@@ -30,6 +26,10 @@ public final class OnBoardSensoryTempViewModel: RxBaseViewModel, OnBoardSensoryT
     public let closetIDRelay = BehaviorRelay<Int>(value: 0)
     
     private let closetDataSource = ClosetDataSource()
+    
+    private let pickerDay: String
+    private let pickerDayTime: String
+    private let pickerTime: Int
     
     init(_ pickerDay: String, _ pickerDayTime: String, _ pickerTime: Int) {
         self.pickerDay = pickerDay
@@ -73,9 +73,9 @@ public final class OnBoardSensoryTempViewModel: RxBaseViewModel, OnBoardSensoryT
             .subscribe(onNext: { [weak self] result in
                 switch result {
                 case .success(let response):
-                    let closets = response.data.list
-                    self?.closetListRelay.accept(closets)
-                    self?.temperatureRelay.accept(response.data.fcstValue)
+                    let data = response.data
+                    self?.temperatureRelay.accept(data.fcstValue)
+                    self?.closetListRelay.accept(data.list)
                 case .failure(let err):
                     guard let errorString = err.errorDescription else { return }
                     self?.alertMessageRelay.accept(.init(title: errorString,
@@ -104,7 +104,8 @@ public final class OnBoardSensoryTempViewModel: RxBaseViewModel, OnBoardSensoryT
     public func toSlotMachineView() {
         let vc = SlotMachineViewController(SlotMachineViewModel(dateStringRelay,
                                                                 temperatureRelay,
-                                                                closetListRelay))
+                                                                closetListRelay,
+                                                                closetIDRelay))
         self.navigationPushViewControllerRelay.accept(vc)
     }
     

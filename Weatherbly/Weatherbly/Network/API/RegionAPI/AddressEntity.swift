@@ -38,3 +38,18 @@ public struct AddressInfo: Codable {
         case address_name, city, gu, dong, country, x_code, y_code
     }
 }
+
+public struct AddressIDInfo: Codable {
+    var id: Int
+    var address_name: String
+    var city: String
+    var gu: String
+    var dong: String
+    var country: String
+    var x_code: String
+    var y_code: String
+    
+    enum CodingKeys: String, CodingKey {
+        case id, address_name, city, gu, dong, country, x_code, y_code
+    }
+}

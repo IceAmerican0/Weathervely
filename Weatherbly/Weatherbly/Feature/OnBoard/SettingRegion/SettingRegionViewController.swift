@@ -43,6 +43,10 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
             $0.adjustsFontSizeToFitWidth = true
         }
         
+        navigationView.do {
+            $0.isHidden = true
+        }
+        
         searchImage.do {
             $0.setAssetsImage(AssetsImage.search)
         }
@@ -90,9 +94,11 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
         confirmButton.pin.bottom(10%)
         regionTableView.isHidden = true
         
-        if UserDefaultManager.shared.isOnBoard == false {
+        if viewModel.settingRegionState != .onboard {
             progressBar.isHidden = true
+            navigationView.isHidden = false
             navigationView.setTitle("동네 변경 / 추가")
+            navigationView.addBorder(.bottom)
             explanationLabel.isHidden = true
         }
     }
