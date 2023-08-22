@@ -9,13 +9,17 @@ import Foundation
 
 enum WeatherMsgEnum {
     
-    case seonsoryDiffMsg(userTempDiff: Int)
+    case seonsoryDiffMsg(_ userTempDiff: Int)
     case sunnyNormalMsg
     case sunnyGoodMsg
     case currentRainMsg
+    case futureRainMsg(_ POP: Int)
     case currrentRainSnowMsg
+    case futureRainSnowMsg(_ POP: Int)
     case currentSnowMsg
+    case futureSnowMsg(_ POP: Int)
     case currenstShowerMsg
+    case futureShowerMsg
     case strongWindMsg
     case normalWindMsg
     case lowHumidity
@@ -38,12 +42,20 @@ enum WeatherMsgEnum {
             return "산책하기 좋은 날씨예요 ☘️"
         case .currentRainMsg:
             return "☔ 비가 와요. 우산 챙기셨나요?"
+        case .futureRainMsg(let POP):
+            return "🌂비 올 확률이 \(POP)%에요"
         case .currrentRainSnowMsg:
             return "☔ 눈비가 내려요. 바닥이 미끄러울 수 있어요"
+        case .futureRainSnowMsg(let POP):
+            return "🌂눈과 비가 함께 올 확률이 \(POP)%에요"
         case .currentSnowMsg:
             return "❄️ 눈이 내려요. 바닥이 미끄러울 수 있어요"
+        case .futureSnowMsg(let POP):
+            return "❄️눈 올 확률이 \(POP)%에요"
         case .currenstShowerMsg:
             return "☔ 소나기가 내려요"
+        case .futureShowerMsg:
+            return "🌂곳곳에 소나기가 내릴 수 있어요"
         case .strongWindMsg:
             return "🌬️ 바람이 세차게 불어요"
         case .normalWindMsg:
