@@ -31,7 +31,7 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
     private var tempWrapper = UIView()
     private var tempLabel =  CSLabel(.bold, 18, "선택 시간 (3℃)")
     private var scrollView = UIScrollView()
-    private var imageSourceLabel = CSLabel(.regular, 11, "by 0000")
+    private var imageSourceLabel = CSLabel(.regular, 11, "")
     
     private var bottomButton = CSButton(.primary)
     private let imageHeight = UIScreen.main.bounds.height * 0.38
@@ -59,7 +59,6 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
             
             let imageUrl = closetsList[i].imageUrl
                 if let url = URL(string: imageUrl) {
-                    imageView.kf.indicatorType = .activity
                     imageView.kf.setImage(with: url,
                                           placeholder: nil,
                                           options: [
@@ -70,9 +69,10 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
                                             .cacheOriginalImage]) { result in
                         switch result {
                         case .success:
-                            break
+                            imageView.kf.indicatorType = .none
                         case .failure:
-                            break
+                            imageView.kf.indicatorType = .none
+                            imageView.image = AssetsImage.defaultImage.image
                         }
                     }
                 }

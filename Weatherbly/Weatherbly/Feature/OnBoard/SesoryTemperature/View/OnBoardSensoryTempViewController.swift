@@ -23,7 +23,7 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
     var tempWrapper = UIView()
     var tempLabel = UILabel()
     var tempImageView = UIImageView()
-    var imageSourceLabel = CSLabel(.regular, 11, "by 0000")
+    var imageSourceLabel = CSLabel(.regular, 11, "loading...")
     
     var discriptionLabel = CSLabel(.regular, 16 , "외출하셨을 때 날씨에\n추천되는 표준 옷차림이에요")
     
@@ -72,7 +72,7 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
         }
         
         tempImageView.do {
-            $0.image = AssetsImage.defaultImage.image
+            $0.setIndicator()
         }
         
         discriptionLabel.do {
@@ -190,7 +190,6 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
                 for i in 0..<closets.count {
                     if temperature >= closets[i].minTemp && temperature < closets[i].maxTemp {
                         if let url = URL(string: closets[i].imageUrl) {
-                            self?.tempImageView.kf.indicatorType = .activity
                             self?.tempImageView.kf.setImage(with: url,
                                                             placeholder: nil,
                                                             options: [.retryStrategy(DelayRetryStrategy(maxRetryCount: 2, retryInterval: .seconds(2))),
@@ -198,10 +197,13 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
                                                                       .cacheOriginalImage]) { result in
                                 switch result {
                                 case .success:
+                                    self?.tempImageView.kf.indicatorType = .none
                                     self?.imageSourceLabel.text = "by \(closets[i].shopName)"
                                     self?.viewModel.closetIDRelay.accept(closets[i].closetId)
                                 case .failure:
-                                    break
+                                    self?.tempImageView.kf.indicatorType = .none
+                                    self?.tempImageView.image = AssetsImage.defaultImage.image
+                                    self?.imageSourceLabel.text = ""
                                 }
                             }
                         }

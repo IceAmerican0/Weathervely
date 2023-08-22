@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 extension UIImageView {
     
@@ -15,5 +16,15 @@ extension UIImageView {
     
     func setAssetsImage(_ assetEnum: AssetsImage) {
         self.image = assetEnum.image
+    }
+    
+    func setIndicator() {
+        self.kf.indicatorType = .activity
+//        lazy var indicator = UIActivityIndicatorView()
+//        indicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+//        indicator.center = self.center
+//        
+//        self.addSubviews(indicator)
+//        indicator.startAnimating()
     }
 }

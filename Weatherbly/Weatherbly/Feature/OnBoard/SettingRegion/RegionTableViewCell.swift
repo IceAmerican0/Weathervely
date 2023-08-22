@@ -14,8 +14,7 @@ public final class RegionTableViewCell: UITableViewCell {
     
     var regionLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 20)
-        $0.adjustsFontSizeToFitWidth = false
-        $0.lineBreakMode = .byTruncatingTail
+        $0.adjustsFontSizeToFitWidth = true
         $0.numberOfLines = 0
     }
     

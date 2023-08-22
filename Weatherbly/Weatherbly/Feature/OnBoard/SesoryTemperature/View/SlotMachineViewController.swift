@@ -28,7 +28,7 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
     private var tempWrapper = UIView()
     private var tempLabel =  CSLabel(.bold, 18, "선택 시간 (3℃)")
     private var scrollView = UIScrollView()
-    private var imageSourceLabel = CSLabel(.regular, 11, "by 0000")
+    private var imageSourceLabel = CSLabel(.regular, 11, "")
     
     private var bottomButton = CSButton(.primary)
     private var firstAppear = true
@@ -56,6 +56,7 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
         var index = 0
         for i in 0..<list.count {
             let imageView = UIImageView()
+            imageView.setIndicator()
             let yPos = scrollView.frame.height * CGFloat(i)
             imageView.frame = CGRect(x: 0, y: yPos, width: scrollView.bounds.width, height: scrollView.bounds.height)
             if let url = URL(string: list[i].imageUrl) {
@@ -66,9 +67,11 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
                                                           .cacheOriginalImage]) { result in
                     switch result {
                     case .success:
+                        imageView.kf.indicatorType = .none
                         break
                     case .failure:
-                        break
+                        imageView.kf.indicatorType = .none
+                        imageView.image = AssetsImage.defaultImage.image
                     }
                 }
             }
