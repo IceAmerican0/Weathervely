@@ -22,6 +22,8 @@ public protocol HomeViewModelLogic: ViewModelBusinessLogic {
     func getSwipeArray()
     func swipeRight()
     func swipeLeft()
+    func setupDayChangeDetection()
+    func secondsUntilNextDay() -> TimeInterval
 
     func mainLabelTap()
     func didEnterMall()
@@ -48,11 +50,52 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     var weatherMsgRelay = BehaviorRelay<String?>(value: "오늘 하루 어떠셨나요?")
     var yesterdayCategoryRelay = BehaviorRelay<[String: String]?>(value: nil)
     
+    // 날짜변경을 알기 위한 relay
+    let dayChangedRelay = PublishRelay<Void>()
+    
+    override init() {
+        super.init()
+        setupDayChangeDetection()
+    }
+    
     public func getInfo(_ dateString: String) {
         getVillageForecastInfo()
         getRecommendCloset(dateString)
         getSwipeArray()
+        swipeIndex = 0
     }
+    
+    
+    public func setupDayChangeDetection() {
+        // 첫 번째 파라미터는 초기 지연 시간, 두 번째 파라미터는 이후 반복될 시간 간격
+        Observable<Int>.timer(RxTimeInterval.seconds(Int(secondsUntilNextDay())), scheduler: MainScheduler.instance)
+            .take(1)  // 한 번만 실행하기 위해 take(1)을 사용합니다.
+            .subscribe(onNext: { [weak self] _ in
+                // 날짜가 바뀌면 dayChangedRelay를 통해 알림
+                self?.dayChangedRelay.accept(())
+
+                // 다음 날짜 변경을 위한 새로운 타이머를 설정
+                self?.setupDayChangeDetection()
+            })
+            .disposed(by: bag)
+    }
+    
+    public func secondsUntilNextDay() -> TimeInterval {
+        let calendar = Calendar.current
+        let now = Date()
+        
+        // 내일의 날짜를 얻습니다.
+        guard let tomorrow = calendar.date(byAdding: .day, value: 1, to: now) else {
+            return 0
+        }
+
+        // 내일의 00:00 (자정) 시간 가져오기
+        let midnightTomorrow = calendar.startOfDay(for: tomorrow)
+        
+        // 현재 시간과 내일 자정 사이의 시간 간격을 초 단위로 반환합니다.
+        return midnightTomorrow.timeIntervalSince(now)
+    }
+    
     
     public func getVillageForecastInfo() {
         
@@ -437,54 +480,70 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         
         if !(swipeIndex == 0) {
             swipeIndex -= 1
-            let time = Int(swipeArray[self.swipeIndex])!
-            
-            var selectedHour = selectedHourParamTypeRelay.value!
+            let time = Int(swipeArray[self.swipeIndex])! // HH00
+            let nowThousandHour = Date().todayThousandFormat
+
             lazy var hour: String = {
-                let hour = String(time)
+                let hour = String(time) // "700"
                 
                 if hour.count == 1 {
-                    return "0\(hour)00"
-                } else if hour.count == 3{
-                    return "0\(hour)"
+                    return "0\(hour)00" // 0000 한가지 케이스
+                } else if hour.count == 3 {
+                    return "0\(hour)"  // 10시 이전
                 }
-                return hour
+                return hour // HH00
             }()
             
             if time < 2400 {
-                // 오늘 안 시간일 때
+                // 오늘 시간일 때
                 
-                selectedHour = hour
-                self.selectedHourParamTypeRelay.accept(Date().todaySelectedFormat(selectedHour.addColon))
-                categoryWithValue = self.bindingWeatherByDate(forecastEntity, 0, hour) // HH00
-                
-                if selectedHour == "0000" || selectedHour == "0100" || selectedHour == "0200" {
-                    let newSelectedHour = "0300"
-                    yesterdayCategoryValue = self.bindingWeatherByDate(forecastEntity, -1, newSelectedHour)
+                if swipeIndex == 0 && hour != nowThousandHour { // MARK: - 1.배열의 첫번째를 바라보는데 현재 시간과 차이가 다를 때
+                    
+                    // 사용할 시간(현재시간) HH00 으로 바꿈
+                    hour = nowThousandHour
+                    headerTime = hour.hourToMainLabel // 헤더용 String으로 변환
+                    
+                    // 체감온도 파라미터로 넣어줄 시간 업데이트
+                    self.selectedHourParamTypeRelay.accept(Date().todaySelectedFormat(hour.addColon))
+                    
+                    // swipeArray 데이터 업데이트
+                    var newSwipeArrray = swipeArray
+                    newSwipeArrray[self.swipeIndex] = hour // siwpeIndex = 0
+                    swipeArrayRelay.accept(newSwipeArrray)
+                    
+                    // 오늘 날씨, 메세지 업데이트를 위한 바인딩
+                    categoryWithValue = self.bindingWeatherByDate(forecastEntity, 0, hour)
+                    
+                    // 어제 온도 비교 라벨을 위한 어제 날씨Entity 바인딩
+                    // 해당 시간에는 3시로 바인딩
+                    if hour == "0000" || hour == "0100" || hour == "0200" { hour = "0300" }
+                    yesterdayCategoryValue = self.bindingWeatherByDate(forecastEntity, -1, hour)
+                    
                 } else {
+                    // MARK: - 배열의 첫번째를 바라보지 않거나, 현재시간과 배열의 첫번째가 같을 때
+                    headerTime = hour.hourToMainLabel
+                    
+                    self.selectedHourParamTypeRelay.accept(Date().todaySelectedFormat(hour.addColon))
+                    categoryWithValue = self.bindingWeatherByDate(forecastEntity, 0, hour) // HH00
+                    
+                    if hour == "0000" || hour == "0100" || hour == "0200" { hour = "0300" }
                     yesterdayCategoryValue = self.bindingWeatherByDate(forecastEntity, -1, hour)
                 }
-                
-                headerTime = hour.hourToMainLabel
-                
             } else {
                 
-                selectedHour = String(time - 2400)
-                if String(time - 2400).count == 3 {
-                    selectedHour = "0\(selectedHour)"
+                // 내일 중 어떤시간
+                headerTime = hour.hourToMainLabel // hour = 3100, 3900, 4400
+                
+                hour = String(time - 2400) // hour = 0700, 1500, 2000
+                if hour.count == 3 {
+                    hour = "0\(hour)"
                 }
                 
-                self.selectedHourParamTypeRelay.accept(Date().tomorrowSelectedFormat(selectedHour.addColon))
-                categoryWithValue = self.bindingWeatherByDate(forecastEntity, 1, selectedHour)
+                self.selectedHourParamTypeRelay.accept(Date().tomorrowSelectedFormat(hour.addColon))
+                categoryWithValue = self.bindingWeatherByDate(forecastEntity, 1, hour)
                 
-                if selectedHour == "0000" || selectedHour == "0100" || selectedHour == "0200" {
-                    let newSelectedHour = "0300"
-                    yesterdayCategoryValue = self.bindingWeatherByDate(forecastEntity, -1, newSelectedHour)
-                } else {
-                    yesterdayCategoryValue = self.bindingWeatherByDate(forecastEntity, -1, selectedHour)
-                }
-                
-                headerTime = hour.hourToMainLabel
+                if hour == "0000" || hour == "0100" || hour == "0200" { hour = "0300" }
+                    yesterdayCategoryValue = self.bindingWeatherByDate(forecastEntity, -1, hour)
                 
             }
             
@@ -492,14 +551,41 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             self.headerTimeRelay.accept(headerTime)
             self.mappedCategoryDicRelay.accept(categoryWithValue)
             self.yesterdayCategoryRelay.accept(yesterdayCategoryValue)
+            
         } else {
             alertMessageRelay.accept(.init(title: "현재보다 이전 시간은 확인할 수 없어요",
                                            alertType: .Info))
         }
     }
     
+    func nowValidationCheck() {
+            
+            guard let swipeArray = swipeArrayRelay.value,
+                  let forecastEntity = villageForeCastInfoEntityRelay.value
+            else { return }
+            
+            
+//            var categoryWithValue: [String: String]? = [:]
+//            var yesterdayCategoryValue: [String: String]? = [:]
+//            var newSwipeArrray = swipeArray
+            
+            
+            
+            // headerTime 바꾸기
+//            selectedHourParamTypeRelay.accept(Date().todaySelectedFormat(newSelectedHour.addColon))
+//            categoryWithValue = self.bindingWeatherByDate(forecastEntity, 0, newSelectedHour) // HH00
+//
+//            if newSelectedHour == "0000" || newSelectedHour == "0100" || newSelectedHour == "0200" { newSelectedHour = "0300" }
+//            yesterdayCategoryValue = self.bindingWeatherByDate(forecastEntity, -1, newSelectedHour)
+        
+            
+            
+        
+    }
+    
     public func mainLabelTap() {
         
+        // FIXME: - 시간변화 걸쳐있을때 처리하기
         let date = Date()
         guard let forecastEntity  = villageForeCastInfoEntityRelay.value,
               let swipeArray = swipeArrayRelay.value

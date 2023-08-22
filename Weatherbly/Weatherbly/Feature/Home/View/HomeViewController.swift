@@ -279,6 +279,12 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
 //            })
 //            .disposed(by: bag)
         
+        viewModel.dayChangedRelay
+            .subscribe(onNext: { [weak self] _ in
+                self?.viewModel.getInfo(self?.date.todayHourFormat ?? Date().todayHourFormat)
+            })
+            .disposed(by: bag)
+        
         viewModel.mappedCategoryDicRelay
             .subscribe(onNext: { [weak self] mappedCategory in
                 self?.reloadDailyWrapper(self?.viewModel.swipeDirectionRelay.value, mappedCategory)
