@@ -33,8 +33,6 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
     private var bottomView = UIView()
     private var bottomLabel = CSLabel(.regular,12,"개인정보 처리 방침 및 정보 제공처")
     
-    private let bottomLabelTapGesture = UITapGestureRecognizer()
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         nickNameLabel.text = "\(UserDefaultManager.shared.nickname)님"
@@ -123,7 +121,7 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
         }
         
         bottomLabel.do {
-            $0.addGestureRecognizer(bottomLabelTapGesture)
+            $0.isUserInteractionEnabled = true
         }
         
         bottomView.do {
@@ -132,7 +130,6 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
     }
 
     // MARK: - Layout
-    
     override func layout() {
         super.layout()
         container.flex
@@ -140,7 +137,6 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
             .justifyContent(.spaceBetween)
             .define { flex in
             flex.addItem(navigationView)
-                    
             
             flex.addItem(contentWrapper)
                     .grow(1)
@@ -225,7 +221,9 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
         super.bind()
         
         navigationView.leftButtonDidTapRelay
-            .bind(onNext: viewModel.toHomeView)
+            .subscribe(onNext: { [weak self] _ in
+                self?.navigationController?.popToRootViewController(animated: true)
+            })
             .disposed(by: bag)
         
         editButton.rx.tap
@@ -244,7 +242,7 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
             .bind(onNext: viewModel.toBeContinue)
             .disposed(by: bag)
         
-        bottomLabelTapGesture.rx.event
+        bottomLabel.rx.tapGesture().when(.recognized)
             .subscribe(onNext: { [weak self] _ in
                 self?.viewModel.toPrivacyPolicyView()
             })

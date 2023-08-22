@@ -156,27 +156,24 @@ final class EditNicknameViewController: RxBaseViewController<EditNicknameViewMod
                                 
                             }
                         
-                                flex.addItem(genderLableView)
-                                    .marginHorizontal(22)
-                                    .direction(.row)
-                                    .define { flex in
-                                        flex.addItem(genderTitleLabel)
-                                            .marginVertical(14)
-                                            .width(67)
-                                            .marginLeft(26)
-                                        flex.addItem(genderLabel)
-                                            .view?.pin.left(to: genderTitleLabel.edge.right).right(to: genderLableView.edge.right)
-                                            .marginLeft(18)
-                                    }
-                        
-                        flex.addItem(bottomButton)
-                            .marginHorizontal(43)
-                            .height(bottomButton.primaryHeight)
-                            .marginTop(UIScreen.main.bounds.height * 0.44)
-
-//                        bottomButton.pin.bottom(to: contentWrapper.edge.bottom).marginBottom(10)
+//                        flex.addItem(genderLableView)
+//                            .marginHorizontal(22)
+//                            .direction(.row)
+//                            .define { flex in
+//                                flex.addItem(genderTitleLabel)
+//                                    .marginVertical(14)
+//                                    .width(67)
+//                                    .marginLeft(26)
+//                                flex.addItem(genderLabel)
+//                                    .view?.pin.left(to: genderTitleLabel.edge.right).right(to: genderLableView.edge.right)
+//                                    .marginLeft(18)
+//                            }
                     }
+                flex.addItem(bottomButton)
+                    .marginHorizontal(43)
+                    .height(bottomButton.primaryHeight)
             }
+        bottomButton.pin.bottom(10%)
     }
     
     override func viewBinding() {

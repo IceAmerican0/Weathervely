@@ -68,7 +68,11 @@ extension UITextField {
     
     @objc
        private func displayClearButtonIfNeeded() {
-           self.rightView?.isHidden = (self.text?.isEmpty) ?? true
+           if !((self.text?.isEmpty) ?? true) {
+               self.rightView?.isHidden = false
+           } else {
+               self.rightView?.isHidden = true
+           }
        }
     
 }

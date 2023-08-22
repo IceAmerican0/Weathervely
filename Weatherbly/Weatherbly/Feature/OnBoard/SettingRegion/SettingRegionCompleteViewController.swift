@@ -71,8 +71,10 @@ public final class SettingRegionCompleteViewController: RxBaseViewController<Set
             buttonWrapper.pin.bottom(22%).marginHorizontal(32)
         }
         
-        if !UserDefaultManager.shared.isOnBoard {
+        if viewModel.settingRegionState != .onboard {
             progressBar.isHidden = true
+            navigationView.setTitle("동네 변경 / 추가")
+            navigationView.addBorder(.bottom)
         }
     }
     

@@ -31,7 +31,7 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
     private var tempWrapper = UIView()
     private var tempLabel =  CSLabel(.bold, 18, "선택 시간 (3℃)")
     private var scrollView = UIScrollView()
-    private var imageSourceLabel = CSLabel(.regular, 11, "by 0000")
+    private var imageSourceLabel = CSLabel(.regular, 11, "")
     
     private var bottomButton = CSButton(.primary)
     private let imageHeight = UIScreen.main.bounds.height * 0.38
@@ -54,6 +54,8 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
         
         for i in 0..<closetsList.count {
             let imageView = UIImageView()
+            imageView.kf.indicator?.view.show()
+            imageView.kf.indicatorType = .activity
             let yPos = scrollView.frame.height * CGFloat(i)
             imageView.frame = CGRect(x: 0, y: yPos, width: scrollView.bounds.width, height: scrollView.bounds.height)
             
@@ -70,9 +72,10 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
                                             .cacheOriginalImage]) { result in
                         switch result {
                         case .success:
-                            break
+                            imageView.kf.indicator?.view.hide()
                         case .failure:
-                            break
+                            imageView.kf.indicator?.view.hide()
+                            imageView.image = AssetsImage.defaultImage.image
                         }
                     }
                 }

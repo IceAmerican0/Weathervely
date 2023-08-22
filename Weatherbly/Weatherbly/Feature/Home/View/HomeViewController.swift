@@ -512,7 +512,6 @@ extension HomeViewController: FSPagerViewDataSource {
     }
     
     func pagerView(_ pagerView: FSPagerView, cellForItemAt index: Int) -> FSPagerViewCell {
-        
         let cell = pagerView.dequeueCell(withType: ClosetFSPagerViewCell.self, for: index)
         let closetInfo = viewModel.recommendClosetEntityRelay.value?.data?.list.closets[index]
         
@@ -526,9 +525,12 @@ extension HomeViewController: FSPagerViewDataSource {
                                                           .cacheOriginalImage]) { result in
                     switch result {
                     case .success:
+                        cell.clothImageView.kf.indicator?.view.hide()
                         cell.clothImageSourceLabel.text = "by \(shopName)"
                     case .failure:
-                        break
+                        cell.clothImageView.kf.indicator?.view.hide()
+                        cell.clothImageView.image = AssetsImage.defaultImage.image
+                        cell.clothImageSourceLabel.text = ""
                     }
                 }
             }

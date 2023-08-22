@@ -172,42 +172,39 @@ class ChangeNicknameViewController: RxBaseViewController<ChangeNicknameViewModel
                                     }
                             }
                         
-                                flex.addItem(genderLableView)
-                                    .marginHorizontal(22)
-                                    .direction(.row)
-                                    .define { flex in
-                                        flex.addItem(genderTitleLabel)
-                                            .marginVertical(14)
-                                            .width(67)
-                                            .marginLeft(26)
-                                        
-                                        flex.addItem(buttonWrapper)
-                                            .marginVertical(9)
-                                            .marginLeft(18)
-                                            .grow(0.5)
-                                            .shrink(0.5)
-                                            .direction(.row)
-                                            .define { flex in
-                                            flex.addItem(womanButton)
-                                                    .padding(10)
-                                                    .right(7)
-                                                    .grow(1).shrink(1)
-                                                
-                                            flex.addItem(manButton)
-                                                    .padding(10)
-                                                    .left(7)
-                                                    .grow(1).shrink(1)
-                                        }
-                                    }
-                        
-                        flex.addItem(bottomButton)
-                            .marginHorizontal(43)
-                            .height(bottomButton.primaryHeight)
-                            .marginTop(UIScreen.main.bounds.height * 0.44)
-
-                        bottomButton.pin.bottom(53)
-                    }
+//                        flex.addItem(genderLableView)
+//                            .marginHorizontal(22)
+//                            .direction(.row)
+//                            .define { flex in
+//                                flex.addItem(genderTitleLabel)
+//                                    .marginVertical(14)
+//                                    .width(67)
+//                                    .marginLeft(26)
+//
+//                                flex.addItem(buttonWrapper)
+//                                    .marginVertical(9)
+//                                    .marginLeft(18)
+//                                    .grow(0.5)
+//                                    .shrink(0.5)
+//                                    .direction(.row)
+//                                    .define { flex in
+//                                    flex.addItem(womanButton)
+//                                            .padding(10)
+//                                            .right(7)
+//                                            .grow(1).shrink(1)
+//
+//                                    flex.addItem(manButton)
+//                                            .padding(10)
+//                                            .left(7)
+//                                            .grow(1).shrink(1)
+//                                }
+//                            }
             }
+            flex.addItem(bottomButton)
+                .marginHorizontal(43)
+                .height(bottomButton.primaryHeight)
+        }
+        bottomButton.pin.bottom(10%)
     }
     
     override func bind() {
@@ -250,10 +247,37 @@ class ChangeNicknameViewController: RxBaseViewController<ChangeNicknameViewModel
     }
 }
 
+// MARK: UITextFieldDelegate
 extension ChangeNicknameViewController: UITextFieldDelegate {
-    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        /// 백스페이스 처리
+        if let char = string.cString(using: String.Encoding.utf8) {
+            let isBackSpace = strcmp(char, "\\b")
+            if isBackSpace == -92 { return true }
+        }
+        /// 글자수 제한
+        if let text = textField.text {
+            guard text.count < 10 else { return false }
+        }
+        /// 띄어쓰기 제한
+        return string != " "
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
 }
 
+// MARK: Keyboard Action
+extension ChangeNicknameViewController {
+    override func keyboardWillShow(_ notification: Notification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            bottomButton.pin.bottom(keyboardSize.height + 30)
+        }
+    }
+    
+    override func keyboardWillHide(_ notification: Notification) {
+        bottomButton.pin.bottom(10%)
+    }
+}

@@ -47,12 +47,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         self?.vc = SettingRegionViewController(SettingRegionViewModel(.onboard))
                     }
                     self?.setWindow()
-                case .failure(let err): // TODO: 토큰 실패시 에러 처리
+                case .failure(let err):
                     guard let errString = err.errorDescription else { return }
-                    if errString == "닉네임" {
+                    // TODO: 첫 실행 이외 오류시 처리 방법
+//                    if errString == "닉네임" || errString == "NOT_FOUND" {
                         self?.vc = OnBoardViewController(OnBoardViewModel())
                         self?.setWindow()
-                    }
+//                    }
                 }
             })
             .disposed(by: bag)

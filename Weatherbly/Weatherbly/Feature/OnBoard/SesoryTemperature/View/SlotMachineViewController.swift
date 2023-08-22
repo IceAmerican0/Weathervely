@@ -28,7 +28,7 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
     private var tempWrapper = UIView()
     private var tempLabel =  CSLabel(.bold, 18, "선택 시간 (3℃)")
     private var scrollView = UIScrollView()
-    private var imageSourceLabel = CSLabel(.regular, 11, "by 0000")
+    private var imageSourceLabel = CSLabel(.regular, 11, "loading...")
     
     private var bottomButton = CSButton(.primary)
     private var firstAppear = true
@@ -55,10 +55,13 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
         guard let list = viewModel.closetListRelay.value else { return }
         var index = 0
         for i in 0..<list.count {
-            let imageView = UIImageView()
             let yPos = scrollView.frame.height * CGFloat(i)
+            let imageView = UIImageView()
+            imageView.kf.indicator?.view.show()
+            imageView.kf.indicatorType = .activity
             imageView.frame = CGRect(x: 0, y: yPos, width: scrollView.bounds.width, height: scrollView.bounds.height)
             if let url = URL(string: list[i].imageUrl) {
+                imageView.kf.indicatorType = .activity
                 imageView.kf.setImage(with: url,
                                                 placeholder: nil,
                                                 options: [.retryStrategy(DelayRetryStrategy(maxRetryCount: 2, retryInterval: .seconds(2))),
@@ -66,9 +69,12 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
                                                           .cacheOriginalImage]) { result in
                     switch result {
                     case .success:
+                        imageView.kf.indicator?.view.hide()
                         break
                     case .failure:
-                        break
+                        imageView.kf.indicator?.view.hide()
+                        imageView.image = AssetsImage.defaultImage.image
+                        self.imageSourceLabel.text = ""
                     }
                 }
             }

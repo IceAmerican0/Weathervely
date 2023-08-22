@@ -137,7 +137,7 @@ extension EditRegionViewController: UITableViewDataSource {
         return tableView.dequeueCell(withType: EditRegionTableViewCell.self, for: indexPath).then {
             let regionName = viewModel.loadedListRelay.value[indexPath.row].addressName
             $0.configureCellState(EditRegionCellState(region: regionName, count: listCount))
-            $0.buttonDidTapRelay
+            $0.button.rx.tap
                 .subscribe(onNext: { [weak self] _ in
                     self?.viewModel.didTapCellButton(indexPath)
                 })

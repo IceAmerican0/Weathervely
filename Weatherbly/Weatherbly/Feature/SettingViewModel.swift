@@ -11,25 +11,25 @@ import RxRelay
 import SafariServices
 
 public protocol SettingViewModelLogic: ViewModelBusinessLogic {
-    func toHomeView()
     func toEditNicknameView()
     func toEditRegionView()
     func toBeContinue()
 }
 
 final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
+
     func toHomeView() {
         let vc = HomeViewController(HomeViewModel())
         navigationPopViewControllerRelay.accept(())
     }
-    
+  
     func toEditNicknameView() {
         let vc = EditNicknameViewController(EditNicknameViewModel())
         navigationPushViewControllerRelay.accept(vc)
     }
     
     func toEditRegionView() {
-        let vc = EditRegionViewController(EditRegionViewModel(.none))
+        let vc = EditRegionViewController(EditRegionViewModel(.edit))
         navigationPushViewControllerRelay.accept(vc)
     }
     
