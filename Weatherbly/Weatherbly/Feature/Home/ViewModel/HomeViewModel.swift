@@ -75,6 +75,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                         }
                         return yesterDayHour
                     }()
+                    
                     self?.yesterdayCategoryRelay.accept(self?.bindingWeatherByDate(response, -1, yesterDayHour))
                     
                 case .failure(let error):
@@ -239,6 +240,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                         break
                     }
                     self.weatherImageRelay.accept(weatherImage)
+                    self.weatherMsgRelay.accept(message)
                     
                     // message -> 비관련
                 } else {
