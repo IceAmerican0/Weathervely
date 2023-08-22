@@ -103,7 +103,7 @@ extension UIView {
             if UIScreen.main.bounds.width < 376 {
                 y = (self.frame.size.height - 42) - UIScreen.main.bounds.height * 0.17
             } else {
-                y = (self.frame.size.height - 42) - UIScreen.main.bounds.height * 0.25
+                y = (self.frame.size.height - 42) - UIScreen.main.bounds.height * 0.2
             }
            return y
         }()
