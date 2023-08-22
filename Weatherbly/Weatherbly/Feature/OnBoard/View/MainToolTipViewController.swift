@@ -57,6 +57,7 @@ public final class MainToolTipViewController: UIViewController, CodeBaseInitiali
             self.innerRightArrow.alpha = 1.0
             self.outerLeftArrow.alpha = 0.75
             self.outerRightArrow.alpha = 0.75
+            self.view.layoutIfNeeded()
         }, completion: { _ in
             UIView.animate(withDuration: 0.5,
                            animations: {
@@ -65,6 +66,7 @@ public final class MainToolTipViewController: UIViewController, CodeBaseInitiali
                 self.innerRightArrow.alpha = 0.75
                 self.outerLeftArrow.alpha = 1.0
                 self.outerRightArrow.alpha = 1.0
+                self.view.layoutIfNeeded()
             })
         })
     }

@@ -12,7 +12,7 @@ import RxCocoa
 
 final class SettingRegionViewController: RxBaseViewController<SettingRegionViewModel> {
     
-    private var progressBar = CSProgressView(0.5)
+    private var progressBar = CSProgressView(0.66)
     private var navigationView = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
     private var explanationLabel = CSLabel(.bold, 24, "동네를 설정해주세요")
     
@@ -74,6 +74,7 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
             $0.delegate = self
             $0.dataSource = self
             $0.isScrollEnabled = true
+            $0.showsVerticalScrollIndicator = true
             $0.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
             $0.showsHorizontalScrollIndicator = false
             $0.register(withType: RegionTableViewCell.self)
