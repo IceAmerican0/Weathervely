@@ -54,11 +54,14 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
         
         for i in 0..<closetsList.count {
             let imageView = UIImageView()
+            imageView.kf.indicator?.view.show()
+            imageView.kf.indicatorType = .activity
             let yPos = scrollView.frame.height * CGFloat(i)
             imageView.frame = CGRect(x: 0, y: yPos, width: scrollView.bounds.width, height: scrollView.bounds.height)
             
             let imageUrl = closetsList[i].imageUrl
                 if let url = URL(string: imageUrl) {
+                    imageView.kf.indicatorType = .activity
                     imageView.kf.setImage(with: url,
                                           placeholder: nil,
                                           options: [
@@ -69,9 +72,9 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
                                             .cacheOriginalImage]) { result in
                         switch result {
                         case .success:
-                            imageView.kf.indicatorType = .none
+                            imageView.kf.indicator?.view.hide()
                         case .failure:
-                            imageView.kf.indicatorType = .none
+                            imageView.kf.indicator?.view.hide()
                             imageView.image = AssetsImage.defaultImage.image
                         }
                     }
@@ -261,7 +264,7 @@ extension HomeSensoryTempViewController {
         
         // 스크롤뷰의 맨 위에 도달했을 때
         if contentOffsetY <= 0 {
-            viewModel.alertMessageRelay.accept(.init(title: "이게 가장 두꺼운 옷차림이에요",
+            viewModel.alertMessageRelay.accept(.init(title: "이게 가장 얇은 옷차림이에요",
                                                      alertType: .Info))
             let middleContentOffset = CGPoint(x: 0, y: 0)
             scrollView.setContentOffset(middleContentOffset, animated: false)
@@ -270,7 +273,7 @@ extension HomeSensoryTempViewController {
         
         // 스크롤뷰의 맨 아래에 도달했을 때
         if contentOffsetY + scrollViewHeight > contentHeight {
-            viewModel.alertMessageRelay.accept(.init(title: "이게 가장 얇은 옷차림이에요",
+            viewModel.alertMessageRelay.accept(.init(title: "이게 가장 두꺼운 옷차림이에요",
                                                      alertType: .Info))
             let middleContentOffset = CGPoint(x: 0, y: scrollView.frame.height * CGFloat(list.count - 1))
             scrollView.setContentOffset(middleContentOffset, animated: false)

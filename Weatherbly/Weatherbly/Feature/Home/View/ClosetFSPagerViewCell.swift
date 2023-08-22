@@ -10,11 +10,13 @@ import FlexLayout
 import PinLayout
 import Then
 import FSPagerView
+import Kingfisher
 
 final class ClosetFSPagerViewCell: FSPagerViewCell {
     
     var clothImageView = UIImageView().then {
-        $0.setIndicator()
+        $0.kf.indicator?.view.show()
+        $0.kf.indicatorType = .activity
     }
     
     var clothImageSourceLabel = CSLabel(.regular, 11, "loading...")
@@ -59,6 +61,7 @@ final class ClosetFSPagerViewCell: FSPagerViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        clothImageView.setIndicator()
+        clothImageView.kf.indicator?.view.show()
+        clothImageView.kf.indicatorType = .activity
     }
 }

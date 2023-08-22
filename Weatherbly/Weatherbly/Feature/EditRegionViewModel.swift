@@ -11,7 +11,7 @@ import RxCocoa
 
 public enum EditRegionState {
     /// 설정페이지에서 진입시
-    case none
+    case edit
     /// 주소 변경
     case change
     /// 주소 추가
@@ -33,30 +33,31 @@ public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogi
     
     private let dataSource = UserDataSource()
     
-    public let editRegionState: EditRegionState
+    public var editRegionState: EditRegionState
     
     public init(_ editRegionState: EditRegionState) {
         self.editRegionState = editRegionState
     }
     
     public func loadRegionList() {
-        switch editRegionState {
-        case .none:
-            break
-        case .change:
-            alertMessageRelay.accept(.init(title: "현재 동네가 변경됐어요",
-                                                 alertType: .Info))
-        case .add:
-            alertMessageRelay.accept(.init(title: "동네가 추가됐어요",
-                                                 alertType: .Info))
-        }
-        
         dataSource.getAddressList()
             .subscribe(onNext: { [weak self] result in
                 switch result {
                 case .success(let response):
                     guard let list = response.data?.list else { return }
                     self?.loadedListRelay.accept(list)
+                    switch self?.editRegionState {
+                    case .edit:
+                        break
+                    case .change:
+                        self?.alertMessageRelay.accept(.init(title: "현재 동네가 변경됐어요",
+                                                             alertType: .Info))
+                    case .add:
+                        self?.alertMessageRelay.accept(.init(title: "동네가 추가됐어요",
+                                                             alertType: .Info))
+                    case .none:
+                        break
+                    }
                 case .failure(let err):
                     guard let errorString = err.errorDescription else { return }
                     self?.alertMessageRelay.accept(.init(title: errorString,
@@ -67,6 +68,7 @@ public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogi
     }
     
     public func deleteRegion(_ indexPath: IndexPath) {
+        editRegionState = .edit
         let regionInfo = loadedListRelay.value[indexPath.row]
         dataSource.deleteAddress(regionInfo.id)
             .subscribe(onNext: { [weak self] result in
@@ -85,6 +87,7 @@ public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogi
     }
     
     public func updateMainRegion(_ indexPath: IndexPath) {
+        editRegionState = .edit
         let regionInfo = loadedListRelay.value[indexPath.row]
         dataSource.setMainAddress(regionInfo.id)
             .subscribe(onNext: { [weak self] result in

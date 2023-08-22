@@ -38,13 +38,15 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
                         return .just(.failure(.decodeError))
                     }
                     
-                    debugPrint(
+                    #if DEBUG
+                    print(
                         """
                         ==============================
                         Request : \(type)
                         Response : \(String(decoding: response.data, as: UTF8.self))
                         """
                     )
+                    #endif
                     
                     return .just(.success(try response.map(D.self)))
                 } else { // status : !(200 ~ 300)
@@ -56,13 +58,15 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
                         let errMessage = apiMessage["message"] as? String ?? ""
                         let errDetail = apiMessage["detail"] as? String ?? ""
                         
-                        debugPrint(
+                        #if DEBUG
+                        print(
                             """
                             ==============================
                             Request : \(type)
                             Response : \(dictionary)
                             """
                         )
+                        #endif
                         
                         return .just(.failure(.badRequestError(errDetail.isEmpty ? errMessage : errDetail)))
                     }

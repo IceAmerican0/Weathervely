@@ -28,7 +28,7 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
     private var tempWrapper = UIView()
     private var tempLabel =  CSLabel(.bold, 18, "선택 시간 (3℃)")
     private var scrollView = UIScrollView()
-    private var imageSourceLabel = CSLabel(.regular, 11, "")
+    private var imageSourceLabel = CSLabel(.regular, 11, "loading...")
     
     private var bottomButton = CSButton(.primary)
     private var firstAppear = true
@@ -55,11 +55,13 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
         guard let list = viewModel.closetListRelay.value else { return }
         var index = 0
         for i in 0..<list.count {
-            let imageView = UIImageView()
-            imageView.setIndicator()
             let yPos = scrollView.frame.height * CGFloat(i)
+            let imageView = UIImageView()
+            imageView.kf.indicator?.view.show()
+            imageView.kf.indicatorType = .activity
             imageView.frame = CGRect(x: 0, y: yPos, width: scrollView.bounds.width, height: scrollView.bounds.height)
             if let url = URL(string: list[i].imageUrl) {
+                imageView.kf.indicatorType = .activity
                 imageView.kf.setImage(with: url,
                                                 placeholder: nil,
                                                 options: [.retryStrategy(DelayRetryStrategy(maxRetryCount: 2, retryInterval: .seconds(2))),
@@ -67,11 +69,12 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
                                                           .cacheOriginalImage]) { result in
                     switch result {
                     case .success:
-                        imageView.kf.indicatorType = .none
+                        imageView.kf.indicator?.view.hide()
                         break
                     case .failure:
-                        imageView.kf.indicatorType = .none
+                        imageView.kf.indicator?.view.hide()
                         imageView.image = AssetsImage.defaultImage.image
+                        self.imageSourceLabel.text = ""
                     }
                 }
             }
@@ -242,7 +245,7 @@ extension SlotMachineViewController: UIScrollViewDelegate {
         
         // 스크롤뷰의 맨 위에 도달했을 때
         if contentOffsetY < 0 {
-            viewModel.alertMessageRelay.accept(.init(title: "이게 가장 두꺼운 옷차림이에요",
+            viewModel.alertMessageRelay.accept(.init(title: "이게 가장 얇은 옷차림이에요",
                                                      alertType: .Info))
             let middleContentOffset = CGPoint(x: 0, y: 0)
             scrollView.setContentOffset(middleContentOffset, animated: false)
@@ -251,7 +254,7 @@ extension SlotMachineViewController: UIScrollViewDelegate {
         
         // 스크롤뷰의 맨 아래에 도달했을 때
         if contentOffsetY + scrollViewHeight > contentHeight {
-            viewModel.alertMessageRelay.accept(.init(title: "이게 가장 얇은 옷차림이에요",
+            viewModel.alertMessageRelay.accept(.init(title: "이게 가장 두꺼운 옷차림이에요",
                                                      alertType: .Info))
             let middleContentOffset = CGPoint(x: 0, y: scrollView.frame.height * CGFloat(list.count - 1))
             scrollView.setContentOffset(middleContentOffset, animated: false)

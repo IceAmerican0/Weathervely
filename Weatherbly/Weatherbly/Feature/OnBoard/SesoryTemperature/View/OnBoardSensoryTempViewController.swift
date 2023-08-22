@@ -33,8 +33,6 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
     
     var selectOtherDayLabel = CSLabel(.underline, 15, "다른 시간대 선택하기")
     
-    private var labelTapGesture = UITapGestureRecognizer()
-    
     private let imageHeight = UIScreen.main.bounds.height * 0.38
     private let buttonHeight = UIScreen.main.bounds.height * 0.054
     
@@ -72,7 +70,8 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
         }
         
         tempImageView.do {
-            $0.setIndicator()
+            $0.kf.indicator?.view.show()
+            $0.kf.indicatorType = .activity
         }
         
         discriptionLabel.do {
@@ -91,7 +90,7 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
         }
         
         selectOtherDayLabel.do {
-            $0.addGestureRecognizer(labelTapGesture)
+            $0.isUserInteractionEnabled = true
         }
     }
     
@@ -169,8 +168,7 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
             })
             .disposed(by: bag)
         
-        labelTapGesture.rx
-            .event
+        selectOtherDayLabel.rx.tapGesture().when(.recognized)
             .subscribe(onNext: { [weak self] _ in
                 self?.viewModel.navigationPopViewControllerRelay.accept(Void())
             })
@@ -190,6 +188,7 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
                 for i in 0..<closets.count {
                     if temperature >= closets[i].minTemp && temperature < closets[i].maxTemp {
                         if let url = URL(string: closets[i].imageUrl) {
+                            self?.tempImageView.kf.indicatorType = .activity
                             self?.tempImageView.kf.setImage(with: url,
                                                             placeholder: nil,
                                                             options: [.retryStrategy(DelayRetryStrategy(maxRetryCount: 2, retryInterval: .seconds(2))),
@@ -197,11 +196,11 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
                                                                       .cacheOriginalImage]) { result in
                                 switch result {
                                 case .success:
-                                    self?.tempImageView.kf.indicatorType = .none
+                                    self?.tempImageView.kf.indicator?.view.hide()
                                     self?.imageSourceLabel.text = "by \(closets[i].shopName)"
                                     self?.viewModel.closetIDRelay.accept(closets[i].closetId)
                                 case .failure:
-                                    self?.tempImageView.kf.indicatorType = .none
+                                    self?.tempImageView.kf.indicator?.view.hide()
                                     self?.tempImageView.image = AssetsImage.defaultImage.image
                                     self?.imageSourceLabel.text = ""
                                 }

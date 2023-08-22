@@ -505,6 +505,7 @@ extension HomeViewController: FSPagerViewDataSource {
         
         if let imageUrl = closetInfo?.imageUrl, let shopName = closetInfo?.shopName {
             if let url = URL(string: imageUrl) {
+                cell.clothImageView.kf.indicatorType = .activity
                 cell.clothImageView.kf.setImage(with: url,
                                                 placeholder: nil,
                                                 options: [.retryStrategy(DelayRetryStrategy(maxRetryCount: 2, retryInterval: .seconds(2))),
@@ -512,10 +513,10 @@ extension HomeViewController: FSPagerViewDataSource {
                                                           .cacheOriginalImage]) { result in
                     switch result {
                     case .success:
-                        cell.clothImageView.kf.indicatorType = .none
+                        cell.clothImageView.kf.indicator?.view.hide()
                         cell.clothImageSourceLabel.text = "by \(shopName)"
                     case .failure:
-                        cell.clothImageView.kf.indicatorType = .none
+                        cell.clothImageView.kf.indicator?.view.hide()
                         cell.clothImageView.image = AssetsImage.defaultImage.image
                         cell.clothImageSourceLabel.text = ""
                     }
