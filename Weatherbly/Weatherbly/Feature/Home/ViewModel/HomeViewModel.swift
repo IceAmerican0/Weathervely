@@ -50,52 +50,22 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     var weatherMsgRelay = BehaviorRelay<String?>(value: "오늘 하루 어떠셨나요?")
     var yesterdayCategoryRelay = BehaviorRelay<[String: String]?>(value: nil)
     
-    // 날짜변경을 알기 위한 relay
+    // 날짜변경, 시간변경을 알기 위한 relay
     let dayChangedRelay = PublishRelay<Void>()
+    let hourChangedRelay = PublishRelay<Void>()
     
     override init() {
         super.init()
         setupDayChangeDetection()
+        setupHourChangeDetection()
     }
     
     public func getInfo(_ dateString: String) {
+        swipeIndex = 0
         getVillageForecastInfo()
         getRecommendCloset(dateString)
         getSwipeArray()
-        swipeIndex = 0
     }
-    
-    
-    public func setupDayChangeDetection() {
-        // 첫 번째 파라미터는 초기 지연 시간, 두 번째 파라미터는 이후 반복될 시간 간격
-        Observable<Int>.timer(RxTimeInterval.seconds(Int(secondsUntilNextDay())), scheduler: MainScheduler.instance)
-            .take(1)  // 한 번만 실행하기 위해 take(1)을 사용합니다.
-            .subscribe(onNext: { [weak self] _ in
-                // 날짜가 바뀌면 dayChangedRelay를 통해 알림
-                self?.dayChangedRelay.accept(())
-
-                // 다음 날짜 변경을 위한 새로운 타이머를 설정
-                self?.setupDayChangeDetection()
-            })
-            .disposed(by: bag)
-    }
-    
-    public func secondsUntilNextDay() -> TimeInterval {
-        let calendar = Calendar.current
-        let now = Date()
-        
-        // 내일의 날짜를 얻습니다.
-        guard let tomorrow = calendar.date(byAdding: .day, value: 1, to: now) else {
-            return 0
-        }
-
-        // 내일의 00:00 (자정) 시간 가져오기
-        let midnightTomorrow = calendar.startOfDay(for: tomorrow)
-        
-        // 현재 시간과 내일 자정 사이의 시간 간격을 초 단위로 반환합니다.
-        return midnightTomorrow.timeIntervalSince(now)
-    }
-    
     
     public func getVillageForecastInfo() {
         
@@ -122,8 +92,9 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                     self?.yesterdayCategoryRelay.accept(self?.bindingWeatherByDate(response, -1, yesterDayHour))
                     
                 case .failure(let error):
-                    debugPrint("viewModel Error : ", error.localizedDescription)
-                    
+                    debugPrint("viewModel Error : ", error.errorDescription)
+                    guard let errorDescription = error.errorDescription else { return }
+                    self?.alertMessageRelay.accept(.init(title: errorDescription, alertType: .Error))
                 }
             })
             .disposed(by: bag)
@@ -136,19 +107,12 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                 case .success(let response):
                     self?.recommendClosetEntityRelay.accept(response)
                 case .failure(let error):
-                    debugPrint("viewModel Error, getRecommendCloset :" , error.localizedDescription)
+                    debugPrint("viewModel Error, getRecommendCloset :" , error.errorDescription)
+                    guard let errorDescription = error.errorDescription else { return }
+                    self?.alertMessageRelay.accept(.init(title: errorDescription, alertType: .Error))
                 }
             })
             .disposed(by: bag)
-    }
-    
-    func setCurrentIndex(_ index: Int) {
-        guard self.recommendClosetEntityRelay.value != nil else { return }
-        let closetInfo = self.recommendClosetEntityRelay.value?.data?.list.closets[index]
-        if let closetId = closetInfo?.id {
-            //                    debugPrint(index, closetId)
-            highlightedClosetIdRelay.accept(closetId)
-        }
     }
     
     func bindingWeatherByDate(_ response: VillageForecastInfoEntity?, _ dayInterval: Int, _ selectedHour: String) -> [String: String]? {
@@ -266,19 +230,20 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                         // (단기) 없음(0), 비(1), 비/눈(2), 눈(3), 소나기(4)
                     case 1:
                         weatherImage = AssetsImage.rainny.image
-                        message = WeatherMsgEnum.currentRainMsg.msg
+                        message = (headerTimeRelay.value == "현재") ? WeatherMsgEnum.currentRainMsg.msg : WeatherMsgEnum.futureRainMsg(rainPossibility).msg
                     case 2:
                         // TODO: - 이미지 비/눈 변경
                         weatherImage = AssetsImage.rainsnow.image
-                        message = WeatherMsgEnum.currrentRainSnowMsg.msg
+                        message = (headerTimeRelay.value == "현재") ? WeatherMsgEnum.currrentRainSnowMsg.msg : WeatherMsgEnum.futureRainSnowMsg(rainPossibility).msg
                     case 3:
                         // TODO: - 이미지 눈 변경
                         weatherImage = AssetsImage.snow.image
-                        message = WeatherMsgEnum.currentSnowMsg.msg
+                        message = (headerTimeRelay.value == "현재") ? WeatherMsgEnum.currentSnowMsg.msg :
+                        WeatherMsgEnum.futureSnowMsg(rainPossibility).msg
                     case 4:
                         // TODO: - 비 이미지 + 소나기 메세지
                         weatherImage = AssetsImage.rainny.image
-                        message = WeatherMsgEnum.currenstShowerMsg.msg
+                        message = (headerTimeRelay.value == "현재") ? WeatherMsgEnum.currenstShowerMsg.msg : WeatherMsgEnum.futureShowerMsg.msg
                     default:
                         break
                     }
@@ -388,7 +353,6 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             }
         }
         
-        // TODO: - swipeIndex 를 구독해서 viewContorller 에서 사용할지는 생각해봐야한다.
         swipeIndex = (todayTimeArray.indices.filter { todayTimeArray[$0] == now })[0]
         
         todayTimeArray.map { swipeArray.append($0)}
@@ -558,31 +522,6 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         }
     }
     
-    func nowValidationCheck() {
-            
-            guard let swipeArray = swipeArrayRelay.value,
-                  let forecastEntity = villageForeCastInfoEntityRelay.value
-            else { return }
-            
-            
-//            var categoryWithValue: [String: String]? = [:]
-//            var yesterdayCategoryValue: [String: String]? = [:]
-//            var newSwipeArrray = swipeArray
-            
-            
-            
-            // headerTime 바꾸기
-//            selectedHourParamTypeRelay.accept(Date().todaySelectedFormat(newSelectedHour.addColon))
-//            categoryWithValue = self.bindingWeatherByDate(forecastEntity, 0, newSelectedHour) // HH00
-//
-//            if newSelectedHour == "0000" || newSelectedHour == "0100" || newSelectedHour == "0200" { newSelectedHour = "0300" }
-//            yesterdayCategoryValue = self.bindingWeatherByDate(forecastEntity, -1, newSelectedHour)
-        
-            
-            
-        
-    }
-    
     public func mainLabelTap() {
         
         // FIXME: - 시간변화 걸쳐있을때 처리하기
@@ -668,6 +607,78 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             .disposed(by: bag)
     }
     
+    // MARK: - DayChange
+    
+    public func setupDayChangeDetection() {
+        // 첫 번째 파라미터는 초기 지연 시간, 두 번째 파라미터는 이후 반복될 시간 간격
+        Observable<Int>.timer(RxTimeInterval.seconds(Int(secondsUntilNextDay())), scheduler: MainScheduler.instance)
+            .take(1)  // 한 번만 실행하기 위해 take(1)을 사용합니다.
+            .subscribe(onNext: { [weak self] _ in
+                // 날짜가 바뀌면 dayChangedRelay를 통해 알림
+                self?.dayChangedRelay.accept(())
+
+                // 다음 날짜 변경을 위한 새로운 타이머를 설정
+                self?.setupDayChangeDetection()
+            })
+            .disposed(by: bag)
+    }
+    
+    
+    public func secondsUntilNextDay() -> TimeInterval {
+        let calendar = Calendar.current
+        let now = Date()
+        
+        // 내일의 날짜를 얻습니다.
+        guard let tomorrow = calendar.date(byAdding: .day, value: 1, to: now) else {
+            return 0
+        }
+
+        // 내일의 00:00 (자정) 시간 가져오기
+        let midnightTomorrow = calendar.startOfDay(for: tomorrow)
+        
+        // 현재 시간과 내일 자정 사이의 시간 간격을 초 단위로 반환합니다.
+        return midnightTomorrow.timeIntervalSince(now)
+    }
+    
+    // MARK: - HourChange
+
+    func setupHourChangeDetection() {
+        Observable<Int>.timer(RxTimeInterval.seconds(Int(secondsUntilNextHour())), scheduler: MainScheduler.instance)
+            .take(1)
+            .subscribe(onNext: { [weak self] _ in
+                
+                let calendar = Calendar.current
+                let now = Date()
+                let currentHour = calendar.component(.hour, from: now)
+                
+                // 현재 시간이 00시가 아닐 때만 hourChangedRelay를 트리거합니다.
+                if currentHour != 0 {
+                    self?.hourChangedRelay.accept(())
+                }
+                self?.setupHourChangeDetection()
+            })
+            .disposed(by: bag)
+    }
+    
+    func setCurrentIndex(_ index: Int) {
+        guard self.recommendClosetEntityRelay.value != nil else { return }
+        let closetInfo = self.recommendClosetEntityRelay.value?.data?.list.closets[index]
+        if let closetId = closetInfo?.id {
+            //                    debugPrint(index, closetId)
+            highlightedClosetIdRelay.accept(closetId)
+        }
+    }
+    
+    func secondsUntilNextHour() -> TimeInterval {
+        let calendar = Calendar.current
+        let now = Date()
+        
+        guard let nextTime = calendar.date(byAdding: .hour, value: 1, to: now) else { return 0 }
+        
+        // 지금부터 한시간 뒤 받아오기
+        return nextTime.timeIntervalSince(now)
+    }
+    
     public func toSettingView() {
         let vc = SettingViewController(SettingViewModel())
         navigationPushViewControllerRelay.accept(vc)
@@ -690,6 +701,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         vc.isModalInPresentation = true // prevent to dismiss the viewController when drag action
         presentViewControllerWithAnimationRelay.accept(vc)
     }
+    
 }
 
 extension HomeViewModel: HomeSensoryTempViewControllerDelegate {
@@ -698,7 +710,7 @@ extension HomeViewModel: HomeSensoryTempViewControllerDelegate {
         
         self.getRecommendCloset(self.selectedHourParamTypeRelay.value!)
         var newTemperatureDiff = self.recommendClosetEntityRelay.value?.data?.list.temperatureDifference
-        self.weatherMsgRelay.accept(WeatherMsgEnum.seonsoryDiffMsg(userTempDiff: newTemperatureDiff!).msg)
+        self.weatherMsgRelay.accept(WeatherMsgEnum.seonsoryDiffMsg(newTemperatureDiff!).msg)
         self.alertMessageRelay.accept(.init(title: "\(nickname) 님의 체감온도가 반영되었어요", alertType: .Info))
     }
 }
