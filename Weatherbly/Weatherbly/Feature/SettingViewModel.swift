@@ -20,7 +20,7 @@ public protocol SettingViewModelLogic: ViewModelBusinessLogic {
 final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
     func toHomeView() {
         let vc = HomeViewController(HomeViewModel())
-        navigationPushViewControllerRelay.accept(vc)
+        navigationPopViewControllerRelay.accept(())
     }
     
     func toEditNicknameView() {
