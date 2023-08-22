@@ -239,7 +239,7 @@ extension SlotMachineViewController: UIScrollViewDelegate {
         
         // 스크롤뷰의 맨 위에 도달했을 때
         if contentOffsetY < 0 {
-            viewModel.alertMessageRelay.accept(.init(title: "이게 가장 두꺼운 옷차림이에요",
+            viewModel.alertMessageRelay.accept(.init(title: "이게 가장 얇은 옷차림이에요",
                                                      alertType: .Info))
             let middleContentOffset = CGPoint(x: 0, y: 0)
             scrollView.setContentOffset(middleContentOffset, animated: false)
@@ -248,7 +248,7 @@ extension SlotMachineViewController: UIScrollViewDelegate {
         
         // 스크롤뷰의 맨 아래에 도달했을 때
         if contentOffsetY + scrollViewHeight > contentHeight {
-            viewModel.alertMessageRelay.accept(.init(title: "이게 가장 얇은 옷차림이에요",
+            viewModel.alertMessageRelay.accept(.init(title: "이게 가장 두꺼운 옷차림이에요",
                                                      alertType: .Info))
             let middleContentOffset = CGPoint(x: 0, y: scrollView.frame.height * CGFloat(list.count - 1))
             scrollView.setContentOffset(middleContentOffset, animated: false)
