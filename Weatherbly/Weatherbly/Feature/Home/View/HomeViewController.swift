@@ -279,6 +279,18 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
 //            })
 //            .disposed(by: bag)
         
+        viewModel.dayChangedRelay
+            .subscribe(onNext: { [weak self] _ in
+                self?.viewModel.getInfo(self?.date.todayHourFormat ?? Date().todayHourFormat)
+            })
+            .disposed(by: bag)
+        
+        viewModel.hourChangedRelay
+            .subscribe(onNext: { [weak self] _ in
+                self?.viewModel.getInfo(self?.date.todayHourFormat ?? Date().todayHourFormat)
+            })
+            .disposed(by: bag)
+        
         viewModel.mappedCategoryDicRelay
             .subscribe(onNext: { [weak self] mappedCategory in
                 self?.reloadDailyWrapper(self?.viewModel.swipeDirectionRelay.value, mappedCategory)
@@ -303,7 +315,7 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         
         viewModel.headerTimeRelay
             .subscribe(onNext: { [weak self] justTimeString in
-                print("justTimeString : ",justTimeString)
+//                print("justTimeString : ",justTimeString)
                 self?.setHeader(justTimeString)
             })
             .disposed(by: bag)
@@ -357,7 +369,7 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
             return }
         var weatherMsg =  weatherMsg
         if self.viewModel.selectedHourParamTypeRelay.value == self.date.todayHourFormat {
-            weatherMsg = WeatherMsgEnum.seonsoryDiffMsg(userTempDiff: (self.viewModel.recommendClosetEntityRelay.value?.data?.list.temperatureDifference)!).msg
+            weatherMsg = WeatherMsgEnum.seonsoryDiffMsg((self.viewModel.recommendClosetEntityRelay.value?.data?.list.temperatureDifference)!).msg
         }
         self.messageLabel.text = weatherMsg
     }
