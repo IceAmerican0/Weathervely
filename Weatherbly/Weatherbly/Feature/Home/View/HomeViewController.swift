@@ -309,6 +309,7 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
             .subscribe(onNext: { [weak self] result in
                 guard result != nil else { return }
                 self?.pagerView.reloadData()
+                self?.viewModel.setCurrentMsg()
                 self?.viewModel.setCurrentIndex((self?.pagerView.currentIndex)!)
             })
             .disposed(by: bag)
@@ -334,6 +335,7 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
             .subscribe(onNext: { [weak self] message in
                 
                 guard let message = message else { return }
+                debugPrint("weatherMsgRelay : ", message)
                 self?.setWeatherMsgInfo(message)
                
             }).disposed(by: bag)
@@ -366,12 +368,15 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         
         guard ((self.viewModel.recommendClosetEntityRelay.value) != nil) else {
             self.messageLabel.text = weatherMsg
+            print("@@@@@")
             return }
         var weatherMsg =  weatherMsg
+        print( self.viewModel.selectedHourParamTypeRelay.value , self.date.todayHourFormat )
         if self.viewModel.selectedHourParamTypeRelay.value == self.date.todayHourFormat {
             weatherMsg = WeatherMsgEnum.seonsoryDiffMsg((self.viewModel.recommendClosetEntityRelay.value?.data?.list.temperatureDifference)!).msg
         }
         self.messageLabel.text = weatherMsg
+        print("hereherehere : ", weatherMsg)
     }
     
     func reloadDailyWrapper (_ direction: UISwipeGestureRecognizer.Direction?, _ mappedCategory: [String : String]?) {

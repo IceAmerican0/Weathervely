@@ -668,6 +668,11 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         }
     }
     
+    func setCurrentMsg() {
+        guard let newTemperatureDiff = self.recommendClosetEntityRelay.value?.data?.list.temperatureDifference else { return }
+        self.weatherMsgRelay.accept(WeatherMsgEnum.seonsoryDiffMsg(newTemperatureDiff).msg)
+    }
+    
     func secondsUntilNextHour() -> TimeInterval {
         let calendar = Calendar.current
         let now = Date()
