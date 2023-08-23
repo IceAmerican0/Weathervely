@@ -59,7 +59,7 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
             let imageView = UIImageView()
             imageView.kf.indicator?.view.show()
             imageView.kf.indicatorType = .activity
-            imageView.frame = CGRect(x: 0, y: yPos, width: scrollView.bounds.width, height: scrollView.bounds.height)
+            imageView.frame = CGRect(x: scrollView.bounds.width * 0.25, y: yPos, width: scrollView.bounds.width / 2, height: scrollView.bounds.height)
             if let url = URL(string: list[i].imageUrl) {
                 imageView.kf.indicatorType = .activity
                 imageView.kf.setImage(with: url,
@@ -173,7 +173,7 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
                         .paddingVertical(3)
                     flex.addItem(scrollView)
                         .marginTop(13)
-                        .width(50%)
+                        .width(100%)
                         .height(UIScreen.main.bounds.height * 0.37)
                         .alignSelf(.center)
                     flex.addItem(imageSourceLabel)

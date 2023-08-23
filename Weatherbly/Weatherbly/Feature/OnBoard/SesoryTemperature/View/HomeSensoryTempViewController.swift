@@ -21,7 +21,7 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
     private var headerView = UIView()
     private var navigationDismissButton = UIButton()
     
-    private var mainLabel = CSLabel(.bold, 22, "\(UserDefaultManager.shared.nickname)님에게\n적당한 옷차림을 골라주세요")
+    private var mainLabel = CSLabel(.bold, 22, "\(UserDefaultManager.shared.nickname) 님에게\n적당한 옷차림을 골라주세요")
     private var discriptionLabel = CSLabel(.regular, 16 , "사진을 위로 밀면 옷이 더 두꺼워져요\n사진을 아래로 밀면 옷이 더 얇아져요")
     
     private var clothScrollViewWrapper = UIView()
@@ -57,7 +57,7 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
             imageView.kf.indicator?.view.show()
             imageView.kf.indicatorType = .activity
             let yPos = scrollView.frame.height * CGFloat(i)
-            imageView.frame = CGRect(x: 0, y: yPos, width: scrollView.bounds.width, height: scrollView.bounds.height)
+            imageView.frame = CGRect(x: scrollView.bounds.width * 0.25, y: yPos, width: scrollView.bounds.width / 2, height: scrollView.bounds.height)
             
             let imageUrl = closetsList[i].imageUrl
                 if let url = URL(string: imageUrl) {
@@ -119,7 +119,7 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
             $0.addBorders([.top, .left, .right, .bottom])
             $0.setCornerRadius(5)
             $0.attributedText = NSMutableAttributedString()
-                .bold($0.text ?? "", 16, CSColor._40_106_167)
+                .bold($0.text ?? "", 16, CSColor._172_107_255)
             $0.adjustsFontSizeToFitWidth = true
         }
         
@@ -178,7 +178,7 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
                         .paddingVertical(3)
                     flex.addItem(scrollView)
                         .marginTop(13)
-                        .width(50%)
+                        .width(100%)
                         .height(UIScreen.main.bounds.height * 0.37)
                         .alignSelf(.center)
                     flex.addItem(imageSourceLabel)
