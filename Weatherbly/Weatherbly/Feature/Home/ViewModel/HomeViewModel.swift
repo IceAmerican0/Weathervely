@@ -230,20 +230,19 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                         // (단기) 없음(0), 비(1), 비/눈(2), 눈(3), 소나기(4)
                     case 1:
                         weatherImage = AssetsImage.rainny.image
-                        message = (headerTimeRelay.value == "현재") ? WeatherMsgEnum.currentRainMsg.msg : WeatherMsgEnum.futureRainMsg(rainPossibility).msg
+                        message = WeatherMsgEnum.futureRainMsg(rainPossibility).msg
                     case 2:
                         // TODO: - 이미지 비/눈 변경
                         weatherImage = AssetsImage.rainsnow.image
-                        message = (headerTimeRelay.value == "현재") ? WeatherMsgEnum.currrentRainSnowMsg.msg : WeatherMsgEnum.futureRainSnowMsg(rainPossibility).msg
+                        message = WeatherMsgEnum.futureRainSnowMsg(rainPossibility).msg
                     case 3:
                         // TODO: - 이미지 눈 변경
                         weatherImage = AssetsImage.snow.image
-                        message = (headerTimeRelay.value == "현재") ? WeatherMsgEnum.currentSnowMsg.msg :
-                        WeatherMsgEnum.futureSnowMsg(rainPossibility).msg
+                        message = WeatherMsgEnum.futureSnowMsg(rainPossibility).msg
                     case 4:
                         // TODO: - 비 이미지 + 소나기 메세지
                         weatherImage = AssetsImage.rainny.image
-                        message = (headerTimeRelay.value == "현재") ? WeatherMsgEnum.currenstShowerMsg.msg : WeatherMsgEnum.futureShowerMsg.msg
+                        message = WeatherMsgEnum.futureShowerMsg.msg
                     default:
                         break
                     }
