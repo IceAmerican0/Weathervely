@@ -61,7 +61,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     }
     
     public func getInfo(_ dateString: String) {
-        swipeIndex = 0
+        
         getVillageForecastInfo()
         getRecommendCloset(dateString)
         getSwipeArray()
@@ -189,7 +189,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             let rainPossibility = Int(categoryValues!["POP"]!) ?? 0
             let rainForm = Int(categoryValues!["PTY"]!) ?? 0
             
-            debugPrint(categoryValues!)
+//            debugPrint(categoryValues!)
             // let numericPart = stringValue.trimmingCharacters(in: CharacterSet.decimalDigits.inverted)
             
             //            guard var rainfall: Double = {
@@ -221,8 +221,8 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             
             var weatherImage: UIImage?
             var message = ""
+            let date = Date()
             
-            // TODO: - 메세지 필요
             switch rainPossibility {
             case 1...:
                 if rainPossibility >= 40 {
@@ -247,7 +247,10 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                         break
                     }
                     self.weatherImageRelay.accept(weatherImage)
-                    self.weatherMsgRelay.accept(message)
+                    
+                    if selectedHourParamTypeRelay.value != date.todayHourFormat {
+                        self.weatherMsgRelay.accept(message)
+                    }
                     
                     // message -> 비관련
                 } else {
@@ -266,6 +269,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     func noRainWeatherImageAndMessage (_ skyStatus: Int, _ windSpeed: Double, _ humidity: Int, _ temp: Int) {
         
         var weatherImage: UIImage?
+        let date = Date()
         var message = ""
         // FIXME: - 파라미터로 가지고 오지 말고 relay로 가져와서 멥핑해야 체감온도 이후 리로드할떄 메세지도 리로드 됨.
         if windSpeed >= 5.5 {
@@ -315,7 +319,11 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             break
         }
         self.weatherImageRelay.accept(weatherImage)
-        self.weatherMsgRelay.accept(message)
+        
+        if selectedHourParamTypeRelay.value != date.todayHourFormat {
+            self.weatherMsgRelay.accept(message)
+        }
+        
     }
     
     public func getSwipeArray() {
@@ -407,6 +415,8 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                 if String(time - 2400).count == 3 {
                     selectedHour = "0\(selectedHour)"
                 }
+                
+                
                 self.selectedHourParamTypeRelay.accept(Date().tomorrowSelectedFormat(selectedHour.addColon))
                 categoryWithValue = self.bindingWeatherByDate(forecastEntity, 1, selectedHour)
                 
@@ -624,14 +634,14 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     
     
     public func secondsUntilNextDay() -> TimeInterval {
-        let calendar = Calendar.current
+        let calendar = Calendar.shared
         let now = Date()
         
-        // 내일의 날짜를 얻습니다.
+        // 오늘 날짜 기준으로 내일의 날짜를 얻습니다.
         guard let tomorrow = calendar.date(byAdding: .day, value: 1, to: now) else {
             return 0
         }
-
+        
         // 내일의 00:00 (자정) 시간 가져오기
         let midnightTomorrow = calendar.startOfDay(for: tomorrow)
         
@@ -642,14 +652,14 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     // MARK: - HourChange
 
     func setupHourChangeDetection() {
+
         Observable<Int>.timer(RxTimeInterval.seconds(Int(secondsUntilNextHour())), scheduler: MainScheduler.instance)
             .take(1)
             .subscribe(onNext: { [weak self] _ in
                 
-                let calendar = Calendar.current
+                let calendar = Calendar.shared
                 let now = Date()
                 let currentHour = calendar.component(.hour, from: now)
-                
                 // 현재 시간이 00시가 아닐 때만 hourChangedRelay를 트리거합니다.
                 if currentHour != 0 {
                     self?.hourChangedRelay.accept(())
@@ -658,6 +668,22 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             })
             .disposed(by: bag)
     }
+    
+    func secondsUntilNextHour() -> TimeInterval {
+        let calendar = Calendar.shared
+           let now = Date()
+           
+           // 현재 시간의 시와 분을 가져옵니다.
+        _ = calendar.component(.hour, from: now)
+           let currentMinute = calendar.component(.minute, from: now)
+           let currentSecond = calendar.component(.second, from: now)
+           
+           // 다음 정각까지 남은 시간을 초로 계산합니다.
+           let remainingSeconds = 3600 - (currentMinute * 60 + currentSecond)
+            
+           return TimeInterval(remainingSeconds)
+    }
+    
     
     func setCurrentIndex(_ index: Int) {
         guard self.recommendClosetEntityRelay.value != nil else { return }
@@ -670,17 +696,11 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     
     func setCurrentMsg() {
         guard let newTemperatureDiff = self.recommendClosetEntityRelay.value?.data?.list.temperatureDifference else { return }
-        self.weatherMsgRelay.accept(WeatherMsgEnum.seonsoryDiffMsg(newTemperatureDiff).msg)
-    }
-    
-    func secondsUntilNextHour() -> TimeInterval {
-        let calendar = Calendar.current
-        let now = Date()
+        print(#function, newTemperatureDiff)
+        if selectedHourParamTypeRelay.value == Date().todayHourFormat {
+            self.weatherMsgRelay.accept(WeatherMsgEnum.seonsoryDiffMsg(newTemperatureDiff).msg)
+        }
         
-        guard let nextTime = calendar.date(byAdding: .hour, value: 1, to: now) else { return 0 }
-        
-        // 지금부터 한시간 뒤 받아오기
-        return nextTime.timeIntervalSince(now)
     }
     
     public func toSettingView() {

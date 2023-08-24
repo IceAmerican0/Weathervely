@@ -282,12 +282,14 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         viewModel.dayChangedRelay
             .subscribe(onNext: { [weak self] _ in
                 self?.viewModel.getInfo(self?.date.todayHourFormat ?? Date().todayHourFormat)
+                self?.viewModel.alertMessageRelay.accept(.init(title: "자정입니다. 날짜를 업데이트합니다", alertType: .Info))
             })
             .disposed(by: bag)
         
         viewModel.hourChangedRelay
             .subscribe(onNext: { [weak self] _ in
                 self?.viewModel.getInfo(self?.date.todayHourFormat ?? Date().todayHourFormat)
+                self?.viewModel.alertMessageRelay.accept(.init(title: "정각입니다", alertType: .Info))
             })
             .disposed(by: bag)
         
@@ -316,7 +318,6 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         
         viewModel.headerTimeRelay
             .subscribe(onNext: { [weak self] justTimeString in
-//                print("justTimeString : ",justTimeString)
                 self?.setHeader(justTimeString)
             })
             .disposed(by: bag)
@@ -335,7 +336,6 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
             .subscribe(onNext: { [weak self] message in
                 
                 guard let message = message else { return }
-                debugPrint("weatherMsgRelay : ", message)
                 self?.setWeatherMsgInfo(message)
                
             }).disposed(by: bag)
@@ -350,7 +350,7 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         let yesterdayTmp = Int(yesterDayInfo["TMP"]!)!
         let mainTmp = Int(mainInfo["TMP"]!)!
         
-        let tempDiff = yesterdayTmp - mainTmp
+        let tempDiff = mainTmp - yesterdayTmp
         switch tempDiff {
         case ..<0:
             self.weatherCommentLabel.text = "어제보다 \(tempDiff)℃ 낮아요"
@@ -365,18 +365,15 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
     }
     
     func setWeatherMsgInfo(_ weatherMsg: String) {
-        
         guard ((self.viewModel.recommendClosetEntityRelay.value) != nil) else {
             self.messageLabel.text = weatherMsg
-            print("@@@@@")
             return }
         var weatherMsg =  weatherMsg
-        print( self.viewModel.selectedHourParamTypeRelay.value , self.date.todayHourFormat )
+        
         if self.viewModel.selectedHourParamTypeRelay.value == self.date.todayHourFormat {
             weatherMsg = WeatherMsgEnum.seonsoryDiffMsg((self.viewModel.recommendClosetEntityRelay.value?.data?.list.temperatureDifference)!).msg
         }
         self.messageLabel.text = weatherMsg
-        print("hereherehere : ", weatherMsg)
     }
     
     func reloadDailyWrapper (_ direction: UISwipeGestureRecognizer.Direction?, _ mappedCategory: [String : String]?) {
