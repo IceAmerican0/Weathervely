@@ -61,10 +61,11 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     }
     
     public func getInfo(_ dateString: String) {
-        
+        selectedHourParamTypeRelay.accept(Date().todayHourFormat)
         getVillageForecastInfo()
         getRecommendCloset(dateString)
         getSwipeArray()
+        headerTimeRelay.accept(Date().todayThousandFormat)
     }
     
     public func getVillageForecastInfo() {

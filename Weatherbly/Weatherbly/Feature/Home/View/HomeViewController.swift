@@ -20,14 +20,13 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
     private var topLayoutWrapper = UIView()
     private var settingButton = UIButton()
     private var mainLabelWrapper = UIView()
-    private var mainLabel = CSLabel(.bold, 18, "00동 | 현재")
+    private var mainLabel = CSLabel(.bold, 20, "00동 | 현재")
     private var calendarButton = UIButton()
     
     private var dailyWrapper = UIView()
     private var weatherImageView = UIImageView()
     private var temperatureLabelWrapper = UIView()
     private var temperatureLabel = CSLabel(.bold, 15, "")
-    private var extremeTempLable = CSLabel(.bold, 15, "")
     private var weatherCommentLabel = CSLabel(.regular, 18, "찬바람이 세차게 불어요")
     private var messageLabel = CSLabel(.regular, 17, "😷 미세 먼지가 매우 심해요")
     
@@ -100,15 +99,15 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
             $0.numberOfLines = 0
         }
         
-        extremeTempLable.do {
-            $0.numberOfLines = 0
-        }
-        
         messageLabel.do {
             $0.backgroundColor = .white
             $0.clipsToBounds = true
             $0.layer.cornerRadius = 15
             $0.adjustsFontSizeToFitWidth = true
+        }
+        
+        weatherCommentLabel.do {
+            $0.numberOfLines = 0
         }
         
         pagerView.do {
@@ -161,10 +160,9 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
                         .justifyContent(.center)
                         .define { flex in
                             flex.addItem(temperatureLabel).grow(1).shrink(1)
-                            flex.addItem(extremeTempLable).grow(1).shrink(1)
                     }
                     
-                    flex.addItem(weatherCommentLabel).marginTop(screenHeight * 0.004).height(screenHeight * 0.03)
+                    flex.addItem(weatherCommentLabel).marginTop(screenHeight * 0.004).height(screenHeight * 0.03).width(50%)
 //                    flex.addItem(dustLabel).marginTop(screenHeight * 0.026).width(dustLabelWidth).height(45)
             }
             
@@ -219,9 +217,12 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
                 
                 guard var selectedDate = self?.viewModel.selectedHourParamTypeRelay.value,
                       let closetId = self?.viewModel.highlightedClosetIdRelay.value,
-                      let selectedTmp = self?.temperatureLabel.text,
+                      let tempText = self?.temperatureLabel.text,
                         let selectedTime = self?.viewModel.headerTimeRelay.value
                 else { return }
+                
+                let splittedTemp = tempText.split(separator: "℃").map{$0}
+                let selectedTmp = "\(splittedTemp[0])℃"
                 
                 if self?.viewModel.headerTimeRelay.value == self?.date.todayThousandFormat && selectedDate != self?.date.todayHourFormat {
                     self?.viewModel.selectedHourParamTypeRelay.accept(self?.date.todayHourFormat)
@@ -353,11 +354,14 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         let tempDiff = mainTmp - yesterdayTmp
         switch tempDiff {
         case ..<0:
-            self.weatherCommentLabel.text = "어제보다 \(tempDiff)℃ 낮아요"
+            self.weatherCommentLabel.attributedText = NSMutableAttributedString()
+                .regular("어제보다 \(tempDiff)℃ 낮아요", 17, CSColor.none)
         case 0:
-            self.weatherCommentLabel.text = "어제와 같은 기온이에요"
+            self.weatherCommentLabel.attributedText = NSMutableAttributedString()
+                .regular("어제와 같은 기온이에요", 17, CSColor.none)
         case 1...:
-            self.weatherCommentLabel.text = "어제보다 \(tempDiff)℃ 높아요"
+            self.weatherCommentLabel.attributedText = NSMutableAttributedString()
+                .regular("어제보다 \(tempDiff)℃ 높아요", 17, CSColor.none)
         default:
             break
         }
@@ -366,14 +370,16 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
     
     func setWeatherMsgInfo(_ weatherMsg: String) {
         guard ((self.viewModel.recommendClosetEntityRelay.value) != nil) else {
-            self.messageLabel.text = weatherMsg
+            self.messageLabel.attributedText = NSMutableAttributedString()
+                .regular("\(weatherMsg)", 17, CSColor.none)
             return }
         var weatherMsg =  weatherMsg
         
         if self.viewModel.selectedHourParamTypeRelay.value == self.date.todayHourFormat {
             weatherMsg = WeatherMsgEnum.seonsoryDiffMsg((self.viewModel.recommendClosetEntityRelay.value?.data?.list.temperatureDifference)!).msg
         }
-        self.messageLabel.text = weatherMsg
+        self.messageLabel.attributedText = NSMutableAttributedString()
+            .regular("\(weatherMsg)", 17, CSColor.none)
     }
     
     func reloadDailyWrapper (_ direction: UISwipeGestureRecognizer.Direction?, _ mappedCategory: [String : String]?) {
@@ -409,6 +415,7 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
     }
 
     func setHeader(_ justTimeString: String?) {
+        print(#function)
         UIView.animate(withDuration: 0.2, animations: {
                               self.mainLabel.alpha = 0
             guard var mainTimeText = justTimeString else { return }
@@ -421,9 +428,12 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
             let dong = UserDefaultManager.shared.dong
             
             if !(mainTimeText == "현재") {
-                self.mainLabel.text = "\(dong) | \(mainTimeText)"
+                self.mainLabel.attributedText = NSMutableAttributedString()
+                    .bold("\(dong) | \(mainTimeText)", 20, CSColor.none)
+                
             } else {
-                self.mainLabel.text = "\(dong) | 현재"
+                self.mainLabel.attributedText = NSMutableAttributedString()
+                    .bold("\(dong) | 현재", 20, CSColor.none)
             }
             
         }) { _ in
@@ -444,20 +454,11 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         temperatureLabel.do {
             $0.attributedText = NSMutableAttributedString()
             .bold("\(info["TMP"] ?? "-")℃", 20, CSColor.none)
-//                .regular(" (", 18, CSColor.none)
-//                .regular("\(tmn)", 18, CSColor._40_106_167)
-//                .regular(" / ", 18, CSColor.none)
-//                .regular("\(tmx)", 18, CSColor._178_36_36)
-//                .regular("℃)", 18, CSColor.none)
-        }
-        
-        extremeTempLable.do {
-            $0.attributedText = NSMutableAttributedString()
-                .regular("(", 18, CSColor.none)
-                .regular("\(tmn)", 18, CSColor._40_106_167)
-                .regular(" / ", 18, CSColor.none)
-                .regular("\(tmx)", 18, CSColor._178_36_36)
-                .regular("℃)", 18, CSColor.none)
+                .regular(" (", 17, CSColor.none)
+                .regular("\(tmn)", 17, CSColor._40_106_167)
+                .regular(" / ", 17, CSColor.none)
+                .regular("\(tmx)", 17, CSColor._178_36_36)
+                .regular("℃)", 17, CSColor.none)
         }
     }
     
