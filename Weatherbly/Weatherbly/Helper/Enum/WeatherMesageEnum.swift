@@ -31,9 +31,11 @@ enum WeatherMsgEnum {
         switch self {
         case .seonsoryDiffMsg(let userTempDiff):
             if userTempDiff > 0 {
-                return "🌡️ 표준보다 \(userTempDiff)도 더 높은 온도로 설정됐어요"
+                return "🌡️ 표준보다 \(userTempDiff)도 더 얇은 옷을 보고 있어요"
+            } else if userTempDiff == 0 {
+                return "표준 온도의 옷을 보고 있어요"
             } else {
-                return "🌡️ 표준보다 \(userTempDiff)도 더 낮은 온도로 설정됐어요"
+                return "🌡️ 표준보다 \(userTempDiff)도 더 두꺼운 옷을 보고 있어요"
             }
             
         case .sunnyNormalMsg:
