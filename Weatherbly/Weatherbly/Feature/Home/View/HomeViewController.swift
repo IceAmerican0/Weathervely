@@ -20,7 +20,7 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
     private var topLayoutWrapper = UIView()
     private var settingButton = UIButton()
     private var mainLabelWrapper = UIView()
-    private var mainLabel = CSLabel(.bold, 20, "00동 | 현재")
+    private var mainLabel = CSLabel(.bold, 20, "00동  |  현재")
     private var calendarButton = UIButton()
     
     private var dailyWrapper = UIView()
@@ -429,11 +429,11 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
             
             if !(mainTimeText == "현재") {
                 self.mainLabel.attributedText = NSMutableAttributedString()
-                    .bold("\(dong) | \(mainTimeText)", 20, CSColor.none)
+                    .bold("\(dong)  |  \(mainTimeText)", 20, CSColor.none)
                 
             } else {
                 self.mainLabel.attributedText = NSMutableAttributedString()
-                    .bold("\(dong) | 현재", 20, CSColor.none)
+                    .bold("\(dong)  |  현재", 20, CSColor.none)
             }
             
         }) { _ in
@@ -463,7 +463,7 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
     }
     
     private func configureBackgroundImage() -> AssetsImage {
-        .sunnyAfternoon
+        .sunnyMorning
     }
 }
 

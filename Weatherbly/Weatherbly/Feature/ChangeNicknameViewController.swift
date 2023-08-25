@@ -229,9 +229,24 @@ class ChangeNicknameViewController: RxBaseViewController<ChangeNicknameViewModel
         bottomButton.rx.tap
             .subscribe { [weak self] _ in
                 guard let inputNickname = self?.nicknameTextField.text else { return }
+                print(inputNickname)
                 self?.viewModel.didTapConfirmButton(UserInfoRequest(nickname: inputNickname/*,
                                                                     gender: self?.isFemale == true ? "female" : "male"*/))
             }.disposed(by: bag)
+        
+        nicknameTextField.rx.text.orEmpty
+            .subscribe(onNext: { [weak self] _ in
+                if let value = self?.nicknameTextField.text {
+                    if value.count > 1 {
+                        self?.bottomButton.isEnabled = true
+                        self?.bottomButton.setButtonStyle(.primary)
+                    } else {
+                        self?.bottomButton.isEnabled = false
+                        self?.bottomButton.setButtonStyle(.grayFilled)
+                    }
+                }
+            })
+            .disposed(by: bag)
     }
     
     private func buttonToggle() {

@@ -39,6 +39,7 @@ final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
             $0.backgroundColor = CSColor._248_248_248.color
             $0.layer.cornerRadius = 13
             $0.delegate = self
+            $0.setClearButton(AssetsImage.delete.image, .whileEditing)
             $0.becomeFirstResponder()
         }
         

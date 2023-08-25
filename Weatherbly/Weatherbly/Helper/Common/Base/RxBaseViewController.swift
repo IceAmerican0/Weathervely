@@ -71,6 +71,13 @@ public class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitiali
     
     func viewModelBinding() {
         viewModel
+            .navigationPoptoRootRelay
+            .subscribe(onNext: { [weak self] _ in
+                self?.navigationController?.popToRootViewController(animated: true)
+            })
+            .disposed(by: bag)
+        
+        viewModel
             .navigationPopToSelfRelay
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }

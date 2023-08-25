@@ -17,14 +17,10 @@ enum AssetsImage: String {
     
     // Background
     case cloudyAfternoon
-    case cloudyDawn
     case cloudyEvening
-    case cloudyLunch
     case cloudyMorning
     case sunnyAfternoon
-    case sunnyDawn
     case sunnyEvening
-    case sunnyLunch
     case sunnyMorning
     
     // Common

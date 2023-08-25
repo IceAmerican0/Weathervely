@@ -73,7 +73,16 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
         super.viewBinding()
         
         navigationView.leftButtonDidTapRelay
-            .bind(onNext: viewModel.toSettingView)
+            .subscribe(onNext: { [weak self] _ in
+                if let viewControllers = self?.navigationController?.viewControllers {
+                    for viewController in viewControllers {
+                        if let settingViewController = viewController as? SettingViewController {
+                            self?.navigationController?.popToViewController(settingViewController, animated: true)
+                            break
+                        }
+                    }
+                }
+            })
             .disposed(by: bag)
         
         confirmButton.rx.tap
@@ -135,6 +144,12 @@ extension EditRegionViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         return tableView.dequeueCell(withType: EditRegionTableViewCell.self, for: indexPath).then {
+            if indexPath.row == 0 {
+                $0.backgroundColor = CSColor._248_248_248.color
+            } else {
+                $0.backgroundColor = .white
+            }
+            
             let regionName = viewModel.loadedListRelay.value[indexPath.row].addressName
             $0.configureCellState(EditRegionCellState(region: regionName, count: listCount))
             $0.button.rx.tap

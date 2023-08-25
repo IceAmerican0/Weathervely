@@ -38,7 +38,9 @@ extension AuthTarget: WBTargetType {
         switch self {
         case .login(let nickname),
              .nickname(let nickname):
-            return .requestParameters(parameters: ["nickname": nickname],
+            return .requestParameters(parameters: ["nickname": nickname
+//                                                   "phone_id": UUID().uuidString
+                                                  ],
                                       encoding: JSONEncoding.default)
         case .address(let addressInfo):
             return .requestParameters(parameters: addressInfo.dictionary,

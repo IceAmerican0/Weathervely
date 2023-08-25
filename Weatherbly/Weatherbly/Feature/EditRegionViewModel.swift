@@ -25,7 +25,6 @@ public protocol EditRegionViewModelLogic: ViewModelBusinessLogic {
     func didTapCellButton(_ indexPath: IndexPath)
     func didTapConfirmButton()
     func toSettingRegionView(_ settingRegionState: SettingRegionState)
-    func toSettingView()
 }
 
 public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogic {
@@ -128,10 +127,5 @@ public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogi
     public func toSettingRegionView(_ settingRegionState: SettingRegionState) {
         let vc = SettingRegionViewController(SettingRegionViewModel(settingRegionState))
         navigationPushViewControllerRelay.accept(vc)
-    }
-    
-    public func toSettingView() {
-        let vc = SettingViewController(SettingViewModel())
-        navigationPopViewControllerRelay.accept(())
     }
 }
