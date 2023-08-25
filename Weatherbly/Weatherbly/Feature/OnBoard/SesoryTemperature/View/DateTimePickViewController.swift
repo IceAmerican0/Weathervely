@@ -39,7 +39,12 @@ final class DateTimePickViewController: RxBaseViewController<DateTimePickViewMod
         super.viewDidLoad()
         dateTimePickerView.delegate = self
         dateTimePickerView.dataSource = self
-        dateTimePickerView.selectRow(6, inComponent: 2, animated: true)
+        dateTimePickerView.selectRow(3, inComponent: 2, animated: true)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        gradientLayer.frame = datePickerWrapper.bounds
     }
     
     // MARK: - layout
@@ -51,8 +56,9 @@ final class DateTimePickViewController: RxBaseViewController<DateTimePickViewMod
         }
         
         gradientLayer.do {
-            $0.setGradient(color:[CSColor._237_237_237.cgColor,CSColor._255_255_255_05.cgColor,CSColor._255_255_255_05.cgColor,CSColor._255_255_255_05.cgColor,CSColor._210_210_210.cgColor],
-                           locations: [0.0, 0.2, 0.4, 0,6, 0.8, 1.0], 20)
+            $0.frame = datePickerWrapper.bounds
+            $0.setGradient(color:[CSColor._237_237_237.cgColor,CSColor._255_255_255_05.cgColor,CSColor._255_255_255_05.cgColor,CSColor._255_255_255_05.cgColor,CSColor._255_255_255_05.cgColor],
+                           locations: [0.0, 0.2, 0.4, 0.6, 0.8, 1.0], 20)
             $0.setShadow(CGSize(width: 0, height: 4),CSColor._220_220_220.cgColor , 1, 2)
         }
         
@@ -63,7 +69,11 @@ final class DateTimePickViewController: RxBaseViewController<DateTimePickViewMod
         discriptionLabel.do {
             $0.setLineHeight(1.3)
         }
-//        dateTimePickerView.selectRow(6, inComponent: 2, animated: true)
+        
+        dateTimePickerView.do {
+            $0.backgroundColor = .clear
+        }
+
     }
     
     override func layout() {
