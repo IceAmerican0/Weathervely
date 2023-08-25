@@ -65,6 +65,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         getVillageForecastInfo()
         getRecommendCloset(dateString)
         getSwipeArray()
+        swipeIndex = 0
         headerTimeRelay.accept(Date().todayThousandFormat)
     }
     
@@ -329,7 +330,8 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     
     public func getSwipeArray() {
         
-        guard let now = headerTimeRelay.value else { return }
+//        guard let now = headerTimeRelay.value else { return }
+        let now = Date().todayThousandFormat
         
         var swipeArray: [String] = []
         var todayTimeArray = ["0700", "1500", "2000"]
@@ -367,6 +369,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         tomorrowTimeArray.map { swipeArray.append($0)}
         
         swipeArrayRelay.accept(swipeArray)
+        print(#function, "swipeArrayRelay \(swipeArrayRelay.accept(swipeArray))")
     }
     
     public func swipeLeft() {
@@ -577,10 +580,11 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             
             // 현재 0000, 0100, 0200, 0300, 1200, 1500 ...
             targetTime = date.todayThousandFormat
+            print(#function, "targetTime \(targetTime)")
             
             // 현재 00시 01시, 02시 ... 전부 현재로 return
             headerTime = targetTime.hourToMainLabel
-            
+            print(#function, "headerTime \(headerTime)")
             // date.todayHourFormat 즉, 현재 날짜와 현재 시간으로 api 전송
             getRecommendCloset(selectedHourParamTypeRelay.value!)
             
@@ -598,6 +602,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                 yesterdayCategoryValue = self.bindingWeatherByDate(forecastEntity, -1, targetTime)
             }
             
+            print(#function, "swipeArray \(swipeArray)")
             swipeIndex = swipeArray.firstIndex(of: targetTime)!
         }
         self.mappedCategoryDicRelay.accept(categoryWithValue)
