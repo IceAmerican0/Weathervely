@@ -119,7 +119,7 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
                     flex.addItem(tempLabel)
                         .marginHorizontal(50)
                         .paddingVertical(3)
-                    flex.addItem(tempImageView).backgroundColor(.yellow)
+                    flex.addItem(tempImageView)
                         .alignSelf(.center)
                         .marginTop(16)
                         .width(50%)
