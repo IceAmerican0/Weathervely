@@ -87,7 +87,7 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
         
         let middleContentOffset = CGPoint(x: 0, y: scrollView.frame.height * CGFloat(index))
         scrollView.setContentOffset(middleContentOffset, animated: false)
-        imageSourceLabel.text = "by \(list[index].shopName)"
+        imageSourceLabel.attributedText = NSMutableAttributedString().regular("by \(list[index].shopName)", 11, CSColor.none)
     }
     
     // MARK: - Attribute
@@ -170,7 +170,7 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
                 .define { flex in
                     flex.addItem(upperArrowButton).size(44).alignSelf(.center)
                     flex.addItem(tempLabel).marginTop(11)
-                        .marginHorizontal(50)
+                        .marginHorizontal(40)
                         .paddingVertical(3)
                     flex.addItem(scrollView)
                         .marginTop(13)
