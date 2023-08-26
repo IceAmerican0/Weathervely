@@ -96,6 +96,7 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
         
         mainLabel.do {
             $0.setLineHeight(1.07)
+            $0.attributedText = NSMutableAttributedString().bold("\(UserDefaultManager.shared.nickname) 님에게\n적당한 옷차림을 골라주세요", 22, CSColor.none)
         }
         
         clothScrollViewWrapper.do {
