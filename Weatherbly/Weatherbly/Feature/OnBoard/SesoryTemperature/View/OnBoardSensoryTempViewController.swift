@@ -86,7 +86,7 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
         }
         
         denyButton.do {
-            $0.setTitle("아니오", for: .normal)
+            $0.setTitle("아니요", for: .normal)
         }
         
         selectOtherDayLabel.do {
