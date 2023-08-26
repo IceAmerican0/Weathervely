@@ -21,6 +21,18 @@ extension NSMutableAttributedString {
         return self
     }
     
+    func medium(_ string: String, _ fontSize: CGFloat, _ color: CSColor) -> NSMutableAttributedString {
+        var font = UIFont.systemFont(ofSize: fontSize, weight: .medium)
+        if UIScreen.main.bounds.width < 376 {
+            font = UIFont.systemFont(ofSize: fontSize - 4)
+        }
+        let attributes: [NSAttributedString.Key: Any] = [.font: font,
+                                                         .foregroundColor: color.color]
+        
+        self.append(NSAttributedString(string: string, attributes: attributes))
+        return self
+    }
+    
     func bold(_ string: String, _ fontSize: CGFloat, _ color: CSColor) -> NSMutableAttributedString {
         
         var font = UIFont.boldSystemFont(ofSize: fontSize)

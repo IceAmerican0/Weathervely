@@ -7,6 +7,8 @@
 
 import UIKit
 import PinLayout
+import RxSwift
+import RxCocoa
 
 class CSButton: UIButton, CodeBaseInitializerProtocol {
     
@@ -20,12 +22,15 @@ class CSButton: UIButton, CodeBaseInitializerProtocol {
     }
     
     private var buttonStyle: ButtonStyle
+    private var bag = DisposeBag()
+    private var stateRelay = BehaviorRelay<UIControl.State?>(value: nil)
     var primaryHeight = UIScreen.main.bounds.height * 0.07
     
     init(_ buttonStyle: ButtonStyle) {
         self.buttonStyle = buttonStyle
         super.init(frame: .zero)
         codeBaseInitializer()
+        setRxBinding(buttonStyle)
     }
     
     required init?(coder: NSCoder) {
@@ -34,6 +39,35 @@ class CSButton: UIButton, CodeBaseInitializerProtocol {
     
     func attribute() {
         setButtonStyle(buttonStyle)
+    }
+    
+    func setRxBinding(_ style: ButtonStyle) {
+        
+        self.rx.controlEvent(.touchDown)
+            .bind { [weak self] event in
+                switch style {
+                case .primary:
+                    self?.setBackgroundColor(CSColor._236_207_255.color)
+                case .grayFilled:
+                    self?.setBackgroundColor(CSColor._115_115_115_52.color)
+                default:
+                    break
+                }
+            }
+            .disposed(by: bag)
+        
+        self.rx.controlEvent([.touchUpInside, .touchUpOutside, .touchDragInside ])
+                    .bind { [weak self] event in
+                        switch style {
+                        case .primary:
+                            self?.setBackgroundColor(CSColor._172_107_255.color)
+                        case .grayFilled:
+                            self?.setBackgroundColor(CSColor._151_151_151.color)
+                        default:
+                            break
+                        }
+                    }
+                    .disposed(by: bag)
     }
     
     func setButtonStyle(_ style: ButtonStyle) {

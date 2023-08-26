@@ -9,6 +9,7 @@ import UIKit
 import FlexLayout
 import RxCocoa
 import RxSwift
+import RxGesture
 
 final class SettingViewController: RxBaseViewController<SettingViewModel> {
     
@@ -29,6 +30,8 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
     private var buttonInnerImageView = UIImageView(image: AssetsImage.settingLocationIcon.image)
     
     private var locationButton = UIButton()
+    private var locationTitleLabel = UILabel()
+    private var locationSubtitleLabel = UILabel()
     
     private var bottomView = UIView()
     private var bottomLabel = CSLabel(.regular,12,"개인정보 처리 방침 및 정보 제공처")
@@ -36,6 +39,17 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         nickNameLabel.attributedText = NSMutableAttributedString().bold("\(UserDefaultManager.shared.nickname)님", 18, CSColor.none)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        setRxButtonBinding()
+        
     }
 
     // MARK: - Attiribute
@@ -75,14 +89,25 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
             
         }
         
-        
         locationButton.do {
             $0.setShadow(CGSize(width: 0, height: 3), UIColor.black.cgColor, 0.25, 2)
-//            $0.setTitle("체감 온도", for: .normal)
             $0.titleLabel?.font = .systemFont(ofSize: 17,weight: .medium)
-            $0.setTitleColor(.black, for: .normal)
-            $0.backgroundColor = UIColor(r: 254, g: 254, b: 254)
+            $0.setBackgroundColor(CSColor._254_254_254.color)
             $0.setCornerRadius(24)
+        }
+        
+        buttonInnerView.do {
+            $0.isUserInteractionEnabled = false
+        }
+        
+        locationTitleLabel.do {
+            $0.attributedText = NSMutableAttributedString().bold("동네설정", 18, CSColor._128_128_128)
+            $0.isUserInteractionEnabled = false
+        }
+        
+        locationSubtitleLabel.do {
+            $0.attributedText = NSMutableAttributedString().medium("즐겨찾기 추가/변경", 20, CSColor.none)
+            $0.isUserInteractionEnabled = false
         }
         
         bottomLabel.do {
@@ -145,14 +170,8 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
                                     flex.addItem(buttonInnerView)
                                         .marginLeft(34)
                                         .define { flex in
-                                            
-                                        var title = UILabel()
-                                        var subTitle = UILabel()
-                                        title.attributedText = NSMutableAttributedString().bold("동네설정", 18, CSColor._128_128_128)
-                                        subTitle.attributedText = NSMutableAttributedString().regular("즐겨찾기 추가/변경", 20, CSColor.none)
-                                            
-                                        flex.addItem(title).marginTop(22)
-                                        flex.addItem(subTitle).marginTop(15)
+                                            flex.addItem(locationTitleLabel).marginTop(22)
+                                            flex.addItem(locationSubtitleLabel).marginTop(15)
                                     }
                                     
                                     flex.addItem(buttonInnerImageView).width(56).height(60).marginVertical(26.5)
@@ -162,7 +181,6 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
                         }
                     
                     flex.addItem(bottomView)
-                        
                         .padding(12)
                         .define { flex in
                             flex.addItem(bottomLabel)
@@ -174,7 +192,7 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
         }
         
     }
-    
+
     override func bind() {
         super.bind()
         
@@ -191,7 +209,7 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
         locationButton.rx.tap
             .bind(onNext: viewModel.toEditRegionView)
             .disposed(by: bag)
-        
+
         bottomLabel.rx.tapGesture().when(.recognized)
             .subscribe(onNext: { [weak self] _ in
                 self?.viewModel.toPrivacyPolicyView()
@@ -199,4 +217,21 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
             .disposed(by: bag)
     }
 
+}
+
+extension SettingViewController {
+    func setRxButtonBinding() {
+        
+        locationButton.rx.controlEvent(.touchDown)
+            .bind { [weak self] event in
+                self?.locationButton.setBackgroundColor(CSColor._255_255_255_05.color)
+            }
+            .disposed(by: bag)
+        
+        locationButton.rx.controlEvent([.touchUpInside, .touchUpOutside, .touchDragInside ])
+            .bind { [weak self] event in
+                self?.locationButton.setBackgroundColor(CSColor._254_254_254.color)
+            }
+            .disposed(by: bag)
+    }
 }
