@@ -33,7 +33,7 @@ public final class SettingRegionCompleteViewController: RxBaseViewController<Set
         }
         
         regionLabel.do {
-            $0.text = viewModel.regionDataRelay.value.address_name
+            $0.attributedText = NSMutableAttributedString().regular(viewModel.regionDataRelay.value.address_name!, 20, CSColor.none)
             $0.adjustsFontSizeToFitWidth = true
         }
         
