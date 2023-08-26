@@ -197,24 +197,53 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
             .bind(to: viewModel.navigationPopViewControllerRelay)
             .disposed(by: bag)
         
-        // TODO: 버튼 클릭으로 스크롤뷰 움직이기
-//        upperArrowButton.rx.tap
-//            .subscribe(onNext: { [weak self] _ in
-//
-//            })
-//            .disposed(by: bag)
-//
-//        downArrowButton.rx.tap
-//            .subscribe(onNext: { [weak self] _ in
-//
-//            })
-//            .disposed(by: bag)
+        upperArrowButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                self?.moveUp()
+            })
+            .disposed(by: bag)
+
+        downArrowButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                self?.moveDown()
+            })
+            .disposed(by: bag)
         
         bottomButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 self?.viewModel.didTapAcceptButton()
             })
             .disposed(by: bag)
+    }
+    
+    private func moveUp() {
+        guard let list = viewModel.closetListRelay.value else { return }
+        let pageIndex = Int(scrollView.contentOffset.y / scrollView.frame.height) - 1
+        
+        if pageIndex >= 0 && pageIndex < list.count {
+            let yOffset = CGFloat(pageIndex) * scrollView.bounds.height
+            scrollView.setContentOffset(CGPoint(x: 0, y: yOffset), animated: true)
+            viewModel.closetIDRelay.accept(list[pageIndex].closetId)
+            imageSourceLabel.text = "by \(list[pageIndex].shopName)"
+        } else {
+            viewModel.alertMessageRelay.accept(.init(title: "이게 가장 얇은 옷차림이에요",
+                                                     alertType: .Info))
+        }
+    }
+    
+    private func moveDown() {
+        guard let list = viewModel.closetListRelay.value else { return }
+        let pageIndex = Int(scrollView.contentOffset.y / scrollView.frame.height) + 1
+        
+        if pageIndex >= 0 && pageIndex < list.count {
+            let yOffset = CGFloat(pageIndex) * scrollView.bounds.height
+            scrollView.setContentOffset(CGPoint(x: 0, y: yOffset), animated: true)
+            viewModel.closetIDRelay.accept(list[pageIndex].closetId)
+            imageSourceLabel.text = "by \(list[pageIndex].shopName)"
+        } else {
+            viewModel.alertMessageRelay.accept(.init(title: "이게 가장 두꺼운 옷차림이에요",
+                                                     alertType: .Info))
+        }
     }
     
     override func viewModelBinding() {

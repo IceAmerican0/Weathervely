@@ -12,7 +12,7 @@ import RxSwift
 
 public final class SettingRegionCompleteViewController: RxBaseViewController<SettingRegionCompleteViewModel> {
     
-    private let progressBar = CSProgressView(0.5)
+    private let progressBar = CSProgressView(0.66)
     private let navigationView = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
     private var explanationLabel = CSLabel(.bold, 24, "선택한 동네로 설정할까요?")
     

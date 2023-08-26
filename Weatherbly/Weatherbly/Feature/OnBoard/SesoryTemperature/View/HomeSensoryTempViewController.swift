@@ -206,10 +206,54 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
             })
             .disposed(by: bag)
         
+        upperArrowButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                self?.moveUp()
+            })
+            .disposed(by: bag)
+        
+        downArrowButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                self?.moveDown()
+            })
+            .disposed(by: bag)
+        
         bottomButton.rx.tap
             .subscribe(onNext: { [weak self] tap in
                 self?.viewModel.setSensoryTemperature()
             }).disposed(by: bag)
+    }
+    
+    private func moveUp() {
+        guard let list = viewModel.closetListByTempRelay.value else { return }
+        let pageIndex = Int(scrollView.contentOffset.y / scrollView.frame.height) - 1
+        print(pageIndex)
+        
+        if pageIndex >= 0 && pageIndex < list.count {
+            let yOffset = CGFloat(pageIndex) * scrollView.bounds.height
+            scrollView.setContentOffset(CGPoint(x: 0, y: yOffset), animated: true)
+            viewModel.setClosetIdRelay.accept(list[pageIndex].closetId)
+            imageSourceLabel.text = "by \(list[pageIndex].shopName)"
+        } else {
+            viewModel.alertMessageRelay.accept(.init(title: "이게 가장 얇은 옷차림이에요",
+                                                     alertType: .Info))
+        }
+    }
+    
+    private func moveDown() {
+        guard let list = viewModel.closetListByTempRelay.value else { return }
+        let pageIndex = Int(scrollView.contentOffset.y / scrollView.frame.height) + 1
+        print(pageIndex)
+        
+        if pageIndex >= 0 && pageIndex < list.count {
+            let yOffset = CGFloat(pageIndex) * scrollView.bounds.height
+            scrollView.setContentOffset(CGPoint(x: 0, y: yOffset), animated: true)
+            viewModel.setClosetIdRelay.accept(list[pageIndex].closetId)
+            imageSourceLabel.text = "by \(list[pageIndex].shopName)"
+        } else {
+            viewModel.alertMessageRelay.accept(.init(title: "이게 가장 두꺼운 옷차림이에요",
+                                                     alertType: .Info))
+        }
     }
     
     override func viewModelBinding() {
@@ -252,9 +296,9 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
 
 extension HomeSensoryTempViewController {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard let list = viewModel.closetListByTempRelay.value else { return }
         let pageIndex = Int(scrollView.contentOffset.y / scrollView.frame.height)
         
-        guard let list = viewModel.closetListByTempRelay.value else { return }
         if pageIndex >= 0 && pageIndex < list.count {
             viewModel.setClosetIdRelay.accept(list[pageIndex].closetId)
             imageSourceLabel.text = "by \(list[pageIndex].shopName)"

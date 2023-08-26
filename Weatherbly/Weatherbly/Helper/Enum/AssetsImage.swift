@@ -48,6 +48,7 @@ enum AssetsImage: String {
     case setting
     case settingInquryIcon
     case settingLocationIcon
+    case settingMenuButton
     case settingStyleIcon
     case settingTemperatureIcon
     case whiteHeart
