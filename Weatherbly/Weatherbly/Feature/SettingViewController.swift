@@ -59,6 +59,7 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
         navigationView.do {
             $0.setTitle("설정")
             $0.addBorder(.bottom)
+            $0.backgroundColor = CSColor._253_253_253.color
         }
         
         nickNameView.do {
@@ -92,7 +93,7 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
         locationButton.do {
             $0.setShadow(CGSize(width: 0, height: 3), UIColor.black.cgColor, 0.25, 2)
             $0.titleLabel?.font = .systemFont(ofSize: 17,weight: .medium)
-            $0.setBackgroundColor(CSColor._254_254_254.color)
+            $0.setBackgroundColor(CSColor._245_245_245.color)
             $0.setCornerRadius(24)
         }
         
@@ -230,7 +231,7 @@ extension SettingViewController {
         
         locationButton.rx.controlEvent([.touchUpInside, .touchUpOutside, .touchDragInside ])
             .bind { [weak self] event in
-                self?.locationButton.setBackgroundColor(CSColor._254_254_254.color)
+                self?.locationButton.setBackgroundColor(CSColor._245_245_245.color)
             }
             .disposed(by: bag)
     }
