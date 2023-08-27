@@ -29,17 +29,22 @@ class EditNicknameViewModel: RxBaseViewModel, EditNicknameViewModelLogic {
     func loadUserInfo() {
         let dataSource = UserDataSource()
         dataSource.getUserInfo(UserDefaultManager.shared.nickname)
-            .subscribe(onNext: { result in
+            .subscribe(onNext: { [weak self] result in
                 switch result {
                 case .success(let response):
                     userDefault.set(response.nickname, forKey: UserDefaultKey.nickname.rawValue)
                     userDefault.set(response.gender, forKey: UserDefaultKey.gender.rawValue)
                     userDefault.synchronize()
-                    self.loadUserInfoRelay.accept(response)
+                    self?.loadUserInfoRelay.accept(response)
                 case .failure(let err):
-                    guard let errorString = err.errorDescription else { return }
-                    self.alertMessageRelay.accept(.init(title: errorString,
-                                                        alertType: .Error))
+                    switch err {
+                    case .noInternetError:
+                        self?.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
+                    default:
+                        guard let errorString = err.errorDescription else { return }
+                        self?.alertMessageRelay.accept(.init(title: errorString,
+                                                            alertType: .Error))
+                    }
                 }
             })
             .disposed(by: bag)

@@ -93,11 +93,16 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                     
                     self?.yesterdayCategoryRelay.accept(self?.bindingWeatherByDate(response, -1, yesterDayHour))
                     
-                case .failure(let error):
-                    guard let errorDescription = error.errorDescription else { return }
-                    self?.alertMessageRelay.accept(.init(title: errorDescription,
-                                                         alertType: .Error,
-                                                         closeAction: self?.popToSelf))
+                case .failure(let err):
+                    switch err {
+                    case .noInternetError:
+                        self?.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
+                    default:
+                        guard let errorDescription = err.errorDescription else { return }
+                        self?.alertMessageRelay.accept(.init(title: errorDescription,
+                                                             alertType: .Error,
+                                                             closeAction: self?.popToSelf))
+                    }
                 }
             })
             .disposed(by: bag)
@@ -109,11 +114,16 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                 switch result {
                 case .success(let response):
                     self?.recommendClosetEntityRelay.accept(response)
-                case .failure(let error):
-                    guard let errorDescription = error.errorDescription else { return }
-                    self?.alertMessageRelay.accept(.init(title: errorDescription,
-                                                         alertType: .Error,
-                                                         closeAction: self?.popToSelf))
+                case .failure(let err):
+                    switch err {
+                    case .noInternetError:
+                        self?.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
+                    default:
+                        guard let errorDescription = err.errorDescription else { return }
+                        self?.alertMessageRelay.accept(.init(title: errorDescription,
+                                                             alertType: .Error,
+                                                             closeAction: self?.popToSelf))
+                    }
                 }
             })
             .disposed(by: bag)
@@ -618,9 +628,14 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                 case .success:
                     break
                 case .failure(let err):
-                    guard let errString = err.errorDescription else { return }
-                    debugPrint(errString)
-                    break
+                    switch err {
+                    case .noInternetError:
+                        self?.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
+                    default:
+                        guard let errString = err.errorDescription else { return }
+                        debugPrint(errString)
+                        break
+                    }
                 }
             })
             .disposed(by: bag)

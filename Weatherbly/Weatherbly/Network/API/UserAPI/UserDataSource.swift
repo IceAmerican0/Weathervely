@@ -31,41 +31,69 @@ public final class UserDataSource: UserDataSourceProtocol {
         provider.rx
             .request(.getUserInfo(nickname))
             .mapTo(UserInfoEntity.self)
+            .timeout(.seconds(10), scheduler: MainScheduler.instance)
+            .catch { error in
+                return .just(.failure(.noInternetError))
+            }
     }
     
     public func fetchUserInfo(_ userInfo: UserInfoRequest) -> Observable<Result<EmptyEntity, WVNetworkError>> {
         provider.rx
             .request(.fetchUserInfo(userInfo))
             .mapTo(EmptyEntity.self)
+            .timeout(.seconds(10), scheduler: MainScheduler.instance)
+            .catch { error in
+                return .just(.failure(.noInternetError))
+            }
     }
     
     public func getAddressList() -> Observable<Result<AddressListEntity, WVNetworkError>> {
         provider.rx
             .request(.getAddressList)
             .mapTo(AddressListEntity.self)
+            .timeout(.seconds(10), scheduler: MainScheduler.instance)
+            .catch { error in
+                return .just(.failure(.noInternetError))
+            }
     }
     
     public func addAddress(_ addressInfo: AddressRequest) -> Observable<Result<EmptyEntity, WVNetworkError>> {
         provider.rx
             .request(.addAddress(addressInfo))
             .mapTo(EmptyEntity.self)
+            .timeout(.seconds(10), scheduler: MainScheduler.instance)
+            .catch { error in
+                return .just(.failure(.noInternetError))
+            }
     }
     
     public func setMainAddress(_ addressID: Int) -> Observable<Result<EmptyEntity, WVNetworkError>> {
         provider.rx
             .request(.setMainAddress(addressID))
             .mapTo(EmptyEntity.self)
+            .timeout(.seconds(10), scheduler: MainScheduler.instance)
+            .catch { error in
+                return .just(.failure(.noInternetError))
+            }
     }
     
     public func fetchAddress(_ addressID: Int, _ addressInfo: AddressRequest) -> Observable<Result<EmptyEntity, WVNetworkError>> {
         provider.rx
             .request(.fetchAddress(addressID, addressInfo))
             .mapTo(EmptyEntity.self)
+            .timeout(.seconds(10), scheduler: MainScheduler.instance)
+            .catch { error in
+                return .just(.failure(.noInternetError))
+            }
     }
     
     public func deleteAddress(_ addressID: Int) -> Observable<Result<EmptyEntity, WVNetworkError>> {
         provider.rx
             .request(.deleteAddress(addressID))
             .mapTo(EmptyEntity.self)
+            .timeout(.seconds(10), scheduler: MainScheduler.instance)
+            .catch { error in
+                return .just(.failure(.noInternetError))
+            }
     }
 }

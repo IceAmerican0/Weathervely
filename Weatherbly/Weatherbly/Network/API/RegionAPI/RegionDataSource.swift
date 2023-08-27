@@ -25,5 +25,9 @@ public final class RegionDataSource: RegionDataSourceProtocol {
             .rx
             .request(.searchRegion(request))
             .mapTo(SearchRegionEntity.self)
+            .timeout(.seconds(10), scheduler: MainScheduler.instance)
+            .catch { error in
+                return .just(.failure(.noInternetError))
+            }
     }
 }

@@ -25,6 +25,9 @@ final class ForecastDataSource: ForcastDataSourceProtocol {
             .rx
             .request(.getVillageForcastInfo)
             .mapTo(VillageForecastInfoEntity.self)
-        
+            .timeout(.seconds(10), scheduler: MainScheduler.instance)
+            .catch { error in
+                return .just(.failure(.noInternetError))
+            }
     }
 }

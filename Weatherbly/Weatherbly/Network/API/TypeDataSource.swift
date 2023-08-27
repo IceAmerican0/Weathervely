@@ -24,5 +24,9 @@ public final class TypeDataSource: TypeDataSourceProtocol {
         provider.rx
             .request(.getTypeList)
             .mapTo(EmptyEntity.self)
+            .timeout(.seconds(10), scheduler: MainScheduler.instance)
+            .catch { error in
+                return .just(.failure(.noInternetError))
+            }
     }
 }

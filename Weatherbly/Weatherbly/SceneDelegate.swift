@@ -47,10 +47,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         self?.vc = SettingRegionViewController(SettingRegionViewModel(.onboard))
                     }
                     self?.setWindow()
-                case .failure:
-                    // TODO: 첫 실행 이외 오류시 처리 방법
-                    self?.vc = OnBoardViewController(OnBoardViewModel())
-                    self?.setWindow()
+                case .failure(let err):
+                    switch err {
+                    case .noInternetError:
+                        self?.vc = LoadErrorViewController(LoadErrorViewModel())
+                        self?.setWindow()
+                    default:
+                        self?.vc = OnBoardViewController(OnBoardViewModel())
+                        self?.setWindow()
+                    }
                 }
             })
             .disposed(by: bag)

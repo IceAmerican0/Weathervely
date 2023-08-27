@@ -77,10 +77,15 @@ public final class OnBoardSensoryTempViewModel: RxBaseViewModel, OnBoardSensoryT
                     self?.temperatureRelay.accept(data.fcstValue)
                     self?.closetListRelay.accept(data.list)
                 case .failure(let err):
-                    guard let errorString = err.errorDescription else { return }
-                    self?.alertMessageRelay.accept(.init(title: errorString,
-                                                         alertType: .Error,
-                                                         closeAction: self?.popViewController))
+                    switch err {
+                    case .noInternetError:
+                        self?.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
+                    default:
+                        guard let errorString = err.errorDescription else { return }
+                        self?.alertMessageRelay.accept(.init(title: errorString,
+                                                             alertType: .Error,
+                                                             closeAction: self?.popViewController))
+                    }
                 }
             })
             .disposed(by: bag)
@@ -94,9 +99,14 @@ public final class OnBoardSensoryTempViewModel: RxBaseViewModel, OnBoardSensoryT
                 case .success:
                     self?.toHomeView()
                 case .failure(let err):
-                    guard let errorString = err.errorDescription else { return }
-                    self?.alertMessageRelay.accept(.init(title: errorString,
-                                                         alertType: .Error))
+                    switch err {
+                    case .noInternetError:
+                        self?.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
+                    default:
+                        guard let errorString = err.errorDescription else { return }
+                        self?.alertMessageRelay.accept(.init(title: errorString,
+                                                             alertType: .Error))
+                    }
                 }
             })
             .disposed(by: bag)

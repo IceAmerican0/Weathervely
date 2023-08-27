@@ -27,23 +27,39 @@ public final class AuthDataSource: AuthDataSourceProtocol {
         provider.rx
             .request(.login(nickname))
             .mapTo(AuthLoginEntity.self)
+            .timeout(.seconds(10), scheduler: MainScheduler.instance)
+            .catch { error in
+                return .just(.failure(.noInternetError))
+            }
     }
     
     public func setNickname(_ nickname: String) -> Observable<Result<EmptyEntity, WVNetworkError>> {
         provider.rx
             .request(.nickname(nickname))
             .mapTo(EmptyEntity.self)
+            .timeout(.seconds(10), scheduler: MainScheduler.instance)
+            .catch { error in
+                return .just(.failure(.noInternetError))
+            }
     }
     
     public func setAddress(_ addressInfo: AddressRequest) -> Observable<Result<EmptyEntity, WVNetworkError>> {
         provider.rx
             .request(.address(addressInfo))
             .mapTo(EmptyEntity.self)
+            .timeout(.seconds(10), scheduler: MainScheduler.instance)
+            .catch { error in
+                return .just(.failure(.noInternetError))
+            }
     }
     
     public func setGender(_ gender: String) -> Observable<Result<EmptyEntity, WVNetworkError>> {
         provider.rx
             .request(.gender(gender))
             .mapTo(EmptyEntity.self)
+            .timeout(.seconds(10), scheduler: MainScheduler.instance)
+            .catch { error in
+                return .just(.failure(.noInternetError))
+            }
     }
 }

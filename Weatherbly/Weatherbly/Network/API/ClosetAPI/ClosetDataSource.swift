@@ -53,17 +53,29 @@ final class ClosetDataSource: ClosetDataSourceProtocol {
         provider.rx
             .request(.setSensoryTemperature(sensoryTempRequest))
             .mapTo(EmptyEntity.self)
+            .timeout(.seconds(10), scheduler: MainScheduler.instance)
+            .catch { error in
+                return .just(.failure(.noInternetError))
+            }
     }
     
     func getRecommendCloset(_ dateTime: String) -> Observable<Result<RecommendClosetEntity, WVNetworkError>> {
         provider.rx
             .request(.getRecommendStyleList(dateTime))
             .mapTo(RecommendClosetEntity.self)
+            .timeout(.seconds(10), scheduler: MainScheduler.instance)
+            .catch { error in
+                return .just(.failure(.noInternetError))
+            }
     }
     
     func pagerViewClicked(_ closetID: Int) -> Observable<Result<EmptyEntity, WVNetworkError>> {
         provider.rx
             .request(.pagerViewClicked(closetID))
             .mapTo(EmptyEntity.self)
+            .timeout(.seconds(10), scheduler: MainScheduler.instance)
+            .catch { error in
+                return .just(.failure(.noInternetError))
+            }
     }
 }

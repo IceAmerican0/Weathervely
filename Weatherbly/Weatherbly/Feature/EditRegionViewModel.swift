@@ -58,9 +58,14 @@ public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogi
                         break
                     }
                 case .failure(let err):
-                    guard let errorString = err.errorDescription else { return }
-                    self?.alertMessageRelay.accept(.init(title: errorString,
-                                                        alertType: .Error))
+                    switch err {
+                    case .noInternetError:
+                        self?.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
+                    default:
+                        guard let errorString = err.errorDescription else { return }
+                        self?.alertMessageRelay.accept(.init(title: errorString,
+                                                            alertType: .Error))
+                    }
                 }
             })
             .disposed(by: bag)
@@ -77,9 +82,14 @@ public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogi
                     self?.alertMessageRelay.accept(.init(title: "선택한 동네가 삭제됐어요",
                                                          alertType: .Info))
                 case .failure(let err):
-                    guard let errorString = err.errorDescription else { return }
-                    self?.alertMessageRelay.accept(.init(title: errorString,
-                                                        alertType: .Error))
+                    switch err {
+                    case .noInternetError:
+                        self?.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
+                    default:
+                        guard let errorString = err.errorDescription else { return }
+                        self?.alertMessageRelay.accept(.init(title: errorString,
+                                                            alertType: .Error))
+                    }
                 }
             })
             .disposed(by: bag)
@@ -97,9 +107,14 @@ public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogi
                     self?.alertMessageRelay.accept(.init(title: "현재 동네가 \(regionInfo.dong)(으)로 변경됐어요",
                                                          alertType: .Info))
                 case .failure(let err):
-                    guard let errorString = err.errorDescription else { return }
-                    self?.alertMessageRelay.accept(.init(title: errorString,
-                                                        alertType: .Error))
+                    switch err {
+                    case .noInternetError:
+                        self?.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
+                    default:
+                        guard let errorString = err.errorDescription else { return }
+                        self?.alertMessageRelay.accept(.init(title: errorString,
+                                                            alertType: .Error))
+                    }
                 }
             })
             .disposed(by: bag)

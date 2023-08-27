@@ -63,8 +63,16 @@ class HomeSensoryTempViewModel: RxBaseViewModel {
                     let closets = response.data.list
                     self?.getCurrentIndex(closets)
 //                    self?.closetListByTempRelay.accept(closets)
-                case .failure(let error):
-                    debugPrint("viewModel error GetSensoryTemp", error.localizedDescription)
+                case .failure(let err):
+                    switch err {
+                    case .noInternetError:
+                        self?.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
+                    default:
+                        guard let errorString = err.errorDescription else { return }
+                        self?.alertMessageRelay.accept(.init(title: errorString,
+                                                             alertType: .Error,
+                                                             closeAction: self?.popViewController))
+                    }
                 }
             })
             .disposed(by: bag)
@@ -83,8 +91,15 @@ class HomeSensoryTempViewModel: RxBaseViewModel {
                     self?.delegate?.willDismiss()
                     self?.dismissSelfWithAnimationRelay.accept(Void())
                     break
-                case .failure(let error):
-                    debugPrint("viewModel error setTemperature", error.localizedDescription)
+                case .failure(let err):
+                    switch err {
+                    case .noInternetError:
+                        self?.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
+                    default:
+                        guard let errString = err.errorDescription else { return }
+                        self?.alertMessageRelay.accept(.init(title: errString,
+                                                             alertType: .Error))
+                    }
                 }
             })
             .disposed(by: bag)
@@ -108,5 +123,9 @@ class HomeSensoryTempViewModel: RxBaseViewModel {
     func yOffsetForIndex(_ index: Int, _ scrollView: UIScrollView?) {
         let slotMachineIndex = slotMachineIndexRelay.value
         focusingIndexRelay.accept(CGFloat(slotMachineIndex) * (scrollView?.bounds.height)!)
+    }
+    
+    private func popViewController() {
+        self.navigationPopViewControllerRelay.accept(Void())
     }
 }

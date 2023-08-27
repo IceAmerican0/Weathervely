@@ -72,6 +72,7 @@
 		696176B22A63E37F00B83B4C /* RxBaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696176B12A63E37F00B83B4C /* RxBaseViewModel.swift */; };
 		696176B42A63E3C000B83B4C /* BaseDisposeBag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696176B32A63E3C000B83B4C /* BaseDisposeBag.swift */; };
 		696176B62A63E4A400B83B4C /* EmptyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696176B52A63E4A400B83B4C /* EmptyViewModel.swift */; };
+		69683A562A9B81BC00A2BD5A /* LoadErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69683A552A9B81BC00A2BD5A /* LoadErrorViewModel.swift */; };
 		69A7F0D92A80B42A00834974 /* UserDefaultKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A7F0D82A80B42A00834974 /* UserDefaultKey.swift */; };
 		69A7F0E02A80CDD800834974 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 69A7F0DF2A80CDD800834974 /* LaunchScreen.storyboard */; };
 		69A7F0E22A811EC000834974 /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A7F0E12A811EC000834974 /* UserDefaultManager.swift */; };
@@ -192,6 +193,7 @@
 		696176B12A63E37F00B83B4C /* RxBaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxBaseViewModel.swift; sourceTree = "<group>"; };
 		696176B32A63E3C000B83B4C /* BaseDisposeBag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDisposeBag.swift; sourceTree = "<group>"; };
 		696176B52A63E4A400B83B4C /* EmptyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyViewModel.swift; sourceTree = "<group>"; };
+		69683A552A9B81BC00A2BD5A /* LoadErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadErrorViewModel.swift; sourceTree = "<group>"; };
 		69A7F0D82A80B42A00834974 /* UserDefaultKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultKey.swift; sourceTree = "<group>"; };
 		69A7F0DF2A80CDD800834974 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		69A7F0E12A811EC000834974 /* UserDefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
@@ -304,6 +306,7 @@
 			children = (
 				5C46917E2A78F95800E2CC70 /* ConnectionLostViewController.swift */,
 				5C4691802A78F96D00E2CC70 /* LoadErrorViewController.swift */,
+				69683A552A9B81BC00A2BD5A /* LoadErrorViewModel.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -919,6 +922,7 @@
 				BD4907332A84D42F0027DEE8 /* String+Extension.swift in Sources */,
 				BD4316382A3CA20900E86271 /* UIView+Extension.swift in Sources */,
 				BD2D01AE2A38886C003A25D5 /* RxBaseViewController.swift in Sources */,
+				69683A562A9B81BC00A2BD5A /* LoadErrorViewModel.swift in Sources */,
 				BD4316362A3C9DB700E86271 /* AssetsImage.swift in Sources */,
 				BDA66FED2A444C470061A1F0 /* SelectGenderViewController.swift in Sources */,
 				BD6135D32A7E3C9C00DB3DF9 /* RecommendClosetEntity.swift in Sources */,
