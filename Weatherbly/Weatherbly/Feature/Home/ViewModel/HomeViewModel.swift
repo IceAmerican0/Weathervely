@@ -94,7 +94,6 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                     self?.yesterdayCategoryRelay.accept(self?.bindingWeatherByDate(response, -1, yesterDayHour))
                     
                 case .failure(let error):
-                    debugPrint("viewModel Error : ", error.errorDescription)
                     guard let errorDescription = error.errorDescription else { return }
                     self?.alertMessageRelay.accept(.init(title: errorDescription, alertType: .Error))
                 }
@@ -109,7 +108,6 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                 case .success(let response):
                     self?.recommendClosetEntityRelay.accept(response)
                 case .failure(let error):
-                    debugPrint("viewModel Error, getRecommendCloset :" , error.errorDescription)
                     guard let errorDescription = error.errorDescription else { return }
                     self?.alertMessageRelay.accept(.init(title: errorDescription, alertType: .Error))
                 }
@@ -616,7 +614,9 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                 case .success:
                     break
                 case .failure(let err):
-                    debugPrint("쇼핑몰 클릭 횟수 저장안됨!")
+                    guard let errString = err.errorDescription else { return }
+                    debugPrint(errString)
+                    break
                 }
             })
             .disposed(by: bag)
@@ -739,8 +739,8 @@ extension HomeViewModel: HomeSensoryTempViewControllerDelegate {
         let nickname = UserDefaultManager.shared.nickname
         
         self.getRecommendCloset(self.selectedHourParamTypeRelay.value!)
-        var newTemperatureDiff = self.recommendClosetEntityRelay.value?.data?.list.temperatureDifference
+        let newTemperatureDiff = self.recommendClosetEntityRelay.value?.data?.list.temperatureDifference
         self.weatherMsgRelay.accept(WeatherMsgEnum.seonsoryDiffMsg(newTemperatureDiff!).msg)
-        self.alertMessageRelay.accept(.init(title: "\(nickname) 님의 체감온도가 반영되었어요", alertType: .Info))
+        self.alertMessageRelay.accept(.init(title: "\(nickname) 님의 체감온도가 반영됐어요", alertType: .Info))
     }
 }

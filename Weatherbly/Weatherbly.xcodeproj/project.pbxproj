@@ -56,7 +56,7 @@
 		5CC61E262A5BC223001435E6 /* SettingRegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC61E252A5BC223001435E6 /* SettingRegionViewController.swift */; };
 		5CC61E282A5BDCCC001435E6 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC61E272A5BDCCC001435E6 /* UIViewController+Extension.swift */; };
 		5CCC914B2A6114880025B522 /* RegionTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC914A2A6114880025B522 /* RegionTarget.swift */; };
-		5CCC914D2A61179F0025B522 /* WBTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC914C2A61179F0025B522 /* WBTargetType.swift */; };
+		5CCC914D2A61179F0025B522 /* WVTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC914C2A61179F0025B522 /* WVTargetType.swift */; };
 		5CCC91522A61197B0025B522 /* SearchRegionEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC91512A61197B0025B522 /* SearchRegionEntity.swift */; };
 		5CCC91542A611FCE0025B522 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC91532A611FCE0025B522 /* NetworkManager.swift */; };
 		5CCC91562A613F010025B522 /* SettingRegionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC91552A613F010025B522 /* SettingRegionViewModel.swift */; };
@@ -126,7 +126,7 @@
 		BD7DAB2D2A70DEE100422D25 /* ForecastDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB2C2A70DEE100422D25 /* ForecastDataSource.swift */; };
 		BD7DAB312A70DEF400422D25 /* ForeCastTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB302A70DEF400422D25 /* ForeCastTarget.swift */; };
 		BD7DAB332A70DEFC00422D25 /* VillageForecastInfoEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB322A70DEFC00422D25 /* VillageForecastInfoEntity.swift */; };
-		BD7DAB3B2A72447E00422D25 /* WBNetWorkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB3A2A72447E00422D25 /* WBNetWorkError.swift */; };
+		BD7DAB3B2A72447E00422D25 /* WVNetWorkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB3A2A72447E00422D25 /* WVNetWorkError.swift */; };
 		BD9191A62A973EBE00CBD595 /* Calendar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9191A52A973EBE00CBD595 /* Calendar+Extension.swift */; };
 		BDA66FEA2A4075270061A1F0 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA66FE92A4075270061A1F0 /* UIImageView+Extension.swift */; };
 		BDA66FED2A444C470061A1F0 /* SelectGenderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA66FEC2A444C470061A1F0 /* SelectGenderViewController.swift */; };
@@ -178,7 +178,7 @@
 		5CC61E252A5BC223001435E6 /* SettingRegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingRegionViewController.swift; sourceTree = "<group>"; };
 		5CC61E272A5BDCCC001435E6 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		5CCC914A2A6114880025B522 /* RegionTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionTarget.swift; sourceTree = "<group>"; };
-		5CCC914C2A61179F0025B522 /* WBTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WBTargetType.swift; path = Weatherbly/Network/Moya/WBTargetType.swift; sourceTree = SOURCE_ROOT; };
+		5CCC914C2A61179F0025B522 /* WVTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WVTargetType.swift; path = Weatherbly/Network/Moya/WVTargetType.swift; sourceTree = SOURCE_ROOT; };
 		5CCC91512A61197B0025B522 /* SearchRegionEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRegionEntity.swift; sourceTree = "<group>"; };
 		5CCC91532A611FCE0025B522 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		5CCC91552A613F010025B522 /* SettingRegionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingRegionViewModel.swift; sourceTree = "<group>"; };
@@ -248,7 +248,7 @@
 		BD7DAB2C2A70DEE100422D25 /* ForecastDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastDataSource.swift; sourceTree = "<group>"; };
 		BD7DAB302A70DEF400422D25 /* ForeCastTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForeCastTarget.swift; sourceTree = "<group>"; };
 		BD7DAB322A70DEFC00422D25 /* VillageForecastInfoEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VillageForecastInfoEntity.swift; sourceTree = "<group>"; };
-		BD7DAB3A2A72447E00422D25 /* WBNetWorkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBNetWorkError.swift; sourceTree = "<group>"; };
+		BD7DAB3A2A72447E00422D25 /* WVNetWorkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WVNetWorkError.swift; sourceTree = "<group>"; };
 		BD9191A52A973EBE00CBD595 /* Calendar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Extension.swift"; sourceTree = "<group>"; };
 		BDA66FE92A4075270061A1F0 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		BDA66FEC2A444C470061A1F0 /* SelectGenderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGenderViewController.swift; sourceTree = "<group>"; };
@@ -366,8 +366,8 @@
 			children = (
 				5C9D02C92A709CF300AF2DA3 /* Error */,
 				5CCC91532A611FCE0025B522 /* NetworkManager.swift */,
-				5CCC914C2A61179F0025B522 /* WBTargetType.swift */,
-				BD7DAB3A2A72447E00422D25 /* WBNetWorkError.swift */,
+				5CCC914C2A61179F0025B522 /* WVTargetType.swift */,
+				BD7DAB3A2A72447E00422D25 /* WVNetWorkError.swift */,
 				5C9D02DA2A720DCC00AF2DA3 /* EmptyEntity.swift */,
 			);
 			name = Moya;
@@ -956,7 +956,7 @@
 				BD7DAB252A6E757C00422D25 /* PrimitiveSequence+Extension.swift in Sources */,
 				5CAB60D12A54FC5F00CD431A /* UITableView+Extension.swift in Sources */,
 				5C23DBA42A6505BF00F41574 /* KakaoErrorResponse.swift in Sources */,
-				BD7DAB3B2A72447E00422D25 /* WBNetWorkError.swift in Sources */,
+				BD7DAB3B2A72447E00422D25 /* WVNetWorkError.swift in Sources */,
 				5CCC91562A613F010025B522 /* SettingRegionViewModel.swift in Sources */,
 				BD7DAB312A70DEF400422D25 /* ForeCastTarget.swift in Sources */,
 				BD77B82E2A388D2E00E7D57A /* HomeViewModel.swift in Sources */,
@@ -964,7 +964,7 @@
 				69CCF1D12A63CDC200756127 /* RemoteError.swift in Sources */,
 				BD5169472A5AA39000582BA9 /* EditNicknameViewController.swift in Sources */,
 				BD69B8F72A54337000DDCD7A /* SettingViewController.swift in Sources */,
-				5CCC914D2A61179F0025B522 /* WBTargetType.swift in Sources */,
+				5CCC914D2A61179F0025B522 /* WVTargetType.swift in Sources */,
 				69CCF1CF2A63CD5500756127 /* WBErrorResponse.swift in Sources */,
 				BDF208FF2A4EAEF2001177B2 /* CGFloat+Extension.swift in Sources */,
 				5C9D02C62A6FB71F00AF2DA3 /* EditRegionViewModel.swift in Sources */,

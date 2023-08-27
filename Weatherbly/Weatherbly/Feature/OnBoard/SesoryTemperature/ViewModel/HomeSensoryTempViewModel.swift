@@ -73,7 +73,7 @@ class HomeSensoryTempViewModel: RxBaseViewModel {
     func setSensoryTemperature() {
         
         guard let closetId = setClosetIdRelay.value,
-              var currentTemp = selectedTempRelay.value?.dropLast()
+              let currentTemp = selectedTempRelay.value?.dropLast()
         else { return }
         
         closetDataSource.setSensoryTemperature(.init(closet: closetId, currentTemp: String(currentTemp)))
@@ -106,7 +106,7 @@ class HomeSensoryTempViewModel: RxBaseViewModel {
     }
     
     func yOffsetForIndex(_ index: Int, _ scrollView: UIScrollView?) {
-        var slotMachineIndex = slotMachineIndexRelay.value
+        let slotMachineIndex = slotMachineIndexRelay.value
         focusingIndexRelay.accept(CGFloat(slotMachineIndex) * (scrollView?.bounds.height)!)
     }
 }

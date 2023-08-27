@@ -203,9 +203,8 @@ extension SettingRegionViewController: UITextFieldDelegate {
             if isBackSpace == -92 { return true }
         }
         /// 글자수 제한
-        if let text = textField.text {
-            guard text.count < 20 else { return false }
-        }
+        guard let text = textField.text else { return false }
+        guard text.count < 10 else { return false }
         return true
     }
     

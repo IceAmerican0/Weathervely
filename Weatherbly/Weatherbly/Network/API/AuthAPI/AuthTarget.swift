@@ -18,7 +18,7 @@ public enum AuthTarget {
     case gender(_ gender: String)
 }
 
-extension AuthTarget: WBTargetType {
+extension AuthTarget: WVTargetType {
     public var path: String {
         switch self {
         case .login:

@@ -260,8 +260,7 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
         super.viewModelBinding()
         
         viewModel.closetListByTempRelay
-            .subscribe(onNext: { [ weak self ] closetList in
-                guard let closetList = closetList else { return }
+            .subscribe(onNext: { [weak self] _ in
                 self?.addContentscrollView()
                 self?.scrollView.setContentOffset(CGPoint(x: 0, y: (self?.viewModel.focusingIndexRelay.value)!), animated: true)
                 
@@ -309,7 +308,7 @@ extension HomeSensoryTempViewController {
         let contentOffsetY = scrollView.contentOffset.y
         
         // 스크롤뷰의 맨 위에 도달했을 때
-        if contentOffsetY <= 0 {
+        if contentOffsetY < 0 {
             viewModel.alertMessageRelay.accept(.init(title: "이게 가장 얇은 옷차림이에요",
                                                      alertType: .Info))
             let middleContentOffset = CGPoint(x: 0, y: 0)

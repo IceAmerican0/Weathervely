@@ -10,7 +10,7 @@ import Moya
 import RxMoya
 
 protocol ForcastDataSourceProtocol {
-    func getVillageForcast() -> Observable<Result<VillageForecastInfoEntity, WBNetworkError>>
+    func getVillageForcast() -> Observable<Result<VillageForecastInfoEntity, WVNetworkError>>
 }
 
 final class ForecastDataSource: ForcastDataSourceProtocol {
@@ -20,7 +20,7 @@ final class ForecastDataSource: ForcastDataSourceProtocol {
         self.provider = provider
     }
     
-    func getVillageForcast() -> Observable<Result<VillageForecastInfoEntity,WBNetworkError>> {
+    func getVillageForcast() -> Observable<Result<VillageForecastInfoEntity,WVNetworkError>> {
         provider
             .rx
             .request(.getVillageForcastInfo)

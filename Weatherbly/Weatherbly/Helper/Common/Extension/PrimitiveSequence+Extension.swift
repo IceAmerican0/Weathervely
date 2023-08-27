@@ -30,7 +30,7 @@ import Moya
 
 extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
     
-    func mapTo<D: Decodable>(_ type: D.Type) -> Observable<Result<D, WBNetworkError>> {
+    func mapTo<D: Decodable>(_ type: D.Type) -> Observable<Result<D, WVNetworkError>> {
         flatMap { response in
             do {
                 if (200..<300 ~= response.statusCode) { // status : 200

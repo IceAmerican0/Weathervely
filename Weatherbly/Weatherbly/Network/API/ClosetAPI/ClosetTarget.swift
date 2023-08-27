@@ -24,7 +24,7 @@ public enum ClosetTarget { // TODO: 파라미터 값 변경
     case pagerViewClicked(_ closetID: Int)
 }
 
-extension ClosetTarget: WBTargetType {
+extension ClosetTarget: WVTargetType {
     public var path: String {
         switch self {
         case .getStyleList:

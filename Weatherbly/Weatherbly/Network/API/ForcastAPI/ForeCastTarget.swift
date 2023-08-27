@@ -12,7 +12,7 @@ enum ForeCastTarget {
     case getVillageForcastInfo
 }
 
-extension ForeCastTarget: WBTargetType {
+extension ForeCastTarget: WVTargetType {
     var path: String {
         switch self {
         case .getVillageForcastInfo:
