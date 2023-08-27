@@ -154,7 +154,12 @@ extension EditRegionViewController: UITableViewDataSource {
             $0.configureCellState(EditRegionCellState(region: regionName, count: listCount))
             $0.button.rx.tap
                 .subscribe(onNext: { [weak self] _ in
-                    self?.viewModel.didTapCellButton(indexPath)
+                    if indexPath.row == 0 {
+                        self?.viewModel.alertMessageRelay.accept(.init(title: "이미 현재 동네로 설정됐어요",
+                                                                       alertType: .Info))
+                    } else {
+                        self?.viewModel.didTapCellButton(indexPath)
+                    }
                 })
                 .disposed(by: bag)
         }

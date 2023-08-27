@@ -443,7 +443,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             self.yesterdayCategoryRelay.accept(yesterdayCategoryValue)
             
         } else {
-            alertMessageRelay.accept(.init(title: "이후 시간은 확인할 수 없어요",
+            alertMessageRelay.accept(.init(title: "내일 날씨까지만 볼 수 있어요",
                                            alertType: .Info))
         }
     }
