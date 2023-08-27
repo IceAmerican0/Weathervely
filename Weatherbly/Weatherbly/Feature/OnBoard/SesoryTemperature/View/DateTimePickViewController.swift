@@ -68,6 +68,7 @@ final class DateTimePickViewController: RxBaseViewController<DateTimePickViewMod
         
         discriptionLabel.do {
             $0.setLineHeight(1.3)
+            $0.attributedText = NSMutableAttributedString().regular("외출하신 시간을 기준으로\n체감온도를 조절할 수 있어요", 18, CSColor.none)
         }
         
         dateTimePickerView.do {

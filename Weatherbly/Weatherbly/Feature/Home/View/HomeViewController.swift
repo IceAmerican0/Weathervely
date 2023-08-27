@@ -33,8 +33,8 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
     private lazy var pagerView = FSPagerView()
     
     private var bottomButtonWrapper = UIView()
-    private var sensoryViewButton = CSButton(.primary)
-//    var sensoryViewButton = UIButton()
+//    private var sensoryViewButton = CSButton(.primary)
+    var sensoryViewButton = UIButton()
     
     private let screenWidth = UIScreen.main.bounds.width
     private let screenHeight = UIScreen.main.bounds.height
@@ -256,6 +256,7 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         
         calendarButton.rx.tap
             .bind(onNext: { [weak self] _ in
+                self?.viewModel.toTenDaysForecastView()
                 self?.viewModel.alertMessageRelay.accept(.init(title: "아직 준비중인 기능이에요", alertType: .Info))
             })
             .disposed(by: bag)

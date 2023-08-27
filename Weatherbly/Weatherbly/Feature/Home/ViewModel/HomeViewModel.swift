@@ -92,7 +92,6 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                     }()
                     
                     self?.yesterdayCategoryRelay.accept(self?.bindingWeatherByDate(response, -1, yesterDayHour))
-                    
                 case .failure(let error):
                     debugPrint("viewModel Error : ", error.errorDescription)
                     guard let errorDescription = error.errorDescription else { return }
@@ -124,7 +123,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         // 원하는 날짜 멥핑
         let todayForecast = response?.data!.list[selectedDate]!.forecasts
         let selectedHour = selectedHour // HH00
-        
+
         var timeToCategoryValue: [String: [String: String]] = [:]
         // 시간을 key 값으로 재정렬
         
@@ -134,11 +133,10 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             }
             timeToCategoryValue[forecast.fcstTime]?[forecast.category] = forecast.fcstValue
         }
-        
+
         
         // 시간 오름차순
         let orderedByTimeCategories: [Dictionary<String, [String : String]>.Element]? = timeToCategoryValue.sorted { $0.key < $1.key }
-        
         
         // 현재시간인 카테고리 가져오기
         var categoryWithValue: [String: String]? = [:]
@@ -158,6 +156,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     }
     
     func getExtremeTemp(_ categoryWithValue: [String: String]?, _ orderedByTimeCategories: [Dictionary<String, [String : String]>.Element]?, _ selectedHour: String) -> [String: String] {
+        
         let TMXTime = 15
         let TMNTime = 6
         var returnCategoryValues: [String: String]? = categoryWithValue
@@ -167,21 +166,30 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         }
         
         if selectedHour != "\(TMXTime)00" {
-            
-            for key in orderedByTimeCategories![TMXTime].value {
-                if key.key == "TMX" {
-                    returnCategoryValues?.updateValue(key.value, forKey: key.key)
+            for i in 0..<orderedByTimeCategories!.count {
+                if orderedByTimeCategories?[i].key == "1500" {
+                    var hasTMXDic = orderedByTimeCategories?[i]
+                    if let TMXValue = hasTMXDic?.value["TMX"] {
+                        returnCategoryValues?.updateValue((hasTMXDic?.value["TMX"])!, forKey: "TMX")
+                    }
+                    break
+                }
+            }
+        }
+
+        
+        if selectedHour != "0\(TMNTime)00" {
+            for i in 0..<orderedByTimeCategories!.count {
+                if orderedByTimeCategories?[i].key == "0600" {
+                    var hasTMNDic = orderedByTimeCategories?[i]
+                    if let TMNValue = hasTMNDic?.value["TMN"] {
+                        returnCategoryValues?.updateValue((hasTMNDic?.value["TMN"])!, forKey: "TMN")
+                    }
+                    break
                 }
             }
         }
         
-        if selectedHour != "\(TMNTime)00" {
-            for key in orderedByTimeCategories![TMNTime].value {
-                if key.key == "TMN" {
-                    returnCategoryValues?.updateValue(key.value, forKey: key.key)
-                }
-            }
-        }
         return returnCategoryValues ?? [:]
     }
     
@@ -234,15 +242,15 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                         weatherImage = AssetsImage.rainny.image
                         message = WeatherMsgEnum.futureRainMsg(rainPossibility).msg
                     case 2:
-                        // TODO: - 이미지 비/눈 변경
+                        
                         weatherImage = AssetsImage.rainsnow.image
                         message = WeatherMsgEnum.futureRainSnowMsg(rainPossibility).msg
                     case 3:
-                        // TODO: - 이미지 눈 변경
+                        
                         weatherImage = AssetsImage.snow.image
                         message = WeatherMsgEnum.futureSnowMsg(rainPossibility).msg
                     case 4:
-                        // TODO: - 비 이미지 + 소나기 메세지
+                        
                         weatherImage = AssetsImage.rainny.image
                         message = WeatherMsgEnum.futureShowerMsg.msg
                     default:
@@ -293,6 +301,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         } else if humidity >= 80 {
             message = WeatherMsgEnum.highHumidity.msg
         }
+        // TODO: - 맑음, 구름 오전오후 아이콘 구분하기
         switch skyStatus {
         case 1:
             // WI -> 맑음
@@ -720,9 +729,18 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     }
     
     public func toTenDaysForecastView() {
-        let vc = TenDaysForeCastViewController(EmptyViewModel())
+        guard let villageForecastInfo = villageForeCastInfoEntityRelay.value else { return }
+        
+        guard let yesterDayInfo = yesterdayCategoryRelay.value else { return }
+        guard let todayInfo = mappedCategoryDicRelay.value else { return }
+        guard let tomorrowInfo = bindingWeatherByDate(villageForecastInfo, 1, Date().tomorrowThousandFormat) else { return }
+        
+    
+        
+        let vc = TenDaysForeCastViewController(TenDaysForecastViewModel(villageForecastInfo, yesterDayInfo, todayInfo, tomorrowInfo))
         navigationPushViewControllerRelay.accept(vc)
     }
+    
     
     public func toSensoryTempView(_ selectedDate: String, _ selectedTime: String, _ selectedTemp: String, _ closetId: Int) {
         let vm = HomeSensoryTempViewModel(selectedDate, selectedTime, selectedTemp, closetId)

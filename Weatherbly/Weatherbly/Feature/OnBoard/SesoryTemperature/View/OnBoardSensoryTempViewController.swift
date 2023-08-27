@@ -31,7 +31,7 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
     var acceptButton = CSButton(.primary)
     var denyButton = CSButton(.primary)
     
-    var selectOtherDayLabel = CSLabel(.underline, 15, "다른 시간대 선택하기")
+    var selectOtherDayLabel = CSLabel(.underline, 18, "다른 시간대 선택하기")
     
     private let imageHeight = UIScreen.main.bounds.height * 0.38
     private let buttonHeight = UIScreen.main.bounds.height * 0.054
@@ -75,10 +75,10 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
         }
         
         discriptionLabel.do {
+            $0.setLineHeight(1.26)
             $0.adjustsFontSizeToFitWidth = true
             $0.numberOfLines = 0
             $0.textColor = CSColor._102_102_102.color
-            $0.setLineHeight(1.26)
         }
        
         acceptButton.do {
@@ -86,7 +86,7 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
         }
         
         denyButton.do {
-            $0.setTitle("아니오", for: .normal)
+            $0.setTitle("아니요", for: .normal)
         }
         
         selectOtherDayLabel.do {
@@ -106,8 +106,9 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
             flex.addItem(navigationBackButton).width(100%)
 
             flex.addItem(mainMessageLabel)
-                    .marginTop(-20).marginBottom(24)
-
+                    .marginTop(-20)
+                    .marginBottom(24)
+                
             flex.addItem(clothViewWrapper)
                 .justifyContent(.spaceAround)
                 .paddingTop(24)
@@ -124,6 +125,7 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
                         .width(50%)
                         .height(78%)
                     flex.addItem(imageSourceLabel)
+                        .height(13)
                         .marginTop(7)
                         .marginBottom(7)
             }
@@ -197,7 +199,7 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
                                 switch result {
                                 case .success:
                                     self?.tempImageView.kf.indicator?.view.hide()
-                                    self?.imageSourceLabel.text = "by \(closets[i].shopName)"
+                                    self?.imageSourceLabel.attributedText = NSMutableAttributedString().regular("by \(closets[i].shopName)", 11, CSColor.none)
                                     self?.viewModel.closetIDRelay.accept(closets[i].closetId)
                                 case .failure:
                                     self?.tempImageView.kf.indicator?.view.hide()

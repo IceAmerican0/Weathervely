@@ -122,6 +122,15 @@ extension Date {
         return dateFormmater.string(from: date)
     }
     
+    var tomorrowThousandFormat: String {
+        
+        let date = Calendar.current.date(byAdding: .day, value: -1, to: self)!
+        let dateFormmater = DateFormatter.shared
+        dateFormmater.dateFormat = "HH00"
+        
+        return dateFormmater.string(from: date)
+    }
+    
     // MARK: - Day after tomorrow
 
     var dayAfterTomorrow: String {
@@ -152,4 +161,21 @@ extension Date {
         
         return Int(dateFormatter.string(from: date))!
     }
+    
+    func tenDaysFormat(_ value: Int) -> String {
+        let date = Calendar.current.date(byAdding: .day, value: value, to: self)!
+        let dateFormatter = DateFormatter.shared
+        dateFormatter.dateFormat = "M.dd"
+        
+        return dateFormatter.string(from: date)
+    }
+    
+    func dayOfTheWeek(_ value: Int) -> String {
+        let date = Calendar.current.date(byAdding: .day, value: value, to: self)!
+        let dateFormatter = DateFormatter.shared
+        dateFormatter.dateFormat = "E"
+        
+        return dateFormatter.string(from: date)
+    }
 }
+

@@ -64,6 +64,15 @@ enum AssetsImage: String {
     case clouds
     case windy
     
+    // TenDayWeather
+    
+    case tenDayAmCloud
+    case tenDayPmCloud
+    case tenDayRain
+    case tenDayRainSnow
+    case tenDaySnow
+    case tenDaySunny
+    
     
     var image: UIImage? {
         return UIImage(named: self.rawValue)
