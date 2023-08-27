@@ -95,7 +95,9 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                     
                 case .failure(let error):
                     guard let errorDescription = error.errorDescription else { return }
-                    self?.alertMessageRelay.accept(.init(title: errorDescription, alertType: .Error))
+                    self?.alertMessageRelay.accept(.init(title: errorDescription,
+                                                         alertType: .Error,
+                                                         closeAction: self?.popToSelf))
                 }
             })
             .disposed(by: bag)
@@ -109,7 +111,9 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                     self?.recommendClosetEntityRelay.accept(response)
                 case .failure(let error):
                     guard let errorDescription = error.errorDescription else { return }
-                    self?.alertMessageRelay.accept(.init(title: errorDescription, alertType: .Error))
+                    self?.alertMessageRelay.accept(.init(title: errorDescription,
+                                                         alertType: .Error,
+                                                         closeAction: self?.popToSelf))
                 }
             })
             .disposed(by: bag)
@@ -732,6 +736,9 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         presentViewControllerWithAnimationRelay.accept(vc)
     }
     
+    private func popToSelf() {
+        navigationPopToSelfRelay.accept(Void())
+    }
 }
 
 extension HomeViewModel: HomeSensoryTempViewControllerDelegate {

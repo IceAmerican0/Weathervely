@@ -144,7 +144,8 @@ public class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitiali
                 case .Error:
                     let alertVC = AlertViewController(state: .init(title: message.title,
                                                                    message: message.message,
-                                                                   alertType: message.alertType))
+                                                                   alertType: message.alertType,
+                                                                   closeAction: message.closeAction))
                     alertVC.modalPresentationStyle = .overCurrentContext
                     self?.viewModel.presentViewControllerNoAnimationRelay.accept(alertVC)
                 // TODO: alertType = .Info 일시 토스트 띄우게

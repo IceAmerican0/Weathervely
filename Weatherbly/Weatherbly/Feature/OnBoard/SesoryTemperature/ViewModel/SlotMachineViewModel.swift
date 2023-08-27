@@ -45,7 +45,6 @@ public class SlotMachineViewModel: RxBaseViewModel, SlotMachineViewModelLogic {
             .disposed(by: bag)
     }
     
-    
     public func toHomeView() {
         let vc = HomeViewController(HomeViewModel())
         navigationPushViewControllerRelay.accept(vc)

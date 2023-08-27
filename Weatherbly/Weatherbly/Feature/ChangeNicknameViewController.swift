@@ -229,7 +229,6 @@ class ChangeNicknameViewController: RxBaseViewController<ChangeNicknameViewModel
         bottomButton.rx.tap
             .subscribe { [weak self] _ in
                 guard let inputNickname = self?.nicknameTextField.text else { return }
-                print(inputNickname)
                 self?.viewModel.didTapConfirmButton(UserInfoRequest(nickname: inputNickname/*,
                                                                     gender: self?.isFemale == true ? "female" : "male"*/))
             }.disposed(by: bag)

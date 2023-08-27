@@ -13,6 +13,7 @@ public enum WVNetworkError: Error {
     case badRequestError(_ msg: String)
     case clientError(_ msg: String)
     case noInternetError
+    case timeoutError
     case decodeError
     case encodeError
 }
@@ -27,6 +28,8 @@ extension WVNetworkError: LocalizedError {
             return msg
         case .noInternetError:
             return "인터넷에 연결되어 있지 않습니다"
+        case .timeoutError:
+            return "요청시간이 초과되었습니다"
         case .decodeError:
             return "서버가 불안정 합니다"
         case .encodeError:

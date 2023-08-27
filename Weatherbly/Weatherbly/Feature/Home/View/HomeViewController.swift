@@ -54,6 +54,7 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        viewModel.getInfo(self.date.todayHourFormat)
         navigationController?.setNavigationBarHidden(true, animated: animated)
         
         if UserDefaultManager.shared.isOnBoard == true {
@@ -78,10 +79,6 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
     // MARK: Attribute
     override func attribute() {
         super.attribute()
-        
-        backgroundImage.do {
-            $0.setAssetsImage(configureBackgroundImage())
-        }
         
         settingButton.do {
             $0.setImage(AssetsImage.setting.image, for: .normal)
@@ -256,7 +253,7 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         
         calendarButton.rx.tap
             .bind(onNext: { [weak self] _ in
-                self?.viewModel.alertMessageRelay.accept(.init(title: "아직 준비중인 기능이에요", alertType: .Info))
+                self?.viewModel.toTenDaysForecastView()
             })
             .disposed(by: bag)
         
@@ -341,7 +338,12 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
                
             }).disposed(by: bag)
         
-        viewModel.getInfo(self.date.todayHourFormat)
+        viewModel.selectedHourParamTypeRelay
+            .subscribe(onNext: { [weak self] _ in
+                guard let image = self?.configureBackgroundImage() else { return }
+                self?.backgroundImage.setAssetsImage(image)
+            })
+            .disposed(by: bag)
     }
     
     // MARK: - Method
@@ -463,7 +465,28 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
     }
     
     private func configureBackgroundImage() -> AssetsImage {
-        .sunnyMorning
+        guard let time = viewModel.selectedHourParamTypeRelay.value else { return .sunnyAfternoon }
+        guard let image = viewModel.weatherImageRelay.value else { return .sunnyAfternoon }
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:00"
+            
+        if let time = dateFormatter.date(from: time) {
+            let calendar = Calendar.current
+            let hour = calendar.component(.hour, from: time)
+            
+            switch hour {
+            case 0..<7:
+                return image == AssetsImage.sun.image ? .sunnyEvening : .cloudyEvening
+            case 7..<15:
+                return image == AssetsImage.sun.image ? .sunnyMorning : .cloudyMorning
+            case 15..<20:
+                return image == AssetsImage.sun.image ? .sunnyAfternoon : .cloudyAfternoon
+            default:
+                return .sunnyEvening
+            }
+        } else {
+            return .sunnyAfternoon
+        }
     }
 }
 

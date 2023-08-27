@@ -227,7 +227,6 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
     private func moveUp() {
         guard let list = viewModel.closetListByTempRelay.value else { return }
         let pageIndex = Int(scrollView.contentOffset.y / scrollView.frame.height) - 1
-        print(pageIndex)
         
         if pageIndex >= 0 && pageIndex < list.count {
             let yOffset = CGFloat(pageIndex) * scrollView.bounds.height
@@ -243,7 +242,6 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
     private func moveDown() {
         guard let list = viewModel.closetListByTempRelay.value else { return }
         let pageIndex = Int(scrollView.contentOffset.y / scrollView.frame.height) + 1
-        print(pageIndex)
         
         if pageIndex >= 0 && pageIndex < list.count {
             let yOffset = CGFloat(pageIndex) * scrollView.bounds.height

@@ -80,7 +80,6 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
             }
             scrollView.addSubview(imageView)
             scrollView.contentSize.height = imageView.frame.height * CGFloat(i + 1)
-            print(viewModel.closetIDRelay.value)
             if list[i].closetId == viewModel.closetIDRelay.value { index = i }
         }
         

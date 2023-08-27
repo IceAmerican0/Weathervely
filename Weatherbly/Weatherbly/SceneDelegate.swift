@@ -47,13 +47,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         self?.vc = SettingRegionViewController(SettingRegionViewModel(.onboard))
                     }
                     self?.setWindow()
-                case .failure(let err):
-                    guard let errString = err.errorDescription else { return }
+                case .failure:
                     // TODO: 첫 실행 이외 오류시 처리 방법
-//                    if errString == "닉네임" || errString == "NOT_FOUND" {
-                        self?.vc = OnBoardViewController(OnBoardViewModel())
-                        self?.setWindow()
-//                    }
+                    self?.vc = OnBoardViewController(OnBoardViewModel())
+                    self?.setWindow()
                 }
             })
             .disposed(by: bag)

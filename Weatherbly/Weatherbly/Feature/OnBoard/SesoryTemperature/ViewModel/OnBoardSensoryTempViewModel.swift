@@ -79,7 +79,8 @@ public final class OnBoardSensoryTempViewModel: RxBaseViewModel, OnBoardSensoryT
                 case .failure(let err):
                     guard let errorString = err.errorDescription else { return }
                     self?.alertMessageRelay.accept(.init(title: errorString,
-                                                         alertType: .Error))
+                                                         alertType: .Error,
+                                                         closeAction: self?.popViewController))
                 }
             })
             .disposed(by: bag)
@@ -114,4 +115,7 @@ public final class OnBoardSensoryTempViewModel: RxBaseViewModel, OnBoardSensoryT
         self.navigationPushViewControllerRelay.accept(vc)
     }
     
+    func popViewController() {
+        navigationPopViewControllerRelay.accept(Void())
+    }
 }
