@@ -16,6 +16,7 @@ enum CSColor {
     case _0__1
     case _40_106_167
     case _50_50_50
+    case _97_97_97
     case _102_102_102
     case _115_115_115_52
     case _126_212_255
@@ -63,6 +64,8 @@ enum CSColor {
             return UIColor(r: 40, g: 106, b: 167)
         case ._50_50_50:
             return UIColor(r: 50, g: 50, b: 50)
+        case ._97_97_97:
+            return UIColor(r: 97, g: 97, b: 97)
         case ._102_102_102:
             return UIColor(r: 102, g: 102, b: 102)
         case ._115_115_115_52:

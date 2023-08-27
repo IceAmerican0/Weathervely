@@ -11,6 +11,7 @@ import RxMoya
 
 protocol ForcastDataSourceProtocol {
     func getVillageForcast() -> Observable<Result<VillageForecastInfoEntity, WBNetworkError>>
+    func getTenDayForeCast() -> Observable<Result<SevenDayForecastInfoEntity, WBNetworkError>>
 }
 
 final class ForecastDataSource: ForcastDataSourceProtocol {
@@ -26,5 +27,12 @@ final class ForecastDataSource: ForcastDataSourceProtocol {
             .request(.getVillageForcastInfo)
             .mapTo(VillageForecastInfoEntity.self)
         
+    }
+    
+    func getTenDayForeCast() -> Observable<Result<SevenDayForecastInfoEntity, WBNetworkError>> {
+        provider
+            .rx
+            .request(.getTenDayForecastInfo)
+            .mapTo(SevenDayForecastInfoEntity.self)
     }
 }
