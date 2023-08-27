@@ -12,7 +12,7 @@ public enum AuthTarget {
     /// 임시 토큰 발행
     case login
     /// 닉네임 설정
-    case nickname(_ nickname: String)
+    case nickname(_ nickname: String, _ uuid: String)
     /// 주소 설정
     case address(_ addressInfo: AddressRequest)
     /// 성별 설정
@@ -38,11 +38,11 @@ extension AuthTarget: WVTargetType {
     public var task: Moya.Task {
         switch self {
         case .login:
-            return .requestParameters(parameters: ["phone_id": UUID().uuidString],
+            return .requestParameters(parameters: ["phone_id": UserDefaultManager.shared.uuid],
                                       encoding: JSONEncoding.default)
-        case .nickname(let nickname):
+        case .nickname(let nickname, let uuid):
             return .requestParameters(parameters: ["nickname": nickname,
-                                                   "phone_id": UUID().uuidString
+                                                   "phone_id": uuid
                                                   ],
                                       encoding: JSONEncoding.default)
         case .address(let addressInfo):

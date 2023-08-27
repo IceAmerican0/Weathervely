@@ -73,6 +73,8 @@
 		696176B42A63E3C000B83B4C /* BaseDisposeBag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696176B32A63E3C000B83B4C /* BaseDisposeBag.swift */; };
 		696176B62A63E4A400B83B4C /* EmptyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696176B52A63E4A400B83B4C /* EmptyViewModel.swift */; };
 		69683A562A9B81BC00A2BD5A /* LoadErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69683A552A9B81BC00A2BD5A /* LoadErrorViewModel.swift */; };
+		69683A582A9BAAEE00A2BD5A /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69683A572A9BAAEE00A2BD5A /* KeychainManager.swift */; };
+		69683A5B2A9BABC900A2BD5A /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 69683A5A2A9BABC900A2BD5A /* KeychainAccess */; };
 		69A7F0D92A80B42A00834974 /* UserDefaultKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A7F0D82A80B42A00834974 /* UserDefaultKey.swift */; };
 		69A7F0E02A80CDD800834974 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 69A7F0DF2A80CDD800834974 /* LaunchScreen.storyboard */; };
 		69A7F0E22A811EC000834974 /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A7F0E12A811EC000834974 /* UserDefaultManager.swift */; };
@@ -196,6 +198,7 @@
 		696176B32A63E3C000B83B4C /* BaseDisposeBag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDisposeBag.swift; sourceTree = "<group>"; };
 		696176B52A63E4A400B83B4C /* EmptyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyViewModel.swift; sourceTree = "<group>"; };
 		69683A552A9B81BC00A2BD5A /* LoadErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadErrorViewModel.swift; sourceTree = "<group>"; };
+		69683A572A9BAAEE00A2BD5A /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		69A7F0D82A80B42A00834974 /* UserDefaultKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultKey.swift; sourceTree = "<group>"; };
 		69A7F0DF2A80CDD800834974 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		69A7F0E12A811EC000834974 /* UserDefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
@@ -274,6 +277,7 @@
 				5C23DB972A65045C00F41574 /* RxSwift in Frameworks */,
 				BD1F3AF12A7BA08100E528DC /* RxGesture in Frameworks */,
 				5C23DB9E2A65048200F41574 /* Moya in Frameworks */,
+				69683A5B2A9BABC900A2BD5A /* KeychainAccess in Frameworks */,
 				5C23DBA22A65048200F41574 /* RxMoya in Frameworks */,
 				5C23DBA02A65048200F41574 /* ReactiveMoya in Frameworks */,
 				5C23DB8F2A65045C00F41574 /* RxCocoa in Frameworks */,
@@ -471,6 +475,7 @@
 				BD2D01AB2A38885B003A25D5 /* Protocol */,
 				69A7F0D82A80B42A00834974 /* UserDefaultKey.swift */,
 				69A7F0E12A811EC000834974 /* UserDefaultManager.swift */,
+				69683A572A9BAAEE00A2BD5A /* KeychainManager.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -782,6 +787,7 @@
 				5C23DBA12A65048200F41574 /* RxMoya */,
 				BD1F3AF02A7BA08100E528DC /* RxGesture */,
 				5CE0FEAF2A8EEC0000A0E655 /* Kingfisher */,
+				69683A5A2A9BABC900A2BD5A /* KeychainAccess */,
 			);
 			productName = Weatherbly;
 			productReference = BD2D01852A388753003A25D5 /* Weatherbly.app */;
@@ -817,6 +823,7 @@
 				5C23DB9A2A65048200F41574 /* XCRemoteSwiftPackageReference "Moya" */,
 				BD1F3AEF2A7BA08100E528DC /* XCRemoteSwiftPackageReference "RxGesture" */,
 				5CE0FEAE2A8EEC0000A0E655 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				69683A592A9BABC900A2BD5A /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 			);
 			productRefGroup = BD2D01862A388753003A25D5 /* Products */;
 			projectDirPath = "";
@@ -996,6 +1003,7 @@
 				BD50A5222A4C4072005F066E /* SlotMachineViewController.swift in Sources */,
 				5C9D02E12A72405100AF2DA3 /* TypeTarget.swift in Sources */,
 				BD2D11BE2A9AEDCE008CBF0D /* SevenDayForecastInfoEntity.swift in Sources */,
+				69683A582A9BAAEE00A2BD5A /* KeychainManager.swift in Sources */,
 				5C9D02DF2A72304800AF2DA3 /* UserDataSource.swift in Sources */,
 				5C9D02BA2A68EB3900AF2DA3 /* Observable+Extension.swift in Sources */,
 				5C9D02E62A72425200AF2DA3 /* ClosetTarget.swift in Sources */,
@@ -1241,6 +1249,14 @@
 				minimumVersion = 7.0.0;
 			};
 		};
+		69683A592A9BABC900A2BD5A /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess";
+			requirement = {
+				kind = exactVersion;
+				version = 4.2.2;
+			};
+		};
 		BD1F3AEF2A7BA08100E528DC /* XCRemoteSwiftPackageReference "RxGesture" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/RxSwiftCommunity/RxGesture";
@@ -1299,6 +1315,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5CE0FEAE2A8EEC0000A0E655 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		69683A5A2A9BABC900A2BD5A /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 69683A592A9BABC900A2BD5A /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
 		};
 		BD1F3AF02A7BA08100E528DC /* RxGesture */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -11,7 +11,7 @@ import RxMoya
 
 public protocol AuthDataSourceProtocol {
     func getToken() -> Observable<Result<AuthLoginEntity, WVNetworkError>>
-    func setNickname(_ nickname: String) -> Observable<Result<EmptyEntity, WVNetworkError>>
+    func setNickname(_ nickname: String, _ uuid: String) -> Observable<Result<EmptyEntity, WVNetworkError>>
     func setAddress(_ addressInfo: AddressRequest) -> Observable<Result<EmptyEntity, WVNetworkError>>
     func setGender(_ gender: String) -> Observable<Result<EmptyEntity, WVNetworkError>>
 }
@@ -33,9 +33,9 @@ public final class AuthDataSource: AuthDataSourceProtocol {
             }
     }
     
-    public func setNickname(_ nickname: String) -> Observable<Result<EmptyEntity, WVNetworkError>> {
+    public func setNickname(_ nickname: String, _ uuid: String) -> Observable<Result<EmptyEntity, WVNetworkError>> {
         provider.rx
-            .request(.nickname(nickname))
+            .request(.nickname(nickname, uuid))
             .mapTo(EmptyEntity.self)
             .timeout(.seconds(10), scheduler: MainScheduler.instance)
             .catch { error in
