@@ -417,7 +417,6 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
     }
 
     func setHeader(_ justTimeString: String?) {
-        print(#function)
         UIView.animate(withDuration: 0.2, animations: {
                               self.mainLabel.alpha = 0
             guard var mainTimeText = justTimeString else { return }

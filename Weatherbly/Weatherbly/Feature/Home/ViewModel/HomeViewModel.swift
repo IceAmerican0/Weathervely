@@ -381,7 +381,6 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         tomorrowTimeArray.map { swipeArray.append($0)}
         
         swipeArrayRelay.accept(swipeArray)
-        print(#function, "swipeArrayRelay \(swipeArrayRelay.accept(swipeArray))")
     }
     
     public func swipeLeft() {
@@ -592,11 +591,9 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             
             // 현재 0000, 0100, 0200, 0300, 1200, 1500 ...
             targetTime = date.todayThousandFormat
-            print(#function, "targetTime \(targetTime)")
             
             // 현재 00시 01시, 02시 ... 전부 현재로 return
             headerTime = targetTime.hourToMainLabel
-            print(#function, "headerTime \(headerTime)")
             // date.todayHourFormat 즉, 현재 날짜와 현재 시간으로 api 전송
             getRecommendCloset(selectedHourParamTypeRelay.value!)
             
@@ -614,7 +611,6 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                 yesterdayCategoryValue = self.bindingWeatherByDate(forecastEntity, -1, targetTime)
             }
             
-            print(#function, "swipeArray \(swipeArray)")
             swipeIndex = swipeArray.firstIndex(of: targetTime)!
         }
         self.mappedCategoryDicRelay.accept(categoryWithValue)
@@ -633,7 +629,9 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                         self?.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
                     default:
                         guard let errString = err.errorDescription else { return }
-                        debugPrint(errString)
+                        #if DEBUG
+                        print(errString)
+                        #endif
                         break
                     }
                 }
@@ -714,14 +712,12 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         guard self.recommendClosetEntityRelay.value != nil else { return }
         let closetInfo = self.recommendClosetEntityRelay.value?.data?.list.closets[index]
         if let closetId = closetInfo?.id {
-            //                    debugPrint(index, closetId)
             highlightedClosetIdRelay.accept(closetId)
         }
     }
     
     func setCurrentMsg() {
         guard let newTemperatureDiff = self.recommendClosetEntityRelay.value?.data?.list.temperatureDifference else { return }
-        print(#function, newTemperatureDiff)
         if selectedHourParamTypeRelay.value == Date().todayHourFormat {
             self.weatherMsgRelay.accept(WeatherMsgEnum.seonsoryDiffMsg(newTemperatureDiff).msg)
         }

@@ -282,11 +282,6 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
                     .bold("\(selectedTime) (\(selectedTemp))", 16, CSColor._40_106_167)
             }).disposed(by: bag)
         
-//        viewModel.emptyEntityRelay
-//            .subscribe(onNext: { [weak self] result in
-//                debugPrint("complete!!!")
-//            }).disposed(by: bag)
-        
         viewModel.getClosetBySensoryTemp()
     }
 }

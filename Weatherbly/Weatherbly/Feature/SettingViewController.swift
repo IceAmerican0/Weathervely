@@ -203,7 +203,11 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
                         .define { flex in
                         flex.addItem(regionSettingLabel).marginTop(22).marginLeft(34)
                         flex.addItem(favoriteLabel).marginTop(15).marginLeft(34)
-                        flex.addItem(regionIcon).size(60)
+                        if UIScreen.main.bounds.width < 376 {
+                            flex.addItem(regionIcon).size(50)
+                        } else {
+                            flex.addItem(regionIcon).size(60)
+                        }
                     }
 
 //                    flex.addItem(firstButtonWrapper)
@@ -246,7 +250,7 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
                         }
             }
             bottomView.pin.bottom(to: contentWrapper.edge.bottom).marginBottom(5)
-            regionIcon.pin.top(to: addressChangeView.edge.top).right(to: addressChangeView.edge.right).marginTop(24).marginRight(36)
+            regionIcon.pin.top(to: addressChangeView.edge.top).right(to: addressChangeView.edge.right).marginTop(UIScreen.main.bounds.height * 0.028).marginRight(36)
         }
         
     }

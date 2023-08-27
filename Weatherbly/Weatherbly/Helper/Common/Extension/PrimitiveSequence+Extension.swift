@@ -70,9 +70,10 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
                         return .just(.failure(.badRequestError(errDetail.isEmpty ? errMessage : errDetail)))
                     }
                 }
-            } catch(let error) {
-                debugPrint(error)
-                debugPrint(String(decoding: response.data, as: UTF8.self))
+            } catch {
+                #if DEBUG
+                print(String(decoding: response.data, as: UTF8.self))
+                #endif
                 return .just(.failure(.decodeError))
             }
             
