@@ -93,9 +93,6 @@ class CSButton: UIButton, CodeBaseInitializerProtocol {
                     $0.titleLabel?.font = .boldSystemFont(ofSize: 20)
                 }
                 $0.setShadow(CGSize(width: 0, height: 3), CSColor._0__03.cgColor, 1, 2)
-                // TODO: - Hilighted 이미지 처리 필요
-                // TODO: - buttonTitle 설정
-                // setImage? or 함수?
                 
             case .grayFilled:
                 if $0.isEnabled == true {
@@ -118,16 +115,12 @@ class CSButton: UIButton, CodeBaseInitializerProtocol {
                 } else {
                     $0.titleLabel?.font = .boldSystemFont(ofSize: 20)
                 }
-                // TODO: - Hilighted 이미지 처리 필요
-                // TODO: - buttonTitle 설정
                 
             case .secondary:
                 $0.backgroundColor = .white
                 $0.layer.borderWidth = 3
                 $0.layer.cornerRadius = 21
                 $0.titleLabel?.font = .boldSystemFont(ofSize: 16)
-                // TODO: - Color 입력
-                /// https://stackoverflow.com/questions/36836367/how-can-i-do-programmatically-gradient-border-color-uibutton-with-swift
                 
             case .band:
                 $0.backgroundColor = .white

@@ -77,4 +77,19 @@ extension UITextField {
     
 }
 
-
+extension UITextFieldDelegate {
+    func customTextField(_ textField: UITextField, _ range: NSRange, _ string: String) -> Bool {
+        /// 백스페이스 처리
+        if let char = string.cString(using: String.Encoding.utf8) {
+            let isBackSpace = strcmp(char, "\\b")
+            if isBackSpace == -92 { return true }
+        }
+        /// 글자수 제한
+        guard let text = textField.text else { return false }
+        guard text.count < 10 else { return false }
+        /// 특수기호 제한
+        let disallowedCharacterSet = CharacterSet(charactersIn: "!@#$%^&*()_-+=[]{}|\\:;\"'<>,.?/~`")
+        /// 띄어쓰기 제한
+        return string != " " && string.rangeOfCharacter(from: disallowedCharacterSet) == nil
+    }
+}

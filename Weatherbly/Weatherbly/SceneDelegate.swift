@@ -29,7 +29,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func getToken() {
         let loginDataSource = AuthDataSource()
-        loginDataSource.getToken(UserDefaultManager.shared.nickname)
+        loginDataSource.getToken()
             .subscribe(onNext: { [weak self] result in
                 switch result {
                 case .success(let response):
@@ -48,12 +48,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     }
                     self?.setWindow()
                 case .failure(let err):
-                    guard let errString = err.errorDescription else { return }
-                    // TODO: 첫 실행 이외 오류시 처리 방법
-//                    if errString == "닉네임" || errString == "NOT_FOUND" {
+                    switch err {
+                    case .noInternetError:
+                        self?.vc = LoadErrorViewController(LoadErrorViewModel())
+                        self?.setWindow()
+                    default:
                         self?.vc = OnBoardViewController(OnBoardViewModel())
                         self?.setWindow()
-//                    }
+                    }
                 }
             })
             .disposed(by: bag)

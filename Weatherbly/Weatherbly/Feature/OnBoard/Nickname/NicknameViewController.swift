@@ -100,17 +100,7 @@ final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
 // MARK: UITextFieldDelegate
 extension NicknameViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        /// 백스페이스 처리
-        if let char = string.cString(using: String.Encoding.utf8) {
-            let isBackSpace = strcmp(char, "\\b")
-            if isBackSpace == -92 { return true }
-        }
-        /// 글자수 제한
-        if let text = textField.text {
-            guard text.count < 10 else { return false }
-        }
-        /// 띄어쓰기 제한
-        return string != " "
+        customTextField(textField, range, string)
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

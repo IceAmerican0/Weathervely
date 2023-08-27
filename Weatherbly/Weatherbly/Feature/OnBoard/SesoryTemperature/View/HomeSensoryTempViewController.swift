@@ -103,7 +103,6 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
             $0.layer.cornerRadius = 20.0
             $0.backgroundColor = CSColor._253_253_253.color
             $0.setShadow(CGSize(width: 0, height: 4), CSColor._220_220_220.cgColor, 1, 10)
-            // TODO: - shadow처리
         }
         
         scrollView.do {
@@ -206,18 +205,59 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
             })
             .disposed(by: bag)
         
+        upperArrowButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                self?.moveUp()
+            })
+            .disposed(by: bag)
+        
+        downArrowButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                self?.moveDown()
+            })
+            .disposed(by: bag)
+        
         bottomButton.rx.tap
             .subscribe(onNext: { [weak self] tap in
                 self?.viewModel.setSensoryTemperature()
             }).disposed(by: bag)
     }
     
+    private func moveUp() {
+        guard let list = viewModel.closetListByTempRelay.value else { return }
+        let pageIndex = Int(scrollView.contentOffset.y / scrollView.frame.height) - 1
+        
+        if pageIndex >= 0 && pageIndex < list.count {
+            let yOffset = CGFloat(pageIndex) * scrollView.bounds.height
+            scrollView.setContentOffset(CGPoint(x: 0, y: yOffset), animated: true)
+            viewModel.setClosetIdRelay.accept(list[pageIndex].closetId)
+            imageSourceLabel.text = "by \(list[pageIndex].shopName)"
+        } else {
+            viewModel.alertMessageRelay.accept(.init(title: "이게 가장 얇은 옷차림이에요",
+                                                     alertType: .Info))
+        }
+    }
+    
+    private func moveDown() {
+        guard let list = viewModel.closetListByTempRelay.value else { return }
+        let pageIndex = Int(scrollView.contentOffset.y / scrollView.frame.height) + 1
+        
+        if pageIndex >= 0 && pageIndex < list.count {
+            let yOffset = CGFloat(pageIndex) * scrollView.bounds.height
+            scrollView.setContentOffset(CGPoint(x: 0, y: yOffset), animated: true)
+            viewModel.setClosetIdRelay.accept(list[pageIndex].closetId)
+            imageSourceLabel.text = "by \(list[pageIndex].shopName)"
+        } else {
+            viewModel.alertMessageRelay.accept(.init(title: "이게 가장 두꺼운 옷차림이에요",
+                                                     alertType: .Info))
+        }
+    }
+    
     override func viewModelBinding() {
         super.viewModelBinding()
         
         viewModel.closetListByTempRelay
-            .subscribe(onNext: { [ weak self ] closetList in
-                guard let closetList = closetList else { return }
+            .subscribe(onNext: { [weak self] _ in
                 self?.addContentscrollView()
                 self?.scrollView.setContentOffset(CGPoint(x: 0, y: (self?.viewModel.focusingIndexRelay.value)!), animated: true)
                 
@@ -241,20 +281,15 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
                     .bold("\(selectedTime) (\(selectedTemp))", 16, CSColor._40_106_167)
             }).disposed(by: bag)
         
-//        viewModel.emptyEntityRelay
-//            .subscribe(onNext: { [weak self] result in
-//                debugPrint("complete!!!")
-//            }).disposed(by: bag)
-        
         viewModel.getClosetBySensoryTemp()
     }
 }
 
 extension HomeSensoryTempViewController {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard let list = viewModel.closetListByTempRelay.value else { return }
         let pageIndex = Int(scrollView.contentOffset.y / scrollView.frame.height)
         
-        guard let list = viewModel.closetListByTempRelay.value else { return }
         if pageIndex >= 0 && pageIndex < list.count {
             viewModel.setClosetIdRelay.accept(list[pageIndex].closetId)
             imageSourceLabel.text = "by \(list[pageIndex].shopName)"
@@ -265,7 +300,7 @@ extension HomeSensoryTempViewController {
         let contentOffsetY = scrollView.contentOffset.y
         
         // 스크롤뷰의 맨 위에 도달했을 때
-        if contentOffsetY <= 0 {
+        if contentOffsetY < 0 {
             viewModel.alertMessageRelay.accept(.init(title: "이게 가장 얇은 옷차림이에요",
                                                      alertType: .Info))
             let middleContentOffset = CGPoint(x: 0, y: 0)

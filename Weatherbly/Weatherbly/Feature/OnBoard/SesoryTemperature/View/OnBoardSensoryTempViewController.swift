@@ -57,7 +57,6 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
             $0.layer.cornerRadius = 20.0
             $0.backgroundColor = CSColor._253_253_253.color
             $0.setShadow(CGSize(width: 0, height: 4), CSColor._220_220_220.cgColor, 1, 10)
-            // TODO: - shadow처리
         }
     
         tempLabel.do {

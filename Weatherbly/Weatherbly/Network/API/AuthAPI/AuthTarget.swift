@@ -5,11 +5,12 @@
 //  Created by 박성준 on 2023/07/27.
 //
 
+import Foundation
 import Moya
 
 public enum AuthTarget {
     /// 임시 토큰 발행
-    case login(_ nickname: String)
+    case login
     /// 닉네임 설정
     case nickname(_ nickname: String)
     /// 주소 설정
@@ -18,7 +19,7 @@ public enum AuthTarget {
     case gender(_ gender: String)
 }
 
-extension AuthTarget: WBTargetType {
+extension AuthTarget: WVTargetType {
     public var path: String {
         switch self {
         case .login:
@@ -36,10 +37,12 @@ extension AuthTarget: WBTargetType {
     
     public var task: Moya.Task {
         switch self {
-        case .login(let nickname),
-             .nickname(let nickname):
-            return .requestParameters(parameters: ["nickname": nickname
-//                                                   "phone_id": UUID().uuidString
+        case .login:
+            return .requestParameters(parameters: ["phone_id": UUID().uuidString],
+                                      encoding: JSONEncoding.default)
+        case .nickname(let nickname):
+            return .requestParameters(parameters: ["nickname": nickname,
+                                                   "phone_id": UUID().uuidString
                                                   ],
                                       encoding: JSONEncoding.default)
         case .address(let addressInfo):

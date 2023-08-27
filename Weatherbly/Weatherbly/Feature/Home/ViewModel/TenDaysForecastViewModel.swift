@@ -48,8 +48,11 @@ class TenDaysForecastViewModel: RxBaseViewModel, ViewModelBusinessLogic {
                 switch result {
                 case .success(let response):
                     self?.sevenDayForecastInfoRelay.accept(response)
-                case .failure(let error):
-                    self?.alertMessageRelay.accept(.init(title: "\(String(describing: error.errorDescription))", alertType: .Info))
+                case .failure(let err):
+                    guard let errString = err.errorDescription else { return }
+                    self?.alertMessageRelay.accept(.init(title: errString,
+                                                         alertType: .Error,
+                                                         closeAction: self?.popViewController))
                 }
             })
             .disposed(by: bag)
@@ -245,48 +248,50 @@ class TenDaysForecastViewModel: RxBaseViewModel, ViewModelBusinessLogic {
         }
     }
         
-        func bindSevenDayPMWeatherImage(_ index: Int) -> AssetsImage {
-            guard let sevenDayWeatherInfo = sevenDayForecastInfoRelay.value?.data.list else { return AssetsImage.tenDayPmCloud }
+    func bindSevenDayPMWeatherImage(_ index: Int) -> AssetsImage {
+        guard let sevenDayWeatherInfo = sevenDayForecastInfoRelay.value?.data.list else { return AssetsImage.tenDayPmCloud }
+        
+        if (3...7).contains(index) {
             
-            
-            if (3...7).contains(index) {
+            switch sevenDayWeatherInfo.weather[index].wfPm {
+            case "맑음":
+                return AssetsImage.tenDaySunny
+            case "구름많음", "흐림":
+                return AssetsImage.tenDayPmCloud
+            case "구름많고 비", "흐리고 비":
+                return AssetsImage.tenDayRain
+            case "구름많고 눈", "흐리고 눈":
+                return AssetsImage.snow
+            case "구름많고 비/눈", "흐리고 비/눈":
+                return AssetsImage.tenDayRainSnow
+            case "구름많고 소나기", "흐리고 소나기":
+                return AssetsImage.tenDayRain
+            default:
+                return AssetsImage.tenDayAmCloud
                 
-                switch sevenDayWeatherInfo.weather[index].wfPm {
-                case "맑음":
-                    return AssetsImage.tenDaySunny
-                case "구름많음", "흐림":
-                    return AssetsImage.tenDayPmCloud
-                case "구름많고 비", "흐리고 비":
-                    return AssetsImage.tenDayRain
-                case "구름많고 눈", "흐리고 눈":
-                    return AssetsImage.snow
-                case "구름많고 비/눈", "흐리고 비/눈":
-                    return AssetsImage.tenDayRainSnow
-                case "구름많고 소나기", "흐리고 소나기":
-                    return AssetsImage.tenDayRain
-                default:
-                    return AssetsImage.tenDayAmCloud
-                    
-                }
-            } else {
-                switch sevenDayWeatherInfo.weather[index].wf {
-                case "맑음":
-                    return AssetsImage.tenDaySunny
-                case "구름많음", "흐림":
-                    return AssetsImage.tenDayPmCloud
-                case "구름많고 비", "흐리고 비":
-                    return AssetsImage.tenDayRain
-                case "구름많고 눈", "흐리고 눈":
-                    return AssetsImage.snow
-                case "구름많고 비/눈", "흐리고 비/눈":
-                    return AssetsImage.tenDayRainSnow
-                case "구름많고 소나기", "흐리고 소나기":
-                    return AssetsImage.tenDayRain
-                default:
-                    return AssetsImage.tenDayAmCloud
-                    
-                }
+            }
+        } else {
+            switch sevenDayWeatherInfo.weather[index].wf {
+            case "맑음":
+                return AssetsImage.tenDaySunny
+            case "구름많음", "흐림":
+                return AssetsImage.tenDayPmCloud
+            case "구름많고 비", "흐리고 비":
+                return AssetsImage.tenDayRain
+            case "구름많고 눈", "흐리고 눈":
+                return AssetsImage.snow
+            case "구름많고 비/눈", "흐리고 비/눈":
+                return AssetsImage.tenDayRainSnow
+            case "구름많고 소나기", "흐리고 소나기":
+                return AssetsImage.tenDayRain
+            default:
+                return AssetsImage.tenDayAmCloud
+                
             }
         }
-
+    }
+                
+    private func popViewController() {
+        navigationPopViewControllerRelay.accept(Void())
+    }
 }

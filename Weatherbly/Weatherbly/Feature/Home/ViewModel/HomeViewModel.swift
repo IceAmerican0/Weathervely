@@ -92,10 +92,16 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                     }()
                     
                     self?.yesterdayCategoryRelay.accept(self?.bindingWeatherByDate(response, -1, yesterDayHour))
-                case .failure(let error):
-                    debugPrint("viewModel Error : ", error.errorDescription)
-                    guard let errorDescription = error.errorDescription else { return }
-                    self?.alertMessageRelay.accept(.init(title: errorDescription, alertType: .Error))
+                case .failure(let err):
+                    switch err {
+                    case .noInternetError:
+                        self?.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
+                    default:
+                        guard let errorDescription = err.errorDescription else { return }
+                        self?.alertMessageRelay.accept(.init(title: errorDescription,
+                                                             alertType: .Error,
+                                                             closeAction: self?.popToSelf))
+                    }
                 }
             })
             .disposed(by: bag)
@@ -107,10 +113,16 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                 switch result {
                 case .success(let response):
                     self?.recommendClosetEntityRelay.accept(response)
-                case .failure(let error):
-                    debugPrint("viewModel Error, getRecommendCloset :" , error.errorDescription)
-                    guard let errorDescription = error.errorDescription else { return }
-                    self?.alertMessageRelay.accept(.init(title: errorDescription, alertType: .Error))
+                case .failure(let err):
+//                    switch err {
+//                    case .noInternetError:
+//                        self?.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
+//                    default:
+                        guard let errorDescription = err.errorDescription else { return }
+                        self?.alertMessageRelay.accept(.init(title: errorDescription,
+                                                             alertType: .Error,
+                                                             closeAction: self?.popToSelf))
+//                    }
                 }
             })
             .disposed(by: bag)
@@ -301,7 +313,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         } else if humidity >= 80 {
             message = WeatherMsgEnum.highHumidity.msg
         }
-        // TODO: - 맑음, 구름 오전오후 아이콘 구분하기
+        
         switch skyStatus {
         case 1:
             // WI -> 맑음
@@ -378,7 +390,6 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         tomorrowTimeArray.map { swipeArray.append($0)}
         
         swipeArrayRelay.accept(swipeArray)
-        print(#function, "swipeArrayRelay \(swipeArrayRelay.accept(swipeArray))")
     }
     
     public func swipeLeft() {
@@ -450,7 +461,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             self.yesterdayCategoryRelay.accept(yesterdayCategoryValue)
             
         } else {
-            alertMessageRelay.accept(.init(title: "이후 시간은 확인할 수 없어요",
+            alertMessageRelay.accept(.init(title: "내일 날씨까지만 볼 수 있어요",
                                            alertType: .Info))
         }
     }
@@ -589,11 +600,9 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             
             // 현재 0000, 0100, 0200, 0300, 1200, 1500 ...
             targetTime = date.todayThousandFormat
-            print(#function, "targetTime \(targetTime)")
             
             // 현재 00시 01시, 02시 ... 전부 현재로 return
             headerTime = targetTime.hourToMainLabel
-            print(#function, "headerTime \(headerTime)")
             // date.todayHourFormat 즉, 현재 날짜와 현재 시간으로 api 전송
             getRecommendCloset(selectedHourParamTypeRelay.value!)
             
@@ -611,7 +620,6 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                 yesterdayCategoryValue = self.bindingWeatherByDate(forecastEntity, -1, targetTime)
             }
             
-            print(#function, "swipeArray \(swipeArray)")
             swipeIndex = swipeArray.firstIndex(of: targetTime)!
         }
         self.mappedCategoryDicRelay.accept(categoryWithValue)
@@ -625,7 +633,11 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                 case .success:
                     break
                 case .failure(let err):
-                    debugPrint("쇼핑몰 클릭 횟수 저장안됨!")
+                    guard let errString = err.errorDescription else { return }
+                    #if DEBUG
+                    print(errString)
+                    #endif
+                    break
                 }
             })
             .disposed(by: bag)
@@ -704,14 +716,12 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         guard self.recommendClosetEntityRelay.value != nil else { return }
         let closetInfo = self.recommendClosetEntityRelay.value?.data?.list.closets[index]
         if let closetId = closetInfo?.id {
-            //                    debugPrint(index, closetId)
             highlightedClosetIdRelay.accept(closetId)
         }
     }
     
     func setCurrentMsg() {
         guard let newTemperatureDiff = self.recommendClosetEntityRelay.value?.data?.list.temperatureDifference else { return }
-        print(#function, newTemperatureDiff)
         if selectedHourParamTypeRelay.value == Date().todayHourFormat {
             self.weatherMsgRelay.accept(WeatherMsgEnum.seonsoryDiffMsg(newTemperatureDiff).msg)
         }
@@ -750,6 +760,9 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         presentViewControllerWithAnimationRelay.accept(vc)
     }
     
+    private func popToSelf() {
+        navigationPopToSelfRelay.accept(Void())
+    }
 }
 
 extension HomeViewModel: HomeSensoryTempViewControllerDelegate {
@@ -757,8 +770,8 @@ extension HomeViewModel: HomeSensoryTempViewControllerDelegate {
         let nickname = UserDefaultManager.shared.nickname
         
         self.getRecommendCloset(self.selectedHourParamTypeRelay.value!)
-        var newTemperatureDiff = self.recommendClosetEntityRelay.value?.data?.list.temperatureDifference
+        let newTemperatureDiff = self.recommendClosetEntityRelay.value?.data?.list.temperatureDifference
         self.weatherMsgRelay.accept(WeatherMsgEnum.seonsoryDiffMsg(newTemperatureDiff!).msg)
-        self.alertMessageRelay.accept(.init(title: "\(nickname) 님의 체감온도가 반영되었어요", alertType: .Info))
+        self.alertMessageRelay.accept(.init(title: "\(nickname) 님의 체감온도가 반영됐어요", alertType: .Info))
     }
 }

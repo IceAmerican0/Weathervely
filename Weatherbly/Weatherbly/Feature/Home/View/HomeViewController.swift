@@ -54,6 +54,7 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        viewModel.getInfo(self.date.todayHourFormat)
         navigationController?.setNavigationBarHidden(true, animated: animated)
         
         if UserDefaultManager.shared.isOnBoard == true {
@@ -78,10 +79,6 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
     // MARK: Attribute
     override func attribute() {
         super.attribute()
-        
-        backgroundImage.do {
-            $0.setAssetsImage(configureBackgroundImage())
-        }
         
         settingButton.do {
             $0.setImage(AssetsImage.setting.image, for: .normal)
@@ -211,10 +208,6 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         sensoryViewButton.rx.tapGesture()
             .when(.ended)
             .subscribe(onNext: { [weak self] _ in
-                // 지금 하이라이트 된 사진
-                // 선택시간, 온도
-                // TODO: - 선택돼어있는 시간 넣기
-                
                 guard var selectedDate = self?.viewModel.selectedHourParamTypeRelay.value,
                       let closetId = self?.viewModel.highlightedClosetIdRelay.value,
                       let tempText = self?.temperatureLabel.text,
@@ -257,7 +250,6 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         calendarButton.rx.tap
             .bind(onNext: { [weak self] _ in
                 self?.viewModel.toTenDaysForecastView()
-                self?.viewModel.alertMessageRelay.accept(.init(title: "아직 준비중인 기능이에요", alertType: .Info))
             })
             .disposed(by: bag)
         
@@ -284,14 +276,12 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         viewModel.dayChangedRelay
             .subscribe(onNext: { [weak self] _ in
                 self?.viewModel.getInfo(self?.date.todayHourFormat ?? Date().todayHourFormat)
-                self?.viewModel.alertMessageRelay.accept(.init(title: "자정입니다. 날짜를 업데이트합니다", alertType: .Info))
             })
             .disposed(by: bag)
         
         viewModel.hourChangedRelay
             .subscribe(onNext: { [weak self] _ in
                 self?.viewModel.getInfo(self?.date.todayHourFormat ?? Date().todayHourFormat)
-                self?.viewModel.alertMessageRelay.accept(.init(title: "정각입니다", alertType: .Info))
             })
             .disposed(by: bag)
         
@@ -342,7 +332,12 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
                
             }).disposed(by: bag)
         
-        viewModel.getInfo(self.date.todayHourFormat)
+        viewModel.selectedHourParamTypeRelay
+            .subscribe(onNext: { [weak self] _ in
+                guard let image = self?.configureBackgroundImage() else { return }
+                self?.backgroundImage.setAssetsImage(image)
+            })
+            .disposed(by: bag)
     }
     
     // MARK: - Method
@@ -416,7 +411,6 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
     }
 
     func setHeader(_ justTimeString: String?) {
-        print(#function)
         UIView.animate(withDuration: 0.2, animations: {
                               self.mainLabel.alpha = 0
             guard var mainTimeText = justTimeString else { return }
@@ -449,9 +443,6 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         let tmn = Int(Double(info["TMN"] ?? "-") ?? 0)
         let tmx = Int(Double(info["TMX"] ?? "-") ?? 0)
         
-        // TODO: - 위치 / 날씨 이모티콘 멥핑
-        /// 위치 -> userDefault?
-        
         temperatureLabel.do {
             $0.attributedText = NSMutableAttributedString()
             .bold("\(info["TMP"] ?? "-")℃", 20, CSColor.none)
@@ -464,7 +455,28 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
     }
     
     private func configureBackgroundImage() -> AssetsImage {
-        .sunnyMorning
+        guard let time = viewModel.selectedHourParamTypeRelay.value else { return .sunnyAfternoon }
+        guard let image = viewModel.weatherImageRelay.value else { return .sunnyAfternoon }
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:00"
+            
+        if let time = dateFormatter.date(from: time) {
+            let calendar = Calendar.current
+            let hour = calendar.component(.hour, from: time)
+            
+            switch hour {
+            case 0..<7:
+                return image == AssetsImage.sun.image ? .sunnyEvening : .cloudyEvening
+            case 7..<15:
+                return image == AssetsImage.sun.image ? .sunnyMorning : .cloudyMorning
+            case 15..<20:
+                return image == AssetsImage.sun.image ? .sunnyAfternoon : .cloudyAfternoon
+            default:
+                return .sunnyEvening
+            }
+        } else {
+            return .sunnyAfternoon
+        }
     }
 }
 
@@ -488,9 +500,8 @@ extension HomeViewController: FSPagerViewDelegate {
                 
                 if let url = URL(string: shopUrl) {
                     let webView = SFSafariViewController(url: url)
+                    viewModel.didEnterMall()
                     viewModel.presentViewControllerNoAnimationRelay.accept(webView)
-                    // TODO: 추후 주석 풀기
-//                    viewModel.didEnterMall()
                 }
             }
         } else {

@@ -24,7 +24,6 @@ final class AlertViewController: UIViewController, CodeBaseInitializerProtocol {
     
     let bag = DisposeBag()
 //    private let backgroundTapGesture = UITapGestureRecognizer()
-    private var closeAction: (() -> Void) = ({})
     
     private let alertWidth = UIScreen.main.bounds.width * 0.78
     private let labelWidth = UIScreen.main.bounds.width * 0.64
@@ -126,7 +125,11 @@ final class AlertViewController: UIViewController, CodeBaseInitializerProtocol {
         
         confirmButton.rx.tap
             .subscribe(onNext: {
-                self.dismiss(animated: false)
+                if self.state.closeAction != nil {
+                    self.dismiss(animated: false, completion: self.state.closeAction)
+                } else {
+                    self.dismiss(animated: false)
+                }
             })
             .disposed(by: bag)
     }

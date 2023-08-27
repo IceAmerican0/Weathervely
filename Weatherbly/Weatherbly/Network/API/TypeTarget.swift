@@ -12,7 +12,7 @@ public enum TypeTarget {
     case getTypeList
 }
 
-extension TypeTarget: WBTargetType {
+extension TypeTarget: WVTargetType {
     public var path: String {
         switch self {
         case .getTypeList:

@@ -98,10 +98,12 @@ class TenDaysForecastTableViewCell: UITableViewCell {
     func isRainPosLabelHidden(_ amRainPos: Int, _ pmRainPos: Int) {
         if amRainPos < 40 {
             leftRainPosLabel.isHidden = true
+            leftRainPosLabel.font = UIFont.systemFont(ofSize: 12)
         }
         
         if pmRainPos < 40 {
             rightRainPosLabel.isHidden = true
+            rightRainPosLabel.font = UIFont.systemFont(ofSize: 12)
         }
     }
 }

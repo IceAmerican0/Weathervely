@@ -199,7 +199,14 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
         
         navigationView.leftButtonDidTapRelay
             .subscribe(onNext: { [weak self] _ in
-                self?.viewModel.navigationPoptoRootRelay.accept(Void())
+                if let viewControllers = self?.navigationController?.viewControllers {
+                    for viewController in viewControllers {
+                        if let homeViewController = viewController as? HomeViewController {
+                            self?.navigationController?.popToViewController(homeViewController, animated: true)
+                            break
+                        }
+                    }
+                }
             })
             .disposed(by: bag)
         
