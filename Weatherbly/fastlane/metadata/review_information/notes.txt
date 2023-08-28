@@ -1,0 +1,20 @@
+Test Information
+When you progress the onboarding procces, you have to chose your pproximate address. 
+But our app is for just South Korea, you should choose, Soutch Korea location. There are some example you who don't know about korean address well.
+
+1. 자양동
+2. 동백동
+3. 효자동
+
+Thanks.
+-----------------------------------
+앱에서 온보딩을 진행하는 동안 주소를 선택해야 합니다. 
+저희 앱은 대한민국에서 배포 됨으로 대한민국의 대략적인 주소를 선택해야 합니다.
+한국의 주소를 잘 모르는 분들을 위해서 몇 가지 예시를 드리겠습니다.
+
+1. 자양동
+2. 동백동
+3. 효자동
+
+감사합니다
+

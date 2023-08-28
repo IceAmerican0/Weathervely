@@ -12,7 +12,7 @@ import RxCocoa
 
 final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
     
-    private var progressBar = CSProgressView(0.25)
+    private var progressBar = CSProgressView(0.33)
     private var navigationView = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
     private var explanationLabel = CSLabel(.bold, 25, "닉네임을 설정해주세요")
     private var guideLabel = CSLabel(.bold, 20, "(10글자 이내 / 띄어쓰기, 쉼표 불가)")
@@ -39,6 +39,7 @@ final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
             $0.backgroundColor = CSColor._248_248_248.color
             $0.layer.cornerRadius = 13
             $0.delegate = self
+            $0.setClearButton(AssetsImage.delete.image, .whileEditing)
             $0.becomeFirstResponder()
         }
         
@@ -99,17 +100,7 @@ final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
 // MARK: UITextFieldDelegate
 extension NicknameViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        /// 백스페이스 처리
-        if let char = string.cString(using: String.Encoding.utf8) {
-            let isBackSpace = strcmp(char, "\\b")
-            if isBackSpace == -92 { return true }
-        }
-        /// 글자수 제한
-        if let text = textField.text {
-            guard text.count < 10 else { return false }
-        }
-        /// 띄어쓰기 제한
-        return string != " "
+        customTextField(textField, range, string)
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

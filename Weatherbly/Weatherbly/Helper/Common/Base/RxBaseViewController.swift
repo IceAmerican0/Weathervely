@@ -71,6 +71,13 @@ public class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitiali
     
     func viewModelBinding() {
         viewModel
+            .navigationPoptoRootRelay
+            .subscribe(onNext: { [weak self] _ in
+                self?.navigationController?.popToRootViewController(animated: true)
+            })
+            .disposed(by: bag)
+        
+        viewModel
             .navigationPopToSelfRelay
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
@@ -83,7 +90,7 @@ public class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitiali
             .subscribe(onNext: { [weak self] _ in
                 self?.navigationController?.popViewController(animated: true)
             })
-        .disposed(by: bag)
+            .disposed(by: bag)
         
         viewModel
             .navigationPushViewControllerRelay
@@ -91,7 +98,7 @@ public class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitiali
                 guard let self = self, let viewController = viewController else { return }
                 self.navigationController?.pushViewController(viewController, animated: true)
             })
-        .disposed(by: bag)
+            .disposed(by: bag)
         
         viewModel
             .presentViewControllerWithAnimationRelay
@@ -114,14 +121,14 @@ public class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitiali
             .subscribe(onNext: { [weak self] _ in
                 self?.dismiss(animated: false)
             })
-        .disposed(by: bag)
+            .disposed(by: bag)
         
         viewModel
             .dismissSelfWithAnimationRelay
             .subscribe(onNext: { [weak self] _ in
                 self?.dismiss(animated: true)
             })
-        .disposed(by: bag)
+            .disposed(by: bag)
         
         viewModel.dismissSelfAnimationClosureRelay
             .bind { [weak self] closure in
@@ -137,10 +144,10 @@ public class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitiali
                 case .Error:
                     let alertVC = AlertViewController(state: .init(title: message.title,
                                                                    message: message.message,
-                                                                   alertType: message.alertType))
+                                                                   alertType: message.alertType,
+                                                                   closeAction: message.closeAction))
                     alertVC.modalPresentationStyle = .overCurrentContext
                     self?.viewModel.presentViewControllerNoAnimationRelay.accept(alertVC)
-                // TODO: alertType = .Info 일시 토스트 띄우게
                 case .Info:
                     self?.view.showToast(message: message.title, font: .systemFont(ofSize: 16))
                 }

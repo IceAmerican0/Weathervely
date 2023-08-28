@@ -20,22 +20,21 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
     private var topLayoutWrapper = UIView()
     private var settingButton = UIButton()
     private var mainLabelWrapper = UIView()
-    private var mainLabel = CSLabel(.bold, 18, "00동 | 현재")
+    private var mainLabel = CSLabel(.bold, 20, "00동  |  현재")
     private var calendarButton = UIButton()
     
     private var dailyWrapper = UIView()
     private var weatherImageView = UIImageView()
     private var temperatureLabelWrapper = UIView()
     private var temperatureLabel = CSLabel(.bold, 15, "")
-    private var extremeTempLable = CSLabel(.bold, 15, "")
     private var weatherCommentLabel = CSLabel(.regular, 18, "찬바람이 세차게 불어요")
     private var messageLabel = CSLabel(.regular, 17, "😷 미세 먼지가 매우 심해요")
     
     private lazy var pagerView = FSPagerView()
     
     private var bottomButtonWrapper = UIView()
-    private var sensoryViewButton = CSButton(.primary)
-//    var sensoryViewButton = UIButton()
+//    private var sensoryViewButton = CSButton(.primary)
+    var sensoryViewButton = UIButton()
     
     private let screenWidth = UIScreen.main.bounds.width
     private let screenHeight = UIScreen.main.bounds.height
@@ -55,6 +54,7 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        viewModel.getInfo(self.date.todayHourFormat)
         navigationController?.setNavigationBarHidden(true, animated: animated)
         
         if UserDefaultManager.shared.isOnBoard == true {
@@ -80,10 +80,6 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
     override func attribute() {
         super.attribute()
         
-        backgroundImage.do {
-            $0.setAssetsImage(configureBackgroundImage())
-        }
-        
         settingButton.do {
             $0.setImage(AssetsImage.setting.image, for: .normal)
         }
@@ -100,15 +96,15 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
             $0.numberOfLines = 0
         }
         
-        extremeTempLable.do {
-            $0.numberOfLines = 0
-        }
-        
         messageLabel.do {
             $0.backgroundColor = .white
             $0.clipsToBounds = true
             $0.layer.cornerRadius = 15
             $0.adjustsFontSizeToFitWidth = true
+        }
+        
+        weatherCommentLabel.do {
+            $0.numberOfLines = 0
         }
         
         pagerView.do {
@@ -161,10 +157,9 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
                         .justifyContent(.center)
                         .define { flex in
                             flex.addItem(temperatureLabel).grow(1).shrink(1)
-                            flex.addItem(extremeTempLable).grow(1).shrink(1)
                     }
                     
-                    flex.addItem(weatherCommentLabel).marginTop(screenHeight * 0.004).height(screenHeight * 0.03)
+                    flex.addItem(weatherCommentLabel).marginTop(screenHeight * 0.004).height(screenHeight * 0.03).width(50%)
 //                    flex.addItem(dustLabel).marginTop(screenHeight * 0.026).width(dustLabelWidth).height(45)
             }
             
@@ -213,15 +208,21 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         sensoryViewButton.rx.tapGesture()
             .when(.ended)
             .subscribe(onNext: { [weak self] _ in
-                // 지금 하이라이트 된 사진
-                // 선택시간, 온도
-                // TODO: - 선택돼어있는 시간 넣기
-                
                 guard var selectedDate = self?.viewModel.selectedHourParamTypeRelay.value,
-                      var closetId = self?.viewModel.highlightedClosetIdRelay.value,
-                      var selectedTmp = self?.temperatureLabel.text,
-                        var selectedTime = self?.viewModel.headerTimeRelay.value
+                      let closetId = self?.viewModel.highlightedClosetIdRelay.value,
+                      let tempText = self?.temperatureLabel.text,
+                        let selectedTime = self?.viewModel.headerTimeRelay.value
                 else { return }
+                
+                let splittedTemp = tempText.split(separator: "℃").map{$0}
+                let selectedTmp = "\(splittedTemp[0])℃"
+                
+                if self?.viewModel.headerTimeRelay.value == self?.date.todayThousandFormat && selectedDate != self?.date.todayHourFormat {
+                    self?.viewModel.selectedHourParamTypeRelay.accept(self?.date.todayHourFormat)
+                
+                    let newSelectedDate = self?.viewModel.selectedHourParamTypeRelay.value
+                    selectedDate = newSelectedDate ?? (self?.date.todayHourFormat)!
+                }
                 
                 self?.viewModel.toSensoryTempView(selectedDate, selectedTime, selectedTmp, closetId)
             })
@@ -248,7 +249,7 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         
         calendarButton.rx.tap
             .bind(onNext: { [weak self] _ in
-                self?.viewModel.alertMessageRelay.accept(.init(title: "아직 준비중인 기능이에요", alertType: .Info))
+                self?.viewModel.toTenDaysForecastView()
             })
             .disposed(by: bag)
         
@@ -272,6 +273,18 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
 //            })
 //            .disposed(by: bag)
         
+        viewModel.dayChangedRelay
+            .subscribe(onNext: { [weak self] _ in
+                self?.viewModel.getInfo(self?.date.todayHourFormat ?? Date().todayHourFormat)
+            })
+            .disposed(by: bag)
+        
+        viewModel.hourChangedRelay
+            .subscribe(onNext: { [weak self] _ in
+                self?.viewModel.getInfo(self?.date.todayHourFormat ?? Date().todayHourFormat)
+            })
+            .disposed(by: bag)
+        
         viewModel.mappedCategoryDicRelay
             .subscribe(onNext: { [weak self] mappedCategory in
                 self?.reloadDailyWrapper(self?.viewModel.swipeDirectionRelay.value, mappedCategory)
@@ -290,6 +303,7 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
             .subscribe(onNext: { [weak self] result in
                 guard result != nil else { return }
                 self?.pagerView.reloadData()
+                self?.viewModel.setCurrentMsg()
                 self?.viewModel.setCurrentIndex((self?.pagerView.currentIndex)!)
             })
             .disposed(by: bag)
@@ -318,7 +332,12 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
                
             }).disposed(by: bag)
         
-        viewModel.getInfo(self.date.todayHourFormat)
+        viewModel.selectedHourParamTypeRelay
+            .subscribe(onNext: { [weak self] _ in
+                guard let image = self?.configureBackgroundImage() else { return }
+                self?.backgroundImage.setAssetsImage(image)
+            })
+            .disposed(by: bag)
     }
     
     // MARK: - Method
@@ -328,14 +347,17 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         let yesterdayTmp = Int(yesterDayInfo["TMP"]!)!
         let mainTmp = Int(mainInfo["TMP"]!)!
         
-        let tempDiff = yesterdayTmp - mainTmp
+        let tempDiff = mainTmp - yesterdayTmp
         switch tempDiff {
         case ..<0:
-            self.weatherCommentLabel.text = "어제보다 \(tempDiff)℃ 낮아요"
+            self.weatherCommentLabel.attributedText = NSMutableAttributedString()
+                .regular("어제보다 \(tempDiff)℃ 낮아요", 17, CSColor.none)
         case 0:
-            self.weatherCommentLabel.text = "어제와 같은 기온이에요"
+            self.weatherCommentLabel.attributedText = NSMutableAttributedString()
+                .regular("어제와 같은 기온이에요", 17, CSColor.none)
         case 1...:
-            self.weatherCommentLabel.text = "어제보다 \(tempDiff)℃ 높아요"
+            self.weatherCommentLabel.attributedText = NSMutableAttributedString()
+                .regular("어제보다 \(tempDiff)℃ 높아요", 17, CSColor.none)
         default:
             break
         }
@@ -343,15 +365,17 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
     }
     
     func setWeatherMsgInfo(_ weatherMsg: String) {
-        
         guard ((self.viewModel.recommendClosetEntityRelay.value) != nil) else {
-            self.messageLabel.text = weatherMsg
+            self.messageLabel.attributedText = NSMutableAttributedString()
+                .regular("\(weatherMsg)", 17, CSColor.none)
             return }
         var weatherMsg =  weatherMsg
+        
         if self.viewModel.selectedHourParamTypeRelay.value == self.date.todayHourFormat {
-            weatherMsg = WeatherMsgEnum.seonsoryDiffMsg(userTempDiff: (self.viewModel.recommendClosetEntityRelay.value?.data?.list.temperatureDifference)!).msg
+            weatherMsg = WeatherMsgEnum.seonsoryDiffMsg((self.viewModel.recommendClosetEntityRelay.value?.data?.list.temperatureDifference)!).msg
         }
-        self.messageLabel.text = weatherMsg
+        self.messageLabel.attributedText = NSMutableAttributedString()
+            .regular("\(weatherMsg)", 17, CSColor.none)
     }
     
     func reloadDailyWrapper (_ direction: UISwipeGestureRecognizer.Direction?, _ mappedCategory: [String : String]?) {
@@ -391,14 +415,20 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
                               self.mainLabel.alpha = 0
             guard var mainTimeText = justTimeString else { return }
             
+            // 처음 메인 들어왔을 시점을 위한 케이스 분류
             if mainTimeText == Date().todayThousandFormat {
                 mainTimeText = "현재"
             }
+            
             let dong = UserDefaultManager.shared.dong
+            
             if !(mainTimeText == "현재") {
-                self.mainLabel.text = "\(dong) | \(mainTimeText)"
+                self.mainLabel.attributedText = NSMutableAttributedString()
+                    .bold("\(dong)  |  \(mainTimeText)", 20, CSColor.none)
+                
             } else {
-                self.mainLabel.text = "\(dong) | 현재"
+                self.mainLabel.attributedText = NSMutableAttributedString()
+                    .bold("\(dong)  |  현재", 20, CSColor.none)
             }
             
         }) { _ in
@@ -413,31 +443,40 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         let tmn = Int(Double(info["TMN"] ?? "-") ?? 0)
         let tmx = Int(Double(info["TMX"] ?? "-") ?? 0)
         
-        // TODO: - 위치 / 날씨 이모티콘 멥핑
-        /// 위치 -> userDefault?
-        
         temperatureLabel.do {
             $0.attributedText = NSMutableAttributedString()
             .bold("\(info["TMP"] ?? "-")℃", 20, CSColor.none)
-//                .regular(" (", 18, CSColor.none)
-//                .regular("\(tmn)", 18, CSColor._40_106_167)
-//                .regular(" / ", 18, CSColor.none)
-//                .regular("\(tmx)", 18, CSColor._178_36_36)
-//                .regular("℃)", 18, CSColor.none)
-        }
-        
-        extremeTempLable.do {
-            $0.attributedText = NSMutableAttributedString()
-                .regular("(", 18, CSColor.none)
-                .regular("\(tmn)", 18, CSColor._40_106_167)
-                .regular(" / ", 18, CSColor.none)
-                .regular("\(tmx)", 18, CSColor._178_36_36)
-                .regular("℃)", 18, CSColor.none)
+                .regular(" (", 17, CSColor.none)
+                .regular("\(tmn)", 17, CSColor._40_106_167)
+                .regular(" / ", 17, CSColor.none)
+                .regular("\(tmx)", 17, CSColor._178_36_36)
+                .regular("℃)", 17, CSColor.none)
         }
     }
     
     private func configureBackgroundImage() -> AssetsImage {
-        .sunnyAfternoon
+        guard let time = viewModel.selectedHourParamTypeRelay.value else { return .sunnyAfternoon }
+        guard let image = viewModel.weatherImageRelay.value else { return .sunnyAfternoon }
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:00"
+            
+        if let time = dateFormatter.date(from: time) {
+            let calendar = Calendar.current
+            let hour = calendar.component(.hour, from: time)
+            
+            switch hour {
+            case 0..<7:
+                return image == AssetsImage.sun.image ? .sunnyEvening : .cloudyEvening
+            case 7..<15:
+                return image == AssetsImage.sun.image ? .sunnyMorning : .cloudyMorning
+            case 15..<20:
+                return image == AssetsImage.sun.image ? .sunnyAfternoon : .cloudyAfternoon
+            default:
+                return .sunnyEvening
+            }
+        } else {
+            return .sunnyAfternoon
+        }
     }
 }
 
@@ -461,6 +500,7 @@ extension HomeViewController: FSPagerViewDelegate {
                 
                 if let url = URL(string: shopUrl) {
                     let webView = SFSafariViewController(url: url)
+                    viewModel.didEnterMall()
                     viewModel.presentViewControllerNoAnimationRelay.accept(webView)
                 }
             }
@@ -487,7 +527,6 @@ extension HomeViewController: FSPagerViewDataSource {
     }
     
     func pagerView(_ pagerView: FSPagerView, cellForItemAt index: Int) -> FSPagerViewCell {
-        
         let cell = pagerView.dequeueCell(withType: ClosetFSPagerViewCell.self, for: index)
         let closetInfo = viewModel.recommendClosetEntityRelay.value?.data?.list.closets[index]
         
@@ -501,9 +540,12 @@ extension HomeViewController: FSPagerViewDataSource {
                                                           .cacheOriginalImage]) { result in
                     switch result {
                     case .success:
+                        cell.clothImageView.kf.indicator?.view.hide()
                         cell.clothImageSourceLabel.text = "by \(shopName)"
                     case .failure:
-                        break
+                        cell.clothImageView.kf.indicator?.view.hide()
+                        cell.clothImageView.image = AssetsImage.defaultImage.image
+                        cell.clothImageSourceLabel.text = ""
                     }
                 }
             }

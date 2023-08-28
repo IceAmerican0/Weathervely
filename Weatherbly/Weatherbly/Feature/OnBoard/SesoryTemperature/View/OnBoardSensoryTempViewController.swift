@@ -23,7 +23,7 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
     var tempWrapper = UIView()
     var tempLabel = UILabel()
     var tempImageView = UIImageView()
-    var imageSourceLabel = CSLabel(.regular, 11, "by 0000")
+    var imageSourceLabel = CSLabel(.regular, 11, "loading...")
     
     var discriptionLabel = CSLabel(.regular, 16 , "외출하셨을 때 날씨에\n추천되는 표준 옷차림이에요")
     
@@ -31,9 +31,7 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
     var acceptButton = CSButton(.primary)
     var denyButton = CSButton(.primary)
     
-    var selectOtherDayLabel = CSLabel(.underline, 15, "다른 시간대 선택하기")
-    
-    private var labelTapGesture = UITapGestureRecognizer()
+    var selectOtherDayLabel = CSLabel(.underline, 18, "다른 시간대 선택하기")
     
     private let imageHeight = UIScreen.main.bounds.height * 0.38
     private let buttonHeight = UIScreen.main.bounds.height * 0.054
@@ -59,7 +57,6 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
             $0.layer.cornerRadius = 20.0
             $0.backgroundColor = CSColor._253_253_253.color
             $0.setShadow(CGSize(width: 0, height: 4), CSColor._220_220_220.cgColor, 1, 10)
-            // TODO: - shadow처리
         }
     
         tempLabel.do {
@@ -72,14 +69,15 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
         }
         
         tempImageView.do {
-            $0.image = AssetsImage.defaultImage.image
+            $0.kf.indicator?.view.show()
+            $0.kf.indicatorType = .activity
         }
         
         discriptionLabel.do {
+            $0.setLineHeight(1.26)
             $0.adjustsFontSizeToFitWidth = true
             $0.numberOfLines = 0
             $0.textColor = CSColor._102_102_102.color
-            $0.setLineHeight(1.26)
         }
        
         acceptButton.do {
@@ -87,11 +85,11 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
         }
         
         denyButton.do {
-            $0.setTitle("아니오", for: .normal)
+            $0.setTitle("아니요", for: .normal)
         }
         
         selectOtherDayLabel.do {
-            $0.addGestureRecognizer(labelTapGesture)
+            $0.isUserInteractionEnabled = true
         }
     }
     
@@ -107,8 +105,9 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
             flex.addItem(navigationBackButton).width(100%)
 
             flex.addItem(mainMessageLabel)
-                    .marginTop(-20).marginBottom(24)
-
+                    .marginTop(-20)
+                    .marginBottom(24)
+                
             flex.addItem(clothViewWrapper)
                 .justifyContent(.spaceAround)
                 .paddingTop(24)
@@ -125,6 +124,7 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
                         .width(50%)
                         .height(78%)
                     flex.addItem(imageSourceLabel)
+                        .height(13)
                         .marginTop(7)
                         .marginBottom(7)
             }
@@ -169,8 +169,7 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
             })
             .disposed(by: bag)
         
-        labelTapGesture.rx
-            .event
+        selectOtherDayLabel.rx.tapGesture().when(.recognized)
             .subscribe(onNext: { [weak self] _ in
                 self?.viewModel.navigationPopViewControllerRelay.accept(Void())
             })
@@ -184,22 +183,29 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
         
         viewModel.closetListRelay
             .subscribe(onNext: { [weak self] _ in
+                guard let temperature = self?.viewModel.temperatureRelay.value else { return }
                 guard let closets = self?.viewModel.closetListRelay.value else { return }
-                let middle = Int((Double(closets.count) / 2.0).rounded())
                 
-                if let url = URL(string: closets[middle-1].imageUrl) {
-                    self?.tempImageView.kf.indicatorType = .activity
-                    self?.tempImageView.kf.setImage(with: url,
-                                                    placeholder: nil,
-                                                    options: [.retryStrategy(DelayRetryStrategy(maxRetryCount: 2, retryInterval: .seconds(2))),
-                                                              .transition(.fade(0.1)),
-                                                              .cacheOriginalImage]) { result in
-                        switch result {
-                        case .success:
-                            self?.imageSourceLabel.text = "by \(closets[middle].shopName)"
-                            self?.viewModel.closetIDRelay.accept(closets[middle-1].closetId)
-                        case .failure:
-                            break
+                for i in 0..<closets.count {
+                    if temperature >= closets[i].minTemp && temperature < closets[i].maxTemp {
+                        if let url = URL(string: closets[i].imageUrl) {
+                            self?.tempImageView.kf.indicatorType = .activity
+                            self?.tempImageView.kf.setImage(with: url,
+                                                            placeholder: nil,
+                                                            options: [.retryStrategy(DelayRetryStrategy(maxRetryCount: 2, retryInterval: .seconds(2))),
+                                                                      .transition(.fade(0.1)),
+                                                                      .cacheOriginalImage]) { result in
+                                switch result {
+                                case .success:
+                                    self?.tempImageView.kf.indicator?.view.hide()
+                                    self?.imageSourceLabel.attributedText = NSMutableAttributedString().regular("by \(closets[i].shopName)", 11, CSColor.none)
+                                    self?.viewModel.closetIDRelay.accept(closets[i].closetId)
+                                case .failure:
+                                    self?.tempImageView.kf.indicator?.view.hide()
+                                    self?.tempImageView.image = AssetsImage.defaultImage.image
+                                    self?.imageSourceLabel.text = ""
+                                }
+                            }
                         }
                     }
                 }

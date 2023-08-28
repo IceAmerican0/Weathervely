@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "tenDayPmCloud.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

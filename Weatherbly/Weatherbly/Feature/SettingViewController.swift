@@ -9,6 +9,7 @@ import UIKit
 import FlexLayout
 import RxCocoa
 import RxSwift
+import RxGesture
 
 final class SettingViewController: RxBaseViewController<SettingViewModel> {
     
@@ -24,20 +25,31 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
     private var messageLabel = CSLabel(.regular, 16, "오늘 하루는 어떠셨나요?\n지치고 힘든 하루를 잘 견뎌낸 나에게\n\"잘했다\"한 마디는 어떨까요?")
     
     private var firstButtonWrapper = UIView()
-    private var sensoryTempButton = UIButton()
-    private var styleButton = UIButton()
-    private let secondButtonWrapper = UIView()
+    
+    private var buttonInnerView = UIView()
+    private var buttonInnerImageView = UIImageView(image: AssetsImage.settingLocationIcon.image)
+    
     private var locationButton = UIButton()
-    private var inquryButton = UIButton()
+    private var locationTitleLabel = UILabel()
+    private var locationSubtitleLabel = UILabel()
     
     private var bottomView = UIView()
     private var bottomLabel = CSLabel(.regular,12,"개인정보 처리 방침 및 정보 제공처")
     
-    private let bottomLabelTapGesture = UITapGestureRecognizer()
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        nickNameLabel.text = "\(UserDefaultManager.shared.nickname)님"
+        nickNameLabel.attributedText = NSMutableAttributedString().bold("\(UserDefaultManager.shared.nickname)님", 18, CSColor.none)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        setRxButtonBinding()
+        
     }
 
     // MARK: - Attiribute
@@ -47,6 +59,7 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
         navigationView.do {
             $0.setTitle("설정")
             $0.addBorder(.bottom)
+            $0.backgroundColor = CSColor._253_253_253.color
         }
         
         nickNameView.do {
@@ -55,7 +68,8 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
         }
         
         nickNameLabel.do {
-            $0.adjustsFontSizeToFitWidth = true
+            $0.textAlignment = .left
+            $0.numberOfLines = 0
         }
         
         editButton.do {
@@ -72,58 +86,33 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
         
         messageLabel.do {
             $0.textAlignment = .natural
-            $0.adjustsFontSizeToFitWidth = true
-        }
-        
-        sensoryTempButton.do {
-            $0.setShadow(CGSize(width: 0, height: 3), UIColor.black.cgColor, 0.25, 2)
-            $0.setTitle("체감 온도", for: .normal)
-            $0.titleLabel?.font = .systemFont(ofSize: 17,weight: .medium)
-            $0.setTitleColor(.black, for: .normal)
-            $0.backgroundColor = .white
-            $0.setImage(AssetsImage.settingTemperatureIcon.image, for: .normal)
-            $0.alignTextBelowImage()
-            $0.setCornerRadius(24)
-        }
-        
-        styleButton.do {
-            /// 기본 shoadowColor는 _0__03 컬러를 사용하나, 여기서는 배경때문에 잘 보이지 않아서
-            /// 더 명확하게 보이기위해서 black 컬러사용
-            $0.setShadow(CGSize(width: 0, height: 3), UIColor.black.cgColor, 0.25,  2)
-            $0.setTitle("스타일 선택", for: .normal)
-            $0.titleLabel?.font = .systemFont(ofSize: 17,weight: .medium)
-            $0.setTitleColor(.black, for: .normal)
-            $0.backgroundColor = .white
-            $0.setImage(AssetsImage.settingStyleIcon.image, for: .normal)
-            $0.alignTextBelowImage()
-            $0.setCornerRadius(24)
+            $0.attributedText = NSMutableAttributedString().regular("오늘 하루는 어떠셨나요?\n지치고 힘든 하루를 잘 견뎌낸 나에게\n\"잘했다\"한 마디는 어떨까요?", 16, CSColor.none)
+            
         }
         
         locationButton.do {
             $0.setShadow(CGSize(width: 0, height: 3), UIColor.black.cgColor, 0.25, 2)
-            $0.setTitle("동네 설정", for: .normal)
             $0.titleLabel?.font = .systemFont(ofSize: 17,weight: .medium)
-            $0.setTitleColor(.black, for: .normal)
-            $0.backgroundColor = .white
-            $0.setImage(AssetsImage.settingLocationIcon.image, for: .normal)
-            $0.alignTextBelowImage()
+            $0.setBackgroundColor(CSColor._245_245_245.color)
             $0.setCornerRadius(24)
-            
         }
         
-        inquryButton.do {
-            $0.setShadow(CGSize(width: 0, height: 3), UIColor.black.cgColor, 0.25, 2)
-            $0.setTitle("문의하기", for: .normal)
-            $0.titleLabel?.font = .systemFont(ofSize: 17,weight: .medium)
-            $0.setTitleColor(.black, for: .normal)
-            $0.backgroundColor = .white
-            $0.setImage(AssetsImage.settingInquryIcon.image, for: .normal)
-            $0.alignTextBelowImage()
-            $0.setCornerRadius(24)
+        buttonInnerView.do {
+            $0.isUserInteractionEnabled = false
+        }
+        
+        locationTitleLabel.do {
+            $0.attributedText = NSMutableAttributedString().bold("동네설정", 18, CSColor._128_128_128)
+            $0.isUserInteractionEnabled = false
+        }
+        
+        locationSubtitleLabel.do {
+            $0.attributedText = NSMutableAttributedString().medium("즐겨찾기 추가/변경", 20, CSColor.none)
+            $0.isUserInteractionEnabled = false
         }
         
         bottomLabel.do {
-            $0.addGestureRecognizer(bottomLabelTapGesture)
+            $0.isUserInteractionEnabled = true
         }
         
         bottomView.do {
@@ -132,7 +121,6 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
     }
 
     // MARK: - Layout
-    
     override func layout() {
         super.layout()
         container.flex
@@ -140,7 +128,6 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
             .justifyContent(.spaceBetween)
             .define { flex in
             flex.addItem(navigationView)
-                    
             
             flex.addItem(contentWrapper)
                     .grow(1)
@@ -174,41 +161,27 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
                         }
 
                     flex.addItem(firstButtonWrapper)
-                        .direction(.row)
-                        .justifyContent(.spaceBetween)
                         .marginTop(40)
-                        .marginHorizontal(40)
-                        .define { flex in
-                            flex.addItem(sensoryTempButton)
-                                .width(UIScreen.main.bounds.width * 0.37)
-                                .height(UIScreen.main.bounds.height * 0.17)
-                                .marginRight(10)
-
-                            flex.addItem(styleButton)
-                                .width(UIScreen.main.bounds.width * 0.37)
-                                .height(UIScreen.main.bounds.height * 0.17)
-                                .marginLeft(10)
-                        }
-
-                    flex.addItem(secondButtonWrapper)
-                        .direction(.row)
-                        .justifyContent(.spaceBetween)
-                        .marginTop(21)
-                        .marginHorizontal(40)
+                        .marginHorizontal(32)
                         .define { flex in
                             flex.addItem(locationButton)
-                                .width(UIScreen.main.bounds.width * 0.37)
-                                .height(UIScreen.main.bounds.height * 0.17)
-                                .marginRight(10)
-
-                            flex.addItem(inquryButton)
-                                .width(UIScreen.main.bounds.width * 0.37)
-                                .height(UIScreen.main.bounds.height * 0.17)
-                                .marginLeft(10)
+                                .height(113)
+                                .direction(.row)
+                                .define { flex in
+                                    flex.addItem(buttonInnerView)
+                                        .marginLeft(34)
+                                        .define { flex in
+                                            flex.addItem(locationTitleLabel).marginTop(22)
+                                            flex.addItem(locationSubtitleLabel).marginTop(15)
+                                    }
+                                    
+                                    flex.addItem(buttonInnerImageView).width(56).height(60).marginVertical(26.5)
+                                    buttonInnerImageView.pin.right(36)
+                                    
+                                }
                         }
                     
                     flex.addItem(bottomView)
-                        
                         .padding(12)
                         .define { flex in
                             flex.addItem(bottomLabel)
@@ -220,12 +193,21 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
         }
         
     }
-    
+
     override func bind() {
         super.bind()
         
         navigationView.leftButtonDidTapRelay
-            .bind(onNext: viewModel.toHomeView)
+            .subscribe(onNext: { [weak self] _ in
+                if let viewControllers = self?.navigationController?.viewControllers {
+                    for viewController in viewControllers {
+                        if let homeViewController = viewController as? HomeViewController {
+                            self?.navigationController?.popToViewController(homeViewController, animated: true)
+                            break
+                        }
+                    }
+                }
+            })
             .disposed(by: bag)
         
         editButton.rx.tap
@@ -235,20 +217,29 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
         locationButton.rx.tap
             .bind(onNext: viewModel.toEditRegionView)
             .disposed(by: bag)
-        
-        styleButton.rx.tap
-            .bind(onNext: viewModel.toBeContinue)
-            .disposed(by: bag)
-        
-        inquryButton.rx.tap
-            .bind(onNext: viewModel.toBeContinue)
-            .disposed(by: bag)
-        
-        bottomLabelTapGesture.rx.event
+
+        bottomLabel.rx.tapGesture().when(.recognized)
             .subscribe(onNext: { [weak self] _ in
                 self?.viewModel.toPrivacyPolicyView()
             })
             .disposed(by: bag)
     }
 
+}
+
+extension SettingViewController {
+    func setRxButtonBinding() {
+        
+        locationButton.rx.controlEvent(.touchDown)
+            .bind { [weak self] event in
+                self?.locationButton.setBackgroundColor(CSColor._255_255_255_05.color)
+            }
+            .disposed(by: bag)
+        
+        locationButton.rx.controlEvent([.touchUpInside, .touchUpOutside, .touchDragInside ])
+            .bind { [weak self] event in
+                self?.locationButton.setBackgroundColor(CSColor._245_245_245.color)
+            }
+            .disposed(by: bag)
+    }
 }

@@ -15,8 +15,7 @@ import Toast
 final class DateTimePickViewController: RxBaseViewController<DateTimePickViewModel> {
     // MARK: - UI Property
     private let headerWrapper = UIView()
-    private var progressBar = CSProgressView(0.75)
-    private let navigationBackButton = UIButton()
+    private var progressBar = CSProgressView(1.0)
     
     private let titleMessageLabel = CSLabel(.bold, 22, "나에게 딱 맞는\n체감온도를 설정해보세요")
     private let clockImage = UIImageView(image: AssetsImage.clockIcon.image)
@@ -40,24 +39,26 @@ final class DateTimePickViewController: RxBaseViewController<DateTimePickViewMod
         super.viewDidLoad()
         dateTimePickerView.delegate = self
         dateTimePickerView.dataSource = self
-        dateTimePickerView.selectRow(6, inComponent: 2, animated: true)
+        dateTimePickerView.selectRow(3, inComponent: 2, animated: true)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        gradientLayer.frame = datePickerWrapper.bounds
     }
     
     // MARK: - layout
     override func attribute() {
         super.attribute()
-
-        navigationBackButton.do {
-            $0.setImage(AssetsImage.navigationBackButton.image, for: .normal)
-        }
         
         bottomButton.do {
             $0.setTitle("확인", for: .normal)
         }
         
         gradientLayer.do {
-            $0.setGradient(color:[CSColor._237_237_237.cgColor,CSColor._255_255_255_05.cgColor,CSColor._255_255_255_05.cgColor,CSColor._255_255_255_05.cgColor,CSColor._210_210_210.cgColor],
-                           locations: [0.0, 0.2, 0.4, 0,6, 0.8, 1.0], 20)
+            $0.frame = datePickerWrapper.bounds
+            $0.setGradient(color:[CSColor._237_237_237.cgColor,CSColor._255_255_255_05.cgColor,CSColor._255_255_255_05.cgColor,CSColor._255_255_255_05.cgColor,CSColor._255_255_255_05.cgColor],
+                           locations: [0.0, 0.2, 0.4, 0.6, 0.8, 1.0], 20)
             $0.setShadow(CGSize(width: 0, height: 4),CSColor._220_220_220.cgColor , 1, 2)
         }
         
@@ -67,8 +68,13 @@ final class DateTimePickViewController: RxBaseViewController<DateTimePickViewMod
         
         discriptionLabel.do {
             $0.setLineHeight(1.3)
+            $0.attributedText = NSMutableAttributedString().regular("외출하신 시간을 기준으로\n체감온도를 조절할 수 있어요", 18, CSColor.none)
         }
-//        dateTimePickerView.selectRow(6, inComponent: 2, animated: true)
+        
+        dateTimePickerView.do {
+            $0.backgroundColor = .clear
+        }
+
     }
     
     override func layout() {
@@ -76,13 +82,10 @@ final class DateTimePickViewController: RxBaseViewController<DateTimePickViewMod
         
         container.flex
             .define { flex in
-                flex.addItem(headerWrapper).define { flex in
-                    flex.addItem(progressBar)
-                    flex.addItem(navigationBackButton).left(12).size(44).marginTop(15)
-                }
+                flex.addItem(progressBar)
                 
                 flex.addItem(titleMessageLabel)
-                    .marginTop(4)
+                    .marginTop(UIScreen.main.bounds.height * 0.09)
                     .marginHorizontal(65)
                 
                 flex.addItem(clockImage)
@@ -107,8 +110,6 @@ final class DateTimePickViewController: RxBaseViewController<DateTimePickViewMod
                     .marginHorizontal(43)
                     
                 bottomButton.pin.bottom(53)
-//                    .bottom(view.pin.safeArea.bottom + 53)
-//                    .marginBottom(53)
             }
     }
     
@@ -120,7 +121,6 @@ final class DateTimePickViewController: RxBaseViewController<DateTimePickViewMod
             .subscribe (onNext: { [weak self] _ in
                 let date = Date()
                 let today = date.todayDatePickerFormat.components(separatedBy: " ").map{ $0 }
-//                debugPrint("현재시간: ", today)
                 
                 // Get Picker value
                 let pickerDay: String = self?.pickerFirstRowData[(self?.dateTimePickerView.selectedRow(inComponent: 0))  ?? 0] ?? "어제"

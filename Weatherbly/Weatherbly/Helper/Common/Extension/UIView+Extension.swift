@@ -9,6 +9,7 @@ import UIKit
 import FlexLayout
 import PinLayout
 import UIViewBorders
+import Then
 
 extension UIView {
     
@@ -94,7 +95,6 @@ extension UIView {
     func show() {
         self.isHidden = false
     }
-
     
     func showToast(message : String, font: UIFont) {
         let y: CGFloat = {
@@ -108,18 +108,21 @@ extension UIView {
            return y
         }()
         
-        let toastLabel = UILabel(frame: CGRect(x: 59, y: y, width: self.frame.size.width - 116, height: 42))
-            toastLabel.backgroundColor = CSColor._102_102_102.color.withAlphaComponent(0.7)
-                toastLabel.textColor = UIColor.white
-                toastLabel.font = font
-                toastLabel.textAlignment = .center;
-                toastLabel.text = message
-                toastLabel.alpha = 1.0
-                toastLabel.layer.cornerRadius = 20;
-                toastLabel.clipsToBounds  =  true
+        let toastLabel = UILabel(frame: CGRect(x: 59, y: y, width: self.frame.size.width - 116, height: 42)).then {
+            $0.backgroundColor = CSColor._102_102_102.color.withAlphaComponent(0.7)
+            $0.textColor = UIColor.white
+            $0.font = font
+            $0.textAlignment = .center
+            $0.text = message
+            $0.alpha = 1.0
+            $0.layer.cornerRadius = 20
+            $0.clipsToBounds = true
+            $0.adjustsFontSizeToFitWidth = true
+        }
+        
         
         self.addSubview(toastLabel)
-        UIView.animate(withDuration: 0.5, delay: 3.5, options: .curveEaseOut, animations: {
+        UIView.animate(withDuration: 0.5, delay: 3, options: .curveEaseOut, animations: {
                  toastLabel.alpha = 0.0
             }, completion: {(isCompleted) in
                 toastLabel.removeFromSuperview()

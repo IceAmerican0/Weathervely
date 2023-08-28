@@ -14,16 +14,14 @@ import Kingfisher
 
 class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewModel>, UIScrollViewDelegate{
     
-//    weak var delegate: HomeSensoryTempViewControllerDelegate?
     // MARK: - Property
-    
     var images = [UIImage(systemName: "star.fill"), UIImage(systemName: "book.fill"), UIImage(systemName:"scribble"),
                   UIImage(systemName:"lasso")]
 
     private var headerView = UIView()
     private var navigationDismissButton = UIButton()
     
-    private var mainLabel = CSLabel(.bold, 22, "\(UserDefaultManager.shared.nickname)님에게\n적당한 옷차림을 골라주세요")
+    private var mainLabel = CSLabel(.bold, 22, "\(UserDefaultManager.shared.nickname) 님에게\n적당한 옷차림을 골라주세요")
     private var discriptionLabel = CSLabel(.regular, 16 , "사진을 위로 밀면 옷이 더 두꺼워져요\n사진을 아래로 밀면 옷이 더 얇아져요")
     
     private var clothScrollViewWrapper = UIView()
@@ -33,11 +31,10 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
     private var tempWrapper = UIView()
     private var tempLabel =  CSLabel(.bold, 18, "선택 시간 (3℃)")
     private var scrollView = UIScrollView()
-    private var imageSourceLabel = CSLabel(.regular, 11, "by 0000")
+    private var imageSourceLabel = CSLabel(.regular, 11, "loading")
     
     private var bottomButton = CSButton(.primary)
     private let imageHeight = UIScreen.main.bounds.height * 0.38
-    
     
     override init(_ viewModel: HomeSensoryTempViewModel) {
         super.init(viewModel)
@@ -47,7 +44,6 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
         fatalError("init(coder:) has not been implemented")
     }
     // MARK: - Life Cycle
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         scrollView.delegate = self
@@ -58,24 +54,31 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
         
         for i in 0..<closetsList.count {
             let imageView = UIImageView()
+            imageView.kf.indicator?.view.show()
+            imageView.kf.indicatorType = .activity
             let yPos = scrollView.frame.height * CGFloat(i)
-            imageView.frame = CGRect(x: 0, y: yPos, width: scrollView.bounds.width, height: scrollView.bounds.height)
+            imageView.frame = CGRect(x: scrollView.bounds.width * 0.25, y: yPos, width: scrollView.bounds.width / 2, height: scrollView.bounds.height)
             
             let imageUrl = closetsList[i].imageUrl
                 if let url = URL(string: imageUrl) {
                     imageView.kf.indicatorType = .activity
                     imageView.kf.setImage(with: url,
                                           placeholder: nil,
-                                          options: [.retryStrategy(DelayRetryStrategy(maxRetryCount: 2, retryInterval: .seconds(2))),
-                                                    .transition(.fade(0.1)),
-                                                    .cacheOriginalImage]) { result in
-                     
-                                                        switch result {
-                                                        case .success:
-                                                            break
-                                                        case .failure:
-                                                            break
-                                                        }
+                                          options: [
+                                            .retryStrategy(
+                                                DelayRetryStrategy(maxRetryCount: 2,
+                                                                   retryInterval: .seconds(2))),
+                                            .transition(.fade(0.1)),
+                                            .cacheOriginalImage]) { result in
+                        switch result {
+                        case .success:
+                            imageView.kf.indicator?.view.hide()
+                            self.imageSourceLabel.text = "by \(closetsList[i].shopName)"
+                        case .failure:
+                            imageView.kf.indicator?.view.hide()
+                            imageView.image = AssetsImage.defaultImage.image
+                            self.imageSourceLabel.text = ""
+                        }
                     }
                 }
             
@@ -84,12 +87,7 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
         }
     }
     
-    
-    
-    // TODO: - Toast message 띄우기
-    
     // MARK: - Attribute
-    
     override func attribute() {
         super.attribute()
         
@@ -105,7 +103,6 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
             $0.layer.cornerRadius = 20.0
             $0.backgroundColor = CSColor._253_253_253.color
             $0.setShadow(CGSize(width: 0, height: 4), CSColor._220_220_220.cgColor, 1, 10)
-            // TODO: - shadow처리
         }
         
         scrollView.do {
@@ -123,7 +120,7 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
             $0.addBorders([.top, .left, .right, .bottom])
             $0.setCornerRadius(5)
             $0.attributedText = NSMutableAttributedString()
-                .bold($0.text ?? "", 16, CSColor._40_106_167)
+                .bold($0.text ?? "", 16, CSColor._172_107_255)
             $0.adjustsFontSizeToFitWidth = true
         }
         
@@ -153,7 +150,6 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
     }
     
     // MARK: - Layout
-
     override func layout() {
         super.layout()
         
@@ -172,7 +168,6 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
                     .marginTop(-20)
             flex.addItem(clothScrollViewWrapper)
                 .grow(1).shrink(1)
-//                    .height(UIScreen.main.bounds.height * 0.52)
                 .marginTop(20)
                 .marginHorizontal(65)
                 .paddingVertical(5)
@@ -184,9 +179,8 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
                         .paddingVertical(3)
                     flex.addItem(scrollView)
                         .marginTop(13)
-                        .width(50%)
+                        .width(100%)
                         .height(UIScreen.main.bounds.height * 0.37)
-//                        .height(73%)
                         .alignSelf(.center)
                     flex.addItem(imageSourceLabel)
                         .marginTop(12)
@@ -199,12 +193,9 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
                 .marginHorizontal(43)
                 .height(bottomButton.primaryHeight)
         }
-        
-        
     }
     
     // MARK: - Bind
-
     override func viewBinding() {
         super.viewBinding()
         
@@ -214,20 +205,59 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
             })
             .disposed(by: bag)
         
+        upperArrowButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                self?.moveUp()
+            })
+            .disposed(by: bag)
+        
+        downArrowButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                self?.moveDown()
+            })
+            .disposed(by: bag)
+        
         bottomButton.rx.tap
             .subscribe(onNext: { [weak self] tap in
                 self?.viewModel.setSensoryTemperature()
-//                self?.viewModel.dismissSelfWithAnimationRelay.accept(Void())
-                
             }).disposed(by: bag)
+    }
+    
+    private func moveUp() {
+        guard let list = viewModel.closetListByTempRelay.value else { return }
+        let pageIndex = Int(scrollView.contentOffset.y / scrollView.frame.height) - 1
+        
+        if pageIndex >= 0 && pageIndex < list.count {
+            let yOffset = CGFloat(pageIndex) * scrollView.bounds.height
+            scrollView.setContentOffset(CGPoint(x: 0, y: yOffset), animated: true)
+            viewModel.setClosetIdRelay.accept(list[pageIndex].closetId)
+            imageSourceLabel.text = "by \(list[pageIndex].shopName)"
+        } else {
+            viewModel.alertMessageRelay.accept(.init(title: "이게 가장 얇은 옷차림이에요",
+                                                     alertType: .Info))
+        }
+    }
+    
+    private func moveDown() {
+        guard let list = viewModel.closetListByTempRelay.value else { return }
+        let pageIndex = Int(scrollView.contentOffset.y / scrollView.frame.height) + 1
+        
+        if pageIndex >= 0 && pageIndex < list.count {
+            let yOffset = CGFloat(pageIndex) * scrollView.bounds.height
+            scrollView.setContentOffset(CGPoint(x: 0, y: yOffset), animated: true)
+            viewModel.setClosetIdRelay.accept(list[pageIndex].closetId)
+            imageSourceLabel.text = "by \(list[pageIndex].shopName)"
+        } else {
+            viewModel.alertMessageRelay.accept(.init(title: "이게 가장 두꺼운 옷차림이에요",
+                                                     alertType: .Info))
+        }
     }
     
     override func viewModelBinding() {
         super.viewModelBinding()
         
         viewModel.closetListByTempRelay
-            .subscribe(onNext: { [ weak self ] closetList in
-                guard let closetList = closetList else { return }
+            .subscribe(onNext: { [weak self] _ in
                 self?.addContentscrollView()
                 self?.scrollView.setContentOffset(CGPoint(x: 0, y: (self?.viewModel.focusingIndexRelay.value)!), animated: true)
                 
@@ -251,22 +281,40 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
                     .bold("\(selectedTime) (\(selectedTemp))", 16, CSColor._40_106_167)
             }).disposed(by: bag)
         
-//        viewModel.emptyEntityRelay
-//            .subscribe(onNext: { [weak self] result in
-//                debugPrint("complete!!!")
-//            }).disposed(by: bag)
-        
         viewModel.getClosetBySensoryTemp()
     }
 }
 
 extension HomeSensoryTempViewController {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard let list = viewModel.closetListByTempRelay.value else { return }
         let pageIndex = Int(scrollView.contentOffset.y / scrollView.frame.height)
         
-        if let list = viewModel.closetListByTempRelay.value, pageIndex >= 0 && pageIndex < list.count {
+        if pageIndex >= 0 && pageIndex < list.count {
             viewModel.setClosetIdRelay.accept(list[pageIndex].closetId)
             imageSourceLabel.text = "by \(list[pageIndex].shopName)"
+        }
+        
+        let contentHeight = scrollView.contentSize.height
+        let scrollViewHeight = scrollView.frame.height
+        let contentOffsetY = scrollView.contentOffset.y
+        
+        // 스크롤뷰의 맨 위에 도달했을 때
+        if contentOffsetY < 0 {
+            viewModel.alertMessageRelay.accept(.init(title: "이게 가장 얇은 옷차림이에요",
+                                                     alertType: .Info))
+            let middleContentOffset = CGPoint(x: 0, y: 0)
+            scrollView.setContentOffset(middleContentOffset, animated: false)
+            imageSourceLabel.text = "by \(list[0].shopName)"
+        }
+        
+        // 스크롤뷰의 맨 아래에 도달했을 때
+        if contentOffsetY + scrollViewHeight > contentHeight {
+            viewModel.alertMessageRelay.accept(.init(title: "이게 가장 두꺼운 옷차림이에요",
+                                                     alertType: .Info))
+            let middleContentOffset = CGPoint(x: 0, y: scrollView.frame.height * CGFloat(list.count - 1))
+            scrollView.setContentOffset(middleContentOffset, animated: false)
+            imageSourceLabel.text = "by \(list[list.count-1].shopName)"
         }
     }
 }

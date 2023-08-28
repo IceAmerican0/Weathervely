@@ -26,6 +26,14 @@ public final class UserDefaultManager {
         }
     }
     
+    public var uuid: String {
+        if let storedUUID = KeychainManager.shared.getUUID() {
+            return storedUUID
+        } else {
+            return ""
+        }
+    }
+    
     public var gender: String {
         return isFemale ? "여성" : "남성"
     }

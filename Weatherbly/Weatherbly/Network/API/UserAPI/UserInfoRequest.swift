@@ -7,9 +7,9 @@
 
 public struct UserInfoRequest: Codable {
     var nickname: String
-    var gender: String
+//    var gender: String
     
     enum CodingKeys: String, CodingKey {
-        case nickname, gender
+        case nickname//, gender
     }
 }

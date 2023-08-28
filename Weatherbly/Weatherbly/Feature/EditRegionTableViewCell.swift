@@ -19,12 +19,13 @@ public struct EditRegionCellState {
 
 public final class EditRegionTableViewCell: UITableViewCell {
     var bag = DisposeBag()
-    var buttonDidTapRelay = PublishRelay<Void>()
     
     public var regionLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 20)
+        $0.adjustsFontSizeToFitWidth = true
         $0.numberOfLines = 0
     }
+    
     public let button = UIButton().then {
         $0.setImage(AssetsImage.regionChange.image, for: .normal)
         $0.layer.cornerRadius = 5
@@ -35,10 +36,6 @@ public final class EditRegionTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         layout()
-        
-        button.rx.tap
-            .bind(to: buttonDidTapRelay)
-            .disposed(by: bag)
     }
     
     required init?(coder: NSCoder) {

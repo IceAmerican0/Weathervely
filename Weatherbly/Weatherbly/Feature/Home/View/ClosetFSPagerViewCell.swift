@@ -10,10 +10,15 @@ import FlexLayout
 import PinLayout
 import Then
 import FSPagerView
+import Kingfisher
 
 final class ClosetFSPagerViewCell: FSPagerViewCell {
     
-    var clothImageView = UIImageView()
+    var clothImageView = UIImageView().then {
+        $0.kf.indicator?.view.show()
+        $0.kf.indicatorType = .activity
+    }
+    
     var clothImageSourceLabel = CSLabel(.regular, 11, "loading...")
     
     private let clothImageHeight = UIScreen.main.bounds.height * 0.38
@@ -56,11 +61,7 @@ final class ClosetFSPagerViewCell: FSPagerViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        clothImageView.image = AssetsImage.defaultImage.image
-    }
-    
-    func setUIInfo(_ imageData: Data, _ showName: String) {
-        self.clothImageSourceLabel.text = "by \(showName)"
-        self.clothImageView.image = UIImage(data: imageData)
+        clothImageView.kf.indicator?.view.show()
+        clothImageView.kf.indicatorType = .activity
     }
 }

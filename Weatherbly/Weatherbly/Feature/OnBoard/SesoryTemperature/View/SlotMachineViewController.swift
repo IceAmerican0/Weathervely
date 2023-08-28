@@ -18,7 +18,7 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
     private var progressBar = CSProgressView(1)
     private var navigationView = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
     
-    private var mainLabel = CSLabel(.bold, 22, "\(UserDefaultManager.shared.nickname)님에게\n적당한 옷차림을 골라주세요")
+    private var mainLabel = CSLabel(.bold, 22, "\(UserDefaultManager.shared.nickname) 님에게\n적당한 옷차림을 골라주세요")
     private var discriptionLabel = CSLabel(.regular, 16 , "사진을 위아래로 쓸어보세요\n다른 두께감의 옷차림이 나와요")
     
     private var clothScrollViewWrapper = UIView()
@@ -28,7 +28,7 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
     private var tempWrapper = UIView()
     private var tempLabel =  CSLabel(.bold, 18, "선택 시간 (3℃)")
     private var scrollView = UIScrollView()
-    private var imageSourceLabel = CSLabel(.regular, 11, "by 0000")
+    private var imageSourceLabel = CSLabel(.regular, 11, "loading...")
     
     private var bottomButton = CSButton(.primary)
     private var firstAppear = true
@@ -44,7 +44,6 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
         super.viewDidLayoutSubviews()
         scrollView.delegate = self
         
-        // TODO: init에서 받아온 list subscribe시 스크롤뷰 안뜨는 현상 수정
         if firstAppear == true {
             addContentscrollView()
             firstAppear = false
@@ -53,11 +52,15 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
     
     func addContentscrollView() {
         guard let list = viewModel.closetListRelay.value else { return }
+        var index = 0
         for i in 0..<list.count {
-            let imageView = UIImageView()
             let yPos = scrollView.frame.height * CGFloat(i)
-            imageView.frame = CGRect(x: 0, y: yPos, width: scrollView.bounds.width, height: scrollView.bounds.height)
+            let imageView = UIImageView()
+            imageView.kf.indicator?.view.show()
+            imageView.kf.indicatorType = .activity
+            imageView.frame = CGRect(x: scrollView.bounds.width * 0.25, y: yPos, width: scrollView.bounds.width / 2, height: scrollView.bounds.height)
             if let url = URL(string: list[i].imageUrl) {
+                imageView.kf.indicatorType = .activity
                 imageView.kf.setImage(with: url,
                                                 placeholder: nil,
                                                 options: [.retryStrategy(DelayRetryStrategy(maxRetryCount: 2, retryInterval: .seconds(2))),
@@ -65,20 +68,24 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
                                                           .cacheOriginalImage]) { result in
                     switch result {
                     case .success:
+                        imageView.kf.indicator?.view.hide()
                         break
                     case .failure:
-                        break
+                        imageView.kf.indicator?.view.hide()
+                        imageView.image = AssetsImage.defaultImage.image
+                        self.imageSourceLabel.text = ""
                     }
                 }
             }
             scrollView.addSubview(imageView)
             scrollView.contentSize.height = imageView.frame.height * CGFloat(i + 1)
+            if list[i].closetId == viewModel.closetIDRelay.value { index = i }
         }
         
-        let middlePageIndex = Int((Double(list.count) / 2.0).rounded()) - 1
-        let middleContentOffset = CGPoint(x: 0, y: scrollView.frame.height * CGFloat(middlePageIndex))
+        
+        let middleContentOffset = CGPoint(x: 0, y: scrollView.frame.height * CGFloat(index))
         scrollView.setContentOffset(middleContentOffset, animated: false)
-        imageSourceLabel.text = "by \(list[middlePageIndex-1].shopName)"
+        imageSourceLabel.attributedText = NSMutableAttributedString().regular("by \(list[index].shopName)", 11, CSColor.none)
     }
     
     // MARK: - Attribute
@@ -87,6 +94,7 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
         
         mainLabel.do {
             $0.setLineHeight(1.07)
+            $0.attributedText = NSMutableAttributedString().bold("\(UserDefaultManager.shared.nickname) 님에게\n적당한 옷차림을 골라주세요", 22, CSColor.none)
         }
         
         clothScrollViewWrapper.do {
@@ -160,11 +168,11 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
                 .define { flex in
                     flex.addItem(upperArrowButton).size(44).alignSelf(.center)
                     flex.addItem(tempLabel).marginTop(11)
-                        .marginHorizontal(50)
+                        .marginHorizontal(40)
                         .paddingVertical(3)
                     flex.addItem(scrollView)
                         .marginTop(13)
-                        .width(50%)
+                        .width(100%)
                         .height(UIScreen.main.bounds.height * 0.37)
                         .alignSelf(.center)
                     flex.addItem(imageSourceLabel)
@@ -188,11 +196,53 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
             .bind(to: viewModel.navigationPopViewControllerRelay)
             .disposed(by: bag)
         
+        upperArrowButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                self?.moveUp()
+            })
+            .disposed(by: bag)
+
+        downArrowButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                self?.moveDown()
+            })
+            .disposed(by: bag)
+        
         bottomButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 self?.viewModel.didTapAcceptButton()
             })
             .disposed(by: bag)
+    }
+    
+    private func moveUp() {
+        guard let list = viewModel.closetListRelay.value else { return }
+        let pageIndex = Int(scrollView.contentOffset.y / scrollView.frame.height) - 1
+        
+        if pageIndex >= 0 && pageIndex < list.count {
+            let yOffset = CGFloat(pageIndex) * scrollView.bounds.height
+            scrollView.setContentOffset(CGPoint(x: 0, y: yOffset), animated: true)
+            viewModel.closetIDRelay.accept(list[pageIndex].closetId)
+            imageSourceLabel.text = "by \(list[pageIndex].shopName)"
+        } else {
+            viewModel.alertMessageRelay.accept(.init(title: "이게 가장 얇은 옷차림이에요",
+                                                     alertType: .Info))
+        }
+    }
+    
+    private func moveDown() {
+        guard let list = viewModel.closetListRelay.value else { return }
+        let pageIndex = Int(scrollView.contentOffset.y / scrollView.frame.height) + 1
+        
+        if pageIndex >= 0 && pageIndex < list.count {
+            let yOffset = CGFloat(pageIndex) * scrollView.bounds.height
+            scrollView.setContentOffset(CGPoint(x: 0, y: yOffset), animated: true)
+            viewModel.closetIDRelay.accept(list[pageIndex].closetId)
+            imageSourceLabel.text = "by \(list[pageIndex].shopName)"
+        } else {
+            viewModel.alertMessageRelay.accept(.init(title: "이게 가장 두꺼운 옷차림이에요",
+                                                     alertType: .Info))
+        }
     }
     
     override func viewModelBinding() {
@@ -223,7 +273,7 @@ extension SlotMachineViewController: UIScrollViewDelegate {
         
         // 스크롤뷰의 맨 위에 도달했을 때
         if contentOffsetY < 0 {
-            viewModel.alertMessageRelay.accept(.init(title: "이게 가장 두꺼운 옷차림이에요",
+            viewModel.alertMessageRelay.accept(.init(title: "이게 가장 얇은 옷차림이에요",
                                                      alertType: .Info))
             let middleContentOffset = CGPoint(x: 0, y: 0)
             scrollView.setContentOffset(middleContentOffset, animated: false)
@@ -232,7 +282,7 @@ extension SlotMachineViewController: UIScrollViewDelegate {
         
         // 스크롤뷰의 맨 아래에 도달했을 때
         if contentOffsetY + scrollViewHeight > contentHeight {
-            viewModel.alertMessageRelay.accept(.init(title: "이게 가장 얇은 옷차림이에요",
+            viewModel.alertMessageRelay.accept(.init(title: "이게 가장 두꺼운 옷차림이에요",
                                                      alertType: .Info))
             let middleContentOffset = CGPoint(x: 0, y: scrollView.frame.height * CGFloat(list.count - 1))
             scrollView.setContentOffset(middleContentOffset, animated: false)

@@ -56,7 +56,7 @@
 		5CC61E262A5BC223001435E6 /* SettingRegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC61E252A5BC223001435E6 /* SettingRegionViewController.swift */; };
 		5CC61E282A5BDCCC001435E6 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC61E272A5BDCCC001435E6 /* UIViewController+Extension.swift */; };
 		5CCC914B2A6114880025B522 /* RegionTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC914A2A6114880025B522 /* RegionTarget.swift */; };
-		5CCC914D2A61179F0025B522 /* WBTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC914C2A61179F0025B522 /* WBTargetType.swift */; };
+		5CCC914D2A61179F0025B522 /* WVTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC914C2A61179F0025B522 /* WVTargetType.swift */; };
 		5CCC91522A61197B0025B522 /* SearchRegionEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC91512A61197B0025B522 /* SearchRegionEntity.swift */; };
 		5CCC91542A611FCE0025B522 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC91532A611FCE0025B522 /* NetworkManager.swift */; };
 		5CCC91562A613F010025B522 /* SettingRegionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC91552A613F010025B522 /* SettingRegionViewModel.swift */; };
@@ -67,10 +67,14 @@
 		5CE0FEB42A8F3BE000A0E655 /* PrivatePolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE0FEB32A8F3BE000A0E655 /* PrivatePolicyViewController.swift */; };
 		5CE0FEB62A8F401100A0E655 /* PrivatePolicyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE0FEB52A8F401100A0E655 /* PrivatePolicyViewModel.swift */; };
 		5CE0FEB82A8F4CE200A0E655 /* SetSensoryTempRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE0FEB72A8F4CE200A0E655 /* SetSensoryTempRequest.swift */; };
+		5CE0FEBA2A93529100A0E655 /* AuthLoginEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE0FEB92A93529100A0E655 /* AuthLoginEntity.swift */; };
 		6634CC2CAD88136EB8B2B027 /* Pods_Weatherbly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5451DE341E51F8EB4049CE6 /* Pods_Weatherbly.framework */; };
 		696176B22A63E37F00B83B4C /* RxBaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696176B12A63E37F00B83B4C /* RxBaseViewModel.swift */; };
 		696176B42A63E3C000B83B4C /* BaseDisposeBag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696176B32A63E3C000B83B4C /* BaseDisposeBag.swift */; };
 		696176B62A63E4A400B83B4C /* EmptyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696176B52A63E4A400B83B4C /* EmptyViewModel.swift */; };
+		69683A562A9B81BC00A2BD5A /* LoadErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69683A552A9B81BC00A2BD5A /* LoadErrorViewModel.swift */; };
+		69683A582A9BAAEE00A2BD5A /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69683A572A9BAAEE00A2BD5A /* KeychainManager.swift */; };
+		69683A5B2A9BABC900A2BD5A /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 69683A5A2A9BABC900A2BD5A /* KeychainAccess */; };
 		69A7F0D92A80B42A00834974 /* UserDefaultKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A7F0D82A80B42A00834974 /* UserDefaultKey.swift */; };
 		69A7F0E02A80CDD800834974 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 69A7F0DF2A80CDD800834974 /* LaunchScreen.storyboard */; };
 		69A7F0E22A811EC000834974 /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A7F0E12A811EC000834974 /* UserDefaultManager.swift */; };
@@ -90,6 +94,8 @@
 		BD2D01B22A38889E003A25D5 /* CSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D01B12A38889E003A25D5 /* CSButton.swift */; };
 		BD2D01B42A3888AA003A25D5 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D01B32A3888AA003A25D5 /* UIColor+Extension.swift */; };
 		BD2D01B62A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D01B52A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift */; };
+		BD2D11BC2A9AEB0D008CBF0D /* TenDaysForecastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D11BB2A9AEB0D008CBF0D /* TenDaysForecastViewModel.swift */; };
+		BD2D11BE2A9AEDCE008CBF0D /* SevenDayForecastInfoEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D11BD2A9AEDCE008CBF0D /* SevenDayForecastInfoEntity.swift */; };
 		BD4316342A3C967900E86271 /* OnBoardSensoryTempViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4316332A3C967900E86271 /* OnBoardSensoryTempViewController.swift */; };
 		BD4316362A3C9DB700E86271 /* AssetsImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4316352A3C9DB700E86271 /* AssetsImage.swift */; };
 		BD4316382A3CA20900E86271 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4316372A3CA20900E86271 /* UIView+Extension.swift */; };
@@ -123,14 +129,14 @@
 		BD7DAB252A6E757C00422D25 /* PrimitiveSequence+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB242A6E757C00422D25 /* PrimitiveSequence+Extension.swift */; };
 		BD7DAB272A6E786E00422D25 /* StatusOnlyEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB262A6E786E00422D25 /* StatusOnlyEntity.swift */; };
 		BD7DAB2D2A70DEE100422D25 /* ForecastDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB2C2A70DEE100422D25 /* ForecastDataSource.swift */; };
-		BD7DAB2F2A70DEED00422D25 /* GetVillageForecastInfoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB2E2A70DEED00422D25 /* GetVillageForecastInfoProvider.swift */; };
 		BD7DAB312A70DEF400422D25 /* ForeCastTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB302A70DEF400422D25 /* ForeCastTarget.swift */; };
 		BD7DAB332A70DEFC00422D25 /* VillageForecastInfoEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB322A70DEFC00422D25 /* VillageForecastInfoEntity.swift */; };
-		BD7DAB3B2A72447E00422D25 /* WBNetWorkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB3A2A72447E00422D25 /* WBNetWorkError.swift */; };
+		BD7DAB3B2A72447E00422D25 /* WVNetWorkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB3A2A72447E00422D25 /* WVNetWorkError.swift */; };
+		BD9191A62A973EBE00CBD595 /* Calendar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9191A52A973EBE00CBD595 /* Calendar+Extension.swift */; };
 		BDA66FEA2A4075270061A1F0 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA66FE92A4075270061A1F0 /* UIImageView+Extension.swift */; };
 		BDA66FED2A444C470061A1F0 /* SelectGenderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA66FEC2A444C470061A1F0 /* SelectGenderViewController.swift */; };
 		BDA66FEF2A4459910061A1F0 /* SelectGenderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA66FEE2A4459910061A1F0 /* SelectGenderViewModel.swift */; };
-		BDAEBC9F2A8F5EE4002E10F2 /* weatherMesaageEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDAEBC9E2A8F5EE4002E10F2 /* weatherMesaageEnum.swift */; };
+		BDAEBC9F2A8F5EE4002E10F2 /* WeatherMesageEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDAEBC9E2A8F5EE4002E10F2 /* WeatherMesageEnum.swift */; };
 		BDF208FF2A4EAEF2001177B2 /* CGFloat+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF208FE2A4EAEF2001177B2 /* CGFloat+Extension.swift */; };
 /* End PBXBuildFile section */
 
@@ -177,7 +183,7 @@
 		5CC61E252A5BC223001435E6 /* SettingRegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingRegionViewController.swift; sourceTree = "<group>"; };
 		5CC61E272A5BDCCC001435E6 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		5CCC914A2A6114880025B522 /* RegionTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionTarget.swift; sourceTree = "<group>"; };
-		5CCC914C2A61179F0025B522 /* WBTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WBTargetType.swift; path = Weatherbly/Network/Moya/WBTargetType.swift; sourceTree = SOURCE_ROOT; };
+		5CCC914C2A61179F0025B522 /* WVTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WVTargetType.swift; path = Weatherbly/Network/Moya/WVTargetType.swift; sourceTree = SOURCE_ROOT; };
 		5CCC91512A61197B0025B522 /* SearchRegionEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRegionEntity.swift; sourceTree = "<group>"; };
 		5CCC91532A611FCE0025B522 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		5CCC91552A613F010025B522 /* SettingRegionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingRegionViewModel.swift; sourceTree = "<group>"; };
@@ -187,9 +193,12 @@
 		5CE0FEB32A8F3BE000A0E655 /* PrivatePolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivatePolicyViewController.swift; sourceTree = "<group>"; };
 		5CE0FEB52A8F401100A0E655 /* PrivatePolicyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivatePolicyViewModel.swift; sourceTree = "<group>"; };
 		5CE0FEB72A8F4CE200A0E655 /* SetSensoryTempRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetSensoryTempRequest.swift; sourceTree = "<group>"; };
+		5CE0FEB92A93529100A0E655 /* AuthLoginEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthLoginEntity.swift; sourceTree = "<group>"; };
 		696176B12A63E37F00B83B4C /* RxBaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxBaseViewModel.swift; sourceTree = "<group>"; };
 		696176B32A63E3C000B83B4C /* BaseDisposeBag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDisposeBag.swift; sourceTree = "<group>"; };
 		696176B52A63E4A400B83B4C /* EmptyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyViewModel.swift; sourceTree = "<group>"; };
+		69683A552A9B81BC00A2BD5A /* LoadErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadErrorViewModel.swift; sourceTree = "<group>"; };
+		69683A572A9BAAEE00A2BD5A /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		69A7F0D82A80B42A00834974 /* UserDefaultKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultKey.swift; sourceTree = "<group>"; };
 		69A7F0DF2A80CDD800834974 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		69A7F0E12A811EC000834974 /* UserDefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
@@ -212,6 +221,8 @@
 		BD2D01B12A38889E003A25D5 /* CSButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSButton.swift; sourceTree = "<group>"; };
 		BD2D01B32A3888AA003A25D5 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		BD2D01B52A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeBaseInitialzerProtocol.swift; sourceTree = "<group>"; };
+		BD2D11BB2A9AEB0D008CBF0D /* TenDaysForecastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TenDaysForecastViewModel.swift; sourceTree = "<group>"; };
+		BD2D11BD2A9AEDCE008CBF0D /* SevenDayForecastInfoEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SevenDayForecastInfoEntity.swift; sourceTree = "<group>"; };
 		BD4316332A3C967900E86271 /* OnBoardSensoryTempViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardSensoryTempViewController.swift; sourceTree = "<group>"; };
 		BD4316352A3C9DB700E86271 /* AssetsImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetsImage.swift; sourceTree = "<group>"; };
 		BD4316372A3CA20900E86271 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
@@ -244,14 +255,14 @@
 		BD7DAB242A6E757C00422D25 /* PrimitiveSequence+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PrimitiveSequence+Extension.swift"; sourceTree = "<group>"; };
 		BD7DAB262A6E786E00422D25 /* StatusOnlyEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusOnlyEntity.swift; sourceTree = "<group>"; };
 		BD7DAB2C2A70DEE100422D25 /* ForecastDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastDataSource.swift; sourceTree = "<group>"; };
-		BD7DAB2E2A70DEED00422D25 /* GetVillageForecastInfoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetVillageForecastInfoProvider.swift; sourceTree = "<group>"; };
 		BD7DAB302A70DEF400422D25 /* ForeCastTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForeCastTarget.swift; sourceTree = "<group>"; };
 		BD7DAB322A70DEFC00422D25 /* VillageForecastInfoEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VillageForecastInfoEntity.swift; sourceTree = "<group>"; };
-		BD7DAB3A2A72447E00422D25 /* WBNetWorkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBNetWorkError.swift; sourceTree = "<group>"; };
+		BD7DAB3A2A72447E00422D25 /* WVNetWorkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WVNetWorkError.swift; sourceTree = "<group>"; };
+		BD9191A52A973EBE00CBD595 /* Calendar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Extension.swift"; sourceTree = "<group>"; };
 		BDA66FE92A4075270061A1F0 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		BDA66FEC2A444C470061A1F0 /* SelectGenderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGenderViewController.swift; sourceTree = "<group>"; };
 		BDA66FEE2A4459910061A1F0 /* SelectGenderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGenderViewModel.swift; sourceTree = "<group>"; };
-		BDAEBC9E2A8F5EE4002E10F2 /* weatherMesaageEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = weatherMesaageEnum.swift; sourceTree = "<group>"; };
+		BDAEBC9E2A8F5EE4002E10F2 /* WeatherMesageEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherMesageEnum.swift; sourceTree = "<group>"; };
 		BDF208FE2A4EAEF2001177B2 /* CGFloat+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extension.swift"; sourceTree = "<group>"; };
 		C988E18B0DE0FE436AD63212 /* Pods-Weatherbly.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Weatherbly.release.xcconfig"; path = "Target Support Files/Pods-Weatherbly/Pods-Weatherbly.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -266,6 +277,7 @@
 				5C23DB972A65045C00F41574 /* RxSwift in Frameworks */,
 				BD1F3AF12A7BA08100E528DC /* RxGesture in Frameworks */,
 				5C23DB9E2A65048200F41574 /* Moya in Frameworks */,
+				69683A5B2A9BABC900A2BD5A /* KeychainAccess in Frameworks */,
 				5C23DBA22A65048200F41574 /* RxMoya in Frameworks */,
 				5C23DBA02A65048200F41574 /* ReactiveMoya in Frameworks */,
 				5C23DB8F2A65045C00F41574 /* RxCocoa in Frameworks */,
@@ -302,6 +314,7 @@
 			children = (
 				5C46917E2A78F95800E2CC70 /* ConnectionLostViewController.swift */,
 				5C4691802A78F96D00E2CC70 /* LoadErrorViewController.swift */,
+				69683A552A9B81BC00A2BD5A /* LoadErrorViewModel.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -321,6 +334,7 @@
 			children = (
 				5C9D02D62A71EEC900AF2DA3 /* AuthTarget.swift */,
 				5C9D02D82A71F27B00AF2DA3 /* AuthDataSource.swift */,
+				5CE0FEB92A93529100A0E655 /* AuthLoginEntity.swift */,
 			);
 			path = AuthAPI;
 			sourceTree = "<group>";
@@ -363,8 +377,8 @@
 			children = (
 				5C9D02C92A709CF300AF2DA3 /* Error */,
 				5CCC91532A611FCE0025B522 /* NetworkManager.swift */,
-				5CCC914C2A61179F0025B522 /* WBTargetType.swift */,
-				BD7DAB3A2A72447E00422D25 /* WBNetWorkError.swift */,
+				5CCC914C2A61179F0025B522 /* WVTargetType.swift */,
+				BD7DAB3A2A72447E00422D25 /* WVNetWorkError.swift */,
 				5C9D02DA2A720DCC00AF2DA3 /* EmptyEntity.swift */,
 			);
 			name = Moya;
@@ -461,6 +475,7 @@
 				BD2D01AB2A38885B003A25D5 /* Protocol */,
 				69A7F0D82A80B42A00834974 /* UserDefaultKey.swift */,
 				69A7F0E12A811EC000834974 /* UserDefaultManager.swift */,
+				69683A572A9BAAEE00A2BD5A /* KeychainManager.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -530,6 +545,7 @@
 			isa = PBXGroup;
 			children = (
 				BD77B82D2A388D2E00E7D57A /* HomeViewModel.swift */,
+				BD2D11BB2A9AEB0D008CBF0D /* TenDaysForecastViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -539,7 +555,7 @@
 			children = (
 				BD77B8272A388C9400E7D57A /* CSColor.swift */,
 				BD4316352A3C9DB700E86271 /* AssetsImage.swift */,
-				BDAEBC9E2A8F5EE4002E10F2 /* weatherMesaageEnum.swift */,
+				BDAEBC9E2A8F5EE4002E10F2 /* WeatherMesageEnum.swift */,
 			);
 			path = Enum;
 			sourceTree = "<group>";
@@ -567,6 +583,7 @@
 				BD7DAB242A6E757C00422D25 /* PrimitiveSequence+Extension.swift */,
 				5C9D02EB2A725BA200AF2DA3 /* Encodable+Extension.swift */,
 				BD4907322A84D42F0027DEE8 /* String+Extension.swift */,
+				BD9191A52A973EBE00CBD595 /* Calendar+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -628,6 +645,7 @@
 				BD7DAB322A70DEFC00422D25 /* VillageForecastInfoEntity.swift */,
 				BD6135D22A7E3C9C00DB3DF9 /* RecommendClosetEntity.swift */,
 				BD4907302A83C3C00027DEE8 /* SensoryTempClosetEntity.swift */,
+				BD2D11BD2A9AEDCE008CBF0D /* SevenDayForecastInfoEntity.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -670,18 +688,9 @@
 			isa = PBXGroup;
 			children = (
 				BD7DAB302A70DEF400422D25 /* ForeCastTarget.swift */,
-				BD7DAB342A7119DC00422D25 /* GetViliageForcastInfo */,
+				BD7DAB2C2A70DEE100422D25 /* ForecastDataSource.swift */,
 			);
 			path = ForcastAPI;
-			sourceTree = "<group>";
-		};
-		BD7DAB342A7119DC00422D25 /* GetViliageForcastInfo */ = {
-			isa = PBXGroup;
-			children = (
-				BD7DAB2C2A70DEE100422D25 /* ForecastDataSource.swift */,
-				BD7DAB2E2A70DEED00422D25 /* GetVillageForecastInfoProvider.swift */,
-			);
-			path = GetViliageForcastInfo;
 			sourceTree = "<group>";
 		};
 		BD7DAB362A7129E000422D25 /* TypeAPI */ = {
@@ -778,6 +787,7 @@
 				5C23DBA12A65048200F41574 /* RxMoya */,
 				BD1F3AF02A7BA08100E528DC /* RxGesture */,
 				5CE0FEAF2A8EEC0000A0E655 /* Kingfisher */,
+				69683A5A2A9BABC900A2BD5A /* KeychainAccess */,
 			);
 			productName = Weatherbly;
 			productReference = BD2D01852A388753003A25D5 /* Weatherbly.app */;
@@ -813,6 +823,7 @@
 				5C23DB9A2A65048200F41574 /* XCRemoteSwiftPackageReference "Moya" */,
 				BD1F3AEF2A7BA08100E528DC /* XCRemoteSwiftPackageReference "RxGesture" */,
 				5CE0FEAE2A8EEC0000A0E655 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				69683A592A9BABC900A2BD5A /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 			);
 			productRefGroup = BD2D01862A388753003A25D5 /* Products */;
 			projectDirPath = "";
@@ -897,22 +908,25 @@
 				BD4AC3932A669B0500537583 /* SlotMachineViewModel.swift in Sources */,
 				5CAB60D32A54FC6A00CD431A /* UITableViewCell+Extension.swift in Sources */,
 				5C9D02C82A6FC45300AF2DA3 /* EditRegionTableViewCell.swift in Sources */,
-				BDAEBC9F2A8F5EE4002E10F2 /* weatherMesaageEnum.swift in Sources */,
+				BDAEBC9F2A8F5EE4002E10F2 /* WeatherMesageEnum.swift in Sources */,
 				BD2D01B42A3888AA003A25D5 /* UIColor+Extension.swift in Sources */,
 				BD2D018D2A388753003A25D5 /* HomeViewController.swift in Sources */,
 				5CAB60BF2A4D6A9D00CD431A /* ClosetFSPagerViewCell.swift in Sources */,
 				5C9D02D72A71EEC900AF2DA3 /* AuthTarget.swift in Sources */,
 				5CCC914B2A6114880025B522 /* RegionTarget.swift in Sources */,
+				BD2D11BC2A9AEB0D008CBF0D /* TenDaysForecastViewModel.swift in Sources */,
 				5CCC91522A61197B0025B522 /* SearchRegionEntity.swift in Sources */,
 				5CAB60B92A4563B300CD431A /* NSMutableAttributedString+Extension.swift in Sources */,
 				5CC61E282A5BDCCC001435E6 /* UIViewController+Extension.swift in Sources */,
 				5C9D02D92A71F27B00AF2DA3 /* AuthDataSource.swift in Sources */,
+				5CE0FEBA2A93529100A0E655 /* AuthLoginEntity.swift in Sources */,
 				5CAB60D52A54FDFE00CD431A /* TenDaysForecastTableViewCell.swift in Sources */,
 				69A7F0D92A80B42A00834974 /* UserDefaultKey.swift in Sources */,
 				BD5169492A5D6FEA00582BA9 /* UITextField+Extension.swift in Sources */,
 				BD77B82C2A388D2000E7D57A /* OnBoardViewModel.swift in Sources */,
 				BDA66FEF2A4459910061A1F0 /* SelectGenderViewModel.swift in Sources */,
 				5CCC91542A611FCE0025B522 /* NetworkManager.swift in Sources */,
+				BD9191A62A973EBE00CBD595 /* Calendar+Extension.swift in Sources */,
 				5C1BCA172A67D2FF00D02D84 /* NicknameViewModel.swift in Sources */,
 				5CAB60C52A528C9700CD431A /* UICollectionViewCell+Extension.swift in Sources */,
 				BD49072F2A80DEED0027DEE8 /* HomeSensoryTempViewModel.swift in Sources */,
@@ -922,6 +936,7 @@
 				BD4907332A84D42F0027DEE8 /* String+Extension.swift in Sources */,
 				BD4316382A3CA20900E86271 /* UIView+Extension.swift in Sources */,
 				BD2D01AE2A38886C003A25D5 /* RxBaseViewController.swift in Sources */,
+				69683A562A9B81BC00A2BD5A /* LoadErrorViewModel.swift in Sources */,
 				BD4316362A3C9DB700E86271 /* AssetsImage.swift in Sources */,
 				BDA66FED2A444C470061A1F0 /* SelectGenderViewController.swift in Sources */,
 				BD6135D32A7E3C9C00DB3DF9 /* RecommendClosetEntity.swift in Sources */,
@@ -959,7 +974,7 @@
 				BD7DAB252A6E757C00422D25 /* PrimitiveSequence+Extension.swift in Sources */,
 				5CAB60D12A54FC5F00CD431A /* UITableView+Extension.swift in Sources */,
 				5C23DBA42A6505BF00F41574 /* KakaoErrorResponse.swift in Sources */,
-				BD7DAB3B2A72447E00422D25 /* WBNetWorkError.swift in Sources */,
+				BD7DAB3B2A72447E00422D25 /* WVNetWorkError.swift in Sources */,
 				5CCC91562A613F010025B522 /* SettingRegionViewModel.swift in Sources */,
 				BD7DAB312A70DEF400422D25 /* ForeCastTarget.swift in Sources */,
 				BD77B82E2A388D2E00E7D57A /* HomeViewModel.swift in Sources */,
@@ -967,7 +982,7 @@
 				69CCF1D12A63CDC200756127 /* RemoteError.swift in Sources */,
 				BD5169472A5AA39000582BA9 /* EditNicknameViewController.swift in Sources */,
 				BD69B8F72A54337000DDCD7A /* SettingViewController.swift in Sources */,
-				5CCC914D2A61179F0025B522 /* WBTargetType.swift in Sources */,
+				5CCC914D2A61179F0025B522 /* WVTargetType.swift in Sources */,
 				69CCF1CF2A63CD5500756127 /* WBErrorResponse.swift in Sources */,
 				BDF208FF2A4EAEF2001177B2 /* CGFloat+Extension.swift in Sources */,
 				5C9D02C62A6FB71F00AF2DA3 /* EditRegionViewModel.swift in Sources */,
@@ -981,13 +996,14 @@
 				BD2D01B62A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift in Sources */,
 				5CE0FEB42A8F3BE000A0E655 /* PrivatePolicyViewController.swift in Sources */,
 				BD2D01B22A38889E003A25D5 /* CSButton.swift in Sources */,
-				BD7DAB2F2A70DEED00422D25 /* GetVillageForecastInfoProvider.swift in Sources */,
 				BD5169452A5A9BD600582BA9 /* SettingViewModel.swift in Sources */,
 				5C9D02BC2A68FC0200AF2DA3 /* Dependency.swift in Sources */,
 				BD2D01B02A38887D003A25D5 /* UIButton+Extension.swift in Sources */,
 				5C1D5A112A3C500A00E66788 /* CSLabel.swift in Sources */,
 				BD50A5222A4C4072005F066E /* SlotMachineViewController.swift in Sources */,
 				5C9D02E12A72405100AF2DA3 /* TypeTarget.swift in Sources */,
+				BD2D11BE2A9AEDCE008CBF0D /* SevenDayForecastInfoEntity.swift in Sources */,
+				69683A582A9BAAEE00A2BD5A /* KeychainManager.swift in Sources */,
 				5C9D02DF2A72304800AF2DA3 /* UserDataSource.swift in Sources */,
 				5C9D02BA2A68EB3900AF2DA3 /* Observable+Extension.swift in Sources */,
 				5C9D02E62A72425200AF2DA3 /* ClosetTarget.swift in Sources */,
@@ -1120,7 +1136,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0.0.1;
+				CURRENT_PROJECT_VERSION = 0.0.4;
 				DEVELOPMENT_TEAM = M9YVZ9AJMM;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -1156,7 +1172,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0.0.1;
+				CURRENT_PROJECT_VERSION = 0.0.4;
 				DEVELOPMENT_TEAM = M9YVZ9AJMM;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -1233,6 +1249,14 @@
 				minimumVersion = 7.0.0;
 			};
 		};
+		69683A592A9BABC900A2BD5A /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess";
+			requirement = {
+				kind = exactVersion;
+				version = 4.2.2;
+			};
+		};
 		BD1F3AEF2A7BA08100E528DC /* XCRemoteSwiftPackageReference "RxGesture" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/RxSwiftCommunity/RxGesture";
@@ -1291,6 +1315,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5CE0FEAE2A8EEC0000A0E655 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		69683A5A2A9BABC900A2BD5A /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 69683A592A9BABC900A2BD5A /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
 		};
 		BD1F3AF02A7BA08100E528DC /* RxGesture */ = {
 			isa = XCSwiftPackageProductDependency;

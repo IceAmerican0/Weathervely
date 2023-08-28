@@ -17,6 +17,7 @@ extension String {
         
         var returnValue = ""
         if self == Date().todayThousandFormat { return "현재" }
+        
             var hour = Int(self)! / 100
             if hour < 24 {
                 // 오늘 시간

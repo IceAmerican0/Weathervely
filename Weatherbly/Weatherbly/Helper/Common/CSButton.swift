@@ -7,6 +7,8 @@
 
 import UIKit
 import PinLayout
+import RxSwift
+import RxCocoa
 
 class CSButton: UIButton, CodeBaseInitializerProtocol {
     
@@ -20,12 +22,15 @@ class CSButton: UIButton, CodeBaseInitializerProtocol {
     }
     
     private var buttonStyle: ButtonStyle
+    private var bag = DisposeBag()
+    private var stateRelay = BehaviorRelay<UIControl.State?>(value: nil)
     var primaryHeight = UIScreen.main.bounds.height * 0.07
     
     init(_ buttonStyle: ButtonStyle) {
         self.buttonStyle = buttonStyle
         super.init(frame: .zero)
         codeBaseInitializer()
+        setRxBinding(buttonStyle)
     }
     
     required init?(coder: NSCoder) {
@@ -34,6 +39,35 @@ class CSButton: UIButton, CodeBaseInitializerProtocol {
     
     func attribute() {
         setButtonStyle(buttonStyle)
+    }
+    
+    func setRxBinding(_ style: ButtonStyle) {
+        
+        self.rx.controlEvent(.touchDown)
+            .bind { [weak self] event in
+                switch style {
+                case .primary:
+                    self?.setBackgroundColor(CSColor._236_207_255.color)
+                case .grayFilled:
+                    self?.setBackgroundColor(CSColor._115_115_115_52.color)
+                default:
+                    break
+                }
+            }
+            .disposed(by: bag)
+        
+        self.rx.controlEvent([.touchUpInside, .touchUpOutside, .touchDragInside ])
+                    .bind { [weak self] event in
+                        switch style {
+                        case .primary:
+                            self?.setBackgroundColor(CSColor._172_107_255.color)
+                        case .grayFilled:
+                            self?.setBackgroundColor(CSColor._151_151_151.color)
+                        default:
+                            break
+                        }
+                    }
+                    .disposed(by: bag)
     }
     
     func setButtonStyle(_ style: ButtonStyle) {
@@ -59,9 +93,6 @@ class CSButton: UIButton, CodeBaseInitializerProtocol {
                     $0.titleLabel?.font = .boldSystemFont(ofSize: 20)
                 }
                 $0.setShadow(CGSize(width: 0, height: 3), CSColor._0__03.cgColor, 1, 2)
-                // TODO: - Hilighted 이미지 처리 필요
-                // TODO: - buttonTitle 설정
-                // setImage? or 함수?
                 
             case .grayFilled:
                 if $0.isEnabled == true {
@@ -84,16 +115,12 @@ class CSButton: UIButton, CodeBaseInitializerProtocol {
                 } else {
                     $0.titleLabel?.font = .boldSystemFont(ofSize: 20)
                 }
-                // TODO: - Hilighted 이미지 처리 필요
-                // TODO: - buttonTitle 설정
                 
             case .secondary:
                 $0.backgroundColor = .white
                 $0.layer.borderWidth = 3
                 $0.layer.cornerRadius = 21
                 $0.titleLabel?.font = .boldSystemFont(ofSize: 16)
-                // TODO: - Color 입력
-                /// https://stackoverflow.com/questions/36836367/how-can-i-do-programmatically-gradient-border-color-uibutton-with-swift
                 
             case .band:
                 $0.backgroundColor = .white
