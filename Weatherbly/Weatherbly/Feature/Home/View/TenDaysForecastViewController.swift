@@ -49,7 +49,6 @@ class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastViewMod
         }
         tableViewWrapper.do {
             $0.layer.setShadow(CGSize(width: 0, height: 4), CSColor.none.cgColor, 0.25, 2)
-            
         }
         
         forecastTableView.do {
@@ -57,7 +56,6 @@ class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastViewMod
             $0.delegate = self
             $0.dataSource = self
             $0.isScrollEnabled = true
-            $0.backgroundColor = CSColor._255_255_255_1.color
             $0.register(TenDaysForecastTableViewCell.self, forCellReuseIdentifier: TenDaysForecastTableViewCell.identifier)
             $0.layer.cornerRadius = 5
             $0.layer.borderColor = UIColor.clear.cgColor
@@ -207,8 +205,12 @@ extension TenDaysForeCastViewController: UITableViewDataSource {
                      maxTemp = maxTemp + (maxTemp - sevenDaysInfo.temperature[indexPath.row - 3].taMaxHigh) / 2
                  }
                 
-                $0.dayOfWeekLabel.attributedText = NSMutableAttributedString().bold(date.dayOfTheWeek(indexPath.row - 1), 16, CSColor.none)
-                $0.dateLabel.attributedText = NSMutableAttributedString().regular(date.tenDaysFormat(indexPath.row - 1), 14, CSColor.none)
+                var dayofTheWeek = date.dayOfTheWeek(indexPath.row - 1)
+                var dateColor = (dayofTheWeek == "토")
+                ? CSColor._40_106_167
+                : (dayofTheWeek == "일") ? CSColor._178_36_36 : CSColor.none
+                $0.dayOfWeekLabel.attributedText = NSMutableAttributedString().bold(dayofTheWeek, 16, dateColor)
+                $0.dateLabel.attributedText = NSMutableAttributedString().regular(date.tenDaysFormat(indexPath.row - 1), 14, dateColor)
                 $0.amWeatherImageView.setAssetsImage(viewModel.bindSevenDayAMWeatherImage(indexPath.row - 3))
                 $0.leftRainPosLabel.attributedText = NSMutableAttributedString().medium("\(amRainPos ?? 0)%", 12, CSColor.none)
                 $0.pmWeatherImageView.setAssetsImage(viewModel.bindSevenDayPMWeatherImage(indexPath.row - 3))
@@ -231,8 +233,14 @@ extension TenDaysForeCastViewController: UITableViewDataSource {
                 if sevenDaysInfo.temperature[indexPath.row - 3].taMaxHigh > 2 {
                      maxTemp = maxTemp + (maxTemp - sevenDaysInfo.temperature[indexPath.row - 3].taMaxHigh) / 2
                  }
-                $0.dayOfWeekLabel.attributedText = NSMutableAttributedString().bold(date.dayOfTheWeek(indexPath.row - 1), 16, CSColor.none)
-                $0.dateLabel.attributedText = NSMutableAttributedString().regular(date.tenDaysFormat(indexPath.row - 1), 14, CSColor.none)
+                
+                var dayofTheWeek = date.dayOfTheWeek(indexPath.row - 1)
+                var dateColor = (dayofTheWeek == "토")
+                ? CSColor._40_106_167
+                : (dayofTheWeek == "일") ? CSColor._178_36_36 : CSColor.none
+                
+                $0.dayOfWeekLabel.attributedText = NSMutableAttributedString().bold(dayofTheWeek, 16, dateColor)
+                $0.dateLabel.attributedText = NSMutableAttributedString().regular(date.tenDaysFormat(indexPath.row - 1), 14, dateColor)
                 $0.amWeatherImageView.setAssetsImage(viewModel.bindSevenDayAMWeatherImage(indexPath.row - 3))
                 $0.leftRainPosLabel.attributedText = NSMutableAttributedString().medium("\(rainPos ?? 0)%", 12, CSColor.none)
                 $0.pmWeatherImageView.setAssetsImage(viewModel.bindSevenDayPMWeatherImage(indexPath.row - 3))
