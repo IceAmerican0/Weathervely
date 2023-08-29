@@ -119,8 +119,9 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
         
         tempLabel.do {
             $0.setBackgroundColor(CSColor._172_107_255_004.color)
-            $0.addBorders([.top, .left, .right, .bottom])
-            $0.setCornerRadius(5)
+            $0.layer.borderWidth = 1
+            $0.layer.borderColor = CSColor._217_217_217.cgColor
+            $0.setCornerRadius(3)
             $0.attributedText = NSMutableAttributedString()
                 .bold($0.text ?? "", 16, CSColor._172_107_255)
             $0.adjustsFontSizeToFitWidth = true

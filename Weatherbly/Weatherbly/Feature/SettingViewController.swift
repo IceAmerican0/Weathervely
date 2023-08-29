@@ -147,7 +147,7 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
                                 .marginTop(5)
                                 .marginLeft(6)
                                 .size(24)
-                    }
+                        }
                     
                     flex.addItem(messageView)
                         .marginHorizontal(32)
@@ -173,22 +173,18 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
                                         .define { flex in
                                             flex.addItem(locationTitleLabel).marginTop(22)
                                             flex.addItem(locationSubtitleLabel).marginTop(15)
-                                    }
-                                    
+                                        }
                                     flex.addItem(buttonInnerImageView).width(56).height(60).marginVertical(26.5)
                                     buttonInnerImageView.pin.right(36)
-                                    
                                 }
                         }
-                    
-                    flex.addItem(bottomView)
-                        .padding(12)
-                        .define { flex in
-                            flex.addItem(bottomLabel)
-                            flex.addItem(versionLabel).marginTop(5)
-                        }
-                    bottomView.pin.bottom(view.pin.safeArea.bottom).marginBottom(2)
             }
+                flex.addItem(bottomView)
+                    .define { flex in
+                        flex.addItem(bottomLabel).marginTop(7)
+                        flex.addItem(versionLabel).marginTop(5)
+                    }
+                bottomView.pin.bottom().marginBottom(2)
         }
         
     }
@@ -214,6 +210,10 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
             .subscribe(onNext: { [weak self] _ in
                 self?.viewModel.toEditNicknameView()
             })
+            .disposed(by: bag)
+        
+        editButton.rx.tap
+            .bind(onNext: viewModel.toEditNicknameView)
             .disposed(by: bag)
         
         locationButton.rx.tap

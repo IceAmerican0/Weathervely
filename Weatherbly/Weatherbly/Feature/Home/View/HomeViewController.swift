@@ -20,7 +20,7 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
     private var topLayoutWrapper = UIView()
     private var settingButton = UIButton()
     private var mainLabelWrapper = UIView()
-    private var mainLabel = CSLabel(.bold, 20, "00동  |  현재")
+    private var mainLabel = CSLabel(.bold, 20, "")
     private var calendarButton = UIButton()
     
     private var dailyWrapper = UIView()
