@@ -114,15 +114,15 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                 case .success(let response):
                     self?.recommendClosetEntityRelay.accept(response)
                 case .failure(let err):
-//                    switch err {
-//                    case .noInternetError:
-//                        self?.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
-//                    default:
+                    switch err {
+                    case .noInternetError:
+                        break
+                    default:
                         guard let errorDescription = err.errorDescription else { return }
                         self?.alertMessageRelay.accept(.init(title: errorDescription,
                                                              alertType: .Error,
                                                              closeAction: self?.popToSelf))
-//                    }
+                    }
                 }
             })
             .disposed(by: bag)

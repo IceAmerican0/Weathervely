@@ -49,7 +49,6 @@ class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastViewMod
         }
         tableViewWrapper.do {
             $0.layer.setShadow(CGSize(width: 0, height: 4), CSColor.none.cgColor, 0.25, 2)
-            
         }
         
         forecastTableView.do {
@@ -57,13 +56,13 @@ class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastViewMod
             $0.delegate = self
             $0.dataSource = self
             $0.isScrollEnabled = true
-            $0.backgroundColor = CSColor._255_255_255_1.color
             $0.register(TenDaysForecastTableViewCell.self, forCellReuseIdentifier: TenDaysForecastTableViewCell.identifier)
             $0.layer.cornerRadius = 5
             $0.layer.borderColor = UIColor.clear.cgColor
             $0.layer.borderWidth = 1
             $0.layer.masksToBounds = true
             $0.clipsToBounds = true
+            $0.allowsSelection = false
         }
     }
     
@@ -126,18 +125,6 @@ class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastViewMod
 // MARK: UITableViewDelegate
 extension TenDaysForeCastViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { 60 }
-    
-    func tableView( tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-            let cell = tableView.cellForRow(at: indexPath)
-            cell?.selectionStyle = .none
-            cell?.isSelected = true
-        }
-
-        func tableView( tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-            let cell = tableView.cellForRow(at: indexPath)
-            cell?.selectionStyle = .default
-            cell?.isSelected = false
-        }
 }
 
 extension TenDaysForeCastViewController: UITableViewDataSource {
@@ -155,107 +142,118 @@ extension TenDaysForeCastViewController: UITableViewDataSource {
             
             let date = Date()
             
-                    switch indexPath.row {
-                    case 0:
-                        let minTemp = Int(Double(yesterdayInfo["TMN"]!)!)
-                        let maxTemp = Int(Double(yesterdayInfo["TMX"]!)!)
-                        $0.dayOfWeekLabel.attributedText = NSMutableAttributedString().bold("어제", 16, CSColor.none)
-                        $0.dateLabel.attributedText = NSMutableAttributedString().regular(date.tenDaysFormat(-1), 14, CSColor.none)
-                        $0.amWeatherImageView.setAssetsImage(viewModel.getAMWeatherImage(villageForecastInfo, -1)!)
-                        $0.leftRainPosLabel.attributedText = NSMutableAttributedString().medium("\(viewModel.yesterdayRainAMPosRelay.value!)%", 12, CSColor.none)
-                        $0.pmWeatherImageView.setAssetsImage(viewModel.getPMWeatherImage(villageForecastInfo, -1)!)
-                        $0.rightRainPosLabel.attributedText = NSMutableAttributedString().medium("\(viewModel.yesterdayRainAMPosRelay.value!)%", 12, CSColor.none)
-                        $0.temperatureLabel.attributedText = NSMutableAttributedString()
-                            .regular("\(minTemp)℃", 16, CSColor._40_106_167)
-                            .regular(" / ", 16, CSColor.none)
-                            .regular("\(maxTemp)℃", 16, CSColor._178_36_36)
-                        $0.isRainPosLabelHidden(viewModel.yesterdayRainAMPosRelay.value!, viewModel.yesterdayRainPMPosRelay.value!)
-                    case 1:
-                        
-                        let minTemp = Int(Double(todayInfo["TMN"]!)!)
-                        let maxTemp = Int(Double(todayInfo["TMX"]!)!)
-                        
-                        $0.dayOfWeekLabel.attributedText = NSMutableAttributedString().bold("오늘", 16, CSColor.none)
-                        $0.dateLabel.attributedText = NSMutableAttributedString().regular(date.tenDaysFormat(0), 14, CSColor.none)
-                        $0.amWeatherImageView.setAssetsImage(viewModel.getAMWeatherImage(villageForecastInfo, 0)!)
-                        $0.leftRainPosLabel.attributedText = NSMutableAttributedString().medium("\(viewModel.yesterdayRainAMPosRelay.value!)%", 12, CSColor.none)
-                        $0.pmWeatherImageView.setAssetsImage(viewModel.getPMWeatherImage(villageForecastInfo, 0)!)
-                        $0.rightRainPosLabel.attributedText = NSMutableAttributedString().medium("\(viewModel.yesterdayRainAMPosRelay.value!)%", 12, CSColor.none)
-                        $0.temperatureLabel.attributedText = NSMutableAttributedString()
-                            .regular("\(minTemp)℃", 16, CSColor._40_106_167)
-                            .regular(" / ", 16, CSColor.none)
-                        .regular("\(maxTemp)℃", 16, CSColor._178_36_36)
-                        $0.isRainPosLabelHidden(viewModel.yesterdayRainAMPosRelay.value!, viewModel.yesterdayRainPMPosRelay.value!)
-            
-                    case 2:
-                        let minTemp = Int(Double(tomorrowInfo["TMN"]!)!)
-                        let maxTemp = Int(Double(tomorrowInfo["TMX"]!)!)
-                        
-                        $0.dayOfWeekLabel.attributedText = NSMutableAttributedString().bold("내일", 16, CSColor.none)
-                        $0.dateLabel.attributedText = NSMutableAttributedString().regular(date.tenDaysFormat(1), 14, CSColor.none)
-                        $0.amWeatherImageView.setAssetsImage(viewModel.getAMWeatherImage(villageForecastInfo, 1)!)
-                        $0.leftRainPosLabel.attributedText = NSMutableAttributedString().medium("\(viewModel.yesterdayRainAMPosRelay.value!)%", 12, CSColor.none)
-                        $0.pmWeatherImageView.setAssetsImage(viewModel.getPMWeatherImage(villageForecastInfo, 1)!)
-                        $0.rightRainPosLabel.attributedText = NSMutableAttributedString().medium("\(viewModel.yesterdayRainAMPosRelay.value!)%", 12, CSColor.none)
-                        $0.temperatureLabel.attributedText = NSMutableAttributedString()
-                            .regular("\(minTemp)℃", 16, CSColor._40_106_167)
-                            .regular(" / ", 16, CSColor.none)
-                        .regular("\(maxTemp)℃", 16, CSColor._178_36_36)
-                        $0.isRainPosLabelHidden(viewModel.yesterdayRainAMPosRelay.value!, viewModel.yesterdayRainPMPosRelay.value!)
-
-                    case 3...7:
-                        
-                        var minTemp = sevenDaysInfo.temperature[indexPath.row - 3].taMin
-                        var maxTemp = sevenDaysInfo.temperature[indexPath.row - 3].taMax
-                        var amRainPos = sevenDaysInfo.weather[indexPath.row - 3].rnStAm
-                        var pmRainPos = sevenDaysInfo.weather[indexPath.row - 3].rnStPm
-                       if sevenDaysInfo.temperature[indexPath.row - 3].taMinLow > 2 {
-                            minTemp = minTemp + (minTemp - sevenDaysInfo.temperature[indexPath.row - 3].taMinLow) / 2
-                        }
-                        
-                        if sevenDaysInfo.temperature[indexPath.row - 3].taMaxHigh > 2 {
-                             maxTemp = maxTemp + (maxTemp - sevenDaysInfo.temperature[indexPath.row - 3].taMaxHigh) / 2
-                         }
-                        
-                        $0.dayOfWeekLabel.attributedText = NSMutableAttributedString().bold(date.dayOfTheWeek(indexPath.row - 1), 16, CSColor.none)
-                        $0.dateLabel.attributedText = NSMutableAttributedString().regular(date.tenDaysFormat(indexPath.row), 14, CSColor.none)
-                        $0.amWeatherImageView.setAssetsImage(viewModel.bindSevenDayAMWeatherImage(indexPath.row - 3))
-                        $0.leftRainPosLabel.attributedText = NSMutableAttributedString().medium("\(amRainPos ?? 0)%", 12, CSColor.none)
-                        $0.pmWeatherImageView.setAssetsImage(viewModel.bindSevenDayPMWeatherImage(indexPath.row - 3))
-                        $0.rightRainPosLabel.attributedText = NSMutableAttributedString().medium("\(pmRainPos ?? 0)%", 12, CSColor.none)
-                        $0.temperatureLabel.attributedText = NSMutableAttributedString()
-                            .regular("\(minTemp)℃", 16, CSColor._40_106_167)
-                            .regular(" / ", 16, CSColor.none)
-                        .regular("\(maxTemp)℃", 16, CSColor._178_36_36)
-                        $0.isRainPosLabelHidden(amRainPos ?? 0, pmRainPos ?? 0)
-                    case 8...10:
-                        
-                        var minTemp = sevenDaysInfo.temperature[indexPath.row - 3].taMin
-                        var maxTemp = sevenDaysInfo.temperature[indexPath.row - 3].taMax
-                        var rainPos = sevenDaysInfo.weather[indexPath.row - 3].rnSt
-                        
-                       if sevenDaysInfo.temperature[indexPath.row - 3].taMinLow > 2 {
-                            minTemp = minTemp + (minTemp - sevenDaysInfo.temperature[indexPath.row - 3].taMinLow) / 2
-                        }
-                        
-                        if sevenDaysInfo.temperature[indexPath.row - 3].taMaxHigh > 2 {
-                             maxTemp = maxTemp + (maxTemp - sevenDaysInfo.temperature[indexPath.row - 3].taMaxHigh) / 2
-                         }
-                        $0.dayOfWeekLabel.attributedText = NSMutableAttributedString().bold(date.dayOfTheWeek(indexPath.row - 1), 16, CSColor.none)
-                        $0.dateLabel.attributedText = NSMutableAttributedString().regular(date.tenDaysFormat(indexPath.row), 14, CSColor.none)
-                        $0.amWeatherImageView.setAssetsImage(viewModel.bindSevenDayAMWeatherImage(indexPath.row - 3))
-                        $0.leftRainPosLabel.attributedText = NSMutableAttributedString().medium("\(rainPos ?? 0)%", 12, CSColor.none)
-                        $0.pmWeatherImageView.setAssetsImage(viewModel.bindSevenDayPMWeatherImage(indexPath.row - 3))
-                        $0.rightRainPosLabel.attributedText = NSMutableAttributedString().medium("\(rainPos ?? 0)%", 12, CSColor.none)
-                        $0.temperatureLabel.attributedText = NSMutableAttributedString()
-                            .regular("\(minTemp)℃", 16, CSColor._40_106_167)
-                            .regular(" / ", 16, CSColor.none)
-                        .regular("\(maxTemp)℃", 16, CSColor._178_36_36)
-                        $0.isRainPosLabelHidden(rainPos ?? 0, rainPos ?? 0)
-
-                    default:
-                        break
-                    }
+            switch indexPath.row {
+            case 0:
+                let minTemp = Int(Double(yesterdayInfo["TMN"]!)!)
+                let maxTemp = Int(Double(yesterdayInfo["TMX"]!)!)
+                
+                $0.dayOfWeekLabel.attributedText = NSMutableAttributedString().bold("어제", 16, CSColor.none)
+                $0.dateLabel.attributedText = NSMutableAttributedString().regular(date.tenDaysFormat(-1), 14, CSColor.none)
+                $0.amWeatherImageView.setAssetsImage(viewModel.getAMWeatherImage(villageForecastInfo, -1)!)
+                $0.leftRainPosLabel.attributedText = NSMutableAttributedString().medium("\(viewModel.yesterdayRainAMPosRelay.value!)%", 12, CSColor.none)
+                $0.pmWeatherImageView.setAssetsImage(viewModel.getPMWeatherImage(villageForecastInfo, -1)!)
+                $0.rightRainPosLabel.attributedText = NSMutableAttributedString().medium("\(viewModel.yesterdayRainAMPosRelay.value!)%", 12, CSColor.none)
+                $0.temperatureLabel.attributedText = NSMutableAttributedString()
+                    .regular("\(minTemp)℃", 16, CSColor._40_106_167)
+                    .regular(" / ", 16, CSColor.none)
+                    .regular("\(maxTemp)℃", 16, CSColor._178_36_36)
+                $0.isRainPosLabelHidden(viewModel.yesterdayRainAMPosRelay.value!, viewModel.yesterdayRainPMPosRelay.value!)
+                
+            case 1:
+                let minTemp = Int(Double(todayInfo["TMN"]!)!)
+                let maxTemp = Int(Double(todayInfo["TMX"]!)!)
+                
+                $0.dayOfWeekLabel.attributedText = NSMutableAttributedString().bold("오늘", 16, CSColor.none)
+                $0.dateLabel.attributedText = NSMutableAttributedString().regular(date.tenDaysFormat(0), 14, CSColor.none)
+                $0.amWeatherImageView.setAssetsImage(viewModel.getAMWeatherImage(villageForecastInfo, 0)!)
+                $0.leftRainPosLabel.attributedText = NSMutableAttributedString().medium("\(viewModel.yesterdayRainAMPosRelay.value!)%", 12, CSColor.none)
+                $0.pmWeatherImageView.setAssetsImage(viewModel.getPMWeatherImage(villageForecastInfo, 0)!)
+                $0.rightRainPosLabel.attributedText = NSMutableAttributedString().medium("\(viewModel.yesterdayRainAMPosRelay.value!)%", 12, CSColor.none)
+                $0.temperatureLabel.attributedText = NSMutableAttributedString()
+                    .regular("\(minTemp)℃", 16, CSColor._40_106_167)
+                    .regular(" / ", 16, CSColor.none)
+                    .regular("\(maxTemp)℃", 16, CSColor._178_36_36)
+                $0.isRainPosLabelHidden(viewModel.yesterdayRainAMPosRelay.value!, viewModel.yesterdayRainPMPosRelay.value!)
+                
+            case 2:
+                let minTemp = Int(Double(tomorrowInfo["TMN"]!)!)
+                let maxTemp = Int(Double(tomorrowInfo["TMX"]!)!)
+                
+                $0.dayOfWeekLabel.attributedText = NSMutableAttributedString().bold("내일", 16, CSColor.none)
+                $0.dateLabel.attributedText = NSMutableAttributedString().regular(date.tenDaysFormat(1), 14, CSColor.none)
+                $0.amWeatherImageView.setAssetsImage(viewModel.getAMWeatherImage(villageForecastInfo, 1)!)
+                $0.leftRainPosLabel.attributedText = NSMutableAttributedString().medium("\(viewModel.yesterdayRainAMPosRelay.value!)%", 12, CSColor.none)
+                $0.pmWeatherImageView.setAssetsImage(viewModel.getPMWeatherImage(villageForecastInfo, 1)!)
+                $0.rightRainPosLabel.attributedText = NSMutableAttributedString().medium("\(viewModel.yesterdayRainAMPosRelay.value!)%", 12, CSColor.none)
+                $0.temperatureLabel.attributedText = NSMutableAttributedString()
+                    .regular("\(minTemp)℃", 16, CSColor._40_106_167)
+                    .regular(" / ", 16, CSColor.none)
+                    .regular("\(maxTemp)℃", 16, CSColor._178_36_36)
+                $0.isRainPosLabelHidden(viewModel.yesterdayRainAMPosRelay.value!, viewModel.yesterdayRainPMPosRelay.value!)
+                
+            case 3...7:
+                var minTemp = sevenDaysInfo.temperature[indexPath.row - 3].taMin
+                var maxTemp = sevenDaysInfo.temperature[indexPath.row - 3].taMax
+                var amRainPos = sevenDaysInfo.weather[indexPath.row - 3].rnStAm
+                var pmRainPos = sevenDaysInfo.weather[indexPath.row - 3].rnStPm
+                
+                if sevenDaysInfo.temperature[indexPath.row - 3].taMinLow > 2 {
+                    minTemp = minTemp + (minTemp - sevenDaysInfo.temperature[indexPath.row - 3].taMinLow) / 2
+                }
+                
+                if sevenDaysInfo.temperature[indexPath.row - 3].taMaxHigh > 2 {
+                     maxTemp = maxTemp + (maxTemp - sevenDaysInfo.temperature[indexPath.row - 3].taMaxHigh) / 2
+                 }
+                
+                var dayofTheWeek = date.dayOfTheWeek(indexPath.row - 1)
+                var dateColor = (dayofTheWeek == "토")
+                ? CSColor._40_106_167
+                : (dayofTheWeek == "일") ? CSColor._178_36_36 : CSColor.none
+                $0.dayOfWeekLabel.attributedText = NSMutableAttributedString().bold(dayofTheWeek, 16, dateColor)
+                $0.dateLabel.attributedText = NSMutableAttributedString().regular(date.tenDaysFormat(indexPath.row - 1), 14, dateColor)
+                $0.amWeatherImageView.setAssetsImage(viewModel.bindSevenDayAMWeatherImage(indexPath.row - 3))
+                $0.leftRainPosLabel.attributedText = NSMutableAttributedString().medium("\(amRainPos ?? 0)%", 12, CSColor.none)
+                $0.pmWeatherImageView.setAssetsImage(viewModel.bindSevenDayPMWeatherImage(indexPath.row - 3))
+                $0.rightRainPosLabel.attributedText = NSMutableAttributedString().medium("\(pmRainPos ?? 0)%", 12, CSColor.none)
+                $0.temperatureLabel.attributedText = NSMutableAttributedString()
+                    .regular("\(minTemp)℃", 16, CSColor._40_106_167)
+                    .regular(" / ", 16, CSColor.none)
+                    .regular("\(maxTemp)℃", 16, CSColor._178_36_36)
+                $0.isRainPosLabelHidden(amRainPos ?? 0, pmRainPos ?? 0)
+                
+            case 8...10:
+                var minTemp = sevenDaysInfo.temperature[indexPath.row - 3].taMin
+                var maxTemp = sevenDaysInfo.temperature[indexPath.row - 3].taMax
+                var rainPos = sevenDaysInfo.weather[indexPath.row - 3].rnSt
+                
+                if sevenDaysInfo.temperature[indexPath.row - 3].taMinLow > 2 {
+                    minTemp = minTemp + (minTemp - sevenDaysInfo.temperature[indexPath.row - 3].taMinLow) / 2
+                }
+                
+                if sevenDaysInfo.temperature[indexPath.row - 3].taMaxHigh > 2 {
+                     maxTemp = maxTemp + (maxTemp - sevenDaysInfo.temperature[indexPath.row - 3].taMaxHigh) / 2
+                 }
+                
+                var dayofTheWeek = date.dayOfTheWeek(indexPath.row - 1)
+                var dateColor = (dayofTheWeek == "토")
+                ? CSColor._40_106_167
+                : (dayofTheWeek == "일") ? CSColor._178_36_36 : CSColor.none
+                
+                $0.dayOfWeekLabel.attributedText = NSMutableAttributedString().bold(dayofTheWeek, 16, dateColor)
+                $0.dateLabel.attributedText = NSMutableAttributedString().regular(date.tenDaysFormat(indexPath.row - 1), 14, dateColor)
+                $0.amWeatherImageView.setAssetsImage(viewModel.bindSevenDayAMWeatherImage(indexPath.row - 3))
+                $0.leftRainPosLabel.attributedText = NSMutableAttributedString().medium("\(rainPos ?? 0)%", 12, CSColor.none)
+                $0.pmWeatherImageView.setAssetsImage(viewModel.bindSevenDayPMWeatherImage(indexPath.row - 3))
+                $0.rightRainPosLabel.attributedText = NSMutableAttributedString().medium("\(rainPos ?? 0)%", 12, CSColor.none)
+                $0.temperatureLabel.attributedText = NSMutableAttributedString()
+                    .regular("\(minTemp)℃", 16, CSColor._40_106_167)
+                    .regular(" / ", 16, CSColor.none)
+                    .regular("\(maxTemp)℃", 16, CSColor._178_36_36)
+                $0.isRainPosLabelHidden(rainPos ?? 0, rainPos ?? 0)
+                
+            default:
+                break
+            }
             
         }
     

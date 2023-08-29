@@ -108,7 +108,7 @@ extension UIView {
            return y
         }()
         
-        let toastLabel = UILabel(frame: CGRect(x: 59, y: y, width: self.frame.size.width - 116, height: 42)).then {
+        let toastLabel = UILabel(frame: CGRect(x: self.frame.size.width * 0.05, y: y, width: self.frame.size.width * 0.89, height: 42)).then {
             $0.backgroundColor = CSColor._102_102_102.color.withAlphaComponent(0.7)
             $0.textColor = UIColor.white
             $0.font = font

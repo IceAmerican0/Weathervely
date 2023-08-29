@@ -61,8 +61,9 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
     
         tempLabel.do {
             $0.setBackgroundColor(CSColor._172_107_255_004.color)
-            $0.addBorders([.top, .left, .right, .bottom])
-            $0.setCornerRadius(5)
+            $0.layer.borderWidth = 1
+            $0.layer.borderColor = CSColor._217_217_217.cgColor
+            $0.setCornerRadius(3)
             $0.textAlignment = .center
             $0.adjustsFontSizeToFitWidth = true
             $0.numberOfLines = 1

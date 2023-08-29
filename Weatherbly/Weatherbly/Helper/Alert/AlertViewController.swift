@@ -124,11 +124,11 @@ final class AlertViewController: UIViewController, CodeBaseInitializerProtocol {
 //            .disposed(by: bag)
         
         confirmButton.rx.tap
-            .subscribe(onNext: {
-                if self.state.closeAction != nil {
-                    self.dismiss(animated: false, completion: self.state.closeAction)
+            .subscribe(onNext: { [weak self] _ in
+                if self?.state.closeAction != nil {
+                    self?.dismiss(animated: false, completion: self?.state.closeAction)
                 } else {
-                    self.dismiss(animated: false)
+                    self?.dismiss(animated: false)
                 }
             })
             .disposed(by: bag)

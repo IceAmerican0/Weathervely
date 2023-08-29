@@ -40,6 +40,12 @@ class TenDaysForecastTableViewCell: UITableViewCell {
     }
     
     func attribute() {
+        
+        self.do {
+            $0.backgroundColor = UIColor(r: 250, g: 250, b: 250, a: 1)
+            $0.addBorder(.bottom)
+        }
+        
         temperatureLabel.do {
             $0.textAlignment = .right
             $0.numberOfLines = 0
@@ -68,6 +74,13 @@ class TenDaysForecastTableViewCell: UITableViewCell {
             $0.font = UIFont.systemFont(ofSize: 12)
             $0.textAlignment = .center
             $0.layer.cornerRadius = 3
+        }
+        
+        amWeatherImageView.do {
+            $0.setShadow(CGSize(width: 0, height: 2), CSColor._0__03.cgColor, 1, 2)
+        }
+        pmWeatherImageView.do {
+            $0.setShadow(CGSize(width: 0, height: 2), CSColor._0__03.cgColor, 1, 2)
         }
     }
     
