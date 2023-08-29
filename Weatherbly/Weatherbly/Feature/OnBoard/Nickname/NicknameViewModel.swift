@@ -19,19 +19,19 @@ final class NicknameViewModel: RxBaseViewModel, NicknameViewModelLogic {
         let uuid = UUID().uuidString
         let dataSource = AuthDataSource()
         dataSource.setNickname(text, uuid)
-            .subscribe(onNext: { result in
+            .subscribe(onNext: { [weak self] result in
                 switch result {
                 case .success:
-                    self.toSettingRegionView()
+                    self?.toSettingRegionView()
                     userDefault.set(text, forKey: UserDefaultKey.nickname.rawValue)
                     KeychainManager.shared.saveUUID(uuid)
                 case .failure(let err):
                     switch err {
                     case .noInternetError:
-                        self.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
+                        self?.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
                     default:
                         guard let errorString = err.errorDescription else { return }
-                        self.alertMessageRelay.accept(.init(title: errorString,
+                        self?.alertMessageRelay.accept(.init(title: errorString,
                                                             alertType: .Error))
                     }
                 }

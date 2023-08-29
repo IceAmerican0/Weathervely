@@ -34,7 +34,8 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
     private var locationSubtitleLabel = UILabel()
     
     private var bottomView = UIView()
-    private var bottomLabel = CSLabel(.regular, 12, "개인정보 처리 방침 및 정보 제공처")
+    private var bottomLabel = CSLabel(.regular, 12, "")
+    private var versionLabel = CSLabel(.regular, 12, "")
     
     private let tapGesture = UITapGestureRecognizer()
     
@@ -80,7 +81,6 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
         messageLabel.do {
             $0.textAlignment = .natural
             $0.attributedText = NSMutableAttributedString().regular("오늘 하루는 어떠셨나요?\n지치고 힘든 하루를 잘 견뎌낸 나에게\n\"잘했다\"한 마디는 어떨까요?", 16, CSColor.none)
-            
         }
         
         locationButton.do {
@@ -106,6 +106,13 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
         
         bottomLabel.do {
             $0.isUserInteractionEnabled = true
+            $0.attributedText = NSMutableAttributedString()
+                .regular("개인정보 처리 방침 및 정보 제공처", 12, CSColor._78_78_78)
+        }
+        
+        versionLabel.do {
+            $0.attributedText = NSMutableAttributedString()
+                .regular("WeatherVely v\(Constants.bundleShortVersion)", 10, CSColor._128_128_128)
         }
         
         bottomView.do {
@@ -178,10 +185,9 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
                         .padding(12)
                         .define { flex in
                             flex.addItem(bottomLabel)
+                            flex.addItem(versionLabel).marginTop(5)
                         }
-                    bottomView.pin.bottom(to: contentWrapper.edge.bottom).marginBottom(5)
-                    
-                        
+                    bottomView.pin.bottom(view.pin.safeArea.bottom).marginBottom(2)
             }
         }
         

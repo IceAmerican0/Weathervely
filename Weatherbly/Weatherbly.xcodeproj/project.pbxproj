@@ -50,6 +50,7 @@
 		5CAB60D12A54FC5F00CD431A /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAB60D02A54FC5F00CD431A /* UITableView+Extension.swift */; };
 		5CAB60D32A54FC6A00CD431A /* UITableViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAB60D22A54FC6900CD431A /* UITableViewCell+Extension.swift */; };
 		5CAB60D52A54FDFE00CD431A /* TenDaysForecastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAB60D42A54FDFE00CD431A /* TenDaysForecastTableViewCell.swift */; };
+		5CADDD282A9DDF9900EAB678 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CADDD272A9DDF9900EAB678 /* Constants.swift */; };
 		5CC61E1F2A56850F001435E6 /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC61E1E2A56850F001435E6 /* DateFormatter+Extension.swift */; };
 		5CC61E212A579D66001435E6 /* DailyForecastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC61E202A579D66001435E6 /* DailyForecastViewController.swift */; };
 		5CC61E232A57C617001435E6 /* DailyForecastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC61E222A57C617001435E6 /* DailyForecastTableViewCell.swift */; };
@@ -177,6 +178,7 @@
 		5CAB60D02A54FC5F00CD431A /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
 		5CAB60D22A54FC6900CD431A /* UITableViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extension.swift"; sourceTree = "<group>"; };
 		5CAB60D42A54FDFE00CD431A /* TenDaysForecastTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TenDaysForecastTableViewCell.swift; sourceTree = "<group>"; };
+		5CADDD272A9DDF9900EAB678 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		5CC61E1E2A56850F001435E6 /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
 		5CC61E202A579D66001435E6 /* DailyForecastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyForecastViewController.swift; sourceTree = "<group>"; };
 		5CC61E222A57C617001435E6 /* DailyForecastTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyForecastTableViewCell.swift; sourceTree = "<group>"; };
@@ -476,6 +478,7 @@
 				69A7F0D82A80B42A00834974 /* UserDefaultKey.swift */,
 				69A7F0E12A811EC000834974 /* UserDefaultManager.swift */,
 				69683A572A9BAAEE00A2BD5A /* KeychainManager.swift */,
+				5CADDD272A9DDF9900EAB678 /* Constants.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -957,6 +960,7 @@
 				5CC61E232A57C617001435E6 /* DailyForecastTableViewCell.swift in Sources */,
 				5CC61E1F2A56850F001435E6 /* DateFormatter+Extension.swift in Sources */,
 				BD2D01892A388753003A25D5 /* AppDelegate.swift in Sources */,
+				5CADDD282A9DDF9900EAB678 /* Constants.swift in Sources */,
 				69A7F0E22A811EC000834974 /* UserDefaultManager.swift in Sources */,
 				5C9D02EC2A725BA200AF2DA3 /* Encodable+Extension.swift in Sources */,
 				5C6AC7022A84A4D000CE5D34 /* UserInfoEntity.swift in Sources */,

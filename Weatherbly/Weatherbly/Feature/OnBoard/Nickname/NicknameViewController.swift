@@ -76,14 +76,14 @@ final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
             .disposed(by: bag)
         
         inputNickname.rx.text.orEmpty
-            .subscribe(onNext: { _ in
-                if let value = self.inputNickname.text {
+            .subscribe(onNext: { [weak self] _ in
+                if let value = self?.inputNickname.text {
                     if value.count > 1 {
-                        self.confirmButton.isEnabled = true
-                        self.confirmButton.setButtonStyle(.primary)
+                        self?.confirmButton.isEnabled = true
+                        self?.confirmButton.setButtonStyle(.primary)
                     } else {
-                        self.confirmButton.isEnabled = false
-                        self.confirmButton.setButtonStyle(.grayFilled)
+                        self?.confirmButton.isEnabled = false
+                        self?.confirmButton.setButtonStyle(.grayFilled)
                     }
                 }
             })
