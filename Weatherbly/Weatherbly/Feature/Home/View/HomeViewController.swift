@@ -494,6 +494,7 @@ extension HomeViewController: FSPagerViewDelegate {
                 
                 if let url = URL(string: shopUrl) {
                     let webView = SFSafariViewController(url: url)
+                    webView.modalPresentationStyle = .overCurrentContext
                     viewModel.didEnterMall()
                     viewModel.presentViewControllerNoAnimationRelay.accept(webView)
                 }
