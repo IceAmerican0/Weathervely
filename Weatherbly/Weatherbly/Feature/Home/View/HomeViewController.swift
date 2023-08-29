@@ -167,7 +167,6 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
             flex.addItem(pagerView).width(screenWidth).height(closetWrapperHeight + 20)
             flex.addItem(bottomButtonWrapper).direction(.row).define { flex in
                 flex.addItem(sensoryViewButton).padding(3, 13.5)
-                
             }
             
             pagerView.pin.top(to: dailyWrapper.edge.bottom).margin(screenHeight * 0.03)
@@ -228,7 +227,6 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
             })
             .disposed(by: bag)
         
-        
 //        dailyWrapper.rx.tapGesture()
 //            .subscribe(onNext: { [weak self] _ in
 //                
@@ -252,8 +250,6 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
                 self?.viewModel.toTenDaysForecastView()
             })
             .disposed(by: bag)
-        
-        
     }
     
     // MARK: ViewModelBind
@@ -446,11 +442,11 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         temperatureLabel.do {
             $0.attributedText = NSMutableAttributedString()
             .bold("\(info["TMP"] ?? "-")℃", 20, CSColor.none)
-                .regular(" (", 17, CSColor.none)
-                .regular("\(tmn)", 17, CSColor._40_106_167)
-                .regular(" / ", 17, CSColor.none)
-                .regular("\(tmx)", 17, CSColor._178_36_36)
-                .regular("℃)", 17, CSColor.none)
+                .regular(" (", 16, CSColor.none)
+                .regular("\(tmn)", 16, CSColor._40_106_167)
+                .regular(" / ", 16, CSColor.none)
+                .regular("\(tmx)", 16, CSColor._178_36_36)
+                .regular("℃)", 16, CSColor.none)
         }
     }
     
@@ -466,11 +462,11 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
             
             switch hour {
             case 0..<7:
-                return image == AssetsImage.sun.image ? .sunnyEvening : .cloudyEvening
+                return image == AssetsImage.sun.image || image == AssetsImage.moon.image ? .sunnyEvening : .cloudyEvening
             case 7..<15:
                 return image == AssetsImage.sun.image ? .sunnyMorning : .cloudyMorning
             case 15..<20:
-                return image == AssetsImage.sun.image ? .sunnyAfternoon : .cloudyAfternoon
+                return image == AssetsImage.sun.image || image == AssetsImage.moon.image ? .sunnyAfternoon : .cloudyAfternoon
             default:
                 return .sunnyEvening
             }
@@ -482,14 +478,12 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
 
 // MARK: FSPagerViewDelegate
 extension HomeViewController: FSPagerViewDelegate {
-//
     func pagerViewDidEndDecelerating(_ pagerView: FSPagerView) {
         viewModel.setCurrentIndex(pagerView.currentIndex)
         viewModel.highlightedCellIndexRelay.accept(pagerView.currentIndex)
     }
     
     func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
-        
         if viewModel.highlightedCellIndexRelay.value == index {
             let closetInfo = viewModel.recommendClosetEntityRelay.value?.data?.list.closets[index]
             
@@ -535,7 +529,8 @@ extension HomeViewController: FSPagerViewDataSource {
                 cell.clothImageView.kf.indicatorType = .activity
                 cell.clothImageView.kf.setImage(with: url,
                                                 placeholder: nil,
-                                                options: [.retryStrategy(DelayRetryStrategy(maxRetryCount: 2, retryInterval: .seconds(2))),
+                                                options: [.retryStrategy(DelayRetryStrategy(maxRetryCount: 2,
+                                                                                            retryInterval: .seconds(2))),
                                                           .transition(.fade(0.1)),
                                                           .cacheOriginalImage]) { result in
                     switch result {

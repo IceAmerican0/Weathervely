@@ -21,7 +21,7 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
     private var headerView = UIView()
     private var navigationDismissButton = UIButton()
     
-    private var mainLabel = CSLabel(.bold, 22, "\(UserDefaultManager.shared.nickname) 님에게\n적당한 옷차림을 골라주세요")
+    private var mainLabel = CSLabel(.bold, 20, "")
     private var discriptionLabel = CSLabel(.regular, 16 , "사진을 위로 밀면 옷이 더 두꺼워져요\n사진을 아래로 밀면 옷이 더 얇아져요")
     
     private var clothScrollViewWrapper = UIView()
@@ -43,6 +43,7 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     // MARK: - Life Cycle
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -97,6 +98,7 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
         
         mainLabel.do {
             $0.setLineHeight(1.07)
+            $0.attributedText = NSMutableAttributedString().bold("\(UserDefaultManager.shared.nickname) 님에게\n적당한 옷차림을 골라주세요", 20, .none)
         }
         
         clothScrollViewWrapper.do {

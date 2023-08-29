@@ -17,12 +17,12 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
     private var navigationView = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
     private let contentWrapper = UIView()
     private var nickNameView = UIView()
-    private var nickNameLabel = CSLabel(.bold, 18, "(닉네임)님")
+    private var nickNameLabel = CSLabel(.bold, 18, "님")
     private var editButton = UIButton()
     
     private var messageView = UIView()
     private var stickerIcon = UIImageView()
-    private var messageLabel = CSLabel(.regular, 16, "오늘 하루는 어떠셨나요?\n지치고 힘든 하루를 잘 견뎌낸 나에게\n\"잘했다\"한 마디는 어떨까요?")
+    private var messageLabel = CSLabel(.regular, 16, "")
     
     private var firstButtonWrapper = UIView()
     
@@ -34,22 +34,13 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
     private var locationSubtitleLabel = UILabel()
     
     private var bottomView = UIView()
-    private var bottomLabel = CSLabel(.regular,12,"개인정보 처리 방침 및 정보 제공처")
+    private var bottomLabel = CSLabel(.regular, 12, "개인정보 처리 방침 및 정보 제공처")
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        nickNameLabel.attributedText = NSMutableAttributedString().bold("\(UserDefaultManager.shared.nickname)님", 18, CSColor.none)
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-    }
+    private let tapGesture = UITapGestureRecognizer()
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         setRxButtonBinding()
-        
     }
 
     // MARK: - Attiribute
@@ -65,11 +56,13 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
         nickNameView.do {
             $0.addBorder(.top)
             $0.addBorder(.bottom)
+            $0.addGestureRecognizer(tapGesture)
         }
         
         nickNameLabel.do {
             $0.textAlignment = .left
             $0.numberOfLines = 0
+            nickNameLabel.attributedText = NSMutableAttributedString().bold("\(UserDefaultManager.shared.nickname)님", 18, CSColor.none)
         }
         
         editButton.do {
@@ -102,12 +95,12 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
         }
         
         locationTitleLabel.do {
-            $0.attributedText = NSMutableAttributedString().bold("동네설정", 18, CSColor._128_128_128)
+            $0.attributedText = NSMutableAttributedString().bold("동네 설정", 18, CSColor._128_128_128)
             $0.isUserInteractionEnabled = false
         }
         
         locationSubtitleLabel.do {
-            $0.attributedText = NSMutableAttributedString().medium("즐겨찾기 추가/변경", 20, CSColor.none)
+            $0.attributedText = NSMutableAttributedString().medium("즐겨찾기 추가 / 변경", 20, CSColor.none)
             $0.isUserInteractionEnabled = false
         }
         
@@ -210,8 +203,11 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
             })
             .disposed(by: bag)
         
-        editButton.rx.tap
-            .bind(onNext: viewModel.toEditNicknameView)
+        tapGesture.rx
+            .event
+            .subscribe(onNext: { [weak self] _ in
+                self?.viewModel.toEditNicknameView()
+            })
             .disposed(by: bag)
         
         locationButton.rx.tap

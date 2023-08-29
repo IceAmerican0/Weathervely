@@ -143,13 +143,14 @@ public final class MainToolTipViewController: UIViewController, CodeBaseInitiali
             flex.addItem(mainBox).width(UIScreen.main.bounds.width * 0.55).height(44)
             flex.addItem(touchImage).size(90)
         }
+        
         if UIScreen.main.bounds.width < 376 {
-            mainBox.pin.hCenter().top(4%)
             dimView.pin.top(UIScreen.main.bounds.height * 0.41)
         } else {
-            mainBox.pin.hCenter().top(6%)
             dimView.pin.top(UIScreen.main.bounds.height * 0.4)
         }
+        
+        mainBox.pin.hCenter().top(view.pin.safeArea.top).margin(7)
     }
     
     func bind() {
