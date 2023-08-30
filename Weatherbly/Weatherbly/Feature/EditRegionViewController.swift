@@ -42,6 +42,7 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
             $0.delegate = self
             $0.dataSource = self
             $0.isScrollEnabled = false
+            $0.bounces = false
             $0.backgroundColor = CSColor._253_253_253.color
             $0.layer.cornerRadius = 5
             $0.register(EditRegionTableViewCell.self, forCellReuseIdentifier: EditRegionTableViewCell.identifier)

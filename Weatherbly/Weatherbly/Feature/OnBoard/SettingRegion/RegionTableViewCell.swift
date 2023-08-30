@@ -38,11 +38,13 @@ public final class RegionTableViewCell: UITableViewCell {
     override public func layoutSubviews() {
         super.layoutSubviews()
         contentView.flex.layout()
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
     
     private func layout() {
         contentView.flex.direction(.row).justifyContent(.center).alignItems(.center).define { flex in
-            flex.addItem(regionLabel).width(labelWidth).height(28)
+            flex.addItem(regionLabel).marginLeft(10).width(labelWidth).height(28)
             flex.addItem(rightArrowImageView).marginLeft(8).size(24)
         }
     }

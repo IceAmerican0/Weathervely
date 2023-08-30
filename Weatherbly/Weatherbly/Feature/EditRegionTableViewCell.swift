@@ -45,11 +45,13 @@ public final class EditRegionTableViewCell: UITableViewCell {
     public override func layoutSubviews() {
         super.layoutSubviews()
         contentView.flex.layout()
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
     
     private func layout() {
         contentView.flex.direction(.row).alignItems(.center).justifyContent(.center).define { flex in
-            flex.addItem(regionLabel).marginLeft(23).width(labelWidth).height(28)
+            flex.addItem(regionLabel).marginLeft(15).width(labelWidth).height(28)
             flex.addItem(button).size(45)
         }
         

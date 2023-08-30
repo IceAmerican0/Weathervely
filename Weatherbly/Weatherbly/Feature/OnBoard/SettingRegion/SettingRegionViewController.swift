@@ -77,6 +77,7 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
             $0.delegate = self
             $0.dataSource = self
             $0.isScrollEnabled = true
+            $0.bounces = false
             $0.showsVerticalScrollIndicator = true
             $0.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
             $0.showsHorizontalScrollIndicator = false

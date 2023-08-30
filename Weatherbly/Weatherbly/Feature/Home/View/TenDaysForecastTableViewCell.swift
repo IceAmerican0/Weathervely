@@ -15,7 +15,6 @@ class TenDaysForecastTableViewCell: UITableViewCell {
     var dayOfWeekLabel = CSLabel(.regular, 16, "오늘")
     var dateLabel = CSLabel(.regular, 14, "7.5")
     
-    let imageWrapper = UIView()
     let amWeatherImageView = UIImageView()
     let pmWeatherImageView = UIImageView()
     
@@ -37,13 +36,15 @@ class TenDaysForecastTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         contentView.flex.layout()
+        
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
     }
     
     func attribute() {
         
         self.do {
             $0.backgroundColor = UIColor(r: 250, g: 250, b: 250, a: 1)
-            $0.addBorder(.bottom)
         }
         
         temperatureLabel.do {
@@ -87,24 +88,20 @@ class TenDaysForecastTableViewCell: UITableViewCell {
     
     private func layout() {
         contentView.flex.direction(.row)
-            .justifyContent(.spaceAround)
-            .paddingRight(30)
+            .alignItems(.center)
+            .justifyContent(.center)
             .define { flex in
-                flex.addItem(dateView).marginHorizontal(26).height(60).marginRight(12%).define { flex in
-                    flex.addItem(dayOfWeekLabel).marginTop(13).width(110%).height(16)
-                    flex.addItem(dateLabel).marginTop(5).width(110%).height(10)
+                flex.addItem(dateView).height(60).define { flex in
+                    flex.addItem(dayOfWeekLabel).marginTop(13).width(29).height(16)
+                    flex.addItem(dateLabel).marginTop(5).width(30).height(10)
                 }
                 
-                flex.addItem(imageWrapper).direction(.row).marginRight(15).define { flex in
-                    flex.addItem(leftRainPosLabel).width(37).height(20).marginRight(8).alignSelf(.center)
-                    flex.addItem(amWeatherImageView).size(37).alignSelf(.center)
-                    flex.addItem(pmWeatherImageView).marginLeft(5).size(37).alignSelf(.center)
-                    flex.addItem(rightRainPosLabel).width(37).height(20).marginLeft(8).alignSelf(.center)
-                }
+                flex.addItem(leftRainPosLabel).marginLeft(15.5).width(37).height(20)
+                flex.addItem(amWeatherImageView).marginLeft(11).size(37)
+                flex.addItem(pmWeatherImageView).marginLeft(5).size(37)
+                flex.addItem(rightRainPosLabel).marginLeft(11).width(37).height(20)
                 
-                flex.addItem(temperatureLabel).width(30%)
-                
-                
+                flex.addItem(temperatureLabel).marginLeft(3).width(28%)
             }
     }
     
