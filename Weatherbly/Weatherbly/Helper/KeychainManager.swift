@@ -10,8 +10,13 @@ import KeychainAccess
 class KeychainManager {
     static let shared = KeychainManager()
     
-    let keychain = Keychain(service: "com.redthree.weathervely") // 고유한 서비스 ID를 사용합니다.
-    let uuidKey = "UUIDKey" // UUID 값을 저장할 키 이름입니다.
+    #if DEBUG
+    let keychain = Keychain(service: "com.redthree.weathervelytest")
+    #else
+    let keychain = Keychain(service: "com.redthree.weathervely")
+    #endif
+    
+    let uuidKey = "UUIDKey"
     
     func saveUUID(_ uuid: String) {
         do {
