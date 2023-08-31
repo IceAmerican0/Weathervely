@@ -59,7 +59,6 @@
 		5CCC914B2A6114880025B522 /* RegionTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC914A2A6114880025B522 /* RegionTarget.swift */; };
 		5CCC914D2A61179F0025B522 /* WVTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC914C2A61179F0025B522 /* WVTargetType.swift */; };
 		5CCC91522A61197B0025B522 /* SearchRegionEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC91512A61197B0025B522 /* SearchRegionEntity.swift */; };
-		5CCC91542A611FCE0025B522 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC91532A611FCE0025B522 /* NetworkManager.swift */; };
 		5CCC91562A613F010025B522 /* SettingRegionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC91552A613F010025B522 /* SettingRegionViewModel.swift */; };
 		5CDE81CE2A89F4780099FF87 /* MainToolTipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE81CD2A89F4780099FF87 /* MainToolTipViewController.swift */; };
 		5CE0FEAD2A8DDE9200A0E655 /* AddressListEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE0FEAC2A8DDE9200A0E655 /* AddressListEntity.swift */; };
@@ -137,7 +136,7 @@
 		BDA66FEA2A4075270061A1F0 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA66FE92A4075270061A1F0 /* UIImageView+Extension.swift */; };
 		BDA66FED2A444C470061A1F0 /* SelectGenderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA66FEC2A444C470061A1F0 /* SelectGenderViewController.swift */; };
 		BDA66FEF2A4459910061A1F0 /* SelectGenderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA66FEE2A4459910061A1F0 /* SelectGenderViewModel.swift */; };
-		BDAEBC9F2A8F5EE4002E10F2 /* WeatherMesageEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDAEBC9E2A8F5EE4002E10F2 /* WeatherMesageEnum.swift */; };
+		BDAEBC9F2A8F5EE4002E10F2 /* WeatherMessageEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDAEBC9E2A8F5EE4002E10F2 /* WeatherMessageEnum.swift */; };
 		BDF208FF2A4EAEF2001177B2 /* CGFloat+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF208FE2A4EAEF2001177B2 /* CGFloat+Extension.swift */; };
 /* End PBXBuildFile section */
 
@@ -187,7 +186,6 @@
 		5CCC914A2A6114880025B522 /* RegionTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionTarget.swift; sourceTree = "<group>"; };
 		5CCC914C2A61179F0025B522 /* WVTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WVTargetType.swift; path = Weatherbly/Network/Moya/WVTargetType.swift; sourceTree = SOURCE_ROOT; };
 		5CCC91512A61197B0025B522 /* SearchRegionEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRegionEntity.swift; sourceTree = "<group>"; };
-		5CCC91532A611FCE0025B522 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		5CCC91552A613F010025B522 /* SettingRegionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingRegionViewModel.swift; sourceTree = "<group>"; };
 		5CDE81CD2A89F4780099FF87 /* MainToolTipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainToolTipViewController.swift; sourceTree = "<group>"; };
 		5CE0FEAC2A8DDE9200A0E655 /* AddressListEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressListEntity.swift; sourceTree = "<group>"; };
@@ -264,7 +262,7 @@
 		BDA66FE92A4075270061A1F0 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		BDA66FEC2A444C470061A1F0 /* SelectGenderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGenderViewController.swift; sourceTree = "<group>"; };
 		BDA66FEE2A4459910061A1F0 /* SelectGenderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGenderViewModel.swift; sourceTree = "<group>"; };
-		BDAEBC9E2A8F5EE4002E10F2 /* WeatherMesageEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherMesageEnum.swift; sourceTree = "<group>"; };
+		BDAEBC9E2A8F5EE4002E10F2 /* WeatherMessageEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherMessageEnum.swift; sourceTree = "<group>"; };
 		BDF208FE2A4EAEF2001177B2 /* CGFloat+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extension.swift"; sourceTree = "<group>"; };
 		C988E18B0DE0FE436AD63212 /* Pods-Weatherbly.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Weatherbly.release.xcconfig"; path = "Target Support Files/Pods-Weatherbly/Pods-Weatherbly.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -305,8 +303,8 @@
 		5C4691702A7893E000E2CC70 /* Alert */ = {
 			isa = PBXGroup;
 			children = (
-				5C4691752A789DBE00E2CC70 /* AlertViewState.swift */,
 				5C4691772A78A02100E2CC70 /* AlertViewController.swift */,
+				5C4691752A789DBE00E2CC70 /* AlertViewState.swift */,
 			);
 			path = Alert;
 			sourceTree = "<group>";
@@ -365,11 +363,11 @@
 		5CC61E242A5BC1D0001435E6 /* SettingRegion */ = {
 			isa = PBXGroup;
 			children = (
-				5CCC91552A613F010025B522 /* SettingRegionViewModel.swift */,
-				5CC61E252A5BC223001435E6 /* SettingRegionViewController.swift */,
 				5C4BE89C2A5E63C000FD2CEF /* RegionTableViewCell.swift */,
 				5C9D02C12A6E45D600AF2DA3 /* SettingRegionCompleteViewController.swift */,
 				5C9D02C32A6E61C700AF2DA3 /* SettingRegionCompleteViewModel.swift */,
+				5CC61E252A5BC223001435E6 /* SettingRegionViewController.swift */,
+				5CCC91552A613F010025B522 /* SettingRegionViewModel.swift */,
 			);
 			path = SettingRegion;
 			sourceTree = "<group>";
@@ -378,7 +376,6 @@
 			isa = PBXGroup;
 			children = (
 				5C9D02C92A709CF300AF2DA3 /* Error */,
-				5CCC91532A611FCE0025B522 /* NetworkManager.swift */,
 				5CCC914C2A61179F0025B522 /* WVTargetType.swift */,
 				BD7DAB3A2A72447E00422D25 /* WVNetWorkError.swift */,
 				5C9D02DA2A720DCC00AF2DA3 /* EmptyEntity.swift */,
@@ -393,9 +390,9 @@
 				5C9D02D32A71EE7F00AF2DA3 /* AuthAPI */,
 				5C9D02E42A72423900AF2DA3 /* ClosetAPI */,
 				BD7DAB1C2A6E62F600422D25 /* ForcastAPI */,
+				5CCC914E2A61195D0025B522 /* RegionAPI */,
 				BD7DAB362A7129E000422D25 /* TypeAPI */,
 				5C9D02D52A71EE9300AF2DA3 /* UserAPI */,
-				5CCC914E2A61195D0025B522 /* RegionAPI */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -403,8 +400,8 @@
 		5CCC914E2A61195D0025B522 /* RegionAPI */ = {
 			isa = PBXGroup;
 			children = (
-				69CCF1CA2A63CA5000756127 /* RegionDataSource.swift */,
 				5CCC914A2A6114880025B522 /* RegionTarget.swift */,
+				69CCF1CA2A63CA5000756127 /* RegionDataSource.swift */,
 				5CCC91512A61197B0025B522 /* SearchRegionEntity.swift */,
 				5C9D02E92A725AC300AF2DA3 /* AddressRequest.swift */,
 				5C9F45552A8388130079ABA6 /* AddressEntity.swift */,
@@ -475,10 +472,10 @@
 				BD2D01A92A388825003A25D5 /* Common */,
 				BD2D01A72A388817003A25D5 /* Enum */,
 				BD2D01AB2A38885B003A25D5 /* Protocol */,
+				5CADDD272A9DDF9900EAB678 /* Constants.swift */,
+				69683A572A9BAAEE00A2BD5A /* KeychainManager.swift */,
 				69A7F0D82A80B42A00834974 /* UserDefaultKey.swift */,
 				69A7F0E12A811EC000834974 /* UserDefaultManager.swift */,
-				69683A572A9BAAEE00A2BD5A /* KeychainManager.swift */,
-				5CADDD272A9DDF9900EAB678 /* Constants.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -495,8 +492,8 @@
 		BD2D01A02A3887D5003A25D5 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				BD2D01A62A38880F003A25D5 /* ViewModel */,
 				BD2D01A52A388807003A25D5 /* View */,
+				BD2D01A62A38880F003A25D5 /* ViewModel */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -504,31 +501,15 @@
 		BD2D01A12A3887E0003A25D5 /* OnBoard */ = {
 			isa = PBXGroup;
 			children = (
+				BD77B8292A388CEF00E7D57A /* OnBoardViewController.swift */,
+				BD77B82B2A388D2000E7D57A /* OnBoardViewModel.swift */,
+				5CDE81CD2A89F4780099FF87 /* MainToolTipViewController.swift */,
 				5C1BCA152A67D2EF00D02D84 /* Nickname */,
+				BDA66FEB2A444C320061A1F0 /* SelectGender */,
 				BD4316322A3C966400E86271 /* SesoryTemperature */,
 				5CC61E242A5BC1D0001435E6 /* SettingRegion */,
-				BDA66FEB2A444C320061A1F0 /* SelectGenderViewController */,
-				BD2D01A32A3887F3003A25D5 /* ViewModel */,
-				BD2D01A22A3887EA003A25D5 /* View */,
 			);
 			path = OnBoard;
-			sourceTree = "<group>";
-		};
-		BD2D01A22A3887EA003A25D5 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				BD77B8292A388CEF00E7D57A /* OnBoardViewController.swift */,
-				5CDE81CD2A89F4780099FF87 /* MainToolTipViewController.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		BD2D01A32A3887F3003A25D5 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				BD77B82B2A388D2000E7D57A /* OnBoardViewModel.swift */,
-			);
-			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		BD2D01A52A388807003A25D5 /* View */ = {
@@ -558,7 +539,7 @@
 			children = (
 				BD77B8272A388C9400E7D57A /* CSColor.swift */,
 				BD4316352A3C9DB700E86271 /* AssetsImage.swift */,
-				BDAEBC9E2A8F5EE4002E10F2 /* WeatherMesageEnum.swift */,
+				BDAEBC9E2A8F5EE4002E10F2 /* WeatherMessageEnum.swift */,
 			);
 			path = Enum;
 			sourceTree = "<group>";
@@ -566,27 +547,27 @@
 		BD2D01A82A38881B003A25D5 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				BD5D16922A63B3AD00435816 /* CALayer+Extension.swift */,
+				BD9191A52A973EBE00CBD595 /* Calendar+Extension.swift */,
 				BDF208FE2A4EAEF2001177B2 /* CGFloat+Extension.swift */,
+				BD4AC3892A655AEC00537583 /* Date+Extension.swift */,
+				5CC61E1E2A56850F001435E6 /* DateFormatter+Extension.swift */,
+				5C9D02EB2A725BA200AF2DA3 /* Encodable+Extension.swift */,
 				5CAB60B82A4563B300CD431A /* NSMutableAttributedString+Extension.swift */,
+				5C9D02B92A68EB3900AF2DA3 /* Observable+Extension.swift */,
+				BD7DAB242A6E757C00422D25 /* PrimitiveSequence+Extension.swift */,
+				BD4907322A84D42F0027DEE8 /* String+Extension.swift */,
 				BD2D01AF2A38887D003A25D5 /* UIButton+Extension.swift */,
 				5CAB60C22A528C7A00CD431A /* UICollectionView+Extension.swift */,
+				5CAB60C42A528C9700CD431A /* UICollectionViewCell+Extension.swift */,
 				BD2D01B32A3888AA003A25D5 /* UIColor+Extension.swift */,
 				BDA66FE92A4075270061A1F0 /* UIImageView+Extension.swift */,
+				BD4AC3902A66899500537583 /* UILabel+Extension.swift */,
 				5CAB60D02A54FC5F00CD431A /* UITableView+Extension.swift */,
 				5CAB60D22A54FC6900CD431A /* UITableViewCell+Extension.swift */,
-				5CC61E1E2A56850F001435E6 /* DateFormatter+Extension.swift */,
-				5CAB60C42A528C9700CD431A /* UICollectionViewCell+Extension.swift */,
 				BD5169482A5D6FEA00582BA9 /* UITextField+Extension.swift */,
 				BD4316372A3CA20900E86271 /* UIView+Extension.swift */,
 				5CC61E272A5BDCCC001435E6 /* UIViewController+Extension.swift */,
-				BD5D16922A63B3AD00435816 /* CALayer+Extension.swift */,
-				BD4AC3892A655AEC00537583 /* Date+Extension.swift */,
-				BD4AC3902A66899500537583 /* UILabel+Extension.swift */,
-				5C9D02B92A68EB3900AF2DA3 /* Observable+Extension.swift */,
-				BD7DAB242A6E757C00422D25 /* PrimitiveSequence+Extension.swift */,
-				5C9D02EB2A725BA200AF2DA3 /* Encodable+Extension.swift */,
-				BD4907322A84D42F0027DEE8 /* String+Extension.swift */,
-				BD9191A52A973EBE00CBD595 /* Calendar+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -618,8 +599,8 @@
 				BD2D01AD2A38886C003A25D5 /* RxBaseViewController.swift */,
 				696176B12A63E37F00B83B4C /* RxBaseViewModel.swift */,
 				696176B32A63E3C000B83B4C /* BaseDisposeBag.swift */,
-				696176B52A63E4A400B83B4C /* EmptyViewModel.swift */,
 				5C9D02BB2A68FC0200AF2DA3 /* Dependency.swift */,
+				696176B52A63E4A400B83B4C /* EmptyViewModel.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -627,8 +608,8 @@
 		BD4316322A3C966400E86271 /* SesoryTemperature */ = {
 			isa = PBXGroup;
 			children = (
-				BDA66FF12A4AD4EF0061A1F0 /* ViewModel */,
 				BDA66FF02A4AD4E50061A1F0 /* View */,
+				BDA66FF12A4AD4EF0061A1F0 /* ViewModel */,
 			);
 			path = SesoryTemperature;
 			sourceTree = "<group>";
@@ -656,8 +637,8 @@
 		BD69B8F32A54332C00DDCD7A /* Setting */ = {
 			isa = PBXGroup;
 			children = (
-				BD69B8F52A54335D00DDCD7A /* ViewModel */,
 				BD69B8F42A54335800DDCD7A /* View */,
+				BD69B8F52A54335D00DDCD7A /* ViewModel */,
 			);
 			name = Setting;
 			sourceTree = "<group>";
@@ -665,12 +646,12 @@
 		BD69B8F42A54335800DDCD7A /* View */ = {
 			isa = PBXGroup;
 			children = (
-				BD69B8F62A54337000DDCD7A /* SettingViewController.swift */,
-				BD5169462A5AA39000582BA9 /* EditNicknameViewController.swift */,
 				BD51694E2A5EB43500582BA9 /* ChangeNicknameViewController.swift */,
-				5C4BE89A2A5E2D1200FD2CEF /* EditRegionViewController.swift */,
+				BD5169462A5AA39000582BA9 /* EditNicknameViewController.swift */,
 				5C9D02C72A6FC45300AF2DA3 /* EditRegionTableViewCell.swift */,
+				5C4BE89A2A5E2D1200FD2CEF /* EditRegionViewController.swift */,
 				5CE0FEB32A8F3BE000A0E655 /* PrivatePolicyViewController.swift */,
+				BD69B8F62A54337000DDCD7A /* SettingViewController.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -678,11 +659,11 @@
 		BD69B8F52A54335D00DDCD7A /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				BD5169442A5A9BD600582BA9 /* SettingViewModel.swift */,
-				BD51694A2A5D763000582BA9 /* EditNicknameViewModel.swift */,
 				BD5169502A5EB48D00582BA9 /* ChangeNicknameViewModel.swift */,
+				BD51694A2A5D763000582BA9 /* EditNicknameViewModel.swift */,
 				5C9D02C52A6FB71F00AF2DA3 /* EditRegionViewModel.swift */,
 				5CE0FEB52A8F401100A0E655 /* PrivatePolicyViewModel.swift */,
+				BD5169442A5A9BD600582BA9 /* SettingViewModel.swift */,
 			);
 			name = ViewModel;
 			sourceTree = "<group>";
@@ -705,22 +686,22 @@
 			name = TypeAPI;
 			sourceTree = "<group>";
 		};
-		BDA66FEB2A444C320061A1F0 /* SelectGenderViewController */ = {
+		BDA66FEB2A444C320061A1F0 /* SelectGender */ = {
 			isa = PBXGroup;
 			children = (
-				BDA66FF32A4AD5020061A1F0 /* ViewModel */,
-				BDA66FF22A4AD4FC0061A1F0 /* View */,
+				BDA66FEC2A444C470061A1F0 /* SelectGenderViewController.swift */,
+				BDA66FEE2A4459910061A1F0 /* SelectGenderViewModel.swift */,
 			);
-			path = SelectGenderViewController;
+			path = SelectGender;
 			sourceTree = "<group>";
 		};
 		BDA66FF02A4AD4E50061A1F0 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				BD4316332A3C967900E86271 /* OnBoardSensoryTempViewController.swift */,
-				BD50A5212A4C4072005F066E /* SlotMachineViewController.swift */,
 				BD5D168B2A612BC900435816 /* DateTimePickViewController.swift */,
 				BD49072C2A80DED70027DEE8 /* HomeSensoryTempViewController.swift */,
+				BD4316332A3C967900E86271 /* OnBoardSensoryTempViewController.swift */,
+				BD50A5212A4C4072005F066E /* SlotMachineViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -729,25 +710,9 @@
 			isa = PBXGroup;
 			children = (
 				BD5D168D2A612BD500435816 /* DateTimePickViewModel.swift */,
+				BD49072E2A80DEED0027DEE8 /* HomeSensoryTempViewModel.swift */,
 				BD4AC38E2A6671B500537583 /* OnBoardSensoryTempViewModel.swift */,
 				BD4AC3922A669B0500537583 /* SlotMachineViewModel.swift */,
-				BD49072E2A80DEED0027DEE8 /* HomeSensoryTempViewModel.swift */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		BDA66FF22A4AD4FC0061A1F0 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				BDA66FEC2A444C470061A1F0 /* SelectGenderViewController.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		BDA66FF32A4AD5020061A1F0 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				BDA66FEE2A4459910061A1F0 /* SelectGenderViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -911,7 +876,7 @@
 				BD4AC3932A669B0500537583 /* SlotMachineViewModel.swift in Sources */,
 				5CAB60D32A54FC6A00CD431A /* UITableViewCell+Extension.swift in Sources */,
 				5C9D02C82A6FC45300AF2DA3 /* EditRegionTableViewCell.swift in Sources */,
-				BDAEBC9F2A8F5EE4002E10F2 /* WeatherMesageEnum.swift in Sources */,
+				BDAEBC9F2A8F5EE4002E10F2 /* WeatherMessageEnum.swift in Sources */,
 				BD2D01B42A3888AA003A25D5 /* UIColor+Extension.swift in Sources */,
 				BD2D018D2A388753003A25D5 /* HomeViewController.swift in Sources */,
 				5CAB60BF2A4D6A9D00CD431A /* ClosetFSPagerViewCell.swift in Sources */,
@@ -928,7 +893,6 @@
 				BD5169492A5D6FEA00582BA9 /* UITextField+Extension.swift in Sources */,
 				BD77B82C2A388D2000E7D57A /* OnBoardViewModel.swift in Sources */,
 				BDA66FEF2A4459910061A1F0 /* SelectGenderViewModel.swift in Sources */,
-				5CCC91542A611FCE0025B522 /* NetworkManager.swift in Sources */,
 				BD9191A62A973EBE00CBD595 /* Calendar+Extension.swift in Sources */,
 				5C1BCA172A67D2FF00D02D84 /* NicknameViewModel.swift in Sources */,
 				5CAB60C52A528C9700CD431A /* UICollectionViewCell+Extension.swift in Sources */,
