@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import FlexLayout
+import PinLayout
 
 class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastViewModel> {
     
@@ -77,7 +79,6 @@ class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastViewMod
             $0.layer.borderWidth = 1
             $0.layer.setShadow(CGSize(width: 0, height: 4), CSColor.none.cgColor, 0.25, 2)
             $0.layer.masksToBounds = false
-//            $0.clipsToBounds = true
             $0.allowsSelection = false
             $0.bounces = false
         }
@@ -100,12 +101,15 @@ class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastViewMod
                 .alignItems(.center)
                 .width(tableViewWidth).height(33)
                 .define { flex in
-                flex.addItem(yesterdayLabel).marginLeft(26)
-                flex.addItem(yesterdayTemperature).marginLeft(UIScreen.main.bounds.width * 0.425).marginRight(25)
+                flex.addItem(yesterdayLabel)
+                flex.addItem(yesterdayTemperature)
             }
             
             flex.addItem(forecastTableView).marginTop(5).marginHorizontal(15).width(tableViewWidth).height(tableViewHeight)
         }
+        
+        yesterdayLabel.pin.left(to: yesterdayView.edge.left).marginLeft(18)
+        yesterdayTemperature.pin.right(to: yesterdayView.edge.right).marginRight(17)
     }
     
     override func viewBinding() {
@@ -218,8 +222,8 @@ extension TenDaysForeCastViewController: UITableViewDataSource {
                      maxTemp = maxTemp + (maxTemp - sevenDaysInfo.temperature[row].taMaxHigh) / 2
                  }
                 
-                var dayofTheWeek = date.dayOfTheWeek(indexPath.row - 1)
-                var dateColor = (dayofTheWeek == "토")
+                let dayofTheWeek = date.dayOfTheWeek(indexPath.row - 1)
+                let dateColor = (dayofTheWeek == "토")
                 ? CSColor._40_106_167
                 : (dayofTheWeek == "일") ? CSColor._178_36_36 : CSColor.none
                 $0.dayOfWeekLabel.attributedText = NSMutableAttributedString().bold(dayofTheWeek, 16, dateColor)
