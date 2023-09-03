@@ -56,11 +56,14 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
         for i in 0..<list.count {
             let yPos = scrollView.frame.height * CGFloat(i)
             let imageView = UIImageView()
-            imageView.kf.indicator?.view.show()
-            imageView.kf.indicatorType = .activity
             imageView.frame = CGRect(x: scrollView.bounds.width * 0.25, y: yPos, width: scrollView.bounds.width / 2, height: scrollView.bounds.height)
+            
+            let indicator = UIActivityIndicatorView(style: .medium)
+            indicator.startAnimating()
+            indicator.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+            indicator.center = CGPoint(x: imageView.bounds.width / 2 ,y: imageView.bounds.height / 2)
+            
             if let url = URL(string: list[i].imageUrl) {
-                imageView.kf.indicatorType = .activity
                 imageView.kf.setImage(with: url,
                                                 placeholder: nil,
                                                 options: [.retryStrategy(DelayRetryStrategy(maxRetryCount: 2, retryInterval: .seconds(2))),
@@ -68,16 +71,19 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
                                                           .cacheOriginalImage]) { result in
                     switch result {
                     case .success:
-                        imageView.kf.indicator?.view.hide()
+                        indicator.stopAnimating()
+                        indicator.isHidden = true
                         break
                     case .failure:
-                        imageView.kf.indicator?.view.hide()
+                        indicator.stopAnimating()
+                        indicator.isHidden = true
                         imageView.image = AssetsImage.defaultImage.image
                         self.imageSourceLabel.text = ""
                     }
                 }
             }
             scrollView.addSubview(imageView)
+            scrollView.addSubview(indicator)
             scrollView.contentSize.height = imageView.frame.height * CGFloat(i + 1)
             if list[i].closetId == viewModel.closetIDRelay.value { index = i }
         }
@@ -115,8 +121,9 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
         
         tempLabel.do {
             $0.setBackgroundColor(CSColor._172_107_255_004.color)
-            $0.addBorders([.top, .left, .right, .bottom])
-            $0.setCornerRadius(5)
+            $0.layer.borderWidth = 1
+            $0.layer.borderColor = CSColor._217_217_217.cgColor
+            $0.setCornerRadius(3)
             $0.adjustsFontSizeToFitWidth = true
         }
         

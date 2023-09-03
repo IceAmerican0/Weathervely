@@ -13,28 +13,36 @@ import Kingfisher
 
 final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensoryTempViewModel> {
     
-    var progressBar = CSProgressView(1.0)
-    var navigationBackButton = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
+    private var progressBar = CSProgressView(1.0)
+    private var navigationBackButton = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
     
-    var mainMessageLabel = CSLabel(.bold, 22, "")
+    private var mainMessageLabel = CSLabel(.bold, 22, "")
     
-    var clothViewWrapper = UIView()
+    private var clothViewWrapper = UIView()
     
-    var tempWrapper = UIView()
-    var tempLabel = UILabel()
-    var tempImageView = UIImageView()
-    var imageSourceLabel = CSLabel(.regular, 11, "loading...")
+    private var tempWrapper = UIView()
+    private var tempLabel = UILabel()
+    private var tempImageView = UIImageView()
+    private var imageSourceLabel = CSLabel(.regular, 11, "loading...")
     
-    var discriptionLabel = CSLabel(.regular, 16 , "외출하셨을 때 날씨에\n추천되는 표준 옷차림이에요")
+    private var indicator = UIActivityIndicatorView(style: .medium)
     
-    var buttonWrapper = UIView()
-    var acceptButton = CSButton(.primary)
-    var denyButton = CSButton(.primary)
+    private var discriptionLabel = CSLabel(.regular, 16 , "외출하셨을 때 날씨에\n추천되는 표준 옷차림이에요")
     
-    var selectOtherDayLabel = CSLabel(.underline, 18, "다른 시간대 선택하기")
+    private var buttonWrapper = UIView()
+    private var acceptButton = CSButton(.primary)
+    private var denyButton = CSButton(.primary)
+    
+    private var selectOtherDayLabel = CSLabel(.underline, 18, "다른 시간대 선택하기")
     
     private let imageHeight = UIScreen.main.bounds.height * 0.38
     private let buttonHeight = UIScreen.main.bounds.height * 0.054
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        indicator.startAnimating()
+    }
     
     override func attribute() {
         super.attribute()
@@ -69,11 +77,6 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
             $0.numberOfLines = 1
         }
         
-        tempImageView.do {
-            $0.kf.indicator?.view.show()
-            $0.kf.indicatorType = .activity
-        }
-        
         discriptionLabel.do {
             $0.setLineHeight(1.26)
             $0.adjustsFontSizeToFitWidth = true
@@ -98,7 +101,6 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
         super.layout()
         
         container.flex
-//            .justifyContent(.spaceBetween)
             .paddingBottom(20)
             .define { flex in
             
@@ -150,7 +152,10 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
             }
             
             flex.addItem(selectOtherDayLabel).marginTop(27)
+            flex.addItem(indicator)
         }
+        
+        indicator.pin.hCenter(to: tempImageView.edge.hCenter).vCenter(to: tempImageView.edge.vCenter)
     }
     
     override func viewBinding() {
@@ -190,7 +195,6 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
                 for i in 0..<closets.count {
                     if temperature >= closets[i].minTemp && temperature < closets[i].maxTemp {
                         if let url = URL(string: closets[i].imageUrl) {
-                            self?.tempImageView.kf.indicatorType = .activity
                             self?.tempImageView.kf.setImage(with: url,
                                                             placeholder: nil,
                                                             options: [.retryStrategy(DelayRetryStrategy(maxRetryCount: 2, retryInterval: .seconds(2))),
@@ -198,11 +202,13 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
                                                                       .cacheOriginalImage]) { result in
                                 switch result {
                                 case .success:
-                                    self?.tempImageView.kf.indicator?.view.hide()
+                                    self?.indicator.stopAnimating()
+                                    self?.indicator.isHidden = true
                                     self?.imageSourceLabel.attributedText = NSMutableAttributedString().regular("by \(closets[i].shopName)", 11, CSColor.none)
                                     self?.viewModel.closetIDRelay.accept(closets[i].closetId)
                                 case .failure:
-                                    self?.tempImageView.kf.indicator?.view.hide()
+                                    self?.indicator.stopAnimating()
+                                    self?.indicator.isHidden = true
                                     self?.tempImageView.image = AssetsImage.defaultImage.image
                                     self?.imageSourceLabel.text = ""
                                 }

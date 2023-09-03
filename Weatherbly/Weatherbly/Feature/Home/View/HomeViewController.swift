@@ -525,9 +525,11 @@ extension HomeViewController: FSPagerViewDataSource {
         let cell = pagerView.dequeueCell(withType: ClosetFSPagerViewCell.self, for: index)
         let closetInfo = viewModel.recommendClosetEntityRelay.value?.data?.list.closets[index]
         
+        cell.indicator.startAnimating()
+        cell.indicator.isHidden = false
+        
         if let imageUrl = closetInfo?.imageUrl, let shopName = closetInfo?.shopName {
             if let url = URL(string: imageUrl) {
-                cell.clothImageView.kf.indicatorType = .activity
                 cell.clothImageView.kf.setImage(with: url,
                                                 placeholder: nil,
                                                 options: [.retryStrategy(DelayRetryStrategy(maxRetryCount: 2,
@@ -536,10 +538,12 @@ extension HomeViewController: FSPagerViewDataSource {
                                                           .cacheOriginalImage]) { result in
                     switch result {
                     case .success:
-                        cell.clothImageView.kf.indicator?.view.hide()
+                        cell.indicator.stopAnimating()
+                        cell.indicator.isHidden = true
                         cell.clothImageSourceLabel.text = "by \(shopName)"
                     case .failure:
-                        cell.clothImageView.kf.indicator?.view.hide()
+                        cell.indicator.stopAnimating()
+                        cell.indicator.isHidden = true
                         cell.clothImageView.image = AssetsImage.defaultImage.image
                         cell.clothImageSourceLabel.text = ""
                     }

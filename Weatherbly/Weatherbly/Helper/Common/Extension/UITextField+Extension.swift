@@ -88,7 +88,7 @@ extension UITextFieldDelegate {
         guard let text = textField.text else { return false }
         guard text.count < 10 else { return false }
         /// 특수기호 제한
-        let disallowedCharacterSet = CharacterSet(charactersIn: "!@#$%^&*()_-+=[]{}|\\:;\"'<>,.?/~`")
+        let disallowedCharacterSet = CharacterSet(charactersIn: "₩!@#$%^&*()_-+=[]{}|\\:;\"'<>,.?/~`")
         /// 띄어쓰기 제한
         return string != " " && string.rangeOfCharacter(from: disallowedCharacterSet) == nil
     }

@@ -20,8 +20,9 @@ class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastViewMod
     private var yesterdayView = UIView()
     private var yesterdayLabel = CSLabel(.regular, 16, "어제")
     private var yesterdayTemperature = CSLabel(.regular, 16, "")
-    private var tableViewWrapper = UIView()
+    private var forecastWrapper = UIView()
     private var forecastTableView = UITableView()
+    private let indicator = UIActivityIndicatorView(style: .large)
     
     private let mainLabelWidth = UIScreen.main.bounds.width * 0.58
     private let tableViewWidth = UIScreen.main.bounds.width * 0.92
@@ -31,7 +32,6 @@ class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastViewMod
         super.viewDidLoad()
         forecastTableView.dataSource = self
         forecastTableView.delegate = self
-
     }
     
     override func viewDidLayoutSubviews() {
@@ -64,7 +64,7 @@ class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastViewMod
                 .regular("어제", 16, CSColor._97_97_97)
         }
         
-        tableViewWrapper.do {
+        forecastWrapper.do {
             $0.layer.setShadow(CGSize(width: 0, height: 4), CSColor.none.cgColor, 0.25, 2)
         }
         
@@ -77,10 +77,15 @@ class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastViewMod
             $0.layer.cornerRadius = 5
             $0.layer.borderColor = UIColor.clear.cgColor
             $0.layer.borderWidth = 1
-            $0.layer.setShadow(CGSize(width: 0, height: 4), CSColor.none.cgColor, 0.25, 2)
-            $0.layer.masksToBounds = false
+            $0.clipsToBounds = true
+            $0.layer.masksToBounds = true
             $0.allowsSelection = false
             $0.bounces = false
+        }
+        
+        indicator.do {
+            $0.startAnimating()
+            $0.isHidden = false
         }
     }
     
@@ -105,11 +110,16 @@ class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastViewMod
                 flex.addItem(yesterdayTemperature)
             }
             
-            flex.addItem(forecastTableView).marginTop(5).marginHorizontal(15).width(tableViewWidth).height(tableViewHeight)
+            flex.addItem(forecastWrapper).marginTop(5).marginHorizontal(15).define { flex in
+                flex.addItem(forecastTableView).width(tableViewWidth).height(tableViewHeight)
+            }
+            
+            flex.addItem(indicator)
         }
         
-        yesterdayLabel.pin.left(to: yesterdayView.edge.left).marginLeft(18)
-        yesterdayTemperature.pin.right(to: yesterdayView.edge.right).marginRight(17)
+        yesterdayLabel.pin.left(to: yesterdayView.edge.left).marginLeft(UIScreen.main.bounds.width * 0.0461)
+        yesterdayTemperature.pin.right(to: yesterdayView.edge.right).marginRight(UIScreen.main.bounds.width * 0.0435)
+        indicator.pin.vCenter().hCenter()
     }
     
     override func viewBinding() {
@@ -146,8 +156,9 @@ class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastViewMod
             .sevenDayForecastInfoRelay
             .subscribe(onNext: { [weak self] info in
                 guard let _ = info else { return }
+                self?.indicator.stopAnimating()
+                self?.indicator.isHidden = true
                 self?.forecastTableView.reloadData()
-                
             })
             .disposed(by: bag)
         
@@ -157,7 +168,7 @@ class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastViewMod
 
 // MARK: UITableViewDelegate
 extension TenDaysForeCastViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { 60 }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { tableViewHeight * 0.1 }
 }
 
 extension TenDaysForeCastViewController: UITableViewDataSource {
@@ -251,8 +262,8 @@ extension TenDaysForeCastViewController: UITableViewDataSource {
                      maxTemp = maxTemp + (maxTemp - sevenDaysInfo.temperature[row].taMaxHigh) / 2
                  }
                 
-                var dayofTheWeek = date.dayOfTheWeek(indexPath.row - 1)
-                var dateColor = (dayofTheWeek == "토")
+                let dayofTheWeek = date.dayOfTheWeek(indexPath.row - 1)
+                let dateColor = (dayofTheWeek == "토")
                 ? CSColor._40_106_167
                 : (dayofTheWeek == "일") ? CSColor._178_36_36 : CSColor.none
                 

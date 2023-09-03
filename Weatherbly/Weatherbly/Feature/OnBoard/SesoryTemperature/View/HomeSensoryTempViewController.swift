@@ -54,15 +54,17 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
         guard let closetsList = viewModel.closetListByTempRelay.value else { return }
         
         for i in 0..<closetsList.count {
-            let imageView = UIImageView()
-            imageView.kf.indicator?.view.show()
-            imageView.kf.indicatorType = .activity
             let yPos = scrollView.frame.height * CGFloat(i)
+            let imageView = UIImageView()
             imageView.frame = CGRect(x: scrollView.bounds.width * 0.25, y: yPos, width: scrollView.bounds.width / 2, height: scrollView.bounds.height)
+            
+            let indicator = UIActivityIndicatorView(style: .medium)
+            indicator.startAnimating()
+            indicator.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+            indicator.center = CGPoint(x: imageView.bounds.width / 2 ,y: imageView.bounds.height / 2)
             
             let imageUrl = closetsList[i].imageUrl
                 if let url = URL(string: imageUrl) {
-                    imageView.kf.indicatorType = .activity
                     imageView.kf.setImage(with: url,
                                           placeholder: nil,
                                           options: [
@@ -73,10 +75,12 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
                                             .cacheOriginalImage]) { result in
                         switch result {
                         case .success:
-                            imageView.kf.indicator?.view.hide()
+                            indicator.stopAnimating()
+                            indicator.isHidden = true
                             self.imageSourceLabel.text = "by \(closetsList[i].shopName)"
                         case .failure:
-                            imageView.kf.indicator?.view.hide()
+                            indicator.stopAnimating()
+                            indicator.isHidden = true
                             imageView.image = AssetsImage.defaultImage.image
                             self.imageSourceLabel.text = ""
                         }
@@ -84,6 +88,7 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
                 }
             
             scrollView.addSubview(imageView)
+            scrollView.addSubview(indicator)
             scrollView.contentSize.height = imageView.frame.height * CGFloat(i + 1)
         }
     }

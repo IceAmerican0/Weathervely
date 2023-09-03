@@ -180,9 +180,9 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         if selectedHour != "\(TMXTime)00" {
             for i in 0..<orderedByTimeCategories!.count {
                 if orderedByTimeCategories?[i].key == "1500" {
-                    var hasTMXDic = orderedByTimeCategories?[i]
+                    let hasTMXDic = orderedByTimeCategories?[i]
                     if let TMXValue = hasTMXDic?.value["TMX"] {
-                        returnCategoryValues?.updateValue((hasTMXDic?.value["TMX"])!, forKey: "TMX")
+                        returnCategoryValues?.updateValue(TMXValue, forKey: "TMX")
                     }
                     break
                 }
@@ -193,9 +193,9 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         if selectedHour != "0\(TMNTime)00" {
             for i in 0..<orderedByTimeCategories!.count {
                 if orderedByTimeCategories?[i].key == "0600" {
-                    var hasTMNDic = orderedByTimeCategories?[i]
+                    let hasTMNDic = orderedByTimeCategories?[i]
                     if let TMNValue = hasTMNDic?.value["TMN"] {
-                        returnCategoryValues?.updateValue((hasTMNDic?.value["TMN"])!, forKey: "TMN")
+                        returnCategoryValues?.updateValue(TMNValue, forKey: "TMN")
                     }
                     break
                 }
@@ -356,7 +356,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         
         var swipeArray: [String] = []
         var todayTimeArray = ["0700", "1500", "2000"]
-        var tomorrowTimeArray = ["3100", "3900", "4400"]
+        let tomorrowTimeArray = ["3100", "3900", "4400"]
         
         for i in todayTimeArray.indices {
             if now < todayTimeArray[i] {

@@ -14,19 +14,14 @@ import Kingfisher
 
 final class ClosetFSPagerViewCell: FSPagerViewCell {
     
-    var clothImageView = UIImageView().then {
-        $0.kf.indicator?.view.show()
-        $0.kf.indicatorType = .activity
-    }
-    
+    var clothImageView = UIImageView()
+    var indicator = UIActivityIndicatorView(style: .medium)
     var clothImageSourceLabel = CSLabel(.regular, 11, "loading...")
     
     private let clothImageHeight = UIScreen.main.bounds.height * 0.38
     private let clothImageWidth = UIScreen.main.bounds.width * 0.38
     
-    
     override init(frame: CGRect) {
-        
         super.init(frame: .zero)
         layout()
     }
@@ -38,12 +33,14 @@ final class ClosetFSPagerViewCell: FSPagerViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         contentView.flex.layout()
+        indicator.pin.hCenter(to: clothImageView.edge.hCenter).vCenter(to: clothImageView.edge.vCenter)
     }
     
     private func layout() {
         contentView.flex.alignItems(.center).define { flex in
             flex.addItem(clothImageView).marginTop(13).width(clothImageWidth).height(clothImageHeight)
             flex.addItem(clothImageSourceLabel).marginTop(8).width(clothImageWidth).height(14)
+            flex.addItem(indicator)
         }
         
         self.backgroundColor = .white
@@ -61,7 +58,7 @@ final class ClosetFSPagerViewCell: FSPagerViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        clothImageView.kf.indicator?.view.show()
-        clothImageView.kf.indicatorType = .activity
+        indicator.startAnimating()
+        indicator.isHidden = false
     }
 }
