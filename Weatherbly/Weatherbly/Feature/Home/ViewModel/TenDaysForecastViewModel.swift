@@ -211,118 +211,104 @@ class TenDaysForecastViewModel: RxBaseViewModel, ViewModelBusinessLogic {
         guard let sevenDayWeatherInfo = sevenDayForecastInfoRelay.value?.data.list else { return AssetsImage.tenDayAmCloud }
         
         if (0...4).contains(index) {
-            if sevenDayWeatherInfo.weather[index].rnStAm ?? 0 < 40 {
-                switch sevenDayWeatherInfo.weather[index].wfAm {
-                case "맑음":
-                    return AssetsImage.tenDaySunny
-                case "구름많음", "흐림":
-                    return AssetsImage.tenDayAmCloud
-                default:
-                    return AssetsImage.tenDayAmCloud
-                }
-            } else {
-                switch sevenDayWeatherInfo.weather[index].wfAm {
-                case "구름많고 비", "흐리고 비":
-                    return AssetsImage.tenDayRain
-                case "구름많고 눈", "흐리고 눈":
-                    return AssetsImage.snow
-                case "구름많고 비/눈", "흐리고 비/눈":
-                    return AssetsImage.tenDayRainSnow
-                case "구름많고 소나기", "흐리고 소나기":
-                    return AssetsImage.tenDayRain
-                default:
-                    if sevenDayWeatherInfo.temperature[index].taMin <= 0 {
-                        return AssetsImage.tenDaySnow
-                    }
+            
+            switch sevenDayWeatherInfo.weather[index].wfAm {
+            case "맑음":
+                return AssetsImage.tenDaySunny
+            case "구름많음", "흐림":
+                return AssetsImage.tenDayAmCloud
+                
+            case "구름많고 비", "흐리고 비":
+                return AssetsImage.tenDayRain
+            case "구름많고 눈", "흐리고 눈":
+                return AssetsImage.snow
+            case "구름많고 비/눈", "흐리고 비/눈":
+                return AssetsImage.tenDayRainSnow
+            case "구름많고 소나기", "흐리고 소나기":
+                return AssetsImage.tenDayRain
+            default:
+                if sevenDayWeatherInfo.weather[index].rnStAm ?? 0 >= 60 && sevenDayWeatherInfo.temperature[index].taMin <= 0 {
+                    return AssetsImage.tenDaySnow
+                } else if sevenDayWeatherInfo.weather[index].rnStAm ?? 0 >= 60 && sevenDayWeatherInfo.temperature[index].taMin >= 0 {
                     return AssetsImage.tenDayRain
                 }
+                return AssetsImage.tenDayAmCloud
             }
         } else {
-            if sevenDayWeatherInfo.weather[index].rnSt ?? 0 < 40 {
-                switch sevenDayWeatherInfo.weather[index].wf {
-                case "맑음":
-                    return AssetsImage.tenDaySunny
-                case "구름많음", "흐림":
-                    return AssetsImage.tenDayAmCloud
-                default:
-                    return AssetsImage.tenDayAmCloud
-                }
-            } else {
-                switch sevenDayWeatherInfo.weather[index].wf {
-                case "구름많고 비", "흐리고 비":
-                    return AssetsImage.tenDayRain
-                case "구름많고 눈", "흐리고 눈":
-                    return AssetsImage.snow
-                case "구름많고 비/눈", "흐리고 비/눈":
-                    return AssetsImage.tenDayRainSnow
-                case "구름많고 소나기", "흐리고 소나기":
-                    return AssetsImage.tenDayRain
-                default:
-                    if sevenDayWeatherInfo.temperature[index].taMin <= 0 {
-                        return AssetsImage.tenDaySnow
-                    }
+            switch sevenDayWeatherInfo.weather[index].wf {
+            case "맑음":
+                return AssetsImage.tenDaySunny
+            case "구름많음", "흐림":
+                return AssetsImage.tenDayAmCloud
+            case "구름많고 비", "흐리고 비":
+                return AssetsImage.tenDayRain
+            case "구름많고 눈", "흐리고 눈":
+                return AssetsImage.snow
+            case "구름많고 비/눈", "흐리고 비/눈":
+                return AssetsImage.tenDayRainSnow
+            case "구름많고 소나기", "흐리고 소나기":
+                return AssetsImage.tenDayRain
+            default:
+                if sevenDayWeatherInfo.weather[index].rnSt ?? 0 >= 60 && sevenDayWeatherInfo.temperature[index].taMin <= 0 {
+                    return AssetsImage.tenDaySnow
+                } else if sevenDayWeatherInfo.weather[index].rnSt ?? 0 >= 60 && sevenDayWeatherInfo.temperature[index].taMin >= 0 {
                     return AssetsImage.tenDayRain
                 }
+                return AssetsImage.tenDayAmCloud
+                
             }
         }
     }
-        
+    
     func bindSevenDayPMWeatherImage(_ index: Int) -> AssetsImage {
         guard let sevenDayWeatherInfo = sevenDayForecastInfoRelay.value?.data.list else { return AssetsImage.tenDayPmCloud }
         
         if (0...4).contains(index) {
-            if sevenDayWeatherInfo.weather[index].rnStPm ?? 0 < 40 {
-                switch sevenDayWeatherInfo.weather[index].wfPm {
-                case "맑음":
-                    return AssetsImage.tenDaySunny
-                case "구름많음", "흐림":
-                    return AssetsImage.tenDayPmCloud
-                default:
-                    return AssetsImage.tenDayPmCloud
-                }
-            } else {
-                switch sevenDayWeatherInfo.weather[index].wfPm {
-                case "구름많고 비", "흐리고 비":
-                    return AssetsImage.tenDayRain
-                case "구름많고 눈", "흐리고 눈":
-                    return AssetsImage.snow
-                case "구름많고 비/눈", "흐리고 비/눈":
-                    return AssetsImage.tenDayRainSnow
-                case "구름많고 소나기", "흐리고 소나기":
-                    return AssetsImage.tenDayRain
-                default:
-                    if sevenDayWeatherInfo.temperature[index].taMin <= 0 {
-                        return AssetsImage.tenDaySnow
-                    }
+            
+            switch sevenDayWeatherInfo.weather[index].wfPm {
+            case "맑음":
+                return AssetsImage.tenDaySunny
+            case "구름많음", "흐림":
+                return AssetsImage.tenDayPmCloud
+                
+            case "구름많고 비", "흐리고 비":
+                return AssetsImage.tenDayRain
+            case "구름많고 눈", "흐리고 눈":
+                return AssetsImage.snow
+            case "구름많고 비/눈", "흐리고 비/눈":
+                return AssetsImage.tenDayRainSnow
+            case "구름많고 소나기", "흐리고 소나기":
+                return AssetsImage.tenDayRain
+            default:
+                if sevenDayWeatherInfo.weather[index].rnStPm ?? 0 >= 60 && sevenDayWeatherInfo.temperature[index].taMin <= 0 {
+                    return AssetsImage.tenDaySnow
+                } else if sevenDayWeatherInfo.weather[index].rnStPm ?? 0 >= 60 && sevenDayWeatherInfo.temperature[index].taMin >= 0 {
                     return AssetsImage.tenDayRain
                 }
+                return AssetsImage.tenDayPmCloud
             }
         } else {
-            if sevenDayWeatherInfo.weather[index].rnSt ?? 0 < 40 {
-                switch sevenDayWeatherInfo.weather[index].wf {
-                case "맑음":
-                    return AssetsImage.tenDaySunny
-                case "구름많음", "흐림":
-                    return AssetsImage.tenDayPmCloud
-                default:
-                    return AssetsImage.tenDayPmCloud
-                }
-            } else {
-                switch sevenDayWeatherInfo.weather[index].wf {
-                case "구름많고 비", "흐리고 비":
-                    return AssetsImage.tenDayRain
-                case "구름많고 눈", "흐리고 눈":
-                    return AssetsImage.snow
-                case "구름많고 비/눈", "흐리고 비/눈":
-                    return AssetsImage.tenDayRainSnow
-                case "구름많고 소나기", "흐리고 소나기":
-                    return AssetsImage.tenDayRain
-                default:
-                    if sevenDayWeatherInfo.temperature[index].taMin <= 0 {
-                        return AssetsImage.tenDaySnow
-                    }
+            switch sevenDayWeatherInfo.weather[index].wf {
+            case "맑음":
+                return AssetsImage.tenDaySunny
+            case "구름많음", "흐림":
+                return AssetsImage.tenDayPmCloud
+            case "구름많고 비", "흐리고 비":
+                return AssetsImage.tenDayRain
+            case "구름많고 눈", "흐리고 눈":
+                return AssetsImage.snow
+            case "구름많고 비/눈", "흐리고 비/눈":
+                return AssetsImage.tenDayRainSnow
+            case "구름많고 소나기", "흐리고 소나기":
+                return AssetsImage.tenDayRain
+            default:
+                if sevenDayWeatherInfo.weather[index].rnSt ?? 0 >= 60 && sevenDayWeatherInfo.temperature[index].taMin <= 0 {
+                    return AssetsImage.tenDaySnow
+                } else if sevenDayWeatherInfo.weather[index].rnSt ?? 0 >= 60 && sevenDayWeatherInfo.temperature[index].taMin >= 0 {
                     return AssetsImage.tenDayRain
                 }
+                return AssetsImage.tenDayPmCloud
+                
             }
         }
     }

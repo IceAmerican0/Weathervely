@@ -201,7 +201,7 @@ extension TenDaysForeCastViewController: UITableViewDataSource {
                     .regular("\(minTemp)℃", 16, CSColor._40_106_167)
                     .regular(" / ", 16, CSColor.none)
                     .regular("\(maxTemp)℃", 16, CSColor._178_36_36)
-                $0.isRainPosLabelHidden(viewModel.yesterdayRainAMPosRelay.value!, viewModel.yesterdayRainPMPosRelay.value!)
+//                $0.isRainPosLabelHidden(viewModel.yesterdayRainAMPosRelay.value!, viewModel.yesterdayRainPMPosRelay.value!)
                 
             case 1:
                 let minTemp = Int(Double(tomorrowInfo["TMN"]!)!)
@@ -217,7 +217,7 @@ extension TenDaysForeCastViewController: UITableViewDataSource {
                     .regular("\(minTemp)℃", 16, CSColor._40_106_167)
                     .regular(" / ", 16, CSColor.none)
                     .regular("\(maxTemp)℃", 16, CSColor._178_36_36)
-                $0.isRainPosLabelHidden(viewModel.yesterdayRainAMPosRelay.value!, viewModel.yesterdayRainPMPosRelay.value!)
+//                $0.isRainPosLabelHidden(viewModel.yesterdayRainAMPosRelay.value!, viewModel.yesterdayRainPMPosRelay.value!)
                 
             case 2...6:
                 var minTemp = sevenDaysInfo.temperature[row].taMin
@@ -247,7 +247,7 @@ extension TenDaysForeCastViewController: UITableViewDataSource {
                     .regular("\(minTemp)℃", 16, CSColor._40_106_167)
                     .regular(" / ", 16, CSColor.none)
                     .regular("\(maxTemp)℃", 16, CSColor._178_36_36)
-                $0.isRainPosLabelHidden(amRainPos ?? 0, pmRainPos ?? 0)
+//                $0.isRainPosLabelHidden(amRainPos ?? 0, pmRainPos ?? 0)
                 
             case 7...9:
                 var minTemp = sevenDaysInfo.temperature[row].taMin
@@ -277,7 +277,7 @@ extension TenDaysForeCastViewController: UITableViewDataSource {
                     .regular("\(minTemp)℃", 16, CSColor._40_106_167)
                     .regular(" / ", 16, CSColor.none)
                     .regular("\(maxTemp)℃", 16, CSColor._178_36_36)
-                $0.isRainPosLabelHidden(rainPos ?? 0, rainPos ?? 0)
+//                $0.isRainPosLabelHidden(rainPos ?? 0, rainPos ?? 0)
                 
             default:
                 break

@@ -96,7 +96,7 @@ class TenDaysForecastTableViewCell: UITableViewCell {
                     flex.addItem(dateLabel).marginTop(5).width(30).height(10)
                 }
                 
-                flex.addItem(leftRainPosLabel).marginLeft(15.5).width(37).height(20)
+                flex.addItem(leftRainPosLabel).marginLeft(30).width(37).height(20)
                 flex.addItem(amWeatherImageView).marginLeft(11).size(37)
                 flex.addItem(pmWeatherImageView).marginLeft(5).size(37)
                 flex.addItem(rightRainPosLabel).marginLeft(11).width(37).height(20)
