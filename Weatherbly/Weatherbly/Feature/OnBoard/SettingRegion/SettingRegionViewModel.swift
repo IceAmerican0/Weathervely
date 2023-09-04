@@ -9,64 +9,94 @@ import RxRelay
 import RxSwift
 import UIKit
 
-public enum SettingRegionViewAction {
-    case showMessage(message: String, isError: Bool)
+public enum SettingRegionState {
+    /// 온보딩
+    case onboard
+    /// 주소 변경
+    case change
+    /// 주소 추가
+    case add
 }
 
 public protocol SettingRegionViewModelLogic: ViewModelBusinessLogic {
     func searchRegion(_ region: String)
     func didTapTableViewCell(at: IndexPath)
     func toCompleteViewController(_ viewModel: SettingRegionCompleteViewModel)
-    var viewAction: PublishRelay<SettingRegionViewAction> { get }
 }
 
 public final class SettingRegionViewModel: RxBaseViewModel, SettingRegionViewModelLogic {
-    public var viewAction: PublishRelay<SettingRegionViewAction>
-    public var searchedListRelay = BehaviorRelay<[SearchRegionEntity]>(value: [])
+    public var searchedListRelay = BehaviorRelay<[Document]>(value: [])
+    public let settingRegionState: SettingRegionState
     
-    override public init() {
-        self.viewAction = .init()
-        super.init()
+    public init(_ settingRegionState: SettingRegionState) {
+        self.settingRegionState = settingRegionState
     }
     
     public func searchRegion(_ region: String) {
         let datasource = RegionDataSource()
-        
         datasource.searchRegion(region)
-            .subscribe(onNext: { result in
+            .subscribe(onNext: { [weak self] result in
                 switch result {
                 case .success(let response):
-                    self.searchedListRelay.accept([response])
+                    if response.documents.count == 0 {
+                        self?.alertMessageRelay.accept(.init(title: "해당하는 동네 정보가 없어요",
+                                                            message: "동네 이름을 확인해주세요",
+                                                            alertType: .Error))
+                    } else {
+                        self?.searchedListRelay.accept(response.documents)
+                    }
                 case .failure(let err):
-                    print(err.localizedDescription)
+                    switch err {
+                    case .noInternetError:
+                        self?.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
+                    default:
+                        guard let errorString = err.errorDescription else { return }
+                        self?.alertMessageRelay.accept(.init(title: errorString,
+                                                            alertType: .Error))
+                    }
                 }
             })
             .disposed(by: bag)
     }
     
-    public func setRegionName(at: IndexPath) -> String {
-        searchedListRelay.value[0].documents[at.row].addressName
-    }
-    
     public func didTapTableViewCell(at: IndexPath) {
-        let address = searchedListRelay.value[0].documents[at.row].address
-        let addressRequest = AddressRequest(address_name: address.addressName,
+        var addressRequest = AddressRequest()
+        if let address = searchedListRelay.value[at.row].address {
+            addressRequest = AddressRequest(address_name: address.addressName,
+                                                city: address.region1DepthName,
+                                                gu: address.region2DepthName,
+                                                dong: address.region3DepthName.isEmpty ? address.region3DepthHName : address.region3DepthName,
+                                                country: "kr",
+                                                x_code: Double(address.y) ?? 0,
+                                                y_code: Double(address.x) ?? 0)
+        } else {
+            guard let address = searchedListRelay.value[at.row].roadAddress else { return }
+            addressRequest = AddressRequest(address_name: address.addressName,
                                             city: address.region1DepthName,
                                             gu: address.region2DepthName,
                                             dong: address.region3DepthName,
-                                            postal_code: "",
                                             country: "kr",
-                                            x_code: Int(address.y),
-                                            y_code: Int(address.x))
-        let nextModel = SettingRegionCompleteViewModel(addressRequest)
+                                            x_code: Double(address.y) ?? 0,
+                                            y_code: Double(address.x) ?? 0)
+        }
+        
+        var nextModel: SettingRegionCompleteViewModel {
+            switch settingRegionState {
+            case .onboard:
+                return SettingRegionCompleteViewModel(addressRequest, .onboard)
+            case .change:
+                return SettingRegionCompleteViewModel(addressRequest, .change)
+            case .add:
+                return SettingRegionCompleteViewModel(addressRequest, .add)
+            }
+        }
+        
         toCompleteViewController(nextModel)
     }
     
     public func toCompleteViewController(_ viewModel: SettingRegionCompleteViewModel) {
-        // TODO: 온보딩시 / 아닐시 구분
         let vc = SettingRegionCompleteViewController(viewModel)
-        vc.isFromEdit = false ? true : false
-        return navigationPushViewControllerRelay.accept(vc)
+        navigationPushViewControllerRelay.accept(vc)
     }
 }
 

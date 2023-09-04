@@ -24,9 +24,7 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
     private let tableViewWidth = UIScreen.main.bounds.width * 0.864
     private let buttonMarginBottom = UIScreen.main.bounds.height * 0.1
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
+    private var listCount = 0
     
     override func attribute() {
         super.attribute()
@@ -44,6 +42,7 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
             $0.delegate = self
             $0.dataSource = self
             $0.isScrollEnabled = false
+            $0.bounces = false
             $0.backgroundColor = CSColor._253_253_253.color
             $0.layer.cornerRadius = 5
             $0.register(EditRegionTableViewCell.self, forCellReuseIdentifier: EditRegionTableViewCell.identifier)
@@ -72,13 +71,50 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
     }
     
     override func viewBinding() {
+        super.viewBinding()
+        
         navigationView.leftButtonDidTapRelay
-            .bind(to: viewModel.navigationPopViewControllerRelay)
+            .subscribe(onNext: { [weak self] _ in
+                if let viewControllers = self?.navigationController?.viewControllers {
+                    for viewController in viewControllers {
+                        if let settingViewController = viewController as? SettingViewController {
+                            self?.navigationController?.popToViewController(settingViewController, animated: true)
+                            break
+                        }
+                    }
+                }
+            })
             .disposed(by: bag)
         
         confirmButton.rx.tap
             .bind(onNext: viewModel.didTapConfirmButton)
             .disposed(by: bag)
+    }
+    
+    override func viewModelBinding() {
+        super.viewModelBinding()
+        
+        viewModel.loadRegionList()
+        
+        viewModel.loadedListRelay
+            .subscribe(onNext: { [weak self] _ in
+                self?.listCount = self?.viewModel.loadedListRelay.value.count ?? 0
+                self?.confirmButtonState()
+                self?.favoriteTableView.reloadData()
+            })
+            .disposed(by: bag)
+    }
+    
+    private func confirmButtonState() {
+        confirmButton.do {
+            if listCount == 3 {
+                $0.isEnabled = false
+                $0.setButtonStyle(.grayFilled)
+            } else {
+                $0.isEnabled = true
+                $0.setButtonStyle(.primary)
+            }
+        }
     }
 }
 
@@ -89,17 +125,41 @@ extension EditRegionViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { 25 }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.didTapTableViewCell()
+        let cell = tableView.cellForRow(at: indexPath)
+        cell?.selectionStyle = .none
+        cell?.isSelected = true
+        viewModel.updateMainRegion(indexPath)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
+        cell?.selectionStyle = .default
+        cell?.isSelected = false
+    }
 }
 
 extension EditRegionViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { 3 }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        listCount
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         return tableView.dequeueCell(withType: EditRegionTableViewCell.self, for: indexPath).then {
-            $0.regionLabel.text = "서울특별시"
+            if indexPath.row == 0 {
+                $0.backgroundColor = CSColor._248_248_248.color
+            } else {
+                $0.backgroundColor = .white
+            }
+            
+            let regionName = viewModel.loadedListRelay.value[indexPath.row].addressName
+            $0.configureCellState(EditRegionCellState(region: regionName, count: listCount))
+            $0.button.rx.tap
+                .subscribe(onNext: { [weak self] _ in
+                    self?.viewModel.didTapCellButton(indexPath)
+                    self?.favoriteTableView.deselectRow(at: indexPath, animated: true)
+                })
+                .disposed(by: $0.bag)
         }
     }
 }

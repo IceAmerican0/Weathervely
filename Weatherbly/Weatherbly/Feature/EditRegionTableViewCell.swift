@@ -10,18 +10,22 @@ import FlexLayout
 import PinLayout
 import Then
 import RxSwift
+import RxRelay
 
 public struct EditRegionCellState {
     let region: String
-    let isOnly: Bool
+    let count: Int
 }
 
 public final class EditRegionTableViewCell: UITableViewCell {
+    var bag = DisposeBag()
     
     public var regionLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 20)
+        $0.adjustsFontSizeToFitWidth = true
         $0.numberOfLines = 0
     }
+    
     public let button = UIButton().then {
         $0.setImage(AssetsImage.regionChange.image, for: .normal)
         $0.layer.cornerRadius = 5
@@ -41,11 +45,13 @@ public final class EditRegionTableViewCell: UITableViewCell {
     public override func layoutSubviews() {
         super.layoutSubviews()
         contentView.flex.layout()
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
     
     private func layout() {
         contentView.flex.direction(.row).alignItems(.center).justifyContent(.center).define { flex in
-            flex.addItem(regionLabel).marginLeft(23).width(labelWidth).height(28)
+            flex.addItem(regionLabel).marginLeft(15).width(labelWidth).height(28)
             flex.addItem(button).size(45)
         }
         
@@ -58,6 +64,6 @@ public final class EditRegionTableViewCell: UITableViewCell {
     
     func configureCellState(_ cellState: EditRegionCellState) {
         regionLabel.text = cellState.region
-        cellState.isOnly ? button.setImage(AssetsImage.regionChange.image, for: .normal) : button.setImage(AssetsImage.delete.image, for: .normal)
+        cellState.count == 1 ? button.setImage(AssetsImage.regionChange.image, for: .normal) : button.setImage(AssetsImage.delete.image, for: .normal)
     }
 }

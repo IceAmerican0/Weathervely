@@ -10,11 +10,13 @@ import FlexLayout
 import PinLayout
 import Then
 import FSPagerView
+import Kingfisher
 
 final class ClosetFSPagerViewCell: FSPagerViewCell {
     
     var clothImageView = UIImageView()
-    var clothImageSourceLabel = CSLabel(.regular, 11, "by 0000")
+    var indicator = UIActivityIndicatorView(style: .medium)
+    var clothImageSourceLabel = CSLabel(.regular, 11, "loading...")
     
     private let clothImageHeight = UIScreen.main.bounds.height * 0.38
     private let clothImageWidth = UIScreen.main.bounds.width * 0.38
@@ -31,19 +33,21 @@ final class ClosetFSPagerViewCell: FSPagerViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         contentView.flex.layout()
+        indicator.pin.hCenter(to: clothImageView.edge.hCenter).vCenter(to: clothImageView.edge.vCenter)
     }
     
     private func layout() {
         contentView.flex.alignItems(.center).define { flex in
             flex.addItem(clothImageView).marginTop(13).width(clothImageWidth).height(clothImageHeight)
             flex.addItem(clothImageSourceLabel).marginTop(8).width(clothImageWidth).height(14)
+            flex.addItem(indicator)
         }
         
         self.backgroundColor = .white
         self.layer.cornerRadius = 20
         self.layer.borderColor = UIColor.clear.cgColor
         self.layer.borderWidth = 1
-        self.contentView.layer.shadowColor = CSColor._255_255_255.cgColor
+        self.contentView.layer.shadowColor = CSColor._255_255_255_05.cgColor
         self.layer.setShadow(CGSize(width: 0, height: 4), CSColor.none.cgColor, 0.25, 7.5)
         self.layer.masksToBounds = false
         self.clipsToBounds = false
@@ -52,8 +56,9 @@ final class ClosetFSPagerViewCell: FSPagerViewCell {
         clothImageView.clipsToBounds = true
     }
     
-    func setUIInfo(_ imageData: Data, _ showName: String) {
-            self.clothImageSourceLabel.text = "by \(showName)"
-            self.clothImageView.image = UIImage(data: imageData)
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        indicator.startAnimating()
+        indicator.isHidden = false
     }
 }

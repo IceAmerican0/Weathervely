@@ -12,7 +12,7 @@ import RxSwift
 
 public final class SettingRegionCompleteViewController: RxBaseViewController<SettingRegionCompleteViewModel> {
     
-    private let progressBar = CSProgressView(0.5)
+    private let progressBar = CSProgressView(0.66)
     private let navigationView = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
     private var explanationLabel = CSLabel(.bold, 24, "선택한 동네로 설정할까요?")
     
@@ -22,8 +22,6 @@ public final class SettingRegionCompleteViewController: RxBaseViewController<Set
     private let buttonWrapper = UIView()
     private let negativeButton = CSButton(.grayFilled)
     private let confirmButton = CSButton(.primary)
-    
-    var isFromEdit = false
     
     override func attribute() {
         super.attribute()
@@ -35,7 +33,7 @@ public final class SettingRegionCompleteViewController: RxBaseViewController<Set
         }
         
         regionLabel.do {
-            $0.text = viewModel.regionDataRelay.value.address_name
+            $0.attributedText = NSMutableAttributedString().regular(viewModel.regionDataRelay.value.address_name!, 20, CSColor.none)
             $0.adjustsFontSizeToFitWidth = true
         }
         
@@ -73,12 +71,16 @@ public final class SettingRegionCompleteViewController: RxBaseViewController<Set
             buttonWrapper.pin.bottom(22%).marginHorizontal(32)
         }
         
-        if isFromEdit {
+        if viewModel.settingRegionState != .onboard {
             progressBar.isHidden = true
+            navigationView.setTitle("동네 변경 / 추가")
+            navigationView.addBorder(.bottom)
         }
     }
     
     override func viewBinding() {
+        super.viewBinding()
+        
         navigationView.leftButtonDidTapRelay
             .bind(to: viewModel.navigationPopViewControllerRelay)
             .disposed(by: bag)

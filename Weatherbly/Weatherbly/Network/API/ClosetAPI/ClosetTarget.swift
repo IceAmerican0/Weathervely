@@ -7,43 +7,52 @@
 
 import Moya
 
-public enum ClosetTarget { // TODO: 파라미터 값 변경
+public enum ClosetTarget {
     /// 스타일 리스트 가져오기
     case getStyleList
     /// 스타일 선택
     case styleStylePickedList(_ closetIDs: [Int])
     /// 온보딩 > 체감온도 진입시 스타일 리스트 가져오기
-    case getSensoryTemperatureStyle(_ dateTime: String)
+    case getOnBoardClosetByTemperature(_ dateTime: String)
+    /// 메인 > 체감온도 진입시 스타일 리스트 가져오기
+    case getMainClosetByTemperature(_ dateTime: String, _ closetId: Int)
     /// 체감온도 설정
-    case setSensoryTemperature(_ closetInfo: String)
+    case setSensoryTemperature(_ sensoryTempRequest: SetSensoryTempRequest)
     /// 메인 > 스타일 추천 리스트 가져오기
     case getRecommendStyleList(_ dateTime: String)
+    /// 메인 > 메인 카드 클릭시 히스토리 저장
+    case pagerViewClicked(_ closetID: Int)
 }
 
-extension ClosetTarget: WBTargetType {
+extension ClosetTarget: WVTargetType {
     public var path: String {
         switch self {
         case .getStyleList:
             return "/closet"
         case .styleStylePickedList:
             return "/closet/pick"
-        case .getSensoryTemperatureStyle:
+        case .getOnBoardClosetByTemperature,
+             .getMainClosetByTemperature:
             return "/closet/getClosetByTemperature"
         case .setSensoryTemperature:
             return "/closet/setTemperature"
         case .getRecommendStyleList:
             return "/closet/getRecommendCloset"
+        case .pagerViewClicked(let closetID):
+            return "/closet/pick/\(closetID)"
         }
     }
     
     public var method: Moya.Method {
         switch self {
         case .getStyleList,
-             .getSensoryTemperatureStyle,
+             .getOnBoardClosetByTemperature,
+             .getMainClosetByTemperature,
              .getRecommendStyleList:
             return .get
         case .styleStylePickedList,
-             .setSensoryTemperature:
+             .setSensoryTemperature,
+             .pagerViewClicked:
             return .post
         }
     }
@@ -53,17 +62,25 @@ extension ClosetTarget: WBTargetType {
         case .getStyleList:
             return .requestPlain
         case .styleStylePickedList(let closetIDs):
-            return .requestParameters(parameters: ["closet_ids": closetIDs], encoding: JSONEncoding.default)
-        case .getSensoryTemperatureStyle(let dateTime):
-            return .requestParameters(parameters: ["dateTime": dateTime], encoding: URLEncoding.queryString)
-        case .setSensoryTemperature(let closetInfo):
-            return .requestParameters(parameters: ["closet": 7,
-                                                   "temperatureRange": 2,
-                                                   "created_at": "",
-                                                   "temperature": ""
-                                                  ], encoding: JSONEncoding.default)
+            return .requestParameters(parameters: ["closet_ids": closetIDs],
+                                      encoding: JSONEncoding.default)
+        case .getOnBoardClosetByTemperature(let dateTime):
+            return .requestParameters(parameters: ["dateTime": dateTime],
+                                      encoding: URLEncoding.queryString)
+        case .getMainClosetByTemperature(let dateTime, let closetId):
+            return .requestParameters(parameters: ["dateTime": dateTime,
+                                                   "closet_id": closetId],
+                                          encoding: URLEncoding.queryString)
+        case .setSensoryTemperature(let sensoryTempRequest):
+            return .requestParameters(parameters: ["closet": sensoryTempRequest.closet,
+                                                   "current_temperature": sensoryTempRequest.currentTemp,
+                                                  ],
+                                      encoding: JSONEncoding.default)
         case .getRecommendStyleList(let dateTime):
-            return .requestParameters(parameters: ["dateTime": dateTime], encoding: URLEncoding.queryString)
+            return .requestParameters(parameters: ["dateTime": dateTime],
+                                      encoding: URLEncoding.queryString)
+        case .pagerViewClicked:
+            return .requestPlain
         }
     }
 }

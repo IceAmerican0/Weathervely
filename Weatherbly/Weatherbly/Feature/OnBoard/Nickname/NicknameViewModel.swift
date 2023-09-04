@@ -9,45 +9,38 @@ import Foundation
 import RxSwift
 import RxRelay
 
-public enum NicknameViewAction {
-    case showMessage(message: String, isError: Bool)
-}
-
 public protocol NicknameViewModelLogic: ViewModelBusinessLogic {
     func didTapConfirmButton(_ text: String)
     func toSettingRegionView()
-    var viewAction: PublishRelay<NicknameViewAction> { get }
 }
 
 final class NicknameViewModel: RxBaseViewModel, NicknameViewModelLogic {
-    public var viewAction: PublishRelay<NicknameViewAction>
-    
-    override public init() {
-        self.viewAction = .init()
-        super.init()
-    }
-    
     func didTapConfirmButton(_ text: String) {
+        let uuid = UUID().uuidString
         let dataSource = AuthDataSource()
-        dataSource.setNickname(text)
-            .subscribe(onNext: { result in
+        dataSource.setNickname(text, uuid)
+            .subscribe(onNext: { [weak self] result in
                 switch result {
-                case .success(let response):
-                    self.toSettingRegionView()
-                    print(response)
+                case .success:
+                    self?.toSettingRegionView()
+                    userDefault.set(text, forKey: UserDefaultKey.nickname.rawValue)
+                    KeychainManager.shared.saveUUID(uuid)
                 case .failure(let err):
-                    guard let errorString = err.errorDescription else { return }
-                    let alertVC = AlertViewController(state: .init(title: errorString,
-                                                                   alertType: .Error))
-                    alertVC.modalPresentationStyle = .overCurrentContext
-                    self.presentViewControllerNoAnimationRelay.accept(alertVC)
+                    switch err {
+                    case .noInternetError:
+                        self?.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
+                    default:
+                        guard let errorString = err.errorDescription else { return }
+                        self?.alertMessageRelay.accept(.init(title: errorString,
+                                                            alertType: .Error))
+                    }
                 }
             })
             .disposed(by: bag)
     }
     
     func toSettingRegionView() {
-        let vc = SettingRegionViewController(SettingRegionViewModel())
+        let vc = SettingRegionViewController(SettingRegionViewModel(.onboard))
         navigationPushViewControllerRelay.accept(vc)
     }
 }

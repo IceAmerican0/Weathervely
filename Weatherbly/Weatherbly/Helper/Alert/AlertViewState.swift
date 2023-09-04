@@ -27,15 +27,18 @@ public struct AlertViewState {
     public var message: String?
     public let alertType: AlertType
     public let hapticType: HapticType
+    public let closeAction: (() -> Void)?
     
     public init(title: String,
                 message: String? = nil,
                 alertType: AlertType,
+                closeAction: (() -> Void)? = nil,
                 hapticType: HapticType = .impact) {
         self.title = title
         self.message = message
         self.alertType = alertType
         self.hapticType = hapticType
+        self.closeAction = closeAction
     }
 }
 

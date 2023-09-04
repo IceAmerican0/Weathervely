@@ -12,57 +12,68 @@ enum AssetsImage: String {
     case downArrow
     case navigationBackButton
     case rightArrow
+    case toolTipArrow
     case upArrow
     
     // Background
     case cloudyAfternoon
-    case cloudyDawn
     case cloudyEvening
-    case cloudyLunch
     case cloudyMorning
     case sunnyAfternoon
-    case sunnyDawn
     case sunnyEvening
-    case sunnyLunch
     case sunnyMorning
     
     // Common
     case clockIcon
+    case closeButton
+    case connectionLost
     case daily
+    case defaultImage
     case delete
     case dust
+    case gradientButton
     case humidity
+    case launchLogo
     case mainLogo
     case regionChange
     case sampleCloth
     case schedule
     case search
     case thermometer
-    case whiteHeart
+    case touchIcon
+    case wifiError
     
     // Setting
     case editNameIcon
     case setting
     case settingInquryIcon
     case settingLocationIcon
+    case settingMenuButton
     case settingStyleIcon
     case settingTemperatureIcon
+    case whiteHeart
     
     // Weather
-    case cloudyMoonMain
-    case cloudySunMain
-    case cloudySunTen
-    case moonMain
-    case rain
-    case rainyMain
-    case rainyTen
-    case sunCloudyMain
-    case sunCloudyTen
-    case sunnyMain
-    case sunnyTen
-    case thunderMain
-    case thunderTen
-    case windyMoonMain
+    case weatherLoadingImage
+    case sun
+    case moon
+    case rainny
+    case rainsnow
+    case snow
+    case sunCloudy
+    case moonCloudy
+    case clouds
+    case windy
+    
+    // TenDayWeather
+    
+    case tenDayAmCloud
+    case tenDayPmCloud
+    case tenDayRain
+    case tenDayRainSnow
+    case tenDaySnow
+    case tenDaySunny
+    
     
     var image: UIImage? {
         return UIImage(named: self.rawValue)

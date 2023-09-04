@@ -13,15 +13,9 @@ import RxSwift
 import Toast
 
 final class DateTimePickViewController: RxBaseViewController<DateTimePickViewModel> {
-    
-    var pickerFirstRowData = ["어제","오늘"]
-    var pickerSecondRowData = ["오전","오후"]
-    var pickerThirdRowData = [1,2,3,4,5,6,7,8,9,10,11,12]
-    
     // MARK: - UI Property
     private let headerWrapper = UIView()
     private var progressBar = CSProgressView(1.0)
-    private let navigationBackButton = UIButton()
     
     private let titleMessageLabel = CSLabel(.bold, 22, "나에게 딱 맞는\n체감온도를 설정해보세요")
     private let clockImage = UIImageView(image: AssetsImage.clockIcon.image)
@@ -36,36 +30,35 @@ final class DateTimePickViewController: RxBaseViewController<DateTimePickViewMod
     
     private let bottomButton = CSButton(.primary)
     
+    var pickerFirstRowData = ["어제","오늘"]
+    var pickerSecondRowData = ["오전","오후"]
+    var pickerThirdRowData = [1,2,3,4,5,6,7,8,9,10,11,12]
     
     // MARK: - Life Cycle Propery
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         dateTimePickerView.delegate = self
         dateTimePickerView.dataSource = self
-        dateTimePickerView.selectRow(6, inComponent: 2, animated: true)
+        dateTimePickerView.selectRow(3, inComponent: 2, animated: true)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        gradientLayer.frame = datePickerWrapper.bounds
     }
     
     // MARK: - layout
-    
     override func attribute() {
         super.attribute()
-
-        navigationBackButton.do {
-            $0.setImage(AssetsImage.navigationBackButton.image, for: .normal)
-        }
         
         bottomButton.do {
             $0.setTitle("확인", for: .normal)
         }
         
         gradientLayer.do {
-            $0.setGradient(color:[CSColor._237_237_237.cgColor,CSColor._255_255_255.cgColor,CSColor._255_255_255.cgColor,CSColor._255_255_255.cgColor,CSColor._210_210_210.cgColor],
-                           locations: [0.0, 0.2, 0.4, 0,6, 0.8, 1.0], 20)
+            $0.frame = datePickerWrapper.bounds
+            $0.setGradient(color:[CSColor._237_237_237.cgColor,CSColor._255_255_255_05.cgColor,CSColor._255_255_255_05.cgColor,CSColor._255_255_255_05.cgColor,CSColor._255_255_255_05.cgColor],
+                           locations: [0.0, 0.2, 0.4, 0.6, 0.8, 1.0], 20)
             $0.setShadow(CGSize(width: 0, height: 4),CSColor._220_220_220.cgColor , 1, 2)
         }
         
@@ -75,10 +68,13 @@ final class DateTimePickViewController: RxBaseViewController<DateTimePickViewMod
         
         discriptionLabel.do {
             $0.setLineHeight(1.3)
+            $0.attributedText = NSMutableAttributedString().regular("외출하신 시간을 기준으로\n체감온도를 조절할 수 있어요", 18, CSColor.none)
         }
         
+        dateTimePickerView.do {
+            $0.backgroundColor = .clear
+        }
 
-//        dateTimePickerView.selectRow(6, inComponent: 2, animated: true)
     }
     
     override func layout() {
@@ -86,13 +82,10 @@ final class DateTimePickViewController: RxBaseViewController<DateTimePickViewMod
         
         container.flex
             .define { flex in
-                flex.addItem(headerWrapper).define { flex in
-                    flex.addItem(progressBar)
-                    flex.addItem(navigationBackButton).left(12).size(44).marginTop(15)
-                }
+                flex.addItem(progressBar)
                 
                 flex.addItem(titleMessageLabel)
-                    .marginTop(4)
+                    .marginTop(UIScreen.main.bounds.height * 0.09)
                     .marginHorizontal(65)
                 
                 flex.addItem(clockImage)
@@ -117,25 +110,17 @@ final class DateTimePickViewController: RxBaseViewController<DateTimePickViewMod
                     .marginHorizontal(43)
                     
                 bottomButton.pin.bottom(53)
-//                    .bottom(view.pin.safeArea.bottom + 53)
-//                    .marginBottom(53)
-                
-                
             }
     }
     
     // MARK: - binding
-
     override func bind() {
         super.bind()
         
         bottomButton.rx.tap
-            .subscribe { [weak self] _ in
-                // TODO: - viewModel로 옮기기
-                                
+            .subscribe (onNext: { [weak self] _ in
                 let date = Date()
-                let today = date.todayTime.components(separatedBy: " ").map{ $0 }
-//                print("현재시간: ", today)
+                let today = date.todayDatePickerFormat.components(separatedBy: " ").map{ $0 }
                 
                 // Get Picker value
                 let pickerDay: String = self?.pickerFirstRowData[(self?.dateTimePickerView.selectedRow(inComponent: 0))  ?? 0] ?? "어제"
@@ -143,51 +128,13 @@ final class DateTimePickViewController: RxBaseViewController<DateTimePickViewMod
                 let pickerDayTime: String = self?.pickerSecondRowData[(self?.dateTimePickerView.selectedRow(inComponent: 1)) ?? 0] ?? "오전"
                 
                 let pickerTime: Int = Int(self?.pickerThirdRowData[(self?.dateTimePickerView.selectedRow(inComponent: 2)) ?? 6] ?? 7)
-                
-                /// 시간비교
-                if today[2] == "오전" {
-                    if pickerDay == "오늘" {
-                        if pickerDayTime == "오전" {
-                            // 시간 비교
-                            if Int(today[3])! > pickerTime {
-                                self?.view.showToast(message: "미래 시간은 선택 할 수 없어요", font: .systemFont(ofSize: 16))
-                                
-                            } else {
-                                self?.navigationController?.pushViewController(SensoryTempViewController(SensoryTempViewModel()), animated: true)
-                                
-                            }
-                        } else { // 선택시간이 오후
-                            // Toast
-                            self?.view.showToast(message: "미래 시간은 선택 할 수 없어요", font: .systemFont(ofSize: 16))
-                        }
-                    }
-                } else { // 지금이 오후
-                    if pickerDay == "오늘" {
-                        if pickerDayTime == "오후" {
-                            //시간비교
-                            if Int(today[3])! < pickerTime {
-                                self?.view.showToast(message: "미래 시간은 선택 할 수 없어요", font: .systemFont(ofSize: 16))
-                            } else {
-                                self?.navigationController?.pushViewController(SensoryTempViewController(SensoryTempViewModel()), animated: true)
-                            }
-                        } else {
-                            self?.navigationController?.pushViewController(SensoryTempViewController(SensoryTempViewModel()), animated: true)
-                        }
-                    } else {
-                        self?.navigationController?.pushViewController(SensoryTempViewController(SensoryTempViewModel()), animated: true)
-                    }
-                }
-//                print("선택시간: ", pickerDay , pickerDayTime , pickerTime)
-            }
+                self?.viewModel.didTapConfirmButton(today, pickerDay, pickerDayTime, pickerTime)
+            })
+            .disposed(by: bag)
     }
-
-
-
 }
 
-
 extension DateTimePickViewController: UIPickerViewDelegate, UIPickerViewDataSource {
-    
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 3 // 어제,오늘/ 오전,오후/ 시
     }
@@ -198,33 +145,44 @@ extension DateTimePickViewController: UIPickerViewDelegate, UIPickerViewDataSour
             return pickerFirstRowData.count
         case 1:
             return pickerSecondRowData.count
-        default:
-            return pickerThirdRowData.count
-        }
+        case 2:
+           if pickerView.selectedRow(inComponent: 0) == 0 && pickerView.selectedRow(inComponent: 1) == 0 {
+               return pickerThirdRowData.count - 3 // to hide 1, 2, 3
+           } else {
+               return pickerThirdRowData.count
+           }
+       default:
+           return 0
+       }
     }
     
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        switch component {
-        case 0:
-            return pickerFirstRowData[row]
-        case 1:
-            return pickerSecondRowData[row]
-        default:
-            return "\(String(pickerThirdRowData[row])) 시"
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if component == 0 || component == 1 {
+            pickerView.reloadComponent(2)
         }
     }
     
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-
+        
+        let attributes = [
+               NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20),
+               NSAttributedString.Key.foregroundColor: UIColor.black
+           ]
+        
         switch component {
-        case 0:
-            return NSAttributedString(string: pickerFirstRowData[row], attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20),NSAttributedString.Key.foregroundColor: UIColor.black])
-        case 1:
-            return NSAttributedString(string: pickerSecondRowData[row], attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20),NSAttributedString.Key.foregroundColor: UIColor.black])
-        default:
-            return NSAttributedString(string: "\(String(pickerThirdRowData[row])) 시", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20),NSAttributedString.Key.foregroundColor: UIColor.black])
-        }
+           case 0:
+               return NSAttributedString(string: pickerFirstRowData[row], attributes: attributes)
+           case 1:
+               return NSAttributedString(string: pickerSecondRowData[row], attributes: attributes)
+           case 2:
+               if pickerView.selectedRow(inComponent: 0) == 0 && pickerView.selectedRow(inComponent: 1) == 0 {
+                   return NSAttributedString(string: "\(String(pickerThirdRowData[row + 3])) 시", attributes: attributes)
+               } else {
+                   return NSAttributedString(string: "\(String(pickerThirdRowData[row])) 시", attributes: attributes)
+               }
+           default:
+               return nil
+           }
+        
    }
-    
-    
 }

@@ -23,8 +23,7 @@ final class AlertViewController: UIViewController, CodeBaseInitializerProtocol {
     private let confirmButton = UIButton()
     
     let bag = DisposeBag()
-    private let backgroundTapGesture = UITapGestureRecognizer()
-    private var closeAction: (() -> Void) = ({})
+//    private let backgroundTapGesture = UITapGestureRecognizer()
     
     private let alertWidth = UIScreen.main.bounds.width * 0.78
     private let labelWidth = UIScreen.main.bounds.width * 0.64
@@ -62,8 +61,8 @@ final class AlertViewController: UIViewController, CodeBaseInitializerProtocol {
     
     func attribute() {
         dimView.do {
-            $0.backgroundColor = CSColor._0__054.color
-            $0.addGestureRecognizer(backgroundTapGesture)
+            $0.backgroundColor = CSColor._0__065.color
+//            $0.addGestureRecognizer(backgroundTapGesture)
         }
         
         alertContainer.do {
@@ -73,6 +72,7 @@ final class AlertViewController: UIViewController, CodeBaseInitializerProtocol {
         
         titleLabel.do {
             $0.attributedText = NSMutableAttributedString().bold(state.title, 19, CSColor._172_107_255)
+            $0.adjustsFontSizeToFitWidth = true
             $0.sizeToFit()
             $0.isHidden = state.title.isEmpty
         }
@@ -83,6 +83,7 @@ final class AlertViewController: UIViewController, CodeBaseInitializerProtocol {
             } else {
                 $0.isHidden = true
             }
+            $0.adjustsFontSizeToFitWidth = true
             $0.sizeToFit()
         }
         
@@ -92,6 +93,7 @@ final class AlertViewController: UIViewController, CodeBaseInitializerProtocol {
         
         confirmButton.do {
             $0.setTitle("확인", for: .normal)
+            $0.titleLabel?.font = .boldSystemFont(ofSize: 16)
             $0.setTitleColor(.black, for: .normal)
             $0.setCornerRadius(10)
         }
@@ -113,16 +115,21 @@ final class AlertViewController: UIViewController, CodeBaseInitializerProtocol {
     }
     
     func bind() {
-        backgroundTapGesture.rx
-            .event
-            .subscribe(onNext: { _ in
-                self.dismiss(animated: false)
-            })
-            .disposed(by: bag)
+        // TODO: 백그라운드 터치시 알럿 지우기 추후 고민
+//        backgroundTapGesture.rx
+//            .event
+//            .subscribe(onNext: { _ in
+//                self.dismiss(animated: false)
+//            })
+//            .disposed(by: bag)
         
         confirmButton.rx.tap
-            .subscribe(onNext: {
-                self.dismiss(animated: false)
+            .subscribe(onNext: { [weak self] _ in
+                if self?.state.closeAction != nil {
+                    self?.dismiss(animated: false, completion: self?.state.closeAction)
+                } else {
+                    self?.dismiss(animated: false)
+                }
             })
             .disposed(by: bag)
     }

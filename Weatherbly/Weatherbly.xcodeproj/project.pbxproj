@@ -23,6 +23,7 @@
 		5C4691812A78F96D00E2CC70 /* LoadErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4691802A78F96D00E2CC70 /* LoadErrorViewController.swift */; };
 		5C4BE89B2A5E2D1200FD2CEF /* EditRegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4BE89A2A5E2D1200FD2CEF /* EditRegionViewController.swift */; };
 		5C4BE89D2A5E63C000FD2CEF /* RegionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4BE89C2A5E63C000FD2CEF /* RegionTableViewCell.swift */; };
+		5C6AC7022A84A4D000CE5D34 /* UserInfoEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6AC7012A84A4D000CE5D34 /* UserInfoEntity.swift */; };
 		5C9D02BA2A68EB3900AF2DA3 /* Observable+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9D02B92A68EB3900AF2DA3 /* Observable+Extension.swift */; };
 		5C9D02BC2A68FC0200AF2DA3 /* Dependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9D02BB2A68FC0200AF2DA3 /* Dependency.swift */; };
 		5C9D02C22A6E45D600AF2DA3 /* SettingRegionCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9D02C12A6E45D600AF2DA3 /* SettingRegionCompleteViewController.swift */; };
@@ -40,6 +41,7 @@
 		5C9D02E82A72426D00AF2DA3 /* ClosetDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9D02E72A72426D00AF2DA3 /* ClosetDataSource.swift */; };
 		5C9D02EA2A725AC300AF2DA3 /* AddressRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9D02E92A725AC300AF2DA3 /* AddressRequest.swift */; };
 		5C9D02EC2A725BA200AF2DA3 /* Encodable+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9D02EB2A725BA200AF2DA3 /* Encodable+Extension.swift */; };
+		5C9F45562A8388130079ABA6 /* AddressEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9F45552A8388130079ABA6 /* AddressEntity.swift */; };
 		5CAB60B92A4563B300CD431A /* NSMutableAttributedString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAB60B82A4563B300CD431A /* NSMutableAttributedString+Extension.swift */; };
 		5CAB60BF2A4D6A9D00CD431A /* ClosetFSPagerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAB60BE2A4D6A9D00CD431A /* ClosetFSPagerViewCell.swift */; };
 		5CAB60C32A528C7A00CD431A /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAB60C22A528C7A00CD431A /* UICollectionView+Extension.swift */; };
@@ -48,20 +50,35 @@
 		5CAB60D12A54FC5F00CD431A /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAB60D02A54FC5F00CD431A /* UITableView+Extension.swift */; };
 		5CAB60D32A54FC6A00CD431A /* UITableViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAB60D22A54FC6900CD431A /* UITableViewCell+Extension.swift */; };
 		5CAB60D52A54FDFE00CD431A /* TenDaysForecastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAB60D42A54FDFE00CD431A /* TenDaysForecastTableViewCell.swift */; };
+		5CADDD282A9DDF9900EAB678 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CADDD272A9DDF9900EAB678 /* Constants.swift */; };
 		5CC61E1F2A56850F001435E6 /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC61E1E2A56850F001435E6 /* DateFormatter+Extension.swift */; };
 		5CC61E212A579D66001435E6 /* DailyForecastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC61E202A579D66001435E6 /* DailyForecastViewController.swift */; };
 		5CC61E232A57C617001435E6 /* DailyForecastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC61E222A57C617001435E6 /* DailyForecastTableViewCell.swift */; };
 		5CC61E262A5BC223001435E6 /* SettingRegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC61E252A5BC223001435E6 /* SettingRegionViewController.swift */; };
 		5CC61E282A5BDCCC001435E6 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC61E272A5BDCCC001435E6 /* UIViewController+Extension.swift */; };
 		5CCC914B2A6114880025B522 /* RegionTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC914A2A6114880025B522 /* RegionTarget.swift */; };
-		5CCC914D2A61179F0025B522 /* WBTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC914C2A61179F0025B522 /* WBTargetType.swift */; };
+		5CCC914D2A61179F0025B522 /* WVTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC914C2A61179F0025B522 /* WVTargetType.swift */; };
 		5CCC91522A61197B0025B522 /* SearchRegionEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC91512A61197B0025B522 /* SearchRegionEntity.swift */; };
-		5CCC91542A611FCE0025B522 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC91532A611FCE0025B522 /* NetworkManager.swift */; };
 		5CCC91562A613F010025B522 /* SettingRegionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC91552A613F010025B522 /* SettingRegionViewModel.swift */; };
+		5CDE81CE2A89F4780099FF87 /* MainToolTipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE81CD2A89F4780099FF87 /* MainToolTipViewController.swift */; };
+		5CE0FEAD2A8DDE9200A0E655 /* AddressListEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE0FEAC2A8DDE9200A0E655 /* AddressListEntity.swift */; };
+		5CE0FEB02A8EEC0000A0E655 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5CE0FEAF2A8EEC0000A0E655 /* Kingfisher */; };
+		5CE0FEB22A8F00F700A0E655 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CE0FEB12A8F00F700A0E655 /* WebKit.framework */; };
+		5CE0FEB42A8F3BE000A0E655 /* PrivatePolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE0FEB32A8F3BE000A0E655 /* PrivatePolicyViewController.swift */; };
+		5CE0FEB62A8F401100A0E655 /* PrivatePolicyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE0FEB52A8F401100A0E655 /* PrivatePolicyViewModel.swift */; };
+		5CE0FEB82A8F4CE200A0E655 /* SetSensoryTempRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE0FEB72A8F4CE200A0E655 /* SetSensoryTempRequest.swift */; };
+		5CE0FEBA2A93529100A0E655 /* AuthLoginEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE0FEB92A93529100A0E655 /* AuthLoginEntity.swift */; };
 		6634CC2CAD88136EB8B2B027 /* Pods_Weatherbly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5451DE341E51F8EB4049CE6 /* Pods_Weatherbly.framework */; };
 		696176B22A63E37F00B83B4C /* RxBaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696176B12A63E37F00B83B4C /* RxBaseViewModel.swift */; };
 		696176B42A63E3C000B83B4C /* BaseDisposeBag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696176B32A63E3C000B83B4C /* BaseDisposeBag.swift */; };
 		696176B62A63E4A400B83B4C /* EmptyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696176B52A63E4A400B83B4C /* EmptyViewModel.swift */; };
+		69683A562A9B81BC00A2BD5A /* LoadErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69683A552A9B81BC00A2BD5A /* LoadErrorViewModel.swift */; };
+		69683A582A9BAAEE00A2BD5A /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69683A572A9BAAEE00A2BD5A /* KeychainManager.swift */; };
+		69683A5B2A9BABC900A2BD5A /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 69683A5A2A9BABC900A2BD5A /* KeychainAccess */; };
+		69A7F0D92A80B42A00834974 /* UserDefaultKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A7F0D82A80B42A00834974 /* UserDefaultKey.swift */; };
+		69A7F0E02A80CDD800834974 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 69A7F0DF2A80CDD800834974 /* LaunchScreen.storyboard */; };
+		69A7F0E22A811EC000834974 /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A7F0E12A811EC000834974 /* UserDefaultManager.swift */; };
+		69A7F0E42A8208DB00834974 /* UserInfoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A7F0E32A8208DB00834974 /* UserInfoRequest.swift */; };
 		69CCF1CB2A63CA5000756127 /* RegionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CCF1CA2A63CA5000756127 /* RegionDataSource.swift */; };
 		69CCF1CF2A63CD5500756127 /* WBErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CCF1CE2A63CD5500756127 /* WBErrorResponse.swift */; };
 		69CCF1D12A63CDC200756127 /* RemoteError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CCF1D02A63CDC200756127 /* RemoteError.swift */; };
@@ -77,12 +94,18 @@
 		BD2D01B22A38889E003A25D5 /* CSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D01B12A38889E003A25D5 /* CSButton.swift */; };
 		BD2D01B42A3888AA003A25D5 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D01B32A3888AA003A25D5 /* UIColor+Extension.swift */; };
 		BD2D01B62A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D01B52A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift */; };
-		BD4316342A3C967900E86271 /* SensoryTempViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4316332A3C967900E86271 /* SensoryTempViewController.swift */; };
+		BD2D11BC2A9AEB0D008CBF0D /* TenDaysForecastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D11BB2A9AEB0D008CBF0D /* TenDaysForecastViewModel.swift */; };
+		BD2D11BE2A9AEDCE008CBF0D /* SevenDayForecastInfoEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D11BD2A9AEDCE008CBF0D /* SevenDayForecastInfoEntity.swift */; };
+		BD4316342A3C967900E86271 /* OnBoardSensoryTempViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4316332A3C967900E86271 /* OnBoardSensoryTempViewController.swift */; };
 		BD4316362A3C9DB700E86271 /* AssetsImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4316352A3C9DB700E86271 /* AssetsImage.swift */; };
 		BD4316382A3CA20900E86271 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4316372A3CA20900E86271 /* UIView+Extension.swift */; };
+		BD49072D2A80DED70027DEE8 /* HomeSensoryTempViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD49072C2A80DED70027DEE8 /* HomeSensoryTempViewController.swift */; };
+		BD49072F2A80DEED0027DEE8 /* HomeSensoryTempViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD49072E2A80DEED0027DEE8 /* HomeSensoryTempViewModel.swift */; };
+		BD4907312A83C3C00027DEE8 /* SensoryTempClosetEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4907302A83C3C00027DEE8 /* SensoryTempClosetEntity.swift */; };
+		BD4907332A84D42F0027DEE8 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4907322A84D42F0027DEE8 /* String+Extension.swift */; };
 		BD4AC38A2A655AEC00537583 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4AC3892A655AEC00537583 /* Date+Extension.swift */; };
 		BD4AC38D2A655CE900537583 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = BD4AC38C2A655CE900537583 /* Toast */; };
-		BD4AC38F2A6671B500537583 /* SeonsoryTempViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4AC38E2A6671B500537583 /* SeonsoryTempViewModel.swift */; };
+		BD4AC38F2A6671B500537583 /* OnBoardSensoryTempViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4AC38E2A6671B500537583 /* OnBoardSensoryTempViewModel.swift */; };
 		BD4AC3912A66899500537583 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4AC3902A66899500537583 /* UILabel+Extension.swift */; };
 		BD4AC3932A669B0500537583 /* SlotMachineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4AC3922A669B0500537583 /* SlotMachineViewModel.swift */; };
 		BD50A5222A4C4072005F066E /* SlotMachineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD50A5212A4C4072005F066E /* SlotMachineViewController.swift */; };
@@ -103,21 +126,17 @@
 		BD77B82A2A388CEF00E7D57A /* OnBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD77B8292A388CEF00E7D57A /* OnBoardViewController.swift */; };
 		BD77B82C2A388D2000E7D57A /* OnBoardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD77B82B2A388D2000E7D57A /* OnBoardViewModel.swift */; };
 		BD77B82E2A388D2E00E7D57A /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD77B82D2A388D2E00E7D57A /* HomeViewModel.swift */; };
-		BD7DAB1F2A6E677D00422D25 /* LoginDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB1E2A6E677D00422D25 /* LoginDataSource.swift */; };
-		BD7DAB212A6E678D00422D25 /* LoginProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB202A6E678D00422D25 /* LoginProvider.swift */; };
-		BD7DAB232A6E679700422D25 /* LoginTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB222A6E679700422D25 /* LoginTarget.swift */; };
 		BD7DAB252A6E757C00422D25 /* PrimitiveSequence+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB242A6E757C00422D25 /* PrimitiveSequence+Extension.swift */; };
-		BD7DAB272A6E786E00422D25 /* LoginEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB262A6E786E00422D25 /* LoginEntity.swift */; };
-		BD7DAB292A6FC51400422D25 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB282A6FC51400422D25 /* TestViewController.swift */; };
-		BD7DAB2B2A6FC58200422D25 /* TestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB2A2A6FC58200422D25 /* TestViewModel.swift */; };
+		BD7DAB272A6E786E00422D25 /* StatusOnlyEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB262A6E786E00422D25 /* StatusOnlyEntity.swift */; };
 		BD7DAB2D2A70DEE100422D25 /* ForecastDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB2C2A70DEE100422D25 /* ForecastDataSource.swift */; };
-		BD7DAB2F2A70DEED00422D25 /* GetVilageForecastInfoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB2E2A70DEED00422D25 /* GetVilageForecastInfoProvider.swift */; };
 		BD7DAB312A70DEF400422D25 /* ForeCastTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB302A70DEF400422D25 /* ForeCastTarget.swift */; };
 		BD7DAB332A70DEFC00422D25 /* VillageForecastInfoEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB322A70DEFC00422D25 /* VillageForecastInfoEntity.swift */; };
-		BD7DAB3B2A72447E00422D25 /* WBNetWorkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB3A2A72447E00422D25 /* WBNetWorkError.swift */; };
+		BD7DAB3B2A72447E00422D25 /* WVNetWorkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB3A2A72447E00422D25 /* WVNetWorkError.swift */; };
+		BD9191A62A973EBE00CBD595 /* Calendar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9191A52A973EBE00CBD595 /* Calendar+Extension.swift */; };
 		BDA66FEA2A4075270061A1F0 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA66FE92A4075270061A1F0 /* UIImageView+Extension.swift */; };
 		BDA66FED2A444C470061A1F0 /* SelectGenderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA66FEC2A444C470061A1F0 /* SelectGenderViewController.swift */; };
 		BDA66FEF2A4459910061A1F0 /* SelectGenderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA66FEE2A4459910061A1F0 /* SelectGenderViewModel.swift */; };
+		BDAEBC9F2A8F5EE4002E10F2 /* WeatherMessageEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDAEBC9E2A8F5EE4002E10F2 /* WeatherMessageEnum.swift */; };
 		BDF208FF2A4EAEF2001177B2 /* CGFloat+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF208FE2A4EAEF2001177B2 /* CGFloat+Extension.swift */; };
 /* End PBXBuildFile section */
 
@@ -131,6 +150,7 @@
 		5C4691802A78F96D00E2CC70 /* LoadErrorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadErrorViewController.swift; sourceTree = "<group>"; };
 		5C4BE89A2A5E2D1200FD2CEF /* EditRegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRegionViewController.swift; sourceTree = "<group>"; };
 		5C4BE89C2A5E63C000FD2CEF /* RegionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionTableViewCell.swift; sourceTree = "<group>"; };
+		5C6AC7012A84A4D000CE5D34 /* UserInfoEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoEntity.swift; sourceTree = "<group>"; };
 		5C9D02B92A68EB3900AF2DA3 /* Observable+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Observable+Extension.swift"; sourceTree = "<group>"; };
 		5C9D02BB2A68FC0200AF2DA3 /* Dependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependency.swift; sourceTree = "<group>"; };
 		5C9D02C12A6E45D600AF2DA3 /* SettingRegionCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingRegionCompleteViewController.swift; sourceTree = "<group>"; };
@@ -148,6 +168,7 @@
 		5C9D02E72A72426D00AF2DA3 /* ClosetDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetDataSource.swift; sourceTree = "<group>"; };
 		5C9D02E92A725AC300AF2DA3 /* AddressRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressRequest.swift; sourceTree = "<group>"; };
 		5C9D02EB2A725BA200AF2DA3 /* Encodable+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Encodable+Extension.swift"; sourceTree = "<group>"; };
+		5C9F45552A8388130079ABA6 /* AddressEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressEntity.swift; sourceTree = "<group>"; };
 		5CAB60B82A4563B300CD431A /* NSMutableAttributedString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Extension.swift"; sourceTree = "<group>"; };
 		5CAB60BE2A4D6A9D00CD431A /* ClosetFSPagerViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetFSPagerViewCell.swift; sourceTree = "<group>"; };
 		5CAB60C22A528C7A00CD431A /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
@@ -156,19 +177,32 @@
 		5CAB60D02A54FC5F00CD431A /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
 		5CAB60D22A54FC6900CD431A /* UITableViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extension.swift"; sourceTree = "<group>"; };
 		5CAB60D42A54FDFE00CD431A /* TenDaysForecastTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TenDaysForecastTableViewCell.swift; sourceTree = "<group>"; };
+		5CADDD272A9DDF9900EAB678 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		5CC61E1E2A56850F001435E6 /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
 		5CC61E202A579D66001435E6 /* DailyForecastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyForecastViewController.swift; sourceTree = "<group>"; };
 		5CC61E222A57C617001435E6 /* DailyForecastTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyForecastTableViewCell.swift; sourceTree = "<group>"; };
 		5CC61E252A5BC223001435E6 /* SettingRegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingRegionViewController.swift; sourceTree = "<group>"; };
 		5CC61E272A5BDCCC001435E6 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		5CCC914A2A6114880025B522 /* RegionTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionTarget.swift; sourceTree = "<group>"; };
-		5CCC914C2A61179F0025B522 /* WBTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WBTargetType.swift; path = Weatherbly/Network/Moya/WBTargetType.swift; sourceTree = SOURCE_ROOT; };
+		5CCC914C2A61179F0025B522 /* WVTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WVTargetType.swift; path = Weatherbly/Network/Moya/WVTargetType.swift; sourceTree = SOURCE_ROOT; };
 		5CCC91512A61197B0025B522 /* SearchRegionEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRegionEntity.swift; sourceTree = "<group>"; };
-		5CCC91532A611FCE0025B522 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		5CCC91552A613F010025B522 /* SettingRegionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingRegionViewModel.swift; sourceTree = "<group>"; };
+		5CDE81CD2A89F4780099FF87 /* MainToolTipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainToolTipViewController.swift; sourceTree = "<group>"; };
+		5CE0FEAC2A8DDE9200A0E655 /* AddressListEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressListEntity.swift; sourceTree = "<group>"; };
+		5CE0FEB12A8F00F700A0E655 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		5CE0FEB32A8F3BE000A0E655 /* PrivatePolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivatePolicyViewController.swift; sourceTree = "<group>"; };
+		5CE0FEB52A8F401100A0E655 /* PrivatePolicyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivatePolicyViewModel.swift; sourceTree = "<group>"; };
+		5CE0FEB72A8F4CE200A0E655 /* SetSensoryTempRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetSensoryTempRequest.swift; sourceTree = "<group>"; };
+		5CE0FEB92A93529100A0E655 /* AuthLoginEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthLoginEntity.swift; sourceTree = "<group>"; };
 		696176B12A63E37F00B83B4C /* RxBaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxBaseViewModel.swift; sourceTree = "<group>"; };
 		696176B32A63E3C000B83B4C /* BaseDisposeBag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDisposeBag.swift; sourceTree = "<group>"; };
 		696176B52A63E4A400B83B4C /* EmptyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyViewModel.swift; sourceTree = "<group>"; };
+		69683A552A9B81BC00A2BD5A /* LoadErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadErrorViewModel.swift; sourceTree = "<group>"; };
+		69683A572A9BAAEE00A2BD5A /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
+		69A7F0D82A80B42A00834974 /* UserDefaultKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultKey.swift; sourceTree = "<group>"; };
+		69A7F0DF2A80CDD800834974 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		69A7F0E12A811EC000834974 /* UserDefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
+		69A7F0E32A8208DB00834974 /* UserInfoRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoRequest.swift; sourceTree = "<group>"; };
 		69CCF1CA2A63CA5000756127 /* RegionDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionDataSource.swift; sourceTree = "<group>"; };
 		69CCF1CE2A63CD5500756127 /* WBErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBErrorResponse.swift; sourceTree = "<group>"; };
 		69CCF1D02A63CDC200756127 /* RemoteError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteError.swift; sourceTree = "<group>"; };
@@ -187,11 +221,17 @@
 		BD2D01B12A38889E003A25D5 /* CSButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSButton.swift; sourceTree = "<group>"; };
 		BD2D01B32A3888AA003A25D5 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		BD2D01B52A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeBaseInitialzerProtocol.swift; sourceTree = "<group>"; };
-		BD4316332A3C967900E86271 /* SensoryTempViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensoryTempViewController.swift; sourceTree = "<group>"; };
+		BD2D11BB2A9AEB0D008CBF0D /* TenDaysForecastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TenDaysForecastViewModel.swift; sourceTree = "<group>"; };
+		BD2D11BD2A9AEDCE008CBF0D /* SevenDayForecastInfoEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SevenDayForecastInfoEntity.swift; sourceTree = "<group>"; };
+		BD4316332A3C967900E86271 /* OnBoardSensoryTempViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardSensoryTempViewController.swift; sourceTree = "<group>"; };
 		BD4316352A3C9DB700E86271 /* AssetsImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetsImage.swift; sourceTree = "<group>"; };
 		BD4316372A3CA20900E86271 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		BD49072C2A80DED70027DEE8 /* HomeSensoryTempViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSensoryTempViewController.swift; sourceTree = "<group>"; };
+		BD49072E2A80DEED0027DEE8 /* HomeSensoryTempViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSensoryTempViewModel.swift; sourceTree = "<group>"; };
+		BD4907302A83C3C00027DEE8 /* SensoryTempClosetEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensoryTempClosetEntity.swift; sourceTree = "<group>"; };
+		BD4907322A84D42F0027DEE8 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		BD4AC3892A655AEC00537583 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
-		BD4AC38E2A6671B500537583 /* SeonsoryTempViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeonsoryTempViewModel.swift; sourceTree = "<group>"; };
+		BD4AC38E2A6671B500537583 /* OnBoardSensoryTempViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardSensoryTempViewModel.swift; sourceTree = "<group>"; };
 		BD4AC3902A66899500537583 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		BD4AC3922A669B0500537583 /* SlotMachineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlotMachineViewModel.swift; sourceTree = "<group>"; };
 		BD50A5212A4C4072005F066E /* SlotMachineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlotMachineViewController.swift; sourceTree = "<group>"; };
@@ -212,21 +252,17 @@
 		BD77B8292A388CEF00E7D57A /* OnBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardViewController.swift; sourceTree = "<group>"; };
 		BD77B82B2A388D2000E7D57A /* OnBoardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardViewModel.swift; sourceTree = "<group>"; };
 		BD77B82D2A388D2E00E7D57A /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
-		BD7DAB1E2A6E677D00422D25 /* LoginDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginDataSource.swift; sourceTree = "<group>"; };
-		BD7DAB202A6E678D00422D25 /* LoginProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginProvider.swift; sourceTree = "<group>"; };
-		BD7DAB222A6E679700422D25 /* LoginTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTarget.swift; sourceTree = "<group>"; };
 		BD7DAB242A6E757C00422D25 /* PrimitiveSequence+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PrimitiveSequence+Extension.swift"; sourceTree = "<group>"; };
-		BD7DAB262A6E786E00422D25 /* LoginEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginEntity.swift; sourceTree = "<group>"; };
-		BD7DAB282A6FC51400422D25 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
-		BD7DAB2A2A6FC58200422D25 /* TestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewModel.swift; sourceTree = "<group>"; };
+		BD7DAB262A6E786E00422D25 /* StatusOnlyEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusOnlyEntity.swift; sourceTree = "<group>"; };
 		BD7DAB2C2A70DEE100422D25 /* ForecastDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastDataSource.swift; sourceTree = "<group>"; };
-		BD7DAB2E2A70DEED00422D25 /* GetVilageForecastInfoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetVilageForecastInfoProvider.swift; sourceTree = "<group>"; };
 		BD7DAB302A70DEF400422D25 /* ForeCastTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForeCastTarget.swift; sourceTree = "<group>"; };
 		BD7DAB322A70DEFC00422D25 /* VillageForecastInfoEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VillageForecastInfoEntity.swift; sourceTree = "<group>"; };
-		BD7DAB3A2A72447E00422D25 /* WBNetWorkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBNetWorkError.swift; sourceTree = "<group>"; };
+		BD7DAB3A2A72447E00422D25 /* WVNetWorkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WVNetWorkError.swift; sourceTree = "<group>"; };
+		BD9191A52A973EBE00CBD595 /* Calendar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Extension.swift"; sourceTree = "<group>"; };
 		BDA66FE92A4075270061A1F0 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		BDA66FEC2A444C470061A1F0 /* SelectGenderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGenderViewController.swift; sourceTree = "<group>"; };
 		BDA66FEE2A4459910061A1F0 /* SelectGenderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGenderViewModel.swift; sourceTree = "<group>"; };
+		BDAEBC9E2A8F5EE4002E10F2 /* WeatherMessageEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherMessageEnum.swift; sourceTree = "<group>"; };
 		BDF208FE2A4EAEF2001177B2 /* CGFloat+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extension.swift"; sourceTree = "<group>"; };
 		C988E18B0DE0FE436AD63212 /* Pods-Weatherbly.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Weatherbly.release.xcconfig"; path = "Target Support Files/Pods-Weatherbly/Pods-Weatherbly.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -236,14 +272,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5CE0FEB22A8F00F700A0E655 /* WebKit.framework in Frameworks */,
 				BD4AC38D2A655CE900537583 /* Toast in Frameworks */,
 				5C23DB972A65045C00F41574 /* RxSwift in Frameworks */,
 				BD1F3AF12A7BA08100E528DC /* RxGesture in Frameworks */,
 				5C23DB9E2A65048200F41574 /* Moya in Frameworks */,
+				69683A5B2A9BABC900A2BD5A /* KeychainAccess in Frameworks */,
 				5C23DBA22A65048200F41574 /* RxMoya in Frameworks */,
 				5C23DBA02A65048200F41574 /* ReactiveMoya in Frameworks */,
 				5C23DB8F2A65045C00F41574 /* RxCocoa in Frameworks */,
 				5C23DB932A65045C00F41574 /* RxRelay in Frameworks */,
+				5CE0FEB02A8EEC0000A0E655 /* Kingfisher in Frameworks */,
 				5C23DB9C2A65048200F41574 /* CombineMoya in Frameworks */,
 				6634CC2CAD88136EB8B2B027 /* Pods_Weatherbly.framework in Frameworks */,
 			);
@@ -264,8 +303,8 @@
 		5C4691702A7893E000E2CC70 /* Alert */ = {
 			isa = PBXGroup;
 			children = (
-				5C4691752A789DBE00E2CC70 /* AlertViewState.swift */,
 				5C4691772A78A02100E2CC70 /* AlertViewController.swift */,
+				5C4691752A789DBE00E2CC70 /* AlertViewState.swift */,
 			);
 			path = Alert;
 			sourceTree = "<group>";
@@ -275,6 +314,7 @@
 			children = (
 				5C46917E2A78F95800E2CC70 /* ConnectionLostViewController.swift */,
 				5C4691802A78F96D00E2CC70 /* LoadErrorViewController.swift */,
+				69683A552A9B81BC00A2BD5A /* LoadErrorViewModel.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -294,6 +334,7 @@
 			children = (
 				5C9D02D62A71EEC900AF2DA3 /* AuthTarget.swift */,
 				5C9D02D82A71F27B00AF2DA3 /* AuthDataSource.swift */,
+				5CE0FEB92A93529100A0E655 /* AuthLoginEntity.swift */,
 			);
 			path = AuthAPI;
 			sourceTree = "<group>";
@@ -303,6 +344,8 @@
 			children = (
 				5C9D02DC2A72284300AF2DA3 /* UserTarget.swift */,
 				5C9D02DE2A72304800AF2DA3 /* UserDataSource.swift */,
+				69A7F0E32A8208DB00834974 /* UserInfoRequest.swift */,
+				5C6AC7012A84A4D000CE5D34 /* UserInfoEntity.swift */,
 			);
 			path = UserAPI;
 			sourceTree = "<group>";
@@ -312,6 +355,7 @@
 			children = (
 				5C9D02E52A72425200AF2DA3 /* ClosetTarget.swift */,
 				5C9D02E72A72426D00AF2DA3 /* ClosetDataSource.swift */,
+				5CE0FEB72A8F4CE200A0E655 /* SetSensoryTempRequest.swift */,
 			);
 			path = ClosetAPI;
 			sourceTree = "<group>";
@@ -319,11 +363,11 @@
 		5CC61E242A5BC1D0001435E6 /* SettingRegion */ = {
 			isa = PBXGroup;
 			children = (
-				5CCC91552A613F010025B522 /* SettingRegionViewModel.swift */,
-				5CC61E252A5BC223001435E6 /* SettingRegionViewController.swift */,
 				5C4BE89C2A5E63C000FD2CEF /* RegionTableViewCell.swift */,
 				5C9D02C12A6E45D600AF2DA3 /* SettingRegionCompleteViewController.swift */,
 				5C9D02C32A6E61C700AF2DA3 /* SettingRegionCompleteViewModel.swift */,
+				5CC61E252A5BC223001435E6 /* SettingRegionViewController.swift */,
+				5CCC91552A613F010025B522 /* SettingRegionViewModel.swift */,
 			);
 			path = SettingRegion;
 			sourceTree = "<group>";
@@ -332,11 +376,9 @@
 			isa = PBXGroup;
 			children = (
 				5C9D02C92A709CF300AF2DA3 /* Error */,
-				5CCC91532A611FCE0025B522 /* NetworkManager.swift */,
-				5CCC914C2A61179F0025B522 /* WBTargetType.swift */,
-				BD7DAB3A2A72447E00422D25 /* WBNetWorkError.swift */,
+				5CCC914C2A61179F0025B522 /* WVTargetType.swift */,
+				BD7DAB3A2A72447E00422D25 /* WVNetWorkError.swift */,
 				5C9D02DA2A720DCC00AF2DA3 /* EmptyEntity.swift */,
-				5C9D02E92A725AC300AF2DA3 /* AddressRequest.swift */,
 			);
 			name = Moya;
 			path = Weatherbly/Network/Moya;
@@ -348,10 +390,9 @@
 				5C9D02D32A71EE7F00AF2DA3 /* AuthAPI */,
 				5C9D02E42A72423900AF2DA3 /* ClosetAPI */,
 				BD7DAB1C2A6E62F600422D25 /* ForcastAPI */,
-				BD7DAB1D2A6E677100422D25 /* LoginAPI */,
+				5CCC914E2A61195D0025B522 /* RegionAPI */,
 				BD7DAB362A7129E000422D25 /* TypeAPI */,
 				5C9D02D52A71EE9300AF2DA3 /* UserAPI */,
-				5CCC914E2A61195D0025B522 /* RegionAPI */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -359,9 +400,12 @@
 		5CCC914E2A61195D0025B522 /* RegionAPI */ = {
 			isa = PBXGroup;
 			children = (
-				69CCF1CA2A63CA5000756127 /* RegionDataSource.swift */,
 				5CCC914A2A6114880025B522 /* RegionTarget.swift */,
+				69CCF1CA2A63CA5000756127 /* RegionDataSource.swift */,
 				5CCC91512A61197B0025B522 /* SearchRegionEntity.swift */,
+				5C9D02E92A725AC300AF2DA3 /* AddressRequest.swift */,
+				5C9F45552A8388130079ABA6 /* AddressEntity.swift */,
+				5CE0FEAC2A8DDE9200A0E655 /* AddressListEntity.swift */,
 			);
 			path = RegionAPI;
 			sourceTree = "<group>";
@@ -378,6 +422,7 @@
 		BD2D017C2A388753003A25D5 = {
 			isa = PBXGroup;
 			children = (
+				69A7F0DF2A80CDD800834974 /* LaunchScreen.storyboard */,
 				BD2D01872A388753003A25D5 /* Weatherbly */,
 				BD2D01862A388753003A25D5 /* Products */,
 				ABF78B6D4AF3C3B85A8E6131 /* Pods */,
@@ -416,8 +461,6 @@
 				BD2D01A02A3887D5003A25D5 /* Home */,
 				BD69B8F32A54332C00DDCD7A /* Setting */,
 				5C46917D2A78F92F00E2CC70 /* Error */,
-				BD7DAB282A6FC51400422D25 /* TestViewController.swift */,
-				BD7DAB2A2A6FC58200422D25 /* TestViewModel.swift */,
 			);
 			path = Feature;
 			sourceTree = "<group>";
@@ -429,6 +472,10 @@
 				BD2D01A92A388825003A25D5 /* Common */,
 				BD2D01A72A388817003A25D5 /* Enum */,
 				BD2D01AB2A38885B003A25D5 /* Protocol */,
+				5CADDD272A9DDF9900EAB678 /* Constants.swift */,
+				69683A572A9BAAEE00A2BD5A /* KeychainManager.swift */,
+				69A7F0D82A80B42A00834974 /* UserDefaultKey.swift */,
+				69A7F0E12A811EC000834974 /* UserDefaultManager.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -436,8 +483,8 @@
 		BD2D019E2A3887B8003A25D5 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				5CCC91482A6107610025B522 /* Moya */,
 				5CCC91492A6114640025B522 /* API */,
+				5CCC91482A6107610025B522 /* Moya */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -445,8 +492,8 @@
 		BD2D01A02A3887D5003A25D5 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				BD2D01A62A38880F003A25D5 /* ViewModel */,
 				BD2D01A52A388807003A25D5 /* View */,
+				BD2D01A62A38880F003A25D5 /* ViewModel */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -454,30 +501,15 @@
 		BD2D01A12A3887E0003A25D5 /* OnBoard */ = {
 			isa = PBXGroup;
 			children = (
+				BD77B8292A388CEF00E7D57A /* OnBoardViewController.swift */,
+				BD77B82B2A388D2000E7D57A /* OnBoardViewModel.swift */,
+				5CDE81CD2A89F4780099FF87 /* MainToolTipViewController.swift */,
 				5C1BCA152A67D2EF00D02D84 /* Nickname */,
+				BDA66FEB2A444C320061A1F0 /* SelectGender */,
 				BD4316322A3C966400E86271 /* SesoryTemperature */,
 				5CC61E242A5BC1D0001435E6 /* SettingRegion */,
-				BDA66FEB2A444C320061A1F0 /* SelectGenderViewController */,
-				BD2D01A32A3887F3003A25D5 /* ViewModel */,
-				BD2D01A22A3887EA003A25D5 /* View */,
 			);
 			path = OnBoard;
-			sourceTree = "<group>";
-		};
-		BD2D01A22A3887EA003A25D5 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				BD77B8292A388CEF00E7D57A /* OnBoardViewController.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		BD2D01A32A3887F3003A25D5 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				BD77B82B2A388D2000E7D57A /* OnBoardViewModel.swift */,
-			);
-			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		BD2D01A52A388807003A25D5 /* View */ = {
@@ -497,6 +529,7 @@
 			isa = PBXGroup;
 			children = (
 				BD77B82D2A388D2E00E7D57A /* HomeViewModel.swift */,
+				BD2D11BB2A9AEB0D008CBF0D /* TenDaysForecastViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -506,6 +539,7 @@
 			children = (
 				BD77B8272A388C9400E7D57A /* CSColor.swift */,
 				BD4316352A3C9DB700E86271 /* AssetsImage.swift */,
+				BDAEBC9E2A8F5EE4002E10F2 /* WeatherMessageEnum.swift */,
 			);
 			path = Enum;
 			sourceTree = "<group>";
@@ -513,25 +547,27 @@
 		BD2D01A82A38881B003A25D5 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				BD5D16922A63B3AD00435816 /* CALayer+Extension.swift */,
+				BD9191A52A973EBE00CBD595 /* Calendar+Extension.swift */,
 				BDF208FE2A4EAEF2001177B2 /* CGFloat+Extension.swift */,
+				BD4AC3892A655AEC00537583 /* Date+Extension.swift */,
+				5CC61E1E2A56850F001435E6 /* DateFormatter+Extension.swift */,
+				5C9D02EB2A725BA200AF2DA3 /* Encodable+Extension.swift */,
 				5CAB60B82A4563B300CD431A /* NSMutableAttributedString+Extension.swift */,
+				5C9D02B92A68EB3900AF2DA3 /* Observable+Extension.swift */,
+				BD7DAB242A6E757C00422D25 /* PrimitiveSequence+Extension.swift */,
+				BD4907322A84D42F0027DEE8 /* String+Extension.swift */,
 				BD2D01AF2A38887D003A25D5 /* UIButton+Extension.swift */,
 				5CAB60C22A528C7A00CD431A /* UICollectionView+Extension.swift */,
+				5CAB60C42A528C9700CD431A /* UICollectionViewCell+Extension.swift */,
 				BD2D01B32A3888AA003A25D5 /* UIColor+Extension.swift */,
 				BDA66FE92A4075270061A1F0 /* UIImageView+Extension.swift */,
+				BD4AC3902A66899500537583 /* UILabel+Extension.swift */,
 				5CAB60D02A54FC5F00CD431A /* UITableView+Extension.swift */,
 				5CAB60D22A54FC6900CD431A /* UITableViewCell+Extension.swift */,
-				5CC61E1E2A56850F001435E6 /* DateFormatter+Extension.swift */,
-				5CAB60C42A528C9700CD431A /* UICollectionViewCell+Extension.swift */,
 				BD5169482A5D6FEA00582BA9 /* UITextField+Extension.swift */,
 				BD4316372A3CA20900E86271 /* UIView+Extension.swift */,
 				5CC61E272A5BDCCC001435E6 /* UIViewController+Extension.swift */,
-				BD5D16922A63B3AD00435816 /* CALayer+Extension.swift */,
-				BD4AC3892A655AEC00537583 /* Date+Extension.swift */,
-				BD4AC3902A66899500537583 /* UILabel+Extension.swift */,
-				5C9D02B92A68EB3900AF2DA3 /* Observable+Extension.swift */,
-				BD7DAB242A6E757C00422D25 /* PrimitiveSequence+Extension.swift */,
-				5C9D02EB2A725BA200AF2DA3 /* Encodable+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -563,8 +599,8 @@
 				BD2D01AD2A38886C003A25D5 /* RxBaseViewController.swift */,
 				696176B12A63E37F00B83B4C /* RxBaseViewModel.swift */,
 				696176B32A63E3C000B83B4C /* BaseDisposeBag.swift */,
-				696176B52A63E4A400B83B4C /* EmptyViewModel.swift */,
 				5C9D02BB2A68FC0200AF2DA3 /* Dependency.swift */,
+				696176B52A63E4A400B83B4C /* EmptyViewModel.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -572,8 +608,8 @@
 		BD4316322A3C966400E86271 /* SesoryTemperature */ = {
 			isa = PBXGroup;
 			children = (
-				BDA66FF12A4AD4EF0061A1F0 /* ViewModel */,
 				BDA66FF02A4AD4E50061A1F0 /* View */,
+				BDA66FF12A4AD4EF0061A1F0 /* ViewModel */,
 			);
 			path = SesoryTemperature;
 			sourceTree = "<group>";
@@ -589,9 +625,11 @@
 		BD6135D12A7E3C6700DB3DF9 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
-				BD7DAB262A6E786E00422D25 /* LoginEntity.swift */,
+				BD7DAB262A6E786E00422D25 /* StatusOnlyEntity.swift */,
 				BD7DAB322A70DEFC00422D25 /* VillageForecastInfoEntity.swift */,
 				BD6135D22A7E3C9C00DB3DF9 /* RecommendClosetEntity.swift */,
+				BD4907302A83C3C00027DEE8 /* SensoryTempClosetEntity.swift */,
+				BD2D11BD2A9AEDCE008CBF0D /* SevenDayForecastInfoEntity.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -599,8 +637,8 @@
 		BD69B8F32A54332C00DDCD7A /* Setting */ = {
 			isa = PBXGroup;
 			children = (
-				BD69B8F52A54335D00DDCD7A /* ViewModel */,
 				BD69B8F42A54335800DDCD7A /* View */,
+				BD69B8F52A54335D00DDCD7A /* ViewModel */,
 			);
 			name = Setting;
 			sourceTree = "<group>";
@@ -608,11 +646,12 @@
 		BD69B8F42A54335800DDCD7A /* View */ = {
 			isa = PBXGroup;
 			children = (
-				BD69B8F62A54337000DDCD7A /* SettingViewController.swift */,
-				BD5169462A5AA39000582BA9 /* EditNicknameViewController.swift */,
 				BD51694E2A5EB43500582BA9 /* ChangeNicknameViewController.swift */,
-				5C4BE89A2A5E2D1200FD2CEF /* EditRegionViewController.swift */,
+				BD5169462A5AA39000582BA9 /* EditNicknameViewController.swift */,
 				5C9D02C72A6FC45300AF2DA3 /* EditRegionTableViewCell.swift */,
+				5C4BE89A2A5E2D1200FD2CEF /* EditRegionViewController.swift */,
+				5CE0FEB32A8F3BE000A0E655 /* PrivatePolicyViewController.swift */,
+				BD69B8F62A54337000DDCD7A /* SettingViewController.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -620,10 +659,11 @@
 		BD69B8F52A54335D00DDCD7A /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				BD5169442A5A9BD600582BA9 /* SettingViewModel.swift */,
-				BD51694A2A5D763000582BA9 /* EditNicknameViewModel.swift */,
 				BD5169502A5EB48D00582BA9 /* ChangeNicknameViewModel.swift */,
+				BD51694A2A5D763000582BA9 /* EditNicknameViewModel.swift */,
 				5C9D02C52A6FB71F00AF2DA3 /* EditRegionViewModel.swift */,
+				5CE0FEB52A8F401100A0E655 /* PrivatePolicyViewModel.swift */,
+				BD5169442A5A9BD600582BA9 /* SettingViewModel.swift */,
 			);
 			name = ViewModel;
 			sourceTree = "<group>";
@@ -632,28 +672,9 @@
 			isa = PBXGroup;
 			children = (
 				BD7DAB302A70DEF400422D25 /* ForeCastTarget.swift */,
-				BD7DAB342A7119DC00422D25 /* GetViliageForcastInfo */,
+				BD7DAB2C2A70DEE100422D25 /* ForecastDataSource.swift */,
 			);
 			path = ForcastAPI;
-			sourceTree = "<group>";
-		};
-		BD7DAB1D2A6E677100422D25 /* LoginAPI */ = {
-			isa = PBXGroup;
-			children = (
-				BD7DAB1E2A6E677D00422D25 /* LoginDataSource.swift */,
-				BD7DAB202A6E678D00422D25 /* LoginProvider.swift */,
-				BD7DAB222A6E679700422D25 /* LoginTarget.swift */,
-			);
-			path = LoginAPI;
-			sourceTree = "<group>";
-		};
-		BD7DAB342A7119DC00422D25 /* GetViliageForcastInfo */ = {
-			isa = PBXGroup;
-			children = (
-				BD7DAB2C2A70DEE100422D25 /* ForecastDataSource.swift */,
-				BD7DAB2E2A70DEED00422D25 /* GetVilageForecastInfoProvider.swift */,
-			);
-			path = GetViliageForcastInfo;
 			sourceTree = "<group>";
 		};
 		BD7DAB362A7129E000422D25 /* TypeAPI */ = {
@@ -665,21 +686,22 @@
 			name = TypeAPI;
 			sourceTree = "<group>";
 		};
-		BDA66FEB2A444C320061A1F0 /* SelectGenderViewController */ = {
+		BDA66FEB2A444C320061A1F0 /* SelectGender */ = {
 			isa = PBXGroup;
 			children = (
-				BDA66FF32A4AD5020061A1F0 /* ViewModel */,
-				BDA66FF22A4AD4FC0061A1F0 /* View */,
+				BDA66FEC2A444C470061A1F0 /* SelectGenderViewController.swift */,
+				BDA66FEE2A4459910061A1F0 /* SelectGenderViewModel.swift */,
 			);
-			path = SelectGenderViewController;
+			path = SelectGender;
 			sourceTree = "<group>";
 		};
 		BDA66FF02A4AD4E50061A1F0 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				BD4316332A3C967900E86271 /* SensoryTempViewController.swift */,
-				BD50A5212A4C4072005F066E /* SlotMachineViewController.swift */,
 				BD5D168B2A612BC900435816 /* DateTimePickViewController.swift */,
+				BD49072C2A80DED70027DEE8 /* HomeSensoryTempViewController.swift */,
+				BD4316332A3C967900E86271 /* OnBoardSensoryTempViewController.swift */,
+				BD50A5212A4C4072005F066E /* SlotMachineViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -688,24 +710,9 @@
 			isa = PBXGroup;
 			children = (
 				BD5D168D2A612BD500435816 /* DateTimePickViewModel.swift */,
-				BD4AC38E2A6671B500537583 /* SeonsoryTempViewModel.swift */,
+				BD49072E2A80DEED0027DEE8 /* HomeSensoryTempViewModel.swift */,
+				BD4AC38E2A6671B500537583 /* OnBoardSensoryTempViewModel.swift */,
 				BD4AC3922A669B0500537583 /* SlotMachineViewModel.swift */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		BDA66FF22A4AD4FC0061A1F0 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				BDA66FEC2A444C470061A1F0 /* SelectGenderViewController.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		BDA66FF32A4AD5020061A1F0 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				BDA66FEE2A4459910061A1F0 /* SelectGenderViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -713,6 +720,7 @@
 		D208FAFA68075AB39306E632 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5CE0FEB12A8F00F700A0E655 /* WebKit.framework */,
 				A5451DE341E51F8EB4049CE6 /* Pods_Weatherbly.framework */,
 			);
 			name = Frameworks;
@@ -746,6 +754,8 @@
 				5C23DB9F2A65048200F41574 /* ReactiveMoya */,
 				5C23DBA12A65048200F41574 /* RxMoya */,
 				BD1F3AF02A7BA08100E528DC /* RxGesture */,
+				5CE0FEAF2A8EEC0000A0E655 /* Kingfisher */,
+				69683A5A2A9BABC900A2BD5A /* KeychainAccess */,
 			);
 			productName = Weatherbly;
 			productReference = BD2D01852A388753003A25D5 /* Weatherbly.app */;
@@ -780,6 +790,8 @@
 				5C23DB8D2A65045C00F41574 /* XCRemoteSwiftPackageReference "RxSwift" */,
 				5C23DB9A2A65048200F41574 /* XCRemoteSwiftPackageReference "Moya" */,
 				BD1F3AEF2A7BA08100E528DC /* XCRemoteSwiftPackageReference "RxGesture" */,
+				5CE0FEAE2A8EEC0000A0E655 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				69683A592A9BABC900A2BD5A /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 			);
 			productRefGroup = BD2D01862A388753003A25D5 /* Products */;
 			projectDirPath = "";
@@ -795,6 +807,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69A7F0E02A80CDD800834974 /* LaunchScreen.storyboard in Resources */,
 				BD6135CC2A7D5EAD00DB3DF9 /* message.json in Resources */,
 				BD2D01922A388755003A25D5 /* Assets.xcassets in Resources */,
 			);
@@ -851,62 +864,77 @@
 			files = (
 				5CC61E262A5BC223001435E6 /* SettingRegionViewController.swift in Sources */,
 				BD69B8F92A553A0C00DDCD7A /* CSNavigationView.swift in Sources */,
+				5CE0FEB62A8F401100A0E655 /* PrivatePolicyViewModel.swift in Sources */,
 				5CAB60CF2A53F61700CD431A /* TenDaysForecastViewController.swift in Sources */,
 				5C9D02DD2A72284300AF2DA3 /* UserTarget.swift in Sources */,
-				BD7DAB212A6E678D00422D25 /* LoginProvider.swift in Sources */,
 				5C4691782A78A02100E2CC70 /* AlertViewController.swift in Sources */,
 				5C4BE89D2A5E63C000FD2CEF /* RegionTableViewCell.swift in Sources */,
+				5CDE81CE2A89F4780099FF87 /* MainToolTipViewController.swift in Sources */,
 				696176B22A63E37F00B83B4C /* RxBaseViewModel.swift in Sources */,
 				BD7DAB2D2A70DEE100422D25 /* ForecastDataSource.swift in Sources */,
 				BD5D168E2A612BD500435816 /* DateTimePickViewModel.swift in Sources */,
 				BD4AC3932A669B0500537583 /* SlotMachineViewModel.swift in Sources */,
 				5CAB60D32A54FC6A00CD431A /* UITableViewCell+Extension.swift in Sources */,
 				5C9D02C82A6FC45300AF2DA3 /* EditRegionTableViewCell.swift in Sources */,
+				BDAEBC9F2A8F5EE4002E10F2 /* WeatherMessageEnum.swift in Sources */,
 				BD2D01B42A3888AA003A25D5 /* UIColor+Extension.swift in Sources */,
 				BD2D018D2A388753003A25D5 /* HomeViewController.swift in Sources */,
 				5CAB60BF2A4D6A9D00CD431A /* ClosetFSPagerViewCell.swift in Sources */,
 				5C9D02D72A71EEC900AF2DA3 /* AuthTarget.swift in Sources */,
 				5CCC914B2A6114880025B522 /* RegionTarget.swift in Sources */,
+				BD2D11BC2A9AEB0D008CBF0D /* TenDaysForecastViewModel.swift in Sources */,
 				5CCC91522A61197B0025B522 /* SearchRegionEntity.swift in Sources */,
 				5CAB60B92A4563B300CD431A /* NSMutableAttributedString+Extension.swift in Sources */,
 				5CC61E282A5BDCCC001435E6 /* UIViewController+Extension.swift in Sources */,
 				5C9D02D92A71F27B00AF2DA3 /* AuthDataSource.swift in Sources */,
+				5CE0FEBA2A93529100A0E655 /* AuthLoginEntity.swift in Sources */,
 				5CAB60D52A54FDFE00CD431A /* TenDaysForecastTableViewCell.swift in Sources */,
+				69A7F0D92A80B42A00834974 /* UserDefaultKey.swift in Sources */,
 				BD5169492A5D6FEA00582BA9 /* UITextField+Extension.swift in Sources */,
 				BD77B82C2A388D2000E7D57A /* OnBoardViewModel.swift in Sources */,
 				BDA66FEF2A4459910061A1F0 /* SelectGenderViewModel.swift in Sources */,
-				5CCC91542A611FCE0025B522 /* NetworkManager.swift in Sources */,
+				BD9191A62A973EBE00CBD595 /* Calendar+Extension.swift in Sources */,
 				5C1BCA172A67D2FF00D02D84 /* NicknameViewModel.swift in Sources */,
 				5CAB60C52A528C9700CD431A /* UICollectionViewCell+Extension.swift in Sources */,
+				BD49072F2A80DEED0027DEE8 /* HomeSensoryTempViewModel.swift in Sources */,
 				5C9D02C22A6E45D600AF2DA3 /* SettingRegionCompleteViewController.swift in Sources */,
 				5C9D02EA2A725AC300AF2DA3 /* AddressRequest.swift in Sources */,
+				5CE0FEAD2A8DDE9200A0E655 /* AddressListEntity.swift in Sources */,
+				BD4907332A84D42F0027DEE8 /* String+Extension.swift in Sources */,
 				BD4316382A3CA20900E86271 /* UIView+Extension.swift in Sources */,
 				BD2D01AE2A38886C003A25D5 /* RxBaseViewController.swift in Sources */,
+				69683A562A9B81BC00A2BD5A /* LoadErrorViewModel.swift in Sources */,
 				BD4316362A3C9DB700E86271 /* AssetsImage.swift in Sources */,
 				BDA66FED2A444C470061A1F0 /* SelectGenderViewController.swift in Sources */,
 				BD6135D32A7E3C9C00DB3DF9 /* RecommendClosetEntity.swift in Sources */,
-				BD4316342A3C967900E86271 /* SensoryTempViewController.swift in Sources */,
+				BD49072D2A80DED70027DEE8 /* HomeSensoryTempViewController.swift in Sources */,
+				BD4316342A3C967900E86271 /* OnBoardSensoryTempViewController.swift in Sources */,
 				BD7DAB332A70DEFC00422D25 /* VillageForecastInfoEntity.swift in Sources */,
-				BD4AC38F2A6671B500537583 /* SeonsoryTempViewModel.swift in Sources */,
+				BD4AC38F2A6671B500537583 /* OnBoardSensoryTempViewModel.swift in Sources */,
 				5C4BE89B2A5E2D1200FD2CEF /* EditRegionViewController.swift in Sources */,
+				69A7F0E42A8208DB00834974 /* UserInfoRequest.swift in Sources */,
 				BD4AC3912A66899500537583 /* UILabel+Extension.swift in Sources */,
 				69FDD4CC2A407FA400830927 /* CSProgressView.swift in Sources */,
 				BD77B8282A388C9400E7D57A /* CSColor.swift in Sources */,
 				5C4691812A78F96D00E2CC70 /* LoadErrorViewController.swift in Sources */,
+				5C9F45562A8388130079ABA6 /* AddressEntity.swift in Sources */,
 				BD51694F2A5EB43500582BA9 /* ChangeNicknameViewController.swift in Sources */,
-				BD7DAB292A6FC51400422D25 /* TestViewController.swift in Sources */,
 				5C9D02DB2A720DCC00AF2DA3 /* EmptyEntity.swift in Sources */,
 				BD77B82A2A388CEF00E7D57A /* OnBoardViewController.swift in Sources */,
 				5CC61E232A57C617001435E6 /* DailyForecastTableViewCell.swift in Sources */,
 				5CC61E1F2A56850F001435E6 /* DateFormatter+Extension.swift in Sources */,
 				BD2D01892A388753003A25D5 /* AppDelegate.swift in Sources */,
+				5CADDD282A9DDF9900EAB678 /* Constants.swift in Sources */,
+				69A7F0E22A811EC000834974 /* UserDefaultManager.swift in Sources */,
 				5C9D02EC2A725BA200AF2DA3 /* Encodable+Extension.swift in Sources */,
+				5C6AC7022A84A4D000CE5D34 /* UserInfoEntity.swift in Sources */,
 				BD5D168C2A612BC900435816 /* DateTimePickViewController.swift in Sources */,
 				5C9D02E82A72426D00AF2DA3 /* ClosetDataSource.swift in Sources */,
 				5CC61E212A579D66001435E6 /* DailyForecastViewController.swift in Sources */,
 				5CAB60C32A528C7A00CD431A /* UICollectionView+Extension.swift in Sources */,
+				5CE0FEB82A8F4CE200A0E655 /* SetSensoryTempRequest.swift in Sources */,
 				5C46917F2A78F95800E2CC70 /* ConnectionLostViewController.swift in Sources */,
-				BD7DAB272A6E786E00422D25 /* LoginEntity.swift in Sources */,
+				BD7DAB272A6E786E00422D25 /* StatusOnlyEntity.swift in Sources */,
 				BDA66FEA2A4075270061A1F0 /* UIImageView+Extension.swift in Sources */,
 				BD5D16932A63B3AD00435816 /* CALayer+Extension.swift in Sources */,
 				5C9D02E32A72408C00AF2DA3 /* TypeDataSource.swift in Sources */,
@@ -914,16 +942,15 @@
 				BD7DAB252A6E757C00422D25 /* PrimitiveSequence+Extension.swift in Sources */,
 				5CAB60D12A54FC5F00CD431A /* UITableView+Extension.swift in Sources */,
 				5C23DBA42A6505BF00F41574 /* KakaoErrorResponse.swift in Sources */,
-				BD7DAB3B2A72447E00422D25 /* WBNetWorkError.swift in Sources */,
+				BD7DAB3B2A72447E00422D25 /* WVNetWorkError.swift in Sources */,
 				5CCC91562A613F010025B522 /* SettingRegionViewModel.swift in Sources */,
 				BD7DAB312A70DEF400422D25 /* ForeCastTarget.swift in Sources */,
 				BD77B82E2A388D2E00E7D57A /* HomeViewModel.swift in Sources */,
 				5C9D02C42A6E61C700AF2DA3 /* SettingRegionCompleteViewModel.swift in Sources */,
 				69CCF1D12A63CDC200756127 /* RemoteError.swift in Sources */,
 				BD5169472A5AA39000582BA9 /* EditNicknameViewController.swift in Sources */,
-				BD7DAB2B2A6FC58200422D25 /* TestViewModel.swift in Sources */,
 				BD69B8F72A54337000DDCD7A /* SettingViewController.swift in Sources */,
-				5CCC914D2A61179F0025B522 /* WBTargetType.swift in Sources */,
+				5CCC914D2A61179F0025B522 /* WVTargetType.swift in Sources */,
 				69CCF1CF2A63CD5500756127 /* WBErrorResponse.swift in Sources */,
 				BDF208FF2A4EAEF2001177B2 /* CGFloat+Extension.swift in Sources */,
 				5C9D02C62A6FB71F00AF2DA3 /* EditRegionViewModel.swift in Sources */,
@@ -932,18 +959,19 @@
 				69FDD4C62A39E42900830927 /* NicknameViewController.swift in Sources */,
 				69CCF1CB2A63CA5000756127 /* RegionDataSource.swift in Sources */,
 				696176B42A63E3C000B83B4C /* BaseDisposeBag.swift in Sources */,
-				BD7DAB1F2A6E677D00422D25 /* LoginDataSource.swift in Sources */,
+				BD4907312A83C3C00027DEE8 /* SensoryTempClosetEntity.swift in Sources */,
 				BD51694B2A5D763000582BA9 /* EditNicknameViewModel.swift in Sources */,
 				BD2D01B62A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift in Sources */,
+				5CE0FEB42A8F3BE000A0E655 /* PrivatePolicyViewController.swift in Sources */,
 				BD2D01B22A38889E003A25D5 /* CSButton.swift in Sources */,
-				BD7DAB2F2A70DEED00422D25 /* GetVilageForecastInfoProvider.swift in Sources */,
-				BD7DAB232A6E679700422D25 /* LoginTarget.swift in Sources */,
 				BD5169452A5A9BD600582BA9 /* SettingViewModel.swift in Sources */,
 				5C9D02BC2A68FC0200AF2DA3 /* Dependency.swift in Sources */,
 				BD2D01B02A38887D003A25D5 /* UIButton+Extension.swift in Sources */,
 				5C1D5A112A3C500A00E66788 /* CSLabel.swift in Sources */,
 				BD50A5222A4C4072005F066E /* SlotMachineViewController.swift in Sources */,
 				5C9D02E12A72405100AF2DA3 /* TypeTarget.swift in Sources */,
+				BD2D11BE2A9AEDCE008CBF0D /* SevenDayForecastInfoEntity.swift in Sources */,
+				69683A582A9BAAEE00A2BD5A /* KeychainManager.swift in Sources */,
 				5C9D02DF2A72304800AF2DA3 /* UserDataSource.swift in Sources */,
 				5C9D02BA2A68EB3900AF2DA3 /* Observable+Extension.swift in Sources */,
 				5C9D02E62A72425200AF2DA3 /* ClosetTarget.swift in Sources */,
@@ -1076,8 +1104,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4QCSG92KD9;
+				CURRENT_PROJECT_VERSION = 0.0.4;
+				DEVELOPMENT_TEAM = M9YVZ9AJMM;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"FLEXLAYOUT_SWIFT_PAKAGE=1",
@@ -1094,7 +1122,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.redThree.Weatherbly;
+				PRODUCT_BUNDLE_IDENTIFIER = com.redthree.weathervely;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -1112,8 +1140,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4QCSG92KD9;
+				CURRENT_PROJECT_VERSION = 0.0.4;
+				DEVELOPMENT_TEAM = M9YVZ9AJMM;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"FLEXLAYOUT_SWIFT_PAKAGE=1",
@@ -1130,7 +1158,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.redThree.Weatherbly;
+				PRODUCT_BUNDLE_IDENTIFIER = com.redthree.weathervely;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -1179,6 +1207,22 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 15.0.0;
+			};
+		};
+		5CE0FEAE2A8EEC0000A0E655 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
+		69683A592A9BABC900A2BD5A /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess";
+			requirement = {
+				kind = exactVersion;
+				version = 4.2.2;
 			};
 		};
 		BD1F3AEF2A7BA08100E528DC /* XCRemoteSwiftPackageReference "RxGesture" */ = {
@@ -1234,6 +1278,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5C23DB9A2A65048200F41574 /* XCRemoteSwiftPackageReference "Moya" */;
 			productName = RxMoya;
+		};
+		5CE0FEAF2A8EEC0000A0E655 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5CE0FEAE2A8EEC0000A0E655 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		69683A5A2A9BABC900A2BD5A /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 69683A592A9BABC900A2BD5A /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
 		};
 		BD1F3AF02A7BA08100E528DC /* RxGesture */ = {
 			isa = XCSwiftPackageProductDependency;

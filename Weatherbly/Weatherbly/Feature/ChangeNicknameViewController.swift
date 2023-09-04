@@ -45,15 +45,7 @@ class ChangeNicknameViewController: RxBaseViewController<ChangeNicknameViewModel
     typealias editMode = UITextField.editMode
     var displayMode: editMode = .justShow
     
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-    }
-
+    private var isFemale = UserDefaultManager.shared.isFemale
     
     override func attribute() {
         super.attribute()
@@ -95,7 +87,7 @@ class ChangeNicknameViewController: RxBaseViewController<ChangeNicknameViewModel
         
         nicknameTextField.do {
             $0.font = .systemFont(ofSize: 20)
-            $0.text = "(닉네임)"
+            $0.text = UserDefaultManager.shared.nickname
             $0.setClearButton(AssetsImage.delete.image, .whileEditing)
             $0.becomeFirstResponder()
             $0.delegate = self
@@ -114,41 +106,27 @@ class ChangeNicknameViewController: RxBaseViewController<ChangeNicknameViewModel
         womanButton.do {
             $0.setTitle("여성", for: .normal)
             $0.setTitleColor(.black, for: .normal)
+            $0.setTitleColor(.white, for: .selected)
             $0.titleLabel?.font = .boldSystemFont(ofSize: 20)
-            $0.backgroundColor = CSColor._248_248_248.color
             $0.layer.cornerRadius = 13
+            $0.isSelected = isFemale ? true : false
         }
         
         manButton.do {
             $0.setTitle("남성", for: .normal)
             $0.setTitleColor(.black, for: .normal)
+            $0.setTitleColor(.white, for: .selected)
             $0.titleLabel?.font = .boldSystemFont(ofSize: 20)
-            $0.backgroundColor = CSColor._248_248_248.color
             $0.layer.cornerRadius = 13
+            $0.isSelected = isFemale ? false : true
         }
+        
+        setButtonColor()
         
         bottomButton.do {
             $0.setTitle("확인", for: .normal)
             $0.setTitleColor(.white, for: .normal)
         }
-        
-        womanButton.do {
-            // TODO: - 전 화면에서 가져온 성별데이로 백그라운드컬러 세팅하기
-            $0.setTitle("여성", for: .normal)
-            $0.setTitleColor(.black, for: .normal)
-            $0.titleLabel?.font = .boldSystemFont(ofSize: 20)
-            $0.backgroundColor = CSColor._248_248_248.color
-            $0.layer.cornerRadius = 13
-        }
-        
-        manButton.do {
-            $0.setTitle("남성", for: .normal)
-            $0.setTitleColor(.black, for: .normal)
-            $0.titleLabel?.font = .boldSystemFont(ofSize: 20)
-            $0.backgroundColor = CSColor._248_248_248.color
-            $0.layer.cornerRadius = 13
-        }
-        
     }
     
     override func layout() {
@@ -194,42 +172,39 @@ class ChangeNicknameViewController: RxBaseViewController<ChangeNicknameViewModel
                                     }
                             }
                         
-                                flex.addItem(genderLableView)
-                                    .marginHorizontal(22)
-                                    .direction(.row)
-                                    .define { flex in
-                                        flex.addItem(genderTitleLabel)
-                                            .marginVertical(14)
-                                            .width(67)
-                                            .marginLeft(26)
-                                        
-                                        flex.addItem(buttonWrapper)
-                                            .marginVertical(9)
-                                            .marginLeft(18)
-                                            .grow(0.5)
-                                            .shrink(0.5)
-                                            .direction(.row)
-                                            .define { flex in
-                                            flex.addItem(womanButton)
-                                                    .padding(10)
-                                                    .right(7)
-                                                    .grow(1).shrink(1)
-                                                
-                                            flex.addItem(manButton)
-                                                    .padding(10)
-                                                    .left(7)
-                                                    .grow(1).shrink(1)
-                                        }
-                                    }
-                        
-                        flex.addItem(bottomButton)
-                            .marginHorizontal(43)
-                            .height(bottomButton.primaryHeight)
-                            .marginTop(UIScreen.main.bounds.height * 0.44)
-
-                        bottomButton.pin.bottom(53)
-                    }
+//                        flex.addItem(genderLableView)
+//                            .marginHorizontal(22)
+//                            .direction(.row)
+//                            .define { flex in
+//                                flex.addItem(genderTitleLabel)
+//                                    .marginVertical(14)
+//                                    .width(67)
+//                                    .marginLeft(26)
+//
+//                                flex.addItem(buttonWrapper)
+//                                    .marginVertical(9)
+//                                    .marginLeft(18)
+//                                    .grow(0.5)
+//                                    .shrink(0.5)
+//                                    .direction(.row)
+//                                    .define { flex in
+//                                    flex.addItem(womanButton)
+//                                            .padding(10)
+//                                            .right(7)
+//                                            .grow(1).shrink(1)
+//
+//                                    flex.addItem(manButton)
+//                                            .padding(10)
+//                                            .left(7)
+//                                            .grow(1).shrink(1)
+//                                }
+//                            }
             }
+            flex.addItem(bottomButton)
+                .marginHorizontal(43)
+                .height(bottomButton.primaryHeight)
+        }
+        bottomButton.pin.bottom(10%)
     }
     
     override func bind() {
@@ -241,43 +216,72 @@ class ChangeNicknameViewController: RxBaseViewController<ChangeNicknameViewModel
             })
             .disposed(by: bag)
         
-        // TODO: - 버튼 클릭시 데이터 저장하기
         womanButton.rx.tap
             .subscribe { [weak self] _ in
-                if self?.manButton.backgroundColor == CSColor._151_151_151.color {
-                    self?.manButton.backgroundColor = CSColor._248_248_248.color
-                    self?.manButton.setTitleColor(.black, for: .normal)
-                }
-                self?.womanButton.backgroundColor = CSColor._151_151_151.color
-                self?.womanButton.setTitleColor(.white, for: .normal)
+                if self?.isFemale == false { self?.buttonToggle() }
             }.disposed(by: bag)
         
         manButton.rx.tap
             .subscribe { [weak self] _ in
-                if self?.womanButton.backgroundColor == CSColor._151_151_151.color {
-                    self?.womanButton.backgroundColor = CSColor._248_248_248.color
-                    self?.womanButton.setTitleColor(.black, for: .normal)
-                }
-                self?.manButton.backgroundColor = CSColor._151_151_151.color
-                self?.manButton.setTitleColor(.white, for: .normal)
+                if self?.isFemale == true { self?.buttonToggle() }
             }.disposed(by: bag)
         
         bottomButton.rx.tap
             .subscribe { [weak self] _ in
-                // TODO: -
-                // 1. 데이터 수정값 저장하기
-                // 2. 화면 데이터 새로고침
-                self?.navigationController?.popViewController(animated: true)
+                guard let inputNickname = self?.nicknameTextField.text else { return }
+                self?.viewModel.didTapConfirmButton(UserInfoRequest(nickname: inputNickname/*,
+                                                                    gender: self?.isFemale == true ? "female" : "male"*/))
             }.disposed(by: bag)
+        
+        nicknameTextField.rx.text.orEmpty
+            .subscribe(onNext: { [weak self] _ in
+                if let value = self?.nicknameTextField.text {
+                    if value.count > 1 {
+                        self?.bottomButton.isEnabled = true
+                        self?.bottomButton.setButtonStyle(.primary)
+                    } else {
+                        self?.bottomButton.isEnabled = false
+                        self?.bottomButton.setButtonStyle(.grayFilled)
+                    }
+                }
+            })
+            .disposed(by: bag)
     }
     
+    private func buttonToggle() {
+        womanButton.isSelected.toggle()
+        manButton.isSelected.toggle()
+        isFemale = womanButton.isSelected
+        setButtonColor()
+    }
+    
+    private func setButtonColor() {
+        womanButton.backgroundColor = isFemale ? CSColor._151_151_151.color : CSColor._248_248_248.color
+        manButton.backgroundColor = isFemale ? CSColor._248_248_248.color : CSColor._151_151_151.color
+    }
 }
 
+// MARK: UITextFieldDelegate
 extension ChangeNicknameViewController: UITextFieldDelegate {
-
-    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        customTextField(textField, range, string)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
 }
 
+// MARK: Keyboard Action
+extension ChangeNicknameViewController {
+    override func keyboardWillShow(_ notification: Notification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            bottomButton.pin.bottom(keyboardSize.height + 30)
+        }
+    }
+    
+    override func keyboardWillHide(_ notification: Notification) {
+        bottomButton.pin.bottom(10%)
+    }
+}

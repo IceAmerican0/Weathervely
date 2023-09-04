@@ -6,53 +6,72 @@
 //
 
 import UIKit
+import RxSwift
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
     var window: UIWindow?
-
+    var vc: UIViewController?
+    var bag = DisposeBag()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
 
-        // TODO: 온보딩시 / 아닐시 구분
-//        let vc = TestViewController(TestViewModel())
-        let vc = true ? HomeViewController(HomeViewModel()) : HomeViewController(HomeViewModel())
+        getToken()
+    }
+    
+    func setWindow() {
+        guard let vc = vc else { return }
         let rootVC = UINavigationController(rootViewController: vc)
         window?.rootViewController = rootVC
         window?.makeKeyAndVisible()
     }
+    
+    func getToken() {
+        let loginDataSource = AuthDataSource()
+        loginDataSource.getToken()
+            .subscribe(onNext: { [weak self] result in
+                switch result {
+                case .success(let response):
+                    let data = response.data
+                    userDefault.set(data.user.nickname, forKey: UserDefaultKey.nickname.rawValue)
 
-    func sceneDidDisconnect(_ scene: UIScene) {
-        // Called as the scene is being released by the system.
-        // This occurs shortly after the scene enters the background, or when its session is discarded.
-        // Release any resources associated with this scene that can be re-created the next time the scene connects.
-        // The scene may re-connect later, as its session was not necessarily discarded (see `application:didDiscardSceneSessions` instead).
+                    if let address = data.address {
+                        userDefault.set(address.dong, forKey: UserDefaultKey.dong.rawValue)
+                        if data.setTemperature == true {
+                            self?.vc = HomeViewController(HomeViewModel())
+                        } else {
+                            self?.vc = DateTimePickViewController(DateTimePickViewModel())
+                        }
+                    } else {
+                        self?.vc = SettingRegionViewController(SettingRegionViewModel(.onboard))
+                    }
+                    self?.setWindow()
+                case .failure(let err):
+                    switch err {
+                    case .noInternetError:
+                        self?.vc = LoadErrorViewController(LoadErrorViewModel())
+                        self?.setWindow()
+                    default:
+                        self?.vc = OnBoardViewController(OnBoardViewModel())
+                        self?.setWindow()
+                    }
+                }
+            })
+            .disposed(by: bag)
     }
 
-    func sceneDidBecomeActive(_ scene: UIScene) {
-        // Called when the scene has moved from an inactive state to an active state.
-        // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
-    }
+    func sceneDidDisconnect(_ scene: UIScene) {}
 
-    func sceneWillResignActive(_ scene: UIScene) {
-        // Called when the scene will move from an active state to an inactive state.
-        // This may occur due to temporary interruptions (ex. an incoming phone call).
-    }
+    func sceneDidBecomeActive(_ scene: UIScene) {}
+
+    func sceneWillResignActive(_ scene: UIScene) {}
 
     func sceneWillEnterForeground(_ scene: UIScene) {
-        // Called as the scene transitions from the background to the foreground.
-        // Use this method to undo the changes made on entering the background.
+        getToken()
     }
 
-    func sceneDidEnterBackground(_ scene: UIScene) {
-        // Called as the scene transitions from the foreground to the background.
-        // Use this method to save data, release shared resources, and store enough scene-specific state information
-        // to restore the scene back to its current state.
-    }
-
-
+    func sceneDidEnterBackground(_ scene: UIScene) {}
+    
 }
 
