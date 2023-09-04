@@ -25,7 +25,7 @@ extension RegionTarget: WVTargetType {
     public var path: String { "" }
     
     public var headers: [String : String]? {
-        ["Authorization": "KakaoAK 94e9855982bd4da35238debd0d23a313"]
+        ["Authorization": "KakaoAK"]
     }
     
     public var task: Task {

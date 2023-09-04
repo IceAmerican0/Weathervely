@@ -118,7 +118,6 @@
 		BD5D168C2A612BC900435816 /* DateTimePickViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5D168B2A612BC900435816 /* DateTimePickViewController.swift */; };
 		BD5D168E2A612BD500435816 /* DateTimePickViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5D168D2A612BD500435816 /* DateTimePickViewModel.swift */; };
 		BD5D16932A63B3AD00435816 /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5D16922A63B3AD00435816 /* CALayer+Extension.swift */; };
-		BD6135CC2A7D5EAD00DB3DF9 /* message.json in Resources */ = {isa = PBXBuildFile; fileRef = BD6135CB2A7D5EAD00DB3DF9 /* message.json */; };
 		BD6135D32A7E3C9C00DB3DF9 /* RecommendClosetEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6135D22A7E3C9C00DB3DF9 /* RecommendClosetEntity.swift */; };
 		BD69B8F72A54337000DDCD7A /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD69B8F62A54337000DDCD7A /* SettingViewController.swift */; };
 		BD69B8F92A553A0C00DDCD7A /* CSNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD69B8F82A553A0C00DDCD7A /* CSNavigationView.swift */; };
@@ -244,7 +243,6 @@
 		BD5D168B2A612BC900435816 /* DateTimePickViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimePickViewController.swift; sourceTree = "<group>"; };
 		BD5D168D2A612BD500435816 /* DateTimePickViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimePickViewModel.swift; sourceTree = "<group>"; };
 		BD5D16922A63B3AD00435816 /* CALayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
-		BD6135CB2A7D5EAD00DB3DF9 /* message.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = message.json; sourceTree = "<group>"; };
 		BD6135D22A7E3C9C00DB3DF9 /* RecommendClosetEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendClosetEntity.swift; sourceTree = "<group>"; };
 		BD69B8F62A54337000DDCD7A /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		BD69B8F82A553A0C00DDCD7A /* CSNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSNavigationView.swift; sourceTree = "<group>"; };
@@ -442,7 +440,6 @@
 			isa = PBXGroup;
 			children = (
 				BD6135D12A7E3C6700DB3DF9 /* Entity */,
-				BD6135CA2A7D5E9F00DB3DF9 /* Mock */,
 				BD2D019E2A3887B8003A25D5 /* Network */,
 				BD2D019D2A3887AA003A25D5 /* Helper */,
 				BD2D019C2A3887A3003A25D5 /* Feature */,
@@ -612,14 +609,6 @@
 				BDA66FF12A4AD4EF0061A1F0 /* ViewModel */,
 			);
 			path = SesoryTemperature;
-			sourceTree = "<group>";
-		};
-		BD6135CA2A7D5E9F00DB3DF9 /* Mock */ = {
-			isa = PBXGroup;
-			children = (
-				BD6135CB2A7D5EAD00DB3DF9 /* message.json */,
-			);
-			path = Mock;
 			sourceTree = "<group>";
 		};
 		BD6135D12A7E3C6700DB3DF9 /* Entity */ = {
@@ -808,7 +797,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				69A7F0E02A80CDD800834974 /* LaunchScreen.storyboard in Resources */,
-				BD6135CC2A7D5EAD00DB3DF9 /* message.json in Resources */,
 				BD2D01922A388755003A25D5 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
