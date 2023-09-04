@@ -40,7 +40,7 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
         
         favoriteTableView.do {
             $0.delegate = self
-            $0.dataSource = self
+            $0.rowHeight = 56
             $0.isScrollEnabled = false
             $0.bounces = false
             $0.backgroundColor = CSColor._253_253_253.color
@@ -97,11 +97,24 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
         viewModel.loadRegionList()
         
         viewModel.loadedListRelay
-            .subscribe(onNext: { [weak self] _ in
-                self?.listCount = self?.viewModel.loadedListRelay.value.count ?? 0
-                self?.confirmButtonState()
-                self?.favoriteTableView.reloadData()
-            })
+            .bind(to: favoriteTableView.rx.items(cellIdentifier: EditRegionTableViewCell.identifier, cellType: EditRegionTableViewCell.self)) { row, data, cell in
+                self.listCount = self.viewModel.loadedListRelay.value.count
+                
+                if row == 0 {
+                    cell.backgroundColor = CSColor._248_248_248.color
+                } else {
+                    cell.backgroundColor = .white
+                }
+                
+                cell.configureCellState(EditRegionCellState(region: data.addressName, count: self.listCount))
+                cell.button.rx.tap
+                    .subscribe(onNext: { [weak self] _ in
+                        self?.viewModel.didTapCellButton(row)
+                    })
+                    .disposed(by: self.bag)
+                
+                self.confirmButtonState()
+            }
             .disposed(by: bag)
     }
     
@@ -120,44 +133,18 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
 
 // MARK: UITableViewDelegate
 extension EditRegionViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { 56 }
-    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { 25 }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
         cell?.selectionStyle = .none
         cell?.isSelected = true
-        viewModel.updateMainRegion(indexPath)
+        viewModel.updateMainRegion(indexPath.row)
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
         cell?.selectionStyle = .default
         cell?.isSelected = false
-    }
-}
-
-extension EditRegionViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        listCount
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return tableView.dequeueCell(withType: EditRegionTableViewCell.self, for: indexPath).then {
-            if indexPath.row == 0 {
-                $0.backgroundColor = CSColor._248_248_248.color
-            } else {
-                $0.backgroundColor = .white
-            }
-            
-            let regionName = viewModel.loadedListRelay.value[indexPath.row].addressName
-            $0.configureCellState(EditRegionCellState(region: regionName, count: listCount))
-            $0.button.rx.tap
-                .subscribe(onNext: { [weak self] _ in
-                    self?.viewModel.didTapCellButton(indexPath)
-                })
-                .disposed(by: bag)
-        }
     }
 }
