@@ -49,7 +49,7 @@ public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogi
                     case .edit:
                         break
                     case .change:
-                        self?.alertMessageRelay.accept(.init(title: "현재 동네가 \(UserDefaultKey.dong.rawValue)(으)로 변경됐어요",
+                        self?.alertMessageRelay.accept(.init(title: "현재 동네가 \(UserDefaultManager.shared.dong)(으)로 변경됐어요",
                                                              alertType: .Info))
                     case .add:
                         self?.alertMessageRelay.accept(.init(title: "동네가 추가됐어요",
@@ -64,7 +64,10 @@ public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogi
                     default:
                         guard let errorString = err.errorDescription else { return }
                         self?.alertMessageRelay.accept(.init(title: errorString,
-                                                            alertType: .Error))
+                                                            alertType: .Error,
+                                                            closeAction: {
+                            self?.navigationPopViewControllerRelay.accept(Void())
+                        }))
                     }
                 }
             })

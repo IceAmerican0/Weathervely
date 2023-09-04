@@ -33,7 +33,8 @@ class EditNicknameViewModel: RxBaseViewModel, EditNicknameViewModelLogic {
                 switch result {
                 case .success(let response):
                     userDefault.set(response.nickname, forKey: UserDefaultKey.nickname.rawValue)
-                    userDefault.set(response.gender, forKey: UserDefaultKey.gender.rawValue)
+                    // TODO: 추후 성별 추가시 주석 풀기
+//                    userDefault.set(response.gender, forKey: UserDefaultKey.gender.rawValue)
                     userDefault.synchronize()
                     self?.loadUserInfoRelay.accept(response)
                 case .failure(let err):

@@ -129,6 +129,7 @@ extension EditRegionViewController: UITableViewDelegate {
         cell?.selectionStyle = .none
         cell?.isSelected = true
         viewModel.updateMainRegion(indexPath)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
@@ -156,8 +157,9 @@ extension EditRegionViewController: UITableViewDataSource {
             $0.button.rx.tap
                 .subscribe(onNext: { [weak self] _ in
                     self?.viewModel.didTapCellButton(indexPath)
+                    self?.favoriteTableView.deselectRow(at: indexPath, animated: true)
                 })
-                .disposed(by: bag)
+                .disposed(by: $0.bag)
         }
     }
 }

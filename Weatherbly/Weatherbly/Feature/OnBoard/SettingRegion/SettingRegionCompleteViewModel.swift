@@ -92,8 +92,16 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
                         self?.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
                     default:
                         guard let errorString = err.errorDescription else { return }
-                        self?.alertMessageRelay.accept(.init(title: errorString,
-                                                            alertType: .Error))
+                        if errorString == "중복된 주소를 등록 했습니다." {
+                            self?.alertMessageRelay.accept(.init(title: errorString,
+                                                                alertType: .Error,
+                                                                closeAction: {
+                                self?.navigationPopViewControllerRelay.accept(Void())
+                            }))
+                        } else {
+                            self?.alertMessageRelay.accept(.init(title: errorString,
+                                                                alertType: .Error))
+                        }
                     }
                 }
             })
