@@ -10,7 +10,6 @@ import FlexLayout
 import PinLayout
 import Then
 import RxSwift
-import RxRelay
 
 public struct EditRegionCellState {
     let region: String
@@ -18,7 +17,8 @@ public struct EditRegionCellState {
 }
 
 public final class EditRegionTableViewCell: UITableViewCell {
-    var bag = DisposeBag()
+    var buttonTapDisposable: Disposable?
+    var cellIndex = 0
     
     public var regionLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 20)
@@ -42,6 +42,13 @@ public final class EditRegionTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit { dispose() }
+    
+    public override func prepareForReuse() {
+        super.prepareForReuse()
+        dispose()
+    }
+    
     public override func layoutSubviews() {
         super.layoutSubviews()
         contentView.flex.layout()
@@ -62,8 +69,23 @@ public final class EditRegionTableViewCell: UITableViewCell {
         self.clipsToBounds = false
     }
     
-    func configureCellState(_ cellState: EditRegionCellState) {
+    func configureCellState(_ cellState: EditRegionCellState, _ index: Int) {
+        cellIndex = index
         regionLabel.text = cellState.region
         cellState.count == 1 ? button.setImage(AssetsImage.regionChange.image, for: .normal) : button.setImage(AssetsImage.delete.image, for: .normal)
+    }
+    
+    func buttonTapAction(completion: @escaping ((Int) -> Void)) {
+        buttonTapDisposable = button.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self else { return }
+                completion(self.cellIndex)
+            })
+    }
+    
+    private func dispose() {
+        if let disposable = buttonTapDisposable {
+            disposable.dispose()
+        }
     }
 }

@@ -80,7 +80,7 @@ public class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitiali
         viewModel
             .navigationPopToSelfRelay
             .subscribe(onNext: { [weak self] _ in
-                guard let self = self else { return }
+                guard let self else { return }
                 self.navigationController?.popToViewController(self, animated: true)
             })
             .disposed(by: bag)
@@ -95,7 +95,7 @@ public class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitiali
         viewModel
             .navigationPushViewControllerRelay
             .subscribe(onNext: { [weak self] viewController in
-                guard let self = self, let viewController = viewController else { return }
+                guard let self, let viewController else { return }
                 self.navigationController?.pushViewController(viewController, animated: true)
             })
             .disposed(by: bag)
@@ -103,7 +103,7 @@ public class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitiali
         viewModel
             .presentViewControllerWithAnimationRelay
             .subscribe(onNext: { [weak self] viewController in
-                guard let self = self, let viewController = viewController else { return }
+                guard let self, let viewController else { return }
                 self.present(viewController, animated: true)
             })
             .disposed(by: bag)
@@ -111,7 +111,7 @@ public class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitiali
         viewModel
             .presentViewControllerNoAnimationRelay
             .subscribe(onNext: { [weak self] viewController in
-                guard let self = self, let viewController = viewController else { return }
+                guard let self, let viewController else { return }
                 self.present(viewController, animated: false)
             })
             .disposed(by: bag)

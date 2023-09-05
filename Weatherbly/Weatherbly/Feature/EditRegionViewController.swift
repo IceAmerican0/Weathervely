@@ -128,7 +128,7 @@ extension EditRegionViewController: UITableViewDelegate {
         let cell = tableView.cellForRow(at: indexPath)
         cell?.selectionStyle = .none
         cell?.isSelected = true
-        viewModel.updateMainRegion(indexPath)
+        viewModel.updateMainRegion(indexPath.row)
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
@@ -153,13 +153,10 @@ extension EditRegionViewController: UITableViewDataSource {
             }
             
             let regionName = viewModel.loadedListRelay.value[indexPath.row].addressName
-            $0.configureCellState(EditRegionCellState(region: regionName, count: listCount))
-            $0.button.rx.tap
-                .subscribe(onNext: { [weak self] _ in
-                    self?.viewModel.didTapCellButton(indexPath)
-                    self?.favoriteTableView.deselectRow(at: indexPath, animated: true)
-                })
-                .disposed(by: $0.bag)
+            $0.configureCellState(EditRegionCellState(region: regionName, count: listCount), indexPath.row)
+            $0.buttonTapAction { [weak self] index in
+                self?.viewModel.didTapCellButton(index)
+            }
         }
     }
 }

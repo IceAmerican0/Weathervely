@@ -20,9 +20,9 @@ public enum EditRegionState {
 
 public protocol EditRegionViewModelLogic: ViewModelBusinessLogic {
     func loadRegionList()
-    func deleteRegion(_ indexPath: IndexPath)
-    func updateMainRegion(_ indexPath: IndexPath)
-    func didTapCellButton(_ indexPath: IndexPath)
+    func deleteRegion(_ index: Int)
+    func updateMainRegion(_ index: Int)
+    func didTapCellButton(_ index: Int)
     func didTapConfirmButton()
     func toSettingRegionView(_ settingRegionState: SettingRegionState)
 }
@@ -74,9 +74,9 @@ public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogi
             .disposed(by: bag)
     }
     
-    public func deleteRegion(_ indexPath: IndexPath) {
+    public func deleteRegion(_ index: Int) {
         editRegionState = .edit
-        let regionInfo = loadedListRelay.value[indexPath.row]
+        let regionInfo = loadedListRelay.value[index]
         dataSource.deleteAddress(regionInfo.id)
             .subscribe(onNext: { [weak self] result in
                 switch result {
@@ -98,9 +98,9 @@ public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogi
             .disposed(by: bag)
     }
     
-    public func updateMainRegion(_ indexPath: IndexPath) {
+    public func updateMainRegion(_ index: Int) {
         editRegionState = .edit
-        let regionInfo = loadedListRelay.value[indexPath.row]
+        let regionInfo = loadedListRelay.value[index]
         dataSource.setMainAddress(regionInfo.id)
             .subscribe(onNext: { [weak self] result in
                 switch result {
@@ -123,13 +123,13 @@ public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogi
             .disposed(by: bag)
     }
     
-    public func didTapCellButton(_ indexPath: IndexPath) {
+    public func didTapCellButton(_ index: Int) {
         let regionInfo = loadedListRelay.value
         if regionInfo.count == 1 {
-            userDefault.set(regionInfo[indexPath.row].id, forKey: UserDefaultKey.regionID.rawValue)
+            userDefault.set(regionInfo[index].id, forKey: UserDefaultKey.regionID.rawValue)
             toSettingRegionView(.change)
         } else {
-            deleteRegion(indexPath)
+            deleteRegion(index)
         }
     }
     

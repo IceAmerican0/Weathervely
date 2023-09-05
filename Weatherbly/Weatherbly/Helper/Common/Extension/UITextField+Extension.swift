@@ -55,10 +55,7 @@ extension UITextField {
     }
     
     @objc func clear() {
-        
-        guard let text = self.text else {
-            return
-        }
+        guard let text else { return }
         
         if !text.isEmpty {
             self.text?.removeAll()
