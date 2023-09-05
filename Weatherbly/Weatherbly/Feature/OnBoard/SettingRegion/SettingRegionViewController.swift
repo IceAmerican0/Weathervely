@@ -75,7 +75,7 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
         
         regionTableView.do {
             $0.delegate = self
-            $0.dataSource = self
+            $0.rowHeight = 56
             $0.isScrollEnabled = true
             $0.bounces = false
             $0.showsVerticalScrollIndicator = true
@@ -138,9 +138,12 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
         super.viewModelBinding()
         
         viewModel.searchedListRelay
-            .subscribe(onNext: { [weak self] _ in
-                self?.regionTableView.reloadData()
-            })
+            .bind(to: regionTableView.rx
+                .items(cellIdentifier: RegionTableViewCell.identifier,
+                       cellType: RegionTableViewCell.self)) { _, data, cell in
+                cell.configureCellState(data.addressName)
+                self.regionTableView.flashScrollIndicators()
+            }
             .disposed(by: bag)
     }
     
@@ -161,8 +164,6 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
 
 // MARK: UITableViewDelegate
 extension SettingRegionViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { 56 }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
         cell?.selectionStyle = .none
@@ -174,24 +175,6 @@ extension SettingRegionViewController: UITableViewDelegate {
         let cell = tableView.cellForRow(at: indexPath)
         cell?.selectionStyle = .default
         cell?.isSelected = false
-    }
-}
-
-extension SettingRegionViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if viewModel.searchedListRelay.value.isEmpty {
-            return 0
-        } else {
-            return viewModel.searchedListRelay.value.count
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        tableView.dequeueCell(withType: RegionTableViewCell.self, for: indexPath).then {
-            let regionName = viewModel.searchedListRelay.value[indexPath.row].addressName
-            $0.configureCellState(regionName)
-            tableView.flashScrollIndicators()
-        }
     }
 }
 
