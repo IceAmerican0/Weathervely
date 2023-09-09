@@ -112,6 +112,10 @@ final class AlertViewController: UIViewController, CodeBaseInitializerProtocol {
         if state.message == nil {
             titleLabel.pin.top(40)
         }
+        if state.title.contains("업데이트") {
+            titleLabel.pin.top(33).height(40)
+            confirmButton.setTitle("업데이트", for: .normal)
+        }
     }
     
     func bind() {
