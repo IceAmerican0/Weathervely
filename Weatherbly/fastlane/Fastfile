@@ -1,7 +1,7 @@
 ############# 변수 정의 ##############
 
-$webhook_url_release = "https://discord.com/api/webhooks/1148783115540643942/FtEvbn0kvgMxRvTEqkEtpmotA-gvAG5ynqcR58YjKpl_JvZmdHezjf0Rc9bSQsmRX4gq" 
-$webhook_url_test = "https://discord.com/api/webhooks/1148782725378084915/FniaKnmhqVN4GTUlxqKYY_ZqUOZ0M4EJqi8dOw-BveQqhry_nlN6XLlLFDpE1QPtEM1r"
+$webhook_url_release = "https://discord.com/api/webhooks/1148783115540643942/FtEvbn0kvgMxRvTEqkEtpmotA-gvAG5ynqcR58YjKpl_JvZmdHezjf0Rc9bSQsmRX4gq/github" 
+$webhook_url_test = "https://discord.com/api/webhooks/1148782725378084915/FniaKnmhqVN4GTUlxqKYY_ZqUOZ0M4EJqi8dOw-BveQqhry_nlN6XLlLFDpE1QPtEM1r/github"
 
 ####################################
 
@@ -9,14 +9,10 @@ default_platform(:ios)
 skip_docs
 platform :ios do
 
-before_all do
-	ensure_git_status_clean
-end
-
 error do |lane, exception, options|
 	lane_remove_badge
 	discord_notifier(
-	    webhook_url: #{webhook_url_test},
+	    webhook_url: "#{webhook_url_test}",
 	    title: "에러 발생",
 	    description: "#{exception}",
 	    success: false,
@@ -32,7 +28,6 @@ lane :release do
 		target: "WeatherVely", 
 		configuration: "Release"
 	)
-	clear_derived_data
   	get_certificates
 	get_provisioning_profile
 	build_app(
@@ -49,16 +44,14 @@ lane :release do
 		skip_metadata: false
 	)
 	discord_notifier(
-		webhook_url: #{webhook_url_release},
+		webhook_url: "#{webhook_url_release}",
 		title: "배포 성공",
 		description: ""
 	)
-	end
 end
 
 desc "Push a new beta build to TestFlight"
 lane :beta do
-	clear_derived_data
   	get_certificates
   	get_provisioning_profile
   	build_app(
@@ -70,7 +63,7 @@ lane :beta do
 		skip_waiting_for_build_processing: true
 	)
 	discord_notifier(
-		webhook_url: #{webhook_url_test},
+		webhook_url: "#{webhook_url_test}",
 		title: "배포 성공",
 		description: ""
 	)
