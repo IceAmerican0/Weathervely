@@ -48,4 +48,8 @@ extension String {
         
     }
     
+    /// "1.0.0" -> 100
+    func versionToInt() -> Int {
+        Int(self.replacingOccurrences(of: ".", with: "")) ?? 100
+    }
 }

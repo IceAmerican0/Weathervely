@@ -1,27 +1,79 @@
-# This file contains the fastlane.tools configuration
-# You can find the documentation at https://docs.fastlane.tools
-#
-# For a list of all available actions, check out
-#
-#     https://docs.fastlane.tools/actions
-#
-# For a list of all available plugins, check out
-#
-#     https://docs.fastlane.tools/plugins/available-plugins
-#
+############# 변수 정의 ##############
 
-# Uncomment the line if you want fastlane to automatically update itself
-# update_fastlane
+$webhook_url_release = "https://discord.com/api/webhooks/1148783115540643942/FtEvbn0kvgMxRvTEqkEtpmotA-gvAG5ynqcR58YjKpl_JvZmdHezjf0Rc9bSQsmRX4gq" 
+$webhook_url_test = "https://discord.com/api/webhooks/1148782725378084915/FniaKnmhqVN4GTUlxqKYY_ZqUOZ0M4EJqi8dOw-BveQqhry_nlN6XLlLFDpE1QPtEM1r"
+
+####################################
 
 default_platform(:ios)
-
+skip_docs
 platform :ios do
-  desc "Push a new beta build to TestFlight"
 
-  lane :beta do
-    get_certificates
-    get_provisioning_profile
-    build_app(workspace: "Weatherbly.xcworkspace", scheme: "Weatherbly")
-    upload_to_testflight
-  end
+before_all do
+	ensure_git_status_clean
+end
+
+error do |lane, exception, options|
+	lane_remove_badge
+	discord_notifier(
+	    webhook_url: #{webhook_url_test},
+	    title: "에러 발생",
+	    description: "#{exception}",
+	    success: false,
+	    thumbnail_url:"",
+	    image_url:""
+	)
+end
+
+desc "Push a new release build to the App Store"
+lane :release do
+	version = get_version_number(
+		xcodeproj: "Weatherbly.xcodeproj",
+		target: "WeatherVely", 
+		configuration: "Release"
+	)
+	clear_derived_data
+  	get_certificates
+	get_provisioning_profile
+	build_app(
+		workspace: "Weatherbly.xcworkspace", 
+		scheme: "WeatherVely",
+		configuration: "Release"
+	)
+	  upload_to_app_store(
+		app_version: version,
+	    submit_for_review: true,
+		force: true,
+		automatic_release: true,
+		skip_screenshots: true,
+		skip_metadata: false
+	)
+	discord_notifier(
+		webhook_url: #{webhook_url_release},
+		title: "배포 성공",
+		description: ""
+	)
+	end
+end
+
+desc "Push a new beta build to TestFlight"
+lane :beta do
+	clear_derived_data
+  	get_certificates
+  	get_provisioning_profile
+  	build_app(
+		workspace: "Weatherbly.xcworkspace", 
+		scheme: "WeatherVely_test",
+		configuration: "Debug"
+	)
+  	upload_to_testflight(
+		skip_waiting_for_build_processing: true
+	)
+	discord_notifier(
+		webhook_url: #{webhook_url_test},
+		title: "배포 성공",
+		description: ""
+	)
+end
+
 end
