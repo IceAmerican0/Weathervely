@@ -41,8 +41,6 @@ public class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitiali
     /// child component들의 속성을 잡아주기 위해서 flex.layout()을 먼저 호출한다.
         container.pin.all(view.pin.safeArea)
         container.flex.layout()
-        
-        layout()
     }
     
     public override func viewDidLoad() {

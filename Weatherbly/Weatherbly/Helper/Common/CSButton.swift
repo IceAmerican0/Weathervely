@@ -10,7 +10,7 @@ import PinLayout
 import RxSwift
 import RxCocoa
 
-class CSButton: UIButton, CodeBaseInitializerProtocol {
+class CSButton: UIButton {
     
     // MARK: - Control Property
     
@@ -21,24 +21,18 @@ class CSButton: UIButton, CodeBaseInitializerProtocol {
         case band
     }
     
-    private var buttonStyle: ButtonStyle
     private var bag = DisposeBag()
     private var stateRelay = BehaviorRelay<UIControl.State?>(value: nil)
     var primaryHeight = UIScreen.main.bounds.height * 0.07
     
     init(_ buttonStyle: ButtonStyle) {
-        self.buttonStyle = buttonStyle
         super.init(frame: .zero)
-        codeBaseInitializer()
+        setButtonStyle(buttonStyle)
         setRxBinding(buttonStyle)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    func attribute() {
-        setButtonStyle(buttonStyle)
     }
     
     func setRxBinding(_ style: ButtonStyle) {
@@ -71,9 +65,6 @@ class CSButton: UIButton, CodeBaseInitializerProtocol {
     }
     
     func setButtonStyle(_ style: ButtonStyle) {
-        
-        buttonStyle = style
-        
         self.do {
             switch style {
             case .primary:
