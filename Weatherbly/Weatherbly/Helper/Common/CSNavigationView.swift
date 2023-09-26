@@ -8,7 +8,6 @@
 import UIKit
 import FlexLayout
 import PinLayout
-import UIViewBorders
 import RxCocoa
 import RxSwift
 

@@ -9,7 +9,6 @@ import UIKit
 import FlexLayout
 import PinLayout
 import Then
-import FSPagerView
 import Kingfisher
 
 final class ClosetFSPagerViewCell: FSPagerViewCell {

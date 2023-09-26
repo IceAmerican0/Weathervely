@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import FSPagerView
 
 public extension UICollectionView {
     func dequeueCell<T: UICollectionViewCell>(withType type: T.Type, for indexPath: IndexPath) -> T {

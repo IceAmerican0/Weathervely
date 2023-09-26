@@ -8,7 +8,6 @@
 import UIKit
 import PinLayout
 import FlexLayout
-import FSPagerView
 import RxSwift
 import RxGesture
 import Kingfisher
