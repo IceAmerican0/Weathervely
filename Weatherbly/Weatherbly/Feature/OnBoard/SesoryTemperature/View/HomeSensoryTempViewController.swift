@@ -77,7 +77,7 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
                         case .success:
                             indicator.stopAnimating()
                             indicator.isHidden = true
-                            self.imageSourceLabel.text = "by \(closetsList[i].shopName)"
+                            self.imageSourceLabel.attributedText = NSMutableAttributedString().regular("by \(closetsList[i].shopName)", 11, .none)
                         case .failure:
                             indicator.stopAnimating()
                             indicator.isHidden = true
@@ -191,7 +191,8 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
                         .height(UIScreen.main.bounds.height * 0.37)
                         .alignSelf(.center)
                     flex.addItem(imageSourceLabel)
-                        .marginTop(12)
+                        .minHeight(13)  // se, mini 와 같은 디바이스에서 라벨 최소높이 강제
+                        .marginTop(15)
                     flex.addItem(downArrowButton).size(44).marginTop(9).alignSelf(.center)
                 }
             flex.addItem(discriptionLabel)
@@ -239,7 +240,8 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
             let yOffset = CGFloat(pageIndex) * scrollView.bounds.height
             scrollView.setContentOffset(CGPoint(x: 0, y: yOffset), animated: true)
             viewModel.setClosetIdRelay.accept(list[pageIndex].closetId)
-            imageSourceLabel.text = "by \(list[pageIndex].shopName)"
+            imageSourceLabel.attributedText = NSMutableAttributedString().regular("by \(list[pageIndex].shopName)", 11, .none)
+            
         } else {
             viewModel.alertMessageRelay.accept(.init(title: "이게 가장 얇은 옷차림이에요",
                                                      alertType: .Info))
@@ -254,7 +256,7 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
             let yOffset = CGFloat(pageIndex) * scrollView.bounds.height
             scrollView.setContentOffset(CGPoint(x: 0, y: yOffset), animated: true)
             viewModel.setClosetIdRelay.accept(list[pageIndex].closetId)
-            imageSourceLabel.text = "by \(list[pageIndex].shopName)"
+            imageSourceLabel.attributedText = NSMutableAttributedString().regular("by \(list[pageIndex].shopName)", 11, .none)
         } else {
             viewModel.alertMessageRelay.accept(.init(title: "이게 가장 두꺼운 옷차림이에요",
                                                      alertType: .Info))
@@ -300,7 +302,7 @@ extension HomeSensoryTempViewController {
         
         if pageIndex >= 0 && pageIndex < list.count {
             viewModel.setClosetIdRelay.accept(list[pageIndex].closetId)
-            imageSourceLabel.text = "by \(list[pageIndex].shopName)"
+            imageSourceLabel.attributedText = NSMutableAttributedString().regular("by \(list[pageIndex].shopName)", 11, .none)
         }
         
         let contentHeight = scrollView.contentSize.height
@@ -313,7 +315,7 @@ extension HomeSensoryTempViewController {
                                                      alertType: .Info))
             let middleContentOffset = CGPoint(x: 0, y: 0)
             scrollView.setContentOffset(middleContentOffset, animated: false)
-            imageSourceLabel.text = "by \(list[0].shopName)"
+            imageSourceLabel.attributedText = NSMutableAttributedString().regular("by \(list[pageIndex].shopName)", 11, .none)
         }
         
         // 스크롤뷰의 맨 아래에 도달했을 때
@@ -322,7 +324,8 @@ extension HomeSensoryTempViewController {
                                                      alertType: .Info))
             let middleContentOffset = CGPoint(x: 0, y: scrollView.frame.height * CGFloat(list.count - 1))
             scrollView.setContentOffset(middleContentOffset, animated: false)
-            imageSourceLabel.text = "by \(list[list.count-1].shopName)"
+            imageSourceLabel.attributedText = NSMutableAttributedString().regular( "by \(list[list.count-1].shopName)", 11, .none)
+           
         }
     }
 }

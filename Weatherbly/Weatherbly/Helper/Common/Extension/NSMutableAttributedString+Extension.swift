@@ -24,7 +24,10 @@ extension NSMutableAttributedString {
     func medium(_ string: String, _ fontSize: CGFloat, _ color: CSColor) -> NSMutableAttributedString {
         var font = UIFont.systemFont(ofSize: fontSize, weight: .medium)
         if UIScreen.main.bounds.width < 376 {
-            font = UIFont.systemFont(ofSize: fontSize - 4)
+            if fontSize > 12 {
+                font = UIFont.systemFont(ofSize: fontSize - 4)
+            }
+            
         }
         let attributes: [NSAttributedString.Key: Any] = [.font: font,
                                                          .foregroundColor: color.color]
@@ -37,7 +40,9 @@ extension NSMutableAttributedString {
         
         var font = UIFont.boldSystemFont(ofSize: fontSize)
         if UIScreen.main.bounds.width < 376 {
-            font = UIFont.boldSystemFont(ofSize: fontSize - 4)
+            if fontSize > 12 {
+                font = UIFont.systemFont(ofSize: fontSize - 4)
+            }
         }
         let attributes: [NSAttributedString.Key: Any] = [.font: font,
                                                          .foregroundColor: color.color]
@@ -49,7 +54,9 @@ extension NSMutableAttributedString {
     func underLine(_ string: String, _ fontSize: CGFloat, _ color: CSColor) -> NSMutableAttributedString {
         var font = UIFont.systemFont(ofSize: fontSize)
         if UIScreen.main.bounds.width < 376 {
-            font = UIFont.systemFont(ofSize: fontSize - 4)
+            if fontSize > 12 {
+                font = UIFont.systemFont(ofSize: fontSize - 4)
+            }
         }
         let attributes: [NSAttributedString.Key: Any] = [
             .font: font,
