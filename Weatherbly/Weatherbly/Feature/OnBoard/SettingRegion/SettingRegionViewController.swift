@@ -91,12 +91,11 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
         container.flex.alignItems(.center).define { flex in
             flex.addItem(progressBar)
             flex.addItem(navigationView).width(100%)
-            flex.addItem(explanationLabel).marginTop(27).marginHorizontal(35).width(85%)
+            flex.addItem(explanationLabel).marginTop(27).marginHorizontal(35).width(85%).height(34)
             flex.addItem(inputRegion).marginTop(22).marginHorizontal(30).width(85%).height(50)
             flex.addItem(regionTableView).marginTop(tableViewMarginTop).marginHorizontal(30).height(tableViewHeight)
-            flex.addItem(confirmButton).width(88%).height(62)
+            flex.addItem(confirmButton).position(.absolute).bottom(10%).marginHorizontal(43).width(78%).height(62)
         }
-        confirmButton.pin.bottom(10%)
         regionTableView.isHidden = true
         
         if viewModel.settingRegionState != .onboard {

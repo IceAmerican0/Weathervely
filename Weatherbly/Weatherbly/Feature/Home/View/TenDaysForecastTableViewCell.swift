@@ -8,6 +8,7 @@
 import UIKit
 import FlexLayout
 import PinLayout
+import Then
 
 class TenDaysForecastTableViewCell: UITableViewCell {
     
@@ -36,17 +37,12 @@ class TenDaysForecastTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         contentView.flex.layout()
-        
+        contentView.backgroundColor = UIColor(r: 250, g: 250, b: 250, a: 1)
         contentView.translatesAutoresizingMaskIntoConstraints = false
         separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
     }
     
     func attribute() {
-        
-        self.do {
-            $0.backgroundColor = UIColor(r: 250, g: 250, b: 250, a: 1)
-        }
-        
         temperatureLabel.do {
             $0.textAlignment = .right
             $0.numberOfLines = 0
@@ -91,12 +87,12 @@ class TenDaysForecastTableViewCell: UITableViewCell {
             .alignItems(.center)
             .justifyContent(.center)
             .define { flex in
-                flex.addItem(dateView).height(60).define { flex in
+                flex.addItem(dateView).alignItems(.center).marginLeft(13).height(60).define { flex in
                     flex.addItem(dayOfWeekLabel).marginTop(13).width(29).height(16)
-                    flex.addItem(dateLabel).marginTop(5).width(30).height(10)
+                    flex.addItem(dateLabel).marginTop(5).width(36).height(10)
                 }
                 
-                flex.addItem(leftRainPosLabel).marginLeft(30).width(37).height(20)
+                flex.addItem(leftRainPosLabel).marginLeft(15).width(37).height(20)
                 flex.addItem(amWeatherImageView).marginLeft(11).size(37)
                 flex.addItem(pmWeatherImageView).marginLeft(5).size(37)
                 flex.addItem(rightRainPosLabel).marginLeft(11).width(37).height(20)

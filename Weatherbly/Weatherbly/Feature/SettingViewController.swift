@@ -38,11 +38,6 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
     private var versionLabel = CSLabel(.regular, 12, "")
     
     private let tapGesture = UITapGestureRecognizer()
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        setRxButtonBinding()
-    }
 
     // MARK: - Attiribute
     override func attribute() {
@@ -128,18 +123,15 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
             .justifyContent(.spaceBetween)
             .define { flex in
             flex.addItem(navigationView)
-            
             flex.addItem(contentWrapper)
-                    .grow(1)
-                    .shrink(1)
+                .grow(1)
+                .shrink(1)
                 .define { flex in
-
                     flex.addItem(nickNameView)
                         .direction(.row)
                         .marginTop(27)
                         .marginHorizontal(32)
                         .define { flex in
-
                         flex.addItem(nickNameLabel)
                             .marginVertical(9)
                             .marginLeft(60)
@@ -147,8 +139,7 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
                                 .marginTop(5)
                                 .marginLeft(6)
                                 .size(24)
-                        }
-                    
+                    }
                     flex.addItem(messageView)
                         .marginHorizontal(32)
                         .direction(.row)
@@ -158,8 +149,7 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
                                 .margin(18, 13, 35, 15)
                             flex.addItem(messageLabel)
                                 .marginVertical(11)
-                        }
-
+                    }
                     flex.addItem(firstButtonWrapper)
                         .marginTop(40)
                         .marginHorizontal(32)
@@ -173,18 +163,19 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
                                         .define { flex in
                                             flex.addItem(locationTitleLabel).marginTop(22)
                                             flex.addItem(locationSubtitleLabel).marginTop(15)
-                                        }
-                                    flex.addItem(buttonInnerImageView).width(56).height(60).marginVertical(26.5)
-                                    buttonInnerImageView.pin.right(36)
-                                }
-                        }
-            }
-                flex.addItem(bottomView)
-                    .define { flex in
-                        flex.addItem(bottomLabel).marginTop(7)
-                        flex.addItem(versionLabel).marginTop(5)
+                                    }
+                                    flex.addItem(buttonInnerImageView).width(56).height(60).position(.absolute).marginVertical(26.5).right(36)
+                            }
                     }
-                bottomView.pin.bottom().marginBottom(2)
+            }
+            flex.addItem(bottomView)
+                .position(.absolute)
+                .width(UIScreen.main.bounds.width)
+                .bottom(2)
+                .define { flex in
+                    flex.addItem(bottomLabel).marginTop(7)
+                    flex.addItem(versionLabel).marginTop(5)
+            }
         }
         
     }
@@ -225,12 +216,6 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
                 self?.viewModel.toPrivacyPolicyView()
             })
             .disposed(by: bag)
-    }
-
-}
-
-extension SettingViewController {
-    func setRxButtonBinding() {
         
         locationButton.rx.controlEvent(.touchDown)
             .bind { [weak self] event in

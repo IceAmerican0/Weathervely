@@ -30,9 +30,6 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
     private var messageLabel = CSLabel(.regular, 17, "😷 미세 먼지가 매우 심해요")
     
     private lazy var pagerView = FSPagerView()
-    
-    private var bottomButtonWrapper = UIView()
-//    private var sensoryViewButton = CSButton(.primary)
     var sensoryViewButton = UIButton()
     
     private let screenWidth = UIScreen.main.bounds.width
@@ -163,13 +160,8 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
             }
             
             flex.addItem(messageLabel).marginTop(-45).width(dustLabelWidth).height(45)
-            flex.addItem(pagerView).width(screenWidth).height(closetWrapperHeight + 20)
-            flex.addItem(bottomButtonWrapper).direction(.row).define { flex in
-                flex.addItem(sensoryViewButton).padding(3, 13.5)
-            }
-            
-            pagerView.pin.top(to: dailyWrapper.edge.bottom).margin(screenHeight * 0.03)
-            bottomButtonWrapper.pin.bottom(14).marginHorizontal(62)
+            flex.addItem(pagerView).width(screenWidth).height(closetWrapperHeight + 20).marginTop(screenHeight * 0.03)
+            flex.addItem(sensoryViewButton).padding(3, 13.5).position(.absolute).bottom(14)
         }
         
         backgroundView.flex.alignItems(.center).define { flex in

@@ -63,11 +63,9 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
                 flex.addItem(outlineImage).size(24)
                 flex.addItem(subtitleLabel).marginLeft(3).height(28)
             }
-            flex.addItem(confirmButton).width(88%).height(62)
             flex.addItem(favoriteTableView).marginTop(8).marginHorizontal(24).height(168)
+            flex.addItem(confirmButton).position(.absolute).alignSelf(.center).bottom(buttonMarginBottom).width(88%).height(62)
         }
-        
-        confirmButton.pin.hCenter().bottom(buttonMarginBottom)
     }
     
     override func viewBinding() {

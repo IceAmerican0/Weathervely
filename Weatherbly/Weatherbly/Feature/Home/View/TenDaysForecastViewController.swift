@@ -100,14 +100,14 @@ class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastViewMod
             }
             
             flex.addItem(divider).marginTop(15).width(UIScreen.main.bounds.width).height(1.3)
-            
+
             flex.addItem(yesterdayView).marginTop(UIScreen.main.bounds.height * 0.04).marginHorizontal(15)
                 .direction(.row)
                 .alignItems(.center)
                 .width(tableViewWidth).height(33)
                 .define { flex in
-                flex.addItem(yesterdayLabel)
-                flex.addItem(yesterdayTemperature)
+                flex.addItem(yesterdayLabel).marginLeft(20)
+                flex.addItem(yesterdayTemperature).position(.absolute).marginVertical(2).right(10)
             }
             
             flex.addItem(forecastWrapper).marginTop(5).marginHorizontal(15).define { flex in
@@ -117,8 +117,6 @@ class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastViewMod
             flex.addItem(indicator)
         }
         
-        yesterdayLabel.pin.left(to: yesterdayView.edge.left).marginLeft(UIScreen.main.bounds.width * 0.0461)
-        yesterdayTemperature.pin.right(to: yesterdayView.edge.right).marginRight(UIScreen.main.bounds.width * 0.0435)
         indicator.pin.vCenter().hCenter()
     }
     

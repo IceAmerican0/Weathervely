@@ -47,6 +47,16 @@ class ChangeNicknameViewController: RxBaseViewController<ChangeNicknameViewModel
     
     private var isFemale = UserDefaultManager.shared.isFemale
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        registerKeyboardNotifications()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        unregisterKeyboardNotifications()
+    }
+    
     override func attribute() {
         super.attribute()
         
@@ -201,10 +211,12 @@ class ChangeNicknameViewController: RxBaseViewController<ChangeNicknameViewModel
 //                            }
             }
             flex.addItem(bottomButton)
+                .position(.absolute)
+                .bottom(10%)
                 .marginHorizontal(43)
+                .width(78%)
                 .height(bottomButton.primaryHeight)
         }
-        bottomButton.pin.bottom(10%)
     }
     
     override func bind() {

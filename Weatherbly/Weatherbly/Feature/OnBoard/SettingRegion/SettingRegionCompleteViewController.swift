@@ -63,12 +63,11 @@ public final class SettingRegionCompleteViewController: RxBaseViewController<Set
                 .define { flex in
                     flex.addItem(regionLabel).marginHorizontal(14).width(81.5%).height(28)
             }
-            flex.addItem(buttonWrapper).direction(.row).alignItems(.center)
+            flex.addItem(buttonWrapper).position(.absolute).direction(.row).justifyContent(.center).bottom(22%).width(100%)
                 .define { flex in
                 flex.addItem(negativeButton).width(39%).height(62)
                 flex.addItem(confirmButton).marginLeft(22).width(39%).height(62)
             }
-            buttonWrapper.pin.bottom(22%).marginHorizontal(32)
         }
         
         if viewModel.settingRegionState != .onboard {

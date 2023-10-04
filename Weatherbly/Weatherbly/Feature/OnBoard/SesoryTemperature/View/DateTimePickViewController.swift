@@ -83,18 +83,15 @@ final class DateTimePickViewController: RxBaseViewController<DateTimePickViewMod
         container.flex
             .define { flex in
                 flex.addItem(progressBar)
-                
                 flex.addItem(titleMessageLabel)
                     .marginTop(UIScreen.main.bounds.height * 0.09)
                     .marginHorizontal(65)
-                
                 flex.addItem(clockImage)
                     .size(44)
                     .alignSelf(.center)
                     .marginVertical(20)
                 flex.addItem(questionLabel)
                     .marginHorizontal(118)
-                    
                 flex.addItem(datePickerWrapper)
                     .height(UIScreen.main.bounds.height * 0.22)
                     .marginTop(33)
@@ -105,11 +102,11 @@ final class DateTimePickViewController: RxBaseViewController<DateTimePickViewMod
                 flex.addItem(discriptionLabel)
                     .marginTop(33)
                 flex.addItem(bottomButton)
-                    .marginTop(UIScreen.main.bounds.height * 0.11)
-                    .height(bottomButton.primaryHeight)
+                    .position(.absolute)
+                    .bottom(10%)
                     .marginHorizontal(43)
-                    
-                bottomButton.pin.bottom(53)
+                    .width(78%)
+                    .height(bottomButton.primaryHeight)
             }
     }
     

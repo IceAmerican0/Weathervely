@@ -170,10 +170,12 @@ final class EditNicknameViewController: RxBaseViewController<EditNicknameViewMod
 //                            }
                     }
                 flex.addItem(bottomButton)
+                    .position(.absolute)
+                    .bottom(10%)
                     .marginHorizontal(43)
+                    .width(78%)
                     .height(bottomButton.primaryHeight)
             }
-        bottomButton.pin.bottom(10%)
     }
     
     override func viewBinding() {

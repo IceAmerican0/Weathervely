@@ -21,9 +21,13 @@ final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         registerKeyboardNotifications()
         gestureEndEditing()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        unregisterKeyboardNotifications()
     }
     
     override func attribute() {
@@ -59,9 +63,8 @@ final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
             flex.addItem(explanationLabel).marginTop(27)
             flex.addItem(guideLabel).marginTop(10)
             flex.addItem(inputNickname).marginTop(36).width(85%).height(50)
-            flex.addItem(confirmButton).width(78%).height(62)
+            flex.addItem(confirmButton).position(.absolute).bottom(10%).marginHorizontal(43).width(78%).height(62)
         }
-        confirmButton.pin.bottom(10%)
     }
     
     override func viewBinding() {
