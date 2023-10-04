@@ -20,6 +20,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         /// Firebase
         FirebaseApp.configure()
+        registerRemoteNotification()
+        checkToken()
 
         checkForceUpdate()
     }
@@ -30,6 +32,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window?.makeKeyAndVisible()
     }
     
+    /// 강제 업데이트 여부
     func checkForceUpdate() {
         let remoteConfig = RemoteConfig.remoteConfig()
         let settings = RemoteConfigSettings()
@@ -62,6 +65,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
     }
     
+    /// 로그인 토큰
     func getToken() {
         let loginDataSource = AuthDataSource()
         loginDataSource.getToken()
@@ -100,5 +104,57 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func sceneDidEnterBackground(_ scene: UIScene) {}
     
+}
+
+// MARK: FCM & APNs
+extension SceneDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
+    /// FCM 기본 세팅
+    func registerRemoteNotification() {
+        let notificationCenter = UNUserNotificationCenter.current()
+        notificationCenter.delegate = self
+
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+        notificationCenter.requestAuthorization(
+          options: authOptions,
+          completionHandler: { _, _ in }
+        )
+        
+        UIApplication.shared.registerForRemoteNotifications()
+        
+        let messaging = Messaging.messaging()
+        messaging.delegate = self
+        messaging.isAutoInitEnabled = true
+    }
+    
+    /// FCM Token 확인용
+    func checkToken() {
+        Messaging.messaging().token { token, error in
+            if let error = error {
+                print("Error fetching FCM registration token: \(error)")
+            } else if let token = token {
+                print("FCM registration token: \(token)")
+            }
+        }
+    }
+    
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        let dataDict: [String: String] = ["token": fcmToken ?? ""]
+        NotificationCenter.default.post(
+            name: Notification.Name("FCMToken"),
+            object: nil,
+            userInfo: dataDict
+        )
+    }
+    
+    /// FCM Token 등록
+    func application(application: UIApplication,
+                     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        Messaging.messaging().apnsToken = deviceToken
+        Messaging.messaging().setAPNSToken(deviceToken, type: .unknown)
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert, .badge, .sound])
+    }
 }
 
