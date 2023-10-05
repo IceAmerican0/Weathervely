@@ -29,24 +29,26 @@ class EditNicknameViewModel: RxBaseViewModel, EditNicknameViewModelLogic {
     func loadUserInfo() {
         let dataSource = UserDataSource()
         dataSource.getUserInfo(UserDefaultManager.shared.nickname)
-            .subscribe(onNext: { [weak self] result in
-                switch result {
-                case .success(let response):
-                    userDefault.set(response.nickname, forKey: UserDefaultKey.nickname.rawValue)
-                    // TODO: 추후 성별 추가시 주석 풀기
-//                    userDefault.set(response.gender, forKey: UserDefaultKey.gender.rawValue)
-                    userDefault.synchronize()
-                    self?.loadUserInfoRelay.accept(response)
-                case .failure(let err):
-                    switch err {
-                    case .noInternetError:
-                        self?.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
-                    default:
-                        guard let errorString = err.errorDescription else { return }
-                        self?.alertMessageRelay.accept(.init(title: errorString,
-                                                            alertType: .Error))
+            .subscribe(
+                with: self,
+                onNext: { owner, result in
+                    switch result {
+                    case .success(let response):
+                        userDefault.set(response.nickname, forKey: UserDefaultKey.nickname.rawValue)
+                        // TODO: 추후 성별 추가시 주석 풀기
+    //                    userDefault.set(response.gender, forKey: UserDefaultKey.gender.rawValue)
+                        userDefault.synchronize()
+                        owner.loadUserInfoRelay.accept(response)
+                    case .failure(let err):
+                        switch err {
+                        case .noInternetError:
+                            owner.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
+                        default:
+                            guard let errorString = err.errorDescription else { return }
+                            owner.alertMessageRelay.accept(.init(title: errorString,
+                                                                alertType: .Error))
+                        }
                     }
-                }
             })
             .disposed(by: bag)
     }

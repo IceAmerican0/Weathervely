@@ -16,31 +16,33 @@ final public class LoadErrorViewModel: RxBaseViewModel, LoadErrorViewModelLogic 
     public func getToken() {
         let loginDataSource = AuthDataSource()
         loginDataSource.getToken()
-            .subscribe(onNext: { [weak self] result in
-                switch result {
-                case .success(let response):
-                    let data = response.data
-                    userDefault.set(data.user.nickname, forKey: UserDefaultKey.nickname.rawValue)
+            .subscribe(
+                with: self,
+                onNext: { owner, result in
+                    switch result {
+                    case .success(let response):
+                        let data = response.data
+                        userDefault.set(data.user.nickname, forKey: UserDefaultKey.nickname.rawValue)
 
-                    if let address = data.address {
-                        userDefault.set(address.dong, forKey: UserDefaultKey.dong.rawValue)
-                        if data.setTemperature == true {
-                            self?.navigationPushViewControllerRelay.accept(HomeViewController(HomeViewModel()))
+                        if let address = data.address {
+                            userDefault.set(address.dong, forKey: UserDefaultKey.dong.rawValue)
+                            if data.setTemperature == true {
+                                owner.navigationPushViewControllerRelay.accept(HomeViewController(HomeViewModel()))
+                            } else {
+                                owner.navigationPushViewControllerRelay.accept(DateTimePickViewController(DateTimePickViewModel()))
+                            }
                         } else {
-                            self?.navigationPushViewControllerRelay.accept(DateTimePickViewController(DateTimePickViewModel()))
+                            owner.navigationPushViewControllerRelay.accept(SettingRegionViewController(SettingRegionViewModel(.onboard)))
                         }
-                    } else {
-                        self?.navigationPushViewControllerRelay.accept(SettingRegionViewController(SettingRegionViewModel(.onboard)))
+                    case .failure(let err):
+                        switch err {
+                        case .noInternetError:
+                            owner.alertMessageRelay.accept(.init(title: "인터넷 연결을 확인해주세요",
+                                                                 alertType: .Info))
+                        default:
+                            owner.navigationPushViewControllerRelay.accept(OnBoardViewController(OnBoardViewModel()))
+                        }
                     }
-                case .failure(let err):
-                    switch err {
-                    case .noInternetError:
-                        self?.alertMessageRelay.accept(.init(title: "인터넷 연결을 확인해주세요",
-                                                             alertType: .Info))
-                    default:
-                        self?.navigationPushViewControllerRelay.accept(OnBoardViewController(OnBoardViewModel()))
-                    }
-                }
             })
             .disposed(by: bag)
     }

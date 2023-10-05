@@ -223,39 +223,48 @@ class ChangeNicknameViewController: RxBaseViewController<ChangeNicknameViewModel
         super.bind()
         
         csNavigationView.leftButtonDidTapRelay
-            .bind(onNext: { [weak self] _ in
-                self?.navigationController?.popViewController(animated: true)
-            })
+            .bind(with: self) { owner, _ in
+                owner.navigationController?.popViewController(animated: true)
+            }
             .disposed(by: bag)
         
         womanButton.rx.tap
-            .subscribe { [weak self] _ in
-                if self?.isFemale == false { self?.buttonToggle() }
-            }.disposed(by: bag)
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, _ in
+                    if owner.isFemale == false { owner.buttonToggle() }
+            })
+            .disposed(by: bag)
         
         manButton.rx.tap
-            .subscribe { [weak self] _ in
-                if self?.isFemale == true { self?.buttonToggle() }
-            }.disposed(by: bag)
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, _ in
+                    if owner.isFemale == true { owner.buttonToggle() }
+            })
+            .disposed(by: bag)
         
         bottomButton.rx.tap
-            .subscribe { [weak self] _ in
-                guard let inputNickname = self?.nicknameTextField.text else { return }
-                self?.viewModel.didTapConfirmButton(UserInfoRequest(nickname: inputNickname/*,
-                                                                    gender: self?.isFemale == true ? "female" : "male"*/))
+            .bind(with: self) { owner, _ in
+                guard let inputNickname = owner.nicknameTextField.text else { return }
+                owner.viewModel.didTapConfirmButton(UserInfoRequest(nickname: inputNickname/*,
+                                                                    gender: owner.isFemale == true ? "female" : "male"*/))
             }.disposed(by: bag)
         
         nicknameTextField.rx.text.orEmpty
-            .subscribe(onNext: { [weak self] _ in
-                if let value = self?.nicknameTextField.text {
-                    if value.count > 1 {
-                        self?.bottomButton.isEnabled = true
-                        self?.bottomButton.setButtonStyle(.primary)
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, text in
+                    if text.count > 1 {
+                        owner.bottomButton.isEnabled = true
+                        owner.bottomButton.setButtonStyle(.primary)
                     } else {
-                        self?.bottomButton.isEnabled = false
-                        self?.bottomButton.setButtonStyle(.grayFilled)
+                        owner.bottomButton.isEnabled = false
+                        owner.bottomButton.setButtonStyle(.grayFilled)
                     }
-                }
             })
             .disposed(by: bag)
     }

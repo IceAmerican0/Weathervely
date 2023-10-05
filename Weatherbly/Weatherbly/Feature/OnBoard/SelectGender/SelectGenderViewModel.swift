@@ -17,21 +17,23 @@ final class SelectGenderViewModel: RxBaseViewModel, SelectGenderViewModelLogic {
     public func didTapAcceptButton(_ gender: String) {
         let dataSource = AuthDataSource()
         dataSource.setGender(gender)
-            .subscribe(onNext: { [weak self] result in
-                switch result {
-                case .success:
-                    userDefault.set(gender == "female" ? "여성" : "남성", forKey: UserDefaultKey.gender.rawValue)
-                    self?.toDateTimePickView()
-                case .failure(let err):
-                    switch err {
-                    case .noInternetError:
-                        self?.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
-                    default:
-                        guard let errorString = err.errorDescription else { return }
-                        self?.alertMessageRelay.accept(.init(title: errorString,
-                                                            alertType: .Error))
+            .subscribe(
+                with: self,
+                onNext: { owner, result in
+                    switch result {
+                    case .success:
+                        userDefault.set(gender == "female" ? "여성" : "남성", forKey: UserDefaultKey.gender.rawValue)
+                        owner.toDateTimePickView()
+                    case .failure(let err):
+                        switch err {
+                        case .noInternetError:
+                            owner.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
+                        default:
+                            guard let errorString = err.errorDescription else { return }
+                            owner.alertMessageRelay.accept(.init(title: errorString,
+                                                                alertType: .Error))
+                        }
                     }
-                }
             })
             .disposed(by: bag)
     }

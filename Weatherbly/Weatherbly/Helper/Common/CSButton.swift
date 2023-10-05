@@ -36,32 +36,37 @@ class CSButton: UIButton {
     }
     
     func setRxBinding(_ style: ButtonStyle) {
-        
         self.rx.controlEvent(.touchDown)
-            .bind { [weak self] event in
-                switch style {
-                case .primary:
-                    self?.setBackgroundColor(CSColor._236_207_255.color)
-                case .grayFilled:
-                    self?.setBackgroundColor(CSColor._115_115_115_52.color)
-                default:
-                    break
-                }
-            }
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, _ in
+                    switch style {
+                    case .primary:
+                        owner.setBackgroundColor(CSColor._236_207_255.color)
+                    case .grayFilled:
+                        owner.setBackgroundColor(CSColor._115_115_115_52.color)
+                    default:
+                        break
+                    }
+            })
             .disposed(by: bag)
         
-        self.rx.controlEvent([.touchUpInside, .touchUpOutside, .touchDragInside ])
-                    .bind { [weak self] event in
-                        switch style {
-                        case .primary:
-                            self?.setBackgroundColor(CSColor._172_107_255.color)
-                        case .grayFilled:
-                            self?.setBackgroundColor(CSColor._151_151_151.color)
-                        default:
-                            break
-                        }
+        self.rx.controlEvent([.touchUpInside, .touchUpOutside, .touchDragInside])
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, _ in
+                    switch style {
+                    case .primary:
+                        owner.setBackgroundColor(CSColor._172_107_255.color)
+                    case .grayFilled:
+                        owner.setBackgroundColor(CSColor._151_151_151.color)
+                    default:
+                        break
                     }
-                    .disposed(by: bag)
+            })
+            .disposed(by: bag)
     }
     
     func setButtonStyle(_ style: ButtonStyle) {

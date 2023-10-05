@@ -61,8 +61,10 @@ final class LoadErrorViewController: RxBaseViewController<LoadErrorViewModel> {
         super.viewBinding()
         
         retryButton.rx.tap
-            .subscribe(onNext: { [weak self] _ in
-                self?.viewModel.getToken()
+            .subscribe(
+                with: self,
+                onNext: { owner, _ in
+                    owner.viewModel.getToken()
             })
             .disposed(by: bag)
     }

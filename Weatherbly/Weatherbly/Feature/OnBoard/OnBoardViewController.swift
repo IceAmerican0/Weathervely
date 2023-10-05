@@ -59,7 +59,9 @@ final class OnBoardViewController: RxBaseViewController<OnBoardViewModel> {
         super.viewBinding()
         
         startButton.rx.tap
-            .bind(onNext: viewModel.toNicknameView)
+            .bind(with: self) { owner, _ in
+                owner.viewModel.toNicknameView()
+            }
             .disposed(by: bag)
     }
 

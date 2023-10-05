@@ -70,86 +70,86 @@ public class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitiali
     func viewModelBinding() {
         viewModel
             .navigationPoptoRootRelay
-            .subscribe(onNext: { [weak self] _ in
-                self?.navigationController?.popToRootViewController(animated: true)
-            })
+            .bind(with: self) { owner, _ in
+                owner.navigationController?.popToRootViewController(animated: true)
+            }
             .disposed(by: bag)
         
         viewModel
             .navigationPopToSelfRelay
-            .subscribe(onNext: { [weak self] _ in
-                guard let self else { return }
-                self.navigationController?.popToViewController(self, animated: true)
-            })
+            .bind(with: self) { owner, _ in
+                owner.navigationController?.popToViewController(owner, animated: true)
+            }
             .disposed(by: bag)
         
         viewModel
             .navigationPopViewControllerRelay
-            .subscribe(onNext: { [weak self] _ in
-                self?.navigationController?.popViewController(animated: true)
-            })
+            .bind(with: self) { owner, _ in
+                owner.navigationController?.popViewController(animated: true)
+            }
             .disposed(by: bag)
         
         viewModel
             .navigationPushViewControllerRelay
-            .subscribe(onNext: { [weak self] viewController in
-                guard let self, let viewController else { return }
-                self.navigationController?.pushViewController(viewController, animated: true)
-            })
+            .bind(with: self) { owner, viewController in
+                guard let viewController else { return }
+                owner.navigationController?.pushViewController(viewController, animated: true)
+            }
             .disposed(by: bag)
         
         viewModel
             .presentViewControllerWithAnimationRelay
-            .subscribe(onNext: { [weak self] viewController in
-                guard let self, let viewController else { return }
-                self.present(viewController, animated: true)
-            })
+            .bind(with: self) { owner, viewController in
+                guard let viewController else { return }
+                owner.present(viewController, animated: true)
+            }
             .disposed(by: bag)
         
         viewModel
             .presentViewControllerNoAnimationRelay
-            .subscribe(onNext: { [weak self] viewController in
-                guard let self, let viewController else { return }
-                self.present(viewController, animated: false)
-            })
+            .bind(with: self) { owner, viewController in
+                guard let viewController else { return }
+                owner.present(viewController, animated: false)
+            }
             .disposed(by: bag)
         
         viewModel
             .dismissSelfNoAnimationRelay
-            .subscribe(onNext: { [weak self] _ in
-                self?.dismiss(animated: false)
-            })
+            .bind(with: self) { owner, _ in
+                owner.dismiss(animated: false)
+            }
             .disposed(by: bag)
         
         viewModel
             .dismissSelfWithAnimationRelay
-            .subscribe(onNext: { [weak self] _ in
-                self?.dismiss(animated: true)
-            })
+            .bind(with: self) { owner, _ in
+                owner.dismiss(animated: true)
+            }
             .disposed(by: bag)
         
         viewModel.dismissSelfAnimationClosureRelay
-            .bind { [weak self] closure in
-                self?.dismiss(animated: true, completion: closure)
+            .bind(with: self) { owner, closure in
+                owner.dismiss(animated: true, completion: closure)
             }
             .disposed(by: bag)
     }
     
     func alertBinding() {
         viewModel.alertMessageRelay
-            .subscribe(onNext: { [weak self] message in
-                switch message.alertType {
-                case .Error:
-                    let alertVC = AlertViewController(state: .init(title: message.title,
-                                                                   message: message.message,
-                                                                   alertType: message.alertType,
-                                                                   closeAction: message.closeAction))
-                    alertVC.modalPresentationStyle = .overCurrentContext
-                    self?.viewModel.presentViewControllerNoAnimationRelay.accept(alertVC)
-                case .Info:
-                    self?.view.showToast(message: message.title, font: .systemFont(ofSize: 16))
+            .subscribe(
+                with: self,
+                onNext: { owner, message in
+                    switch message.alertType {
+                    case .Error:
+                        let alertVC = AlertViewController(state: .init(title: message.title,
+                                                                       message: message.message,
+                                                                       alertType: message.alertType,
+                                                                       closeAction: message.closeAction))
+                        alertVC.modalPresentationStyle = .overCurrentContext
+                        owner.viewModel.presentViewControllerNoAnimationRelay.accept(alertVC)
+                    case .Info:
+                        owner.view.showToast(message: message.title, font: .systemFont(ofSize: 16))
                 }
-                
             })
             .disposed(by: bag)
     }

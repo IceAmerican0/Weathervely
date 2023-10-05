@@ -184,49 +184,59 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
         super.bind()
         
         navigationView.leftButtonDidTapRelay
-            .subscribe(onNext: { [weak self] _ in
-                if let viewControllers = self?.navigationController?.viewControllers {
+            .bind(with: self) { owner, _ in
+                if let viewControllers = owner.navigationController?.viewControllers {
                     for viewController in viewControllers {
                         if let homeViewController = viewController as? HomeViewController {
-                            self?.navigationController?.popToViewController(homeViewController, animated: true)
+                            owner.navigationController?.popToViewController(homeViewController, animated: true)
                             break
                         }
                     }
                 }
-            })
+            }
             .disposed(by: bag)
         
         tapGesture.rx
             .event
-            .subscribe(onNext: { [weak self] _ in
-                self?.viewModel.toEditNicknameView()
-            })
+            .bind(with: self) { owner, _ in
+                owner.viewModel.toEditNicknameView()
+            }
             .disposed(by: bag)
         
         editButton.rx.tap
-            .bind(onNext: viewModel.toEditNicknameView)
+            .bind(with: self) { owner, _ in
+                owner.viewModel.toEditNicknameView()
+            }
             .disposed(by: bag)
         
         locationButton.rx.tap
-            .bind(onNext: viewModel.toEditRegionView)
+            .bind(with: self) { owner, _ in
+                owner.viewModel.toEditRegionView()
+            }
             .disposed(by: bag)
 
         bottomLabel.rx.tapGesture().when(.recognized)
-            .subscribe(onNext: { [weak self] _ in
-                self?.viewModel.toPrivacyPolicyView()
-            })
+            .bind(with: self) { owner, result in
+                owner.viewModel.toPrivacyPolicyView()
+            }
             .disposed(by: bag)
         
         locationButton.rx.controlEvent(.touchDown)
-            .bind { [weak self] event in
-                self?.locationButton.setBackgroundColor(CSColor._255_255_255_05.color)
-            }
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, _ in
+                owner.locationButton.setBackgroundColor(CSColor._255_255_255_05.color)
+            })
             .disposed(by: bag)
         
         locationButton.rx.controlEvent([.touchUpInside, .touchUpOutside, .touchDragInside ])
-            .bind { [weak self] event in
-                self?.locationButton.setBackgroundColor(CSColor._245_245_245.color)
-            }
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, _ in
+                owner.locationButton.setBackgroundColor(CSColor._245_245_245.color)
+            })
             .disposed(by: bag)
     }
 }

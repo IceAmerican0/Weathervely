@@ -40,9 +40,9 @@ final class PrivatePolicyViewController: RxBaseViewController<PrivatePolicyViewM
             .disposed(by: bag)
         
         labelTapGesture.rx.event
-            .subscribe(onNext: { [weak self] _ in
-                self?.viewModel.toPrivatePolicyWebView()
-            })
+            .bind(with: self) { owner, _ in
+                owner.viewModel.toPrivatePolicyWebView()
+            }
             .disposed(by: bag)
     }
 }

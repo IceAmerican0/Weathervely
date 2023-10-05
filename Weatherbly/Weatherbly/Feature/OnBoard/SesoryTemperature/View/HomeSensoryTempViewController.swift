@@ -209,27 +209,28 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
         super.viewBinding()
         
         navigationDismissButton.rx.tap
-            .subscribe(onNext: { [ weak self ] _ in
-                self?.dismiss(animated: true)
-            })
+            .bind(with: self) { owner, _ in
+                owner.dismiss(animated: true)
+            }
             .disposed(by: bag)
         
         upperArrowButton.rx.tap
-            .subscribe(onNext: { [weak self] _ in
-                self?.moveUp()
-            })
+            .bind(with: self) { owner, _ in
+                owner.moveUp()
+            }
             .disposed(by: bag)
         
         downArrowButton.rx.tap
-            .subscribe(onNext: { [weak self] _ in
-                self?.moveDown()
-            })
+            .bind(with: self) { owner, _ in
+                owner.moveDown()
+            }
             .disposed(by: bag)
         
         bottomButton.rx.tap
-            .subscribe(onNext: { [weak self] tap in
-                self?.viewModel.setSensoryTemperature()
-            }).disposed(by: bag)
+            .bind(with: self) { owner, _ in
+                owner.viewModel.setSensoryTemperature()
+            }
+            .disposed(by: bag)
     }
     
     private func moveUp() {
@@ -267,27 +268,35 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
         super.viewModelBinding()
         
         viewModel.closetListByTempRelay
-            .subscribe(onNext: { [weak self] _ in
-                self?.addContentscrollView()
-                self?.scrollView.setContentOffset(CGPoint(x: 0, y: (self?.viewModel.focusingIndexRelay.value)!), animated: true)
-                
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, _ in
+                owner.addContentscrollView()
+                owner.scrollView.setContentOffset(CGPoint(x: 0, y: owner.viewModel.focusingIndexRelay.value), animated: true)
             })
             .disposed(by: bag)
         
         viewModel.slotMachineIndexRelay
-            .subscribe(onNext: { [weak self] index in
-                self?.viewModel.yOffsetForIndex(index, self?.scrollView)
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, index in
+                owner.viewModel.yOffsetForIndex(index, owner.scrollView)
             })
             .disposed(by: bag)
 
         viewModel.selectedTimeRelay
-            .subscribe(onNext: {[weak self] text in
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, text in
                 guard var selectedTime = text,
-                      let selectedTemp = self?.viewModel.selectedTempRelay.value
+                      let selectedTemp = owner.viewModel.selectedTempRelay.value
                 else { return }
                 
                 if selectedTime == Date().todayThousandFormat { selectedTime = "현재"}
-                self?.tempLabel.attributedText = NSMutableAttributedString()
+                owner.tempLabel.attributedText = NSMutableAttributedString()
                     .bold("\(selectedTime) (\(selectedTemp))", 16, CSColor._40_106_167)
             }).disposed(by: bag)
         

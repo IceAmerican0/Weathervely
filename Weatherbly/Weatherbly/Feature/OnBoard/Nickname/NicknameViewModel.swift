@@ -19,22 +19,24 @@ final class NicknameViewModel: RxBaseViewModel, NicknameViewModelLogic {
         let uuid = UUID().uuidString
         let dataSource = AuthDataSource()
         dataSource.setNickname(text, uuid)
-            .subscribe(onNext: { [weak self] result in
-                switch result {
-                case .success:
-                    self?.toSettingRegionView()
-                    userDefault.set(text, forKey: UserDefaultKey.nickname.rawValue)
-                    KeychainManager.shared.saveUUID(uuid)
-                case .failure(let err):
-                    switch err {
-                    case .noInternetError:
-                        self?.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
-                    default:
-                        guard let errorString = err.errorDescription else { return }
-                        self?.alertMessageRelay.accept(.init(title: errorString,
-                                                            alertType: .Error))
+            .subscribe(
+                with: self,
+                onNext: { owner, result in
+                    switch result {
+                    case .success:
+                        owner.toSettingRegionView()
+                        userDefault.set(text, forKey: UserDefaultKey.nickname.rawValue)
+                        KeychainManager.shared.saveUUID(uuid)
+                    case .failure(let err):
+                        switch err {
+                        case .noInternetError:
+                            owner.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
+                        default:
+                            guard let errorString = err.errorDescription else { return }
+                            owner.alertMessageRelay.accept(.init(title: errorString,
+                                                                alertType: .Error))
+                        }
                     }
-                }
             })
             .disposed(by: bag)
     }

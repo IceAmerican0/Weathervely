@@ -44,16 +44,18 @@ class TenDaysForecastViewModel: RxBaseViewModel, ViewModelBusinessLogic {
     
     public func getInfo() {
         dataSource.getTenDayForeCast()
-            .subscribe(onNext: { [weak self] result in
-                switch result {
-                case .success(let response):
-                    self?.sevenDayForecastInfoRelay.accept(response)
-                case .failure(let err):
-                    guard let errString = err.errorDescription else { return }
-                    self?.alertMessageRelay.accept(.init(title: errString,
-                                                         alertType: .Error,
-                                                         closeAction: self?.popViewController))
-                }
+            .subscribe(
+                with: self,
+                onNext: { owner, result in
+                    switch result {
+                    case .success(let response):
+                        owner.sevenDayForecastInfoRelay.accept(response)
+                    case .failure(let err):
+                        guard let errString = err.errorDescription else { return }
+                        owner.alertMessageRelay.accept(.init(title: errString,
+                                                             alertType: .Error,
+                                                             closeAction: owner.popViewController))
+                    }
             })
             .disposed(by: bag)
     }

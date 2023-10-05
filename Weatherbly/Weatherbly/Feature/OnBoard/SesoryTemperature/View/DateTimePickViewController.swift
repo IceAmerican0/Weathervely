@@ -115,18 +115,17 @@ final class DateTimePickViewController: RxBaseViewController<DateTimePickViewMod
         super.bind()
         
         bottomButton.rx.tap
-            .subscribe (onNext: { [weak self] _ in
+            .bind(with: self) { owner, _ in
                 let date = Date()
                 let today = date.todayDatePickerFormat.components(separatedBy: " ").map{ $0 }
                 
                 // Get Picker value
-                let pickerDay: String = self?.pickerFirstRowData[(self?.dateTimePickerView.selectedRow(inComponent: 0))  ?? 0] ?? "어제"
+                let pickerDay: String = owner.pickerFirstRowData[(owner.dateTimePickerView.selectedRow(inComponent: 0))]
+                let pickerDayTime: String = owner.pickerSecondRowData[(owner.dateTimePickerView.selectedRow(inComponent: 1))]
+                let pickerTime: Int = Int(owner.pickerThirdRowData[(owner.dateTimePickerView.selectedRow(inComponent: 2))])
                 
-                let pickerDayTime: String = self?.pickerSecondRowData[(self?.dateTimePickerView.selectedRow(inComponent: 1)) ?? 0] ?? "오전"
-                
-                let pickerTime: Int = Int(self?.pickerThirdRowData[(self?.dateTimePickerView.selectedRow(inComponent: 2)) ?? 6] ?? 7)
-                self?.viewModel.didTapConfirmButton(today, pickerDay, pickerDayTime, pickerTime)
-            })
+                owner.viewModel.didTapConfirmButton(today, pickerDay, pickerDayTime, pickerTime)
+            }
             .disposed(by: bag)
     }
 }

@@ -154,46 +154,48 @@ public final class MainToolTipViewController: UIViewController, CodeBaseInitiali
     }
     
     func bind() {
-        backgroundTapGesture.rx
-            .event
-            .subscribe(onNext: { [weak self] _ in
-                self?.touchCount += 1
-                switch self?.touchCount {
-                case 1:
-                    self?.upperLabel.text = "💡 상단 영역을 클릭해보세요"
-                    self?.lowerLabel.text = "현재 날씨 / 내일 날씨로 빠르게 이동할 수 있어요"
-                    self?.touchImage.pin.top(8%).left(60%)
-                    self?.mainBox.isHidden = false
-                    self?.touchImage.isHidden = false
-                    self?.outerLeftArrow.isHidden = true
-                    self?.innerLeftArrow.isHidden = true
-                    self?.outerRightArrow.isHidden = true
-                    self?.innerRightArrow.isHidden = true
-                case 2:
-                    self?.upperLabel.text = "💡 양 옆 카드를 클릭해보세요"
-                    self?.lowerLabel.text = "더 자세히 볼 수 있어요"
-                    self?.mainBox.isHidden = true
-                    self?.touchImage.pin.top(53%).left(4%)
-                    if UIScreen.main.bounds.width < 376 {
-                        self?.dimView.pin.hCenter().top().marginTop(-(UIScreen.main.bounds.height * 0.59))
-                    } else {
-                        self?.dimView.pin.hCenter().top().marginTop(-(UIScreen.main.bounds.height * 0.6))
+        backgroundTapGesture.rx.event
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, _ in
+                    owner.touchCount += 1
+                    switch owner.touchCount {
+                    case 1:
+                        owner.upperLabel.text = "💡 상단 영역을 클릭해보세요"
+                        owner.lowerLabel.text = "현재 날씨 / 내일 날씨로 빠르게 이동할 수 있어요"
+                        owner.touchImage.pin.top(8%).left(60%)
+                        owner.mainBox.isHidden = false
+                        owner.touchImage.isHidden = false
+                        owner.outerLeftArrow.isHidden = true
+                        owner.innerLeftArrow.isHidden = true
+                        owner.outerRightArrow.isHidden = true
+                        owner.innerRightArrow.isHidden = true
+                    case 2:
+                        owner.upperLabel.text = "💡 양 옆 카드를 클릭해보세요"
+                        owner.lowerLabel.text = "더 자세히 볼 수 있어요"
+                        owner.mainBox.isHidden = true
+                        owner.touchImage.pin.top(53%).left(4%)
+                        if UIScreen.main.bounds.width < 376 {
+                            owner.dimView.pin.hCenter().top().marginTop(-(UIScreen.main.bounds.height * 0.59))
+                        } else {
+                            owner.dimView.pin.hCenter().top().marginTop(-(UIScreen.main.bounds.height * 0.6))
+                        }
+                    case 3:
+                        owner.upperLabel.text = "💡 '너의 온도는?' 버튼을 클릭해보세요"
+                        owner.upperLabel.pin.hCenter().width(85%)
+                        owner.lowerLabel.text = "체감온도에 맞게 옷 겹수를 바꿀 수 있어요"
+                        if UIScreen.main.bounds.width < 376 {
+                            owner.touchImage.pin.top(91%).right(12%)
+                            owner.dimView.pin.hCenter().top().marginTop(-(UIScreen.main.bounds.height * 0.12))
+                        } else {
+                            owner.touchImage.pin.top(89%).right(12%)
+                            owner.dimView.pin.hCenter().top().marginTop(-(UIScreen.main.bounds.height * 0.14))
+                        }
+                    default:
+                        owner.delegate?.toolTipDismiss()
+                        owner.dismiss(animated: false)
                     }
-                case 3:
-                    self?.upperLabel.text = "💡 '너의 온도는?' 버튼을 클릭해보세요"
-                    self?.upperLabel.pin.hCenter().width(85%)
-                    self?.lowerLabel.text = "체감온도에 맞게 옷 겹수를 바꿀 수 있어요"
-                    if UIScreen.main.bounds.width < 376 {
-                        self?.touchImage.pin.top(91%).right(12%)
-                        self?.dimView.pin.hCenter().top().marginTop(-(UIScreen.main.bounds.height * 0.12))
-                    } else {
-                        self?.touchImage.pin.top(89%).right(12%)
-                        self?.dimView.pin.hCenter().top().marginTop(-(UIScreen.main.bounds.height * 0.14))
-                    }
-                default:
-                    self?.delegate?.toolTipDismiss()
-                    self?.dismiss(animated: false)
-                }
             })
             .disposed(by: bag)
     }

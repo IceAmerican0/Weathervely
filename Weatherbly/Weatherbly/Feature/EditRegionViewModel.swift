@@ -40,36 +40,36 @@ public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogi
     
     public func loadRegionList() {
         dataSource.getAddressList()
-            .subscribe(onNext: { [weak self] result in
-                switch result {
-                case .success(let response):
-                    guard let list = response.data?.list else { return }
-                    self?.loadedListRelay.accept(list)
-                    switch self?.editRegionState {
-                    case .edit:
-                        break
-                    case .change:
-                        self?.alertMessageRelay.accept(.init(title: "현재 동네가 \(UserDefaultManager.shared.dong)(으)로 변경됐어요",
-                                                             alertType: .Info))
-                    case .add:
-                        self?.alertMessageRelay.accept(.init(title: "동네가 추가됐어요",
-                                                             alertType: .Info))
-                    case .none:
-                        break
+            .subscribe(
+                with: self,
+                onNext: { owner, result in
+                    switch result {
+                    case .success(let response):
+                        guard let list = response.data?.list else { return }
+                        self.loadedListRelay.accept(list)
+                        switch self.editRegionState {
+                        case .edit:
+                            break
+                        case .change:
+                            owner.alertMessageRelay.accept(.init(title: "현재 동네가 \(UserDefaultManager.shared.dong)(으)로 변경됐어요",
+                                                                 alertType: .Info))
+                        case .add:
+                            owner.alertMessageRelay.accept(.init(title: "동네가 추가됐어요",
+                                                                 alertType: .Info))
+                        }
+                    case .failure(let err):
+                        switch err {
+                        case .noInternetError:
+                            owner.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
+                        default:
+                            guard let errorString = err.errorDescription else { return }
+                            owner.alertMessageRelay.accept(.init(title: errorString,
+                                                                alertType: .Error,
+                                                                closeAction: {
+                                owner.navigationPopViewControllerRelay.accept(Void())
+                            }))
+                        }
                     }
-                case .failure(let err):
-                    switch err {
-                    case .noInternetError:
-                        self?.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
-                    default:
-                        guard let errorString = err.errorDescription else { return }
-                        self?.alertMessageRelay.accept(.init(title: errorString,
-                                                            alertType: .Error,
-                                                            closeAction: {
-                            self?.navigationPopViewControllerRelay.accept(Void())
-                        }))
-                    }
-                }
             })
             .disposed(by: bag)
     }
@@ -78,22 +78,24 @@ public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogi
         editRegionState = .edit
         let regionInfo = loadedListRelay.value[index]
         dataSource.deleteAddress(regionInfo.id)
-            .subscribe(onNext: { [weak self] result in
-                switch result {
-                case .success:
-                    self?.loadRegionList()
-                    self?.alertMessageRelay.accept(.init(title: "선택한 동네가 삭제됐어요",
-                                                         alertType: .Info))
-                case .failure(let err):
-                    switch err {
-                    case .noInternetError:
-                        self?.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
-                    default:
-                        guard let errorString = err.errorDescription else { return }
-                        self?.alertMessageRelay.accept(.init(title: errorString,
-                                                            alertType: .Error))
+            .subscribe(
+                with: self,
+                onNext: { owner, result in
+                    switch result {
+                    case .success:
+                        owner.loadRegionList()
+                        owner.alertMessageRelay.accept(.init(title: "선택한 동네가 삭제됐어요",
+                                                             alertType: .Info))
+                    case .failure(let err):
+                        switch err {
+                        case .noInternetError:
+                            owner.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
+                        default:
+                            guard let errorString = err.errorDescription else { return }
+                            owner.alertMessageRelay.accept(.init(title: errorString,
+                                                                alertType: .Error))
+                        }
                     }
-                }
             })
             .disposed(by: bag)
     }
@@ -102,23 +104,25 @@ public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogi
         editRegionState = .edit
         let regionInfo = loadedListRelay.value[index]
         dataSource.setMainAddress(regionInfo.id)
-            .subscribe(onNext: { [weak self] result in
-                switch result {
-                case .success:
-                    self?.loadRegionList()
-                    userDefault.set(regionInfo.dong, forKey: UserDefaultKey.dong.rawValue)
-                    self?.alertMessageRelay.accept(.init(title: "현재 동네가 \(regionInfo.dong)(으)로 변경됐어요",
-                                                         alertType: .Info))
-                case .failure(let err):
-                    switch err {
-                    case .noInternetError:
-                        self?.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
-                    default:
-                        guard let errorString = err.errorDescription else { return }
-                        self?.alertMessageRelay.accept(.init(title: errorString,
-                                                            alertType: .Error))
+            .subscribe(
+                with: self,
+                onNext: { owner, result in
+                    switch result {
+                    case .success:
+                        owner.loadRegionList()
+                        userDefault.set(regionInfo.dong, forKey: UserDefaultKey.dong.rawValue)
+                        owner.alertMessageRelay.accept(.init(title: "현재 동네가 \(regionInfo.dong)(으)로 변경됐어요",
+                                                             alertType: .Info))
+                    case .failure(let err):
+                        switch err {
+                        case .noInternetError:
+                            owner.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
+                        default:
+                            guard let errorString = err.errorDescription else { return }
+                            owner.alertMessageRelay.accept(.init(title: errorString,
+                                                                alertType: .Error))
+                        }
                     }
-                }
             })
             .disposed(by: bag)
     }

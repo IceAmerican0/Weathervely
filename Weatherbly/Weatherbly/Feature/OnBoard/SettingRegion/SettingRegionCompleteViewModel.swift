@@ -44,18 +44,20 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
     
     public func setAddress() {
         authDataSource.setAddress(regionDataRelay.value)
-            .subscribe(onNext: { [weak self] result in
+            .subscribe(
+                with: self,
+                onNext: { owner, result in
                 switch result {
                 case .success:
-                    userDefault.set(self?.regionDataRelay.value.dong, forKey: UserDefaultKey.dong.rawValue)
-                    self?.toDateTimePickView()
+                    userDefault.set(owner.regionDataRelay.value.dong, forKey: UserDefaultKey.dong.rawValue)
+                    owner.toDateTimePickView()
                 case .failure(let err):
                     switch err {
                     case .noInternetError:
-                        self?.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
+                        owner.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
                     default:
                         guard let errorString = err.errorDescription else { return }
-                        self?.alertMessageRelay.accept(.init(title: errorString,
+                        owner.alertMessageRelay.accept(.init(title: errorString,
                                                             alertType: .Error))
                     }
                 }
@@ -65,45 +67,49 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
     
     public func changeAddress() {
         userDataSource.fetchAddress(UserDefaultManager.shared.regionID, regionDataRelay.value)
-            .subscribe(onNext: { [weak self] result in
-                switch result {
-                case .success:
-                    userDefault.set(self?.regionDataRelay.value.dong, forKey: UserDefaultKey.dong.rawValue)
-                    userDefault.removeObject(forKey: UserDefaultKey.regionID.rawValue)
-                    self?.toEditRegionView(.change)
-                case .failure(let err):
-                    guard let errorString = err.errorDescription else { return }
-                    self?.alertMessageRelay.accept(.init(title: errorString,
-                                                        alertType: .Error))
-                }
+            .subscribe(
+                with: self,
+                onNext: { owner, result in
+                    switch result {
+                    case .success:
+                        userDefault.set(owner.regionDataRelay.value.dong, forKey: UserDefaultKey.dong.rawValue)
+                        userDefault.removeObject(forKey: UserDefaultKey.regionID.rawValue)
+                        owner.toEditRegionView(.change)
+                    case .failure(let err):
+                        guard let errorString = err.errorDescription else { return }
+                        owner.alertMessageRelay.accept(.init(title: errorString,
+                                                            alertType: .Error))
+                    }
             })
             .disposed(by: bag)
     }
     
     public func addAddress() {
         userDataSource.addAddress(regionDataRelay.value)
-            .subscribe(onNext: { [weak self] result in
-                switch result {
-                case .success:
-                    self?.toEditRegionView(.add)
-                case .failure(let err):
-                    switch err {
-                    case .noInternetError:
-                        self?.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
-                    default:
-                        guard let errorString = err.errorDescription else { return }
-                        if errorString == "중복된 주소를 등록 했습니다." {
-                            self?.alertMessageRelay.accept(.init(title: errorString,
-                                                                alertType: .Error,
-                                                                closeAction: {
-                                self?.navigationPopViewControllerRelay.accept(Void())
-                            }))
-                        } else {
-                            self?.alertMessageRelay.accept(.init(title: errorString,
-                                                                alertType: .Error))
+            .subscribe(
+                with: self,
+                onNext: { owner, result in
+                    switch result {
+                    case .success:
+                        owner.toEditRegionView(.add)
+                    case .failure(let err):
+                        switch err {
+                        case .noInternetError:
+                            owner.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
+                        default:
+                            guard let errorString = err.errorDescription else { return }
+                            if errorString == "중복된 주소를 등록 했습니다." {
+                                owner.alertMessageRelay.accept(.init(title: errorString,
+                                                                    alertType: .Error,
+                                                                    closeAction: {
+                                    owner.navigationPopViewControllerRelay.accept(Void())
+                                }))
+                            } else {
+                                owner.alertMessageRelay.accept(.init(title: errorString,
+                                                                    alertType: .Error))
+                            }
                         }
                     }
-                }
             })
             .disposed(by: bag)
     }
