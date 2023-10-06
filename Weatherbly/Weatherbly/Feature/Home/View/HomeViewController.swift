@@ -318,11 +318,11 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
             .drive(
                 with: self,
                 onNext: { owner, yesterdayInfo in
-                guard let yesterdayInfo,
-                      let mainInfo = owner.viewModel.mappedCategoryDicRelay.value
-                else { return }
-                
-                owner.setWeatherCommentLableInfo(yesterdayInfo, mainInfo)
+                    guard let yesterdayInfo,
+                          let mainInfo = owner.viewModel.mappedCategoryDicRelay.value
+                    else { return }
+                    
+                    owner.setWeatherCommentLableInfo(yesterdayInfo, mainInfo)
             })
             .disposed(by: bag)
         

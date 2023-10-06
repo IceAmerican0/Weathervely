@@ -10,56 +10,40 @@ import RxSwift
 import RxMoya
 
 public protocol AuthDataSourceProtocol {
-    func getToken() -> Observable<Result<AuthLoginEntity, WVNetworkError>>
-    func setNickname(_ nickname: String, _ uuid: String) -> Observable<Result<EmptyEntity, WVNetworkError>>
-    func setAddress(_ addressInfo: AddressRequest) -> Observable<Result<EmptyEntity, WVNetworkError>>
-    func setGender(_ gender: String) -> Observable<Result<EmptyEntity, WVNetworkError>>
+    func getToken() -> Observable<AuthLoginEntity>
+    func setNickname(_ nickname: String, _ uuid: String) -> Observable<EmptyEntity>
+    func setAddress(_ addressInfo: AddressRequest) -> Observable<EmptyEntity>
+    func setGender(_ gender: String) -> Observable<EmptyEntity>
 }
 
 public final class AuthDataSource: AuthDataSourceProtocol {
-    private let provider: MoyaProvider<AuthTarget>
+    private let provider: WVProvider<AuthTarget>
     
-    public init(provider: MoyaProvider<AuthTarget> = MoyaProvider<AuthTarget>()) {
+    public init(provider: WVProvider<AuthTarget> = WVProvider<AuthTarget>()) {
         self.provider = provider
     }
     
-    public func getToken() -> Observable<Result<AuthLoginEntity, WVNetworkError>> {
-        provider.rx
+    public func getToken() -> Observable<AuthLoginEntity> {
+        provider
             .request(.login)
             .mapTo(AuthLoginEntity.self)
-            .timeout(.seconds(10), scheduler: MainScheduler.instance)
-            .catch { error in
-                return .just(.failure(.noInternetError))
-            }
     }
     
-    public func setNickname(_ nickname: String, _ uuid: String) -> Observable<Result<EmptyEntity, WVNetworkError>> {
+    public func setNickname(_ nickname: String, _ uuid: String) -> Observable<EmptyEntity> {
         provider.rx
             .request(.nickname(nickname, uuid))
             .mapTo(EmptyEntity.self)
-            .timeout(.seconds(10), scheduler: MainScheduler.instance)
-            .catch { error in
-                return .just(.failure(.noInternetError))
-            }
     }
     
-    public func setAddress(_ addressInfo: AddressRequest) -> Observable<Result<EmptyEntity, WVNetworkError>> {
+    public func setAddress(_ addressInfo: AddressRequest) -> Observable<EmptyEntity> {
         provider.rx
             .request(.address(addressInfo))
             .mapTo(EmptyEntity.self)
-            .timeout(.seconds(10), scheduler: MainScheduler.instance)
-            .catch { error in
-                return .just(.failure(.noInternetError))
-            }
     }
     
-    public func setGender(_ gender: String) -> Observable<Result<EmptyEntity, WVNetworkError>> {
+    public func setGender(_ gender: String) -> Observable<EmptyEntity> {
         provider.rx
             .request(.gender(gender))
             .mapTo(EmptyEntity.self)
-            .timeout(.seconds(10), scheduler: MainScheduler.instance)
-            .catch { error in
-                return .just(.failure(.noInternetError))
-            }
     }
 }

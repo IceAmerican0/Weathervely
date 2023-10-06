@@ -154,7 +154,8 @@ class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastViewMod
         
         viewModel
             .sevenDayForecastInfoRelay
-            .subscribe(
+            .asDriver()
+            .drive(
                 with: self,
                 onNext: { owner, _ in
                     owner.indicator.stopAnimating()

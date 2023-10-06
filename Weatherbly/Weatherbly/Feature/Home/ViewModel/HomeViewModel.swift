@@ -76,35 +76,27 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         getVillageDataSource.getVillageForcast()
             .subscribe(
                 with: self,
-                onNext: { owner, result in
-                    switch result {
-                    case .success(let response):
-                        owner.villageForeCastInfoEntityRelay.accept(response)
-                        
-                        // 시간대로 묶은 카테고리
-                        owner.mappedCategoryDicRelay.accept(owner.bindingWeatherByDate(response, 0, date.todayThousandFormat))
-                        
-                        lazy var yesterDayHour: String = {
-                            var yesterDayHour = date.yesterdayThousandFormat
-                            if yesterDayHour == "0000" || yesterDayHour == "0100" || yesterDayHour == "0200" {
-                                yesterDayHour = "0300"
-                                return yesterDayHour
-                            }
+                onNext: { owner, response in
+                    owner.villageForeCastInfoEntityRelay.accept(response)
+                    
+                    // 시간대로 묶은 카테고리
+                    owner.mappedCategoryDicRelay.accept(owner.bindingWeatherByDate(response, 0, date.todayThousandFormat))
+                    
+                    lazy var yesterDayHour: String = {
+                        var yesterDayHour = date.yesterdayThousandFormat
+                        if yesterDayHour == "0000" || yesterDayHour == "0100" || yesterDayHour == "0200" {
+                            yesterDayHour = "0300"
                             return yesterDayHour
-                        }()
-                        
-                        owner.yesterdayCategoryRelay.accept(owner.bindingWeatherByDate(response, -1, yesterDayHour))
-                    case .failure(let err):
-                        switch err {
-                        case .noInternetError:
-                            owner.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
-                        default:
-                            guard let errorDescription = err.errorDescription else { return }
-                            owner.alertMessageRelay.accept(.init(title: errorDescription,
-                                                                 alertType: .Error,
-                                                                 closeAction: owner.popToSelf))
                         }
-                    }
+                        return yesterDayHour
+                    }()
+                    
+                    owner.yesterdayCategoryRelay.accept(owner.bindingWeatherByDate(response, -1, yesterDayHour))
+                },
+                onError: { owner, error in
+                    owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
+                                                         alertType: .Error,
+                                                         closeAction: owner.popToSelf))
             })
             .disposed(by: bag)
     }
@@ -113,21 +105,13 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         getClosetDataSource.getRecommendCloset(dateString)
             .subscribe(
                 with: self,
-                onNext: { owner, result in
-                    switch result {
-                    case .success(let response):
-                        owner.recommendClosetEntityRelay.accept(response)
-                    case .failure(let err):
-                        switch err {
-                        case .noInternetError:
-                            break
-                        default:
-                            guard let errorDescription = err.errorDescription else { return }
-                            owner.alertMessageRelay.accept(.init(title: errorDescription,
-                                                                 alertType: .Error,
-                                                                 closeAction: owner.popToSelf))
-                        }
-                    }
+                onNext: { owner, response in
+                    owner.recommendClosetEntityRelay.accept(response)
+                },
+                onError: { owner, error in
+                    owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
+                                                         alertType: .Error,
+                                                         closeAction: owner.popToSelf))
             })
             .disposed(by: bag)
     }
@@ -634,39 +618,32 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         getClosetDataSource.pagerViewClicked(highlightedClosetIdRelay.value)
             .subscribe(
                 with: self,
-                onNext: { owner, result in
-                    switch result {
-                    case .success:
-                        break
-                    case .failure(let err):
-                        guard let errString = err.errorDescription else { return }
-                        #if DEBUG
-                        print(errString)
-                        #endif
-                        break
-                    }
+                onNext: { _, _ in
+                    return
+                },
+                onError: { _, error in
+                    #if DEBUG
+                    print(error.localizedDescription)
+                    #endif
+                    return
             })
             .disposed(by: bag)
     }
     
     // MARK: - DayChange
-    
     public func setupDayChangeDetection() {
         // 첫 번째 파라미터는 초기 지연 시간, 두 번째 파라미터는 이후 반복될 시간 간격
         Observable<Int>.timer(RxTimeInterval.seconds(Int(secondsUntilNextDay())), scheduler: MainScheduler.instance)
             .take(1)  // 한 번만 실행하기 위해 take(1)을 사용합니다.
-            .subscribe(
-                with: self,
-                onNext: { owner, _ in
-                    // 날짜가 바뀌면 dayChangedRelay를 통해 알림
-                    owner.dayChangedRelay.accept(())
+            .bind(with: self) { owner, _ in
+                // 날짜가 바뀌면 dayChangedRelay를 통해 알림
+                owner.dayChangedRelay.accept(())
 
-                    // 다음 날짜 변경을 위한 새로운 타이머를 설정
-                    owner.setupDayChangeDetection()
-            })
+                // 다음 날짜 변경을 위한 새로운 타이머를 설정
+                owner.setupDayChangeDetection()
+            }
             .disposed(by: bag)
     }
-    
     
     public func secondsUntilNextDay() -> TimeInterval {
         let calendar = Calendar.shared
@@ -689,18 +666,16 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     func setupHourChangeDetection() {
         Observable<Int>.timer(RxTimeInterval.seconds(Int(secondsUntilNextHour())), scheduler: MainScheduler.instance)
             .take(1)
-            .subscribe(
-                with: self,
-                onNext: { owner, _ in
-                    let calendar = Calendar.shared
-                    let now = Date()
-                    let currentHour = calendar.component(.hour, from: now)
-                    // 현재 시간이 00시가 아닐 때만 hourChangedRelay를 트리거합니다.
-                    if currentHour != 0 {
-                        owner.hourChangedRelay.accept(())
-                    }
-                    owner.setupHourChangeDetection()
-            })
+            .bind(with: self) { owner, _ in
+                let calendar = Calendar.shared
+                let now = Date()
+                let currentHour = calendar.component(.hour, from: now)
+                // 현재 시간이 00시가 아닐 때만 hourChangedRelay를 트리거합니다.
+                if currentHour != 0 {
+                    owner.hourChangedRelay.accept(())
+                }
+                owner.setupHourChangeDetection()
+            }
             .disposed(by: bag)
     }
     

@@ -10,31 +10,25 @@ import Moya
 import RxMoya
 
 protocol ForcastDataSourceProtocol {
-    func getVillageForcast() -> Observable<Result<VillageForecastInfoEntity, WVNetworkError>>
-    func getTenDayForeCast() -> Observable<Result<SevenDayForecastInfoEntity, WVNetworkError>>
+    func getVillageForcast() -> Observable<VillageForecastInfoEntity>
+    func getTenDayForeCast() -> Observable<SevenDayForecastInfoEntity>
 }
 
 final class ForecastDataSource: ForcastDataSourceProtocol {
-    private var provider: MoyaProvider<ForeCastTarget>
+    private var provider: WVProvider<ForeCastTarget>
   
-    init(provider: MoyaProvider<ForeCastTarget> = MoyaProvider<ForeCastTarget>()) {
+    init(provider: WVProvider<ForeCastTarget> = WVProvider<ForeCastTarget>()) {
         self.provider = provider
     }
     
-    func getVillageForcast() -> Observable<Result<VillageForecastInfoEntity,WVNetworkError>> {
-        provider
-            .rx
+    func getVillageForcast() -> Observable<VillageForecastInfoEntity> {
+        provider.rx
             .request(.getVillageForcastInfo)
             .mapTo(VillageForecastInfoEntity.self)
-            .timeout(.seconds(10), scheduler: MainScheduler.instance)
-            .catch { error in
-                return .just(.failure(.noInternetError))
-            }
     }
     
-    func getTenDayForeCast() -> Observable<Result<SevenDayForecastInfoEntity, WVNetworkError>> {
-        provider
-            .rx
+    func getTenDayForeCast() -> Observable<SevenDayForecastInfoEntity> {
+        provider.rx
             .request(.getTenDayForecastInfo)
             .mapTo(SevenDayForecastInfoEntity.self)
     }

@@ -17,24 +17,16 @@ class ChangeNicknameViewModel: RxBaseViewModel, ChangeNicknameViewModelLogic {
         dataSource.fetchUserInfo(userInfo)
             .subscribe(
                 with: self,
-                onNext: { owner, result in
-                    switch result {
-                    case .success:
-                        userDefault.set(userInfo.nickname, forKey: UserDefaultKey.nickname.rawValue)
-                        // TODO: 추후 성별 추가시 주석 풀기
-    //                    userDefault.set(userInfo.gender, forKey: UserDefaultKey.gender.rawValue)
-                        userDefault.synchronize()
-                        owner.navigationPopViewControllerRelay.accept(Void())
-                    case .failure(let err):
-                        switch err {
-                        case .noInternetError:
-                            owner.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
-                        default:
-                            guard let errorString = err.errorDescription else { return }
-                            owner.alertMessageRelay.accept(.init(title: errorString,
-                                                                alertType: .Error))
-                        }
-                    }
+                onNext: { owner, _ in
+                    userDefault.set(userInfo.nickname, forKey: UserDefaultKey.nickname.rawValue)
+                    // TODO: 추후 성별 추가시 주석 풀기
+//                    userDefault.set(userInfo.gender, forKey: UserDefaultKey.gender.rawValue)
+                    userDefault.synchronize()
+                    owner.navigationPopViewControllerRelay.accept(Void())
+                },
+                onError: { owner, error in
+                    owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
+                                                        alertType: .Error))
             })
             .disposed(by: bag)
     }

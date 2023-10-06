@@ -260,7 +260,7 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
             .drive(
                 with: self,
                 onNext: { owner, _ in
-                owner.addContentscrollView()
+                    owner.addContentscrollView()
             })
             .disposed(by: bag)
     }

@@ -34,20 +34,12 @@ public class SlotMachineViewModel: RxBaseViewModel, SlotMachineViewModelLogic {
                                                      currentTemp: temperatureRelay.value))
             .subscribe(
                 with: self,
-                onNext: { owner, result in
-                    switch result {
-                    case .success:
-                        owner.toHomeView()
-                    case .failure(let err):
-                        switch err {
-                        case .noInternetError:
-                            owner.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
-                        default:
-                            guard let errorString = err.errorDescription else { return }
-                            owner.alertMessageRelay.accept(.init(title: errorString,
-                                                                 alertType: .Error))
-                        }
-                    }
+                onNext: { owner, _ in
+                    owner.toHomeView()
+                },
+                onError: { owner, error in
+                    owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
+                                                         alertType: .Error))
             })
             .disposed(by: bag)
     }

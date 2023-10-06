@@ -19,21 +19,13 @@ final class SelectGenderViewModel: RxBaseViewModel, SelectGenderViewModelLogic {
         dataSource.setGender(gender)
             .subscribe(
                 with: self,
-                onNext: { owner, result in
-                    switch result {
-                    case .success:
-                        userDefault.set(gender == "female" ? "여성" : "남성", forKey: UserDefaultKey.gender.rawValue)
-                        owner.toDateTimePickView()
-                    case .failure(let err):
-                        switch err {
-                        case .noInternetError:
-                            owner.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
-                        default:
-                            guard let errorString = err.errorDescription else { return }
-                            owner.alertMessageRelay.accept(.init(title: errorString,
-                                                                alertType: .Error))
-                        }
-                    }
+                onNext: { owner, _ in
+                    userDefault.set(gender == "female" ? "여성" : "남성", forKey: UserDefaultKey.gender.rawValue)
+                    owner.toDateTimePickView()
+                },
+                onError: { owner, error in
+                    owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
+                                                         alertType: .Error))
             })
             .disposed(by: bag)
     }

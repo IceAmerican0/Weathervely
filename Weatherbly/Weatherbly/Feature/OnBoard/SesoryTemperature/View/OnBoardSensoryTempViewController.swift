@@ -191,7 +191,8 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
         viewModel.getInfo()
         
         viewModel.closetListRelay
-            .subscribe(
+            .asDriver()
+            .drive(
                 with: self,
                 onNext: { owner, data in
                     let temperature = owner.viewModel.temperatureRelay.value
@@ -229,9 +230,9 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
             .drive(
                 with: self,
                 onNext: { owner, temp in
-                let time = owner.viewModel.dateStringRelay.value
-                owner.tempLabel.attributedText = NSMutableAttributedString()
-                    .bold("\(time)시 (\(temp)℃)", 16, CSColor._172_107_255)
+                    let time = owner.viewModel.dateStringRelay.value
+                    owner.tempLabel.attributedText = NSMutableAttributedString()
+                        .bold("\(time)시 (\(temp)℃)", 16, CSColor._172_107_255)
             })
             .disposed(by: bag)
     }

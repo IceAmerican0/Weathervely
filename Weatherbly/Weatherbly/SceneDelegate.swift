@@ -67,30 +67,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         loginDataSource.getToken()
             .subscribe(
                 with: self,
-                onNext: { owner, result in
-                    switch result {
-                    case .success(let response):
-                        let data = response.data
-                        userDefault.set(data.user.nickname, forKey: UserDefaultKey.nickname.rawValue)
-
-                        if let address = data.address {
-                            userDefault.set(address.dong, forKey: UserDefaultKey.dong.rawValue)
-                            if data.setTemperature == true {
-                                owner.setWindow(HomeViewController(HomeViewModel()))
-                            } else {
-                                owner.setWindow(DateTimePickViewController(DateTimePickViewModel()))
-                            }
+                onNext: { owner, response in
+                    let data = response.data
+                    userDefault.set(data.user.nickname, forKey: UserDefaultKey.nickname.rawValue)
+                    
+                    if let address = data.address {
+                        userDefault.set(address.dong, forKey: UserDefaultKey.dong.rawValue)
+                        if data.setTemperature == true {
+                            owner.setWindow(HomeViewController(HomeViewModel()))
                         } else {
-                            owner.setWindow(SettingRegionViewController(SettingRegionViewModel(.onboard)))
+                            owner.setWindow(DateTimePickViewController(DateTimePickViewModel()))
                         }
-                    case .failure(let err):
-                        switch err {
-                        case .noInternetError:
-                            owner.setWindow(LoadErrorViewController(LoadErrorViewModel()))
-                        default:
-                            owner.setWindow(OnBoardViewController(OnBoardViewModel()))
-                        }
+                    } else {
+                        owner.setWindow(SettingRegionViewController(SettingRegionViewModel(.onboard)))
                     }
+                },
+                onError: { owner, _ in
+                    owner.setWindow(OnBoardViewController(OnBoardViewModel()))
             })
             .disposed(by: bag)
     }

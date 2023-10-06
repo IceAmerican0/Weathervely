@@ -272,8 +272,8 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
             .drive(
                 with: self,
                 onNext: { owner, _ in
-                owner.addContentscrollView()
-                owner.scrollView.setContentOffset(CGPoint(x: 0, y: owner.viewModel.focusingIndexRelay.value), animated: true)
+                    owner.addContentscrollView()
+                    owner.scrollView.setContentOffset(CGPoint(x: 0, y: owner.viewModel.focusingIndexRelay.value), animated: true)
             })
             .disposed(by: bag)
         
@@ -282,7 +282,7 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
             .drive(
                 with: self,
                 onNext: { owner, index in
-                owner.viewModel.yOffsetForIndex(index, owner.scrollView)
+                    owner.viewModel.yOffsetForIndex(index, owner.scrollView)
             })
             .disposed(by: bag)
 
@@ -291,13 +291,13 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
             .drive(
                 with: self,
                 onNext: { owner, text in
-                guard var selectedTime = text,
-                      let selectedTemp = owner.viewModel.selectedTempRelay.value
-                else { return }
-                
-                if selectedTime == Date().todayThousandFormat { selectedTime = "현재"}
-                owner.tempLabel.attributedText = NSMutableAttributedString()
-                    .bold("\(selectedTime) (\(selectedTemp))", 16, CSColor._40_106_167)
+                    guard var selectedTime = text,
+                          let selectedTemp = owner.viewModel.selectedTempRelay.value
+                    else { return }
+                    
+                    if selectedTime == Date().todayThousandFormat { selectedTime = "현재"}
+                    owner.tempLabel.attributedText = NSMutableAttributedString()
+                        .bold("\(selectedTime) (\(selectedTemp))", 16, CSColor._40_106_167)
             }).disposed(by: bag)
         
         viewModel.getClosetBySensoryTemp()

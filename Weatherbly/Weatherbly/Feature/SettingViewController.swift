@@ -226,7 +226,7 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
             .drive(
                 with: self,
                 onNext: { owner, _ in
-                owner.locationButton.setBackgroundColor(CSColor._255_255_255_05.color)
+                    owner.locationButton.setBackgroundColor(CSColor._255_255_255_05.color)
             })
             .disposed(by: bag)
         
@@ -235,7 +235,7 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
             .drive(
                 with: self,
                 onNext: { owner, _ in
-                owner.locationButton.setBackgroundColor(CSColor._245_245_245.color)
+                    owner.locationButton.setBackgroundColor(CSColor._245_245_245.color)
             })
             .disposed(by: bag)
     }

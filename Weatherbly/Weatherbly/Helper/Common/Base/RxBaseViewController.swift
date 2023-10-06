@@ -136,21 +136,19 @@ public class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitiali
     
     func alertBinding() {
         viewModel.alertMessageRelay
-            .subscribe(
-                with: self,
-                onNext: { owner, message in
-                    switch message.alertType {
-                    case .Error:
-                        let alertVC = AlertViewController(state: .init(title: message.title,
-                                                                       message: message.message,
-                                                                       alertType: message.alertType,
-                                                                       closeAction: message.closeAction))
-                        alertVC.modalPresentationStyle = .overCurrentContext
-                        owner.viewModel.presentViewControllerNoAnimationRelay.accept(alertVC)
-                    case .Info:
-                        owner.view.showToast(message: message.title, font: .systemFont(ofSize: 16))
+            .bind(with: self) { owner, message in
+                switch message.alertType {
+                case .Error:
+                    let alertVC = AlertViewController(state: .init(title: message.title,
+                                                                   message: message.message,
+                                                                   alertType: message.alertType,
+                                                                   closeAction: message.closeAction))
+                    alertVC.modalPresentationStyle = .overCurrentContext
+                    owner.viewModel.presentViewControllerNoAnimationRelay.accept(alertVC)
+                case .Info:
+                    owner.view.showToast(message: message.title, font: .systemFont(ofSize: 16))
                 }
-            })
+            }
             .disposed(by: bag)
     }
 

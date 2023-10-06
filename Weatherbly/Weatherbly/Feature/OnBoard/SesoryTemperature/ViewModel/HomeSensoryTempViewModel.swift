@@ -58,23 +58,15 @@ class HomeSensoryTempViewModel: RxBaseViewModel {
         closetDataSource.getMainSensoryTemperatureCloset(selectedDate, closetId)
             .subscribe(
                 with: self,
-                onNext: { owner, result in
-                    switch result {
-                    case .success(let response):
-                        let closets = response.data.list
-                        owner.getCurrentIndex(closets)
-    //                    owner.closetListByTempRelay.accept(closets)
-                    case .failure(let err):
-                        switch err {
-                        case .noInternetError:
-                            owner.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
-                        default:
-                            guard let errorString = err.errorDescription else { return }
-                            owner.alertMessageRelay.accept(.init(title: errorString,
-                                                                 alertType: .Error,
-                                                                 closeAction: owner.popViewController))
-                        }
-                    }
+                onNext: { owner, response in
+                    let closets = response.data.list
+                    owner.getCurrentIndex(closets)
+                    //                    owner.closetListByTempRelay.accept(closets)
+                },
+                onError: { owner, error in
+                    owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
+                                                         alertType: .Error,
+                                                         closeAction: owner.popViewController))
             })
             .disposed(by: bag)
     }
@@ -87,22 +79,13 @@ class HomeSensoryTempViewModel: RxBaseViewModel {
         closetDataSource.setSensoryTemperature(.init(closet: closetId, currentTemp: String(currentTemp)))
             .subscribe(
                 with: self,
-                onNext: { owner, result in
-                switch result {
-                case.success:
+                onNext: { owner, _ in
                     owner.delegate?.willDismiss()
                     owner.dismissSelfWithAnimationRelay.accept(Void())
-                    break
-                case .failure(let err):
-                    switch err {
-                    case .noInternetError:
-                        owner.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
-                    default:
-                        guard let errString = err.errorDescription else { return }
-                        owner.alertMessageRelay.accept(.init(title: errString,
-                                                             alertType: .Error))
-                    }
-                }
+                },
+                onError: { owner, error in
+                    owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
+                                                         alertType: .Error))
             })
             .disposed(by: bag)
     }

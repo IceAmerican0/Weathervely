@@ -37,26 +37,18 @@ public final class SettingRegionViewModel: RxBaseViewModel, SettingRegionViewMod
         datasource.searchRegion(region)
             .subscribe(
                 with: self,
-                onNext: { owner, result in
-                    switch result {
-                    case .success(let response):
-                        if response.documents.count == 0 {
-                            owner.alertMessageRelay.accept(.init(title: "해당하는 동네 정보가 없어요",
-                                                                message: "동네 이름을 확인해주세요",
-                                                                alertType: .Error))
-                        } else {
-                            owner.searchedListRelay.accept(response.documents)
-                        }
-                    case .failure(let err):
-                        switch err {
-                        case .noInternetError:
-                            owner.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
-                        default:
-                            guard let errorString = err.errorDescription else { return }
-                            owner.alertMessageRelay.accept(.init(title: errorString,
-                                                                alertType: .Error))
-                        }
+                onNext: { owner, response in
+                    if response.documents.count == 0 {
+                        owner.alertMessageRelay.accept(.init(title: "해당하는 동네 정보가 없어요",
+                                                             message: "동네 이름을 확인해주세요",
+                                                             alertType: .Error))
+                    } else {
+                        owner.searchedListRelay.accept(response.documents)
                     }
+                },
+                onError: { owner, error in
+                    owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
+                                                         alertType: .Error))
             })
             .disposed(by: bag)
     }

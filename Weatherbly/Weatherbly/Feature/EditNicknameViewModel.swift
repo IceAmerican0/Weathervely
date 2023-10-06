@@ -31,24 +31,16 @@ class EditNicknameViewModel: RxBaseViewModel, EditNicknameViewModelLogic {
         dataSource.getUserInfo(UserDefaultManager.shared.nickname)
             .subscribe(
                 with: self,
-                onNext: { owner, result in
-                    switch result {
-                    case .success(let response):
-                        userDefault.set(response.nickname, forKey: UserDefaultKey.nickname.rawValue)
-                        // TODO: 추후 성별 추가시 주석 풀기
-    //                    userDefault.set(response.gender, forKey: UserDefaultKey.gender.rawValue)
-                        userDefault.synchronize()
-                        owner.loadUserInfoRelay.accept(response)
-                    case .failure(let err):
-                        switch err {
-                        case .noInternetError:
-                            owner.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
-                        default:
-                            guard let errorString = err.errorDescription else { return }
-                            owner.alertMessageRelay.accept(.init(title: errorString,
-                                                                alertType: .Error))
-                        }
-                    }
+                onNext: { owner, response in
+                    userDefault.set(response.nickname, forKey: UserDefaultKey.nickname.rawValue)
+                    // TODO: 추후 성별 추가시 주석 풀기
+                    //                    userDefault.set(response.gender, forKey: UserDefaultKey.gender.rawValue)
+                    userDefault.synchronize()
+                    owner.loadUserInfoRelay.accept(response)
+                },
+                onError: { owner, error in
+                    owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
+                                                        alertType: .Error))
             })
             .disposed(by: bag)
     }

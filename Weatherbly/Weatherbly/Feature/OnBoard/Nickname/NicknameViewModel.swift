@@ -21,22 +21,14 @@ final class NicknameViewModel: RxBaseViewModel, NicknameViewModelLogic {
         dataSource.setNickname(text, uuid)
             .subscribe(
                 with: self,
-                onNext: { owner, result in
-                    switch result {
-                    case .success:
-                        owner.toSettingRegionView()
-                        userDefault.set(text, forKey: UserDefaultKey.nickname.rawValue)
-                        KeychainManager.shared.saveUUID(uuid)
-                    case .failure(let err):
-                        switch err {
-                        case .noInternetError:
-                            owner.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
-                        default:
-                            guard let errorString = err.errorDescription else { return }
-                            owner.alertMessageRelay.accept(.init(title: errorString,
-                                                                alertType: .Error))
-                        }
-                    }
+                onNext: { owner, _ in
+                    owner.toSettingRegionView()
+                    userDefault.set(text, forKey: UserDefaultKey.nickname.rawValue)
+                    KeychainManager.shared.saveUUID(uuid)
+                },
+                onError: { owner, error in
+                    owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
+                                                         alertType: .Error))
             })
             .disposed(by: bag)
     }
