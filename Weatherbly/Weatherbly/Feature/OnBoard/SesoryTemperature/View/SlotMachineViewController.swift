@@ -204,21 +204,21 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
             .disposed(by: bag)
         
         upperArrowButton.rx.tap
-            .subscribe(onNext: { [weak self] _ in
-                self?.moveUp()
-            })
+            .bind(with: self) { owner, _ in
+                owner.moveUp()
+            }
             .disposed(by: bag)
 
         downArrowButton.rx.tap
-            .subscribe(onNext: { [weak self] _ in
-                self?.moveDown()
-            })
+            .bind(with: self) { owner, _ in
+                owner.moveDown()
+            }
             .disposed(by: bag)
         
         bottomButton.rx.tap
-            .subscribe(onNext: { [weak self] _ in
-                self?.viewModel.didTapAcceptButton()
-            })
+            .bind(with: self) { owner, _ in
+                owner.viewModel.didTapAcceptButton()
+            }
             .disposed(by: bag)
     }
     
@@ -256,8 +256,11 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
         super.viewModelBinding()
         
         viewModel.closetListRelay
-            .subscribe(onNext: { [weak self] _ in
-                self?.addContentscrollView()
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, _ in
+                    owner.addContentscrollView()
             })
             .disposed(by: bag)
     }

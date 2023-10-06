@@ -32,20 +32,14 @@ public class SlotMachineViewModel: RxBaseViewModel, SlotMachineViewModelLogic {
         let closetDataSource = ClosetDataSource()
         closetDataSource.setSensoryTemperature(.init(closet: closetIDRelay.value,
                                                      currentTemp: temperatureRelay.value))
-            .subscribe(onNext: { [weak self] result in
-                switch result {
-                case .success:
-                    self?.toHomeView()
-                case .failure(let err):
-                    switch err {
-                    case .noInternetError:
-                        self?.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
-                    default:
-                        guard let errorString = err.errorDescription else { return }
-                        self?.alertMessageRelay.accept(.init(title: errorString,
-                                                             alertType: .Error))
-                    }
-                }
+            .subscribe(
+                with: self,
+                onNext: { owner, _ in
+                    owner.toHomeView()
+                },
+                onError: { owner, error in
+                    owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
+                                                         alertType: .Error))
             })
             .disposed(by: bag)
     }

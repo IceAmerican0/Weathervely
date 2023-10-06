@@ -129,34 +129,38 @@ class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastViewMod
             .disposed(by: bag)
         
         homeButton.rx.tap
-            .bind(onNext: { [weak self] in
-                self?.navigationController?.popViewController(animated: true)
-            })
+            .bind(with: self) { owner, _ in
+                owner.navigationController?.popViewController(animated: true)
+            }
             .disposed(by: bag)
     }
     
     override func viewModelBinding() {
         super.viewModelBinding()
         
-        viewModel
-            .yesterdayInfoRelay
-            .subscribe(onNext: { [weak self] data in
-                guard let info = data else { return }
-                let minTemp = Int(Double(info["TMN"]!)!)
-                let maxTemp = Int(Double(info["TMX"]!)!)
-                
-                self?.yesterdayTemperature.attributedText = NSMutableAttributedString()
-                    .regular("\(minTemp)℃ / \(maxTemp)℃", 16, CSColor._97_97_97)
+        viewModel.yesterdayInfoRelay
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, data in
+                    guard let info = data else { return }
+                    let minTemp = Int(Double(info["TMN"]!)!)
+                    let maxTemp = Int(Double(info["TMX"]!)!)
+                    
+                    owner.yesterdayTemperature.attributedText = NSMutableAttributedString()
+                        .regular("\(minTemp)℃ / \(maxTemp)℃", 16, CSColor._97_97_97)
             })
             .disposed(by: bag)
         
         viewModel
             .sevenDayForecastInfoRelay
-            .subscribe(onNext: { [weak self] info in
-                guard let _ = info else { return }
-                self?.indicator.stopAnimating()
-                self?.indicator.isHidden = true
-                self?.forecastTableView.reloadData()
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, _ in
+                    owner.indicator.stopAnimating()
+                    owner.indicator.isHidden = true
+                    owner.forecastTableView.reloadData()
             })
             .disposed(by: bag)
         

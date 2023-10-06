@@ -182,26 +182,26 @@ final class EditNicknameViewController: RxBaseViewController<EditNicknameViewMod
         super.viewBinding()
         
         csNavigationView.leftButtonDidTapRelay
-            .bind(onNext: { [weak self] _ in
-                self?.navigationController?.popViewController(animated: true)
-            })
+            .bind(with: self) { owner, _ in
+                owner.navigationController?.popViewController(animated: true)
+            }
             .disposed(by: bag)
     
         
         bottomButton.rx.tap
-            .subscribe(onNext: { [weak self] _ in
-                self?.viewModel.toChangeNicknameView()
-//                guard let displayMode = self?.viewModel.bottomButtonDidTap() else {
+            .bind(with: self) { owner, _ in
+                owner.viewModel.toChangeNicknameView()
+//                guard let displayMode = owner.viewModel.bottomButtonDidTap() else {
 //                    return
 //                }
-//                self?.nicknameTextField.setEditMode(displayMode)
-//                self?.genderLabel.setEditMode(displayMode)
+//                owner.nicknameTextField.setEditMode(displayMode)
+//                owner.genderLabel.setEditMode(displayMode)
 //                UIView.animate(withDuration: 0.5) {
-//                    self?.layout()
+//                    owner.layout()
 //                }
-//                self?.nicknameTextField.becomeFirstResponder()
-//                self?.nicknameTextFieldWrapper.backgroundColor = CSColor._248_248_248.color
-            })
+//                owner.nicknameTextField.becomeFirstResponder()
+//                owner.nicknameTextFieldWrapper.backgroundColor = CSColor._248_248_248.color
+            }
             .disposed(by: bag)
         
         viewModel.loadUserInfo()

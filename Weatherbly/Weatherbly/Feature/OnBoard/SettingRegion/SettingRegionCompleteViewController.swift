@@ -89,7 +89,9 @@ public final class SettingRegionCompleteViewController: RxBaseViewController<Set
             .disposed(by: bag)
         
         confirmButton.rx.tap
-            .bind(onNext: viewModel.didTapConfirmButton)
+            .bind(with: self) { owner, _ in
+                owner.viewModel.didTapConfirmButton()
+            }
             .disposed(by: bag)
     }
 }

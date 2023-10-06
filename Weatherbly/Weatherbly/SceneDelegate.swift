@@ -65,30 +65,25 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func getToken() {
         let loginDataSource = AuthDataSource()
         loginDataSource.getToken()
-            .subscribe(onNext: { [weak self] result in
-                switch result {
-                case .success(let response):
+            .subscribe(
+                with: self,
+                onNext: { owner, response in
                     let data = response.data
                     userDefault.set(data.user.nickname, forKey: UserDefaultKey.nickname.rawValue)
-
+                    
                     if let address = data.address {
                         userDefault.set(address.dong, forKey: UserDefaultKey.dong.rawValue)
                         if data.setTemperature == true {
-                            self?.setWindow(HomeViewController(HomeViewModel()))
+                            owner.setWindow(HomeViewController(HomeViewModel()))
                         } else {
-                            self?.setWindow(DateTimePickViewController(DateTimePickViewModel()))
+                            owner.setWindow(DateTimePickViewController(DateTimePickViewModel()))
                         }
                     } else {
-                        self?.setWindow(SettingRegionViewController(SettingRegionViewModel(.onboard)))
+                        owner.setWindow(SettingRegionViewController(SettingRegionViewModel(.onboard)))
                     }
-                case .failure(let err):
-                    switch err {
-                    case .noInternetError:
-                        self?.setWindow(LoadErrorViewController(LoadErrorViewModel()))
-                    default:
-                        self?.setWindow(OnBoardViewController(OnBoardViewModel()))
-                    }
-                }
+                },
+                onError: { owner, _ in
+                    owner.setWindow(OnBoardViewController(OnBoardViewModel()))
             })
             .disposed(by: bag)
     }

@@ -74,13 +74,13 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         let date = Date()
         
         getVillageDataSource.getVillageForcast()
-            .subscribe(onNext: { [weak self] result in
-                switch result {
-                case .success(let response):
-                    self?.villageForeCastInfoEntityRelay.accept(response)
+            .subscribe(
+                with: self,
+                onNext: { owner, response in
+                    owner.villageForeCastInfoEntityRelay.accept(response)
                     
                     // 시간대로 묶은 카테고리
-                    self?.mappedCategoryDicRelay.accept(self?.bindingWeatherByDate(response, 0, date.todayThousandFormat))
+                    owner.mappedCategoryDicRelay.accept(owner.bindingWeatherByDate(response, 0, date.todayThousandFormat))
                     
                     lazy var yesterDayHour: String = {
                         var yesterDayHour = date.yesterdayThousandFormat
@@ -91,39 +91,27 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                         return yesterDayHour
                     }()
                     
-                    self?.yesterdayCategoryRelay.accept(self?.bindingWeatherByDate(response, -1, yesterDayHour))
-                case .failure(let err):
-                    switch err {
-                    case .noInternetError:
-                        self?.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
-                    default:
-                        guard let errorDescription = err.errorDescription else { return }
-                        self?.alertMessageRelay.accept(.init(title: errorDescription,
-                                                             alertType: .Error,
-                                                             closeAction: self?.popToSelf))
-                    }
-                }
+                    owner.yesterdayCategoryRelay.accept(owner.bindingWeatherByDate(response, -1, yesterDayHour))
+                },
+                onError: { owner, error in
+                    owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
+                                                         alertType: .Error,
+                                                         closeAction: owner.popToSelf))
             })
             .disposed(by: bag)
     }
     
     public func getRecommendCloset(_ dateString: String) {
         getClosetDataSource.getRecommendCloset(dateString)
-            .subscribe(onNext: { [weak self] result in
-                switch result {
-                case .success(let response):
-                    self?.recommendClosetEntityRelay.accept(response)
-                case .failure(let err):
-                    switch err {
-                    case .noInternetError:
-                        break
-                    default:
-                        guard let errorDescription = err.errorDescription else { return }
-                        self?.alertMessageRelay.accept(.init(title: errorDescription,
-                                                             alertType: .Error,
-                                                             closeAction: self?.popToSelf))
-                    }
-                }
+            .subscribe(
+                with: self,
+                onNext: { owner, response in
+                    owner.recommendClosetEntityRelay.accept(response)
+                },
+                onError: { owner, error in
+                    owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
+                                                         alertType: .Error,
+                                                         closeAction: owner.popToSelf))
             })
             .disposed(by: bag)
     }
@@ -628,37 +616,34 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     
     public func didEnterMall() {
         getClosetDataSource.pagerViewClicked(highlightedClosetIdRelay.value)
-            .subscribe(onNext: { [weak self] result in
-                switch result {
-                case .success:
-                    break
-                case .failure(let err):
-                    guard let errString = err.errorDescription else { return }
+            .subscribe(
+                with: self,
+                onNext: { _, _ in
+                    return
+                },
+                onError: { _, error in
                     #if DEBUG
-                    print(errString)
+                    print(error.localizedDescription)
                     #endif
-                    break
-                }
+                    return
             })
             .disposed(by: bag)
     }
     
     // MARK: - DayChange
-    
     public func setupDayChangeDetection() {
         // 첫 번째 파라미터는 초기 지연 시간, 두 번째 파라미터는 이후 반복될 시간 간격
         Observable<Int>.timer(RxTimeInterval.seconds(Int(secondsUntilNextDay())), scheduler: MainScheduler.instance)
             .take(1)  // 한 번만 실행하기 위해 take(1)을 사용합니다.
-            .subscribe(onNext: { [weak self] _ in
+            .bind(with: self) { owner, _ in
                 // 날짜가 바뀌면 dayChangedRelay를 통해 알림
-                self?.dayChangedRelay.accept(())
+                owner.dayChangedRelay.accept(())
 
                 // 다음 날짜 변경을 위한 새로운 타이머를 설정
-                self?.setupDayChangeDetection()
-            })
+                owner.setupDayChangeDetection()
+            }
             .disposed(by: bag)
     }
-    
     
     public func secondsUntilNextDay() -> TimeInterval {
         let calendar = Calendar.shared
@@ -679,20 +664,18 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     // MARK: - HourChange
 
     func setupHourChangeDetection() {
-
         Observable<Int>.timer(RxTimeInterval.seconds(Int(secondsUntilNextHour())), scheduler: MainScheduler.instance)
             .take(1)
-            .subscribe(onNext: { [weak self] _ in
-                
+            .bind(with: self) { owner, _ in
                 let calendar = Calendar.shared
                 let now = Date()
                 let currentHour = calendar.component(.hour, from: now)
                 // 현재 시간이 00시가 아닐 때만 hourChangedRelay를 트리거합니다.
                 if currentHour != 0 {
-                    self?.hourChangedRelay.accept(())
+                    owner.hourChangedRelay.accept(())
                 }
-                self?.setupHourChangeDetection()
-            })
+                owner.setupHourChangeDetection()
+            }
             .disposed(by: bag)
     }
     

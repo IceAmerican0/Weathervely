@@ -56,7 +56,7 @@ public final class EditRegionTableViewCell: UITableViewCell {
         separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
     
-    private func layout() {
+    func layout() {
         contentView.flex.direction(.row).alignItems(.center).justifyContent(.center).define { flex in
             flex.addItem(regionLabel).marginLeft(15).width(labelWidth).height(28)
             flex.addItem(button).size(45)
@@ -77,10 +77,9 @@ public final class EditRegionTableViewCell: UITableViewCell {
     
     func buttonTapAction(completion: @escaping ((Int) -> Void)) {
         buttonTapDisposable = button.rx.tap
-            .subscribe(onNext: { [weak self] _ in
-                guard let self else { return }
-                completion(self.cellIndex)
-            })
+            .bind(with: self) { owner, _ in
+                completion(owner.cellIndex)
+            }
     }
     
     private func dispose() {

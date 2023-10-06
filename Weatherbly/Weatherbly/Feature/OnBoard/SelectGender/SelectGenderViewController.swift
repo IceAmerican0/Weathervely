@@ -109,21 +109,27 @@ final class SelectGenderViewController: RxBaseViewController<SelectGenderViewMod
             .disposed(by: bag)
         
         womanButton.rx.tap
-            .subscribe(onNext: { [weak self] _ in
-                if self?.isFemale == false { self?.buttonToggle() }
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, _ in
+                    if owner.isFemale == false { owner.buttonToggle() }
             })
             .disposed(by: bag)
         
         manButton.rx.tap
-            .subscribe(onNext: { [weak self] _ in
-                if self?.isFemale == true { self?.buttonToggle() }
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, _ in
+                    if owner.isFemale == true { owner.buttonToggle() }
             })
             .disposed(by: bag)
         
         acceptButton.rx.tap
-            .subscribe(onNext: { [weak self] _ in
-                self?.viewModel.didTapAcceptButton(self?.isFemale == true ? "female" : "male")
-            })
+            .bind(with: self) { owner, _ in
+                owner.viewModel.didTapAcceptButton(owner.isFemale == true ? "female" : "male")
+            }
             .disposed(by: bag)
     }
     

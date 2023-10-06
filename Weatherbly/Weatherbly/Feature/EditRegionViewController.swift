@@ -72,20 +72,22 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
         super.viewBinding()
         
         navigationView.leftButtonDidTapRelay
-            .subscribe(onNext: { [weak self] _ in
-                if let viewControllers = self?.navigationController?.viewControllers {
+            .bind(with: self) { owner, _ in
+                if let viewControllers = owner.navigationController?.viewControllers {
                     for viewController in viewControllers {
                         if let settingViewController = viewController as? SettingViewController {
-                            self?.navigationController?.popToViewController(settingViewController, animated: true)
+                            owner.navigationController?.popToViewController(settingViewController, animated: true)
                             break
                         }
                     }
                 }
-            })
+            }
             .disposed(by: bag)
         
         confirmButton.rx.tap
-            .bind(onNext: viewModel.didTapConfirmButton)
+            .bind(with:self) { owner, _ in
+                owner.viewModel.didTapConfirmButton()
+            }
             .disposed(by: bag)
     }
     

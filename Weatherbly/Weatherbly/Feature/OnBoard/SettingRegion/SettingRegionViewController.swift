@@ -115,20 +115,23 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
             .disposed(by: bag)
         
         confirmButton.rx.tap
-            .bind(onNext: showResult)
+            .bind(with: self) { owner, _ in
+                owner.showResult()
+            }
             .disposed(by: bag)
         
         inputRegion.rx.text.orEmpty
-            .subscribe(onNext: { [weak self] _ in
-                if let value = self?.inputRegion.text {
-                    if value.count > 1 {
-                        self?.confirmButton.isEnabled = true
-                        self?.confirmButton.setButtonStyle(.primary)
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, text in
+                    if text.count > 1 {
+                        owner.confirmButton.isEnabled = true
+                        owner.confirmButton.setButtonStyle(.primary)
                     } else {
-                        self?.confirmButton.isEnabled = false
-                        self?.confirmButton.setButtonStyle(.grayFilled)
+                        owner.confirmButton.isEnabled = false
+                        owner.confirmButton.setButtonStyle(.grayFilled)
                     }
-                }
             })
             .disposed(by: bag)
     }

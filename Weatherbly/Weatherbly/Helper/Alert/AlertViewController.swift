@@ -122,19 +122,19 @@ final class AlertViewController: UIViewController, CodeBaseInitializerProtocol {
         // TODO: 백그라운드 터치시 알럿 지우기 추후 고민
 //        backgroundTapGesture.rx
 //            .event
-//            .subscribe(onNext: { _ in
-//                self.dismiss(animated: false)
+//            .bind(with: self) { owner, _ in
+//                owner.dismiss(animated: false)
 //            })
 //            .disposed(by: bag)
         
         confirmButton.rx.tap
-            .subscribe(onNext: { [weak self] _ in
-                if self?.state.closeAction != nil {
-                    self?.dismiss(animated: false, completion: self?.state.closeAction)
+            .bind(with: self) { owner, _ in
+                if owner.state.closeAction != nil {
+                    owner.dismiss(animated: false, completion: owner.state.closeAction)
                 } else {
-                    self?.dismiss(animated: false)
+                    owner.dismiss(animated: false)
                 }
-            })
+            }
             .disposed(by: bag)
     }
 }

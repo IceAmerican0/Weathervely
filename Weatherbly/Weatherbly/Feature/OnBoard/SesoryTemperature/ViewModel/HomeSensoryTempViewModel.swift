@@ -51,62 +51,46 @@ class HomeSensoryTempViewModel: RxBaseViewModel {
     }
     
     func getClosetBySensoryTemp() {
-        
         guard let selectedDate = self.selectedDateRelay.value,
               let closetId = self.closetIdFromHomeViewRelay.value
         else { return }
         
         closetDataSource.getMainSensoryTemperatureCloset(selectedDate, closetId)
-            .subscribe(onNext: { [ weak self ] result in
-                switch result {
-                case .success(let response):
+            .subscribe(
+                with: self,
+                onNext: { owner, response in
                     let closets = response.data.list
-                    self?.getCurrentIndex(closets)
-//                    self?.closetListByTempRelay.accept(closets)
-                case .failure(let err):
-                    switch err {
-                    case .noInternetError:
-                        self?.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
-                    default:
-                        guard let errorString = err.errorDescription else { return }
-                        self?.alertMessageRelay.accept(.init(title: errorString,
-                                                             alertType: .Error,
-                                                             closeAction: self?.popViewController))
-                    }
-                }
+                    owner.getCurrentIndex(closets)
+                    //                    owner.closetListByTempRelay.accept(closets)
+                },
+                onError: { owner, error in
+                    owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
+                                                         alertType: .Error,
+                                                         closeAction: owner.popViewController))
             })
             .disposed(by: bag)
     }
     
     func setSensoryTemperature() {
-        
         guard let closetId = setClosetIdRelay.value,
               let currentTemp = selectedTempRelay.value?.dropLast()
         else { return }
         
         closetDataSource.setSensoryTemperature(.init(closet: closetId, currentTemp: String(currentTemp)))
-            .subscribe(onNext: { [weak self] result in
-                switch result {
-                case.success:
-                    self?.delegate?.willDismiss()
-                    self?.dismissSelfWithAnimationRelay.accept(Void())
-                    break
-                case .failure(let err):
-                    switch err {
-                    case .noInternetError:
-                        self?.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
-                    default:
-                        guard let errString = err.errorDescription else { return }
-                        self?.alertMessageRelay.accept(.init(title: errString,
-                                                             alertType: .Error))
-                    }
-                }
+            .subscribe(
+                with: self,
+                onNext: { owner, _ in
+                    owner.delegate?.willDismiss()
+                    owner.dismissSelfWithAnimationRelay.accept(Void())
+                },
+                onError: { owner, error in
+                    owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
+                                                         alertType: .Error))
             })
             .disposed(by: bag)
     }
     
     func getCurrentIndex(_ closets: [ClosetList]) {
-       
         for i in 0..<closets.count {
             if (closets[i].closetId == self.closetIdFromHomeViewRelay.value!) {
                 // index 없데이트

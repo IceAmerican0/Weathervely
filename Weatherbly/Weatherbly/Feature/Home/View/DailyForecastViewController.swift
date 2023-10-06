@@ -75,9 +75,9 @@ class DailyForecastViewController: RxBaseViewController<EmptyViewModel> {
             .disposed(by: bag)
         
         homeButton.rx.tap
-            .bind(onNext: { [weak self] _ in
-                self?.navigationController?.popViewController(animated: true)
-            })
+            .bind(with: self) { owner, _ in
+                owner.navigationController?.popViewController(animated: true)
+            }
             .disposed(by: bag)
     }
 }

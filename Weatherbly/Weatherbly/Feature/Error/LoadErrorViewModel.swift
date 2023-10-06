@@ -16,31 +16,26 @@ final public class LoadErrorViewModel: RxBaseViewModel, LoadErrorViewModelLogic 
     public func getToken() {
         let loginDataSource = AuthDataSource()
         loginDataSource.getToken()
-            .subscribe(onNext: { [weak self] result in
-                switch result {
-                case .success(let response):
+            .subscribe(
+                with: self,
+                onNext: { owner, response in
                     let data = response.data
                     userDefault.set(data.user.nickname, forKey: UserDefaultKey.nickname.rawValue)
-
+                    
                     if let address = data.address {
                         userDefault.set(address.dong, forKey: UserDefaultKey.dong.rawValue)
                         if data.setTemperature == true {
-                            self?.navigationPushViewControllerRelay.accept(HomeViewController(HomeViewModel()))
+                            owner.navigationPushViewControllerRelay.accept(HomeViewController(HomeViewModel()))
                         } else {
-                            self?.navigationPushViewControllerRelay.accept(DateTimePickViewController(DateTimePickViewModel()))
+                            owner.navigationPushViewControllerRelay.accept(DateTimePickViewController(DateTimePickViewModel()))
                         }
                     } else {
-                        self?.navigationPushViewControllerRelay.accept(SettingRegionViewController(SettingRegionViewModel(.onboard)))
+                        owner.navigationPushViewControllerRelay.accept(SettingRegionViewController(SettingRegionViewModel(.onboard)))
                     }
-                case .failure(let err):
-                    switch err {
-                    case .noInternetError:
-                        self?.alertMessageRelay.accept(.init(title: "인터넷 연결을 확인해주세요",
-                                                             alertType: .Info))
-                    default:
-                        self?.navigationPushViewControllerRelay.accept(OnBoardViewController(OnBoardViewModel()))
-                    }
-                }
+                },
+                onError: { owner, error in
+                    owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
+                                                         alertType: .Info))
             })
             .disposed(by: bag)
     }

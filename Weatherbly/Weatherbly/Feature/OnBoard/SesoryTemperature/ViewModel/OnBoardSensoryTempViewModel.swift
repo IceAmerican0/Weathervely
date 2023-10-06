@@ -70,23 +70,17 @@ public final class OnBoardSensoryTempViewModel: RxBaseViewModel, OnBoardSensoryT
     
     public func getClosetBySensoryTemp() {
         closetDataSource.getOnBoardSensoryTemperatureCloset(formattedDateStringRelay.value)
-            .subscribe(onNext: { [weak self] result in
-                switch result {
-                case .success(let response):
+            .subscribe(
+                with: self,
+                onNext: { owner, response in
                     let data = response.data
-                    self?.temperatureRelay.accept(data.fcstValue)
-                    self?.closetListRelay.accept(data.list)
-                case .failure(let err):
-                    switch err {
-                    case .noInternetError:
-                        self?.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
-                    default:
-                        guard let errorString = err.errorDescription else { return }
-                        self?.alertMessageRelay.accept(.init(title: errorString,
-                                                             alertType: .Error,
-                                                             closeAction: self?.popViewController))
-                    }
-                }
+                    owner.temperatureRelay.accept(data.fcstValue)
+                    owner.closetListRelay.accept(data.list)
+                },
+                onError: { owner, error in
+                    owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
+                                                         alertType: .Error,
+                                                         closeAction: owner.popViewController))
             })
             .disposed(by: bag)
     }
@@ -94,20 +88,14 @@ public final class OnBoardSensoryTempViewModel: RxBaseViewModel, OnBoardSensoryT
     public func didTapAcceptButton() {
         closetDataSource.setSensoryTemperature(.init(closet: closetIDRelay.value,
                                                      currentTemp: temperatureRelay.value))
-            .subscribe(onNext: { [weak self] result in
-                switch result {
-                case .success:
-                    self?.toHomeView()
-                case .failure(let err):
-                    switch err {
-                    case .noInternetError:
-                        self?.navigationPushViewControllerRelay.accept(LoadErrorViewController(LoadErrorViewModel()))
-                    default:
-                        guard let errorString = err.errorDescription else { return }
-                        self?.alertMessageRelay.accept(.init(title: errorString,
-                                                             alertType: .Error))
-                    }
-                }
+            .subscribe(
+                with: self,
+                onNext: { owner, _ in
+                    owner.toHomeView()
+                },
+                onError: { owner, error in
+                    owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
+                                                         alertType: .Error))
             })
             .disposed(by: bag)
     }

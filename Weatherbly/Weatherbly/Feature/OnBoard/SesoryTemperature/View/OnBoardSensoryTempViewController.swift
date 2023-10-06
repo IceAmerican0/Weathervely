@@ -9,6 +9,7 @@ import UIKit
 import FlexLayout
 import PinLayout
 import RxSwift
+import RxGesture
 import Kingfisher
 
 final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensoryTempViewModel> {
@@ -166,19 +167,21 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
             .disposed(by: bag)
         
         denyButton.rx.tap
-            .bind(onNext: viewModel.toSlotMachineView)
+            .bind(with: self) { owner, _ in
+                owner.viewModel.toSlotMachineView()
+            }
             .disposed(by: bag)
         
         acceptButton.rx.tap
-            .subscribe(onNext: { [weak self] _ in
-                self?.viewModel.didTapAcceptButton()
-            })
+            .bind(with: self) { owner, _ in
+                owner.viewModel.didTapAcceptButton()
+            }
             .disposed(by: bag)
         
         selectOtherDayLabel.rx.tapGesture().when(.recognized)
-            .subscribe(onNext: { [weak self] _ in
-                self?.viewModel.navigationPopViewControllerRelay.accept(Void())
-            })
+            .bind(with: self) { owner, _ in
+                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
+            }
             .disposed(by: bag)
     }
     
@@ -188,43 +191,48 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
         viewModel.getInfo()
         
         viewModel.closetListRelay
-            .subscribe(onNext: { [weak self] _ in
-                guard let temperature = self?.viewModel.temperatureRelay.value else { return }
-                guard let closets = self?.viewModel.closetListRelay.value else { return }
-                
-                for i in 0..<closets.count {
-                    if temperature >= closets[i].minTemp && temperature < closets[i].maxTemp {
-                        if let url = URL(string: closets[i].imageUrl) {
-                            self?.tempImageView.kf.setImage(with: url,
-                                                            placeholder: nil,
-                                                            options: [.retryStrategy(DelayRetryStrategy(maxRetryCount: 2, retryInterval: .seconds(2))),
-                                                                      .transition(.fade(0.1)),
-                                                                      .cacheOriginalImage]) { result in
-                                switch result {
-                                case .success:
-                                    self?.indicator.stopAnimating()
-                                    self?.indicator.isHidden = true
-                                    self?.imageSourceLabel.attributedText = NSMutableAttributedString().regular("by \(closets[i].shopName)", 11, CSColor.none)
-                                    self?.viewModel.closetIDRelay.accept(closets[i].closetId)
-                                case .failure:
-                                    self?.indicator.stopAnimating()
-                                    self?.indicator.isHidden = true
-                                    self?.tempImageView.image = AssetsImage.defaultImage.image
-                                    self?.imageSourceLabel.text = ""
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, data in
+                    let temperature = owner.viewModel.temperatureRelay.value
+                    guard let closets = data else { return }
+                    
+                    for i in 0..<closets.count {
+                        if temperature >= closets[i].minTemp && temperature < closets[i].maxTemp {
+                            if let url = URL(string: closets[i].imageUrl) {
+                                owner.tempImageView.kf.setImage(with: url,
+                                                                placeholder: nil,
+                                                                options: [.retryStrategy(DelayRetryStrategy(maxRetryCount: 2, retryInterval: .seconds(2))),
+                                                                          .transition(.fade(0.1)),
+                                                                          .cacheOriginalImage]) { result in
+                                    switch result {
+                                    case .success:
+                                        owner.indicator.stopAnimating()
+                                        owner.indicator.isHidden = true
+                                        owner.imageSourceLabel.attributedText = NSMutableAttributedString().regular("by \(closets[i].shopName)", 11, CSColor.none)
+                                        owner.viewModel.closetIDRelay.accept(closets[i].closetId)
+                                    case .failure:
+                                        owner.indicator.stopAnimating()
+                                        owner.indicator.isHidden = true
+                                        owner.tempImageView.image = AssetsImage.defaultImage.image
+                                        owner.imageSourceLabel.text = ""
+                                    }
                                 }
                             }
                         }
                     }
-                }
             })
             .disposed(by: bag)
         
         viewModel.temperatureRelay
-            .subscribe(onNext: { [weak self] _ in
-                guard let time = self?.viewModel.dateStringRelay.value else { return }
-                guard let temp = self?.viewModel.temperatureRelay.value else { return }
-                self?.tempLabel.attributedText = NSMutableAttributedString()
-                    .bold("\(time)시 (\(temp)℃)", 16, CSColor._172_107_255)
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, temp in
+                    let time = owner.viewModel.dateStringRelay.value
+                    owner.tempLabel.attributedText = NSMutableAttributedString()
+                        .bold("\(time)시 (\(temp)℃)", 16, CSColor._172_107_255)
             })
             .disposed(by: bag)
     }

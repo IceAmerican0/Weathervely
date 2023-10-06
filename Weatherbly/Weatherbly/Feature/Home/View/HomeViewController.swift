@@ -175,51 +175,50 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         
         mainLabel.rx.tapGesture()
             .when(.ended)
-            .subscribe(onNext: { [weak self] tap in
-                self?.viewModel.mainLabelTap()
-            })
+            .bind(with: self) { owner, _ in
+                owner.viewModel.mainLabelTap()
+            }
             .disposed(by: bag)
         
         dailyWrapper.rx.swipeGesture([.left,.right])
             .when(.ended)
-            .subscribe (onNext: { [weak self] dircection in
-                
-                if dircection.direction == .left {
-                    self?.viewModel.swipeDirectionRelay.accept(.left)
-                    self?.viewModel.swipeLeft()
-                    
+            .bind(with: self) { owner, direction in
+                if direction.direction == .left {
+                    owner.viewModel.swipeDirectionRelay.accept(.left)
+                    owner.viewModel.swipeLeft()
                 } else {
-                    self?.viewModel.swipeDirectionRelay.accept(.right)
-                    self?.viewModel.swipeRight()
+                    owner.viewModel.swipeDirectionRelay.accept(.right)
+                    owner.viewModel.swipeRight()
                 }
-            })
+            }
             .disposed(by: bag)
         
         sensoryViewButton.rx.tapGesture()
             .when(.ended)
-            .subscribe(onNext: { [weak self] _ in
-                guard var selectedDate = self?.viewModel.selectedHourParamTypeRelay.value,
-                      let closetId = self?.viewModel.highlightedClosetIdRelay.value,
-                      let tempText = self?.temperatureLabel.text,
-                        let selectedTime = self?.viewModel.headerTimeRelay.value
+            .bind(with: self) { owner, _ in
+                guard var selectedDate = owner.viewModel.selectedHourParamTypeRelay.value,
+                      let tempText = owner.temperatureLabel.text,
+                      let selectedTime = owner.viewModel.headerTimeRelay.value
                 else { return }
+                
+                let closetId = owner.viewModel.highlightedClosetIdRelay.value
                 
                 let splittedTemp = tempText.split(separator: "℃").map{$0}
                 let selectedTmp = "\(splittedTemp[0])℃"
                 
-                if self?.viewModel.headerTimeRelay.value == self?.date.todayThousandFormat && selectedDate != self?.date.todayHourFormat {
-                    self?.viewModel.selectedHourParamTypeRelay.accept(self?.date.todayHourFormat)
+                if owner.viewModel.headerTimeRelay.value == owner.date.todayThousandFormat && selectedDate != owner.date.todayHourFormat {
+                    owner.viewModel.selectedHourParamTypeRelay.accept(owner.date.todayHourFormat)
                 
-                    let newSelectedDate = self?.viewModel.selectedHourParamTypeRelay.value
-                    selectedDate = newSelectedDate ?? (self?.date.todayHourFormat)!
+                    let newSelectedDate = owner.viewModel.selectedHourParamTypeRelay.value
+                    selectedDate = newSelectedDate ?? owner.date.todayHourFormat
                 }
                 
-                self?.viewModel.toSensoryTempView(selectedDate, selectedTime, selectedTmp, closetId)
-            })
+                owner.viewModel.toSensoryTempView(selectedDate, selectedTime, selectedTmp, closetId)
+            }
             .disposed(by: bag)
         
 //        dailyWrapper.rx.tapGesture()
-//            .subscribe(onNext: { [weak self] _ in
+//            .subscribe(onNext: { owner, _ in
 //                
 //            })
 //            .disposed(by: bag)
@@ -233,13 +232,15 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
             .disposed(by: bag)
         
         settingButton.rx.tap
-            .bind(onNext: viewModel.toSettingView)
+            .bind(with: self) { owner, _ in
+                owner.viewModel.toSettingView()
+            }
             .disposed(by: bag)
         
         calendarButton.rx.tap
-            .bind(onNext: { [weak self] _ in
-                self?.viewModel.toTenDaysForecastView()
-            })
+            .bind(with: self) { owner, _ in
+                owner.viewModel.toTenDaysForecastView()
+            }
             .disposed(by: bag)
     }
     
@@ -251,78 +252,95 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         /// 그래서, 매핑한 값 bindingWeatherByDate 에 대한 return 값을 굳독해주는 게 더 맞아 보인다.
 //        viewModel
 //            .villageForeCastInfoEntityRelay
-//            .subscribe(onNext: { [weak self] result in
+//            .subscribe(onNext: { owner, result in
 //                // 2023-08-11 16:00
-//                let todayInfo  = self?.viewModel.bindingWeatherByDate(result, 0, (self?.viewModel.headerTimeRelay.value!)!)
+//                let todayInfo  = owner.viewModel.bindingWeatherByDate(result, 0, (owner.viewModel.headerTimeRelay.value!)!)
 //
-//                self?.setWeatherInfo(todayInfo, "현재")
-//                self?.viewModel.getWeatherImage(todayInfo)
+//                owner.setWeatherInfo(todayInfo, "현재")
+//                owner.viewModel.getWeatherImage(todayInfo)
 //            })
 //            .disposed(by: bag)
         
         viewModel.dayChangedRelay
-            .subscribe(onNext: { [weak self] _ in
-                self?.viewModel.getInfo(self?.date.todayHourFormat ?? Date().todayHourFormat)
-            })
+            .bind(with: self) { owner, _ in
+                owner.viewModel.getInfo(owner.date.todayHourFormat)
+            }
             .disposed(by: bag)
         
         viewModel.hourChangedRelay
-            .subscribe(onNext: { [weak self] _ in
-                self?.viewModel.getInfo(self?.date.todayHourFormat ?? Date().todayHourFormat)
-            })
+            .bind(with: self) { owner, _ in
+                owner.viewModel.getInfo(owner.date.todayHourFormat)
+            }
             .disposed(by: bag)
         
         viewModel.mappedCategoryDicRelay
-            .subscribe(onNext: { [weak self] mappedCategory in
-                self?.reloadDailyWrapper(self?.viewModel.swipeDirectionRelay.value, mappedCategory)
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, mappedCategory in
+                    owner.reloadDailyWrapper(owner.viewModel.swipeDirectionRelay.value, mappedCategory)
             })
             .disposed(by: bag)
         
         viewModel
             .weatherImageRelay
-            .subscribe(onNext: { [weak self] image in
-                self?.weatherImageView.image = image
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, image in
+                    owner.weatherImageView.image = image
             })
             .disposed(by: bag)
         
         viewModel
             .recommendClosetEntityRelay
-            .subscribe(onNext: { [weak self] result in
-                guard result != nil else { return }
-                self?.pagerView.reloadData()
-                self?.viewModel.setCurrentMsg()
-                self?.viewModel.setCurrentIndex((self?.pagerView.currentIndex)!)
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, _ in
+                    owner.pagerView.reloadData()
+                    owner.viewModel.setCurrentMsg()
+                    owner.viewModel.setCurrentIndex(owner.pagerView.currentIndex)
             })
             .disposed(by: bag)
         
         viewModel.headerTimeRelay
-            .subscribe(onNext: { [weak self] justTimeString in
-                self?.setHeader(justTimeString)
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, justTimeString in
+                    owner.setHeader(justTimeString)
             })
             .disposed(by: bag)
         
         viewModel.yesterdayCategoryRelay
-            .subscribe (onNext: { [weak self] yesterdayInfo in
-                guard let yesterdayInfo = yesterdayInfo,
-                      let mainInfo = self?.viewModel.mappedCategoryDicRelay.value
-                else { return }
-                
-                self?.setWeatherCommentLableInfo(yesterdayInfo, mainInfo)
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, yesterdayInfo in
+                    guard let yesterdayInfo,
+                          let mainInfo = owner.viewModel.mappedCategoryDicRelay.value
+                    else { return }
+                    
+                    owner.setWeatherCommentLableInfo(yesterdayInfo, mainInfo)
             })
             .disposed(by: bag)
         
         viewModel.weatherMsgRelay
-            .subscribe(onNext: { [weak self] message in
-                
-                guard let message = message else { return }
-                self?.setWeatherMsgInfo(message)
-               
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, message in
+                    guard let message else { return }
+                    owner.setWeatherMsgInfo(message)
             }).disposed(by: bag)
         
         viewModel.selectedHourParamTypeRelay
-            .subscribe(onNext: { [weak self] _ in
-                guard let image = self?.configureBackgroundImage() else { return }
-                self?.backgroundImage.setAssetsImage(image)
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, _ in
+                    owner.backgroundImage.setAssetsImage(owner.configureBackgroundImage())
             })
             .disposed(by: bag)
     }

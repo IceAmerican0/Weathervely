@@ -10,23 +10,19 @@ import RxSwift
 import RxMoya
 
 public protocol TypeDataSourceProtocol {
-    func getTypeList() -> Observable<Result<EmptyEntity, WVNetworkError>>
+    func getTypeList() -> Observable<EmptyEntity>
 }
 
 public final class TypeDataSource: TypeDataSourceProtocol {
-    private let provider: MoyaProvider<TypeTarget>
+    private let provider: WVProvider<TypeTarget>
     
-    public init(provider: MoyaProvider<TypeTarget> = MoyaProvider<TypeTarget>()) {
+    public init(provider: WVProvider<TypeTarget> = WVProvider<TypeTarget>()) {
         self.provider = provider
     }
     
-    public func getTypeList() -> Observable<Result<EmptyEntity, WVNetworkError>> {
+    public func getTypeList() -> Observable<EmptyEntity> {
         provider.rx
             .request(.getTypeList)
             .mapTo(EmptyEntity.self)
-            .timeout(.seconds(10), scheduler: MainScheduler.instance)
-            .catch { error in
-                return .just(.failure(.noInternetError))
-            }
     }
 }
