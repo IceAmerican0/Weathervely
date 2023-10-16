@@ -45,7 +45,7 @@ public class SlotMachineViewModel: RxBaseViewModel, SlotMachineViewModelLogic {
     }
     
     public func toHomeView() {
-        let vc = HomeViewController(HomeViewModel())
+        let vc = HomeTabBarController()
         navigationPushViewControllerRelay.accept(vc)
     }
 }

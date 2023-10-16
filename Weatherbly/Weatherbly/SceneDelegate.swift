@@ -74,7 +74,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     if let address = data.address {
                         userDefault.set(address.dong, forKey: UserDefaultKey.dong.rawValue)
                         if data.setTemperature == true {
-                            owner.setWindow(HomeViewController(HomeViewModel()))
+                            owner.setWindow(HomeTabBarController())
                         } else {
                             owner.setWindow(DateTimePickViewController(DateTimePickViewModel()))
                         }

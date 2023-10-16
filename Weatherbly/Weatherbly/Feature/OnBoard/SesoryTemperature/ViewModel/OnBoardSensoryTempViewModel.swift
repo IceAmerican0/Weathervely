@@ -109,7 +109,7 @@ public final class OnBoardSensoryTempViewModel: RxBaseViewModel, OnBoardSensoryT
     }
     
     public func toHomeView() {
-        let vc = HomeViewController(HomeViewModel())
+        let vc = HomeTabBarController()
         self.navigationPushViewControllerRelay.accept(vc)
     }
     

@@ -25,7 +25,7 @@ final public class LoadErrorViewModel: RxBaseViewModel, LoadErrorViewModelLogic 
                     if let address = data.address {
                         userDefault.set(address.dong, forKey: UserDefaultKey.dong.rawValue)
                         if data.setTemperature == true {
-                            owner.navigationPushViewControllerRelay.accept(HomeViewController(HomeViewModel()))
+                            owner.navigationPushViewControllerRelay.accept(HomeTabBarController())
                         } else {
                             owner.navigationPushViewControllerRelay.accept(DateTimePickViewController(DateTimePickViewModel()))
                         }
