@@ -88,8 +88,10 @@
 		69683A582A9BAAEE00A2BD5A /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69683A572A9BAAEE00A2BD5A /* KeychainManager.swift */; };
 		69683A5B2A9BABC900A2BD5A /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 69683A5A2A9BABC900A2BD5A /* KeychainAccess */; };
 		698F6CA92ADD624C00C2B33A /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698F6CA82ADD624B00C2B33A /* Tab.swift */; };
-		698F6CAD2ADD6EDB00C2B33A /* TrendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698F6CAB2ADD6EDB00C2B33A /* TrendViewController.swift */; };
-		698F6CAE2ADD6EDB00C2B33A /* TrendViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698F6CAC2ADD6EDB00C2B33A /* TrendViewModel.swift */; };
+		698F6CAD2ADD6EDB00C2B33A /* TrendingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698F6CAB2ADD6EDB00C2B33A /* TrendingViewController.swift */; };
+		698F6CAE2ADD6EDB00C2B33A /* TrendingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698F6CAC2ADD6EDB00C2B33A /* TrendingViewModel.swift */; };
+		698F6CB02ADFF8A600C2B33A /* TrendingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698F6CAF2ADFF8A600C2B33A /* TrendingCollectionViewCell.swift */; };
+		698F6CB22AE00FCC00C2B33A /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698F6CB12AE00FCC00C2B33A /* UIImage+Extension.swift */; };
 		69A7F0D92A80B42A00834974 /* UserDefaultKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A7F0D82A80B42A00834974 /* UserDefaultKey.swift */; };
 		69A7F0E02A80CDD800834974 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 69A7F0DF2A80CDD800834974 /* LaunchScreen.storyboard */; };
 		69A7F0E22A811EC000834974 /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A7F0E12A811EC000834974 /* UserDefaultManager.swift */; };
@@ -226,8 +228,10 @@
 		69683A552A9B81BC00A2BD5A /* LoadErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadErrorViewModel.swift; sourceTree = "<group>"; };
 		69683A572A9BAAEE00A2BD5A /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		698F6CA82ADD624B00C2B33A /* Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
-		698F6CAB2ADD6EDB00C2B33A /* TrendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendViewController.swift; sourceTree = "<group>"; };
-		698F6CAC2ADD6EDB00C2B33A /* TrendViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendViewModel.swift; sourceTree = "<group>"; };
+		698F6CAB2ADD6EDB00C2B33A /* TrendingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingViewController.swift; sourceTree = "<group>"; };
+		698F6CAC2ADD6EDB00C2B33A /* TrendingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingViewModel.swift; sourceTree = "<group>"; };
+		698F6CAF2ADFF8A600C2B33A /* TrendingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingCollectionViewCell.swift; sourceTree = "<group>"; };
+		698F6CB12AE00FCC00C2B33A /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		69A7F0D82A80B42A00834974 /* UserDefaultKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultKey.swift; sourceTree = "<group>"; };
 		69A7F0DF2A80CDD800834974 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		69A7F0E12A811EC000834974 /* UserDefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
@@ -443,8 +447,9 @@
 		698F6CAA2ADD6EC200C2B33A /* Trend */ = {
 			isa = PBXGroup;
 			children = (
-				698F6CAB2ADD6EDB00C2B33A /* TrendViewController.swift */,
-				698F6CAC2ADD6EDB00C2B33A /* TrendViewModel.swift */,
+				698F6CAB2ADD6EDB00C2B33A /* TrendingViewController.swift */,
+				698F6CAC2ADD6EDB00C2B33A /* TrendingViewModel.swift */,
+				698F6CAF2ADFF8A600C2B33A /* TrendingCollectionViewCell.swift */,
 			);
 			path = Trend;
 			sourceTree = "<group>";
@@ -630,6 +635,7 @@
 				BD5169482A5D6FEA00582BA9 /* UITextField+Extension.swift */,
 				BD4316372A3CA20900E86271 /* UIView+Extension.swift */,
 				5CC61E272A5BDCCC001435E6 /* UIViewController+Extension.swift */,
+				698F6CB12AE00FCC00C2B33A /* UIImage+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -962,7 +968,7 @@
 				5CE0FEAD2A8DDE9200A0E655 /* AddressListEntity.swift in Sources */,
 				BD4907332A84D42F0027DEE8 /* String+Extension.swift in Sources */,
 				BD4316382A3CA20900E86271 /* UIView+Extension.swift in Sources */,
-				698F6CAD2ADD6EDB00C2B33A /* TrendViewController.swift in Sources */,
+				698F6CAD2ADD6EDB00C2B33A /* TrendingViewController.swift in Sources */,
 				BD2D01AE2A38886C003A25D5 /* RxBaseViewController.swift in Sources */,
 				69683A562A9B81BC00A2BD5A /* LoadErrorViewModel.swift in Sources */,
 				BD4316362A3C9DB700E86271 /* AssetsImage.swift in Sources */,
@@ -974,6 +980,7 @@
 				BD7DAB332A70DEFC00422D25 /* VillageForecastInfoEntity.swift in Sources */,
 				BD4AC38F2A6671B500537583 /* OnBoardSensoryTempViewModel.swift in Sources */,
 				5C4BE89B2A5E2D1200FD2CEF /* EditRegionViewController.swift in Sources */,
+				698F6CB02ADFF8A600C2B33A /* TrendingCollectionViewCell.swift in Sources */,
 				69A7F0E42A8208DB00834974 /* UserInfoRequest.swift in Sources */,
 				5C2AD7482AC2B64C006BFF81 /* FSPagerViewLayoutAttributes.swift in Sources */,
 				BD4AC3912A66899500537583 /* UILabel+Extension.swift in Sources */,
@@ -1017,6 +1024,7 @@
 				5C9D02C42A6E61C700AF2DA3 /* SettingRegionCompleteViewModel.swift in Sources */,
 				BD5169472A5AA39000582BA9 /* EditNicknameViewController.swift in Sources */,
 				BD69B8F72A54337000DDCD7A /* SettingViewController.swift in Sources */,
+				698F6CB22AE00FCC00C2B33A /* UIImage+Extension.swift in Sources */,
 				BDF208FF2A4EAEF2001177B2 /* CGFloat+Extension.swift in Sources */,
 				5C9D02C62A6FB71F00AF2DA3 /* EditRegionViewModel.swift in Sources */,
 				696176B62A63E4A400B83B4C /* EmptyViewModel.swift in Sources */,
@@ -1036,7 +1044,7 @@
 				5C1D5A112A3C500A00E66788 /* CSLabel.swift in Sources */,
 				BD50A5222A4C4072005F066E /* SlotMachineViewController.swift in Sources */,
 				5C9D02E12A72405100AF2DA3 /* TypeTarget.swift in Sources */,
-				698F6CAE2ADD6EDB00C2B33A /* TrendViewModel.swift in Sources */,
+				698F6CAE2ADD6EDB00C2B33A /* TrendingViewModel.swift in Sources */,
 				BD2D11BE2A9AEDCE008CBF0D /* SevenDayForecastInfoEntity.swift in Sources */,
 				69683A582A9BAAEE00A2BD5A /* KeychainManager.swift in Sources */,
 				5C9D02DF2A72304800AF2DA3 /* UserDataSource.swift in Sources */,

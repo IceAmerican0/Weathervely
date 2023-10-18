@@ -7,18 +7,27 @@
 
 import UIKit
 
-enum Tab: String, CaseIterable {
-    case home = "home.fill"
+enum Tab: CaseIterable {
+    case home
     case schedule
-    case trend = "defaultImage"
+    case trending
     case setting
     
     var title: String {
         switch self {
         case .home: "홈"
         case .schedule: "예보"
-        case .trend: "추천"
+        case .trending: "추천"
         case .setting: "설정"
+        }
+    }
+    
+    var image: UIImage {
+        switch self {
+        case .home: UIImage(systemName: "house.fill")!
+        case .schedule: AssetsImage.schedule.image!
+        case .trending: AssetsImage.defaultImage.image!
+        case .setting: AssetsImage.setting.image!
         }
     }
     
@@ -26,7 +35,7 @@ enum Tab: String, CaseIterable {
         switch self {
         case .home: HomeViewController(HomeViewModel())
         case .schedule: HomeViewController(HomeViewModel())//TenDaysForeCastViewController(TenDaysForecastViewModel())
-        case .trend: TrendViewController(TrendViewModel())
+        case .trending: TrendingViewController(TrendingViewModel())
         case .setting: SettingViewController(SettingViewModel())
         }
     }

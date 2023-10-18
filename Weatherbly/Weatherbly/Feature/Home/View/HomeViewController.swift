@@ -17,10 +17,7 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
     private var backgroundView = UIView()
     private var backgroundImage = UIImageView()
     private var topLayoutWrapper = UIView()
-    private var settingButton = UIButton()
-    private var mainLabelWrapper = UIView()
     private var mainLabel = CSLabel(.bold, 20, "")
-    private var calendarButton = UIButton()
     
     private var dailyWrapper = UIView()
     private var weatherImageView = UIImageView()
@@ -76,14 +73,6 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
     override func attribute() {
         super.attribute()
         
-        settingButton.do {
-            $0.setImage(AssetsImage.setting.image, for: .normal)
-        }
-        
-        calendarButton.do {
-            $0.setImage(AssetsImage.schedule.image, for: .normal)
-        }
-        
         weatherImageView.do {
             $0.setAssetsImage(.weatherLoadingImage)
         }
@@ -132,17 +121,7 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         super.layout()
         
         container.flex.alignItems(.center).marginHorizontal(20).define { flex in
-            flex.addItem(topLayoutWrapper).direction(.row).marginTop(7).define { flex in
-                flex.addItem(settingButton).size(44)
-                flex.addItem(mainLabelWrapper).width(mainLabelWidth)
-                    .justifyContent(.center)
-                    .direction(.row)
-                    .define { flex in
-                        flex.addItem(mainLabel).width(100%)
-                    }
-                flex.addItem(calendarButton).size(44)
-            }
-            
+            flex.addItem(mainLabel).width(100%).marginTop(15)
             flex.addItem(dailyWrapper)
                 .width(110%)
                 .height(screenHeight * 0.208 + 45)
@@ -161,7 +140,7 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
             
             flex.addItem(messageLabel).marginTop(-45).width(dustLabelWidth).height(45)
             flex.addItem(pagerView).width(screenWidth).height(closetWrapperHeight + 20).marginTop(screenHeight * 0.03)
-            flex.addItem(sensoryViewButton).padding(3, 13.5).position(.absolute).bottom(14)
+//            flex.addItem(sensoryViewButton).padding(3, 13.5).position(.absolute).bottom(14)
         }
         
         backgroundView.flex.alignItems(.center).define { flex in
@@ -229,18 +208,6 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
                 DailyForecastViewController(EmptyViewModel())
             }
             .bind(to: viewModel.navigationPushViewControllerRelay)
-            .disposed(by: bag)
-        
-        settingButton.rx.tap
-            .bind(with: self) { owner, _ in
-                owner.viewModel.toSettingView()
-            }
-            .disposed(by: bag)
-        
-        calendarButton.rx.tap
-            .bind(with: self) { owner, _ in
-                owner.viewModel.toTenDaysForecastView()
-            }
             .disposed(by: bag)
     }
     

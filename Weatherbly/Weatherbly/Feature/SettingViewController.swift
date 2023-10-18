@@ -14,7 +14,7 @@ import RxGesture
 final class SettingViewController: RxBaseViewController<SettingViewModel> {
     
     // MARK: - Component
-    private var navigationView = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
+    private var titleLabel = CSLabel(.bold, 22, "설정")
     private let contentWrapper = UIView()
     private var nickNameView = UIView()
     private var nickNameLabel = CSLabel(.bold, 18, "님")
@@ -42,12 +42,6 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
     // MARK: - Attiribute
     override func attribute() {
         super.attribute()
-        
-        navigationView.do {
-            $0.setTitle("설정")
-            $0.addBorder(.bottom)
-            $0.backgroundColor = CSColor._253_253_253.color
-        }
         
         nickNameView.do {
             $0.addBorder(.top)
@@ -122,7 +116,7 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
             .direction(.column)
             .justifyContent(.spaceBetween)
             .define { flex in
-            flex.addItem(navigationView)
+            flex.addItem(titleLabel).marginTop(10)
             flex.addItem(contentWrapper)
                 .grow(1)
                 .shrink(1)
@@ -182,19 +176,6 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
 
     override func bind() {
         super.bind()
-        
-        navigationView.leftButtonDidTapRelay
-            .bind(with: self) { owner, _ in
-                if let viewControllers = owner.navigationController?.viewControllers {
-                    for viewController in viewControllers {
-                        if let homeViewController = viewController as? HomeViewController {
-                            owner.navigationController?.popToViewController(homeViewController, animated: true)
-                            break
-                        }
-                    }
-                }
-            }
-            .disposed(by: bag)
         
         tapGesture.rx
             .event
