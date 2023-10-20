@@ -9,10 +9,10 @@ import RxSwift
 import Moya
 
 public final class WVProvider<T: TargetType>: MoyaProvider<T> {
-    func request(_ token: T) -> Single<Response> {
-        rx
-            .request(token)
-            .filterSuccessfulStatusCodes()
-            .mapNetworkError()
-    }
+//    func request(_ token: T) -> Single<Response> {
+//        rx
+//            .request(token)
+//            .filterSuccessfulStatusCodes()
+//            .mapNetworkError()
+//    }
 }

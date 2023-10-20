@@ -24,7 +24,7 @@ public final class AuthDataSource: AuthDataSourceProtocol {
     }
     
     public func getToken() -> Observable<AuthLoginEntity> {
-        provider
+        provider.rx
             .request(.login)
             .mapTo(AuthLoginEntity.self)
     }
