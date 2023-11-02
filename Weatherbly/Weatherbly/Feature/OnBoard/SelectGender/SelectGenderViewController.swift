@@ -26,10 +26,6 @@ final class SelectGenderViewController: RxBaseViewController<SelectGenderViewMod
     
     var isFemale = true
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
     // MARK: - View
 
     override func attribute() {

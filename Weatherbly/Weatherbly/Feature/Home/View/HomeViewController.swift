@@ -50,6 +50,7 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         viewModel.getInfo(self.date.todayHourFormat)
         navigationController?.setNavigationBarHidden(true, animated: animated)
         

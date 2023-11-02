@@ -21,11 +21,6 @@ class DailyForecastViewController: RxBaseViewController<EmptyViewModel> {
     private let tableViewWidth = UIScreen.main.bounds.width * 0.92
     private let tableViewHeight = UIScreen.main.bounds.height * 0.7
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-    }
-    
     override func attribute() {
         super.attribute()
         

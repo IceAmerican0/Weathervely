@@ -14,14 +14,14 @@ protocol HomeSensoryTempViewControllerDelegate: AnyObject {
     func willDismiss()
 }
 
-protocol HomeSensoryLogic {
+protocol HomeSensoryLogic: ViewModelBusinessLogic {
     func getClosetBySensoryTemp()
     func setSensoryTemperature()
     func getCurrentIndex(_ closets: [ClosetList])
-    func yOffsetForIndex(_ index: Int)
+    func yOffsetForIndex(_ index: Int, _ scrollView: UIScrollView?)
 }
-class HomeSensoryTempViewModel: RxBaseViewModel {
-    
+
+class HomeSensoryTempViewModel: RxBaseViewModel, HomeSensoryLogic {
     weak var delegate: HomeSensoryTempViewControllerDelegate?
     let closetDataSource = ClosetDataSource()
     
@@ -38,10 +38,6 @@ class HomeSensoryTempViewModel: RxBaseViewModel {
     
     var slotMachineIndexRelay = BehaviorRelay<Int>(value: 0)
     var focusingIndexRelay = BehaviorRelay<CGFloat>(value: CGFloat())
-    
-    override init() {
-        super.init()
-    }
     
     init(_ selectedDate: String, _ selectedTime: String, _ selectedTemp: String,  _ closetId: Int) {
         self.selectedDateRelay.accept(selectedDate)
