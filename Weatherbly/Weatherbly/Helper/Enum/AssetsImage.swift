@@ -6,7 +6,7 @@
 
 import UIKit
 
-enum AssetsImage: String {
+public enum AssetsImage: String {
     
     // Arrow
     case downArrow
@@ -66,7 +66,6 @@ enum AssetsImage: String {
     case windy
     
     // TenDayWeather
-    
     case tenDayAmCloud
     case tenDayPmCloud
     case tenDayRain

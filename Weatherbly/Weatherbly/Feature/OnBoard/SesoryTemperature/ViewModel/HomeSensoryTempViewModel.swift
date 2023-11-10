@@ -34,7 +34,6 @@ class HomeSensoryTempViewModel: RxBaseViewModel, HomeSensoryLogic {
     
     var setClosetIdRelay = BehaviorRelay<Int?>(value: nil)
     var setClosetTempRelay = BehaviorRelay<String?>(value: nil)
-    var emptyEntityRelay = BehaviorRelay<EmptyEntity?>(value: nil)
     
     var slotMachineIndexRelay = BehaviorRelay<Int>(value: 0)
     var focusingIndexRelay = BehaviorRelay<CGFloat>(value: CGFloat())

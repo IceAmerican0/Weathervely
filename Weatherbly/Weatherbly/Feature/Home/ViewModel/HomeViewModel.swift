@@ -12,9 +12,7 @@ import RxRelay
 import UIKit
 
 public protocol HomeViewModelLogic: ViewModelBusinessLogic {
-    func toSettingView()
     func toDailyForecastView()
-    func toTenDaysForecastView()
     func toSensoryTempView(_ selectedDate: String, _ selectedTime: String, _ selectedTemp: String, _ closetId: Int)
     func getInfo(_ dateString: String)
     func getVillageForecastInfo()
@@ -30,12 +28,10 @@ public protocol HomeViewModelLogic: ViewModelBusinessLogic {
 }
 
 public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
+    private let getClosetDataSource: ClosetDataSourceProtocol = ClosetDataSource()
+    private let forecastUseCase: ForecastUseCaseProtocol = ForecastUseCase(forecastDataSource: ForecastDataSource())
     
-    private let getVillageDataSource = ForecastDataSource()
-    private let getClosetDataSource = ClosetDataSource()
-    
-    let villageForeCastInfoEntityRelay  = BehaviorRelay<VillageForecastInfoEntity?>(value: nil)
-    let recommendClosetEntityRelay = BehaviorRelay<RecommendClosetEntity?>(value: nil)
+    let recommendClosetEntityRelay = BehaviorRelay<RecommendClosetBody?>(value: nil)
     let mappedCategoryDicRelay = BehaviorRelay<[String: String]?>(value: [:])
     
     var swipeArrayRelay = BehaviorRelay<[String]?>(value: nil)
@@ -70,28 +66,22 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     }
     
     public func getVillageForecastInfo() {
-        
         let date = Date()
         
-        getVillageDataSource.getVillageForcast()
+        forecastUseCase.getThreeDaysForecastInfo()
             .subscribe(
                 with: self,
-                onNext: { owner, response in
-                    owner.villageForeCastInfoEntityRelay.accept(response)
-                    
+                onNext: { owner, _ in
                     // 시간대로 묶은 카테고리
-                    owner.mappedCategoryDicRelay.accept(owner.bindingWeatherByDate(response, 0, date.todayThousandFormat))
+                    owner.mappedCategoryDicRelay.accept(
+                        owner.forecastUseCase.bindTodayWeather(
+                            selectedHour: date.todayThousandFormat
+                    ))
                     
-                    lazy var yesterDayHour: String = {
-                        var yesterDayHour = date.yesterdayThousandFormat
-                        if yesterDayHour == "0000" || yesterDayHour == "0100" || yesterDayHour == "0200" {
-                            yesterDayHour = "0300"
-                            return yesterDayHour
-                        }
-                        return yesterDayHour
-                    }()
-                    
-                    owner.yesterdayCategoryRelay.accept(owner.bindingWeatherByDate(response, -1, yesterDayHour))
+                    owner.yesterdayCategoryRelay.accept(
+                        owner.forecastUseCase.bindYesterdayWeather(
+                            selectedHour: date.yesterdayThousandFormat
+                    ))
                 },
                 onError: { owner, error in
                     owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
@@ -106,7 +96,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             .subscribe(
                 with: self,
                 onNext: { owner, response in
-                    owner.recommendClosetEntityRelay.accept(response)
+                    owner.recommendClosetEntityRelay.accept(response.data?.list)
                 },
                 onError: { owner, error in
                     owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
@@ -114,83 +104,6 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                                                          closeAction: owner.popToSelf))
             })
             .disposed(by: bag)
-    }
-    
-    func bindingWeatherByDate(_ response: VillageForecastInfoEntity?, _ dayInterval: Int, _ selectedHour: String) -> [String: String]? {
-        
-        let date = Date()
-        let selectedDate = date.dayAfter(dayInterval)
-        // 원하는 날짜 멥핑
-        let todayForecast = response?.data!.list[selectedDate]!.forecasts
-        let selectedHour = selectedHour // HH00
-
-        var timeToCategoryValue: [String: [String: String]] = [:]
-        // 시간을 key 값으로 재정렬
-        
-        todayForecast?.forEach { forecast in
-            if timeToCategoryValue[forecast.fcstTime] == nil {
-                timeToCategoryValue[forecast.fcstTime] = [:]
-            }
-            timeToCategoryValue[forecast.fcstTime]?[forecast.category] = forecast.fcstValue
-        }
-
-        
-        // 시간 오름차순
-        let orderedByTimeCategories: [Dictionary<String, [String : String]>.Element]? = timeToCategoryValue.sorted { $0.key < $1.key }
-        
-        // 현재시간인 카테고리 가져오기
-        var categoryWithValue: [String: String]? = [:]
-        
-        for key in orderedByTimeCategories! {
-            if key.key == selectedHour {
-                // 카테고리 맵핑해서 저장하기
-                
-                categoryWithValue = key.value
-                break
-            }
-        }
-        
-        categoryWithValue = getExtremeTemp(categoryWithValue, orderedByTimeCategories, selectedHour)
-        
-        return categoryWithValue
-    }
-    
-    func getExtremeTemp(_ categoryWithValue: [String: String]?, _ orderedByTimeCategories: [Dictionary<String, [String : String]>.Element]?, _ selectedHour: String) -> [String: String] {
-        
-        let TMXTime = 15
-        let TMNTime = 6
-        var returnCategoryValues: [String: String]? = categoryWithValue
-        
-        guard !orderedByTimeCategories!.isEmpty else {
-            return [:]
-        }
-        
-        if selectedHour != "\(TMXTime)00" {
-            for i in 0..<orderedByTimeCategories!.count {
-                if orderedByTimeCategories?[i].key == "1500" {
-                    let hasTMXDic = orderedByTimeCategories?[i]
-                    if let TMXValue = hasTMXDic?.value["TMX"] {
-                        returnCategoryValues?.updateValue(TMXValue, forKey: "TMX")
-                    }
-                    break
-                }
-            }
-        }
-
-        
-        if selectedHour != "0\(TMNTime)00" {
-            for i in 0..<orderedByTimeCategories!.count {
-                if orderedByTimeCategories?[i].key == "0600" {
-                    let hasTMNDic = orderedByTimeCategories?[i]
-                    if let TMNValue = hasTMNDic?.value["TMN"] {
-                        returnCategoryValues?.updateValue(TMNValue, forKey: "TMN")
-                    }
-                    break
-                }
-            }
-        }
-        
-        return returnCategoryValues ?? [:]
     }
     
     func getWeatherImage(_ categoryValues: [String: String]?) {
@@ -276,23 +189,22 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         }
     }
     
-    func noRainWeatherImageAndMessage (_ skyStatus: Int, _ windSpeed: Double, _ humidity: Int, _ temp: Int) {
-        
+    func noRainWeatherImageAndMessage (_ skyStatus: Int,
+                                       _ windSpeed: Double,
+                                       _ humidity: Int,
+                                       _ temp: Int
+    ) {
         var weatherImage: UIImage?
         let date = Date()
         var message = ""
-        // FIXME: - 파라미터로 가지고 오지 말고 relay로 가져와서 멥핑해야 체감온도 이후 리로드할떄 메세지도 리로드 됨.
+        
         if windSpeed >= 5.5 {
-            weatherImage = AssetsImage.windy.image
-            message = WeatherMsgEnum.strongWindMsg.msg
-            self.weatherImageRelay.accept(weatherImage)
-            self.weatherMsgRelay.accept(message)
+            self.weatherImageRelay.accept(AssetsImage.windy.image)
+            self.weatherMsgRelay.accept(WeatherMsgEnum.strongWindMsg.msg)
             return
         } else if 3.4...5.4 ~= windSpeed {
-            weatherImage = AssetsImage.windy.image
-            message = WeatherMsgEnum.normalWindMsg.msg
-            self.weatherImageRelay.accept(weatherImage)
-            self.weatherMsgRelay.accept(message)
+            self.weatherImageRelay.accept(AssetsImage.windy.image)
+            self.weatherMsgRelay.accept(WeatherMsgEnum.normalWindMsg.msg)
             return
         }
         
@@ -334,14 +246,10 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         if selectedHourParamTypeRelay.value != date.todayHourFormat {
             self.weatherMsgRelay.accept(message)
         }
-        
     }
     
     public func getSwipeArray() {
-        
-//        guard let now = headerTimeRelay.value else { return }
         let now = Date().todayThousandFormat
-        
         var swipeArray: [String] = []
         var todayTimeArray = ["0700", "1500", "2000"]
         let tomorrowTimeArray = ["3100", "3900", "4400"]
@@ -381,14 +289,9 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     }
     
     public func swipeLeft() {
-        
-        guard let forecastEntity = villageForeCastInfoEntityRelay.value,
-              let swipeArray = swipeArrayRelay.value
-        else { return }
-        
-        
-        var categoryWithValue: [String: String]? = [:]
-        var yesterdayCategoryValue: [String: String]? = [:]
+        guard let swipeArray = swipeArrayRelay.value else { return }
+        var categoryWithValue = ["":""]
+        var yesterdayCategoryValue = ["":""]
         var headerTime: String = ""
         var selectedHour = selectedHourParamTypeRelay.value!
         
@@ -410,14 +313,13 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                 // 오늘
                 selectedHour = hour
                 self.selectedHourParamTypeRelay.accept(Date().todaySelectedFormat(selectedHour.addColon))
-                categoryWithValue = self.bindingWeatherByDate(forecastEntity, 0, hour) // HH00
+                categoryWithValue = forecastUseCase.bindTodayWeather(
+                    selectedHour: hour
+                )
                 
-                if selectedHour == "0000" || selectedHour == "0100" || selectedHour == "0200" {
-                    let newSelectedHour = "0300"
-                    yesterdayCategoryValue = self.bindingWeatherByDate(forecastEntity, -1, newSelectedHour)
-                } else {
-                    yesterdayCategoryValue = self.bindingWeatherByDate(forecastEntity, -1, hour)
-                }
+                yesterdayCategoryValue = forecastUseCase.bindYesterdayWeather(
+                    selectedHour: selectedHour.forecastValidTime
+                )
                 
                 headerTime = hour.hourToMainLabel
                 
@@ -428,16 +330,14 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                     selectedHour = "0\(selectedHour)"
                 }
                 
+                selectedHourParamTypeRelay.accept(Date().tomorrowSelectedFormat(selectedHour.addColon))
+                categoryWithValue = forecastUseCase.bindTomorrowWeather(
+                    selectedHour: selectedHour
+                )
                 
-                self.selectedHourParamTypeRelay.accept(Date().tomorrowSelectedFormat(selectedHour.addColon))
-                categoryWithValue = self.bindingWeatherByDate(forecastEntity, 1, selectedHour)
-                
-                if selectedHour == "0000" || selectedHour == "0100" || selectedHour == "0200" {
-                    let newSelectedHour = "0300"
-                    yesterdayCategoryValue = self.bindingWeatherByDate(forecastEntity, -1, newSelectedHour)
-                } else {
-                    yesterdayCategoryValue = self.bindingWeatherByDate(forecastEntity, -1, selectedHour)
-                }
+                yesterdayCategoryValue = forecastUseCase.bindYesterdayWeather(
+                    selectedHour: selectedHour.forecastValidTime
+                )
                 
                 headerTime = hour.hourToMainLabel
             }
@@ -455,12 +355,9 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     }
     
     public func swipeRight() {
-        guard let forecastEntity = villageForeCastInfoEntityRelay.value,
-              let swipeArray = swipeArrayRelay.value
-        else { return }
-        
-        var categoryWithValue: [String: String]? = [:]
-        var yesterdayCategoryValue: [String: String]? = [:]
+        guard let swipeArray = swipeArrayRelay.value else { return }
+        var categoryWithValue = ["":""]
+        var yesterdayCategoryValue = ["":""]
         var headerTime: String = ""
         
         if !(swipeIndex == 0) {
@@ -497,22 +394,25 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                     swipeArrayRelay.accept(newSwipeArrray)
                     
                     // 오늘 날씨, 메세지 업데이트를 위한 바인딩
-                    categoryWithValue = self.bindingWeatherByDate(forecastEntity, 0, hour)
-                    
+                    categoryWithValue = forecastUseCase.bindTodayWeather(
+                        selectedHour: hour
+                    )
                     // 어제 온도 비교 라벨을 위한 어제 날씨Entity 바인딩
                     // 해당 시간에는 3시로 바인딩
-                    if hour == "0000" || hour == "0100" || hour == "0200" { hour = "0300" }
-                    yesterdayCategoryValue = self.bindingWeatherByDate(forecastEntity, -1, hour)
-                    
+                    yesterdayCategoryValue = forecastUseCase.bindYesterdayWeather(
+                        selectedHour: hour.forecastValidTime
+                    )
                 } else {
                     // MARK: - 배열의 첫번째를 바라보지 않거나, 현재시간과 배열의 첫번째가 같을 때
                     headerTime = hour.hourToMainLabel
                     
                     self.selectedHourParamTypeRelay.accept(Date().todaySelectedFormat(hour.addColon))
-                    categoryWithValue = self.bindingWeatherByDate(forecastEntity, 0, hour) // HH00
-                    
-                    if hour == "0000" || hour == "0100" || hour == "0200" { hour = "0300" }
-                    yesterdayCategoryValue = self.bindingWeatherByDate(forecastEntity, -1, hour)
+                    categoryWithValue = forecastUseCase.bindTodayWeather(
+                        selectedHour: hour
+                    )
+                    yesterdayCategoryValue = forecastUseCase.bindYesterdayWeather(
+                        selectedHour: hour.forecastValidTime
+                    )
                 }
             } else {
                 
@@ -525,11 +425,12 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                 }
                 
                 self.selectedHourParamTypeRelay.accept(Date().tomorrowSelectedFormat(hour.addColon))
-                categoryWithValue = self.bindingWeatherByDate(forecastEntity, 1, hour)
-                
-                if hour == "0000" || hour == "0100" || hour == "0200" { hour = "0300" }
-                    yesterdayCategoryValue = self.bindingWeatherByDate(forecastEntity, -1, hour)
-                
+                categoryWithValue = forecastUseCase.bindTodayWeather(
+                    selectedHour: hour
+                )
+                yesterdayCategoryValue = forecastUseCase.bindYesterdayWeather(
+                    selectedHour: hour.forecastValidTime
+                )
             }
             
             getRecommendCloset(selectedHourParamTypeRelay.value!)
@@ -547,12 +448,9 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         
         // FIXME: - 시간변화 걸쳐있을때 처리하기
         let date = Date()
-        guard let forecastEntity  = villageForeCastInfoEntityRelay.value,
-              let swipeArray = swipeArrayRelay.value
-        else { return }
-        
-        var categoryWithValue: [String: String]? = [:]
-        var yesterdayCategoryValue: [String: String]? = [:]
+        guard let swipeArray = swipeArrayRelay.value else { return }
+        var categoryWithValue = ["":""]
+        var yesterdayCategoryValue = ["":""]
         
         let selectedTimeValue = selectedHourParamTypeRelay.value // yyyy-MM-dd HH:00
         let selectedDate = selectedTimeValue.map { $0 }?.components(separatedBy: " ") // ["2023-08-21", "17:00"]
@@ -576,8 +474,15 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             
             // 미래 시간으로 가는 상황이니까 왼쪽 스와이프하면서 reload 되게 하기
             swipeDirectionRelay.accept(.left)
-            categoryWithValue = self.bindingWeatherByDate(forecastEntity, 1, targetTime) // dialyWrapper 내일 07시 날씨로 reload
-            yesterdayCategoryValue = self.bindingWeatherByDate(forecastEntity, -1, targetTime) // 어제 07시 가져와서 '어제(07시)보다 ''도 낮아요' 보여주기
+            
+            // dailyWrapper 내일 07시 날씨로 reload
+            categoryWithValue = forecastUseCase.bindTomorrowWeather(
+                selectedHour: targetTime
+            )
+            // 어제 07시 가져와서 '어제(07시)보다 ''도 낮아요' 보여주기
+            yesterdayCategoryValue = forecastUseCase.bindYesterdayWeather(
+                selectedHour: targetTime
+            )
             
             swipeIndex = swipeArray.firstIndex(of: "3100")!
             
@@ -599,16 +504,15 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             
             swipeDirectionRelay.accept(.right)
             // dialyWrapper 현재 날씨로 reload
-            categoryWithValue = self.bindingWeatherByDate(forecastEntity, 0, targetTime)
+            categoryWithValue = forecastUseCase.bindTodayWeather(
+                selectedHour: targetTime
+            )
             
-            if targetTime == "0000" || targetTime == "0100" || targetTime == "0200" {
-                let newtargetTime = "0300"
-                yesterdayCategoryValue = self.bindingWeatherByDate(forecastEntity, -1, newtargetTime)
-            } else {
-                yesterdayCategoryValue = self.bindingWeatherByDate(forecastEntity, -1, targetTime)
-            }
+            yesterdayCategoryValue = forecastUseCase.bindYesterdayWeather(
+                selectedHour: targetTime.forecastValidTime
+            )
             
-            swipeIndex = swipeArray.firstIndex(of: targetTime)!
+            swipeIndex = swipeArray.firstIndex(of: targetTime) ?? 0
         }
         self.mappedCategoryDicRelay.accept(categoryWithValue)
         self.yesterdayCategoryRelay.accept(yesterdayCategoryValue)
@@ -662,7 +566,6 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     }
     
     // MARK: - HourChange
-
     func setupHourChangeDetection() {
         Observable<Int>.timer(RxTimeInterval.seconds(Int(secondsUntilNextHour())), scheduler: MainScheduler.instance)
             .take(1)
@@ -696,24 +599,16 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     
     
     func setCurrentIndex(_ index: Int) {
-        guard self.recommendClosetEntityRelay.value != nil else { return }
-        let closetInfo = self.recommendClosetEntityRelay.value?.data?.list.closets[index]
-        if let closetId = closetInfo?.id {
-            highlightedClosetIdRelay.accept(closetId)
-        }
+        guard let list = recommendClosetEntityRelay.value else { return }
+        let closetInfo = list.closets[index]
+        highlightedClosetIdRelay.accept(closetInfo.id)
     }
     
     func setCurrentMsg() {
-        guard let newTemperatureDiff = self.recommendClosetEntityRelay.value?.data?.list.temperatureDifference else { return }
+        guard let newTemperatureDiff = recommendClosetEntityRelay.value?.temperatureDifference else { return }
         if selectedHourParamTypeRelay.value == Date().todayHourFormat {
-            self.weatherMsgRelay.accept(WeatherMsgEnum.seonsoryDiffMsg(newTemperatureDiff).msg)
+            self.weatherMsgRelay.accept(WeatherMsgEnum.sensoryDiffMsg(newTemperatureDiff).msg)
         }
-        
-    }
-    
-    public func toSettingView() {
-        let vc = SettingViewController(SettingViewModel())
-        navigationPushViewControllerRelay.accept(vc)
     }
     
     public func toDailyForecastView() {
@@ -721,21 +616,12 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         navigationPushViewControllerRelay.accept(vc)
     }
     
-    public func toTenDaysForecastView() {
-        guard let villageForecastInfo = villageForeCastInfoEntityRelay.value else { return }
-        
-        guard let yesterDayInfo = yesterdayCategoryRelay.value else { return }
-        guard let todayInfo = mappedCategoryDicRelay.value else { return }
-        guard let tomorrowInfo = bindingWeatherByDate(villageForecastInfo, 1, Date().tomorrowThousandFormat) else { return }
-        
-    
-        
-        let vc = TenDaysForeCastViewController(TenDaysForecastViewModel(villageForecastInfo, yesterDayInfo, todayInfo, tomorrowInfo))
-        navigationPushViewControllerRelay.accept(vc)
-    }
-    
-    
-    public func toSensoryTempView(_ selectedDate: String, _ selectedTime: String, _ selectedTemp: String, _ closetId: Int) {
+    public func toSensoryTempView(
+        _ selectedDate: String,
+        _ selectedTime: String,
+        _ selectedTemp: String,
+        _ closetId: Int
+    ) {
         let vm = HomeSensoryTempViewModel(selectedDate, selectedTime, selectedTemp, closetId)
         let vc = HomeSensoryTempViewController(vm)
         vm.delegate = self
@@ -753,8 +639,8 @@ extension HomeViewModel: HomeSensoryTempViewControllerDelegate {
         let nickname = UserDefaultManager.shared.nickname
         
         self.getRecommendCloset(self.selectedHourParamTypeRelay.value!)
-        let newTemperatureDiff = self.recommendClosetEntityRelay.value?.data?.list.temperatureDifference
-        self.weatherMsgRelay.accept(WeatherMsgEnum.seonsoryDiffMsg(newTemperatureDiff!).msg)
+        let newTemperatureDiff = recommendClosetEntityRelay.value?.temperatureDifference
+        self.weatherMsgRelay.accept(WeatherMsgEnum.sensoryDiffMsg(newTemperatureDiff!).msg)
         self.alertMessageRelay.accept(.init(title: "\(nickname) 님의 체감온도가 반영됐어요", alertType: .Info))
     }
 }

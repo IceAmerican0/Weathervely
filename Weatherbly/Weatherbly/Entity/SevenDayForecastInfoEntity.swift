@@ -7,23 +7,24 @@
 
 import Foundation
 
-// MARK: - TenDayForecastInfoEntity
-struct SevenDayForecastInfoEntity: Decodable {
+// MARK: SevenDayForecastInfoEntity
+public struct SevenDayForecastInfoEntity: Decodable {
     let status: Int
-    let data: DataClass
+    let data: SevenDayForecastInfoData
 }
 
-// MARK: - DataClass
-struct DataClass: Decodable {
-    let list: List
+// MARK: SevenDayForecastInfoData
+public struct SevenDayForecastInfoData: Decodable {
+    let list: SevenDayForecastInfoDataList
 }
 
-// MARK: - List
-struct List: Decodable {
+// MARK: SevenDayForecastInfoDataList
+public struct SevenDayForecastInfoDataList: Decodable {
     let temperature: [Temperature]
     let weather: [Weather]
 }
 
+// MARK: Temperature
 struct Temperature: Decodable {
     let taMin: Int
     let taMinLow: Int
@@ -32,8 +33,6 @@ struct Temperature: Decodable {
     let taMaxLow: Int
     let taMaxHigh: Int
     let dayAfter: Int
-    
-    
 }
 
 // MARK: - Weather
