@@ -47,6 +47,7 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         viewModel.getInfo(self.date.todayHourFormat)
         navigationController?.setNavigationBarHidden(true, animated: animated)
         
@@ -218,7 +219,7 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         /// MARK: - 여기서 entity를 구독하는건 생각해볼 필요가 있다. entity 자체를 이용해서 바인딩해주기보다 이걸 멥핑해서 사용한다
         /// 그래서, 매핑한 값 bindingWeatherByDate 에 대한 return 값을 굳독해주는 게 더 맞아 보인다.
 //        viewModel
-//            .villageForeCastInfoEntityRelay
+//            .villageForecastInfoEntity
 //            .subscribe(onNext: { owner, result in
 //                // 2023-08-11 16:00
 //                let todayInfo  = owner.viewModel.bindingWeatherByDate(result, 0, (owner.viewModel.headerTimeRelay.value!)!)
@@ -344,13 +345,16 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         var weatherMsg =  weatherMsg
         
         if self.viewModel.selectedHourParamTypeRelay.value == self.date.todayHourFormat {
-            weatherMsg = WeatherMsgEnum.seonsoryDiffMsg((self.viewModel.recommendClosetEntityRelay.value?.data?.list.temperatureDifference)!).msg
+            weatherMsg = WeatherMsgEnum.sensoryDiffMsg(viewModel.recommendClosetEntityRelay.value?.temperatureDifference ?? 0).msg
         }
         self.messageLabel.attributedText = NSMutableAttributedString()
             .regular("\(weatherMsg)", 17, CSColor.none)
     }
     
-    func reloadDailyWrapper (_ direction: UISwipeGestureRecognizer.Direction?, _ mappedCategory: [String : String]?) {
+    func reloadDailyWrapper(
+        _ direction: UISwipeGestureRecognizer.Direction?,
+        _ mappedCategory: [String : String]?
+    ) {
         if direction == .left {
             UIView.animate(withDuration: 0.2, animations: {
                 self.dailyWrapper.alpha = 0
@@ -461,7 +465,7 @@ extension HomeViewController: FSPagerViewDelegate {
     
     func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
         if viewModel.highlightedCellIndexRelay.value == index {
-            let closetInfo = viewModel.recommendClosetEntityRelay.value?.data?.list.closets[index]
+            let closetInfo = viewModel.recommendClosetEntityRelay.value?.closets[index]
             
             if let shopUrl = closetInfo?.shopUrl,
                let closetId = closetInfo?.id {
@@ -487,19 +491,16 @@ extension HomeViewController: FSPagerViewDelegate {
 // MARK: FSPagerViewDataSource
 extension HomeViewController: FSPagerViewDataSource {
     func numberOfItems(in pagerView: FSPagerView) -> Int {
-        var count = 5
         guard viewModel.recommendClosetEntityRelay.value != nil else {
-            return count
+            return 5
         }
         
-        count = (viewModel.recommendClosetEntityRelay.value?.data?.list.closets.count)!
-        return count
-        
+        return viewModel.recommendClosetEntityRelay.value?.closets.count ?? 0
     }
     
     func pagerView(_ pagerView: FSPagerView, cellForItemAt index: Int) -> FSPagerViewCell {
         let cell = pagerView.dequeueCell(withType: ClosetFSPagerViewCell.self, for: index)
-        let closetInfo = viewModel.recommendClosetEntityRelay.value?.data?.list.closets[index]
+        let closetInfo = viewModel.recommendClosetEntityRelay.value?.closets[index]
         
         cell.indicator.startAnimating()
         cell.indicator.isHidden = false

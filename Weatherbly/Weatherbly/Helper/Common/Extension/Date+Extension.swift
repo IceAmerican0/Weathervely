@@ -26,7 +26,7 @@ extension Date {
         let dateFormmater = DateFormatter.shared
         dateFormmater.dateFormat = "HH00"
         
-        return dateFormmater.string(from: date)
+        return dateFormmater.string(from: date).forecastValidTime
     }
     
     

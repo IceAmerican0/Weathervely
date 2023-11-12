@@ -11,11 +11,7 @@ import PinLayout
 
 class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastViewModel> {
     
-    private var topLayoutWrapper = UIView()
-    private var settingButton = UIButton()
     private var mainLabel = CSLabel(.bold, 22, "주간 예보")
-    private var homeButton = UIButton()
-    
     private var divider = UIView()
     private var yesterdayView = UIView()
     private var yesterdayLabel = CSLabel(.regular, 16, "어제")
@@ -28,26 +24,10 @@ class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastViewMod
     private let tableViewWidth = UIScreen.main.bounds.width * 0.92
     private let tableViewHeight = UIScreen.main.bounds.height * 0.71
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        forecastTableView.dataSource = self
-        forecastTableView.delegate = self
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-    }
+    private lazy var forecast = viewModel.forecastUseCase
     
     override func attribute() {
         super.attribute()
-        
-        settingButton.do {
-            $0.setImage(AssetsImage.setting.image, for: .normal)
-        }
-        
-        homeButton.do {
-            $0.setImage(AssetsImage.daily.image, for: .normal)
-        }
         
         divider.do {
             $0.backgroundColor = CSColor._220_220_220.color
@@ -93,15 +73,9 @@ class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastViewMod
         super.layout()
         
         container.flex.alignItems(.center).marginHorizontal(20).define { flex in
-            flex.addItem(topLayoutWrapper).direction(.row).marginTop(7).define { flex in
-                flex.addItem(settingButton).size(44)
-                flex.addItem(mainLabel).width(mainLabelWidth)
-                flex.addItem(homeButton).size(44)
-            }
-            
-            flex.addItem(divider).marginTop(15).width(UIScreen.main.bounds.width).height(1.3)
+            flex.addItem(mainLabel).marginTop(7).width(mainLabelWidth)
 
-            flex.addItem(yesterdayView).marginTop(UIScreen.main.bounds.height * 0.04).marginHorizontal(15)
+            flex.addItem(yesterdayView).marginTop(15).marginHorizontal(15)
                 .direction(.row)
                 .alignItems(.center)
                 .width(tableViewWidth).height(33)
@@ -120,40 +94,24 @@ class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastViewMod
         indicator.pin.vCenter().hCenter()
     }
     
-    override func viewBinding() {
-        super.viewBinding()
-        
-        settingButton.rx.tap
-            .map { SettingViewController(SettingViewModel()) }
-            .bind(to: viewModel.navigationPushViewControllerRelay)
-            .disposed(by: bag)
-        
-        homeButton.rx.tap
-            .bind(with: self) { owner, _ in
-                owner.navigationController?.popViewController(animated: true)
-            }
-            .disposed(by: bag)
-    }
-    
     override func viewModelBinding() {
         super.viewModelBinding()
         
-        viewModel.yesterdayInfoRelay
-            .asDriver()
+        viewModel.yesterdayForecastInfo
+            .asDriver(onErrorJustReturn: ["":""])
             .drive(
                 with: self,
                 onNext: { owner, data in
-                    guard let info = data else { return }
-                    let minTemp = Int(Double(info["TMN"]!)!)
-                    let maxTemp = Int(Double(info["TMX"]!)!)
+                    guard let data else { return }
+                    let minTemp = Int(Double(data["TMN"]!)!)
+                    let maxTemp = Int(Double(data["TMX"]!)!)
                     
                     owner.yesterdayTemperature.attributedText = NSMutableAttributedString()
                         .regular("\(minTemp)℃ / \(maxTemp)℃", 16, CSColor._97_97_97)
             })
             .disposed(by: bag)
         
-        viewModel
-            .sevenDayForecastInfoRelay
+        forecast.sevenDaysForecastInfo
             .asDriver()
             .drive(
                 with: self,
@@ -163,8 +121,6 @@ class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastViewMod
                     owner.forecastTableView.reloadData()
             })
             .disposed(by: bag)
-        
-        viewModel.getInfo()
     }
 }
 
@@ -178,27 +134,26 @@ extension TenDaysForeCastViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         return tableView.dequeueCell(withType: TenDaysForecastTableViewCell.self, for: indexPath).then {
-            
-            guard let sevenDaysInfo = viewModel.sevenDayForecastInfoRelay.value?.data.list,
-                  let todayInfo = viewModel.todayInfoRelay.value,
-                  let tomorrowInfo = viewModel.tomorrowInfoRelay.value,
-                  let villageForecastInfo = viewModel.villageForecastEntityRelay.value
-            else { return }
-            
             let date = Date()
             let row = indexPath.row - 2
+            
+            guard let sevenDaysInfo = forecast.sevenDaysForecastInfo.value,
+                  let todayInfo = viewModel.todayForecastInfo,
+                  let tomorrowInfo = viewModel.tomorrowForecastInfo else { return }
             
             switch indexPath.row {
             case 0:
                 let minTemp = Int(Double(todayInfo["TMN"]!)!)
                 let maxTemp = Int(Double(todayInfo["TMX"]!)!)
+                let (todayAMPos, todayAMImage) = forecast.getAMWeatherInfo(dayInterval: 0)
+                let (todayPMPos, todayPMImage) = forecast.getPMWeatherInfo(dayInterval: 0)
                 
                 $0.dayOfWeekLabel.attributedText = NSMutableAttributedString().bold("오늘", 16, CSColor.none)
                 $0.dateLabel.attributedText = NSMutableAttributedString().regular(date.tenDaysFormat(0), 14, CSColor.none)
-                $0.amWeatherImageView.setAssetsImage(viewModel.getAMWeatherImage(villageForecastInfo, 0)!)
-                $0.leftRainPosLabel.attributedText = NSMutableAttributedString().medium("\(viewModel.yesterdayRainAMPosRelay.value!)%", 12, CSColor.none)
-                $0.pmWeatherImageView.setAssetsImage(viewModel.getPMWeatherImage(villageForecastInfo, 0)!)
-                $0.rightRainPosLabel.attributedText = NSMutableAttributedString().medium("\(viewModel.yesterdayRainAMPosRelay.value!)%", 12, CSColor.none)
+                $0.amWeatherImageView.setAssetsImage(todayAMImage)
+                $0.leftRainPosLabel.attributedText = NSMutableAttributedString().medium("\(todayAMPos)%", 12, CSColor.none)
+                $0.pmWeatherImageView.setAssetsImage(todayPMImage)
+                $0.rightRainPosLabel.attributedText = NSMutableAttributedString().medium("\(todayPMPos)%", 12, CSColor.none)
                 $0.temperatureLabel.attributedText = NSMutableAttributedString()
                     .regular("\(minTemp)℃", 16, CSColor._40_106_167)
                     .regular(" / ", 16, CSColor.none)
@@ -208,13 +163,15 @@ extension TenDaysForeCastViewController: UITableViewDataSource {
             case 1:
                 let minTemp = Int(Double(tomorrowInfo["TMN"]!)!)
                 let maxTemp = Int(Double(tomorrowInfo["TMX"]!)!)
+                let (tomorrowAMPos, tomorrowAMImage) = forecast.getAMWeatherInfo(dayInterval: 1)
+                let (tomorrowPMPos, tomorrowPMImage) = forecast.getPMWeatherInfo(dayInterval: 1)
                 
                 $0.dayOfWeekLabel.attributedText = NSMutableAttributedString().bold("내일", 16, CSColor.none)
                 $0.dateLabel.attributedText = NSMutableAttributedString().regular(date.tenDaysFormat(1), 14, CSColor.none)
-                $0.amWeatherImageView.setAssetsImage(viewModel.getAMWeatherImage(villageForecastInfo, 1)!)
-                $0.leftRainPosLabel.attributedText = NSMutableAttributedString().medium("\(viewModel.yesterdayRainAMPosRelay.value!)%", 12, CSColor.none)
-                $0.pmWeatherImageView.setAssetsImage(viewModel.getPMWeatherImage(villageForecastInfo, 1)!)
-                $0.rightRainPosLabel.attributedText = NSMutableAttributedString().medium("\(viewModel.yesterdayRainAMPosRelay.value!)%", 12, CSColor.none)
+                $0.amWeatherImageView.setAssetsImage(tomorrowAMImage)
+                $0.leftRainPosLabel.attributedText = NSMutableAttributedString().medium("\(tomorrowAMPos)%", 12, CSColor.none)
+                $0.pmWeatherImageView.setAssetsImage(tomorrowPMImage)
+                $0.rightRainPosLabel.attributedText = NSMutableAttributedString().medium("\(tomorrowPMPos)%", 12, CSColor.none)
                 $0.temperatureLabel.attributedText = NSMutableAttributedString()
                     .regular("\(minTemp)℃", 16, CSColor._40_106_167)
                     .regular(" / ", 16, CSColor.none)
@@ -241,9 +198,9 @@ extension TenDaysForeCastViewController: UITableViewDataSource {
                 : (dayofTheWeek == "일") ? CSColor._178_36_36 : CSColor.none
                 $0.dayOfWeekLabel.attributedText = NSMutableAttributedString().bold(dayofTheWeek, 16, dateColor)
                 $0.dateLabel.attributedText = NSMutableAttributedString().regular(date.tenDaysFormat(indexPath.row - 1), 14, dateColor)
-                $0.amWeatherImageView.setAssetsImage(viewModel.bindSevenDayAMWeatherImage(row))
+                $0.amWeatherImageView.setAssetsImage(forecast.bindSevenDayAMWeatherImage(index: row))
                 $0.leftRainPosLabel.attributedText = NSMutableAttributedString().medium("\(amRainPos ?? 0)%", 12, CSColor.none)
-                $0.pmWeatherImageView.setAssetsImage(viewModel.bindSevenDayPMWeatherImage(row))
+                $0.pmWeatherImageView.setAssetsImage(forecast.bindSevenDayPMWeatherImage(index: row))
                 $0.rightRainPosLabel.attributedText = NSMutableAttributedString().medium("\(pmRainPos ?? 0)%", 12, CSColor.none)
                 $0.temperatureLabel.attributedText = NSMutableAttributedString()
                     .regular("\(minTemp)℃", 16, CSColor._40_106_167)
@@ -271,9 +228,9 @@ extension TenDaysForeCastViewController: UITableViewDataSource {
                 
                 $0.dayOfWeekLabel.attributedText = NSMutableAttributedString().bold(dayofTheWeek, 16, dateColor)
                 $0.dateLabel.attributedText = NSMutableAttributedString().regular(date.tenDaysFormat(indexPath.row - 1), 14, dateColor)
-                $0.amWeatherImageView.setAssetsImage(viewModel.bindSevenDayAMWeatherImage(row))
+                $0.amWeatherImageView.setAssetsImage(forecast.bindSevenDayAMWeatherImage(index: row))
                 $0.leftRainPosLabel.attributedText = NSMutableAttributedString().medium("\(rainPos ?? 0)%", 12, CSColor.none)
-                $0.pmWeatherImageView.setAssetsImage(viewModel.bindSevenDayPMWeatherImage(row))
+                $0.pmWeatherImageView.setAssetsImage(forecast.bindSevenDayPMWeatherImage(index: row))
                 $0.rightRainPosLabel.attributedText = NSMutableAttributedString().medium("\(rainPos ?? 0)%", 12, CSColor.none)
                 $0.temperatureLabel.attributedText = NSMutableAttributedString()
                     .regular("\(minTemp)℃", 16, CSColor._40_106_167)

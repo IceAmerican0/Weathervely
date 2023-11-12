@@ -9,7 +9,7 @@ import Foundation
 
 enum WeatherMsgEnum {
     
-    case seonsoryDiffMsg(_ userTempDiff: Int)
+    case sensoryDiffMsg(_ userTempDiff: Int)
     case sunnyNormalMsg
     case sunnyGoodMsg
     case currentRainMsg
@@ -18,7 +18,7 @@ enum WeatherMsgEnum {
     case futureRainSnowMsg(_ POP: Int)
     case currentSnowMsg
     case futureSnowMsg(_ POP: Int)
-    case currenstShowerMsg
+    case currentShowerMsg
     case futureShowerMsg
     case strongWindMsg
     case normalWindMsg
@@ -29,7 +29,7 @@ enum WeatherMsgEnum {
     
     var msg: String {
         switch self {
-        case .seonsoryDiffMsg(let userTempDiff):
+        case .sensoryDiffMsg(let userTempDiff):
             if userTempDiff > 0 {
                 return "🌡️ 표준보다 \(userTempDiff)도 더 얇은 옷을 보고 있어요"
             } else if userTempDiff == 0 {
@@ -54,7 +54,7 @@ enum WeatherMsgEnum {
             return "❄️ 눈이 내려요. 바닥이 미끄러울 수 있어요"
         case .futureSnowMsg(let POP):
             return "❄️눈 올 확률이 \(POP)%에요"
-        case .currenstShowerMsg:
+        case .currentShowerMsg:
             return "☔ 소나기가 내려요"
         case .futureShowerMsg:
             return "🌂곳곳에 소나기가 내릴 수 있어요"

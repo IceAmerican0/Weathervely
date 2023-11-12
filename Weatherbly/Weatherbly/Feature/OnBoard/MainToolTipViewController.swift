@@ -55,6 +55,7 @@ public final class MainToolTipViewController: UIViewController, CodeBaseInitiali
     }
     
     public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         dimView.pin.hCenter().bottom()
         dimView.flex.layout()
         container.pin.all()

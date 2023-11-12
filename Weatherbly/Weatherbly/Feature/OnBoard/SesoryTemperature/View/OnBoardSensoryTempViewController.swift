@@ -11,6 +11,7 @@ import PinLayout
 import RxSwift
 import RxGesture
 import Kingfisher
+import Then
 
 final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensoryTempViewModel> {
     
@@ -26,7 +27,9 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
     private var tempImageView = UIImageView()
     private var imageSourceLabel = CSLabel(.regular, 11, "loading...")
     
-    private var indicator = UIActivityIndicatorView(style: .medium)
+    private var indicator = UIActivityIndicatorView(style: .medium).then {
+        $0.startAnimating()
+    }
     
     private var discriptionLabel = CSLabel(.regular, 16 , "외출하셨을 때 날씨에\n추천되는 표준 옷차림이에요")
     
@@ -38,12 +41,6 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
     
     private let imageHeight = UIScreen.main.bounds.height * 0.38
     private let buttonHeight = UIScreen.main.bounds.height * 0.054
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        indicator.startAnimating()
-    }
     
     override func attribute() {
         super.attribute()

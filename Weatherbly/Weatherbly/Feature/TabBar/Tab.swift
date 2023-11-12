@@ -32,9 +32,15 @@ enum Tab: CaseIterable {
     }
     
     var viewController: UIViewController {
-        switch self {
-        case .home: HomeViewController(HomeViewModel())
-        case .schedule: HomeViewController(HomeViewModel())//TenDaysForeCastViewController(TenDaysForecastViewModel())
+        let forecast = ForecastUseCase(forecastDataSource: ForecastDataSource())
+        return switch self {
+        case .home: HomeViewController(HomeViewModel(
+            closetDataSource: ClosetDataSource(),
+            forecastUseCase: forecast
+        ))
+        case .schedule: TenDaysForeCastViewController(TenDaysForecastViewModel(
+            forecastUseCase: forecast
+        ))
         case .trending: TrendingViewController(TrendingViewModel())
         case .setting: SettingViewController(SettingViewModel())
         }

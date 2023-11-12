@@ -36,20 +36,6 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
     private var bottomButton = CSButton(.primary)
     private let imageHeight = UIScreen.main.bounds.height * 0.38
     
-    override init(_ viewModel: HomeSensoryTempViewModel) {
-        super.init(viewModel)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    // MARK: - Life Cycle
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        scrollView.delegate = self
-    }
-    
     func addContentscrollView() {
         guard let closetsList = viewModel.closetListByTempRelay.value else { return }
         
@@ -113,6 +99,7 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
         }
         
         scrollView.do {
+            $0.delegate = self
             $0.isPagingEnabled = true
             $0.isScrollEnabled = true
             $0.showsVerticalScrollIndicator = false
