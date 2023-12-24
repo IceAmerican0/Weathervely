@@ -27,9 +27,9 @@ enum CSFont {
     var CSFontL: UIFont {
         switch self {
         case .heading_1_UL:
-            UIFont(name: "AppleSDGothicNeoUL", size: 56)
+            UIFont(name: "AppleSDGothicNeoUL", size: 56) ?? UIFont.systemFont(ofSize: 15)
         case .heading_2_B:
-            UIFont(name: "Apple", size: 32)
+            UIFont(name: "Apple", size: 32)!
             
         }
     }
