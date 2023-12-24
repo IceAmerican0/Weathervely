@@ -107,6 +107,16 @@
 		69D25C9C2AD050D800C17FB1 /* WVTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D25C9B2AD050D800C17FB1 /* WVTargetType.swift */; };
 		69FDD4C62A39E42900830927 /* NicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FDD4C52A39E42900830927 /* NicknameViewController.swift */; };
 		69FDD4CC2A407FA400830927 /* CSProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FDD4CB2A407FA400830927 /* CSProgressView.swift */; };
+		BD05E05D2B3801B600A48E61 /* Typhography.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD05E05C2B3801B600A48E61 /* Typhography.swift */; };
+		BD05E0682B38045500A48E61 /* AppleSDGothicNeoB.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BD05E05F2B38045400A48E61 /* AppleSDGothicNeoB.ttf */; };
+		BD05E0692B38045500A48E61 /* AppleSDGothicNeoSB.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BD05E0602B38045500A48E61 /* AppleSDGothicNeoSB.ttf */; };
+		BD05E06A2B38045500A48E61 /* AppleSDGothicNeoH.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BD05E0612B38045500A48E61 /* AppleSDGothicNeoH.ttf */; };
+		BD05E06B2B38045500A48E61 /* AppleSDGothicNeoEB.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BD05E0622B38045500A48E61 /* AppleSDGothicNeoEB.ttf */; };
+		BD05E06C2B38045500A48E61 /* AppleSDGothicNeoT.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BD05E0632B38045500A48E61 /* AppleSDGothicNeoT.ttf */; };
+		BD05E06D2B38045500A48E61 /* AppleSDGothicNeoUL.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BD05E0642B38045500A48E61 /* AppleSDGothicNeoUL.ttf */; };
+		BD05E06E2B38045500A48E61 /* AppleSDGothicNeoR.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BD05E0652B38045500A48E61 /* AppleSDGothicNeoR.ttf */; };
+		BD05E06F2B38045500A48E61 /* AppleSDGothicNeoL.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BD05E0662B38045500A48E61 /* AppleSDGothicNeoL.ttf */; };
+		BD05E0702B38045500A48E61 /* AppleSDGothicNeoM.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BD05E0672B38045500A48E61 /* AppleSDGothicNeoM.ttf */; };
 		BD1F3AF12A7BA08100E528DC /* RxGesture in Frameworks */ = {isa = PBXBuildFile; productRef = BD1F3AF02A7BA08100E528DC /* RxGesture */; };
 		BD2D01892A388753003A25D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D01882A388753003A25D5 /* AppDelegate.swift */; };
 		BD2D018B2A388753003A25D5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D018A2A388753003A25D5 /* SceneDelegate.swift */; };
@@ -248,6 +258,16 @@
 		69D25C9B2AD050D800C17FB1 /* WVTargetType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WVTargetType.swift; sourceTree = "<group>"; };
 		69FDD4C52A39E42900830927 /* NicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewController.swift; sourceTree = "<group>"; };
 		69FDD4CB2A407FA400830927 /* CSProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSProgressView.swift; sourceTree = "<group>"; };
+		BD05E05C2B3801B600A48E61 /* Typhography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typhography.swift; sourceTree = "<group>"; };
+		BD05E05F2B38045400A48E61 /* AppleSDGothicNeoB.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AppleSDGothicNeoB.ttf; sourceTree = "<group>"; };
+		BD05E0602B38045500A48E61 /* AppleSDGothicNeoSB.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AppleSDGothicNeoSB.ttf; sourceTree = "<group>"; };
+		BD05E0612B38045500A48E61 /* AppleSDGothicNeoH.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AppleSDGothicNeoH.ttf; sourceTree = "<group>"; };
+		BD05E0622B38045500A48E61 /* AppleSDGothicNeoEB.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AppleSDGothicNeoEB.ttf; sourceTree = "<group>"; };
+		BD05E0632B38045500A48E61 /* AppleSDGothicNeoT.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AppleSDGothicNeoT.ttf; sourceTree = "<group>"; };
+		BD05E0642B38045500A48E61 /* AppleSDGothicNeoUL.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AppleSDGothicNeoUL.ttf; sourceTree = "<group>"; };
+		BD05E0652B38045500A48E61 /* AppleSDGothicNeoR.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AppleSDGothicNeoR.ttf; sourceTree = "<group>"; };
+		BD05E0662B38045500A48E61 /* AppleSDGothicNeoL.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AppleSDGothicNeoL.ttf; sourceTree = "<group>"; };
+		BD05E0672B38045500A48E61 /* AppleSDGothicNeoM.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AppleSDGothicNeoM.ttf; sourceTree = "<group>"; };
 		BD2D01852A388753003A25D5 /* Weatherbly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Weatherbly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD2D01882A388753003A25D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BD2D018A2A388753003A25D5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -494,6 +514,22 @@
 			path = Error;
 			sourceTree = "<group>";
 		};
+		BD05E05E2B38042600A48E61 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				BD05E05F2B38045400A48E61 /* AppleSDGothicNeoB.ttf */,
+				BD05E0622B38045500A48E61 /* AppleSDGothicNeoEB.ttf */,
+				BD05E0612B38045500A48E61 /* AppleSDGothicNeoH.ttf */,
+				BD05E0662B38045500A48E61 /* AppleSDGothicNeoL.ttf */,
+				BD05E0672B38045500A48E61 /* AppleSDGothicNeoM.ttf */,
+				BD05E0652B38045500A48E61 /* AppleSDGothicNeoR.ttf */,
+				BD05E0602B38045500A48E61 /* AppleSDGothicNeoSB.ttf */,
+				BD05E0632B38045500A48E61 /* AppleSDGothicNeoT.ttf */,
+				BD05E0642B38045500A48E61 /* AppleSDGothicNeoUL.ttf */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
 		BD2D017C2A388753003A25D5 = {
 			isa = PBXGroup;
 			children = (
@@ -547,6 +583,7 @@
 		BD2D019D2A3887AA003A25D5 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				BD05E05E2B38042600A48E61 /* Font */,
 				5C4691702A7893E000E2CC70 /* Alert */,
 				BD2D01A92A388825003A25D5 /* Common */,
 				BD2D01A72A388817003A25D5 /* Enum */,
@@ -619,6 +656,7 @@
 				BD77B8272A388C9400E7D57A /* CSColor.swift */,
 				BD4316352A3C9DB700E86271 /* AssetsImage.swift */,
 				BDAEBC9E2A8F5EE4002E10F2 /* WeatherMessageEnum.swift */,
+				BD05E05C2B3801B600A48E61 /* Typhography.swift */,
 			);
 			path = Enum;
 			sourceTree = "<group>";
@@ -896,7 +934,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD05E06E2B38045500A48E61 /* AppleSDGothicNeoR.ttf in Resources */,
+				BD05E0692B38045500A48E61 /* AppleSDGothicNeoSB.ttf in Resources */,
+				BD05E06F2B38045500A48E61 /* AppleSDGothicNeoL.ttf in Resources */,
 				69A7F0E02A80CDD800834974 /* LaunchScreen.storyboard in Resources */,
+				BD05E06B2B38045500A48E61 /* AppleSDGothicNeoEB.ttf in Resources */,
+				BD05E06A2B38045500A48E61 /* AppleSDGothicNeoH.ttf in Resources */,
+				BD05E06D2B38045500A48E61 /* AppleSDGothicNeoUL.ttf in Resources */,
+				BD05E0682B38045500A48E61 /* AppleSDGothicNeoB.ttf in Resources */,
+				BD05E0702B38045500A48E61 /* AppleSDGothicNeoM.ttf in Resources */,
+				BD05E06C2B38045500A48E61 /* AppleSDGothicNeoT.ttf in Resources */,
 				5C84F1FE2AA0238000CF614E /* GoogleService-Info.plist in Resources */,
 				BD6135CC2A7D5EAD00DB3DF9 /* message.json in Resources */,
 				BD2D01922A388755003A25D5 /* Assets.xcassets in Resources */,
@@ -1019,6 +1066,7 @@
 				5CAB60C32A528C7A00CD431A /* UICollectionView+Extension.swift in Sources */,
 				698F6CA92ADD624C00C2B33A /* Tab.swift in Sources */,
 				69C714D22ADD611400748CF6 /* HomeTabBarController.swift in Sources */,
+				BD05E05D2B3801B600A48E61 /* Typhography.swift in Sources */,
 				5CE0FEB82A8F4CE200A0E655 /* SetSensoryTempRequest.swift in Sources */,
 				5C46917F2A78F95800E2CC70 /* ConnectionLostViewController.swift in Sources */,
 				BD7DAB272A6E786E00422D25 /* StatusOnlyEntity.swift in Sources */,

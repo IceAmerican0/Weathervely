@@ -2,6 +2,18 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>AppleSDGothicNeoB</string>
+		<string>AppleSDGothicNeoEB</string>
+		<string>AppleSDGothicNeoH</string>
+		<string>AppleSDGothicNeoL</string>
+		<string>AppleSDGothicNeoM</string>
+		<string>AppleSDGothicNeoR</string>
+		<string>AppleSDGothicNeoSB</string>
+		<string>AppleSDGothicNeoT</string>
+		<string>AppleSDGothicNeoUL</string>
+	</array>
 	<key>FirebaseAppDelegateProxyEnabled</key>
 	<string>false</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
