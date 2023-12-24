@@ -34,7 +34,8 @@ final class OnBoardViewController: RxBaseViewController<OnBoardViewModel> {
         }
         
         startButton.do {
-            $0.setTitle("시작하기", for: .normal)
+//            $0.setTitle("시작하기", for: .normal)
+            $0.imageView?.image = 
             $0.setTitleColor(.white, for: .normal)
         }
         

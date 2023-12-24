@@ -48,6 +48,7 @@ public final class CSLabel: UILabel {
         self.labelColor = .none
         super.init(frame: .zero)
         setLabelStyle()
+        self.textColor = .black
     }
     
     required init?(coder: NSCoder) {

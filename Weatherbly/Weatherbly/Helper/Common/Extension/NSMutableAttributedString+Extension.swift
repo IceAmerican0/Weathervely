@@ -9,6 +9,9 @@ import UIKit
 
 extension NSMutableAttributedString {
     
+    // 한 텍스트에서 두가지 이상 속성 섞일떄 -> Mutable
+    // 한 텍스트에서 color 가 필요할떄는 textColor
+    
     func regular(_ string: String, _ fontSize: CGFloat, _ color: CSColor) -> NSMutableAttributedString {
         var font = UIFont.systemFont(ofSize: fontSize)
         if UIScreen.main.bounds.width < 376 {

@@ -91,6 +91,7 @@ final class HomeViewController: RxBaseViewController<HomeViewModel> {
         
         weatherCommentLabel.do {
             $0.numberOfLines = 0
+            $0.textColor = .yellow
         }
         
         pagerView.do {
