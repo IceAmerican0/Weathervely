@@ -30,6 +30,7 @@
 		5C4691782A78A02100E2CC70 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4691772A78A02100E2CC70 /* AlertViewController.swift */; };
 		5C46917F2A78F95800E2CC70 /* ConnectionLostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C46917E2A78F95800E2CC70 /* ConnectionLostViewController.swift */; };
 		5C4691812A78F96D00E2CC70 /* LoadErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4691802A78F96D00E2CC70 /* LoadErrorViewController.swift */; };
+		5C4A0ABB2B3ABA56006BE52A /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5C4A0ABA2B3ABA56006BE52A /* Colors.xcassets */; };
 		5C4BE89B2A5E2D1200FD2CEF /* EditRegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4BE89A2A5E2D1200FD2CEF /* EditRegionViewController.swift */; };
 		5C4BE89D2A5E63C000FD2CEF /* RegionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4BE89C2A5E63C000FD2CEF /* RegionTableViewCell.swift */; };
 		5C68E9212AF376080046D0BE /* ForcastUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C68E9202AF376080046D0BE /* ForcastUseCase.swift */; };
@@ -125,7 +126,7 @@
 		BD2D01892A388753003A25D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D01882A388753003A25D5 /* AppDelegate.swift */; };
 		BD2D018B2A388753003A25D5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D018A2A388753003A25D5 /* SceneDelegate.swift */; };
 		BD2D018D2A388753003A25D5 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D018C2A388753003A25D5 /* HomeViewController.swift */; };
-		BD2D01922A388755003A25D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD2D01912A388755003A25D5 /* Assets.xcassets */; };
+		BD2D01922A388755003A25D5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD2D01912A388755003A25D5 /* Images.xcassets */; };
 		BD2D01AE2A38886C003A25D5 /* RxBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D01AD2A38886C003A25D5 /* RxBaseViewController.swift */; };
 		BD2D01B02A38887D003A25D5 /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D01AF2A38887D003A25D5 /* UIButton+Extension.swift */; };
 		BD2D01B22A38889E003A25D5 /* CSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D01B12A38889E003A25D5 /* CSButton.swift */; };
@@ -192,6 +193,7 @@
 		5C4691772A78A02100E2CC70 /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
 		5C46917E2A78F95800E2CC70 /* ConnectionLostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionLostViewController.swift; sourceTree = "<group>"; };
 		5C4691802A78F96D00E2CC70 /* LoadErrorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadErrorViewController.swift; sourceTree = "<group>"; };
+		5C4A0ABA2B3ABA56006BE52A /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		5C4BE89A2A5E2D1200FD2CEF /* EditRegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRegionViewController.swift; sourceTree = "<group>"; };
 		5C4BE89C2A5E63C000FD2CEF /* RegionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionTableViewCell.swift; sourceTree = "<group>"; };
 		5C68E9202AF376080046D0BE /* ForcastUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForcastUseCase.swift; sourceTree = "<group>"; };
@@ -280,7 +282,7 @@
 		BD2D01882A388753003A25D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BD2D018A2A388753003A25D5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		BD2D018C2A388753003A25D5 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
-		BD2D01912A388755003A25D5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BD2D01912A388755003A25D5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		BD2D01962A388755003A25D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BD2D01AD2A38886C003A25D5 /* RxBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxBaseViewController.swift; sourceTree = "<group>"; };
 		BD2D01AF2A38887D003A25D5 /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
@@ -597,7 +599,8 @@
 				BD05E0742B38109100A48E61 /* Design System */,
 				BD2D01882A388753003A25D5 /* AppDelegate.swift */,
 				BD2D018A2A388753003A25D5 /* SceneDelegate.swift */,
-				BD2D01912A388755003A25D5 /* Assets.xcassets */,
+				5C4A0ABA2B3ABA56006BE52A /* Colors.xcassets */,
+				BD2D01912A388755003A25D5 /* Images.xcassets */,
 				BD2D01962A388755003A25D5 /* Info.plist */,
 				5C84F1FD2AA0238000CF614E /* GoogleService-Info.plist */,
 				BD6135D12A7E3C6700DB3DF9 /* Entity */,
@@ -990,7 +993,8 @@
 				BD05E06C2B38045500A48E61 /* AppleSDGothicNeoT.ttf in Resources */,
 				5C84F1FE2AA0238000CF614E /* GoogleService-Info.plist in Resources */,
 				BD6135CC2A7D5EAD00DB3DF9 /* message.json in Resources */,
-				BD2D01922A388755003A25D5 /* Assets.xcassets in Resources */,
+				BD2D01922A388755003A25D5 /* Images.xcassets in Resources */,
+				5C4A0ABB2B3ABA56006BE52A /* Colors.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1283,7 +1287,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = "";
 				CODE_SIGN_ENTITLEMENTS = Weatherbly/Weatherbly.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1327,7 +1331,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = "";
 				CODE_SIGN_ENTITLEMENTS = Weatherbly/Weatherbly.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
