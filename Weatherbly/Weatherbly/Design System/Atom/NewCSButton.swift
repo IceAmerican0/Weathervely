@@ -32,6 +32,10 @@ final public class NewCSButton: UIButton {
 //        func setradius()
     }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     public override func layoutSubviews() {
 //        <#code#>
     }

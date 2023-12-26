@@ -7,6 +7,6 @@
 
 import UIKit
 
-class NewImageButton: NewCSButton {
+class NewImageButton: UIButton {
     // width height
 }
