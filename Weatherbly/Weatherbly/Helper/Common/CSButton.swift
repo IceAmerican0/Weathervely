@@ -74,21 +74,22 @@ class CSButton: UIButton {
             switch style {
             case .primary:
                 // background disabled 처리
-//                if $0.state == .disabled {
-//                    $0.backgroundColor = CSColor._220_220_220.color
-//                } else if  $0.state == .highlighted {
-//                    $0.backgroundColor = .red
-//                } else {
-//                    $0.backgroundColor = CSColor._172_107_255.color
-//                }
+                //                if $0.state == .disabled {
+                //                    $0.backgroundColor = CSColor._220_220_220.color
+                //                } else if  $0.state == .highlighted {
+                //                    $0.backgroundColor = .red
+                //                } else {
+                //                    $0.backgroundColor = CSColor._172_107_255.color
+                //                }
+                $0.setBackgroundColor(CSColor._172_107_255.color)
                 $0.layer.cornerRadius = 10.0
                 $0.titleLabel?.textColor = .white
                 if UIScreen.main.bounds.width < 376 {
                     $0.titleLabel?.font = .boldSystemFont(ofSize: 16)
-                                   } else {
-                                       $0.titleLabel?.font = .boldSystemFont(ofSize: 20)
-                                   }
-                                   $0.setShadow(CGSize(width: 0, height: 3), CSColor._0__03.cgColor, 1, 2)
+                } else {
+                    $0.titleLabel?.font = .boldSystemFont(ofSize: 20)
+                }
+                $0.setShadow(CGSize(width: 0, height: 3), CSColor._0__03.cgColor, 1, 2)
                 
             case .grayFilled:
                 if $0.isEnabled == true {
