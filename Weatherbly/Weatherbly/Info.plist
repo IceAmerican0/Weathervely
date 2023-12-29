@@ -4,15 +4,15 @@
 <dict>
 	<key>UIAppFonts</key>
 	<array>
-		<string>AppleSDGothicNeoB</string>
-		<string>AppleSDGothicNeoEB</string>
-		<string>AppleSDGothicNeoH</string>
-		<string>AppleSDGothicNeoL</string>
-		<string>AppleSDGothicNeoM</string>
-		<string>AppleSDGothicNeoR</string>
-		<string>AppleSDGothicNeoSB</string>
-		<string>AppleSDGothicNeoT</string>
-		<string>AppleSDGothicNeoUL</string>
+		<string>AppleSDGothicNeoB.ttf</string>
+		<string>AppleSDGothicNeoEB.ttf</string>
+		<string>AppleSDGothicNeoH.ttf</string>
+		<string>AppleSDGothicNeoL.ttf</string>
+		<string>AppleSDGothicNeoM.ttf</string>
+		<string>AppleSDGothicNeoR.ttf</string>
+		<string>AppleSDGothicNeoSB.ttf</string>
+		<string>AppleSDGothicNeoT.ttf</string>
+		<string>AppleSDGothicNeoUL.ttf</string>
 	</array>
 	<key>FirebaseAppDelegateProxyEnabled</key>
 	<string>false</string>
