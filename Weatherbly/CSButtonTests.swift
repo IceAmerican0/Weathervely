@@ -16,6 +16,7 @@ class CSButtonTestsViewController: RxBaseViewController<EmptyViewModel> {
     var standard600 = NewCSButton(.standard, style: .violet600)
     var standard100 = NewCSButton(.standard, style: .violet100)
     var standardWhite = NewCSButton(.standard, style: .white)
+    var test = CSButton(.primary)
     
     override func attribute() {
         super.attribute()
@@ -31,6 +32,10 @@ class CSButtonTestsViewController: RxBaseViewController<EmptyViewModel> {
         standardWhite.do{
             $0.setTitle("버튼활성화", for: .normal)
         }
+        
+        test.do{
+            $0.setTitle("버튼활성화", for: .normal)
+        }
     }
     
     override func layout() {
@@ -44,7 +49,10 @@ class CSButtonTestsViewController: RxBaseViewController<EmptyViewModel> {
                 flex.addItem(standard100).width(90%).height(48).marginLeft(20)
                     .marginBottom(40)
                 flex.addItem(standardWhite).width(90%).height(48).marginLeft(20)
+                    .marginBottom(40)
+                flex.addItem(test).width(90%).height(48).marginLeft(20)
+                    .marginBottom(40)
             }
     }
-
+    
 }
