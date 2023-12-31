@@ -49,7 +49,7 @@ final public class NewCSButton: UIButton {
     func buttonConfigure(_ type: ButtonType, _ style: ButtonStyle) {
         
         if type == .standard {
-            font = UIFont.title_3_B!
+            font = UIFont.title_3_B
             self.layer.cornerRadius = 12
             
             switch style {
@@ -68,7 +68,7 @@ final public class NewCSButton: UIButton {
                 self.layer.borderColor = UIColor(resource: .violet150).cgColor
             }
         } else {
-            font = UIFont.body_2_M!
+            font = UIFont.body_2_M
             self.layer.cornerRadius = 5
             self.setBackgroundColor(UIColor(resource: .violet100))
             self.setTitleColor(UIColor(resource: .violet800), for: .normal)
