@@ -9,39 +9,38 @@ import UIKit
 
 enum Tab: CaseIterable {
     case home
-    case schedule
-    case trending
+    case style
     case setting
     
     var title: String {
         switch self {
         case .home: "홈"
-        case .schedule: "예보"
-        case .trending: "추천"
-        case .setting: "설정"
+        case .style: "스타일"
+        case .setting: "마이페이지"
         }
     }
     
     var image: UIImage {
         switch self {
-        case .home: UIImage(systemName: "house.fill")!
-        case .schedule: AssetsImage.schedule.image!
-        case .trending: AssetsImage.defaultImage.image!
-        case .setting: AssetsImage.setting.image!
+        case .home: UIImage.tab_home_nor
+        case .style: UIImage.tab_style_nor
+        case .setting: UIImage.tab_mypage_nor
+        }
+    }
+    
+    var selectedImage: UIImage {
+        switch self {
+        case .home: UIImage.tab_home_sel
+        case .style: UIImage.tab_style_sel
+        case .setting: UIImage.tab_mypage_sel
         }
     }
     
     var viewController: UIViewController {
         let forecast = ForecastUseCase(forecastDataSource: ForecastDataSource())
         return switch self {
-        case .home: HomeViewController(HomeViewModel(
-            closetDataSource: ClosetDataSource(),
-            forecastUseCase: forecast
-        ))
-        case .schedule: TenDaysForeCastViewController(TenDaysForecastViewModel(
-            forecastUseCase: forecast
-        ))
-        case .trending: TrendingViewController(TrendingViewModel())
+        case .home: NewHomeViewController(NewHomeViewModel())
+        case .style: TrendingViewController(TrendingViewModel())
         case .setting: SettingViewController(SettingViewModel())
         }
     }

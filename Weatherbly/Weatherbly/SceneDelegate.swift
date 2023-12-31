@@ -19,11 +19,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         
         /// Firebase
-//        FirebaseApp.configure()
-//        registerRemoteNotification()
+        FirebaseApp.configure()
+        registerRemoteNotification()
         checkToken()
 //
-//        checkForceUpdate()
+        checkForceUpdate()
     }
     
     func setWindow(_ vc: UIViewController) {
