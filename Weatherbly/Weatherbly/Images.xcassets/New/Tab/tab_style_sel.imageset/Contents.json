@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "tap_style_sel.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

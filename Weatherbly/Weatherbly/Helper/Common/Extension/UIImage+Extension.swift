@@ -17,3 +17,52 @@ extension UIImage {
         return newImage ?? self
     }
 }
+
+// MARK: Custom Image
+extension UIImage {
+    // Tab
+    static let tab_home_nor = UIImage(named: "tab_home_nor")!
+    static let tab_home_sel = UIImage(named: "tab_home_sel")!
+    static let tab_mypage_nor = UIImage(named: "tab_mypage_nor")!
+    static let tab_mypage_sel = UIImage(named: "tab_mypage_sel")!
+    static let tab_style_nor = UIImage(named: "tab_style_nor")!
+    static let tab_style_sel = UIImage(named: "tab_style_sel")!
+    
+    // Home Resources
+    static let filter_reset_dis = UIImage(named: "filter_reset_dis")!
+    static let filter_reset = UIImage(named: "filter_reset")!
+    static let filter_x = UIImage(named: "filter_x")!
+    static let home_alarm = UIImage(named: "home_alarm")!
+    static let home_banner_01 = UIImage(named: "home_banner_01")!
+    static let home_date_left_dis = UIImage(named: "home_date_left_dis")!
+    static let home_date_left_nor = UIImage(named: "home_date_left_nor")!
+    static let home_date_right_dis = UIImage(named: "home_date_right_dis")!
+    static let home_drop_off = UIImage(named: "home_drop_off")!
+    static let home_nodata = UIImage(named: "home_nodata")!
+    static let home_option = UIImage(named: "home_option")!
+    static let home_place = UIImage(named: "home_place")!
+    static let home_whether_empty = UIImage(named: "home_whether_empty")!
+
+    // Home Weather
+    static let clouds_am = UIImage(named: "clouds_am")!
+    static let clouds_pm = UIImage(named: "clouds_pm")!
+    static let cloudy = UIImage(named: "cloudy")!
+    static let rainy = UIImage(named: "rainy")!
+    static let snowy = UIImage(named: "snowy")!
+    static let snowyRainy = UIImage(named: "snowyRainy")!
+    static let sunny_am = UIImage(named: "sunny_am")!
+    static let sunny_pm = UIImage(named: "sunny_pm")!
+    static let windy = UIImage(named: "windy")!
+    
+    // Common
+    static let networkError = UIImage(named: "networkError_illust")!
+    static let loadError = UIImage(named: "popup_illust_loadError")!
+    static let serverError = UIImage(named: "serverError_illust")!
+    
+    // Detail
+    static let detail_empty = UIImage(named: "detail_empty")!
+    static let moreCool_banner = UIImage(named: "moreCool_banner")!
+    static let moreCool_illust = UIImage(named: "moreCool_illust")!
+    static let moreHot_banner = UIImage(named: "moreHot_banner")!
+    static let moreHot_illust = UIImage(named: "moreHot_illust")!
+}
