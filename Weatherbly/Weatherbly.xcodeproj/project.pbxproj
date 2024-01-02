@@ -122,7 +122,6 @@
 		BD05E07A2B38114B00A48E61 /* NewCSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD05E0792B38114B00A48E61 /* NewCSButton.swift */; };
 		BD05E07C2B3816B300A48E61 /* NewImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD05E07B2B3816B300A48E61 /* NewImageButton.swift */; };
 		BD05E07E2B3816BB00A48E61 /* NewCombiButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD05E07D2B3816BB00A48E61 /* NewCombiButton.swift */; };
-		BD1DDEB02B3EF07A00DA96CA /* CSButtonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD1DDEAF2B3EF07A00DA96CA /* CSButtonTests.swift */; };
 		BD1F3AF12A7BA08100E528DC /* RxGesture in Frameworks */ = {isa = PBXBuildFile; productRef = BD1F3AF02A7BA08100E528DC /* RxGesture */; };
 		BD2D01892A388753003A25D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D01882A388753003A25D5 /* AppDelegate.swift */; };
 		BD2D018B2A388753003A25D5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D018A2A388753003A25D5 /* SceneDelegate.swift */; };
@@ -279,7 +278,6 @@
 		BD05E0792B38114B00A48E61 /* NewCSButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCSButton.swift; sourceTree = "<group>"; };
 		BD05E07B2B3816B300A48E61 /* NewImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewImageButton.swift; sourceTree = "<group>"; };
 		BD05E07D2B3816BB00A48E61 /* NewCombiButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCombiButton.swift; sourceTree = "<group>"; };
-		BD1DDEAF2B3EF07A00DA96CA /* CSButtonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSButtonTests.swift; sourceTree = "<group>"; };
 		BD2D01852A388753003A25D5 /* Weatherbly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Weatherbly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD2D01882A388753003A25D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BD2D018A2A388753003A25D5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -580,7 +578,6 @@
 		BD2D017C2A388753003A25D5 = {
 			isa = PBXGroup;
 			children = (
-				BD1DDEAF2B3EF07A00DA96CA /* CSButtonTests.swift */,
 				69A7F0DF2A80CDD800834974 /* LaunchScreen.storyboard */,
 				BD2D01872A388753003A25D5 /* Weatherbly */,
 				BD2D01862A388753003A25D5 /* Products */,
@@ -1098,7 +1095,6 @@
 				69FDD4CC2A407FA400830927 /* CSProgressView.swift in Sources */,
 				BD77B8282A388C9400E7D57A /* CSColor.swift in Sources */,
 				5C4691812A78F96D00E2CC70 /* LoadErrorViewController.swift in Sources */,
-				BD1DDEB02B3EF07A00DA96CA /* CSButtonTests.swift in Sources */,
 				5C9F45562A8388130079ABA6 /* AddressEntity.swift in Sources */,
 				BD51694F2A5EB43500582BA9 /* ChangeNicknameViewController.swift in Sources */,
 				BD77B82A2A388CEF00E7D57A /* OnBoardViewController.swift in Sources */,

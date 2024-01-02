@@ -18,14 +18,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         
-        
-        let vc = UINavigationController(rootViewController: CSButtonTestsViewController(EmptyViewModel()))
-        self.window?.rootViewController = vc
-        self.window?.makeKeyAndVisible()
         /// Firebase
 //        FirebaseApp.configure()
 //        registerRemoteNotification()
-//        checkToken()
+        checkToken()
 //
 //        checkForceUpdate()
     }
