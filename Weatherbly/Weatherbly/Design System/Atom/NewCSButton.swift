@@ -22,7 +22,7 @@ final public class NewCSButton: UIButton {
     
     // MARK: - Control Property
     // 버튼 크기에 따라
-    enum ButtonType {
+    enum ButtonScale {
         case standard
         case compact
     }
@@ -36,9 +36,9 @@ final public class NewCSButton: UIButton {
     
     var font = UIFont()
     
-    init (_ type: ButtonType, style: ButtonStyle) {
+    init (_ scale: ButtonScale, style: ButtonStyle) {
         super.init(frame: .zero)
-        buttonConfigure(type, style)
+        buttonConfigure(scale, style)
     }
     
     required init?(coder: NSCoder) {
@@ -46,10 +46,13 @@ final public class NewCSButton: UIButton {
     }
     
     /// bgColor, titleColor, font, radius, titleColor
-    func buttonConfigure(_ type: ButtonType, _ style: ButtonStyle) {
+    func buttonConfigure(_ scale: ButtonScale, _ style: ButtonStyle) {
         
-        if type == .standard {
-            font = UIFont.title_3_B
+        self.configuration = .plain()
+        
+        if scale == .standard {
+            font = UIFont.title_3_B!
+
             self.layer.cornerRadius = 12
             
             switch style {
