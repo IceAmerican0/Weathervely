@@ -169,6 +169,7 @@
 		BD7DAB2D2A70DEE100422D25 /* ForecastDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB2C2A70DEE100422D25 /* ForecastDataSource.swift */; };
 		BD7DAB312A70DEF400422D25 /* ForeCastTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB302A70DEF400422D25 /* ForeCastTarget.swift */; };
 		BD7DAB332A70DEFC00422D25 /* VillageForecastInfoEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7DAB322A70DEFC00422D25 /* VillageForecastInfoEntity.swift */; };
+		BD8668E42B45607B00B0B16A /* CSButtonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8668E32B45607B00B0B16A /* CSButtonTests.swift */; };
 		BD9191A62A973EBE00CBD595 /* Calendar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9191A52A973EBE00CBD595 /* Calendar+Extension.swift */; };
 		BDA66FEA2A4075270061A1F0 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA66FE92A4075270061A1F0 /* UIImageView+Extension.swift */; };
 		BDA66FED2A444C470061A1F0 /* SelectGenderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA66FEC2A444C470061A1F0 /* SelectGenderViewController.swift */; };
@@ -325,6 +326,7 @@
 		BD7DAB2C2A70DEE100422D25 /* ForecastDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastDataSource.swift; sourceTree = "<group>"; };
 		BD7DAB302A70DEF400422D25 /* ForeCastTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForeCastTarget.swift; sourceTree = "<group>"; };
 		BD7DAB322A70DEFC00422D25 /* VillageForecastInfoEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VillageForecastInfoEntity.swift; sourceTree = "<group>"; };
+		BD8668E32B45607B00B0B16A /* CSButtonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSButtonTests.swift; sourceTree = "<group>"; };
 		BD9191A52A973EBE00CBD595 /* Calendar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Extension.swift"; sourceTree = "<group>"; };
 		BDA66FE92A4075270061A1F0 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		BDA66FEC2A444C470061A1F0 /* SelectGenderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGenderViewController.swift; sourceTree = "<group>"; };
@@ -596,6 +598,7 @@
 		BD2D01872A388753003A25D5 /* Weatherbly */ = {
 			isa = PBXGroup;
 			children = (
+				BD8668E22B45607200B0B16A /* Test */,
 				BD05E0742B38109100A48E61 /* Design System */,
 				BD2D01882A388753003A25D5 /* AppDelegate.swift */,
 				BD2D018A2A388753003A25D5 /* SceneDelegate.swift */,
@@ -851,6 +854,14 @@
 			name = TypeAPI;
 			sourceTree = "<group>";
 		};
+		BD8668E22B45607200B0B16A /* Test */ = {
+			isa = PBXGroup;
+			children = (
+				BD8668E32B45607B00B0B16A /* CSButtonTests.swift */,
+			);
+			path = Test;
+			sourceTree = "<group>";
+		};
 		BDA66FEB2A444C320061A1F0 /* SelectGender */ = {
 			isa = PBXGroup;
 			children = (
@@ -1095,6 +1106,7 @@
 				69FDD4CC2A407FA400830927 /* CSProgressView.swift in Sources */,
 				BD77B8282A388C9400E7D57A /* CSColor.swift in Sources */,
 				5C4691812A78F96D00E2CC70 /* LoadErrorViewController.swift in Sources */,
+				BD8668E42B45607B00B0B16A /* CSButtonTests.swift in Sources */,
 				5C9F45562A8388130079ABA6 /* AddressEntity.swift in Sources */,
 				BD51694F2A5EB43500582BA9 /* ChangeNicknameViewController.swift in Sources */,
 				BD77B82A2A388CEF00E7D57A /* OnBoardViewController.swift in Sources */,
