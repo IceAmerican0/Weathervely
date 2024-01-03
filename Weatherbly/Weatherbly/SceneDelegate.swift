@@ -18,16 +18,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         
-        let rootVC = UINavigationController(rootViewController: CSButtonTestsViewController(EmptyViewModel()))
-        
-        self.window?.rootViewController = rootVC
-        self.window?.makeKeyAndVisible()
         /// Firebase
-//        FirebaseApp.configure()
-//        registerRemoteNotification()
-//        checkToken()
-//
-//        checkForceUpdate()
+        FirebaseApp.configure()
+        registerRemoteNotification()
+        checkToken()
+
+        checkForceUpdate()
     }
     
     func setWindow(_ vc: UIViewController) {
@@ -103,7 +99,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillResignActive(_ scene: UIScene) {}
 
     func sceneWillEnterForeground(_ scene: UIScene) {
-//        checkForceUpdate()
+        checkForceUpdate()
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {}
@@ -112,6 +108,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 // MARK: FCM & APNs
 extension SceneDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
+    /// https://firebase.google.com/docs/cloud-messaging/ios/client?hl=ko 참고
     /// FCM 기본 세팅
     func registerRemoteNotification() {
         let notificationCenter = UNUserNotificationCenter.current()
@@ -127,10 +124,13 @@ extension SceneDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
         
         let messaging = Messaging.messaging()
         messaging.delegate = self
+        // 자동 초기화 방지
         messaging.isAutoInitEnabled = true
     }
     
     /// FCM Token 확인용
+    /// 해당 메서드를 통해서 토큰을 저장하지 않고 언제든지 토큰에 액세스 가능
+    /// token 클로저를 통하여 토큰을 직접 가져올 수 있다. 실패일 경우 nil이 아닌 오류를 내보낸다.
     func checkToken() {
         Messaging.messaging().token { token, error in
             if let error = error {
@@ -141,6 +141,8 @@ extension SceneDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
         }
     }
     
+    /// 토큰 갱신 모니터링
+    /// -> 토큰 업데이트 시 알림을 받기위함
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         let dataDict: [String: String] = ["token": fcmToken ?? ""]
         NotificationCenter.default.post(
