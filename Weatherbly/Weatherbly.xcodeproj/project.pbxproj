@@ -31,6 +31,7 @@
 		5C46917F2A78F95800E2CC70 /* ConnectionLostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C46917E2A78F95800E2CC70 /* ConnectionLostViewController.swift */; };
 		5C4691812A78F96D00E2CC70 /* LoadErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4691802A78F96D00E2CC70 /* LoadErrorViewController.swift */; };
 		5C4A0ABB2B3ABA56006BE52A /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5C4A0ABA2B3ABA56006BE52A /* Colors.xcassets */; };
+		5C4A0ABD2B43ED8F006BE52A /* HomeForecastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4A0ABC2B43ED8F006BE52A /* HomeForecastView.swift */; };
 		5C4BE89B2A5E2D1200FD2CEF /* EditRegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4BE89A2A5E2D1200FD2CEF /* EditRegionViewController.swift */; };
 		5C4BE89D2A5E63C000FD2CEF /* RegionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4BE89C2A5E63C000FD2CEF /* RegionTableViewCell.swift */; };
 		5C68E9212AF376080046D0BE /* ForcastUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C68E9202AF376080046D0BE /* ForcastUseCase.swift */; };
@@ -89,6 +90,8 @@
 		69683A562A9B81BC00A2BD5A /* LoadErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69683A552A9B81BC00A2BD5A /* LoadErrorViewModel.swift */; };
 		69683A582A9BAAEE00A2BD5A /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69683A572A9BAAEE00A2BD5A /* KeychainManager.swift */; };
 		69683A5B2A9BABC900A2BD5A /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 69683A5A2A9BABC900A2BD5A /* KeychainAccess */; };
+		6987EBBC2B41409E00CF1E74 /* NewHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6987EBBA2B41409E00CF1E74 /* NewHomeViewController.swift */; };
+		6987EBBD2B41409E00CF1E74 /* NewHomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6987EBBB2B41409E00CF1E74 /* NewHomeViewModel.swift */; };
 		698F6CA92ADD624C00C2B33A /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698F6CA82ADD624B00C2B33A /* Tab.swift */; };
 		698F6CAD2ADD6EDB00C2B33A /* TrendingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698F6CAB2ADD6EDB00C2B33A /* TrendingViewController.swift */; };
 		698F6CAE2ADD6EDB00C2B33A /* TrendingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698F6CAC2ADD6EDB00C2B33A /* TrendingViewModel.swift */; };
@@ -195,6 +198,7 @@
 		5C46917E2A78F95800E2CC70 /* ConnectionLostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionLostViewController.swift; sourceTree = "<group>"; };
 		5C4691802A78F96D00E2CC70 /* LoadErrorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadErrorViewController.swift; sourceTree = "<group>"; };
 		5C4A0ABA2B3ABA56006BE52A /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		5C4A0ABC2B43ED8F006BE52A /* HomeForecastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeForecastView.swift; sourceTree = "<group>"; };
 		5C4BE89A2A5E2D1200FD2CEF /* EditRegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRegionViewController.swift; sourceTree = "<group>"; };
 		5C4BE89C2A5E63C000FD2CEF /* RegionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionTableViewCell.swift; sourceTree = "<group>"; };
 		5C68E9202AF376080046D0BE /* ForcastUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForcastUseCase.swift; sourceTree = "<group>"; };
@@ -246,6 +250,8 @@
 		696176B52A63E4A400B83B4C /* EmptyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyViewModel.swift; sourceTree = "<group>"; };
 		69683A552A9B81BC00A2BD5A /* LoadErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadErrorViewModel.swift; sourceTree = "<group>"; };
 		69683A572A9BAAEE00A2BD5A /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
+		6987EBBA2B41409E00CF1E74 /* NewHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHomeViewController.swift; sourceTree = "<group>"; };
+		6987EBBB2B41409E00CF1E74 /* NewHomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHomeViewModel.swift; sourceTree = "<group>"; };
 		698F6CA82ADD624B00C2B33A /* Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
 		698F6CAB2ADD6EDB00C2B33A /* TrendingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingViewController.swift; sourceTree = "<group>"; };
 		698F6CAC2ADD6EDB00C2B33A /* TrendingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingViewModel.swift; sourceTree = "<group>"; };
@@ -486,6 +492,16 @@
 			path = RegionAPI;
 			sourceTree = "<group>";
 		};
+		6987EBB72B41400600CF1E74 /* NewHome */ = {
+			isa = PBXGroup;
+			children = (
+				6987EBBA2B41409E00CF1E74 /* NewHomeViewController.swift */,
+				6987EBBB2B41409E00CF1E74 /* NewHomeViewModel.swift */,
+				5C4A0ABC2B43ED8F006BE52A /* HomeForecastView.swift */,
+			);
+			path = NewHome;
+			sourceTree = "<group>";
+		};
 		698F6CAA2ADD6EC200C2B33A /* Trend */ = {
 			isa = PBXGroup;
 			children = (
@@ -619,6 +635,7 @@
 		BD2D019C2A3887A3003A25D5 /* Feature */ = {
 			isa = PBXGroup;
 			children = (
+				6987EBB72B41400600CF1E74 /* NewHome */,
 				698F6CAA2ADD6EC200C2B33A /* Trend */,
 				69C714D02ADD60C500748CF6 /* TabBar */,
 				BD2D01A12A3887E0003A25D5 /* OnBoard */,
@@ -706,7 +723,6 @@
 				BD77B8272A388C9400E7D57A /* CSColor.swift */,
 				BD4316352A3C9DB700E86271 /* AssetsImage.swift */,
 				BDAEBC9E2A8F5EE4002E10F2 /* WeatherMessageEnum.swift */,
-				BD05E05C2B3801B600A48E61 /* UIFont+Extension.swift */,
 			);
 			path = Enum;
 			sourceTree = "<group>";
@@ -727,6 +743,7 @@
 				5CAB60C22A528C7A00CD431A /* UICollectionView+Extension.swift */,
 				5CAB60C42A528C9700CD431A /* UICollectionViewCell+Extension.swift */,
 				BD2D01B32A3888AA003A25D5 /* UIColor+Extension.swift */,
+				BD05E05C2B3801B600A48E61 /* UIFont+Extension.swift */,
 				BDA66FE92A4075270061A1F0 /* UIImageView+Extension.swift */,
 				BD4AC3902A66899500537583 /* UILabel+Extension.swift */,
 				5CAB60D02A54FC5F00CD431A /* UITableView+Extension.swift */,
@@ -1040,6 +1057,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5CC61E262A5BC223001435E6 /* SettingRegionViewController.swift in Sources */,
+				6987EBBD2B41409E00CF1E74 /* NewHomeViewModel.swift in Sources */,
 				BD69B8F92A553A0C00DDCD7A /* CSNavigationView.swift in Sources */,
 				5CE0FEB62A8F401100A0E655 /* PrivatePolicyViewModel.swift in Sources */,
 				5CAB60CF2A53F61700CD431A /* TenDaysForecastViewController.swift in Sources */,
@@ -1112,6 +1130,7 @@
 				BD77B82A2A388CEF00E7D57A /* OnBoardViewController.swift in Sources */,
 				5CC61E232A57C617001435E6 /* DailyForecastTableViewCell.swift in Sources */,
 				5CC61E1F2A56850F001435E6 /* DateFormatter+Extension.swift in Sources */,
+				6987EBBC2B41409E00CF1E74 /* NewHomeViewController.swift in Sources */,
 				BD2D01892A388753003A25D5 /* AppDelegate.swift in Sources */,
 				5CADDD282A9DDF9900EAB678 /* Constants.swift in Sources */,
 				BD05E07E2B3816BB00A48E61 /* NewCombiButton.swift in Sources */,
@@ -1148,6 +1167,7 @@
 				BD5169472A5AA39000582BA9 /* EditNicknameViewController.swift in Sources */,
 				BD69B8F72A54337000DDCD7A /* SettingViewController.swift in Sources */,
 				698F6CB22AE00FCC00C2B33A /* UIImage+Extension.swift in Sources */,
+				5C4A0ABD2B43ED8F006BE52A /* HomeForecastView.swift in Sources */,
 				5C68E9212AF376080046D0BE /* ForcastUseCase.swift in Sources */,
 				BDF208FF2A4EAEF2001177B2 /* CGFloat+Extension.swift in Sources */,
 				5C9D02C62A6FB71F00AF2DA3 /* EditRegionViewModel.swift in Sources */,
