@@ -37,8 +37,6 @@ enum Tab: CaseIterable {
     }
     
     var viewController: UIViewController {
-        let forecast = ForecastUseCase(forecastDataSource: ForecastDataSource())
-        
         // TODO: Delete Mock Data
         let tempState = HomeForecastViewState(
             mainTemp: "18",

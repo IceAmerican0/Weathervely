@@ -32,6 +32,8 @@
 		5C4691812A78F96D00E2CC70 /* LoadErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4691802A78F96D00E2CC70 /* LoadErrorViewController.swift */; };
 		5C4A0ABB2B3ABA56006BE52A /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5C4A0ABA2B3ABA56006BE52A /* Colors.xcassets */; };
 		5C4A0ABD2B43ED8F006BE52A /* HomeForecastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4A0ABC2B43ED8F006BE52A /* HomeForecastView.swift */; };
+		5C4A0AC52B468311006BE52A /* HomeClosetBannerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4A0AC42B468311006BE52A /* HomeClosetBannerCell.swift */; };
+		5C4A0AC72B46832D006BE52A /* HomeClosetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4A0AC62B46832D006BE52A /* HomeClosetCell.swift */; };
 		5C4BE89B2A5E2D1200FD2CEF /* EditRegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4BE89A2A5E2D1200FD2CEF /* EditRegionViewController.swift */; };
 		5C4BE89D2A5E63C000FD2CEF /* RegionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4BE89C2A5E63C000FD2CEF /* RegionTableViewCell.swift */; };
 		5C68E9212AF376080046D0BE /* ForcastUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C68E9202AF376080046D0BE /* ForcastUseCase.swift */; };
@@ -199,6 +201,8 @@
 		5C4691802A78F96D00E2CC70 /* LoadErrorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadErrorViewController.swift; sourceTree = "<group>"; };
 		5C4A0ABA2B3ABA56006BE52A /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		5C4A0ABC2B43ED8F006BE52A /* HomeForecastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeForecastView.swift; sourceTree = "<group>"; };
+		5C4A0AC42B468311006BE52A /* HomeClosetBannerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeClosetBannerCell.swift; sourceTree = "<group>"; };
+		5C4A0AC62B46832D006BE52A /* HomeClosetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeClosetCell.swift; sourceTree = "<group>"; };
 		5C4BE89A2A5E2D1200FD2CEF /* EditRegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRegionViewController.swift; sourceTree = "<group>"; };
 		5C4BE89C2A5E63C000FD2CEF /* RegionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionTableViewCell.swift; sourceTree = "<group>"; };
 		5C68E9202AF376080046D0BE /* ForcastUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForcastUseCase.swift; sourceTree = "<group>"; };
@@ -498,6 +502,8 @@
 				6987EBBA2B41409E00CF1E74 /* NewHomeViewController.swift */,
 				6987EBBB2B41409E00CF1E74 /* NewHomeViewModel.swift */,
 				5C4A0ABC2B43ED8F006BE52A /* HomeForecastView.swift */,
+				5C4A0AC42B468311006BE52A /* HomeClosetBannerCell.swift */,
+				5C4A0AC62B46832D006BE52A /* HomeClosetCell.swift */,
 			);
 			path = NewHome;
 			sourceTree = "<group>";
@@ -1058,6 +1064,7 @@
 			files = (
 				5CC61E262A5BC223001435E6 /* SettingRegionViewController.swift in Sources */,
 				6987EBBD2B41409E00CF1E74 /* NewHomeViewModel.swift in Sources */,
+				5C4A0AC52B468311006BE52A /* HomeClosetBannerCell.swift in Sources */,
 				BD69B8F92A553A0C00DDCD7A /* CSNavigationView.swift in Sources */,
 				5CE0FEB62A8F401100A0E655 /* PrivatePolicyViewModel.swift in Sources */,
 				5CAB60CF2A53F61700CD431A /* TenDaysForecastViewController.swift in Sources */,
@@ -1100,6 +1107,7 @@
 				BD49072F2A80DEED0027DEE8 /* HomeSensoryTempViewModel.swift in Sources */,
 				5C2AD74C2AC2B64C006BFF81 /* FSPagerCollectionView.swift in Sources */,
 				5C9D02C22A6E45D600AF2DA3 /* SettingRegionCompleteViewController.swift in Sources */,
+				5C4A0AC72B46832D006BE52A /* HomeClosetCell.swift in Sources */,
 				5C9D02EA2A725AC300AF2DA3 /* AddressRequest.swift in Sources */,
 				5CE0FEAD2A8DDE9200A0E655 /* AddressListEntity.swift in Sources */,
 				BD4907332A84D42F0027DEE8 /* String+Extension.swift in Sources */,

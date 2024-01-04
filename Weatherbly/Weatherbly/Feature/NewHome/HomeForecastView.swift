@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import FlexLayout
 import PinLayout
 import Then
 
@@ -18,7 +17,9 @@ public struct HomeForecastViewState {
     public let comment: String
 }
 
-public final class HomeForecastView: UIView {
+public final class HomeForecastView: UICollectionReusableView {
+    private let container = UIView()
+    
     private let mainTempLabel = LabelMaker(
         font: .heading_1_UL,
         fontColor: .white
@@ -51,6 +52,7 @@ public final class HomeForecastView: UIView {
     public init(viewState: HomeForecastViewState) {
         super.init(frame: .zero)
         addSubViews()
+        configureViewState(viewState: viewState)
     }
     
     required init?(coder: NSCoder) {
@@ -73,17 +75,16 @@ public final class HomeForecastView: UIView {
 
 private extension HomeForecastView {
     func addSubViews() {
-        addSubviews(
-            mainTempLabel,
-            sensoryTempLabel,
-            dailyTempLabel,
-            weatherImage,
-            commentLabel
-        )
+        addSubview(container)
+        container.addSubview(mainTempLabel)
+        container.addSubview(sensoryTempLabel)
+        container.addSubview(dailyTempLabel)
+        container.addSubview(weatherImage)
+        container.addSubview(commentLabel)
     }
     
     func layout() {
-        self.pin.all()
+        container.pin.all()
         
         mainTempLabel.pin
             .top(27)
