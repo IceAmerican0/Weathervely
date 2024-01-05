@@ -24,6 +24,20 @@ public enum ButtonTapAction {
     case didTapItem
 }
 
+enum HomeSection {
+    case forecast
+    case filter
+    case banner
+    case closet
+}
+
+enum HomeCellState: Hashable {
+    case forecast
+    case filter
+    case banner
+    case closet
+}
+
 final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
     
     private let locationButton = UIButton().then {
@@ -58,39 +72,36 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
         $0.setImage(.home_date_right_nor, for: .normal)
     }
     
-    private lazy var homeForecastView = HomeForecastView()
+    var dataSource: UICollectionViewDiffableDataSource<HomeSection, HomeCellState>?
     
-    private let styleFilterButton = UIButton()
-    
-    private let itemFilterButton = UIButton()
-    
-    private let filterButton = UIButton().then {
-        $0.setImage(.home_option, for: .normal)
-    }
-    
-    private var flowLayout = UICollectionViewFlowLayout().then {
-        $0.scrollDirection = .vertical
-    }
-    
-    private lazy var closetCollectionView = UICollectionView(
+    private lazy var homeCollectionView = UICollectionView(
         frame: .zero,
-        collectionViewLayout: flowLayout
+        collectionViewLayout: setLayout()
     ).then { [weak self] in
         $0.delegate = self
-        $0.showsHorizontalScrollIndicator = false
+        $0.showsVerticalScrollIndicator = false
+        $0.backgroundColor = .clear
+        $0.register(withType: HomeForecastCell.self)
         
         $0.register(withType: HomeClosetBannerCell.self)
         $0.register(withType: HomeClosetCell.self)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        setDataSource()
     }
 
     override func layout() {
         super.layout()
         
         container.flex.alignItems(.center).define {
-            $0.addItem().direction(.row).justifyContent(.spaceBetween).marginHorizontal(20).define { header in
-                header.addItem(locationButton).size(20)
+            $0.addItem().direction(.row).define { header in
+                header.addItem(locationButton).marginLeft(20).size(20)
                 header.addItem(regionLabel).marginLeft(8)
-                header.addItem(notificationButton).size(20)
+            }.justifyContent(.spaceBetween).define { header in
+                header.addItem(notificationButton).marginRight(20).size(20)
             }
             $0.addItem().direction(.row).justifyContent(.center).define { date in
                 date.addItem(prevButton).size(28)
@@ -98,13 +109,7 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
                 date.addItem(timeLabel).marginLeft(12)
                 date.addItem(nextButton).marginLeft(16).size(28)
             }
-//            $0.addItem(homeForecastView).marginTop(14).marginHorizontal(20).height(150)
-//            $0.addItem().direction(.row).justifyContent(.spaceBetween).marginTop(14).define { filter in
-//                filter.addItem(styleFilterButton).width(80).height(29)
-//                filter.addItem(itemFilterButton).marginLeft(8).width(80).height(29)
-//                filter.addItem(filterButton).size(24)
-//            }
-            $0.addItem(closetCollectionView).marginTop(14).horizontally(20).grow(1)
+            $0.addItem(homeCollectionView).marginTop(14).horizontally(20).grow(1)
         }
     }
     
@@ -129,39 +134,47 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
                 owner.viewModel.buttonTapAction(action: .didTapNext)
             }
             .disposed(by: bag)
-        
-        homeForecastView.rx.tapGesture()
-            .when(.recognized)
-            .bind(with: self) { owner, _ in
-                owner.viewModel.toTendaysForecastView()
-            }
-            .disposed(by: bag)
-        
-        styleFilterButton.rx.tap
-            .bind(with: self) { owner, _ in
-                owner.viewModel.buttonTapAction(action: .didTapStyle)
-            }
-            .disposed(by: bag)
-        
-        itemFilterButton.rx.tap
-            .bind(with: self) { owner, _ in
-                owner.viewModel.buttonTapAction(action: .didTapItem)
-            }
-            .disposed(by: bag)
     }
     
     override func viewModelBinding() {
         super.viewModelBinding()
-        
-        viewModel.selectedForecastViewState
-            .observe(on: MainScheduler.instance)
-            .bind(onNext: { state in
-                self.homeForecastView.configureViewState(viewState: state)
-            })
-            .disposed(by: bag)
     }
 }
 
-// MARK: UICollectionViewDelegate
+// MARK: UICollectionview UI & Delegate
 extension NewHomeViewController: UICollectionViewDelegate {
+    private func setDataSource() {
+        dataSource = UICollectionViewDiffableDataSource<HomeSection, HomeCellState>(collectionView: self.homeCollectionView) { [weak self] (collectionView, indexPath, cellState) -> UICollectionViewCell? in
+            guard let self else { return nil }
+            
+            switch cellState {
+            case .forecast:
+                let cell = collectionView.dequeueCell(withType: HomeForecastCell.self, for: indexPath)
+            case .filter:
+                return nil
+            case .banner:
+                let cell = collectionView.dequeueCell(withType: HomeClosetBannerCell.self, for: indexPath)
+            case .closet:
+                let cell = collectionView.dequeueCell(withType: HomeClosetCell.self, for: indexPath)
+            }
+            
+            return nil
+        }
+    }
+    
+    private func setLayout() -> UICollectionViewLayout {
+        let layout = UICollectionViewCompositionalLayout { [weak self] section, _ -> NSCollectionLayoutSection? in
+            if let section = self?.dataSource?.snapshot().sectionIdentifiers[section] {
+                return nil
+            } else {
+                return nil
+            }
+        }
+        return layout
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let data = dataSource?.itemIdentifier(for: indexPath) else { return }
+        
+    }
 }

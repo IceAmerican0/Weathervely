@@ -16,19 +16,19 @@ public protocol NewHomeViewModelLogic: ViewModelBusinessLogic {
     func toEditRegionView()
     func toTendaysForecastView()
     
-    var homeForecastViewState: [HomeForecastViewState] { get }
+    var homeForecastCellState: [HomeForecastCellState] { get }
 }
 
 public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
-    public var homeForecastViewState: [HomeForecastViewState]
+    public var homeForecastCellState: [HomeForecastCellState]
     
-    var selectedForecastViewState = PublishRelay<HomeForecastViewState>()
+    var selectedForecastViewState = PublishRelay<HomeForecastCellState>()
     
-    public init(homeForecastViewState: [HomeForecastViewState]) {
-        self.homeForecastViewState = homeForecastViewState
+    public init(homeForecastCellState: [HomeForecastCellState]) {
+        self.homeForecastCellState = homeForecastCellState
         
-        guard let viewState = homeForecastViewState.first else { return }
-        self.selectedForecastViewState.accept(viewState)
+        guard let cellState = homeForecastCellState.first else { return }
+        self.selectedForecastViewState.accept(cellState)
     }
     
     public func buttonTapAction(action: ButtonTapAction) {

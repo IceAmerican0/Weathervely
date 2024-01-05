@@ -31,9 +31,10 @@
 		5C46917F2A78F95800E2CC70 /* ConnectionLostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C46917E2A78F95800E2CC70 /* ConnectionLostViewController.swift */; };
 		5C4691812A78F96D00E2CC70 /* LoadErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4691802A78F96D00E2CC70 /* LoadErrorViewController.swift */; };
 		5C4A0ABB2B3ABA56006BE52A /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5C4A0ABA2B3ABA56006BE52A /* Colors.xcassets */; };
-		5C4A0ABD2B43ED8F006BE52A /* HomeForecastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4A0ABC2B43ED8F006BE52A /* HomeForecastView.swift */; };
+		5C4A0ABD2B43ED8F006BE52A /* HomeForecastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4A0ABC2B43ED8F006BE52A /* HomeForecastCell.swift */; };
 		5C4A0AC52B468311006BE52A /* HomeClosetBannerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4A0AC42B468311006BE52A /* HomeClosetBannerCell.swift */; };
 		5C4A0AC72B46832D006BE52A /* HomeClosetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4A0AC62B46832D006BE52A /* HomeClosetCell.swift */; };
+		5C4A0ACB2B47D34A006BE52A /* ClosetFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4A0ACA2B47D34A006BE52A /* ClosetFilterView.swift */; };
 		5C4BE89B2A5E2D1200FD2CEF /* EditRegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4BE89A2A5E2D1200FD2CEF /* EditRegionViewController.swift */; };
 		5C4BE89D2A5E63C000FD2CEF /* RegionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4BE89C2A5E63C000FD2CEF /* RegionTableViewCell.swift */; };
 		5C68E9212AF376080046D0BE /* ForcastUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C68E9202AF376080046D0BE /* ForcastUseCase.swift */; };
@@ -200,9 +201,10 @@
 		5C46917E2A78F95800E2CC70 /* ConnectionLostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionLostViewController.swift; sourceTree = "<group>"; };
 		5C4691802A78F96D00E2CC70 /* LoadErrorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadErrorViewController.swift; sourceTree = "<group>"; };
 		5C4A0ABA2B3ABA56006BE52A /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
-		5C4A0ABC2B43ED8F006BE52A /* HomeForecastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeForecastView.swift; sourceTree = "<group>"; };
+		5C4A0ABC2B43ED8F006BE52A /* HomeForecastCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeForecastCell.swift; sourceTree = "<group>"; };
 		5C4A0AC42B468311006BE52A /* HomeClosetBannerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeClosetBannerCell.swift; sourceTree = "<group>"; };
 		5C4A0AC62B46832D006BE52A /* HomeClosetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeClosetCell.swift; sourceTree = "<group>"; };
+		5C4A0ACA2B47D34A006BE52A /* ClosetFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetFilterView.swift; sourceTree = "<group>"; };
 		5C4BE89A2A5E2D1200FD2CEF /* EditRegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRegionViewController.swift; sourceTree = "<group>"; };
 		5C4BE89C2A5E63C000FD2CEF /* RegionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionTableViewCell.swift; sourceTree = "<group>"; };
 		5C68E9202AF376080046D0BE /* ForcastUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForcastUseCase.swift; sourceTree = "<group>"; };
@@ -501,9 +503,10 @@
 			children = (
 				6987EBBA2B41409E00CF1E74 /* NewHomeViewController.swift */,
 				6987EBBB2B41409E00CF1E74 /* NewHomeViewModel.swift */,
-				5C4A0ABC2B43ED8F006BE52A /* HomeForecastView.swift */,
+				5C4A0ABC2B43ED8F006BE52A /* HomeForecastCell.swift */,
 				5C4A0AC42B468311006BE52A /* HomeClosetBannerCell.swift */,
 				5C4A0AC62B46832D006BE52A /* HomeClosetCell.swift */,
+				5C4A0ACA2B47D34A006BE52A /* ClosetFilterView.swift */,
 			);
 			path = NewHome;
 			sourceTree = "<group>";
@@ -1081,6 +1084,7 @@
 				5C2AD74A2AC2B64C006BFF81 /* FSPageControl.swift in Sources */,
 				5C9D02C82A6FC45300AF2DA3 /* EditRegionTableViewCell.swift in Sources */,
 				BDAEBC9F2A8F5EE4002E10F2 /* WeatherMessageEnum.swift in Sources */,
+				5C4A0ACB2B47D34A006BE52A /* ClosetFilterView.swift in Sources */,
 				BD2D01B42A3888AA003A25D5 /* UIColor+Extension.swift in Sources */,
 				BD2D018D2A388753003A25D5 /* HomeViewController.swift in Sources */,
 				5CAB60BF2A4D6A9D00CD431A /* ClosetFSPagerViewCell.swift in Sources */,
@@ -1175,7 +1179,7 @@
 				BD5169472A5AA39000582BA9 /* EditNicknameViewController.swift in Sources */,
 				BD69B8F72A54337000DDCD7A /* SettingViewController.swift in Sources */,
 				698F6CB22AE00FCC00C2B33A /* UIImage+Extension.swift in Sources */,
-				5C4A0ABD2B43ED8F006BE52A /* HomeForecastView.swift in Sources */,
+				5C4A0ABD2B43ED8F006BE52A /* HomeForecastCell.swift in Sources */,
 				5C68E9212AF376080046D0BE /* ForcastUseCase.swift in Sources */,
 				BDF208FF2A4EAEF2001177B2 /* CGFloat+Extension.swift in Sources */,
 				5C9D02C62A6FB71F00AF2DA3 /* EditRegionViewModel.swift in Sources */,

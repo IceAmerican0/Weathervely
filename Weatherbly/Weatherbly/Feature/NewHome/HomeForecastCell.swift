@@ -1,5 +1,5 @@
 //
-//  HomeForecastView.swift
+//  HomeForecastCell.swift
 //  Weatherbly
 //
 //  Created by Khai on 1/2/24.
@@ -9,7 +9,8 @@ import UIKit
 import PinLayout
 import Then
 
-public struct HomeForecastViewState {
+public struct HomeForecastCellState {
+    public let isDayTime: Bool
     public let mainTemp: String
     public let minTemp: String
     public let maxTemp: String
@@ -17,7 +18,7 @@ public struct HomeForecastViewState {
     public let comment: String
 }
 
-public final class HomeForecastView: UICollectionReusableView {
+public final class HomeForecastCell: UICollectionViewCell {
     private let container = UIView()
     
     private let mainTempLabel = LabelMaker(
@@ -49,10 +50,10 @@ public final class HomeForecastView: UICollectionReusableView {
         addSubViews()
     }
     
-    public init(viewState: HomeForecastViewState) {
+    public init(state: HomeForecastCellState) {
         super.init(frame: .zero)
         addSubViews()
-        configureViewState(viewState: viewState)
+        configureCellState(state: state)
     }
     
     required init?(coder: NSCoder) {
@@ -64,16 +65,18 @@ public final class HomeForecastView: UICollectionReusableView {
         layout()
     }
     
-    public func configureViewState(viewState: HomeForecastViewState) {
-        mainTempLabel.text = "\(viewState.mainTemp)°"
-        dailyTempLabel.text = "\(viewState.minTemp)° / \(viewState.maxTemp)°"
-        commentLabel.text = viewState.comment
+    public func configureCellState(state: HomeForecastCellState) {
+        mainTempLabel.text = "\(state.mainTemp)°"
+        dailyTempLabel.text = "\(state.minTemp)° / \(state.maxTemp)°"
+        commentLabel.text = state.comment
         
-        self.backgroundColor = configureBackgroundColor(weather: viewState.weather)
+        let (color, image) = setWeather(weather: state.weather, isDayTime: state.isDayTime)
+        self.backgroundColor = color
+        weatherImage.image = image
     }
 }
 
-private extension HomeForecastView {
+private extension HomeForecastCell {
     func addSubViews() {
         addSubview(container)
         container.addSubview(mainTempLabel)
@@ -110,16 +113,20 @@ private extension HomeForecastView {
             .marginHorizontal(20)
     }
     
-    func configureBackgroundColor(weather: String) -> UIColor {
+    func setWeather(weather: String, isDayTime: Bool) -> (UIColor, UIImage) {
         switch weather {
-        case "맑음": UIColor.sky600
-        case "흐림": UIColor.sky600
-        case "구름많음": UIColor.sky600
-        case "비": UIColor.sky600
-        case "눈비": UIColor.sky600
-        case "눈": UIColor.sky600
-        case "바람": UIColor.sky600
-        default: UIColor.sky600
+        case "맑음": isDayTime ?
+            (UIColor.sky600, UIImage.sunny_am) :
+            (UIColor.sky600, UIImage.sunny_pm)
+        case "흐림": (UIColor.sky600, UIImage.cloudy)
+        case "구름많음": isDayTime ?
+            (UIColor.sky600, UIImage.clouds_am) :
+            (UIColor.sky600, UIImage.clouds_pm)
+        case "비": (UIColor.sky600, UIImage.rainy)
+        case "눈비": (UIColor.sky600, UIImage.snowyRainy)
+        case "눈": (UIColor.sky600, UIImage.snowy)
+        case "바람": (UIColor.sky600, UIImage.windy)
+        default: (UIColor.sky600, UIImage.sunny_am)
         }
     }
 }

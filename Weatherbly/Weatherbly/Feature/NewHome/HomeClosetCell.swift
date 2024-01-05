@@ -12,7 +12,7 @@ import Then
 
 public final class HomeClosetCell: UICollectionViewCell {
     
-    let banner = UIImageView()
+    let cloth = UIImageView()
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -30,7 +30,7 @@ public final class HomeClosetCell: UICollectionViewCell {
     
     func layout() {
         contentView.flex.define {
-            $0.addItem(banner).size(158)
+            $0.addItem(cloth).width(158).height(236)
         }
     }
 }
