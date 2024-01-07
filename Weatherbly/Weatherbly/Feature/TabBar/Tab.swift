@@ -48,7 +48,10 @@ enum Tab: CaseIterable {
         )
         
         return switch self {
-        case .home: NewHomeViewController(NewHomeViewModel(homeForecastCellState: [tempState]))
+        case .home: NewHomeViewController(NewHomeViewModel(
+            closetDataSource: ClosetDataSource(),
+            homeForecastCellState: [tempState]
+        ))
         case .style: TrendingViewController(TrendingViewModel())
         case .setting: SettingViewController(SettingViewModel())
         }

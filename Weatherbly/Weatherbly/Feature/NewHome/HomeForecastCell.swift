@@ -43,6 +43,7 @@ public final class HomeForecastCell: UICollectionViewCell {
         fontColor: .white
     ).make().then {
         $0.setCornerRadius(10.5)
+        $0.layer.masksToBounds = true
     }
     
     override public init(frame: CGRect) {
@@ -84,33 +85,38 @@ private extension HomeForecastCell {
         container.addSubview(dailyTempLabel)
         container.addSubview(weatherImage)
         container.addSubview(commentLabel)
+        
+        self.setCornerRadius(14)
     }
     
     func layout() {
         container.pin.all()
         
         mainTempLabel.pin
-            .top(27)
-            .left(20)
+            .top(27).left(20)
+            .size(68)
         
         sensoryTempLabel.pin
             .after(of: mainTempLabel)
-            .marginLeft(18)
-            .top(11)
+            .marginLeft(18).top(38)
+            .width(42).height(17)
         
         dailyTempLabel.pin
             .below(of: sensoryTempLabel)
-            .marginTop(5)
+            .after(of: mainTempLabel)
+            .marginLeft(18).marginTop(5)
+            .width(60).height(19)
         
         weatherImage.pin
-            .top(27)
-            .right(20)
-            .width(110)
-            .height(74)
+            .top(27).right(20)
+            .width(110).height(74)
         
         commentLabel.pin
             .bottom(20)
+            .horizontally()
             .marginHorizontal(20)
+            .width(295)
+            .height(32)
     }
     
     func setWeather(weather: String, isDayTime: Bool) -> (UIColor, UIImage) {

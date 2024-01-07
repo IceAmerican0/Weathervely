@@ -9,6 +9,7 @@ import UIKit
 import FlexLayout
 import PinLayout
 import Then
+import Kingfisher
 
 public final class HomeClosetCell: UICollectionViewCell {
     
@@ -32,5 +33,9 @@ public final class HomeClosetCell: UICollectionViewCell {
         contentView.flex.define {
             $0.addItem(cloth).width(158).height(236)
         }
+    }
+    
+    func configureCellState() {
+        
     }
 }

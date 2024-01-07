@@ -9,8 +9,8 @@ import UIKit
 
 // MARK: AppleSDGothicNeo
 public enum GothicNeo {
-    static let heavy      = "AppleSDGothicNeoH"
-    static let extraBold  = "AppleSDGothicNeoEB"
+    static let heavy      = "AppleSDGothicNeoH00"
+    static let extraBold  = "AppleSDGothicNeoEB00"
     static let bold       = "AppleSDGothicNeo-Bold"
     static let semiBold   = "AppleSDGothicNeo-SemiBold"
     static let medium     = "AppleSDGothicNeo-Medium"
