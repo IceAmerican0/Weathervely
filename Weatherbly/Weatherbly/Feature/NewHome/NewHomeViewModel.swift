@@ -17,12 +17,15 @@ public protocol NewHomeViewModelLogic: ViewModelBusinessLogic {
     func buttonTapAction(action: ButtonTapAction)
     func configureTime()
     func filterCloset()
+    func toDetailView(state: RecommendClosetInfo)
     func toEditRegionView()
     func toTendaysForecastView()
     
     var refreshStatus: PublishRelay<Bool> { get }
     var homeSections: PublishRelay<[HomeSection]> { get }
     var homeForecastCellState: PublishRelay<[HomeForecastCellState]> { get }
+    var filteredStyle: Bool { get set }
+    var filteredItem: Bool { get set }
 }
 
 public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
@@ -40,6 +43,12 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     /// 선택돼있는 날씨 정보
     var selectedForecastViewState: HomeForecastCellState
     
+    /// 스타일 필터 여부
+    public var filteredStyle: Bool
+    
+    /// 아이템 필터 여부
+    public var filteredItem: Bool
+    
     /// 스타일 추천 리스트
     public var recommendedCloset = BehaviorRelay<RecommendClosetBody?>(value: nil)
     
@@ -52,6 +61,8 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
         self.homeForecastCellState.accept(homeForecastCellState)
         guard let cellState = homeForecastCellState.first else { fatalError() }
         self.selectedForecastViewState = cellState
+        self.filteredStyle = .init()
+        self.filteredItem = .init()
         super.init()
         
         getClosetInfo()
@@ -122,6 +133,11 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     
     /// 필터링
     public func filterCloset() {
+        
+    }
+    
+    // 상세보기 이동
+    public func toDetailView(state: RecommendClosetInfo) {
         
     }
     

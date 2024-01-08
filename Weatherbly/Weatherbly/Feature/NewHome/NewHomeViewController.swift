@@ -46,7 +46,7 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
         font: .body_5_B,
         fontColor: .gray70,
         alignment: .center
-    ).make(text: "오늘").then {
+    ).make(text: "현재").then {
         $0.backgroundColor = .gray10
         $0.setCornerRadius(14)
         $0.layer.masksToBounds = true
@@ -57,7 +57,7 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
         alignment: .center
     ).make(text: "오전 9시")
     
-    private let nextButton = UIButton().then {
+    private lazy var nextButton = UIButton().then {
         $0.setImage(.home_date_right_nor, for: .normal)
     }
     
@@ -68,6 +68,7 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
     private let flowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .vertical
         $0.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        $0.sectionHeadersPinToVisibleBounds = true
     }
     
     private lazy var homeCollectionView = UICollectionView(
@@ -88,8 +89,6 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.navigationController?.isNavigationBarHidden = true
     }
     
     public override func viewWillAppear(_ animated: Bool) {
@@ -113,8 +112,10 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
                 date.addItem(timeLabel).marginLeft(12)
                 date.addItem(nextButton).marginLeft(16).size(28)
             }
-            $0.addItem(homeCollectionView).marginTop(14).width(view.frame.width).height(500)
+            $0.addItem(homeCollectionView).marginTop(14)
         }
+        
+        homeCollectionView.flex.grow(1).shrink(1)
     }
     
     override func viewBinding() {
@@ -124,20 +125,23 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
             .when(.recognized)
             .bind(with: self) { owner, _ in
                 owner.viewModel.toEditRegionView()
-            }
-            .disposed(by: bag)
+            }.disposed(by: bag)
         
         prevButton.rx.tap
             .bind(with: self) { owner, _ in
                 owner.viewModel.buttonTapAction(action: .didTapPrev)
-            }
-            .disposed(by: bag)
+            }.disposed(by: bag)
+        
+        timeLabel.rx.tapGesture()
+            .when(.recognized)
+            .bind(with: self) { owner, _ in
+                owner.viewModel.configureTime()
+            }.disposed(by: bag)
         
         nextButton.rx.tap
             .bind(with: self) { owner, _ in
                 owner.viewModel.buttonTapAction(action: .didTapNext)
-            }
-            .disposed(by: bag)
+            }.disposed(by: bag)
     }
     
     override func viewModelBinding() {
@@ -147,9 +151,13 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
             .itemSelected
             .withUnretained(self)
             .subscribe { owner, indexPath in
-                
-            }
-            .disposed(by: bag)
+                switch owner.dataSource[indexPath] {
+                case .forecast:
+                    owner.viewModel.toTendaysForecastView()
+                case .closet(let cellState):
+                    owner.viewModel.toDetailView(state: cellState.closets[indexPath.row])
+                }
+            }.disposed(by: bag)
         
         viewModel.refreshStatus
             .bind(with: self) { owner, refreshing in
@@ -176,42 +184,51 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
 extension NewHomeViewController: UICollectionViewDelegateFlowLayout {
     func setDataSource() -> RxCollectionViewSectionedReloadDataSource<HomeSection> {
         let dataSource = RxCollectionViewSectionedReloadDataSource<HomeSection>(configureCell: { [weak self] dataSource, collectionView, indexPath, _ in
+            guard let self else { return UICollectionViewCell() }
+            
             switch dataSource[indexPath] {
             case .forecast(let cellState):
-                collectionView.dequeueCell(withType: HomeForecastCell.self, for: indexPath).then {
-                    print("cellState: \(cellState)")
+                return collectionView.dequeueCell(withType: HomeForecastCell.self, for: indexPath).then {
                     $0.configureCellState(state: cellState)
                 }
-            case .closet:
-                collectionView.dequeueCell(withType: HomeClosetCell.self, for: indexPath)
+            case .closet(let cellState):
+                return collectionView.dequeueCell(withType: HomeClosetCell.self, for: indexPath).then {
+                    let row = indexPath.row
+                    if row != 0 {
+                        $0.configureCellState(state: cellState.closets[row - 1])
+                    } else {
+                        $0.cloth.image = .home_banner_01
+                    }
+                }
             }
         }, configureSupplementaryView: { dataSource, collectionView, kind, indexPath in
             switch kind {
             case UICollectionView.elementKindSectionHeader:
                 let header = collectionView.dequeueReusableHeaderView(
                     withType: ClosetFilterView.self,
-                    for: indexPath)
+                    for: indexPath).then {
+                        let state: ClosetFilterViewState = .init(
+                            styleFilter: self.viewModel.filteredStyle,
+                            itemFilter: self.viewModel.filteredItem
+                        )
+                        $0.configureViewState(state: state)
+                    }
                 
                 if case .closet = dataSource[indexPath.section] {
                     header.itemTap
                         .drive(with: self, onNext: { owner, _ in
                             owner.viewModel.buttonTapAction(action: .didTapItem)
-                        })
-                        .disposed(by: self.bag)
+                        }).disposed(by: header.bag)
                     
                     header.styleTap
                         .drive(with: self, onNext: { owner, _ in
                             owner.viewModel.buttonTapAction(action: .didTapStyle)
-                        })
-                        .disposed(by: self.bag)
+                        }).disposed(by: header.bag)
                     
                     header.filterTap
                         .drive(with: self, onNext: { owner, _ in
                             owner.viewModel.buttonTapAction(action: .didTapItem)
-                        })
-                        .disposed(by: self.bag)
-                    
-                    
+                        }).disposed(by: header.bag)
                     
                     return header
                 }
@@ -221,7 +238,6 @@ extension NewHomeViewController: UICollectionViewDelegateFlowLayout {
                 return UICollectionReusableView()
             }
         })
-        
         return dataSource
     }
     
@@ -241,7 +257,11 @@ extension NewHomeViewController: UICollectionViewDelegateFlowLayout {
         }
         
         if case .closet = dataSource.sectionModels[indexPath.section] {
-            return CGSize(width: 158, height: 236)
+            if indexPath.section != 0 {
+                return CGSize(width: 158, height: 236)
+            } else {
+                return CGSize(width: 158, height: 158)
+            }
         }
         
         return .zero

@@ -35,7 +35,7 @@ public final class HomeClosetCell: UICollectionViewCell {
         }
     }
     
-    func configureCellState() {
-        
+    func configureCellState(state: RecommendClosetInfo) {
+        cloth.setKF(urlString: state.imageUrl)
     }
 }

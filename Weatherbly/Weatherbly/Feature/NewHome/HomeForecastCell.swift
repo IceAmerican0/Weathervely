@@ -113,7 +113,7 @@ private extension HomeForecastCell {
         
         commentLabel.pin
             .bottom(20)
-            .horizontally()
+            .vCenter()
             .marginHorizontal(20)
             .width(295)
             .height(32)

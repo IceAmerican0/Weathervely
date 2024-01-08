@@ -12,7 +12,6 @@ extension Date {
     // MARK: - Yesterday
 
     var yesterdayTime: String {
-        
         let date = Calendar.current.date(byAdding: .day, value: -1, to: self)!
         let dateFormmater = DateFormatter.shared
         dateFormmater.dateFormat = "MM dd a hh"
@@ -21,7 +20,6 @@ extension Date {
     }
     
     var yesterdayThousandFormat: String {
-        
         let date = Calendar.current.date(byAdding: .day, value: -1, to: self)!
         let dateFormmater = DateFormatter.shared
         dateFormmater.dateFormat = "HH00"
@@ -31,7 +29,6 @@ extension Date {
     
     
     var yesterdayDate: String {
-        
         let date = Calendar.current.date(byAdding: .day, value: -1, to: self)!
         let dateFormmater = DateFormatter.shared
         dateFormmater.dateFormat = "yyyyMMdd"
@@ -52,66 +49,56 @@ extension Date {
 
     // DateTimePicker 형식
     var todayDatePickerFormat: String {
-        
-        let date = self
         let dateFormmater = DateFormatter.shared
         dateFormmater.dateFormat = "MM dd a hh"
         
-        return dateFormmater.string(from: date)
+        return dateFormmater.string(from: self)
     }
     
     // 날짜별로 정렬된 날씨 Entity에서 특정시간대 카테고리 검색 시 사용
     var todayThousandFormat: String {
-        let date = self
         let dateFormmater = DateFormatter.shared
         dateFormmater.dateFormat = "HH00"
         
-        return dateFormmater.string(from: date)
+        return dateFormmater.string(from: self)
     }
     
     var today: String {
-        
-        let date = self
         let dateFormmater = DateFormatter.shared
         dateFormmater.dateFormat = "yyyyMMdd"
         
-        return dateFormmater.string(from: date)
+        return dateFormmater.string(from: self)
     }
     
     var todayphenFormat: String {
-        let date = self
         let dateFormmater = DateFormatter.shared
         dateFormmater.dateFormat = "yyyy-MM-dd"
         
-        return dateFormmater.string(from: date)
+        return dateFormmater.string(from: self)
     }
     
     var todayHourFormat: String {
-        
-        let date = self
         let dateFormmater = DateFormatter.shared
         dateFormmater.dateFormat = "yyyy-MM-dd HH:00"
         
-        return dateFormmater.string(from: date)
+        return dateFormmater.string(from: self)
     }
     
     func todaySelectedFormat(_ selectedHour: String) -> String {
-        let date = self
         let dateFormmater = DateFormatter.shared
         dateFormmater.dateFormat = "yyyy-MM-dd \(selectedHour)"
         
-        return dateFormmater.string(from: date)
+        return dateFormmater.string(from: self)
     }
     
     // MARK: - Tomorrow
 
     // 메인 날씨 Entity에서 날짜별로 정렬할때 형식
     var tomorrow: String {
-        let date = self
         let dateFormmater = DateFormatter.shared
         dateFormmater.dateFormat = "yyyyMMdd"
         
-        return dateFormmater.string(from: date)
+        return dateFormmater.string(from: self)
     }
     
     func tomorrowSelectedFormat(_ selectedHour: String) -> String {
@@ -123,7 +110,6 @@ extension Date {
     }
     
     var tomorrowThousandFormat: String {
-        
         let date = Calendar.current.date(byAdding: .day, value: -1, to: self)!
         let dateFormmater = DateFormatter.shared
         dateFormmater.dateFormat = "HH00"
@@ -132,7 +118,6 @@ extension Date {
     }
     
     // MARK: - Day after tomorrow
-
     var dayAfterTomorrow: String {
         let date = Calendar.current.date(byAdding: .day, value: +2, to: self)!
         let dateFormmater = DateFormatter.shared
@@ -143,7 +128,6 @@ extension Date {
     
     
     // MARK: - two Day after tomorrow
-
     var twoDaysAfterTomorrow: String {
         let date = Calendar.current.date(byAdding: .day, value: +3, to: self)!
         let dateFormmater = DateFormatter.shared

@@ -39,6 +39,7 @@ extension UIImage {
     static let home_date_right_dis = UIImage(named: "home_date_right_dis")!
     static let home_date_right_nor = UIImage(named: "home_date_right_nor")!
     static let home_drop_off = UIImage(named: "home_drop_off")!
+    static let home_drop_on = UIImage(named: "home_drop_on")!
     static let home_nodata = UIImage(named: "home_nodata")!
     static let home_option = UIImage(named: "home_option")!
     static let home_place = UIImage(named: "home_place")!
