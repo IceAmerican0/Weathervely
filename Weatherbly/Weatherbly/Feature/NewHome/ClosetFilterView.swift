@@ -22,24 +22,37 @@ public final class ClosetFilterView: UICollectionReusableView {
     private let container = UIView()
     
     private var config = {
-        var config = UIButton.Configuration.plain()
+        var config = UIButton.Configuration.filled()
         config.imagePlacement = NSDirectionalRectEdge.trailing
         config.image = UIImage.home_drop_off
+        config.imagePadding = 4
         return config
     }()
     
-    private lazy var styleFilterButton = UIButton().then {
+    private let handler: UIButton.ConfigurationUpdateHandler = { button in
+        if case .selected = button.state {
+            button.setTitleColor(.violet700, for: .normal)
+            button.configuration?.image = .home_drop_on
+        } else {
+            button.setTitleColor(.black, for: .normal)
+            button.configuration?.image = .home_drop_off
+        }
+    }
+    
+    private lazy var styleFilterButton = UIButton(configuration: config).then {
         $0.setCornerRadius(14)
         $0.backgroundColor = .violet50
         $0.setTitle("스타일", for: .normal)
-        $0.configuration = config
+        $0.setTitleColor(.black, for: .normal)
+        $0.configurationUpdateHandler = handler
     }
     
-    private lazy var itemFilterButton = UIButton().then {
+    private lazy var itemFilterButton = UIButton(configuration: config).then {
         $0.setCornerRadius(14)
         $0.backgroundColor = .violet50
         $0.setTitle("아이템", for: .normal)
-        $0.configuration = config
+        $0.setTitleColor(.black, for: .normal)
+        $0.configurationUpdateHandler = handler
     }
     
     private let filterIcon = UIButton().then {
@@ -81,24 +94,20 @@ public final class ClosetFilterView: UICollectionReusableView {
     public override func sizeThatFits(_ size: CGSize) -> CGSize {
         pin.width(size.width)
         flex.layout()
-        return CGSize(width: size.width, height: 30)
+        return CGSize(width: size.width, height: 56)
     }
     
     public func configureViewState(state: ClosetFilterViewState) {
         if state.styleFilter {
-            styleFilterButton.setTitleColor(.violet700, for: .normal)
-            styleFilterButton.imageView?.image = .home_drop_on
+            styleFilterButton.isSelected = true
         } else {
-            styleFilterButton.setTitleColor(.black, for: .normal)
-            styleFilterButton.imageView?.image = .home_drop_off
+            styleFilterButton.isSelected = false
         }
         
         if state.itemFilter {
-            itemFilterButton.setTitleColor(.violet700, for: .normal)
-            itemFilterButton.imageView?.image = .home_drop_on
+            itemFilterButton.isSelected = true
         } else {
-            itemFilterButton.setTitleColor(.black, for: .normal)
-            itemFilterButton.imageView?.image = .home_drop_off
+            itemFilterButton.isSelected = false
         }
     }
 }
@@ -106,9 +115,8 @@ public final class ClosetFilterView: UICollectionReusableView {
 extension ClosetFilterView {
     func layout() {
         backgroundColor = .clear
-        addSubview(container)
         
-        container.flex.direction(.row).define {
+        self.flex.addItem(container).direction(.row).alignItems(.center).define {
             $0.addItem(styleFilterButton).width(80).height(29)
             $0.addItem(itemFilterButton).marginLeft(8).width(80).height(29)
             $0.addItem().grow(1)

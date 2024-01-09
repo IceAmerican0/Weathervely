@@ -40,6 +40,7 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
     
     private let prevButton = UIButton().then {
         $0.setImage(.home_date_left_dis, for: .normal)
+        $0.isUserInteractionEnabled = false
     }
     
     private let dayLabel = LabelMaker(
@@ -68,6 +69,7 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
     private let flowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .vertical
         $0.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        $0.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         $0.sectionHeadersPinToVisibleBounds = true
     }
     
@@ -79,7 +81,7 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
         $0.showsVerticalScrollIndicator = false
         $0.backgroundColor = .clear
         $0.refreshControl = refresh
-        $0.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+//        $0.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         $0.register(withType: HomeForecastCell.self)
         $0.registerHeader(withType: ClosetFilterView.self)
         $0.register(withType: HomeClosetCell.self)
@@ -114,8 +116,6 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
             }
             $0.addItem(homeCollectionView).marginTop(14)
         }
-        
-        homeCollectionView.flex.grow(1).shrink(1)
     }
     
     override func viewBinding() {
@@ -213,6 +213,8 @@ extension NewHomeViewController: UICollectionViewDelegateFlowLayout {
                         )
                         $0.configureViewState(state: state)
                     }
+                let layout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
+                layout.sectionInset = UIEdgeInsets(top: 14, left: 20, bottom: 0, right: 20)
                 
                 if case .closet = dataSource[indexPath.section] {
                     header.itemTap
@@ -257,7 +259,7 @@ extension NewHomeViewController: UICollectionViewDelegateFlowLayout {
         }
         
         if case .closet = dataSource.sectionModels[indexPath.section] {
-            if indexPath.section != 0 {
+            if indexPath.row != 0 {
                 return CGSize(width: 158, height: 236)
             } else {
                 return CGSize(width: 158, height: 158)
@@ -267,8 +269,9 @@ extension NewHomeViewController: UICollectionViewDelegateFlowLayout {
         return .zero
     }
     
-    /// Spacing Size
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return .zero
-    }
+    /// Section Space Size
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat { .zero }
+    
+    /// Item Space Size
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat { 19 }
 }

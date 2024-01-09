@@ -24,14 +24,22 @@ public final class HomeClosetCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    public override func sizeThatFits(_ size: CGSize) -> CGSize {
+        self.bounds.size.width = size.width
+        contentView.flex.layout(mode: .adjustHeight)
+        return contentView.frame.size
+    }
+    
     public override func layoutSubviews() {
         super.layoutSubviews()
+        contentView.pin.all()
         contentView.flex.layout()
+        self.setCornerRadius(12)
     }
     
     func layout() {
         contentView.flex.define {
-            $0.addItem(cloth).width(158).height(236)
+            $0.addItem(cloth).grow(1)
         }
     }
     

@@ -7,6 +7,7 @@
 
 import UIKit
 import PinLayout
+import FlexLayout
 import Then
 
 public struct HomeForecastCellState {
@@ -46,24 +47,26 @@ public final class HomeForecastCell: UICollectionViewCell {
         $0.layer.masksToBounds = true
     }
     
-    override public init(frame: CGRect) {
+    public override init(frame: CGRect) {
         super.init(frame: .zero)
-        addSubViews()
-    }
-    
-    public init(state: HomeForecastCellState) {
-        super.init(frame: .zero)
-        addSubViews()
-        configureCellState(state: state)
+        layout()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    public override func sizeThatFits(_ size: CGSize) -> CGSize {
+        bounds.size.width = size.width
+        contentView.flex.layout()
+        return contentView.frame.size
+    }
+    
     override public func layoutSubviews() {
         super.layoutSubviews()
-        layout()
+        contentView.pin.all()
+        contentView.flex.layout()
+        self.setCornerRadius(14)
     }
     
     public func configureCellState(state: HomeForecastCellState) {
@@ -78,45 +81,18 @@ public final class HomeForecastCell: UICollectionViewCell {
 }
 
 private extension HomeForecastCell {
-    func addSubViews() {
-        addSubview(container)
-        container.addSubview(mainTempLabel)
-        container.addSubview(sensoryTempLabel)
-        container.addSubview(dailyTempLabel)
-        container.addSubview(weatherImage)
-        container.addSubview(commentLabel)
-        
-        self.setCornerRadius(14)
-    }
-    
     func layout() {
-        container.pin.all()
-        
-        mainTempLabel.pin
-            .top(27).left(20)
-            .size(68)
-        
-        sensoryTempLabel.pin
-            .after(of: mainTempLabel)
-            .marginLeft(18).top(38)
-            .width(42).height(17)
-        
-        dailyTempLabel.pin
-            .below(of: sensoryTempLabel)
-            .after(of: mainTempLabel)
-            .marginLeft(18).marginTop(5)
-            .width(60).height(19)
-        
-        weatherImage.pin
-            .top(27).right(20)
-            .width(110).height(74)
-        
-        commentLabel.pin
-            .bottom(20)
-            .vCenter()
-            .marginHorizontal(20)
-            .width(295)
-            .height(32)
+        contentView.flex.alignItems(.center).define {
+            $0.addItem().direction(.row).justifyContent(.spaceBetween).marginTop(27).define {
+                $0.addItem(mainTempLabel).marginLeft(20).size(68)
+                $0.addItem().marginLeft(18).grow(1).define { middle in
+                    middle.addItem(sensoryTempLabel)
+                    middle.addItem(dailyTempLabel).marginTop(5)
+                }
+                $0.addItem(weatherImage).marginRight(20).width(110).height(74)
+            }
+            $0.addItem(commentLabel).marginTop(4).marginHorizontal(20).grow(1)
+        }
     }
     
     func setWeather(weather: String, isDayTime: Bool) -> (UIColor, UIImage) {
