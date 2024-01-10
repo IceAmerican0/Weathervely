@@ -14,7 +14,7 @@ public enum HomeSection {
 
 public enum HomeSectionItem {
     case forecast(HomeForecastCellState)
-    case closet(RecommendClosetBody)
+    case closet(RecommendClosetInfo)
 }
 
 extension HomeSection: SectionModelType {

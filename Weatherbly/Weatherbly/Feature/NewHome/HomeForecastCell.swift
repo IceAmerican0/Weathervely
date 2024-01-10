@@ -41,8 +41,10 @@ public final class HomeForecastCell: UICollectionViewCell {
     
     private let commentLabel = LabelMaker(
         font: .body_3_M,
-        fontColor: .white
+        fontColor: .white,
+        alignment: .center
     ).make().then {
+        $0.backgroundColor = .black10
         $0.setCornerRadius(10.5)
         $0.layer.masksToBounds = true
     }
@@ -83,15 +85,15 @@ public final class HomeForecastCell: UICollectionViewCell {
 private extension HomeForecastCell {
     func layout() {
         contentView.flex.alignItems(.center).define {
-            $0.addItem().direction(.row).justifyContent(.spaceBetween).marginTop(27).define {
+            $0.addItem().direction(.row).justifyContent(.spaceBetween).alignItems(.center).marginTop(27).width(100%).define {
                 $0.addItem(mainTempLabel).marginLeft(20).size(68)
-                $0.addItem().marginLeft(18).grow(1).define { middle in
+                $0.addItem().marginTop(-10).marginLeft(18).grow(1).define { middle in
                     middle.addItem(sensoryTempLabel)
                     middle.addItem(dailyTempLabel).marginTop(5)
                 }
                 $0.addItem(weatherImage).marginRight(20).width(110).height(74)
             }
-            $0.addItem(commentLabel).marginTop(4).marginHorizontal(20).grow(1)
+            $0.addItem(commentLabel).alignSelf(.stretch).marginHorizontal(20).marginTop(4).height(32)
         }
     }
     

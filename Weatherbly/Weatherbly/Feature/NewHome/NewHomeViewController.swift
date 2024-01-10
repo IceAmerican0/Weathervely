@@ -69,7 +69,6 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
     private let flowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .vertical
         $0.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
-        $0.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         $0.sectionHeadersPinToVisibleBounds = true
     }
     
@@ -81,7 +80,6 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
         $0.showsVerticalScrollIndicator = false
         $0.backgroundColor = .clear
         $0.refreshControl = refresh
-//        $0.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         $0.register(withType: HomeForecastCell.self)
         $0.registerHeader(withType: ClosetFilterView.self)
         $0.register(withType: HomeClosetCell.self)
@@ -114,7 +112,7 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
                 date.addItem(timeLabel).marginLeft(12)
                 date.addItem(nextButton).marginLeft(16).size(28)
             }
-            $0.addItem(homeCollectionView).marginTop(14)
+            $0.addItem(homeCollectionView).marginTop(14).width(100%).grow(1)
         }
     }
     
@@ -155,7 +153,7 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
                 case .forecast:
                     owner.viewModel.toTendaysForecastView()
                 case .closet(let cellState):
-                    owner.viewModel.toDetailView(state: cellState.closets[indexPath.row])
+                    owner.viewModel.toDetailView(state: cellState)
                 }
             }.disposed(by: bag)
         
@@ -183,8 +181,8 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
 // MARK: UICollectionview UI & Delegate
 extension NewHomeViewController: UICollectionViewDelegateFlowLayout {
     func setDataSource() -> RxCollectionViewSectionedReloadDataSource<HomeSection> {
-        let dataSource = RxCollectionViewSectionedReloadDataSource<HomeSection>(configureCell: { [weak self] dataSource, collectionView, indexPath, _ in
-            guard let self else { return UICollectionViewCell() }
+        let dataSource = RxCollectionViewSectionedReloadDataSource<HomeSection> (configureCell: { [weak self] dataSource, collectionView, indexPath, item in
+            guard self != nil else { return UICollectionViewCell() }
             
             switch dataSource[indexPath] {
             case .forecast(let cellState):
@@ -195,13 +193,15 @@ extension NewHomeViewController: UICollectionViewDelegateFlowLayout {
                 return collectionView.dequeueCell(withType: HomeClosetCell.self, for: indexPath).then {
                     let row = indexPath.row
                     if row != 0 {
-                        $0.configureCellState(state: cellState.closets[row - 1])
+                        $0.configureCellState(state: cellState)
                     } else {
                         $0.cloth.image = .home_banner_01
                     }
                 }
             }
-        }, configureSupplementaryView: { dataSource, collectionView, kind, indexPath in
+        }, configureSupplementaryView: { [weak self] dataSource, collectionView, kind, indexPath -> UICollectionReusableView in
+            guard let self else { return UICollectionReusableView() }
+            
             switch kind {
             case UICollectionView.elementKindSectionHeader:
                 let header = collectionView.dequeueReusableHeaderView(
@@ -213,24 +213,22 @@ extension NewHomeViewController: UICollectionViewDelegateFlowLayout {
                         )
                         $0.configureViewState(state: state)
                     }
-                let layout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
-                layout.sectionInset = UIEdgeInsets(top: 14, left: 20, bottom: 0, right: 20)
                 
                 if case .closet = dataSource[indexPath.section] {
                     header.itemTap
                         .drive(with: self, onNext: { owner, _ in
                             owner.viewModel.buttonTapAction(action: .didTapItem)
-                        }).disposed(by: header.bag)
+                        }).disposed(by: bag)
                     
                     header.styleTap
                         .drive(with: self, onNext: { owner, _ in
                             owner.viewModel.buttonTapAction(action: .didTapStyle)
-                        }).disposed(by: header.bag)
+                        }).disposed(by: bag)
                     
                     header.filterTap
                         .drive(with: self, onNext: { owner, _ in
                             owner.viewModel.buttonTapAction(action: .didTapItem)
-                        }).disposed(by: header.bag)
+                        }).disposed(by: bag)
                     
                     return header
                 }
@@ -240,6 +238,7 @@ extension NewHomeViewController: UICollectionViewDelegateFlowLayout {
                 return UICollectionReusableView()
             }
         })
+        
         return dataSource
     }
     
@@ -255,7 +254,7 @@ extension NewHomeViewController: UICollectionViewDelegateFlowLayout {
     /// Cell Size
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if case .forecast = dataSource.sectionModels[indexPath.section] {
-            return CGSize(width: 335, height: 150)
+            return CGSize(width: view.frame.width - 40, height: 150)
         }
         
         if case .closet = dataSource.sectionModels[indexPath.section] {

@@ -25,31 +25,30 @@ public final class ClosetFilterView: UICollectionReusableView {
         var config = UIButton.Configuration.filled()
         config.imagePlacement = NSDirectionalRectEdge.trailing
         config.image = UIImage.home_drop_off
+        config.baseBackgroundColor = .gray10
+        config.background.cornerRadius = 14
         config.imagePadding = 4
         return config
     }()
     
-    private let handler: UIButton.ConfigurationUpdateHandler = { button in
-        if case .selected = button.state {
-            button.setTitleColor(.violet700, for: .normal)
-            button.configuration?.image = .home_drop_on
+    private let handler: UIButton.ConfigurationUpdateHandler = {
+        if case .selected = $0.state {
+            $0.setTitleColor(.violet700, for: .normal)
+            $0.configuration?.image = .home_drop_on
         } else {
-            button.setTitleColor(.black, for: .normal)
-            button.configuration?.image = .home_drop_off
+            $0.setTitleColor(.black, for: .normal)
+            $0.configuration?.image = .home_drop_off
         }
     }
     
     private lazy var styleFilterButton = UIButton(configuration: config).then {
-        $0.setCornerRadius(14)
-        $0.backgroundColor = .violet50
         $0.setTitle("스타일", for: .normal)
         $0.setTitleColor(.black, for: .normal)
+        $0.titleLabel?.font = .body_5_B
         $0.configurationUpdateHandler = handler
     }
     
     private lazy var itemFilterButton = UIButton(configuration: config).then {
-        $0.setCornerRadius(14)
-        $0.backgroundColor = .violet50
         $0.setTitle("아이템", for: .normal)
         $0.setTitleColor(.black, for: .normal)
         $0.configurationUpdateHandler = handler
@@ -117,11 +116,11 @@ extension ClosetFilterView {
         backgroundColor = .clear
         
         self.flex.addItem(container).direction(.row).alignItems(.center).define {
-            $0.addItem(styleFilterButton).width(80).height(29)
+            $0.addItem(styleFilterButton).marginLeft(20).width(80).height(29)
             $0.addItem(itemFilterButton).marginLeft(8).width(80).height(29)
             $0.addItem().grow(1)
         }.justifyContent(.spaceBetween).define {
-            $0.addItem(filterIcon).size(24)
+            $0.addItem(filterIcon).marginRight(20).size(24)
         }
     }
 }

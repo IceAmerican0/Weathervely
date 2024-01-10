@@ -75,9 +75,9 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
         ]
         
         guard let data = recommendedCloset.value else { return }
-        let closet: [HomeSection] = [
-            .closet(items: [.closet(data)])
-        ]
+        let closet: [HomeSection] = data.closets.map {
+            .closet(items: [.closet($0)])
+        }
         
         homeSections.accept((homeForecast + closet))
     }
