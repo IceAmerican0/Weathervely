@@ -70,16 +70,22 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     
     /// 홈 전체 정보 취합 후 DataSource Reload
     public func loadHome() {
+        /// 예보 Section 정보
         let homeForecast: [HomeSection] = [
             .forecast(items: [.forecast(selectedForecastViewState)])
         ]
         
+        /// 첫 Cell Banner 처리를 위한 Dummy Data 넣어줌(Banner + List)
+        var banner: [RecommendClosetInfo] = [.init(id: 0, name: "", shopName: "", shopUrl: "", imageUrl: "", status: "")]
         guard let data = recommendedCloset.value else { return }
-        let closet: [HomeSection] = data.closets.map {
-            .closet(items: [.closet($0)])
-        }
+        banner += data.closets
         
-        homeSections.accept((homeForecast + closet))
+        /// 추천 Section 정보
+        let closet: [HomeSection] = [
+            .closet(items: banner.map { .closet($0) })
+        ]
+        let combinedData = homeForecast + closet
+        homeSections.accept(combinedData)
     }
     
     /// 새로고침

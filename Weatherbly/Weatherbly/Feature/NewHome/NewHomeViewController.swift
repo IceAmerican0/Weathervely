@@ -58,7 +58,7 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
         alignment: .center
     ).make(text: "오전 9시")
     
-    private lazy var nextButton = UIButton().then {
+    private let nextButton = UIButton().then {
         $0.setImage(.home_date_right_nor, for: .normal)
     }
     
@@ -66,17 +66,10 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
         $0.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
     }
     
-    private let flowLayout = UICollectionViewFlowLayout().then {
-        $0.scrollDirection = .vertical
-        $0.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
-        $0.sectionHeadersPinToVisibleBounds = true
-    }
-    
     private lazy var homeCollectionView = UICollectionView(
         frame: .zero,
-        collectionViewLayout: flowLayout
+        collectionViewLayout: setLayout()
     ).then {
-        $0.delegate = self
         $0.showsVerticalScrollIndicator = false
         $0.backgroundColor = .clear
         $0.refreshControl = refresh
@@ -146,6 +139,10 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
         super.viewModelBinding()
         
         homeCollectionView.rx
+            .setDelegate(self)
+            .disposed(by: bag)
+        
+        homeCollectionView.rx
             .itemSelected
             .withUnretained(self)
             .subscribe { owner, indexPath in
@@ -178,10 +175,11 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
     }
 }
 
-// MARK: UICollectionview UI & Delegate
-extension NewHomeViewController: UICollectionViewDelegateFlowLayout {
+// MARK: UICollectionview DataSource & UI & Delegate
+extension NewHomeViewController: UICollectionViewDelegate {
+    // MARK: DataSource
     func setDataSource() -> RxCollectionViewSectionedReloadDataSource<HomeSection> {
-        let dataSource = RxCollectionViewSectionedReloadDataSource<HomeSection> (configureCell: { [weak self] dataSource, collectionView, indexPath, item in
+        RxCollectionViewSectionedReloadDataSource<HomeSection> (configureCell: { [weak self] dataSource, collectionView, indexPath, _ in
             guard self != nil else { return UICollectionViewCell() }
             
             switch dataSource[indexPath] {
@@ -199,7 +197,7 @@ extension NewHomeViewController: UICollectionViewDelegateFlowLayout {
                     }
                 }
             }
-        }, configureSupplementaryView: { [weak self] dataSource, collectionView, kind, indexPath -> UICollectionReusableView in
+        }, configureSupplementaryView: { [weak self] dataSource, collectionView, kind, indexPath in
             guard let self else { return UICollectionReusableView() }
             
             switch kind {
@@ -235,42 +233,88 @@ extension NewHomeViewController: UICollectionViewDelegateFlowLayout {
                 
                 return UICollectionReusableView()
             default:
-                return UICollectionReusableView()
+                fatalError("Cannot Generate SupplementaryView")
             }
         })
-        
-        return dataSource
     }
     
-    /// Header Size
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        if case .closet = dataSource[section] {
-            return CGSize(width: view.frame.width, height: 56)
-        } else {
-            return .zero
-        }
-    }
-    
-    /// Cell Size
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if case .forecast = dataSource.sectionModels[indexPath.section] {
-            return CGSize(width: view.frame.width - 40, height: 150)
-        }
-        
-        if case .closet = dataSource.sectionModels[indexPath.section] {
-            if indexPath.row != 0 {
-                return CGSize(width: 158, height: 236)
+    // MARK: UI
+    func setLayout() -> UICollectionViewCompositionalLayout {
+        UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ -> NSCollectionLayoutSection? in
+            if let section = self?.dataSource[sectionIndex] {
+                switch section {
+                case .forecast:
+                    return self?.setForecastLayout()
+                case .closet:
+                    return self?.setClosetLayout()
+                }
             } else {
-                return CGSize(width: 158, height: 158)
+                return nil
             }
         }
-        
-        return .zero
     }
     
-    /// Section Space Size
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat { .zero }
+    /// 예보 Cell Layout
+    func setForecastLayout() -> NSCollectionLayoutSection {
+        let cellSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .absolute(150)
+        )
+        
+        let item = NSCollectionLayoutItem(layoutSize: cellSize)
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: cellSize, subitems: [item])
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(
+            top: 0, leading: 20, bottom: 14, trailing: 20
+        )
+        return section
+    }
     
-    /// Item Space Size
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat { 19 }
+    /// 추천 Cell Layout
+    func setClosetLayout() -> NSCollectionLayoutSection {
+        let item = NSCollectionLayoutItem(
+            layoutSize: NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .fractionalHeight(1)
+            )
+        )
+        
+        let banner = NSCollectionLayoutItem(
+            layoutSize: NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .fractionalHeight(0.7)
+            )
+        )
+        
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .absolute(236)
+            ),
+            subitem: item,
+            count: 2
+        )
+        group.interItemSpacing = .fixed(19)
+        
+        let headerSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .estimated(56)
+        )
+        
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .top
+        )
+        sectionHeader.pinToVisibleBounds = true
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(
+            top: 0, leading: 20, bottom: 0, trailing: 20
+        )
+        section.interGroupSpacing = 19
+        section.boundarySupplementaryItems = [sectionHeader]
+        
+        return section
+    }
 }

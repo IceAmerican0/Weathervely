@@ -113,14 +113,14 @@ public final class ClosetFilterView: UICollectionReusableView {
 
 extension ClosetFilterView {
     func layout() {
-        backgroundColor = .clear
+        backgroundColor = .white
         
         self.flex.addItem(container).direction(.row).alignItems(.center).define {
-            $0.addItem(styleFilterButton).marginLeft(20).width(80).height(29)
+            $0.addItem(styleFilterButton).width(80).height(29)
             $0.addItem(itemFilterButton).marginLeft(8).width(80).height(29)
             $0.addItem().grow(1)
         }.justifyContent(.spaceBetween).define {
-            $0.addItem(filterIcon).marginRight(20).size(24)
+            $0.addItem(filterIcon).size(24)
         }
     }
 }

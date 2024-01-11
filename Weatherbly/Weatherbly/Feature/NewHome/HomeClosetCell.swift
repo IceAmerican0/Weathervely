@@ -13,7 +13,10 @@ import Kingfisher
 
 public final class HomeClosetCell: UICollectionViewCell {
     
-    let cloth = UIImageView()
+    let cloth = UIImageView().then {
+        $0.contentMode = .scaleAspectFit
+        $0.clipsToBounds = true
+    }
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -22,6 +25,10 @@ public final class HomeClosetCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    public override func prepareForReuse() {
+        super.prepareForReuse()
     }
     
     public override func sizeThatFits(_ size: CGSize) -> CGSize {
@@ -35,6 +42,7 @@ public final class HomeClosetCell: UICollectionViewCell {
         contentView.pin.all()
         contentView.flex.layout()
         self.setCornerRadius(12)
+        self.layer.masksToBounds = true
     }
     
     func layout() {
@@ -45,5 +53,6 @@ public final class HomeClosetCell: UICollectionViewCell {
     
     func configureCellState(state: RecommendClosetInfo) {
         cloth.setKF(urlString: state.imageUrl)
+        setNeedsLayout()
     }
 }
