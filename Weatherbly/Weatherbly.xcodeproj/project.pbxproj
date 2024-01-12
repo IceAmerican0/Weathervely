@@ -73,6 +73,7 @@
 		5CCC914B2A6114880025B522 /* RegionTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC914A2A6114880025B522 /* RegionTarget.swift */; };
 		5CCC91522A61197B0025B522 /* SearchRegionEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC91512A61197B0025B522 /* SearchRegionEntity.swift */; };
 		5CCC91562A613F010025B522 /* SettingRegionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC91552A613F010025B522 /* SettingRegionViewModel.swift */; };
+		5CDB15AF2B50D1F400470127 /* CAGradientLayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDB15AE2B50D1F400470127 /* CAGradientLayer+Extension.swift */; };
 		5CDE81CE2A89F4780099FF87 /* MainToolTipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE81CD2A89F4780099FF87 /* MainToolTipViewController.swift */; };
 		5CE0FEAD2A8DDE9200A0E655 /* AddressListEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE0FEAC2A8DDE9200A0E655 /* AddressListEntity.swift */; };
 		5CE0FEB02A8EEC0000A0E655 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5CE0FEAF2A8EEC0000A0E655 /* Kingfisher */; };
@@ -244,6 +245,7 @@
 		5CCC914A2A6114880025B522 /* RegionTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionTarget.swift; sourceTree = "<group>"; };
 		5CCC91512A61197B0025B522 /* SearchRegionEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRegionEntity.swift; sourceTree = "<group>"; };
 		5CCC91552A613F010025B522 /* SettingRegionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingRegionViewModel.swift; sourceTree = "<group>"; };
+		5CDB15AE2B50D1F400470127 /* CAGradientLayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CAGradientLayer+Extension.swift"; sourceTree = "<group>"; };
 		5CDE81CD2A89F4780099FF87 /* MainToolTipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainToolTipViewController.swift; sourceTree = "<group>"; };
 		5CE0FEAC2A8DDE9200A0E655 /* AddressListEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressListEntity.swift; sourceTree = "<group>"; };
 		5CE0FEB12A8F00F700A0E655 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
@@ -743,6 +745,7 @@
 		BD2D01A82A38881B003A25D5 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				5CDB15AE2B50D1F400470127 /* CAGradientLayer+Extension.swift */,
 				BD5D16922A63B3AD00435816 /* CALayer+Extension.swift */,
 				BD9191A52A973EBE00CBD595 /* Calendar+Extension.swift */,
 				BDF208FE2A4EAEF2001177B2 /* CGFloat+Extension.swift */,
@@ -1185,6 +1188,7 @@
 				5C9D02C42A6E61C700AF2DA3 /* SettingRegionCompleteViewModel.swift in Sources */,
 				BD5169472A5AA39000582BA9 /* EditNicknameViewController.swift in Sources */,
 				BD69B8F72A54337000DDCD7A /* SettingViewController.swift in Sources */,
+				5CDB15AF2B50D1F400470127 /* CAGradientLayer+Extension.swift in Sources */,
 				698F6CB22AE00FCC00C2B33A /* UIImage+Extension.swift in Sources */,
 				5C4A0ABD2B43ED8F006BE52A /* HomeForecastCell.swift in Sources */,
 				5C68E9212AF376080046D0BE /* ForcastUseCase.swift in Sources */,

@@ -210,4 +210,8 @@ public extension UIColor {
     static let pink700 = UIColor(named: "pink700")!
     static let pink800 = UIColor(named: "pink800")!
     static let pink900 = UIColor(named: "pink900")!
+    
+    static let gradient30 = UIColor(named: "gradient30")!
+    static let gradient40 = UIColor(named: "gradient40")!
+    static let gradient70 = UIColor(named: "gradient70")!
 }
