@@ -21,6 +21,11 @@ public final class ClosetFilterView: UICollectionReusableView {
     var bag = DisposeBag()
     private let container = UIView()
     
+    private var attributed: [NSAttributedString.Key: Any] = [
+        .font: UIFont.body_5_M,
+        .foregroundColor: UIColor.black
+    ]
+    
     private var config = {
         var config = UIButton.Configuration.filled()
         config.imagePlacement = NSDirectionalRectEdge.trailing
@@ -31,26 +36,32 @@ public final class ClosetFilterView: UICollectionReusableView {
         return config
     }()
     
-    private let handler: UIButton.ConfigurationUpdateHandler = {
+    private var handler: UIButton.ConfigurationUpdateHandler = {
+//        var attribute: [NSAttributedString.Key: Any] = [
+//            .font: UIFont.body_5_M,
+//            .foregroundColor: UIColor.black
+//        ]
+
         if case .selected = $0.state {
-            $0.setTitleColor(.violet700, for: .normal)
+//            attribute.updateValue(UIColor.violet700, forKey: .foregroundColor)
             $0.configuration?.image = .home_drop_on
         } else {
-            $0.setTitleColor(.black, for: .normal)
             $0.configuration?.image = .home_drop_off
         }
+        
+//        let attString = NSAttributedString(string: $0.titleLabel?.text ?? "", attributes: attribute)
+//        $0.setAttributedTitle(attString, for: .normal)
     }
     
     private lazy var styleFilterButton = UIButton(configuration: config).then {
-        $0.setTitle("스타일", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
-        $0.titleLabel?.font = .body_5_B
+        let attString = NSAttributedString(string: "스타일", attributes: attributed)
+        $0.setAttributedTitle(attString, for: .normal)
         $0.configurationUpdateHandler = handler
     }
     
     private lazy var itemFilterButton = UIButton(configuration: config).then {
-        $0.setTitle("아이템", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
+        let attString = NSAttributedString(string: "아이템", attributes: attributed)
+        $0.setAttributedTitle(attString, for: .normal)
         $0.configurationUpdateHandler = handler
     }
     

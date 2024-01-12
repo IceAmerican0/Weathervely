@@ -43,6 +43,7 @@ public final class HomeClosetCell: UICollectionViewCell {
         contentView.flex.layout()
         self.setCornerRadius(12)
         self.layer.masksToBounds = true
+        self.clipsToBounds = true
     }
     
     func layout() {
