@@ -74,6 +74,11 @@
 		5CCC91522A61197B0025B522 /* SearchRegionEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC91512A61197B0025B522 /* SearchRegionEntity.swift */; };
 		5CCC91562A613F010025B522 /* SettingRegionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC91552A613F010025B522 /* SettingRegionViewModel.swift */; };
 		5CDB15AF2B50D1F400470127 /* CAGradientLayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDB15AE2B50D1F400470127 /* CAGradientLayer+Extension.swift */; };
+		5CDCD7C92B54E7C8008465B9 /* ClosetFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDCD7C72B54E7C8008465B9 /* ClosetFilterViewController.swift */; };
+		5CDCD7CA2B54E7C8008465B9 /* ClosetFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDCD7C82B54E7C8008465B9 /* ClosetFilterViewModel.swift */; };
+		5CDCD7CC2B54EAC6008465B9 /* FilterListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDCD7CB2B54EAC6008465B9 /* FilterListCell.swift */; };
+		5CDCD7D42B552375008465B9 /* UnderlineTitleSegmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDCD7D32B552375008465B9 /* UnderlineTitleSegmentView.swift */; };
+		5CDCD7D62B5525CE008465B9 /* UnderlineTitleSegmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDCD7D52B5525CE008465B9 /* UnderlineTitleSegmentCell.swift */; };
 		5CDE81CE2A89F4780099FF87 /* MainToolTipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE81CD2A89F4780099FF87 /* MainToolTipViewController.swift */; };
 		5CE0FEAD2A8DDE9200A0E655 /* AddressListEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE0FEAC2A8DDE9200A0E655 /* AddressListEntity.swift */; };
 		5CE0FEB02A8EEC0000A0E655 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5CE0FEAF2A8EEC0000A0E655 /* Kingfisher */; };
@@ -246,6 +251,11 @@
 		5CCC91512A61197B0025B522 /* SearchRegionEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRegionEntity.swift; sourceTree = "<group>"; };
 		5CCC91552A613F010025B522 /* SettingRegionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingRegionViewModel.swift; sourceTree = "<group>"; };
 		5CDB15AE2B50D1F400470127 /* CAGradientLayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CAGradientLayer+Extension.swift"; sourceTree = "<group>"; };
+		5CDCD7C72B54E7C8008465B9 /* ClosetFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetFilterViewController.swift; sourceTree = "<group>"; };
+		5CDCD7C82B54E7C8008465B9 /* ClosetFilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetFilterViewModel.swift; sourceTree = "<group>"; };
+		5CDCD7CB2B54EAC6008465B9 /* FilterListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterListCell.swift; sourceTree = "<group>"; };
+		5CDCD7D32B552375008465B9 /* UnderlineTitleSegmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlineTitleSegmentView.swift; sourceTree = "<group>"; };
+		5CDCD7D52B5525CE008465B9 /* UnderlineTitleSegmentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlineTitleSegmentCell.swift; sourceTree = "<group>"; };
 		5CDE81CD2A89F4780099FF87 /* MainToolTipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainToolTipViewController.swift; sourceTree = "<group>"; };
 		5CE0FEAC2A8DDE9200A0E655 /* AddressListEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressListEntity.swift; sourceTree = "<group>"; };
 		5CE0FEB12A8F00F700A0E655 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
@@ -504,6 +514,33 @@
 			path = RegionAPI;
 			sourceTree = "<group>";
 		};
+		5CDCD7C62B54E767008465B9 /* Filter */ = {
+			isa = PBXGroup;
+			children = (
+				5C4A0ACA2B47D34A006BE52A /* ClosetFilterView.swift */,
+				5CDCD7C72B54E7C8008465B9 /* ClosetFilterViewController.swift */,
+				5CDCD7C82B54E7C8008465B9 /* ClosetFilterViewModel.swift */,
+				5CDCD7CB2B54EAC6008465B9 /* FilterListCell.swift */,
+			);
+			path = Filter;
+			sourceTree = "<group>";
+		};
+		5CDCD7CE2B5522C6008465B9 /* Organism */ = {
+			isa = PBXGroup;
+			children = (
+				5CDCD7D32B552375008465B9 /* UnderlineTitleSegmentView.swift */,
+				5CDCD7D52B5525CE008465B9 /* UnderlineTitleSegmentCell.swift */,
+			);
+			path = Organism;
+			sourceTree = "<group>";
+		};
+		5CDCD7CF2B5522CD008465B9 /* Molecule */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Molecule;
+			sourceTree = "<group>";
+		};
 		6987EBB72B41400600CF1E74 /* NewHome */ = {
 			isa = PBXGroup;
 			children = (
@@ -511,7 +548,6 @@
 				6987EBBB2B41409E00CF1E74 /* NewHomeViewModel.swift */,
 				5C4A0ABC2B43ED8F006BE52A /* HomeForecastCell.swift */,
 				5C4A0AC62B46832D006BE52A /* HomeClosetCell.swift */,
-				5C4A0ACA2B47D34A006BE52A /* ClosetFilterView.swift */,
 				693231632B4A80FE00816B7B /* HomeSection.swift */,
 			);
 			path = NewHome;
@@ -576,8 +612,8 @@
 		BD05E0742B38109100A48E61 /* Design System */ = {
 			isa = PBXGroup;
 			children = (
-				BD05E0782B3810EB00A48E61 /* Orginism */,
-				BD05E0772B3810AD00A48E61 /* Molecule */,
+				5CDCD7CE2B5522C6008465B9 /* Organism */,
+				5CDCD7CF2B5522CD008465B9 /* Molecule */,
 				BD05E0752B3810A400A48E61 /* Atom */,
 			);
 			path = "Design System";
@@ -592,20 +628,6 @@
 				BD05E07D2B3816BB00A48E61 /* NewCombiButton.swift */,
 			);
 			path = Atom;
-			sourceTree = "<group>";
-		};
-		BD05E0772B3810AD00A48E61 /* Molecule */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Molecule;
-			sourceTree = "<group>";
-		};
-		BD05E0782B3810EB00A48E61 /* Orginism */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Orginism;
 			sourceTree = "<group>";
 		};
 		BD2D017C2A388753003A25D5 = {
@@ -650,6 +672,7 @@
 		BD2D019C2A3887A3003A25D5 /* Feature */ = {
 			isa = PBXGroup;
 			children = (
+				5CDCD7C62B54E767008465B9 /* Filter */,
 				6987EBB72B41400600CF1E74 /* NewHome */,
 				698F6CAA2ADD6EC200C2B33A /* Trend */,
 				69C714D02ADD60C500748CF6 /* TabBar */,
@@ -1092,6 +1115,7 @@
 				5CAB60D32A54FC6A00CD431A /* UITableViewCell+Extension.swift in Sources */,
 				5C2AD74A2AC2B64C006BFF81 /* FSPageControl.swift in Sources */,
 				5C9D02C82A6FC45300AF2DA3 /* EditRegionTableViewCell.swift in Sources */,
+				5CDCD7D62B5525CE008465B9 /* UnderlineTitleSegmentCell.swift in Sources */,
 				BDAEBC9F2A8F5EE4002E10F2 /* WeatherMessageEnum.swift in Sources */,
 				5C4A0ACB2B47D34A006BE52A /* ClosetFilterView.swift in Sources */,
 				BD2D01B42A3888AA003A25D5 /* UIColor+Extension.swift in Sources */,
@@ -1105,6 +1129,7 @@
 				5CAB60B92A4563B300CD431A /* NSMutableAttributedString+Extension.swift in Sources */,
 				5CC61E282A5BDCCC001435E6 /* UIViewController+Extension.swift in Sources */,
 				690B6EF12AAA0F2D00D54ABC /* ForceUpdateViewController.swift in Sources */,
+				5CDCD7CA2B54E7C8008465B9 /* ClosetFilterViewModel.swift in Sources */,
 				69D25C982AD04F6300C17FB1 /* EmptyEntity.swift in Sources */,
 				5C9D02D92A71F27B00AF2DA3 /* AuthDataSource.swift in Sources */,
 				69D25C992AD04F6300C17FB1 /* KakaoErrorResponse.swift in Sources */,
@@ -1141,6 +1166,7 @@
 				69A7F0E42A8208DB00834974 /* UserInfoRequest.swift in Sources */,
 				5C2AD7482AC2B64C006BFF81 /* FSPagerViewLayoutAttributes.swift in Sources */,
 				BD4AC3912A66899500537583 /* UILabel+Extension.swift in Sources */,
+				5CDCD7CC2B54EAC6008465B9 /* FilterListCell.swift in Sources */,
 				5C2AD7472AC2B64C006BFF81 /* FSPagerViewCell.swift in Sources */,
 				69FDD4CC2A407FA400830927 /* CSProgressView.swift in Sources */,
 				BD77B8282A388C9400E7D57A /* CSColor.swift in Sources */,
@@ -1153,6 +1179,7 @@
 				5CC61E1F2A56850F001435E6 /* DateFormatter+Extension.swift in Sources */,
 				6987EBBC2B41409E00CF1E74 /* NewHomeViewController.swift in Sources */,
 				BD2D01892A388753003A25D5 /* AppDelegate.swift in Sources */,
+				5CDCD7D42B552375008465B9 /* UnderlineTitleSegmentView.swift in Sources */,
 				5CADDD282A9DDF9900EAB678 /* Constants.swift in Sources */,
 				69A3D9EB2B484D2A00CA1FD5 /* UICollectionReusableView+Extension.swift in Sources */,
 				BD05E07E2B3816BB00A48E61 /* NewCombiButton.swift in Sources */,
@@ -1198,6 +1225,7 @@
 				BD5169512A5EB48D00582BA9 /* ChangeNicknameViewModel.swift in Sources */,
 				69FDD4C62A39E42900830927 /* NicknameViewController.swift in Sources */,
 				693231642B4A80FE00816B7B /* HomeSection.swift in Sources */,
+				5CDCD7C92B54E7C8008465B9 /* ClosetFilterViewController.swift in Sources */,
 				69CCF1CB2A63CA5000756127 /* RegionDataSource.swift in Sources */,
 				696176B42A63E3C000B83B4C /* BaseDisposeBag.swift in Sources */,
 				5C2AD74B2AC2B64C006BFF81 /* FSPagerViewObjcCompat.m in Sources */,

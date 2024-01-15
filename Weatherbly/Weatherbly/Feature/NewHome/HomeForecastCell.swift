@@ -20,8 +20,6 @@ public struct HomeForecastCellState {
 }
 
 public final class HomeForecastCell: UICollectionViewCell {
-    private let container = UIView()
-    
     private let mainTempLabel = LabelMaker(
         font: .heading_1_UL,
         fontColor: .white
@@ -79,9 +77,8 @@ public final class HomeForecastCell: UICollectionViewCell {
         dailyTempLabel.text = "\(state.minTemp)° / \(state.maxTemp)°"
         commentLabel.text = state.comment
         
-        let (color, image) = setWeather(weather: state.weather, isDayTime: state.isDayTime)
+        let (gradient, image) = setWeather(weather: state.weather, isDayTime: state.isDayTime)
         weatherImage.image = image
-        let gradient = CAGradientLayer.gradient10
         gradient.frame = bounds
         gradient.bounds = bounds.insetBy(
             dx: (-0.5 * bounds.size.width),

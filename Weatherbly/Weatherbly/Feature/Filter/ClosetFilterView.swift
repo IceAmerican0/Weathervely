@@ -22,7 +22,7 @@ public final class ClosetFilterView: UICollectionReusableView {
     private let container = UIView()
     
     private var attributed: [NSAttributedString.Key: Any] = [
-        .font: UIFont.body_5_M,
+        .font: UIFont.body_5_B,
         .foregroundColor: UIColor.black
     ]
     
@@ -36,34 +36,9 @@ public final class ClosetFilterView: UICollectionReusableView {
         return config
     }()
     
-    private var handler: UIButton.ConfigurationUpdateHandler = {
-//        var attribute: [NSAttributedString.Key: Any] = [
-//            .font: UIFont.body_5_M,
-//            .foregroundColor: UIColor.black
-//        ]
-
-        if case .selected = $0.state {
-//            attribute.updateValue(UIColor.violet700, forKey: .foregroundColor)
-            $0.configuration?.image = .home_drop_on
-        } else {
-            $0.configuration?.image = .home_drop_off
-        }
-        
-//        let attString = NSAttributedString(string: $0.titleLabel?.text ?? "", attributes: attribute)
-//        $0.setAttributedTitle(attString, for: .normal)
-    }
+    private lazy var styleFilterButton = UIButton()
     
-    private lazy var styleFilterButton = UIButton(configuration: config).then {
-        let attString = NSAttributedString(string: "스타일", attributes: attributed)
-        $0.setAttributedTitle(attString, for: .normal)
-        $0.configurationUpdateHandler = handler
-    }
-    
-    private lazy var itemFilterButton = UIButton(configuration: config).then {
-        let attString = NSAttributedString(string: "아이템", attributes: attributed)
-        $0.setAttributedTitle(attString, for: .normal)
-        $0.configurationUpdateHandler = handler
-    }
+    private lazy var itemFilterButton = UIButton()
     
     private let filterIcon = UIButton().then {
         $0.setImage(.home_option, for: .normal)
@@ -108,16 +83,31 @@ public final class ClosetFilterView: UICollectionReusableView {
     }
     
     public func configureViewState(state: ClosetFilterViewState) {
-        if state.styleFilter {
-            styleFilterButton.isSelected = true
-        } else {
-            styleFilterButton.isSelected = false
-        }
+        styleFilterButton.configuration = config
+        itemFilterButton.configuration = config
         
-        if state.itemFilter {
-            itemFilterButton.isSelected = true
+        var attString: NSAttributedString
+        var (color, image) = buttonState(state: state.styleFilter)
+        
+        styleFilterButton.configuration?.baseBackgroundColor = color
+        styleFilterButton.configuration?.image = image
+        attString = NSAttributedString(string: "스타일", attributes: attributed)
+        styleFilterButton.setAttributedTitle(attString, for: .normal)
+        
+        (color, image) = buttonState(state: state.itemFilter)
+        itemFilterButton.configuration?.baseBackgroundColor = color
+        itemFilterButton.configuration?.image = image
+        attString = NSAttributedString(string: "아이템", attributes: attributed)
+        itemFilterButton.setAttributedTitle(attString, for: .normal)
+    }
+    
+    private func buttonState(state: Bool) -> (UIColor,UIImage) {
+        if state {
+            attributed.updateValue(UIColor.violet700, forKey: .foregroundColor)
+            return (.violet50, .home_drop_on)
         } else {
-            itemFilterButton.isSelected = false
+            attributed.updateValue(UIColor.black, forKey: .foregroundColor)
+            return (.gray10, .home_drop_off)
         }
     }
 }

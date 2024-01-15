@@ -206,7 +206,7 @@ extension NewHomeViewController: UICollectionViewDelegate {
                     withType: ClosetFilterView.self,
                     for: indexPath).then {
                         let state: ClosetFilterViewState = .init(
-                            styleFilter: self.viewModel.filteredStyle,
+                            styleFilter: true,
                             itemFilter: self.viewModel.filteredItem
                         )
                         $0.configureViewState(state: state)

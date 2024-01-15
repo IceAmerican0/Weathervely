@@ -116,7 +116,7 @@ final public class NewCSButton: UIButton {
             self.setBackgroundColor(UIColor(resource: .violet100))
             self.setTitleColor(UIColor(resource: .violet800), for: .normal)
         }
-        
+        self.titleLabel?.font = font
     }
 }
 
