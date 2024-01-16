@@ -29,6 +29,7 @@ public class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitiali
         
         /// attribute, layout, bind 를 호출해서 필요한 코드를 작성하면 된다.
         codeBaseInitializer()
+        print(#function , "RxVC INit")
     }
     
     required init?(coder: NSCoder) {
@@ -53,7 +54,9 @@ public class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitiali
     }
  
     // MARK: - Attribute
-    func attribute() { }
+    func attribute() { 
+        print(#function ,"RxBaseViewCon")
+    }
     
     // MARK: - Layout
     func layout() { }
