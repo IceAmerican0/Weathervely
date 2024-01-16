@@ -1,5 +1,5 @@
 //
-//  ClosetFilterView.swift
+//  ClosetFilterHeaderView.swift
 //  Weatherbly
 //
 //  Created by Khai on 1/5/24.
@@ -12,12 +12,12 @@ import Then
 import RxSwift
 import RxCocoa
 
-public struct ClosetFilterViewState {
+public struct ClosetFilterHeaderViewState {
     let styleFilter: Bool
     let itemFilter: Bool
 }
 
-public final class ClosetFilterView: UICollectionReusableView {
+public final class ClosetFilterHeaderView: UICollectionReusableView {
     var bag = DisposeBag()
     private let container = UIView()
     
@@ -82,7 +82,7 @@ public final class ClosetFilterView: UICollectionReusableView {
         return CGSize(width: size.width, height: 56)
     }
     
-    public func configureViewState(state: ClosetFilterViewState) {
+    public func configureViewState(state: ClosetFilterHeaderViewState) {
         styleFilterButton.configuration = config
         itemFilterButton.configuration = config
         
@@ -112,7 +112,7 @@ public final class ClosetFilterView: UICollectionReusableView {
     }
 }
 
-extension ClosetFilterView {
+extension ClosetFilterHeaderView {
     func layout() {
         backgroundColor = .white
         

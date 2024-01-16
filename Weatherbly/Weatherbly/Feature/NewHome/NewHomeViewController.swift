@@ -74,20 +74,11 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
         $0.backgroundColor = .clear
         $0.refreshControl = refresh
         $0.register(withType: HomeForecastCell.self)
-        $0.registerHeader(withType: ClosetFilterView.self)
+        $0.registerHeader(withType: ClosetFilterHeaderView.self)
         $0.register(withType: HomeClosetCell.self)
     }
     
     private lazy var dataSource = setDataSource()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
-    public override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: animated)
-    }
 
     override func layout() {
         super.layout()
@@ -203,10 +194,10 @@ extension NewHomeViewController: UICollectionViewDelegate {
             switch kind {
             case UICollectionView.elementKindSectionHeader:
                 let header = collectionView.dequeueReusableHeaderView(
-                    withType: ClosetFilterView.self,
+                    withType: ClosetFilterHeaderView.self,
                     for: indexPath).then {
-                        let state: ClosetFilterViewState = .init(
-                            styleFilter: true,
+                        let state: ClosetFilterHeaderViewState = .init(
+                            styleFilter: self.viewModel.filteredStyle,
                             itemFilter: self.viewModel.filteredItem
                         )
                         $0.configureViewState(state: state)

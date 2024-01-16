@@ -33,7 +33,7 @@
 		5C4A0ABB2B3ABA56006BE52A /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5C4A0ABA2B3ABA56006BE52A /* Colors.xcassets */; };
 		5C4A0ABD2B43ED8F006BE52A /* HomeForecastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4A0ABC2B43ED8F006BE52A /* HomeForecastCell.swift */; };
 		5C4A0AC72B46832D006BE52A /* HomeClosetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4A0AC62B46832D006BE52A /* HomeClosetCell.swift */; };
-		5C4A0ACB2B47D34A006BE52A /* ClosetFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4A0ACA2B47D34A006BE52A /* ClosetFilterView.swift */; };
+		5C4A0ACB2B47D34A006BE52A /* ClosetFilterHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4A0ACA2B47D34A006BE52A /* ClosetFilterHeaderView.swift */; };
 		5C4BE89B2A5E2D1200FD2CEF /* EditRegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4BE89A2A5E2D1200FD2CEF /* EditRegionViewController.swift */; };
 		5C4BE89D2A5E63C000FD2CEF /* RegionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4BE89C2A5E63C000FD2CEF /* RegionTableViewCell.swift */; };
 		5C68E9212AF376080046D0BE /* ForcastUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C68E9202AF376080046D0BE /* ForcastUseCase.swift */; };
@@ -78,7 +78,12 @@
 		5CDCD7CA2B54E7C8008465B9 /* ClosetFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDCD7C82B54E7C8008465B9 /* ClosetFilterViewModel.swift */; };
 		5CDCD7CC2B54EAC6008465B9 /* FilterListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDCD7CB2B54EAC6008465B9 /* FilterListCell.swift */; };
 		5CDCD7D42B552375008465B9 /* UnderlineTitleSegmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDCD7D32B552375008465B9 /* UnderlineTitleSegmentView.swift */; };
-		5CDCD7D62B5525CE008465B9 /* UnderlineTitleSegmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDCD7D52B5525CE008465B9 /* UnderlineTitleSegmentCell.swift */; };
+		5CDCD7DB2B564144008465B9 /* FilterListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDCD7D92B564144008465B9 /* FilterListViewController.swift */; };
+		5CDCD7DC2B564144008465B9 /* FilterListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDCD7DA2B564144008465B9 /* FilterListViewModel.swift */; };
+		5CDCD7DE2B564A89008465B9 /* FilterListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDCD7DD2B564A89008465B9 /* FilterListHeaderView.swift */; };
+		5CDCD7E02B566C04008465B9 /* FilterSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDCD7DF2B566C04008465B9 /* FilterSection.swift */; };
+		5CDCD7E22B566F87008465B9 /* FilterItemListEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDCD7E12B566F87008465B9 /* FilterItemListEntity.swift */; };
+		5CDCD7E42B56782F008465B9 /* FilterStyleListEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDCD7E32B56782F008465B9 /* FilterStyleListEntity.swift */; };
 		5CDE81CE2A89F4780099FF87 /* MainToolTipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE81CD2A89F4780099FF87 /* MainToolTipViewController.swift */; };
 		5CE0FEAD2A8DDE9200A0E655 /* AddressListEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE0FEAC2A8DDE9200A0E655 /* AddressListEntity.swift */; };
 		5CE0FEB02A8EEC0000A0E655 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5CE0FEAF2A8EEC0000A0E655 /* Kingfisher */; };
@@ -211,7 +216,7 @@
 		5C4A0ABA2B3ABA56006BE52A /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		5C4A0ABC2B43ED8F006BE52A /* HomeForecastCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeForecastCell.swift; sourceTree = "<group>"; };
 		5C4A0AC62B46832D006BE52A /* HomeClosetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeClosetCell.swift; sourceTree = "<group>"; };
-		5C4A0ACA2B47D34A006BE52A /* ClosetFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetFilterView.swift; sourceTree = "<group>"; };
+		5C4A0ACA2B47D34A006BE52A /* ClosetFilterHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetFilterHeaderView.swift; sourceTree = "<group>"; };
 		5C4BE89A2A5E2D1200FD2CEF /* EditRegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRegionViewController.swift; sourceTree = "<group>"; };
 		5C4BE89C2A5E63C000FD2CEF /* RegionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionTableViewCell.swift; sourceTree = "<group>"; };
 		5C68E9202AF376080046D0BE /* ForcastUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForcastUseCase.swift; sourceTree = "<group>"; };
@@ -255,7 +260,12 @@
 		5CDCD7C82B54E7C8008465B9 /* ClosetFilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetFilterViewModel.swift; sourceTree = "<group>"; };
 		5CDCD7CB2B54EAC6008465B9 /* FilterListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterListCell.swift; sourceTree = "<group>"; };
 		5CDCD7D32B552375008465B9 /* UnderlineTitleSegmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlineTitleSegmentView.swift; sourceTree = "<group>"; };
-		5CDCD7D52B5525CE008465B9 /* UnderlineTitleSegmentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlineTitleSegmentCell.swift; sourceTree = "<group>"; };
+		5CDCD7D92B564144008465B9 /* FilterListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterListViewController.swift; sourceTree = "<group>"; };
+		5CDCD7DA2B564144008465B9 /* FilterListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterListViewModel.swift; sourceTree = "<group>"; };
+		5CDCD7DD2B564A89008465B9 /* FilterListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterListHeaderView.swift; sourceTree = "<group>"; };
+		5CDCD7DF2B566C04008465B9 /* FilterSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSection.swift; sourceTree = "<group>"; };
+		5CDCD7E12B566F87008465B9 /* FilterItemListEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterItemListEntity.swift; sourceTree = "<group>"; };
+		5CDCD7E32B56782F008465B9 /* FilterStyleListEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterStyleListEntity.swift; sourceTree = "<group>"; };
 		5CDE81CD2A89F4780099FF87 /* MainToolTipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainToolTipViewController.swift; sourceTree = "<group>"; };
 		5CE0FEAC2A8DDE9200A0E655 /* AddressListEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressListEntity.swift; sourceTree = "<group>"; };
 		5CE0FEB12A8F00F700A0E655 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
@@ -517,10 +527,14 @@
 		5CDCD7C62B54E767008465B9 /* Filter */ = {
 			isa = PBXGroup;
 			children = (
-				5C4A0ACA2B47D34A006BE52A /* ClosetFilterView.swift */,
+				5C4A0ACA2B47D34A006BE52A /* ClosetFilterHeaderView.swift */,
 				5CDCD7C72B54E7C8008465B9 /* ClosetFilterViewController.swift */,
 				5CDCD7C82B54E7C8008465B9 /* ClosetFilterViewModel.swift */,
+				5CDCD7D92B564144008465B9 /* FilterListViewController.swift */,
+				5CDCD7DA2B564144008465B9 /* FilterListViewModel.swift */,
+				5CDCD7DD2B564A89008465B9 /* FilterListHeaderView.swift */,
 				5CDCD7CB2B54EAC6008465B9 /* FilterListCell.swift */,
+				5CDCD7DF2B566C04008465B9 /* FilterSection.swift */,
 			);
 			path = Filter;
 			sourceTree = "<group>";
@@ -529,7 +543,6 @@
 			isa = PBXGroup;
 			children = (
 				5CDCD7D32B552375008465B9 /* UnderlineTitleSegmentView.swift */,
-				5CDCD7D52B5525CE008465B9 /* UnderlineTitleSegmentCell.swift */,
 			);
 			path = Organism;
 			sourceTree = "<group>";
@@ -855,6 +868,8 @@
 				BD6135D22A7E3C9C00DB3DF9 /* RecommendClosetEntity.swift */,
 				BD4907302A83C3C00027DEE8 /* SensoryTempClosetEntity.swift */,
 				BD2D11BD2A9AEDCE008CBF0D /* SevenDayForecastInfoEntity.swift */,
+				5CDCD7E12B566F87008465B9 /* FilterItemListEntity.swift */,
+				5CDCD7E32B56782F008465B9 /* FilterStyleListEntity.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -1099,6 +1114,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5CC61E262A5BC223001435E6 /* SettingRegionViewController.swift in Sources */,
+				5CDCD7DE2B564A89008465B9 /* FilterListHeaderView.swift in Sources */,
 				6987EBBD2B41409E00CF1E74 /* NewHomeViewModel.swift in Sources */,
 				BD69B8F92A553A0C00DDCD7A /* CSNavigationView.swift in Sources */,
 				5CE0FEB62A8F401100A0E655 /* PrivatePolicyViewModel.swift in Sources */,
@@ -1115,9 +1131,9 @@
 				5CAB60D32A54FC6A00CD431A /* UITableViewCell+Extension.swift in Sources */,
 				5C2AD74A2AC2B64C006BFF81 /* FSPageControl.swift in Sources */,
 				5C9D02C82A6FC45300AF2DA3 /* EditRegionTableViewCell.swift in Sources */,
-				5CDCD7D62B5525CE008465B9 /* UnderlineTitleSegmentCell.swift in Sources */,
 				BDAEBC9F2A8F5EE4002E10F2 /* WeatherMessageEnum.swift in Sources */,
-				5C4A0ACB2B47D34A006BE52A /* ClosetFilterView.swift in Sources */,
+				5C4A0ACB2B47D34A006BE52A /* ClosetFilterHeaderView.swift in Sources */,
+				5CDCD7E42B56782F008465B9 /* FilterStyleListEntity.swift in Sources */,
 				BD2D01B42A3888AA003A25D5 /* UIColor+Extension.swift in Sources */,
 				BD2D018D2A388753003A25D5 /* HomeViewController.swift in Sources */,
 				5CAB60BF2A4D6A9D00CD431A /* ClosetFSPagerViewCell.swift in Sources */,
@@ -1125,6 +1141,7 @@
 				5C9D02D72A71EEC900AF2DA3 /* AuthTarget.swift in Sources */,
 				5CCC914B2A6114880025B522 /* RegionTarget.swift in Sources */,
 				BD2D11BC2A9AEB0D008CBF0D /* TenDaysForecastViewModel.swift in Sources */,
+				5CDCD7DC2B564144008465B9 /* FilterListViewModel.swift in Sources */,
 				5CCC91522A61197B0025B522 /* SearchRegionEntity.swift in Sources */,
 				5CAB60B92A4563B300CD431A /* NSMutableAttributedString+Extension.swift in Sources */,
 				5CC61E282A5BDCCC001435E6 /* UIViewController+Extension.swift in Sources */,
@@ -1194,6 +1211,7 @@
 				5C2AD7452AC2B64C006BFF81 /* FSPagerView.swift in Sources */,
 				5C9D02E82A72426D00AF2DA3 /* ClosetDataSource.swift in Sources */,
 				5CC61E212A579D66001435E6 /* DailyForecastViewController.swift in Sources */,
+				5CDCD7E02B566C04008465B9 /* FilterSection.swift in Sources */,
 				BD05E0722B380C9400A48E61 /* NewCSLabel.swift in Sources */,
 				5CAB60C32A528C7A00CD431A /* UICollectionView+Extension.swift in Sources */,
 				698F6CA92ADD624C00C2B33A /* Tab.swift in Sources */,
@@ -1212,9 +1230,11 @@
 				5CCC91562A613F010025B522 /* SettingRegionViewModel.swift in Sources */,
 				BD7DAB312A70DEF400422D25 /* ForeCastTarget.swift in Sources */,
 				BD77B82E2A388D2E00E7D57A /* HomeViewModel.swift in Sources */,
+				5CDCD7E22B566F87008465B9 /* FilterItemListEntity.swift in Sources */,
 				5C9D02C42A6E61C700AF2DA3 /* SettingRegionCompleteViewModel.swift in Sources */,
 				BD5169472A5AA39000582BA9 /* EditNicknameViewController.swift in Sources */,
 				BD69B8F72A54337000DDCD7A /* SettingViewController.swift in Sources */,
+				5CDCD7DB2B564144008465B9 /* FilterListViewController.swift in Sources */,
 				5CDB15AF2B50D1F400470127 /* CAGradientLayer+Extension.swift in Sources */,
 				698F6CB22AE00FCC00C2B33A /* UIImage+Extension.swift in Sources */,
 				5C4A0ABD2B43ED8F006BE52A /* HomeForecastCell.swift in Sources */,

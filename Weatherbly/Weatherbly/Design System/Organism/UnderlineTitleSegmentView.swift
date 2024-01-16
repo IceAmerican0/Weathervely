@@ -6,41 +6,30 @@
 //
 
 import UIKit
-import FlexLayout
-import PinLayout
+import Then
 
-public struct UnderlineTitleSegmentItem {
-    let title: String
-    var selected = false
-    var pageIndex: Int
-}
-
-public protocol UnderlineTitleSegmentDelegate: AnyObject {
-    func selectedItem(item: UnderlineTitleSegmentItem)
-}
-
-final class UnderlineTitleSegmentView: UIView {
-    weak var delegate: UnderlineTitleSegmentDelegate?
+final class UnderlineTitleSegmentView: UISegmentedControl {
     
-    private let container = UIView()
-    private let underline = UIView().then {
+    private lazy var underline = UIView().then {
+        let width = bounds.size.width / CGFloat(numberOfSegments)
+        let height = 2.0
+        let xCoordinate = CGFloat(selectedSegmentIndex * Int(width))
+        let yCoordinate = bounds.size.height
+        let frame = CGRect(x: xCoordinate, y: yCoordinate, width: width, height: height)
+        let view = UIView(frame: frame)
         $0.backgroundColor = .gray600
         $0.setCornerRadius(1)
+        $0.isHidden = true
     }
     
-    private lazy var segmentView = UICollectionView(
-        frame: .zero,
-        collectionViewLayout: setCompositionalLayout()
-    ).then { [weak self] in
-        $0.backgroundColor = .clear
-        $0.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        $0.bounces = false
-        $0.register(withType: UnderlineTitleSegmentCell.self)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setDefault()
     }
     
-    init() {
-        super.init(frame: .zero)
-        layout()
+    override init(items: [Any]?) {
+        super.init(items: items)
+        setDefault()
     }
     
     required init?(coder: NSCoder) {
@@ -49,33 +38,26 @@ final class UnderlineTitleSegmentView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-    }
-    
-    private func layout() {
-        addSubviews(container)
-        container.flex.define {
-            $0.addItem(segmentView).marginHorizontal(0).height(48)
-        }
-    }
-    
-    private func setCompositionalLayout() -> UICollectionViewCompositionalLayout {
-        let itemSize = NSCollectionLayoutSize(
-            widthDimension: .estimated(10),
-            heightDimension: .fractionalHeight(1))
+        addSubview(underline)
         
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: itemSize,
-            subitems: [item]
+        let xCoordinate = (bounds.width / CGFloat(numberOfSegments)) * CGFloat(selectedSegmentIndex)
+        UIView.animate(
+          withDuration: 0.1,
+          animations: {
+              self.underline.frame.origin.x = xCoordinate
+          }
         )
+    }
+    
+    private func setDefault() {
+        let image = UIImage()
         
-        let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = 0
-        section.contentInsets = .zero
+        /// 배경 제거
+        setBackgroundImage(image, for: .normal, barMetrics: .default)
+        setBackgroundImage(image, for: .selected, barMetrics: .default)
+        setBackgroundImage(image, for: .highlighted, barMetrics: .default)
         
-        let config = UICollectionViewCompositionalLayoutConfiguration()
-        config.scrollDirection = .horizontal
-        
-        return UICollectionViewCompositionalLayout(section: section, configuration: config)
+        /// 구분선 제거
+        setDividerImage(image, forLeftSegmentState: .selected, rightSegmentState: .normal, barMetrics: .default)
     }
 }

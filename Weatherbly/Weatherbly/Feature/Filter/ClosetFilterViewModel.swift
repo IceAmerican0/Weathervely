@@ -6,19 +6,32 @@
 //
 
 import UIKit
+import RxCocoa
 
 protocol ClosetFilterViewModelLogic: ViewModelBusinessLogic {
     func didTapReset()
     func didTapConfirm()
+    
+    var styleFilterList: PublishRelay<[String: String]> { get }
+    var itemFilterList: PublishRelay<[String: String]> { get }
 }
 
 final class ClosetFilterViewModel: RxBaseViewModel, ClosetFilterViewModelLogic {
+    var styleFilterList: PublishRelay<[String : String]>
+    var itemFilterList: PublishRelay<[String : String]>
+    
+    override init() {
+        self.styleFilterList = .init()
+        self.itemFilterList = .init()
+        super.init()
+    }
+    
     /// 초기화
     func didTapReset() {
         
     }
     
-    /// 코디 필터
+    /// 필터 완료
     func didTapConfirm() {
         
     }
