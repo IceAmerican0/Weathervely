@@ -30,6 +30,7 @@ extension UIFont {
     static let title_1_B    = UIFont(name: GothicNeo.bold,       size: 20)!
     static let title_1_M    = UIFont(name: GothicNeo.medium,     size: 20)!
     static let title_2_B    = UIFont(name: GothicNeo.bold,       size: 18)!
+    static let title_2_SB   = UIFont(name: GothicNeo.semiBold,   size: 18)!
     static let title_2_M    = UIFont(name: GothicNeo.medium,     size: 18)!
     static let title_3_B    = UIFont(name: GothicNeo.bold,       size: 17)!
     static let title_3_M    = UIFont(name: GothicNeo.medium,     size: 17)!
@@ -59,6 +60,7 @@ extension UIFont {
         case .title_1_B:    26
         case .title_1_M:    26
         case .title_2_B:    24
+        case .title_2_SB:   24
         case .title_2_M:    24
         case .title_3_B:    23
         case .title_3_M:    23

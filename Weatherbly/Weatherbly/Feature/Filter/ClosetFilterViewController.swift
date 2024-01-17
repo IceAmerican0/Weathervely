@@ -13,6 +13,21 @@ import RxCocoa
 
 final class ClosetFilterViewController: RxBaseViewController<ClosetFilterViewModel> {
     private let segmentView = UnderlineTitleSegmentView(items: ["스타일", "아이템"]).then {
+        $0.setTitleTextAttributes(
+            [
+                .font: UIFont.title_2_SB,
+                NSAttributedString.Key.foregroundColor: UIColor.gray80
+            ],
+            for: .normal
+        )
+        $0.setTitleTextAttributes(
+            [
+                .font: UIFont.title_2_B,
+                NSAttributedString.Key.foregroundColor: UIColor.gray600
+            ],
+            for: .selected
+        )
+        $0.selectedSegmentIndex = 0
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
@@ -47,9 +62,9 @@ final class ClosetFilterViewController: RxBaseViewController<ClosetFilterViewMod
         container.flex.define {
             $0.addItem(segmentView).horizontally(20).marginTop(4).height(48).grow(1)
             $0.addItem(subContainer).grow(1)
-            $0.addItem().direction(.row).width(100%).define {
+            $0.addItem().direction(.row).marginBottom(20).width(100%).define {
                 $0.addItem(resetButton).marginLeft(20).width(72).height(48)
-                $0.addItem(confirmButton).marginRight(20).height(48).grow(1)
+                $0.addItem(confirmButton).marginLeft(8).marginRight(20).height(48).grow(1)
             }
         }
     }
@@ -76,8 +91,9 @@ extension ClosetFilterViewController: UIPageViewControllerDelegate, UIPageViewCo
     }
 }
 
+// MARK:
 extension ClosetFilterViewController: FilterListViewDelegate {
-    func didTapCell(selected: [String : String]) {
+    func didTapCell(count: Int) {
         
     }
 }

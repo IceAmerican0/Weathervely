@@ -9,12 +9,12 @@ import RxDataSources
 
 public enum FilterSection {
     case style(items: [Item])
-    case cloth(items: [Item])
+    case cloth(category: String, items: [Item])
 }
 
 public enum FilterSectionItem {
     case style(FilterStyleListInfo)
-    case cloth(FilterItemListInfo)
+    case cloth(FilterItemList)
 }
 
 extension FilterSection: SectionModelType {
@@ -22,15 +22,19 @@ extension FilterSection: SectionModelType {
     
     public var items: [Item] {
         switch self {
-        case .style(items: let items): items.map { $0 }
-        case .cloth(items: let items): items.map { $0 }
+        case .style(items: let items):
+            items.map { $0 }
+        case .cloth(category: _, items: let items):
+            items.map { $0 }
         }
     }
     
     public init(original: FilterSection, items: [Item]) {
         switch original {
-        case .style: self = .style(items: items)
-        case .cloth: self = .cloth(items: items)
+        case .style:
+            self = .style(items: items)
+        case let .cloth(category, _):
+            self = .cloth(category: category, items: items)
         }
     }
 }

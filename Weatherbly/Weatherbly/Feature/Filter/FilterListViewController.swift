@@ -13,7 +13,7 @@ import RxSwift
 import RxDataSources
 
 public protocol FilterListViewDelegate: AnyObject {
-    func didTapCell(selected: [String: String])
+    func didTapCell(count: Int)
 }
 
 public enum FilterListViewState {
@@ -56,6 +56,19 @@ final class FilterListViewController: RxBaseViewController<FilterListViewModel> 
             .setDelegate(self)
             .disposed(by: bag)
         
+        filterList.rx
+            .itemSelected
+            .bind(
+                with: self,
+                onNext: { owner, _ in
+                    switch owner.viewModel.viewState {
+                    case .style: owner.viewModel.filterStyleList()
+                    case .item: owner.viewModel.filterItemList()
+                    }
+                }
+            )
+            .disposed(by: bag)
+        
         viewModel.filterSection
             .bind(to: filterList.rx.items(dataSource: dataSource))
             .disposed(by: bag)
@@ -65,23 +78,37 @@ final class FilterListViewController: RxBaseViewController<FilterListViewModel> 
 // MARK: UICollectionView Delegate & DataSource
 extension FilterListViewController: UICollectionViewDelegateFlowLayout {
     func setDataSource() -> RxCollectionViewSectionedReloadDataSource<FilterSection> {
-        RxCollectionViewSectionedReloadDataSource<FilterSection>(configureCell: { [weak self] dataSource, collectionView, indexPath, _ in
-            guard self != nil else { return UICollectionViewCell() }
+        RxCollectionViewSectionedReloadDataSource<FilterSection>(configureCell: { dataSource, collectionView, indexPath, _ in
+//            guard self != nil else { return UICollectionViewCell() }
             
-            return collectionView.dequeueCell(withType: FilterListCell.self, for: indexPath).then {
-                let state: FilterListCellState = .init(title: "비즈니스캐주얼", selectable: true, selected: false)
-                $0.configureCellState(state: state)
+            switch dataSource[indexPath] {
+            case let .style(cellState):
+                return collectionView.dequeueCell(withType: FilterListCell.self, for: indexPath).then {
+                    let state: FilterListCellState = .init(
+                        title: cellState.title,
+                        selectable: true,
+                        selected: cellState.selected
+                    )
+                    $0.configureCellState(state: state)
+                }
+            case let .cloth(cellState):
+                return collectionView.dequeueCell(withType: FilterListCell.self, for: indexPath).then {
+                    let info = cellState.info[indexPath.row]
+                    let state: FilterListCellState = .init(
+                        title: info.title,
+                        selectable: info.selectable,
+                        selected: info.selected
+                    )
+                    $0.configureCellState(state: state)
+                }
             }
         }, configureSupplementaryView: { [weak self] dataSource, collectionView, kind, indexPath in
             guard self != nil else { return UICollectionReusableView() }
             
-            if self?.viewModel.viewState == .item {
-                if kind == UICollectionView.elementKindSectionHeader {
-                    return collectionView.dequeueReusableHeaderView(
-                        withType: FilterListHeaderView.self,
-                        for: indexPath
-                    ).then {
-                        $0.configureViewState(title: "아우터")
+            if kind == UICollectionView.elementKindSectionHeader {
+                if case let .cloth(title, _) = dataSource[indexPath.section] {
+                    return collectionView.dequeueReusableHeaderView(withType: FilterListHeaderView.self, for: indexPath).then {
+                        $0.configureViewState(title: title)
                     }
                 }
             }
@@ -96,5 +123,13 @@ extension FilterListViewController: UICollectionViewDelegateFlowLayout {
         } else {
             return .zero
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        CGSize(width: view.frame.width, height: 37)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        .zero
     }
 }

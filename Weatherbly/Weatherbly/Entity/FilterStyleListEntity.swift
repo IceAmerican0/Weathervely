@@ -13,10 +13,12 @@ public struct FilterStyleListEntity: Codable {
 }
 
 public struct FilterStyleListData: Codable {
-//    let list: [FilterStyleInfo]
+//    let list: [FilterStyleListInfo]
+    let count: Int
 }
 
 public struct FilterStyleListInfo {
     let id: Int
     let title: String
+    let selected: Bool
 }

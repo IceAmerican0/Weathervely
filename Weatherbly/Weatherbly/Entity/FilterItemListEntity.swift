@@ -14,14 +14,17 @@ public struct FilterItemListEntity: Codable {
 
 public struct FilterItemListData: Codable {
 //    let list: [FilterItemList]
+    let count: Int
 }
 
 public struct FilterItemList {
-    let header: String
+    let category: String
     let info: [FilterItemListInfo]
 }
 
 public struct FilterItemListInfo {
     let id: Int
     let title: String
+    let selectable: Bool
+    let selected: Bool
 }
