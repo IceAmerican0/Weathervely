@@ -1,5 +1,5 @@
 //
-//  TrendingViewController.swift
+//  StyleViewController.swift
 //  Weatherbly
 //
 //  Created by Khai on 10/16/23.
@@ -12,7 +12,7 @@ import Then
 import RxSwift
 import Kingfisher
 
-final class TrendingViewController: RxBaseViewController<TrendingViewModel> {
+final class StyleViewController: RxBaseViewController<StyleViewModel> {
     
     private var titleLabel = CSLabel(.bold, 22, "스타일 추천")
     
@@ -31,7 +31,7 @@ final class TrendingViewController: RxBaseViewController<TrendingViewModel> {
         $0.dataSource = self
         $0.backgroundColor = .clear
         $0.showsHorizontalScrollIndicator = false
-        $0.register(withType: TrendingCollectionViewCell.self)
+        $0.register(withType: StyleCollectionViewCell.self)
     }
 
     override func layout() {
@@ -64,13 +64,13 @@ final class TrendingViewController: RxBaseViewController<TrendingViewModel> {
     }
 }
 
-extension TrendingViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension StyleViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         viewModel.recommendClosetEntityRelay.value.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueCell(withType: TrendingCollectionViewCell.self, for: indexPath)
+        let cell = collectionView.dequeueCell(withType: StyleCollectionViewCell.self, for: indexPath)
         let closetInfo = viewModel.recommendClosetEntityRelay.value[indexPath.item]
         
         if let url = URL(string: closetInfo.imageUrl) {

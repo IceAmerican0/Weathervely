@@ -18,7 +18,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         
-        let rootVC = UINavigationController(rootViewController: CSButtonTestsViewController(EmptyViewModel()))
+//        let rootVC = UINavigationController(rootViewController: CSButtonTestsViewController(EmptyViewModel()))
+        let rootVC = HomeTabBarController()
         self.window?.rootViewController = rootVC
         self.window?.makeKeyAndVisible()
         /// Firebase

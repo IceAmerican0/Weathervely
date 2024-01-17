@@ -1,5 +1,5 @@
 //
-//  TrendingViewModel.swift
+//  StyleViewModel.swift
 //  Weatherbly
 //
 //  Created by Khai on 10/16/23.
@@ -9,11 +9,11 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-protocol TrendingViewModelLogic: ViewModelBusinessLogic {
+protocol StyleViewModelLogic: ViewModelBusinessLogic {
     func getRecommendCloset()
 }
 
-final class TrendingViewModel: RxBaseViewModel, TrendingViewModelLogic {
+final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
     let recommendClosetEntityRelay = BehaviorRelay<[RecommendClosetInfo]>(value: [])
     
     public func getRecommendCloset() {

@@ -50,7 +50,7 @@ enum Tab: CaseIterable {
         
         return switch self {
         case .home: NewHomeViewController(NewHomeViewModel(homeForecastViewState: [tempState]))
-        case .style: TrendingViewController(TrendingViewModel())
+        case .style: StyleViewController(StyleViewModel())
         case .setting: SettingViewController(SettingViewModel())
         }
     }

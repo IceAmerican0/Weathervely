@@ -1,5 +1,5 @@
 //
-//  TrendingCollectionViewCell.swift
+//  StyleCollectionViewCell.swift
 //  Weatherbly
 //
 //  Created by Khai on 10/18/23.
@@ -10,12 +10,13 @@ import FlexLayout
 import PinLayout
 import Then
 
-final class TrendingCollectionViewCell: UICollectionViewCell {
+final class StyleCollectionViewCell: UICollectionViewCell {
     private let container = UIView()
     let imageView = UIImageView()
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
+        self.backgroundColor = .yellow
         layout()
     }
     

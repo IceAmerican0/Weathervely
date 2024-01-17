@@ -68,7 +68,7 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
         $0.setImage(.home_option, for: .normal)
     }
     
-    private let closetCollectionView = UICollectionView()
+    private let closetCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
 
     override func layout() {
         super.layout()

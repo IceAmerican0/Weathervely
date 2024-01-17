@@ -93,9 +93,9 @@
 		6987EBBC2B41409E00CF1E74 /* NewHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6987EBBA2B41409E00CF1E74 /* NewHomeViewController.swift */; };
 		6987EBBD2B41409E00CF1E74 /* NewHomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6987EBBB2B41409E00CF1E74 /* NewHomeViewModel.swift */; };
 		698F6CA92ADD624C00C2B33A /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698F6CA82ADD624B00C2B33A /* Tab.swift */; };
-		698F6CAD2ADD6EDB00C2B33A /* TrendingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698F6CAB2ADD6EDB00C2B33A /* TrendingViewController.swift */; };
-		698F6CAE2ADD6EDB00C2B33A /* TrendingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698F6CAC2ADD6EDB00C2B33A /* TrendingViewModel.swift */; };
-		698F6CB02ADFF8A600C2B33A /* TrendingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698F6CAF2ADFF8A600C2B33A /* TrendingCollectionViewCell.swift */; };
+		698F6CAD2ADD6EDB00C2B33A /* StyleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698F6CAB2ADD6EDB00C2B33A /* StyleViewController.swift */; };
+		698F6CAE2ADD6EDB00C2B33A /* StyleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698F6CAC2ADD6EDB00C2B33A /* StyleViewModel.swift */; };
+		698F6CB02ADFF8A600C2B33A /* StyleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698F6CAF2ADFF8A600C2B33A /* StyleCollectionViewCell.swift */; };
 		698F6CB22AE00FCC00C2B33A /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698F6CB12AE00FCC00C2B33A /* UIImage+Extension.swift */; };
 		69A7F0D92A80B42A00834974 /* UserDefaultKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A7F0D82A80B42A00834974 /* UserDefaultKey.swift */; };
 		69A7F0E02A80CDD800834974 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 69A7F0DF2A80CDD800834974 /* LaunchScreen.storyboard */; };
@@ -253,9 +253,9 @@
 		6987EBBA2B41409E00CF1E74 /* NewHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHomeViewController.swift; sourceTree = "<group>"; };
 		6987EBBB2B41409E00CF1E74 /* NewHomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHomeViewModel.swift; sourceTree = "<group>"; };
 		698F6CA82ADD624B00C2B33A /* Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
-		698F6CAB2ADD6EDB00C2B33A /* TrendingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingViewController.swift; sourceTree = "<group>"; };
-		698F6CAC2ADD6EDB00C2B33A /* TrendingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingViewModel.swift; sourceTree = "<group>"; };
-		698F6CAF2ADFF8A600C2B33A /* TrendingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingCollectionViewCell.swift; sourceTree = "<group>"; };
+		698F6CAB2ADD6EDB00C2B33A /* StyleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleViewController.swift; sourceTree = "<group>"; };
+		698F6CAC2ADD6EDB00C2B33A /* StyleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleViewModel.swift; sourceTree = "<group>"; };
+		698F6CAF2ADFF8A600C2B33A /* StyleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleCollectionViewCell.swift; sourceTree = "<group>"; };
 		698F6CB12AE00FCC00C2B33A /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		69A7F0D82A80B42A00834974 /* UserDefaultKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultKey.swift; sourceTree = "<group>"; };
 		69A7F0DF2A80CDD800834974 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -505,9 +505,9 @@
 		698F6CAA2ADD6EC200C2B33A /* Trend */ = {
 			isa = PBXGroup;
 			children = (
-				698F6CAB2ADD6EDB00C2B33A /* TrendingViewController.swift */,
-				698F6CAC2ADD6EDB00C2B33A /* TrendingViewModel.swift */,
-				698F6CAF2ADFF8A600C2B33A /* TrendingCollectionViewCell.swift */,
+				698F6CAB2ADD6EDB00C2B33A /* StyleViewController.swift */,
+				698F6CAC2ADD6EDB00C2B33A /* StyleViewModel.swift */,
+				698F6CAF2ADFF8A600C2B33A /* StyleCollectionViewCell.swift */,
 			);
 			path = Trend;
 			sourceTree = "<group>";
@@ -1104,7 +1104,7 @@
 				5CE0FEAD2A8DDE9200A0E655 /* AddressListEntity.swift in Sources */,
 				BD4907332A84D42F0027DEE8 /* String+Extension.swift in Sources */,
 				BD4316382A3CA20900E86271 /* UIView+Extension.swift in Sources */,
-				698F6CAD2ADD6EDB00C2B33A /* TrendingViewController.swift in Sources */,
+				698F6CAD2ADD6EDB00C2B33A /* StyleViewController.swift in Sources */,
 				BD2D01AE2A38886C003A25D5 /* RxBaseViewController.swift in Sources */,
 				69683A562A9B81BC00A2BD5A /* LoadErrorViewModel.swift in Sources */,
 				BD4316362A3C9DB700E86271 /* AssetsImage.swift in Sources */,
@@ -1116,7 +1116,7 @@
 				BD7DAB332A70DEFC00422D25 /* VillageForecastInfoEntity.swift in Sources */,
 				BD4AC38F2A6671B500537583 /* OnBoardSensoryTempViewModel.swift in Sources */,
 				5C4BE89B2A5E2D1200FD2CEF /* EditRegionViewController.swift in Sources */,
-				698F6CB02ADFF8A600C2B33A /* TrendingCollectionViewCell.swift in Sources */,
+				698F6CB02ADFF8A600C2B33A /* StyleCollectionViewCell.swift in Sources */,
 				69A7F0E42A8208DB00834974 /* UserInfoRequest.swift in Sources */,
 				5C2AD7482AC2B64C006BFF81 /* FSPagerViewLayoutAttributes.swift in Sources */,
 				BD4AC3912A66899500537583 /* UILabel+Extension.swift in Sources */,
@@ -1188,7 +1188,7 @@
 				5C1D5A112A3C500A00E66788 /* CSLabel.swift in Sources */,
 				BD50A5222A4C4072005F066E /* SlotMachineViewController.swift in Sources */,
 				5C9D02E12A72405100AF2DA3 /* TypeTarget.swift in Sources */,
-				698F6CAE2ADD6EDB00C2B33A /* TrendingViewModel.swift in Sources */,
+				698F6CAE2ADD6EDB00C2B33A /* StyleViewModel.swift in Sources */,
 				BD2D11BE2A9AEDCE008CBF0D /* SevenDayForecastInfoEntity.swift in Sources */,
 				69683A582A9BAAEE00A2BD5A /* KeychainManager.swift in Sources */,
 				5C9D02DF2A72304800AF2DA3 /* UserDataSource.swift in Sources */,
