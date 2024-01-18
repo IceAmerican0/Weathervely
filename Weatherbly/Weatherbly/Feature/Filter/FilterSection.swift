@@ -14,7 +14,7 @@ public enum FilterSection {
 
 public enum FilterSectionItem {
     case style(FilterStyleListInfo)
-    case cloth(FilterItemList)
+    case cloth(FilterItemListInfo)
 }
 
 extension FilterSection: SectionModelType {

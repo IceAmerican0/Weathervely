@@ -19,14 +19,11 @@ public struct FilterListCellState {
 
 final class FilterListCell: UICollectionViewCell {
     private let container = UIView().then {
-        $0.layer.cornerRadius = 30
-        $0.layer.borderWidth = 2
-        $0.accessibilityTraits = .button
+        $0.backgroundColor = .clear
     }
     
-    private lazy var listButton = UIButton().then {
-        $0.titleLabel?.font = .body_1_B
-        $0.setTitleColor(.violet900, for: .normal)
+    private let listButton = UIButton().then {
+        $0.titleLabel?.adjustsFontSizeToFitWidth = true
     }
     
     public override init(frame: CGRect) {
@@ -40,7 +37,7 @@ final class FilterListCell: UICollectionViewCell {
     
     public override func sizeThatFits(_ size: CGSize) -> CGSize {
         bounds.size.width = size.width
-        contentView.flex.layout()
+        contentView.flex.layout(mode: .adjustWidth)
         return contentView.frame.size
     }
     
@@ -52,54 +49,71 @@ final class FilterListCell: UICollectionViewCell {
     }
     
     public func configureCellState(state: FilterListCellState) {
-        listButton.setTitle("\(state.title)", for: .normal)
-        
         /// 아이템 없을시 선택불가
         if !state.selectable {
             buttonSetting(
+                text: state.title,
                 backgroundColor: .gray20,
                 borderColor: .gray20,
                 textColor: .gray50
             )
-            listButton.isUserInteractionEnabled = false
+            listButton.isUserInteractionEnabled = true
             return
         }
         
         /// 필터 선택 여부
         if state.selected {
             buttonSetting(
+                text: state.title,
                 backgroundColor: .violet600,
                 borderColor: .violet600,
                 textColor: .white
             )
         } else {
             buttonSetting(
+                text: state.title,
                 backgroundColor: .white,
                 borderColor: .violet200,
-                textColor: .violet500
+                textColor: .violet900
             )
         }
         
-        listButton.isUserInteractionEnabled = true
-    }
-    
-    private func buttonSetting(
-        backgroundColor: UIColor,
-        borderColor: UIColor,
-        textColor: UIColor
-    ) {
-        container.backgroundColor = backgroundColor
-        container.layer.borderColor = borderColor.cgColor
-        listButton.setTitleColor(textColor, for: .normal)
+        listButton.isUserInteractionEnabled = false
     }
 }
 
+// MARK: UI Settings
 private extension FilterListCell {
     func layout() {
         contentView.flex.define {
             $0.addItem(container).grow(1).define {
-                $0.addItem(listButton).marginHorizontal(14).grow(1)
+                $0.addItem(listButton).grow(1)
             }
         }
+    }
+    
+    func buttonConfiguration() {
+        var config = UIButton.Configuration.filled()
+        config.contentInsets = NSDirectionalEdgeInsets.init(top: 8, leading: 14, bottom: 8, trailing: 14)
+        config.background.strokeWidth = 2
+        config.background.cornerRadius = 30
+        listButton.configuration = config
+    }
+    
+    func buttonSetting(
+        text: String,
+        backgroundColor: UIColor,
+        borderColor: UIColor,
+        textColor: UIColor
+    ) {
+        buttonConfiguration()
+        let attributed: [NSAttributedString.Key: Any] = [
+            .font: UIFont.body_1_B,
+            .foregroundColor: textColor
+        ]
+        let attString = NSAttributedString(string: text, attributes: attributed)
+        listButton.setAttributedTitle(attString, for: .normal)
+        listButton.configuration?.baseBackgroundColor = backgroundColor
+        listButton.configuration?.background.strokeColor = borderColor
     }
 }
