@@ -37,6 +37,7 @@ final class ClosetFilterViewController: RxBaseViewController<ClosetFilterViewMod
     ).then {
         $0.delegate = self
         $0.dataSource = self
+        $0.setViewControllers([filterViewControllers[0]], direction: .forward, animated: true)
         $0.view.translatesAutoresizingMaskIntoConstraints = false
     }
     
@@ -94,6 +95,6 @@ extension ClosetFilterViewController: UIPageViewControllerDelegate, UIPageViewCo
 // MARK:
 extension ClosetFilterViewController: FilterListViewDelegate {
     func didTapCell(count: Int) {
-        
+        confirmButton.setTitle("\(count)개 코디 보기", for: .normal)
     }
 }

@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import RxGesture
 
 public protocol NewHomeViewModelLogic: ViewModelBusinessLogic {
     func loadHome()
@@ -15,15 +16,18 @@ public protocol NewHomeViewModelLogic: ViewModelBusinessLogic {
     func getForecastInfo()
     func getClosetInfo()
     func buttonTapAction(action: ButtonTapAction)
-    func configureTime()
-    func filterCloset()
+    func configureTime(direction: UISwipeGestureRecognizer.Direction)
+    func getSelectedTimeInfo(direction: UISwipeGestureRecognizer.Direction)
+    func didTapTimeLabel()
+    func filterCloset(state: FilterListViewState)
     func toDetailView(state: RecommendClosetInfo)
     func toEditRegionView()
     func toTendaysForecastView()
     
     var refreshStatus: PublishRelay<Bool> { get }
     var homeSections: PublishRelay<[HomeSection]> { get }
-    var homeForecastCellState: PublishRelay<[HomeForecastCellState]> { get }
+    var forecastInfo: [HomeForecastInfo] { get }
+    var selectedForecastState: BehaviorRelay<HomeForecastInfo> { get }
     var filteredStyle: Bool { get set }
     var filteredItem: Bool { get set }
 }
@@ -38,10 +42,13 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     public var homeSections = PublishRelay<[HomeSection]>()
     
     /// 날씨 정보
-    public var homeForecastCellState = PublishRelay<[HomeForecastCellState]>()
+    public var forecastInfo: [HomeForecastInfo] = []
+    
+    /// 선택돼있는 인덱스
+    private var selectedIndex = 0
     
     /// 선택돼있는 날씨 정보
-    var selectedForecastViewState: HomeForecastCellState
+    public var selectedForecastState = BehaviorRelay<HomeForecastInfo>(value: .init(date: "", time: "", mainTemp: 0, minTemp: 0, maxTemp: 0, weather: "", comment: ""))
     
     /// 스타일 필터 여부
     public var filteredStyle: Bool
@@ -53,26 +60,20 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     public var recommendedCloset = BehaviorRelay<RecommendClosetBody?>(value: nil)
     
     init(
-        closetDataSource: ClosetDataSourceProtocol,
-        homeForecastCellState: [HomeForecastCellState]
+        closetDataSource: ClosetDataSourceProtocol
     ) {
         self.closetDataSource = closetDataSource
         self.refreshStatus = .init()
-        self.homeForecastCellState.accept(homeForecastCellState)
-        guard let cellState = homeForecastCellState.first else { fatalError() }
-        self.selectedForecastViewState = cellState
         self.filteredStyle = .init()
         self.filteredItem = .init()
         super.init()
-        
-        getClosetInfo()
     }
     
     /// 홈 전체 정보 취합 후 DataSource Reload
     public func loadHome() {
         /// 예보 Section 정보
         let homeForecast: [HomeSection] = [
-            .forecast(items: [.forecast(selectedForecastViewState)])
+            .forecast(items: [.forecast(selectedForecastState.value)])
         ]
         
         /// 첫 Cell Banner 처리를 위한 Dummy Data 넣어줌(Banner + List)
@@ -92,10 +93,34 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     public func pullToRefresh() {
         refreshStatus.accept(true)
         getForecastInfo()
+        getClosetInfo()
     }
     
     /// 날씨 정보 받아오기
     public func getForecastInfo() {
+        // TODO: delete mock
+        let data: [HomeForecastInfo] = [
+            .init(
+                date: "현재",
+                time: "오전 9시",
+                mainTemp: 18,
+                minTemp: 10,
+                maxTemp: 22,
+                weather: "비",
+                comment: "흐리고 비가 내려요. 우산 깜빡하진 않으셨죠?"
+            ),
+            .init(
+                date: "내일",
+                time: "오후 12시",
+                mainTemp: 18,
+                minTemp: 10,
+                maxTemp: 22,
+                weather: "바람",
+                comment: "바람이 겁나게 부네요."
+            ),
+        ]
+        forecastInfo = data
+        selectedForecastState.accept(forecastInfo[selectedIndex])
         getClosetInfo()
     }
     
@@ -125,24 +150,70 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     /// 버튼 액션 케이스
     public func buttonTapAction(action: ButtonTapAction) {
         switch action {
-        case .didTapPrev: configureTime()
-        case .didTapNext: configureTime()
-        case .didTapStyle: filterCloset()
-        case .didTapItem: filterCloset()
+        case .didTapPrev: configureTime(direction: .right)
+        case .didTapNext: configureTime(direction: .left)
+        case .didTapStyle: filterCloset(state: .style)
+        case .didTapItem: filterCloset(state: .item)
         }
     }
     
     /// 시간대 이동 전 시간 판별
-    public func configureTime() {
+    public func configureTime(direction: UISwipeGestureRecognizer.Direction) {
+        let info = selectedForecastState.value
+        
+        if direction == .right {
+            if info.date == "현재" {
+                alertMessageRelay.accept(
+                    .init(
+                        title: "현재보다 이전 시간은 확인할 수 없어요",
+                        alertType: .Info
+                ))
+                return
+            }
+        } else {
+            if (info.date == "내일") && (info.time == "오후 8시") {
+                alertMessageRelay.accept(
+                    .init(
+                        title: "내일 날씨까지만 볼 수 있어요",
+                        alertType: .Info
+                ))
+                return
+            }
+        }
+        
+//        let selectedTime = forecastInfo[selectedIndex].time
+//        let startIndex = selectedTime.index(selectedTime.startIndex, offsetBy: 1)
+//        let endIndex =
+//        let range = ...selectedTime.endIndex
+//        if selectedTime[range] ==
+        
+        getSelectedTimeInfo(direction: direction)
+    }
+    
+    /// 시간대 이동
+    public func getSelectedTimeInfo(direction: UISwipeGestureRecognizer.Direction) {
+        if direction == .right {
+            selectedIndex -= 1
+        } else {
+            selectedIndex += 1
+        }
+        
+        selectedForecastState.accept(forecastInfo[selectedIndex])
+        getClosetInfo()
+    }
+    
+    /// 현재/내일 이동
+    public func didTapTimeLabel() {
         
     }
     
     /// 필터링
-    public func filterCloset() {
-        
+    public func filterCloset(state: FilterListViewState) {
+        let vc = FilterListViewController(FilterListViewModel(viewState: state))
+        navigationPushViewControllerRelay.accept(vc)
     }
     
-    // 상세보기 이동
+    /// 상세보기 이동
     public func toDetailView(state: RecommendClosetInfo) {
         
     }

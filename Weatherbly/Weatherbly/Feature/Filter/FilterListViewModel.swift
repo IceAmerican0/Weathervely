@@ -41,6 +41,7 @@ final class FilterListViewModel: RxBaseViewModel, FilterListViewModelLogic {
     
     /// 스타일 필터
     func filterStyleList() {
+        // TODO: delete mock
         let dummy: [FilterStyleListInfo] = [
             .init(id: 0, title: "캐주얼", selected: false),
             .init(id: 0, title: "아메카지", selected: false),
@@ -57,6 +58,7 @@ final class FilterListViewModel: RxBaseViewModel, FilterListViewModelLogic {
     }
     
     func setStyleSection(data: [FilterStyleListInfo]) {
+        // TODO: delete mock
         let randomCount = Int.random(in: 1 ... 100)
         let styleSection: [FilterSection] = [
             .style(items: data.map { .style($0) })
@@ -67,6 +69,7 @@ final class FilterListViewModel: RxBaseViewModel, FilterListViewModelLogic {
     
     /// 아이템 필터
     func filterItemList() {
+        // TODO: delete mock
         let dummy: [FilterItemList] = [
             .init(
                 category: "아우터",
@@ -99,6 +102,7 @@ final class FilterListViewModel: RxBaseViewModel, FilterListViewModelLogic {
     }
     
     func setItemSection(data: [FilterItemList]) {
+        // TODO: delete mock
         let randomCount = Int.random(in: 1 ... 100)
         let itemSection: [FilterSection] = data.map {
             .cloth(
@@ -106,7 +110,6 @@ final class FilterListViewModel: RxBaseViewModel, FilterListViewModelLogic {
                 items: $0.info.map { .cloth($0) }
             )
         }
-        print(itemSection)
         filterSection.accept(itemSection)
         filterCount.accept(randomCount)
     }

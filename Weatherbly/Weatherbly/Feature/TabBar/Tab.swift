@@ -37,20 +37,9 @@ enum Tab: CaseIterable {
     }
     
     var viewController: UIViewController {
-        // TODO: Delete Mock Data
-        let tempState = HomeForecastCellState(
-            isDayTime: true,
-            mainTemp: "18",
-            minTemp: "10",
-            maxTemp: "22",
-            weather: "비",
-            comment: "흐리고 비가 내려요. 우산 깜빡하진 않으셨죠?"
-        )
-        
-        return switch self {
+        switch self {
         case .home: NewHomeViewController(NewHomeViewModel(
-            closetDataSource: ClosetDataSource(),
-            homeForecastCellState: [tempState]
+            closetDataSource: ClosetDataSource()
         ))
         case .style: TrendingViewController(TrendingViewModel())
         case .setting: SettingViewController(SettingViewModel())

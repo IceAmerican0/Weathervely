@@ -92,6 +92,7 @@
 		5CE0FEB62A8F401100A0E655 /* PrivatePolicyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE0FEB52A8F401100A0E655 /* PrivatePolicyViewModel.swift */; };
 		5CE0FEB82A8F4CE200A0E655 /* SetSensoryTempRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE0FEB72A8F4CE200A0E655 /* SetSensoryTempRequest.swift */; };
 		5CE0FEBA2A93529100A0E655 /* AuthLoginEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE0FEB92A93529100A0E655 /* AuthLoginEntity.swift */; };
+		5CF0A49E2B5A32EA00D2AB4C /* HomeForecastEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF0A49D2B5A32EA00D2AB4C /* HomeForecastEntity.swift */; };
 		690B6EE92AA9EF9000D54ABC /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 690B6EE82AA9EF9000D54ABC /* FirebaseAnalytics */; };
 		690B6EEB2AA9EF9000D54ABC /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 690B6EEA2AA9EF9000D54ABC /* FirebaseCrashlytics */; };
 		690B6EED2AA9EF9000D54ABC /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 690B6EEC2AA9EF9000D54ABC /* FirebaseMessaging */; };
@@ -273,6 +274,7 @@
 		5CE0FEB52A8F401100A0E655 /* PrivatePolicyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivatePolicyViewModel.swift; sourceTree = "<group>"; };
 		5CE0FEB72A8F4CE200A0E655 /* SetSensoryTempRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetSensoryTempRequest.swift; sourceTree = "<group>"; };
 		5CE0FEB92A93529100A0E655 /* AuthLoginEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthLoginEntity.swift; sourceTree = "<group>"; };
+		5CF0A49D2B5A32EA00D2AB4C /* HomeForecastEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeForecastEntity.swift; sourceTree = "<group>"; };
 		690B6EF02AAA0F2D00D54ABC /* ForceUpdateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForceUpdateViewController.swift; sourceTree = "<group>"; };
 		693231632B4A80FE00816B7B /* HomeSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSection.swift; sourceTree = "<group>"; };
 		696176B12A63E37F00B83B4C /* RxBaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxBaseViewModel.swift; sourceTree = "<group>"; };
@@ -870,6 +872,7 @@
 				BD2D11BD2A9AEDCE008CBF0D /* SevenDayForecastInfoEntity.swift */,
 				5CDCD7E12B566F87008465B9 /* FilterItemListEntity.swift */,
 				5CDCD7E32B56782F008465B9 /* FilterStyleListEntity.swift */,
+				5CF0A49D2B5A32EA00D2AB4C /* HomeForecastEntity.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -1172,6 +1175,7 @@
 				69683A562A9B81BC00A2BD5A /* LoadErrorViewModel.swift in Sources */,
 				BD4316362A3C9DB700E86271 /* AssetsImage.swift in Sources */,
 				BDA66FED2A444C470061A1F0 /* SelectGenderViewController.swift in Sources */,
+				5CF0A49E2B5A32EA00D2AB4C /* HomeForecastEntity.swift in Sources */,
 				69D25C972AD04F6300C17FB1 /* WVNetWorkError.swift in Sources */,
 				BD6135D32A7E3C9C00DB3DF9 /* RecommendClosetEntity.swift in Sources */,
 				BD49072D2A80DED70027DEE8 /* HomeSensoryTempViewController.swift in Sources */,

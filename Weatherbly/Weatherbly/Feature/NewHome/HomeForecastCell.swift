@@ -9,17 +9,12 @@ import UIKit
 import PinLayout
 import FlexLayout
 import Then
-
-public struct HomeForecastCellState {
-    public let isDayTime: Bool
-    public let mainTemp: String
-    public let minTemp: String
-    public let maxTemp: String
-    public let weather: String
-    public let comment: String
-}
+import RxSwift
+import RxGesture
 
 public final class HomeForecastCell: UICollectionViewCell {
+    var bag = DisposeBag()
+    
     private let mainTempLabel = LabelMaker(
         font: .heading_1_UL,
         fontColor: .white
@@ -47,6 +42,10 @@ public final class HomeForecastCell: UICollectionViewCell {
         $0.layer.masksToBounds = true
     }
     
+    var swipeGesture: SwipeControlEvent {
+        self.contentView.rx.swipeGesture([.left, .right])
+    }
+    
     public override init(frame: CGRect) {
         super.init(frame: .zero)
         layout()
@@ -57,27 +56,30 @@ public final class HomeForecastCell: UICollectionViewCell {
     }
     
     public override func sizeThatFits(_ size: CGSize) -> CGSize {
-        bounds.size.width = size.width
+        setLayout()
         contentView.flex.layout()
         return contentView.frame.size
     }
     
     override public func layoutSubviews() {
         super.layoutSubviews()
-        contentView.pin.all()
-        contentView.flex.layout()
+        setLayout()
         contentView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.clipsToBounds = true
         self.setCornerRadius(12)
         self.layer.masksToBounds = true
     }
     
-    public func configureCellState(state: HomeForecastCellState) {
+    public override func prepareForReuse() {
+        super.prepareForReuse()
+        bag = DisposeBag()
+    }
+    
+    public func configureCellState(state: HomeForecastInfo) {
         mainTempLabel.text = "\(state.mainTemp)°"
         dailyTempLabel.text = "\(state.minTemp)° / \(state.maxTemp)°"
         commentLabel.text = state.comment
         
-        let (gradient, image) = setWeather(weather: state.weather, isDayTime: state.isDayTime)
+        let (gradient, image) = setWeather(weather: state.weather, isDayTime: String(state.time.prefix(2)))
         weatherImage.image = image
         gradient.frame = bounds
         gradient.bounds = bounds.insetBy(
@@ -86,10 +88,16 @@ public final class HomeForecastCell: UICollectionViewCell {
         )
         gradient.position = contentView.center
         contentView.layer.insertSublayer(gradient, at: 0)
+        setLayout()
     }
 }
 
 private extension HomeForecastCell {
+    func setLayout() {
+        contentView.pin.all()
+        contentView.flex.layout()
+    }
+    
     func layout() {
         contentView.flex.alignItems(.center).define {
             $0.addItem().direction(.row).justifyContent(.spaceBetween).alignItems(.center).marginTop(27).width(100%).define {
@@ -104,13 +112,13 @@ private extension HomeForecastCell {
         }
     }
     
-    func setWeather(weather: String, isDayTime: Bool) -> (CAGradientLayer, UIImage) {
+    func setWeather(weather: String, isDayTime: String) -> (CAGradientLayer, UIImage) {
         switch weather {
-        case "맑음": isDayTime ?
+        case "맑음": isDayTime == "오전" ?
             (.gradient10, UIImage.sunny_am) :
             (.gradient20, UIImage.sunny_pm)
         case "흐림": (.gradient30, UIImage.cloudy)
-        case "구름많음": isDayTime ?
+        case "구름많음": isDayTime == "오전" ?
             (.gradient40, UIImage.clouds_am) :
             (.gradient50, UIImage.clouds_pm)
         case "비": (.gradient60, UIImage.rainy)

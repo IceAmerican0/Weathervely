@@ -56,7 +56,9 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
     private let timeLabel = LabelMaker(
         font: .title_3_B,
         alignment: .center
-    ).make(text: "오전 9시")
+    ).make().then {
+        $0.adjustsFontSizeToFitWidth = true
+    }
     
     private let nextButton = UIButton().then {
         $0.setImage(.home_date_right_nor, for: .normal)
@@ -79,6 +81,11 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
     }
     
     private lazy var dataSource = setDataSource()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        viewModel.getForecastInfo()
+    }
 
     override func layout() {
         super.layout()
@@ -117,7 +124,7 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
         timeLabel.rx.tapGesture()
             .when(.recognized)
             .bind(with: self) { owner, _ in
-                owner.viewModel.configureTime()
+                owner.viewModel.didTapTimeLabel()
             }.disposed(by: bag)
         
         nextButton.rx.tap
@@ -155,6 +162,31 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
                 }
             }.disposed(by: bag)
         
+        viewModel.selectedForecastState
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, info in
+                    if info.date == "현재" {
+                        owner.prevButton.setImage(.home_date_left_dis, for: .normal)
+                        owner.prevButton.isUserInteractionEnabled = false
+                    } else {
+                        owner.prevButton.setImage(.home_date_left_nor, for: .normal)
+                        owner.prevButton.isUserInteractionEnabled = true
+                    }
+                    
+                    if (info.date == "내일") && (info.time == "오후 8시") {
+                        owner.nextButton.setImage(.home_date_right_dis, for: .normal)
+                        owner.nextButton.isUserInteractionEnabled = false
+                    } else {
+                        owner.nextButton.setImage(.home_date_right_nor, for: .normal)
+                        owner.nextButton.isUserInteractionEnabled = true
+                    }
+                    owner.dayLabel.text = info.date
+                    owner.timeLabel.text = "\(info.time)"
+                }
+            ).disposed(by: bag)
+        
         viewModel.homeSections
             .bind(to: homeCollectionView.rx.items(dataSource: dataSource))
             .disposed(by: bag)
@@ -177,6 +209,12 @@ extension NewHomeViewController: UICollectionViewDelegate {
             case .forecast(let cellState):
                 return collectionView.dequeueCell(withType: HomeForecastCell.self, for: indexPath).then {
                     $0.configureCellState(state: cellState)
+                    
+                    $0.swipeGesture
+                        .when(.ended)
+                        .bind(onNext: { direction in
+                            self?.viewModel.configureTime(direction: direction.direction)
+                        }).disposed(by: $0.bag)
                 }
             case .closet(let cellState):
                 return collectionView.dequeueCell(withType: HomeClosetCell.self, for: indexPath).then {
@@ -207,17 +245,17 @@ extension NewHomeViewController: UICollectionViewDelegate {
                     header.itemTap
                         .drive(with: self, onNext: { owner, _ in
                             owner.viewModel.buttonTapAction(action: .didTapItem)
-                        }).disposed(by: bag)
+                        }).disposed(by: header.bag)
                     
                     header.styleTap
                         .drive(with: self, onNext: { owner, _ in
                             owner.viewModel.buttonTapAction(action: .didTapStyle)
-                        }).disposed(by: bag)
+                        }).disposed(by: header.bag)
                     
                     header.filterTap
                         .drive(with: self, onNext: { owner, _ in
-                            owner.viewModel.buttonTapAction(action: .didTapItem)
-                        }).disposed(by: bag)
+                            owner.viewModel.buttonTapAction(action: .didTapStyle)
+                        }).disposed(by: header.bag)
                     
                     return header
                 }

@@ -32,18 +32,23 @@ public final class HomeClosetCell: UICollectionViewCell {
     }
     
     public override func sizeThatFits(_ size: CGSize) -> CGSize {
-        self.bounds.size.width = size.width
+        setLayout()
         contentView.flex.layout(mode: .adjustHeight)
         return contentView.frame.size
     }
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-        contentView.pin.all()
-        contentView.flex.layout()
+        setLayout()
+        self.backgroundColor = .gray10
         self.setCornerRadius(12)
         self.layer.masksToBounds = true
         self.clipsToBounds = true
+    }
+    
+    func setLayout() {
+        contentView.pin.all()
+        contentView.flex.layout()
     }
     
     func layout() {
@@ -54,6 +59,7 @@ public final class HomeClosetCell: UICollectionViewCell {
     
     func configureCellState(state: RecommendClosetInfo) {
         cloth.setKF(urlString: state.imageUrl)
-        setNeedsLayout()
+        setLayout()
+//        setNeedsLayout()
     }
 }

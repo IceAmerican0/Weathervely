@@ -12,17 +12,15 @@ protocol ClosetFilterViewModelLogic: ViewModelBusinessLogic {
     func didTapReset()
     func didTapConfirm()
     
-    var styleFilterList: PublishRelay<[String: String]> { get }
-    var itemFilterList: PublishRelay<[String: String]> { get }
+    var viewState: FilterListViewState { get }
 }
 
 final class ClosetFilterViewModel: RxBaseViewModel, ClosetFilterViewModelLogic {
-    var styleFilterList: PublishRelay<[String : String]>
-    var itemFilterList: PublishRelay<[String : String]>
+    /// 스타일 or 아이템
+    var viewState: FilterListViewState
     
-    override init() {
-        self.styleFilterList = .init()
-        self.itemFilterList = .init()
+    init(viewState: FilterListViewState) {
+        self.viewState = viewState
         super.init()
     }
     

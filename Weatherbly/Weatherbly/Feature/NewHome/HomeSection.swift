@@ -13,7 +13,7 @@ public enum HomeSection {
 }
 
 public enum HomeSectionItem {
-    case forecast(HomeForecastCellState)
+    case forecast(HomeForecastInfo)
     case closet(RecommendClosetInfo)
 }
 

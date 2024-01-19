@@ -36,16 +36,14 @@ final class FilterListCell: UICollectionViewCell {
     }
     
     public override func sizeThatFits(_ size: CGSize) -> CGSize {
-        bounds.size.width = size.width
+        setLayout()
         contentView.flex.layout(mode: .adjustWidth)
         return contentView.frame.size
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        listButton.pin.all()
-        container.pin.all()
-        contentView.flex.layout()
+        setLayout()
     }
     
     public func configureCellState(state: FilterListCellState) {
@@ -79,11 +77,19 @@ final class FilterListCell: UICollectionViewCell {
         }
         
         listButton.isUserInteractionEnabled = false
+        listButton.flex.markDirty()
+        setLayout()
     }
 }
 
 // MARK: UI Settings
 private extension FilterListCell {
+    func setLayout() {
+        listButton.pin.all()
+        container.pin.all()
+        contentView.flex.layout()
+    }
+    
     func layout() {
         contentView.flex.define {
             $0.addItem(container).grow(1).define {

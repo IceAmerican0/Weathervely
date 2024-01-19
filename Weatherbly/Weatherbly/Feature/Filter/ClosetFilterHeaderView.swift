@@ -53,7 +53,7 @@ public final class ClosetFilterHeaderView: UICollectionReusableView {
     }
     
     var filterTap: Driver<Void> {
-        self.itemFilterButton.rx.tap.asDriver()
+        self.filterIcon.rx.tap.asDriver()
     }
     
     public override init(frame: CGRect) {
@@ -67,8 +67,7 @@ public final class ClosetFilterHeaderView: UICollectionReusableView {
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-        container.pin.all()
-        container.flex.layout()
+        setLayout()
     }
     
     public override func prepareForReuse() {
@@ -77,8 +76,7 @@ public final class ClosetFilterHeaderView: UICollectionReusableView {
     }
     
     public override func sizeThatFits(_ size: CGSize) -> CGSize {
-        pin.width(size.width)
-        flex.layout()
+        setLayout()
         return CGSize(width: size.width, height: 56)
     }
     
@@ -99,6 +97,7 @@ public final class ClosetFilterHeaderView: UICollectionReusableView {
         itemFilterButton.configuration?.image = image
         attString = NSAttributedString(string: "아이템", attributes: attributed)
         itemFilterButton.setAttributedTitle(attString, for: .normal)
+        setLayout()
     }
     
     private func buttonState(state: Bool) -> (UIColor,UIImage) {
@@ -113,6 +112,11 @@ public final class ClosetFilterHeaderView: UICollectionReusableView {
 }
 
 extension ClosetFilterHeaderView {
+    func setLayout() {
+        container.pin.all()
+        container.flex.layout()
+    }
+    
     func layout() {
         backgroundColor = .white
         
