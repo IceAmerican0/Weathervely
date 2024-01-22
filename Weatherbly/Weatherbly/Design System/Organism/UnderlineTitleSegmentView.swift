@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import FlexLayout
+import PinLayout
 import Then
 
 final class UnderlineTitleSegmentView: UISegmentedControl {
@@ -16,10 +18,9 @@ final class UnderlineTitleSegmentView: UISegmentedControl {
         let xCoordinate = CGFloat(selectedSegmentIndex * Int(width))
         let yCoordinate = bounds.size.height
         let frame = CGRect(x: xCoordinate, y: yCoordinate, width: width, height: height)
-        let view = UIView(frame: frame)
+        $0.frame = frame
         $0.backgroundColor = .gray600
         $0.setCornerRadius(1)
-        $0.isHidden = true
     }
     
     override init(frame: CGRect) {
@@ -38,6 +39,10 @@ final class UnderlineTitleSegmentView: UISegmentedControl {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        layout()
+    }
+    
+    private func layout() {
         addSubview(underline)
         
         let xCoordinate = (bounds.width / CGFloat(numberOfSegments)) * CGFloat(selectedSegmentIndex)
@@ -50,14 +55,13 @@ final class UnderlineTitleSegmentView: UISegmentedControl {
     }
     
     private func setDefault() {
+        backgroundColor = .clear
+        
         let image = UIImage()
         
         /// 배경 제거
-        setBackgroundImage(image, for: .normal, barMetrics: .default)
-        setBackgroundImage(image, for: .selected, barMetrics: .default)
-        setBackgroundImage(image, for: .highlighted, barMetrics: .default)
-        
-        /// 구분선 제거
-        setDividerImage(image, forLeftSegmentState: .selected, rightSegmentState: .normal, barMetrics: .default)
+//        setBackgroundImage(image, for: .normal, barMetrics: .default)
+//        setBackgroundImage(image, for: .selected, barMetrics: .default)
+//        setBackgroundImage(image, for: .highlighted, barMetrics: .default)
     }
 }

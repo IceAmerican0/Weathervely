@@ -47,6 +47,10 @@ final class FilterListCell: UICollectionViewCell {
     }
     
     public func configureCellState(state: FilterListCellState) {
+        /// 셀 크기 재정의
+        listButton.flex.markDirty()
+        setLayout()
+        
         /// 아이템 없을시 선택불가
         if !state.selectable {
             buttonSetting(
@@ -77,8 +81,6 @@ final class FilterListCell: UICollectionViewCell {
         }
         
         listButton.isUserInteractionEnabled = false
-        listButton.flex.markDirty()
-        setLayout()
     }
 }
 

@@ -14,7 +14,8 @@ protocol FilterListViewModelLogic: ViewModelBusinessLogic {
     func filterItemList()
     
     var viewState: FilterListViewState { get }
-    var loadingState: PublishRelay<Bool> { get }
+    var isLoading: PublishRelay<Bool> { get }
+    var isFiltered: BehaviorRelay<Bool> { get }
     var filterSection: PublishRelay<[FilterSection]> { get }
     var filterCount: PublishRelay<Int> { get }
 }
@@ -24,7 +25,10 @@ final class FilterListViewModel: RxBaseViewModel, FilterListViewModelLogic {
     var viewState: FilterListViewState
     
     /// 로딩 상태
-    var loadingState: PublishRelay<Bool>
+    var isLoading: PublishRelay<Bool>
+    
+    /// 필터 선택 여부
+    var isFiltered: BehaviorRelay<Bool> = .init(value: true)
     
     /// 필터 정보
     var filterSection = PublishRelay<[FilterSection]>()
@@ -34,7 +38,7 @@ final class FilterListViewModel: RxBaseViewModel, FilterListViewModelLogic {
     
     init(viewState: FilterListViewState) {
         self.viewState = viewState
-        self.loadingState = .init()
+        self.isLoading = .init()
         self.filterCount = .init()
         super.init()
     }
@@ -57,6 +61,7 @@ final class FilterListViewModel: RxBaseViewModel, FilterListViewModelLogic {
         setStyleSection(data: dummy)
     }
     
+    /// 스타일 탭 구성
     func setStyleSection(data: [FilterStyleListInfo]) {
         // TODO: delete mock
         let randomCount = Int.random(in: 1 ... 100)
@@ -101,6 +106,7 @@ final class FilterListViewModel: RxBaseViewModel, FilterListViewModelLogic {
         setItemSection(data: dummy)
     }
     
+    /// 아이템 필터 구성
     func setItemSection(data: [FilterItemList]) {
         // TODO: delete mock
         let randomCount = Int.random(in: 1 ... 100)

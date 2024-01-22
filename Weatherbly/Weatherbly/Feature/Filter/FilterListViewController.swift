@@ -14,9 +14,10 @@ import RxDataSources
 
 public protocol FilterListViewDelegate: AnyObject {
     func didTapCell(count: Int)
+    func didTapConfirm()
 }
 
-public enum FilterListViewState {
+public enum FilterListViewState: Int {
     case style
     case item
 }
@@ -36,6 +37,14 @@ final class FilterListViewController: RxBaseViewController<FilterListViewModel> 
     
     private lazy var dataSource = setDataSource()
     
+    private var resetButton = NewCSButton(.standard, style: .violet600).then {
+        $0.setImage(.filter_reset_dis, for: .normal)
+        $0.backgroundColor = .gray30
+        $0.isUserInteractionEnabled = false
+    }
+    
+    private let confirmButton = NewCSButton(.standard, style: .violet600)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -50,6 +59,10 @@ final class FilterListViewController: RxBaseViewController<FilterListViewModel> 
         
         container.flex.define {
             $0.addItem(filterList).marginTop(26).grow(1)
+            $0.addItem().direction(.row).marginBottom(20).width(100%).define {
+                $0.addItem(resetButton).marginLeft(20).width(72).height(48)
+                $0.addItem(confirmButton).marginLeft(8).marginRight(20).height(48).grow(1)
+            }
         }
     }
     
@@ -70,10 +83,25 @@ final class FilterListViewController: RxBaseViewController<FilterListViewModel> 
                     case .item: owner.viewModel.filterItemList()
                     }
                 }
-            )
-            .disposed(by: bag)
+            ).disposed(by: bag)
+        
+        viewModel.isFiltered
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, filtered in
+                    if filtered {
+                        owner.resetButton.setImage(.filter_reset, for: .normal)
+                        owner.resetButton.isUserInteractionEnabled = true
+                    } else {
+                        owner.resetButton.setImage(.filter_reset_dis, for: .normal)
+                        owner.resetButton.isUserInteractionEnabled = false
+                    }
+                }
+            ).disposed(by: bag)
         
         viewModel.filterSection
+            .observe(on: MainScheduler.instance)
             .bind(to: filterList.rx.items(dataSource: dataSource))
             .disposed(by: bag)
         
@@ -81,10 +109,26 @@ final class FilterListViewController: RxBaseViewController<FilterListViewModel> 
             .subscribe(
                 with: self,
                 onNext: { owner, count in
-                    owner.delegate?.didTapCell(count: count)
+                    owner.confirmButton.setTitle("\(count)개 코디 보기", for: .normal)
                 }
-            )
-            .disposed(by: bag)
+            ).disposed(by: bag)
+        
+        resetButton.rx.tap
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, _ in
+                    
+                }
+            ).disposed(by: bag)
+        
+        confirmButton.rx.tap
+            .bind(
+                with: self,
+                onNext: { owner, _ in
+                    owner.delegate?.didTapConfirm()
+                }
+            ).disposed(by: bag)
     }
 }
 
@@ -96,7 +140,10 @@ extension FilterListViewController: UICollectionViewDelegate {
             
             switch dataSource[indexPath] {
             case let .style(cellState):
-                return collectionView.dequeueCell(withType: FilterListCell.self, for: indexPath).then {
+                return collectionView.dequeueCell(
+                    withType: FilterListCell.self,
+                    for: indexPath
+                ).then {
                     let state: FilterListCellState = .init(
                         title: cellState.title,
                         selectable: true,
@@ -105,7 +152,10 @@ extension FilterListViewController: UICollectionViewDelegate {
                     $0.configureCellState(state: state)
                 }
             case let .cloth(cellState):
-                return collectionView.dequeueCell(withType: FilterListCell.self, for: indexPath).then {
+                return collectionView.dequeueCell(
+                    withType: FilterListCell.self,
+                    for: indexPath
+                ).then {
                     let state: FilterListCellState = .init(
                         title: cellState.title,
                         selectable: cellState.selectable,
@@ -119,7 +169,10 @@ extension FilterListViewController: UICollectionViewDelegate {
             
             if kind == UICollectionView.elementKindSectionHeader {
                 if case let .cloth(title, _) = dataSource[indexPath.section] {
-                    return collectionView.dequeueReusableHeaderView(withType: FilterListHeaderView.self, for: indexPath).then {
+                    return collectionView.dequeueReusableHeaderView(
+                        withType: FilterListHeaderView.self,
+                        for: indexPath
+                    ).then {
                         $0.configureViewState(title: title)
                     }
                 }

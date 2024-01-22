@@ -207,7 +207,10 @@ extension NewHomeViewController: UICollectionViewDelegate {
             
             switch dataSource[indexPath] {
             case .forecast(let cellState):
-                return collectionView.dequeueCell(withType: HomeForecastCell.self, for: indexPath).then {
+                return collectionView.dequeueCell(
+                    withType: HomeForecastCell.self,
+                    for: indexPath
+                ).then {
                     $0.configureCellState(state: cellState)
                     
                     $0.swipeGesture
@@ -217,7 +220,10 @@ extension NewHomeViewController: UICollectionViewDelegate {
                         }).disposed(by: $0.bag)
                 }
             case .closet(let cellState):
-                return collectionView.dequeueCell(withType: HomeClosetCell.self, for: indexPath).then {
+                return collectionView.dequeueCell(
+                    withType: HomeClosetCell.self,
+                    for: indexPath
+                ).then {
                     let row = indexPath.row
                     if row != 0 {
                         $0.configureCellState(state: cellState)

@@ -45,9 +45,6 @@ public class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitiali
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        self.navigationController?.isNavigationBarHidden = true
-
         view.backgroundColor = .white
         view.addSubview(container)
     }

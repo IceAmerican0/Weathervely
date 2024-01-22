@@ -10,9 +10,10 @@ import FlexLayout
 import PinLayout
 import Then
 import RxCocoa
+import RxSwift
 
 final class ClosetFilterViewController: RxBaseViewController<ClosetFilterViewModel> {
-    private let segmentView = UnderlineTitleSegmentView(items: ["스타일", "아이템"]).then {
+    private lazy var segmentView = UnderlineTitleSegmentView(items: ["스타일", "아이템"]).then {
         $0.setTitleTextAttributes(
             [
                 .font: UIFont.title_2_SB,
@@ -27,7 +28,7 @@ final class ClosetFilterViewController: RxBaseViewController<ClosetFilterViewMod
             ],
             for: .selected
         )
-        $0.selectedSegmentIndex = 0
+        $0.selectedSegmentIndex = viewModel.viewState.rawValue
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
@@ -35,66 +36,81 @@ final class ClosetFilterViewController: RxBaseViewController<ClosetFilterViewMod
         transitionStyle: .scroll,
         navigationOrientation: .horizontal
     ).then {
-        $0.delegate = self
         $0.dataSource = self
-        $0.setViewControllers([filterViewControllers[0]], direction: .forward, animated: true)
         $0.view.translatesAutoresizingMaskIntoConstraints = false
+        $0.view.backgroundColor = .clear
     }
     
-    private var filterViewControllers = [
+    private var filterViewControllers: [UIViewController] = [
         FilterListViewController(FilterListViewModel(viewState: .style)),
         FilterListViewController(FilterListViewModel(viewState: .item))
     ]
     
-    private var subContainer = UIView().then {
-        $0.backgroundColor = .clear
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .white
+        
+        segmentView.rx.selectedSegmentIndex
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, index in
+                    owner.pageViewController.setViewControllers(
+                        [owner.filterViewControllers[index]],
+                        direction: index == 0 ? .forward : .reverse,
+                        animated: true
+                    )
+                }
+            ).disposed(by: bag)
     }
-    
-    private let resetButton = NewCSButton(.standard, style: .violet600).then {
-        $0.imageView?.image = .filter_reset_dis
-        $0.backgroundColor = .gray30
-    }
-    
-    private let confirmButton = NewCSButton(.standard, style: .violet600)
 
     override func layout() {
         super.layout()
         
         container.flex.define {
-            $0.addItem(segmentView).horizontally(20).marginTop(4).height(48).grow(1)
-            $0.addItem(subContainer).grow(1)
-            $0.addItem().direction(.row).marginBottom(20).width(100%).define {
-                $0.addItem(resetButton).marginLeft(20).width(72).height(48)
-                $0.addItem(confirmButton).marginLeft(8).marginRight(20).height(48).grow(1)
-            }
+            $0.addItem(segmentView).horizontally(20).marginTop(4).width(100%).height(48)
+            $0.addItem(pageViewController.view).grow(1)
         }
-    }
-    
-    override func viewBinding() {
-        super.viewBinding()
-        
-        
     }
 }
 
 // MARK: UIPageViewController Delegate & DataSource
 extension ClosetFilterViewController: UIPageViewControllerDelegate, UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        UIViewController()
+        guard let index = filterViewControllers.firstIndex(of: viewController) else { return nil }
+        
+        let previous = index - 1
+        if previous < 0 {
+            return nil
+        }
+        
+        segmentView.selectedSegmentIndex = previous
+        
+        return filterViewControllers[previous]
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        UIViewController()
-    }
-    
-    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        guard let index = filterViewControllers.firstIndex(of: viewController) else {
+            return nil
+        }
         
+        let next = index + 1
+        guard filterViewControllers.count > next else {
+            return nil
+        }
+        
+        segmentView.selectedSegmentIndex = next
+        
+        return filterViewControllers[next]
     }
 }
 
-// MARK:
+// MARK: FilterListViewDelegate
 extension ClosetFilterViewController: FilterListViewDelegate {
     func didTapCell(count: Int) {
-        confirmButton.setTitle("\(count)개 코디 보기", for: .normal)
+    }
+    
+    func didTapConfirm() {
+        viewModel.navigationPopViewControllerRelay.accept(Void())
     }
 }

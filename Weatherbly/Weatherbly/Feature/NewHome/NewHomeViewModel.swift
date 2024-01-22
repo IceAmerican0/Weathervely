@@ -209,8 +209,8 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     
     /// 필터링
     public func filterCloset(state: FilterListViewState) {
-        let vc = FilterListViewController(FilterListViewModel(viewState: state))
-        navigationPushViewControllerRelay.accept(vc)
+        let vc = ClosetFilterViewController(ClosetFilterViewModel(viewState: state))
+        presentViewControllerWithAnimationRelay.accept(vc)
     }
     
     /// 상세보기 이동
