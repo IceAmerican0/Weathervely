@@ -41,7 +41,7 @@ public final class TenDaysForecastViewModel: RxBaseViewModel, ViewModelBusinessL
                 },
                 onError: { owner, error in
                     owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
-                                                         alertType: .Error,
+                                                         alertType: .popup,
                                                          closeAction: {
                         owner.navigationPopViewControllerRelay.accept(Void())
                     }))
@@ -68,7 +68,7 @@ public final class TenDaysForecastViewModel: RxBaseViewModel, ViewModelBusinessL
                 },
                 onError: { owner, error in
                     owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
-                                                         alertType: .Error,
+                                                         alertType: .popup,
                                                          closeAction: {
                         owner.navigationPopViewControllerRelay.accept(Void())
                     }))

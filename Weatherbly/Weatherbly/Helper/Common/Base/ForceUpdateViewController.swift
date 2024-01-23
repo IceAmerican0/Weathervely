@@ -14,7 +14,7 @@ final class ForceUpdateViewController: RxBaseViewController<EmptyViewModel> {
         container.backgroundColor = .white
         
         self.viewModel.alertMessageRelay.accept(.init(title: "새로운 버전이 출시됐어요!\n앱스토어에서 업데이트해주세요",
-                                                      alertType: .Error,
+                                                      alertType: .popup,
                                                       closeAction: {
             guard let appStoreLink = URL(string: Constants.appStoreLink) else { return }
             UIApplication.shared.open(appStoreLink)

@@ -87,6 +87,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
         ]
         let combinedData = homeForecast + closet
         homeSections.accept(combinedData)
+        refreshStatus.accept(false)
     }
     
     /// 새로고침
@@ -111,7 +112,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
             ),
             .init(
                 date: "내일",
-                time: "오후 12시",
+                time: "오후 8시",
                 mainTemp: 18,
                 minTemp: 10,
                 maxTemp: 22,
@@ -120,6 +121,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
             ),
         ]
         forecastInfo = data
+        selectedIndex = 0
         selectedForecastState.accept(forecastInfo[selectedIndex])
         getClosetInfo()
     }
@@ -133,13 +135,12 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
                 onNext: { owner, response in
                     guard let data = response.data else { return }
                     owner.recommendedCloset.accept(data.list)
-                    owner.refreshStatus.accept(false)
                     owner.loadHome()
                 },
                 onError: { owner, error in
                     owner.refreshStatus.accept(false)
                     owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
-                                                         alertType: .Error,
+                                                         alertType: .popup,
                                                          closeAction: {
                         owner.navigationPopToSelfRelay.accept(Void())
                     }))
@@ -166,7 +167,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
                 alertMessageRelay.accept(
                     .init(
                         title: "현재보다 이전 시간은 확인할 수 없어요",
-                        alertType: .Info
+                        alertType: .toast
                 ))
                 return
             }
@@ -175,7 +176,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
                 alertMessageRelay.accept(
                     .init(
                         title: "내일 날씨까지만 볼 수 있어요",
-                        alertType: .Info
+                        alertType: .toast
                 ))
                 return
             }

@@ -90,7 +90,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                 },
                 onError: { owner, error in
                     owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
-                                                         alertType: .Error,
+                                                         alertType: .popup,
                                                          closeAction: owner.popToSelf))
             })
             .disposed(by: bag)
@@ -105,7 +105,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                 },
                 onError: { owner, error in
                     owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
-                                                         alertType: .Error,
+                                                         alertType: .popup,
                                                          closeAction: owner.popToSelf))
             })
             .disposed(by: bag)
@@ -355,7 +355,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             
         } else {
             alertMessageRelay.accept(.init(title: "내일 날씨까지만 볼 수 있어요",
-                                           alertType: .Info))
+                                           alertType: .toast))
         }
     }
     
@@ -445,7 +445,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             
         } else {
             alertMessageRelay.accept(.init(title: "현재보다 이전 시간은 확인할 수 없어요",
-                                           alertType: .Info))
+                                           alertType: .toast))
         }
     }
     
@@ -532,7 +532,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                 },
                 onError: { _, error in
                     #if DEBUG
-                    print(error.localizedDescription)
+                    print(popup.localizedDescription)
                     #endif
                     return
             })
@@ -646,6 +646,6 @@ extension HomeViewModel: HomeSensoryTempViewControllerDelegate {
         self.getRecommendCloset(self.selectedHourParamTypeRelay.value!)
         let newTemperatureDiff = recommendClosetEntityRelay.value?.temperatureDifference
         self.weatherMsgRelay.accept(WeatherMsgEnum.sensoryDiffMsg(newTemperatureDiff!).msg)
-        self.alertMessageRelay.accept(.init(title: "\(nickname) 님의 체감온도가 반영됐어요", alertType: .Info))
+        self.alertMessageRelay.accept(.init(title: "\(nickname) 님의 체감온도가 반영됐어요", alertType: .toast))
     }
 }

@@ -140,15 +140,27 @@ public class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitiali
         viewModel.alertMessageRelay
             .bind(with: self) { owner, message in
                 switch message.alertType {
-                case .Error:
+                case .popup:
                     let alertVC = AlertViewController(state: .init(title: message.title,
                                                                    message: message.message,
                                                                    alertType: message.alertType,
                                                                    closeAction: message.closeAction))
                     alertVC.modalPresentationStyle = .overCurrentContext
                     owner.viewModel.presentViewControllerNoAnimationRelay.accept(alertVC)
-                case .Info:
-                    owner.view.showToast(message: message.title, font: .systemFont(ofSize: 16))
+                case .toast:
+                    let toast = ToastView(
+                        text: message.title,
+                        completionHandler: message.closeAction
+                    )
+                    owner.view.addSubview(toast)
+                    
+                    NSLayoutConstraint.activate([
+                        toast.centerXAnchor.constraint(equalTo: owner.view.centerXAnchor),
+                        toast.leadingAnchor.constraint(greaterThanOrEqualTo: owner.view.leadingAnchor, constant: 15),
+                        toast.trailingAnchor.constraint(lessThanOrEqualTo: owner.view.trailingAnchor, constant: -15),
+                        toast.bottomAnchor.constraint(equalTo: owner.view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
+                        toast.heightAnchor.constraint(lessThanOrEqualToConstant: 58)
+                    ])
                 }
             }
             .disposed(by: bag)

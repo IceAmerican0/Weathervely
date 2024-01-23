@@ -65,6 +65,7 @@
 		5CAB60D32A54FC6A00CD431A /* UITableViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAB60D22A54FC6900CD431A /* UITableViewCell+Extension.swift */; };
 		5CAB60D52A54FDFE00CD431A /* TenDaysForecastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAB60D42A54FDFE00CD431A /* TenDaysForecastTableViewCell.swift */; };
 		5CADDD282A9DDF9900EAB678 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CADDD272A9DDF9900EAB678 /* Constants.swift */; };
+		5CBD391E2B5F3EFE00B0A85F /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBD391D2B5F3EFE00B0A85F /* ToastView.swift */; };
 		5CC61E1F2A56850F001435E6 /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC61E1E2A56850F001435E6 /* DateFormatter+Extension.swift */; };
 		5CC61E212A579D66001435E6 /* DailyForecastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC61E202A579D66001435E6 /* DailyForecastViewController.swift */; };
 		5CC61E232A57C617001435E6 /* DailyForecastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC61E222A57C617001435E6 /* DailyForecastTableViewCell.swift */; };
@@ -162,7 +163,6 @@
 		BD4907312A83C3C00027DEE8 /* SensoryTempClosetEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4907302A83C3C00027DEE8 /* SensoryTempClosetEntity.swift */; };
 		BD4907332A84D42F0027DEE8 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4907322A84D42F0027DEE8 /* String+Extension.swift */; };
 		BD4AC38A2A655AEC00537583 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4AC3892A655AEC00537583 /* Date+Extension.swift */; };
-		BD4AC38D2A655CE900537583 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = BD4AC38C2A655CE900537583 /* Toast */; };
 		BD4AC38F2A6671B500537583 /* OnBoardSensoryTempViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4AC38E2A6671B500537583 /* OnBoardSensoryTempViewModel.swift */; };
 		BD4AC3912A66899500537583 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4AC3902A66899500537583 /* UILabel+Extension.swift */; };
 		BD4AC3932A669B0500537583 /* SlotMachineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4AC3922A669B0500537583 /* SlotMachineViewModel.swift */; };
@@ -248,6 +248,7 @@
 		5CAB60D22A54FC6900CD431A /* UITableViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extension.swift"; sourceTree = "<group>"; };
 		5CAB60D42A54FDFE00CD431A /* TenDaysForecastTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TenDaysForecastTableViewCell.swift; sourceTree = "<group>"; };
 		5CADDD272A9DDF9900EAB678 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		5CBD391D2B5F3EFE00B0A85F /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		5CC61E1E2A56850F001435E6 /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
 		5CC61E202A579D66001435E6 /* DailyForecastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyForecastViewController.swift; sourceTree = "<group>"; };
 		5CC61E222A57C617001435E6 /* DailyForecastTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyForecastTableViewCell.swift; sourceTree = "<group>"; };
@@ -383,7 +384,6 @@
 				690B6EE92AA9EF9000D54ABC /* FirebaseAnalytics in Frameworks */,
 				5CE0FEB22A8F00F700A0E655 /* WebKit.framework in Frameworks */,
 				5CA0040C2AC2B90700B0BFB4 /* FlexLayout in Frameworks */,
-				BD4AC38D2A655CE900537583 /* Toast in Frameworks */,
 				5C2AD7392AC2B5BD006BFF81 /* Then in Frameworks */,
 				690B6EEF2AA9EF9000D54ABC /* FirebaseRemoteConfig in Frameworks */,
 				5C23DB972A65045C00F41574 /* RxSwift in Frameworks */,
@@ -545,6 +545,7 @@
 			isa = PBXGroup;
 			children = (
 				5CDCD7D32B552375008465B9 /* UnderlineTitleSegmentView.swift */,
+				5CBD391D2B5F3EFE00B0A85F /* ToastView.swift */,
 			);
 			path = Organism;
 			sourceTree = "<group>";
@@ -624,14 +625,14 @@
 			path = Font;
 			sourceTree = "<group>";
 		};
-		BD05E0742B38109100A48E61 /* Design System */ = {
+		BD05E0742B38109100A48E61 /* DesignSystem */ = {
 			isa = PBXGroup;
 			children = (
 				5CDCD7CE2B5522C6008465B9 /* Organism */,
 				5CDCD7CF2B5522CD008465B9 /* Molecule */,
 				BD05E0752B3810A400A48E61 /* Atom */,
 			);
-			path = "Design System";
+			path = DesignSystem;
 			sourceTree = "<group>";
 		};
 		BD05E0752B3810A400A48E61 /* Atom */ = {
@@ -667,7 +668,7 @@
 			isa = PBXGroup;
 			children = (
 				BD8668E22B45607200B0B16A /* Test */,
-				BD05E0742B38109100A48E61 /* Design System */,
+				BD05E0742B38109100A48E61 /* DesignSystem */,
 				BD2D01882A388753003A25D5 /* AppDelegate.swift */,
 				BD2D018A2A388753003A25D5 /* SceneDelegate.swift */,
 				5C4A0ABA2B3ABA56006BE52A /* Colors.xcassets */,
@@ -994,7 +995,6 @@
 			);
 			name = Weatherbly;
 			packageProductDependencies = (
-				BD4AC38C2A655CE900537583 /* Toast */,
 				5C23DB8E2A65045C00F41574 /* RxCocoa */,
 				5C23DB922A65045C00F41574 /* RxRelay */,
 				5C23DB962A65045C00F41574 /* RxSwift */,
@@ -1043,7 +1043,6 @@
 			);
 			mainGroup = BD2D017C2A388753003A25D5;
 			packageReferences = (
-				BD4AC38B2A655CE900537583 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 				5C23DB8D2A65045C00F41574 /* XCRemoteSwiftPackageReference "RxSwift" */,
 				5C23DB9A2A65048200F41574 /* XCRemoteSwiftPackageReference "Moya" */,
 				BD1F3AEF2A7BA08100E528DC /* XCRemoteSwiftPackageReference "RxGesture" */,
@@ -1240,6 +1239,7 @@
 				BD69B8F72A54337000DDCD7A /* SettingViewController.swift in Sources */,
 				5CDCD7DB2B564144008465B9 /* FilterListViewController.swift in Sources */,
 				5CDB15AF2B50D1F400470127 /* CAGradientLayer+Extension.swift in Sources */,
+				5CBD391E2B5F3EFE00B0A85F /* ToastView.swift in Sources */,
 				698F6CB22AE00FCC00C2B33A /* UIImage+Extension.swift in Sources */,
 				5C4A0ABD2B43ED8F006BE52A /* HomeForecastCell.swift in Sources */,
 				5C68E9212AF376080046D0BE /* ForcastUseCase.swift in Sources */,
@@ -1580,14 +1580,6 @@
 				minimumVersion = 4.0.0;
 			};
 		};
-		BD4AC38B2A655CE900537583 /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/scalessec/Toast-Swift.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1680,11 +1672,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BD1F3AEF2A7BA08100E528DC /* XCRemoteSwiftPackageReference "RxGesture" */;
 			productName = RxGesture;
-		};
-		BD4AC38C2A655CE900537583 /* Toast */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BD4AC38B2A655CE900537583 /* XCRemoteSwiftPackageReference "Toast-Swift" */;
-			productName = Toast;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

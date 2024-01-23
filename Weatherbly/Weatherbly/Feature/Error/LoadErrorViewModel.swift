@@ -35,7 +35,7 @@ final public class LoadErrorViewModel: RxBaseViewModel, LoadErrorViewModelLogic 
                 },
                 onError: { owner, error in
                     owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
-                                                         alertType: .Info))
+                                                         alertType: .toast))
             })
             .disposed(by: bag)
     }
