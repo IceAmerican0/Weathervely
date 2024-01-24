@@ -46,9 +46,29 @@ final class ClosetFilterViewController: RxBaseViewController<ClosetFilterViewMod
         FilterListViewController(FilterListViewModel(viewState: .item))
     ]
     
+    private let buttonView = UIView().then {
+        $0.backgroundColor = .white
+    }
+    
+    private var resetButton = NewCSButton(.standard, style: .violet600).then {
+        $0.setImage(.filter_reset_dis, for: .normal)
+        $0.backgroundColor = .gray30
+        $0.isUserInteractionEnabled = false
+    }
+    
+    private let confirmButton = NewCSButton(.standard, style: .violet600).then {
+        $0.titleLabel?.font = .title_3_B
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        
+        filterViewControllers.forEach { vc in
+            if let vc = vc as? FilterListViewController {
+                vc.delegate = self
+            }
+        }
         
         segmentView.rx.selectedSegmentIndex
             .asDriver()
@@ -69,7 +89,11 @@ final class ClosetFilterViewController: RxBaseViewController<ClosetFilterViewMod
         
         container.flex.define {
             $0.addItem(segmentView).horizontally(20).marginTop(4).width(100%).height(48)
-            $0.addItem(pageViewController.view).grow(1)
+            $0.addItem(pageViewController.view).width(100%).height(350)
+            $0.addItem().alignSelf(.end).direction(.row).paddingTop(20).width(100%).height(88).define {
+                $0.addItem(resetButton).marginLeft(20).width(72).height(48)
+                $0.addItem(confirmButton).marginLeft(8).marginRight(20).height(48).grow(1)
+            }
         }
     }
 }
@@ -107,7 +131,16 @@ extension ClosetFilterViewController: UIPageViewControllerDelegate, UIPageViewCo
 
 // MARK: FilterListViewDelegate
 extension ClosetFilterViewController: FilterListViewDelegate {
-    func didTapCell(count: Int) {
+    func didTapCell(count: Int, isFiltered: Bool) {
+        confirmButton.setTitle("\(count)개 코디 보기", for: .normal)
+        
+        if isFiltered {
+            resetButton.setImage(.filter_reset, for: .normal)
+            resetButton.isUserInteractionEnabled = true
+        } else {
+            resetButton.setImage(.filter_reset_dis, for: .normal)
+            resetButton.isUserInteractionEnabled = false
+        }
     }
     
     func didTapConfirm() {

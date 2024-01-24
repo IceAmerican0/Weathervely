@@ -12,7 +12,6 @@ import Then
 import Kingfisher
 
 public final class HomeClosetCell: UICollectionViewCell {
-    
     let cloth = UIImageView().then {
         $0.contentMode = .scaleAspectFit
         $0.clipsToBounds = true
@@ -32,26 +31,26 @@ public final class HomeClosetCell: UICollectionViewCell {
     }
     
     public override func sizeThatFits(_ size: CGSize) -> CGSize {
+        contentView.pin.width(size.width)
         setLayout()
-        contentView.flex.layout(mode: .adjustHeight)
         return contentView.frame.size
     }
     
     public override func layoutSubviews() {
         super.layoutSubviews()
         setLayout()
-        self.backgroundColor = .gray10
-        self.setCornerRadius(12)
-        self.layer.masksToBounds = true
-        self.clipsToBounds = true
     }
     
     func setLayout() {
-        contentView.pin.all()
         contentView.flex.layout()
     }
     
     func layout() {
+        backgroundColor = .gray10
+        setCornerRadius(12)
+        layer.masksToBounds = true
+        clipsToBounds = true
+        
         contentView.flex.define {
             $0.addItem(cloth).grow(1)
         }
@@ -59,7 +58,7 @@ public final class HomeClosetCell: UICollectionViewCell {
     
     func configureCellState(state: RecommendClosetInfo) {
         cloth.setKF(urlString: state.imageUrl)
-        setLayout()
-//        setNeedsLayout()
+//        cloth.flex.markDirty()
+        setNeedsLayout()
     }
 }

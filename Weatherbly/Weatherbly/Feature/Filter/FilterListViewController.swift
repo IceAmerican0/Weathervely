@@ -13,7 +13,7 @@ import RxSwift
 import RxDataSources
 
 public protocol FilterListViewDelegate: AnyObject {
-    func didTapCell(count: Int)
+    func didTapCell(count: Int, isFiltered: Bool)
     func didTapConfirm()
 }
 
@@ -37,16 +37,8 @@ final class FilterListViewController: RxBaseViewController<FilterListViewModel> 
     
     private lazy var dataSource = setDataSource()
     
-    private var resetButton = NewCSButton(.standard, style: .violet600).then {
-        $0.setImage(.filter_reset_dis, for: .normal)
-        $0.backgroundColor = .gray30
-        $0.isUserInteractionEnabled = false
-    }
-    
-    private let confirmButton = NewCSButton(.standard, style: .violet600)
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         switch viewModel.viewState {
         case .style: viewModel.filterStyleList()
@@ -59,10 +51,6 @@ final class FilterListViewController: RxBaseViewController<FilterListViewModel> 
         
         container.flex.define {
             $0.addItem(filterList).marginTop(26).grow(1)
-            $0.addItem().direction(.row).marginBottom(20).width(100%).define {
-                $0.addItem(resetButton).marginLeft(20).width(72).height(48)
-                $0.addItem(confirmButton).marginLeft(8).marginRight(20).height(48).grow(1)
-            }
         }
     }
     
@@ -85,21 +73,6 @@ final class FilterListViewController: RxBaseViewController<FilterListViewModel> 
                 }
             ).disposed(by: bag)
         
-        viewModel.isFiltered
-            .asDriver()
-            .drive(
-                with: self,
-                onNext: { owner, filtered in
-                    if filtered {
-                        owner.resetButton.setImage(.filter_reset, for: .normal)
-                        owner.resetButton.isUserInteractionEnabled = true
-                    } else {
-                        owner.resetButton.setImage(.filter_reset_dis, for: .normal)
-                        owner.resetButton.isUserInteractionEnabled = false
-                    }
-                }
-            ).disposed(by: bag)
-        
         viewModel.filterSection
             .observe(on: MainScheduler.instance)
             .bind(to: filterList.rx.items(dataSource: dataSource))
@@ -109,24 +82,8 @@ final class FilterListViewController: RxBaseViewController<FilterListViewModel> 
             .subscribe(
                 with: self,
                 onNext: { owner, count in
-                    owner.confirmButton.setTitle("\(count)개 코디 보기", for: .normal)
-                }
-            ).disposed(by: bag)
-        
-        resetButton.rx.tap
-            .asDriver()
-            .drive(
-                with: self,
-                onNext: { owner, _ in
-                    
-                }
-            ).disposed(by: bag)
-        
-        confirmButton.rx.tap
-            .bind(
-                with: self,
-                onNext: { owner, _ in
-                    owner.delegate?.didTapConfirm()
+                    let isFiltered = owner.viewModel.isFiltered
+                    owner.delegate?.didTapCell(count: count, isFiltered: isFiltered)
                 }
             ).disposed(by: bag)
     }

@@ -15,7 +15,7 @@ protocol FilterListViewModelLogic: ViewModelBusinessLogic {
     
     var viewState: FilterListViewState { get }
     var isLoading: PublishRelay<Bool> { get }
-    var isFiltered: BehaviorRelay<Bool> { get }
+    var isFiltered: Bool { get }
     var filterSection: PublishRelay<[FilterSection]> { get }
     var filterCount: PublishRelay<Int> { get }
 }
@@ -28,7 +28,7 @@ final class FilterListViewModel: RxBaseViewModel, FilterListViewModelLogic {
     var isLoading: PublishRelay<Bool>
     
     /// 필터 선택 여부
-    var isFiltered: BehaviorRelay<Bool> = .init(value: true)
+    var isFiltered: Bool = .init()
     
     /// 필터 정보
     var filterSection = PublishRelay<[FilterSection]>()

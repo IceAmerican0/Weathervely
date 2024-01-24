@@ -297,7 +297,10 @@ extension NewHomeViewController: UICollectionViewDelegate {
         )
         
         let item = NSCollectionLayoutItem(layoutSize: cellSize)
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: cellSize, subitems: [item])
+        let group = NSCollectionLayoutGroup.vertical(
+            layoutSize: cellSize,
+            subitems: [item]
+        )
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(
             top: 0, leading: 20, bottom: 14, trailing: 20
@@ -316,8 +319,8 @@ extension NewHomeViewController: UICollectionViewDelegate {
         
         let banner = NSCollectionLayoutItem(
             layoutSize: NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1),
-                heightDimension: .fractionalHeight(0.7)
+                widthDimension: .absolute(158),
+                heightDimension: .absolute(158)
             )
         )
         

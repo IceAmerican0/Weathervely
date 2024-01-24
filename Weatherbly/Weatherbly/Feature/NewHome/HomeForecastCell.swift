@@ -56,17 +56,14 @@ public final class HomeForecastCell: UICollectionViewCell {
     }
     
     public override func sizeThatFits(_ size: CGSize) -> CGSize {
+        contentView.pin.width(size.width)
         setLayout()
-        contentView.flex.layout()
         return contentView.frame.size
     }
     
     override public func layoutSubviews() {
         super.layoutSubviews()
         setLayout()
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-        self.setCornerRadius(12)
-        self.layer.masksToBounds = true
     }
     
     public override func prepareForReuse() {
@@ -88,17 +85,20 @@ public final class HomeForecastCell: UICollectionViewCell {
         )
         gradient.position = contentView.center
         contentView.layer.insertSublayer(gradient, at: 0)
-        setLayout()
+        contentView.flex.markDirty()
+        setNeedsLayout()
     }
 }
 
 private extension HomeForecastCell {
     func setLayout() {
-        contentView.pin.all()
         contentView.flex.layout()
     }
     
     func layout() {
+        setCornerRadius(12)
+        clipsToBounds = true
+        
         contentView.flex.alignItems(.center).define {
             $0.addItem().direction(.row).justifyContent(.spaceBetween).alignItems(.center).marginTop(27).width(100%).define {
                 $0.addItem(mainTempLabel).marginLeft(20).size(68)

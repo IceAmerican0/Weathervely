@@ -15,9 +15,10 @@ extension CAGradientLayer {
             $0.locations = [0, 1]
             $0.startPoint = CGPoint(x: 0.25, y: 0.5)
             $0.endPoint = CGPoint(x: 0.75, y: 0.5)
-            $0.transform = CATransform3DMakeAffineTransform(
-                CGAffineTransform(a: 0.97, b: 0.95, c: -0.85, d: 0.6, tx: 0.44, ty: -0.3
-            ))
+            $0.transform = CATransform3DMakeAffineTransform(CGAffineTransform.identity)
+//            $0.transform = CATransform3DMakeAffineTransform(
+//                CGAffineTransform(a: 0.97, b: 0.95, c: -0.85, d: 0.6, tx: 0.44, ty: -0.3
+//            ))
         }
     }
 }
