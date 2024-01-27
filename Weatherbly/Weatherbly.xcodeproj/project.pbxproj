@@ -137,6 +137,7 @@
 		BD2D01B62A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D01B52A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift */; };
 		BD2D11BC2A9AEB0D008CBF0D /* TenDaysForecastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D11BB2A9AEB0D008CBF0D /* TenDaysForecastViewModel.swift */; };
 		BD2D11BE2A9AEDCE008CBF0D /* SevenDayForecastInfoEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D11BD2A9AEDCE008CBF0D /* SevenDayForecastInfoEntity.swift */; };
+		BD3BA9EA2B63948400BD3BFF /* LifeCycleTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3BA9E92B63948400BD3BFF /* LifeCycleTest.swift */; };
 		BD4316342A3C967900E86271 /* OnBoardSensoryTempViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4316332A3C967900E86271 /* OnBoardSensoryTempViewController.swift */; };
 		BD4316362A3C9DB700E86271 /* AssetsImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4316352A3C9DB700E86271 /* AssetsImage.swift */; };
 		BD4316382A3CA20900E86271 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4316372A3CA20900E86271 /* UIView+Extension.swift */; };
@@ -298,6 +299,7 @@
 		BD2D01B52A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeBaseInitialzerProtocol.swift; sourceTree = "<group>"; };
 		BD2D11BB2A9AEB0D008CBF0D /* TenDaysForecastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TenDaysForecastViewModel.swift; sourceTree = "<group>"; };
 		BD2D11BD2A9AEDCE008CBF0D /* SevenDayForecastInfoEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SevenDayForecastInfoEntity.swift; sourceTree = "<group>"; };
+		BD3BA9E92B63948400BD3BFF /* LifeCycleTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeCycleTest.swift; sourceTree = "<group>"; };
 		BD4316332A3C967900E86271 /* OnBoardSensoryTempViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardSensoryTempViewController.swift; sourceTree = "<group>"; };
 		BD4316352A3C9DB700E86271 /* AssetsImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetsImage.swift; sourceTree = "<group>"; };
 		BD4316372A3CA20900E86271 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
@@ -561,8 +563,6 @@
 		BD05E0742B38109100A48E61 /* Design System */ = {
 			isa = PBXGroup;
 			children = (
-				BD05E0782B3810EB00A48E61 /* Orginism */,
-				BD05E0772B3810AD00A48E61 /* Molecule */,
 				BD05E0752B3810A400A48E61 /* Atom */,
 			);
 			path = "Design System";
@@ -577,20 +577,6 @@
 				BD05E07D2B3816BB00A48E61 /* NewCombiButton.swift */,
 			);
 			path = Atom;
-			sourceTree = "<group>";
-		};
-		BD05E0772B3810AD00A48E61 /* Molecule */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Molecule;
-			sourceTree = "<group>";
-		};
-		BD05E0782B3810EB00A48E61 /* Orginism */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Orginism;
 			sourceTree = "<group>";
 		};
 		BD2D017C2A388753003A25D5 = {
@@ -875,6 +861,7 @@
 			isa = PBXGroup;
 			children = (
 				BD8668E32B45607B00B0B16A /* CSButtonTests.swift */,
+				BD3BA9E92B63948400BD3BFF /* LifeCycleTest.swift */,
 			);
 			path = Test;
 			sourceTree = "<group>";
@@ -1078,6 +1065,7 @@
 				BD2D018D2A388753003A25D5 /* HomeViewController.swift in Sources */,
 				5CAB60BF2A4D6A9D00CD431A /* ClosetFSPagerViewCell.swift in Sources */,
 				BD05E07A2B38114B00A48E61 /* NewCSButton.swift in Sources */,
+				BD3BA9EA2B63948400BD3BFF /* LifeCycleTest.swift in Sources */,
 				5C9D02D72A71EEC900AF2DA3 /* AuthTarget.swift in Sources */,
 				5CCC914B2A6114880025B522 /* RegionTarget.swift in Sources */,
 				BD2D11BC2A9AEB0D008CBF0D /* TenDaysForecastViewModel.swift in Sources */,

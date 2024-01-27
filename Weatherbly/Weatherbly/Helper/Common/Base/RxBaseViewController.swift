@@ -26,25 +26,18 @@ public class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitiali
     init(_ viewModel: ViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
-        
+
         /// attribute, layout, bind 를 호출해서 필요한 코드를 작성하면 된다.
         codeBaseInitializer()
-        print(#function , "RxVC INit")
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    public override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
         
-    /// child component들의 속성을 잡아주기 위해서 flex.layout()을 먼저 호출한다.
-        container.pin.all(view.pin.safeArea)
-        container.flex.layout()
     }
     
     public override func viewDidLoad() {
+        
         super.viewDidLoad()
         
         self.navigationController?.isNavigationBarHidden = true
@@ -52,11 +45,16 @@ public class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitiali
         view.backgroundColor = .white
         view.addSubview(container)
     }
+    
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+    /// child component들의 속성을 잡아주기 위해서 flex.layout()을 먼저 호출한다.
+        container.pin.all(view.pin.safeArea)
+        container.flex.layout()
+    }
  
     // MARK: - Attribute
-    func attribute() { 
-        print(#function ,"RxBaseViewCon")
-    }
+    func attribute() { }
     
     // MARK: - Layout
     func layout() { }
@@ -68,7 +66,7 @@ public class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitiali
         alertBinding()
     }
     
-    func viewBinding() {}
+    func viewBinding() { }
     
     func viewModelBinding() {
         viewModel
