@@ -31,8 +31,8 @@ public final class HomeClosetCell: UICollectionViewCell {
     }
     
     public override func sizeThatFits(_ size: CGSize) -> CGSize {
-        contentView.pin.width(size.width)
         setLayout()
+        contentView.flex.layout()
         return contentView.frame.size
     }
     
@@ -42,6 +42,7 @@ public final class HomeClosetCell: UICollectionViewCell {
     }
     
     func setLayout() {
+        cloth.pin.all()
         contentView.flex.layout()
     }
     
@@ -57,8 +58,14 @@ public final class HomeClosetCell: UICollectionViewCell {
     }
     
     func configureCellState(state: RecommendClosetInfo) {
-        cloth.setKF(urlString: state.imageUrl)
-//        cloth.flex.markDirty()
+        if state.imageUrl == "" {
+            cloth.flex.width(158).height(158)
+            cloth.image = .home_banner_01
+        } else {
+            cloth.setKF(urlString: state.imageUrl)
+        }
+        
+        cloth.flex.markDirty()
         setNeedsLayout()
     }
 }

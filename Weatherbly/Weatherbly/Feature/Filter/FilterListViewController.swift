@@ -179,21 +179,21 @@ extension FilterListViewController: UICollectionViewDelegate {
     }
     
     func setItemSection() -> NSCollectionLayoutSection {
-        let cellSize = NSCollectionLayoutSize(
-            widthDimension: .estimated(70),
-            heightDimension: .estimated(37)
+        let item = NSCollectionLayoutItem(
+            layoutSize: NSCollectionLayoutSize(
+                widthDimension: .estimated(70),
+                heightDimension: .estimated(37)
+            )
         )
         
-        let item = NSCollectionLayoutItem(layoutSize: cellSize)
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: cellSize.heightDimension
-        )
-        let layoutGroup = NSCollectionLayoutGroup.horizontal(
-            layoutSize: groupSize,
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: item.layoutSize.heightDimension
+            ),
             subitems: [item]
         )
-        layoutGroup.interItemSpacing = .fixed(16)
+        group.interItemSpacing = .fixed(16)
         
         let headerSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
@@ -206,8 +206,7 @@ extension FilterListViewController: UICollectionViewDelegate {
             alignment: .topLeading
         )
         
-        
-        let section = NSCollectionLayoutSection(group: layoutGroup)
+        let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(
             top: 12, leading: 20, bottom: 26, trailing: 20
         )

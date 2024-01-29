@@ -68,6 +68,14 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
         $0.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
     }
     
+    private let flowLayout = UICollectionViewFlowLayout().then {
+        $0.scrollDirection = .vertical
+        $0.minimumInteritemSpacing = 19
+        $0.minimumLineSpacing = 19
+        $0.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        $0.sectionHeadersPinToVisibleBounds = true
+    }
+    
     private lazy var homeCollectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: setLayout()
@@ -224,12 +232,7 @@ extension NewHomeViewController: UICollectionViewDelegate {
                     withType: HomeClosetCell.self,
                     for: indexPath
                 ).then {
-                    let row = indexPath.row
-                    if row != 0 {
-                        $0.configureCellState(state: cellState)
-                    } else {
-                        $0.cloth.image = .home_banner_01
-                    }
+                    $0.configureCellState(state: cellState)
                 }
             }
         }, configureSupplementaryView: { [weak self] dataSource, collectionView, kind, indexPath in
@@ -310,27 +313,35 @@ extension NewHomeViewController: UICollectionViewDelegate {
     
     /// 추천 Cell Layout
     func setClosetLayout() -> NSCollectionLayoutSection {
-        let item = NSCollectionLayoutItem(
+        let banner = NSCollectionLayoutItem(
             layoutSize: NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1),
-                heightDimension: .fractionalHeight(1)
+                widthDimension: .estimated(158),
+                heightDimension: .estimated(158)
             )
         )
         
-        let banner = NSCollectionLayoutItem(
+        let bannerGroup = NSCollectionLayoutGroup.horizontal(
             layoutSize: NSCollectionLayoutSize(
-                widthDimension: .absolute(158),
-                heightDimension: .absolute(158)
+                widthDimension: .fractionalWidth(1),
+                heightDimension: banner.layoutSize.heightDimension
+            ),
+            subitems: [banner]
+        )
+        bannerGroup.interItemSpacing = .fixed(19)
+        
+        let item = NSCollectionLayoutItem(
+            layoutSize: NSCollectionLayoutSize(
+                widthDimension: .estimated(158),
+                heightDimension: .estimated(236)
             )
         )
         
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1),
-                heightDimension: .absolute(236)
+                heightDimension: item.layoutSize.heightDimension
             ),
-            subitem: item,
-            count: 2
+            subitems: [item]
         )
         group.interItemSpacing = .fixed(19)
         
@@ -354,5 +365,32 @@ extension NewHomeViewController: UICollectionViewDelegate {
         section.boundarySupplementaryItems = [sectionHeader]
         
         return section
+    }
+}
+
+extension NewHomeViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        if section == 1 {
+            return CGSize(width: collectionView.frame.width, height: 56)
+        } else {
+            return .zero
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if indexPath.section == 0 {
+            return CGSize(width: collectionView.frame.width - 40, height: 150)
+        }
+        
+        if indexPath.item == 0 {
+            return CGSize(width: 158, height: 158)
+        } else {
+            return CGSize(width: 158, height: 236)
+        }
     }
 }

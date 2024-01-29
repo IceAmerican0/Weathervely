@@ -18,10 +18,6 @@ public struct FilterListCellState {
 }
 
 final class FilterListCell: UICollectionViewCell {
-    private let container = UIView().then {
-        $0.backgroundColor = .clear
-    }
-    
     private let listButton = UIButton().then {
         $0.titleLabel?.adjustsFontSizeToFitWidth = true
     }
@@ -88,15 +84,12 @@ final class FilterListCell: UICollectionViewCell {
 private extension FilterListCell {
     func setLayout() {
         listButton.pin.all()
-        container.pin.all()
         contentView.flex.layout()
     }
     
     func layout() {
         contentView.flex.define {
-            $0.addItem(container).grow(1).define {
-                $0.addItem(listButton).grow(1)
-            }
+            $0.addItem(listButton).grow(1)
         }
     }
     

@@ -16,7 +16,7 @@ final class UnderlineTitleSegmentView: UISegmentedControl {
         let width = bounds.size.width / CGFloat(numberOfSegments)
         let height = 2.0
         let xCoordinate = CGFloat(selectedSegmentIndex * Int(width))
-        let yCoordinate = bounds.size.height
+        let yCoordinate = bounds.size.height - height
         let frame = CGRect(x: xCoordinate, y: yCoordinate, width: width, height: height)
         $0.frame = frame
         $0.backgroundColor = .gray600
@@ -26,6 +26,7 @@ final class UnderlineTitleSegmentView: UISegmentedControl {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setDefault()
+        addTarget(self, action: #selector(handleValueChange), for: .valueChanged)
     }
     
     override init(items: [Any]?) {
@@ -42,8 +43,13 @@ final class UnderlineTitleSegmentView: UISegmentedControl {
         layout()
     }
     
-    private func layout() {
+    override var intrinsicContentSize: CGSize {
+        CGSize(width: Constants.screenWidth, height: 48)
+    }
+    
+    func layout() {
         addSubview(underline)
+        bringSubviewToFront(underline)
         
         let xCoordinate = (bounds.width / CGFloat(numberOfSegments)) * CGFloat(selectedSegmentIndex)
         UIView.animate(
@@ -59,9 +65,16 @@ final class UnderlineTitleSegmentView: UISegmentedControl {
         
         let image = UIImage()
         
+        /// 구분선 제거
+        setDividerImage(image, forLeftSegmentState: .selected, rightSegmentState: .normal, barMetrics: .default)
+        
         /// 배경 제거
-//        setBackgroundImage(image, for: .normal, barMetrics: .default)
-//        setBackgroundImage(image, for: .selected, barMetrics: .default)
-//        setBackgroundImage(image, for: .highlighted, barMetrics: .default)
+        setBackgroundImage(image, for: .normal, barMetrics: .default)
+        setBackgroundImage(image, for: .selected, barMetrics: .default)
+        setBackgroundImage(image, for: .highlighted, barMetrics: .default)
+    }
+    
+    @objc func handleValueChange() {
+        layout()
     }
 }

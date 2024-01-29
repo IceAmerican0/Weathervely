@@ -77,7 +77,7 @@ final class ClosetFilterViewController: RxBaseViewController<ClosetFilterViewMod
                 onNext: { owner, index in
                     owner.pageViewController.setViewControllers(
                         [owner.filterViewControllers[index]],
-                        direction: index == 0 ? .forward : .reverse,
+                        direction: index == 0 ? .reverse : .forward,
                         animated: true
                     )
                 }
@@ -88,7 +88,7 @@ final class ClosetFilterViewController: RxBaseViewController<ClosetFilterViewMod
         super.layout()
         
         container.flex.define {
-            $0.addItem(segmentView).horizontally(20).marginTop(4).width(100%).height(48)
+            $0.addItem(segmentView).horizontally(20).width(100%).height(48)
             $0.addItem(pageViewController.view).width(100%).height(350)
             $0.addItem().alignSelf(.end).direction(.row).paddingTop(20).width(100%).height(88).define {
                 $0.addItem(resetButton).marginLeft(20).width(72).height(48)
