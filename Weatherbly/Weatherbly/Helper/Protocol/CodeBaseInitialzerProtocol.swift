@@ -31,24 +31,15 @@ protocol CodeBaseInitializerProtocol {
 extension CodeBaseInitializerProtocol {
 
     func codeBaseInitializer() {
-        print("CodeProtocol", #function)
         attribute()
         layout()
         bind()
-        print("CodeProtocol", #function)
-        
     }
 
-    func attribute() {
-        print("CodeProtocol", #function)
-    }
+    func attribute() { }
 
-    func layout() {
-        print("CodeProtocol", #function)
-    }
+    func layout() { }
 
-    func bind() {
-        print("CodeProtocol", #function)
-    }
+    func bind() { }
 
 }
