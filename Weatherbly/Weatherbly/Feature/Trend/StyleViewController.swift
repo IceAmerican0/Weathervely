@@ -16,17 +16,7 @@ final class StyleViewController: RxBaseScrollViewController<StyleViewModel> {
     
     
     private var titleLabel = LabelMaker(font: UIFont.title_3_B).make(text: "스타일")
-    private var btn1 = NewCSButton(.standard, style: .violet600)
-    private var btn2 = NewCSButton(.standard, style: .violet600)
-    private var btn3 = NewCSButton(.standard, style: .violet600)
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        contentView.flex.layout(mode: .adjustHeight)
-
-        scrollView.contentSize = CGSize(width: contentView.frame.width, height: contentView.frame.height)
-    }
+    private var bannerView = UIImageView()
     
     override func attribute() {
         super.attribute()
@@ -34,12 +24,12 @@ final class StyleViewController: RxBaseScrollViewController<StyleViewModel> {
             $0.backgroundColor = .red
         }
     }
-    
     override func layout() {
         super.layout()
         
         contentView.flex.define { flex in
             flex.addItem(titleLabel).width(100%).height(400)
+            
         }
     }
     

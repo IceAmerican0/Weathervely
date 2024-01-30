@@ -55,7 +55,17 @@ public class RxBaseScrollViewController<ViewModel>: UIViewController, CodeBaseIn
         contentView.pin.all()
         
         contentView.flex.layout(mode: .adjustHeight)
-        scrollView.contentSize = CGSize(width: contentView.frame.width, height: contentView.frame.height)
+        
+        // frame과 bound의 차이
+        /// https://babbab2.tistory.com/44
+        let contentViewHeight = contentView.frame.height
+        let contentViewWidth = contentView.frame.width
+        if contentViewHeight < scrollView.frame.size.height {
+            scrollView.contentSize = CGSize(width: contentViewWidth, height: scrollView.frame.height + 20)
+        } else {
+            scrollView.contentSize = CGSize(width: contentViewWidth, height: contentViewHeight)
+        }
+        
         
     }
  
