@@ -15,8 +15,9 @@ import Kingfisher
 final class StyleViewController: RxBaseScrollViewController<StyleViewModel> {
     
     
-    private var titleLabel = LabelMaker(font: UIFont.title_3_B).make(text: "스타일")
+    private var titleLabel = LabelMaker(font: UIFont.title_3_B).make("스타일")
     private var bannerView = UIImageView()
+    private var firstThemeView = HorizonCollectionViewMoleCule()
     
     override func attribute() {
         super.attribute()
@@ -29,6 +30,7 @@ final class StyleViewController: RxBaseScrollViewController<StyleViewModel> {
         
         contentView.flex.define { flex in
             flex.addItem(titleLabel).width(100%).height(400)
+            flex.addItem(firstThemeView).width(100%).height(800)
             
         }
     }
