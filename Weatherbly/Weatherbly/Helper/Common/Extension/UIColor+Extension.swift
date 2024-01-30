@@ -34,6 +34,8 @@ extension UIColor {
 
 // MARK: Custom Color
 public extension UIColor {
+    static let white30 = UIColor(named: "white30")!
+    
     static let black10 = UIColor(named: "black10")!
     static let black50 = UIColor(named: "black50")!
     static let black90 = UIColor(named: "black90")!

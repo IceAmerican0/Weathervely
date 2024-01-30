@@ -67,4 +67,7 @@ extension UIImage {
     static let moreCool_illust = UIImage(named: "moreCool_illust")!
     static let moreHot_banner = UIImage(named: "moreHot_banner")!
     static let moreHot_illust = UIImage(named: "moreHot_illust")!
+    
+    // Navigation
+    static let navi_back = UIImage(named: "navigationBackButton")!
 }

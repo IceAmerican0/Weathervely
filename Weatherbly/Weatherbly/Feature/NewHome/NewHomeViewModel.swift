@@ -221,8 +221,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     
     /// 10일간 날씨 예보 이동
     public func toTendaysForecastView() {
-        let forecast = ForecastUseCase(forecastDataSource: ForecastDataSource())
-        let vc = TenDaysForeCastViewController(TenDaysForecastViewModel(forecastUseCase: forecast))
+        let vc = TenDaysForeCastViewController(TenDaysForecastViewModel())
         navigationPushViewControllerRelay.accept(vc)
     }
     

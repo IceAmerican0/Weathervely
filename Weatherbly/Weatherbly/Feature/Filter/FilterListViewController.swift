@@ -37,9 +37,12 @@ final class FilterListViewController: RxBaseViewController<FilterListViewModel> 
     
     private lazy var dataSource = setDataSource()
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
+    /** 
+        .item 진입시 UICollectionViewCompositionalLayout 적용 X
+        뷰 레이아웃이 잡힌 후 데이터를 넣어줌
+     */
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         switch viewModel.viewState {
         case .style: viewModel.filterStyleList()
         case .item: viewModel.filterItemList()
