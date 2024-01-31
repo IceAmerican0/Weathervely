@@ -95,6 +95,7 @@ public class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitiali
             .navigationPushViewControllerRelay
             .bind(with: self) { owner, viewController in
                 guard let viewController else { return }
+                viewController.hidesBottomBarWhenPushed = true
                 owner.navigationController?.pushViewController(viewController, animated: true)
             }
             .disposed(by: bag)

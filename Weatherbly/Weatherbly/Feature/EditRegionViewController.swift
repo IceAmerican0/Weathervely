@@ -80,6 +80,8 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
                             break
                         }
                     }
+                    
+                    owner.viewModel.navigationPoptoRootRelay.accept(Void())
                 }
             }
             .disposed(by: bag)

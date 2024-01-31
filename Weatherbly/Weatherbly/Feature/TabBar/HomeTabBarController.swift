@@ -8,15 +8,11 @@
 import UIKit
 
 public final class HomeTabBarController: UITabBarController {
-    public override func viewDidLoad() {
-        super.viewDidLoad()
-        self.navigationController?.isNavigationBarHidden = true
-        setTabBar()
-    }
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
+        setTabBar()
     }
     
     private func setTabBar() {
@@ -47,8 +43,8 @@ public final class HomeTabBarController: UITabBarController {
         viewControllers = tabs.map { UINavigationController(rootViewController: $0) }
         
         tabBar.backgroundColor = .white
-        tabBar.layer.cornerRadius = 14
-        tabBar.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        tabBar.tintColor = .black
+        tabBar.setCornerRadius(14, [.topLeft, .topRight])
         
         UITabBar.clearShadow()
         tabBar.layer.setShadow(
