@@ -9,11 +9,13 @@ import UIKit
 import FlexLayout
 import PinLayout
 import Then
+import RxSwift
 
 final class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastViewModel> {
-    
     private var navigationView = CSNavigationView(.leftButton(.navi_back)).then {
+        $0.backgroundColor = .clear
         $0.setTitle("10일간 예보")
+        $0.setTitleColor(color: .white)
     }
     
     private let todayLabel = LabelMaker(
@@ -28,7 +30,7 @@ final class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastV
     private let dateLabel = LabelMaker(
         font: .body_5_B,
         fontColor: .white
-    ).make(text: "")
+    ).make(text: Date().todayWeekFormat)
     
     private let mainTempLabel = LabelMaker(
         font: .heading_1_UL,
@@ -47,25 +49,32 @@ final class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastV
     
     private let weatherImage = UIImageView()
     
-    private lazy var tableView = UITableView().then {
+    private lazy var tableView = UITableView(
+        frame: .zero,
+        style: .plain
+    ).then {
         $0.delegate = self
         $0.isScrollEnabled = false
-        $0.rowHeight = 49
-        $0.backgroundColor = .clear
+        $0.isUserInteractionEnabled = false
+        $0.backgroundColor = .clear10
+        $0.setCornerRadius(12)
+        $0.contentInset.top = 12
+        $0.separatorColor = .white20
+        $0.separatorInset = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 24)
         $0.register(withType: TenDaysForecastTableViewCell.self)
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         viewModel.getForecastData()
     }
     
     override func layout() {
         super.layout()
         
-        container.flex.alignItems(.center).define {
+        container.flex.define {
             $0.addItem(navigationView).width(100%)
-            $0.addItem().direction(.row).marginTop(25).define { date in
+            $0.addItem().direction(.row).alignItems(.center).marginTop(25).define { date in
                 date.addItem(todayLabel).marginLeft(20)
                 date.addItem(divider).marginLeft(12).width(1).height(10)
                 date.addItem(dateLabel).marginLeft(12)
@@ -74,16 +83,20 @@ final class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastV
                 weather.addItem(mainTempLabel).marginLeft(20).size(68)
                 weather.addItem().marginTop(-13).marginLeft(18).grow(1).define { middle in
                     middle.addItem(sensoryTempLabel)
-                    middle.addItem(dailyTempLabel).marginTop(7)
+                    middle.addItem(dailyTempLabel).marginTop(7).grow(1)
                 }
                 weather.addItem(weatherImage).marginRight(20).width(110).height(74)
             }
-            $0.addItem(tableView).grow(1)
+            $0.addItem(tableView).marginTop(16).marginHorizontal(20).marginBottom(20).grow(1)
         }
     }
     
     override func viewModelBinding() {
         super.viewModelBinding()
+        
+        navigationView.leftButtonDidTapRelay
+            .bind(to: viewModel.navigationPopViewControllerRelay)
+            .disposed(by: bag)
         
         viewModel.currentTemp
             .bind(to: mainTempLabel.rx.text)
@@ -94,7 +107,19 @@ final class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastV
             .drive(
                 with: self,
                 onNext: { owner, data in
-                    owner.view.backgroundColor = .red200
+                    let (gradient, image) = owner.view.setWeatherUI(weather: data, isDayTime: "오전")
+                    owner.weatherImage.image = image
+                    let bound = owner.view.bounds
+                    gradient.frame = bound
+                    gradient.bounds = bound.insetBy(
+                        dx: (-0.5 * bound.size.width),
+                        dy: (-0.5 * bound.size.height)
+                    )
+                    gradient.position = owner.view.center
+                    owner.view.layer.insertSublayer(gradient, at: 0)
+                    
+                    // 화면 전환시 잔상 해결
+                    owner.view.clipsToBounds = true
                 }
             ).disposed(by: bag)
         
@@ -105,11 +130,18 @@ final class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastV
             )) { _, data, cell in
                 cell.configureCellState(state: data)
             }.disposed(by: bag)
+        
+        viewModel.forecastInfo
+            .bind(with: self) { owner, data in
+                owner.dailyTempLabel.text = "\(data[1].minTemp)° / \(data[1].maxTemp)°"
+            }.disposed(by: bag)
     }
 }
 
 extension TenDaysForeCastViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == 9 {
+            cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0)
+        }
     }
 }

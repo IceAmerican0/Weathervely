@@ -27,8 +27,8 @@ public final class TenDaysForecastViewModel: RxBaseViewModel, TenDaysForecastVie
         let dummy: [TenDayForecastInfo] = [
             .init(
                 date: "어제",
-                minTemp: 18,
-                maxTemp: 25,
+                minTemp: 15,
+                maxTemp: 19,
                 weatherAM: "맑음",
                 weatherPM: "비"
             ),
@@ -41,35 +41,35 @@ public final class TenDaysForecastViewModel: RxBaseViewModel, TenDaysForecastVie
             ),
             .init(
                 date: "토요일",
-                minTemp: 18,
-                maxTemp: 25,
+                minTemp: 21,
+                maxTemp: 23,
                 weatherAM: "구름많음",
                 weatherPM: "바람"
             ),
             .init(
                 date: "일요일",
-                minTemp: 18,
-                maxTemp: 25,
+                minTemp: 19,
+                maxTemp: 24,
                 weatherAM: "눈비",
                 weatherPM: "맑음"
             ),
             .init(
                 date: "월요일",
-                minTemp: 18,
-                maxTemp: 25,
+                minTemp: 16,
+                maxTemp: 20,
                 weatherAM: "구름많음",
                 weatherPM: "비"
             ),
             .init(
                 date: "화요일",
-                minTemp: 18,
-                maxTemp: 25,
+                minTemp: 19,
+                maxTemp: 21,
                 weatherAM: "눈",
                 weatherPM: "바람"
             ),
             .init(
                 date: "수요일",
-                minTemp: 18,
+                minTemp: 20,
                 maxTemp: 25,
                 weatherAM: "맑음",
                 weatherPM: "바람"
@@ -83,15 +83,15 @@ public final class TenDaysForecastViewModel: RxBaseViewModel, TenDaysForecastVie
             ),
             .init(
                 date: "금요일",
-                minTemp: 18,
-                maxTemp: 25,
+                minTemp: 15,
+                maxTemp: 24,
                 weatherAM: "안개",
                 weatherPM: "바람"
             ),
             .init(
                 date: "토요일",
-                minTemp: 18,
-                maxTemp: 25,
+                minTemp: 20,
+                maxTemp: 31,
                 weatherAM: "구름많음",
                 weatherPM: "흐림"
             ),

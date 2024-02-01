@@ -41,14 +41,30 @@ public final class TenDaysForecastTableViewCell: UITableViewCell {
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-        contentView.pin.all()
+        contentView.pin.vertically().horizontally(24)
         contentView.flex.layout()
+    }
+    
+    public override func sizeThatFits(_ size: CGSize) -> CGSize {
+        contentView.flex.layout()
+        return CGSize(width: contentView.frame.width, height: 49)
     }
     
     public func configureCellState(state: TenDayForecastInfo) {
         dateLabel.text = state.date
         minTempLabel.text = "\(state.minTemp)°"
         maxTempLabel.text = "\(state.maxTemp)°"
+        
+        let (_, AMImage) = setWeatherUI(
+            weather: state.weatherAM,
+            isDayTime: "오전"
+        )
+        let (_, PMImage) = setWeatherUI(
+            weather: state.weatherPM,
+            isDayTime: "오후"
+        )
+        weatherAM.image = AMImage
+        weatherPM.image = PMImage
     }
 }
 
@@ -56,12 +72,16 @@ private extension TenDaysForecastTableViewCell {
     private func layout() {
         backgroundColor = .clear
         
-        contentView.flex.direction(.row).justifyContent(.center).define {
+        contentView.flex.direction(.row).justifyContent(.spaceBetween).alignItems(.center).define {
             $0.addItem(dateLabel).width(60)
-            $0.addItem(weatherAM).width(44).height(32)
-            $0.addItem(weatherPM).marginLeft(12).width(44).height(32)
-            $0.addItem(minTempLabel)
-            $0.addItem(maxTempLabel).marginLeft(20)
+            $0.addItem().direction(.row).define { mid in
+                mid.addItem(weatherAM).width(44).height(32)
+                mid.addItem(weatherPM).marginLeft(12).width(44).height(32)
+            }
+            $0.addItem().direction(.row).define { end in
+                end.addItem(minTempLabel)
+                end.addItem(maxTempLabel).marginLeft(20)
+            }
         }
     }
 }

@@ -76,7 +76,7 @@ public final class HomeForecastCell: UICollectionViewCell {
         dailyTempLabel.text = "\(state.minTemp)° / \(state.maxTemp)°"
         commentLabel.text = state.comment
         
-        let (gradient, image) = setWeather(weather: state.weather, isDayTime: String(state.time.prefix(2)))
+        let (gradient, image) = setWeatherUI(weather: state.weather, isDayTime: String(state.time.prefix(2)))
         weatherImage.image = image
         gradient.frame = bounds
         gradient.bounds = bounds.insetBy(
@@ -111,8 +111,10 @@ private extension HomeForecastCell {
             $0.addItem(commentLabel).alignSelf(.stretch).marginHorizontal(20).marginTop(4).height(32)
         }
     }
-    
-    func setWeather(weather: String, isDayTime: String) -> (CAGradientLayer, UIImage) {
+}
+
+extension UIView {
+    public func setWeatherUI(weather: String, isDayTime: String) -> (CAGradientLayer, UIImage) {
         switch weather {
         case "맑음": isDayTime == "오전" ?
             (.gradient10, UIImage.sunny_am) :

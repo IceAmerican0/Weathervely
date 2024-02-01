@@ -84,6 +84,14 @@ extension Date {
         return dateFormmater.string(from: self)
     }
     
+    /// "yyyy년 MM월 dd일 EEEE"
+    var todayWeekFormat: String {
+        let dateFormmater = DateFormatter.shared
+        dateFormmater.dateFormat = "yyyy년 MM월 dd일 EEEE"
+        
+        return dateFormmater.string(from: self)
+    }
+    
     func todaySelectedFormat(_ selectedHour: String) -> String {
         let dateFormmater = DateFormatter.shared
         dateFormmater.dateFormat = "yyyy-MM-dd \(selectedHour)"

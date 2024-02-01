@@ -223,7 +223,7 @@ extension NewHomeViewController: UICollectionViewDelegate {
                     
                     $0.swipeGesture
                         .when(.ended)
-                        .bind(onNext: { direction in
+                        .bind(onNext: { [weak self] direction in
                             self?.viewModel.configureTime(direction: direction.direction)
                         }).disposed(by: $0.bag)
                 }

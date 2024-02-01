@@ -128,6 +128,10 @@ class CSNavigationView: UIView, CodeBaseInitializerProtocol {
         titleLabel.text = text
     }
     
+    func setTitleColor(color: UIColor) {
+        titleLabel.textColor = color
+    }
+    
     func setHeight(_ newHeight: CGFloat) {
         wrapperView.pin.height(newHeight)
     }
