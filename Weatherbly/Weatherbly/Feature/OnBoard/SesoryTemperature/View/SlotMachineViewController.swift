@@ -16,7 +16,7 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
     // MARK: - Property
     private var headerView = UIView()
     private var progressBar = CSProgressView(1)
-    private var navigationView = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
+    private var navigationView = CSNavigationView(.leftButton(.navi_back))
     
     private var mainLabel = CSLabel(.bold, 22, "\(UserDefaultManager.shared.nickname) 님에게\n적당한 옷차림을 골라주세요")
     private var discriptionLabel = CSLabel(.regular, 16 , "사진을 위아래로 쓸어보세요\n다른 두께감의 옷차림이 나와요")

@@ -515,6 +515,7 @@
 		5CDCD7CF2B5522CD008465B9 /* Molecule */ = {
 			isa = PBXGroup;
 			children = (
+				BD69B8F82A553A0C00DDCD7A /* CSNavigationView.swift */,
 			);
 			path = Molecule;
 			sourceTree = "<group>";
@@ -749,7 +750,6 @@
 				BD2D01B12A38889E003A25D5 /* CSButton.swift */,
 				5C1D5A102A3C500A00E66788 /* CSLabel.swift */,
 				69FDD4CB2A407FA400830927 /* CSProgressView.swift */,
-				BD69B8F82A553A0C00DDCD7A /* CSNavigationView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
