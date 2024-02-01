@@ -30,7 +30,7 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
     
     private let regionLabel = LabelMaker(
         font: .body_1_M
-    ).make(UserDefaultManager.shared.dong)
+    ).make(text: UserDefaultManager.shared.dong)
     
     private let notificationButton = UIButton().then {
         $0.setImage(.home_alarm, for: .normal)
@@ -45,7 +45,7 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
     private let dayLabel = LabelMaker(
         font: .body_5_B,
         fontColor: .gray70
-    ).make("오늘").then {
+    ).make(text: "오늘").then {
         $0.backgroundColor = .gray10
         $0.setCornerRadius(14)
     }
