@@ -66,15 +66,12 @@ final class FilterListViewController: RxBaseViewController<FilterListViewModel> 
         
         filterList.rx
             .itemSelected
-            .bind(
-                with: self,
-                onNext: { owner, _ in
-                    switch owner.viewModel.viewState {
-                    case .style: owner.viewModel.filterStyleList()
-                    case .item: owner.viewModel.filterItemList()
-                    }
+            .bind(with: self) { owner, _ in
+                switch owner.viewModel.viewState {
+                case .style: owner.viewModel.filterStyleList()
+                case .item: owner.viewModel.filterItemList()
                 }
-            ).disposed(by: bag)
+            }.disposed(by: bag)
         
         viewModel.filterSection
             .observe(on: MainScheduler.instance)

@@ -99,10 +99,10 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
         super.layout()
         
         container.flex.alignItems(.center).define {
-            $0.addItem().direction(.row).width(100%).marginTop(12).define { header in
+            $0.addItem().direction(.row).justifyContent(.spaceBetween).width(100%).marginTop(12).define { header in
                 header.addItem(locationButton).marginLeft(20).size(20)
-                header.addItem(regionLabel).marginLeft(8).grow(1)
-            }.justifyContent(.spaceBetween).define { header in
+                header.addItem(regionLabel).marginLeft(8)
+                header.addItem().grow(1)
                 header.addItem(notificationButton).marginRight(20).size(20)
             }
             $0.addItem().direction(.row).justifyContent(.center).marginTop(11).define { date in
@@ -122,6 +122,11 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
             .when(.recognized)
             .bind(with: self) { owner, _ in
                 owner.viewModel.toEditRegionView()
+            }.disposed(by: bag)
+        
+        notificationButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.viewModel.toNotificationListView()
             }.disposed(by: bag)
         
         prevButton.rx.tap

@@ -18,8 +18,11 @@ public protocol TenDaysForecastViewModelLogic: ViewModelBusinessLogic {
 }
 
 public final class TenDaysForecastViewModel: RxBaseViewModel, TenDaysForecastViewModelLogic {
+    /// 현재온도
     public var currentTemp = PublishRelay<String>()
+    /// 현재날씨
     public var currentWeather = BehaviorRelay<String>(value: "")
+    /// 날씨정보
     public var forecastInfo = PublishRelay<[TenDayForecastInfo]>()
     
     public func getForecastData() {

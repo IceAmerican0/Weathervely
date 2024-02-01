@@ -23,16 +23,12 @@ protocol FilterListViewModelLogic: ViewModelBusinessLogic {
 final class FilterListViewModel: RxBaseViewModel, FilterListViewModelLogic {
     /// 현재 탭
     var viewState: FilterListViewState
-    
     /// 로딩 상태
     var isLoading: PublishRelay<Bool>
-    
     /// 필터 선택 여부
     var isFiltered: Bool = .init()
-    
     /// 필터 정보
     var filterSection = PublishRelay<[FilterSection]>()
-    
     /// 코디 카운트
     var filterCount: PublishRelay<Int>
     

@@ -33,6 +33,10 @@
 		5C84169E2B68CAA5003AE726 /* TenDayForecastEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C84169D2B68CAA5003AE726 /* TenDayForecastEntity.swift */; };
 		5C8416A02B68D9FC003AE726 /* TenDaysForecastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C84169F2B68D9FC003AE726 /* TenDaysForecastTableViewCell.swift */; };
 		5C84F1FE2AA0238000CF614E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5C84F1FD2AA0238000CF614E /* GoogleService-Info.plist */; };
+		5C8F2D3D2B6B30F0002DF94E /* NotificationListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8F2D3B2B6B30F0002DF94E /* NotificationListViewController.swift */; };
+		5C8F2D3E2B6B30F0002DF94E /* NotificationListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8F2D3C2B6B30F0002DF94E /* NotificationListViewModel.swift */; };
+		5C8F2D412B6B6836002DF94E /* NotificationListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8F2D402B6B6836002DF94E /* NotificationListTableViewCell.swift */; };
+		5C8F2D432B6B6A71002DF94E /* NotificationEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8F2D422B6B6A71002DF94E /* NotificationEntity.swift */; };
 		5C9D02BC2A68FC0200AF2DA3 /* Dependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9D02BB2A68FC0200AF2DA3 /* Dependency.swift */; };
 		5C9D02C22A6E45D600AF2DA3 /* SettingRegionCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9D02C12A6E45D600AF2DA3 /* SettingRegionCompleteViewController.swift */; };
 		5C9D02C42A6E61C700AF2DA3 /* SettingRegionCompleteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9D02C32A6E61C700AF2DA3 /* SettingRegionCompleteViewModel.swift */; };
@@ -204,6 +208,10 @@
 		5C84169D2B68CAA5003AE726 /* TenDayForecastEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TenDayForecastEntity.swift; sourceTree = "<group>"; };
 		5C84169F2B68D9FC003AE726 /* TenDaysForecastTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TenDaysForecastTableViewCell.swift; sourceTree = "<group>"; };
 		5C84F1FD2AA0238000CF614E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		5C8F2D3B2B6B30F0002DF94E /* NotificationListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationListViewController.swift; sourceTree = "<group>"; };
+		5C8F2D3C2B6B30F0002DF94E /* NotificationListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationListViewModel.swift; sourceTree = "<group>"; };
+		5C8F2D402B6B6836002DF94E /* NotificationListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationListTableViewCell.swift; sourceTree = "<group>"; };
+		5C8F2D422B6B6A71002DF94E /* NotificationEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationEntity.swift; sourceTree = "<group>"; };
 		5C9D02BB2A68FC0200AF2DA3 /* Dependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependency.swift; sourceTree = "<group>"; };
 		5C9D02C12A6E45D600AF2DA3 /* SettingRegionCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingRegionCompleteViewController.swift; sourceTree = "<group>"; };
 		5C9D02C32A6E61C700AF2DA3 /* SettingRegionCompleteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingRegionCompleteViewModel.swift; sourceTree = "<group>"; };
@@ -417,6 +425,16 @@
 				5C84169F2B68D9FC003AE726 /* TenDaysForecastTableViewCell.swift */,
 			);
 			path = Forecast;
+			sourceTree = "<group>";
+		};
+		5C8F2D3A2B6B30D1002DF94E /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				5C8F2D3B2B6B30F0002DF94E /* NotificationListViewController.swift */,
+				5C8F2D3C2B6B30F0002DF94E /* NotificationListViewModel.swift */,
+				5C8F2D402B6B6836002DF94E /* NotificationListTableViewCell.swift */,
+			);
+			path = Notification;
 			sourceTree = "<group>";
 		};
 		5C9D02D32A71EE7F00AF2DA3 /* AuthAPI */ = {
@@ -652,6 +670,7 @@
 			children = (
 				5CDCD7C62B54E767008465B9 /* Filter */,
 				6987EBB72B41400600CF1E74 /* NewHome */,
+				5C8F2D3A2B6B30D1002DF94E /* Notification */,
 				698F6CAA2ADD6EC200C2B33A /* Trend */,
 				69C714D02ADD60C500748CF6 /* TabBar */,
 				BD2D01A12A3887E0003A25D5 /* OnBoard */,
@@ -804,6 +823,7 @@
 				5CDCD7E32B56782F008465B9 /* FilterStyleListEntity.swift */,
 				5CF0A49D2B5A32EA00D2AB4C /* HomeForecastEntity.swift */,
 				5C84169D2B68CAA5003AE726 /* TenDayForecastEntity.swift */,
+				5C8F2D422B6B6A71002DF94E /* NotificationEntity.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -1081,6 +1101,7 @@
 				5C9D02D92A71F27B00AF2DA3 /* AuthDataSource.swift in Sources */,
 				69D25C992AD04F6300C17FB1 /* KakaoErrorResponse.swift in Sources */,
 				5CE0FEBA2A93529100A0E655 /* AuthLoginEntity.swift in Sources */,
+				5C8F2D432B6B6A71002DF94E /* NotificationEntity.swift in Sources */,
 				69A7F0D92A80B42A00834974 /* UserDefaultKey.swift in Sources */,
 				BD5169492A5D6FEA00582BA9 /* UITextField+Extension.swift in Sources */,
 				BD77B82C2A388D2000E7D57A /* OnBoardViewModel.swift in Sources */,
@@ -1090,6 +1111,7 @@
 				5CAB60C52A528C9700CD431A /* UICollectionViewCell+Extension.swift in Sources */,
 				BD49072F2A80DEED0027DEE8 /* HomeSensoryTempViewModel.swift in Sources */,
 				5C9D02C22A6E45D600AF2DA3 /* SettingRegionCompleteViewController.swift in Sources */,
+				5C8F2D3D2B6B30F0002DF94E /* NotificationListViewController.swift in Sources */,
 				5C4A0AC72B46832D006BE52A /* HomeClosetCell.swift in Sources */,
 				5C9D02EA2A725AC300AF2DA3 /* AddressRequest.swift in Sources */,
 				5CE0FEAD2A8DDE9200A0E655 /* AddressListEntity.swift in Sources */,
@@ -1167,6 +1189,7 @@
 				696176B62A63E4A400B83B4C /* EmptyViewModel.swift in Sources */,
 				BD5169512A5EB48D00582BA9 /* ChangeNicknameViewModel.swift in Sources */,
 				69FDD4C62A39E42900830927 /* NicknameViewController.swift in Sources */,
+				5C8F2D412B6B6836002DF94E /* NotificationListTableViewCell.swift in Sources */,
 				693231642B4A80FE00816B7B /* HomeSection.swift in Sources */,
 				5CDCD7C92B54E7C8008465B9 /* ClosetFilterViewController.swift in Sources */,
 				69CCF1CB2A63CA5000756127 /* RegionDataSource.swift in Sources */,
@@ -1189,6 +1212,7 @@
 				5C9D02E62A72425200AF2DA3 /* ClosetTarget.swift in Sources */,
 				BD2D018B2A388753003A25D5 /* SceneDelegate.swift in Sources */,
 				5C4691762A789DBE00E2CC70 /* AlertViewState.swift in Sources */,
+				5C8F2D3E2B6B30F0002DF94E /* NotificationListViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -22,6 +22,7 @@ public protocol NewHomeViewModelLogic: ViewModelBusinessLogic {
     func filterCloset(state: FilterListViewState)
     func toDetailView(state: RecommendClosetInfo)
     func toEditRegionView()
+    func toNotificationListView()
     func toTendaysForecastView()
     
     var refreshStatus: PublishRelay<Bool> { get }
@@ -37,25 +38,18 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     
     /// 새로고침 상태
     public var refreshStatus: PublishRelay<Bool>
-    
     /// 홈 전체 정보
     public var homeSections = PublishRelay<[HomeSection]>()
-    
     /// 날씨 정보
     public var forecastInfo: [HomeForecastInfo] = []
-    
     /// 선택돼있는 인덱스
     private var selectedIndex = 0
-    
     /// 선택돼있는 날씨 정보
     public var selectedForecastState = BehaviorRelay<HomeForecastInfo>(value: .init(date: "", time: "", mainTemp: 0, minTemp: 0, maxTemp: 0, weather: "", comment: ""))
-    
     /// 스타일 필터 여부
     public var filteredStyle: Bool
-    
     /// 아이템 필터 여부
     public var filteredItem: Bool
-    
     /// 스타일 추천 리스트
     public var recommendedCloset = BehaviorRelay<RecommendClosetBody?>(value: nil)
     
@@ -217,6 +211,12 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     /// 상세보기 이동
     public func toDetailView(state: RecommendClosetInfo) {
         
+    }
+    
+    /// 알림페이지 이동
+    public func toNotificationListView() {
+        let vc = NotificationListViewController(NotificationListViewModel())
+        navigationPushViewControllerRelay.accept(vc)
     }
     
     /// 10일간 날씨 예보 이동
