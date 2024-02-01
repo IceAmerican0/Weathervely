@@ -162,6 +162,7 @@
 		BD5D16932A63B3AD00435816 /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5D16922A63B3AD00435816 /* CALayer+Extension.swift */; };
 		BD6135CC2A7D5EAD00DB3DF9 /* message.json in Resources */ = {isa = PBXBuildFile; fileRef = BD6135CB2A7D5EAD00DB3DF9 /* message.json */; };
 		BD6135D32A7E3C9C00DB3DF9 /* RecommendClosetEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6135D22A7E3C9C00DB3DF9 /* RecommendClosetEntity.swift */; };
+		BD63C5602B6BE6DF007BEFC8 /* HorizonCollectionViewMolecule.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD63C55F2B6BE6DF007BEFC8 /* HorizonCollectionViewMolecule.swift */; };
 		BD69B8F72A54337000DDCD7A /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD69B8F62A54337000DDCD7A /* SettingViewController.swift */; };
 		BD69B8F92A553A0C00DDCD7A /* CSNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD69B8F82A553A0C00DDCD7A /* CSNavigationView.swift */; };
 		BD77B8282A388C9400E7D57A /* CSColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD77B8272A388C9400E7D57A /* CSColor.swift */; };
@@ -325,6 +326,7 @@
 		BD5D16922A63B3AD00435816 /* CALayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
 		BD6135CB2A7D5EAD00DB3DF9 /* message.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = message.json; sourceTree = "<group>"; };
 		BD6135D22A7E3C9C00DB3DF9 /* RecommendClosetEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendClosetEntity.swift; sourceTree = "<group>"; };
+		BD63C55F2B6BE6DF007BEFC8 /* HorizonCollectionViewMolecule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HorizonCollectionViewMolecule.swift; path = ../../../../../../../../Downloads/HorizonCollectionViewMolecule.swift; sourceTree = "<group>"; };
 		BD69B8F62A54337000DDCD7A /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		BD69B8F82A553A0C00DDCD7A /* CSNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSNavigationView.swift; sourceTree = "<group>"; };
 		BD77B8272A388C9400E7D57A /* CSColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSColor.swift; sourceTree = "<group>"; };
@@ -567,6 +569,7 @@
 		BD05E0742B38109100A48E61 /* Design System */ = {
 			isa = PBXGroup;
 			children = (
+				BD63C55E2B6BE6A8007BEFC8 /* Molecule */,
 				BD05E0752B3810A400A48E61 /* Atom */,
 			);
 			path = "Design System";
@@ -810,6 +813,14 @@
 			path = Entity;
 			sourceTree = "<group>";
 		};
+		BD63C55E2B6BE6A8007BEFC8 /* Molecule */ = {
+			isa = PBXGroup;
+			children = (
+				BD63C55F2B6BE6DF007BEFC8 /* HorizonCollectionViewMolecule.swift */,
+			);
+			path = Molecule;
+			sourceTree = "<group>";
+		};
 		BD69B8F32A54332C00DDCD7A /* Setting */ = {
 			isa = PBXGroup;
 			children = (
@@ -1050,6 +1061,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5CC61E262A5BC223001435E6 /* SettingRegionViewController.swift in Sources */,
+				BD63C5602B6BE6DF007BEFC8 /* HorizonCollectionViewMolecule.swift in Sources */,
 				6987EBBD2B41409E00CF1E74 /* NewHomeViewModel.swift in Sources */,
 				BD69B8F92A553A0C00DDCD7A /* CSNavigationView.swift in Sources */,
 				5CE0FEB62A8F401100A0E655 /* PrivatePolicyViewModel.swift in Sources */,

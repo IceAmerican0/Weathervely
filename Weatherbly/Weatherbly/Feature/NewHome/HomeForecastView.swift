@@ -27,7 +27,7 @@ public final class HomeForecastView: UIView {
     private let sensoryTempLabel = LabelMaker(
         font: .body_5_M,
         fontColor: .white
-    ).make(text: "체감온도")
+    ).make("체감온도")
     
     private let dailyTempLabel = LabelMaker(
         font: .body_3_M,
