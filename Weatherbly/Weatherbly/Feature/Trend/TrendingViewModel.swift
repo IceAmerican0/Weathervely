@@ -31,7 +31,7 @@ final class TrendingViewModel: RxBaseViewModel, TrendingViewModelLogic {
                 },
                 onError: { owner, error in
                     owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
-                                                         alertType: .Error,
+                                                         alertType: .popup,
                                                          closeAction: {
                         owner.navigationPopToSelfRelay.accept(Void())
                     }))

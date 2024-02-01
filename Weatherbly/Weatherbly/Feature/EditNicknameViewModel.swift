@@ -40,7 +40,7 @@ class EditNicknameViewModel: RxBaseViewModel, EditNicknameViewModelLogic {
                 },
                 onError: { owner, error in
                     owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
-                                                        alertType: .Error))
+                                                        alertType: .popup))
             })
             .disposed(by: bag)
     }

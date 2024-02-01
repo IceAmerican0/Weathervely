@@ -5,9 +5,9 @@
 //  Created by 박성준 on 2023/08/29.
 //
 
-import Foundation
+import UIKit
 
-public class Constants {
+public enum Constants {
     private static func fetchValue(for key: String) -> Any? {
         Bundle.main.infoDictionary?[key]
     }
@@ -26,4 +26,10 @@ public class Constants {
     public static var appStoreLink: String {
         "https://apps.apple.com/app/%EC%9B%A8%EB%8D%94%EB%B8%94%EB%A6%AC/id6462055767"
     }
+    
+    /// Screen Width
+    static let screenWidth = UIScreen.main.bounds.width
+    
+    /// Screen Height
+    static let screenHeight = UIScreen.main.bounds.height
 }

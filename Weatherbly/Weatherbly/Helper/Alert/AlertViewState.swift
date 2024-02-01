@@ -9,10 +9,10 @@ import UIKit
 
 public struct AlertViewState {
     public enum AlertType {
-        /// 알림
-        case Info
-        /// 에러
-        case Error
+        /// 토스트
+        case toast
+        /// 알럿창
+        case popup
     }
     
     public enum HapticType {

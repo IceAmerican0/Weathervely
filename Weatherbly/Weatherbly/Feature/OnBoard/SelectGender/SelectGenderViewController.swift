@@ -15,7 +15,7 @@ final class SelectGenderViewController: RxBaseViewController<SelectGenderViewMod
     
     // MARK: - Component
     var progressBar = CSProgressView(0.75)
-    private var navigationView = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
+    private var navigationView = CSNavigationView(.leftButton(.navi_back))
     
     var headerLabel = UILabel()
     var buttonWrapper = UIView()

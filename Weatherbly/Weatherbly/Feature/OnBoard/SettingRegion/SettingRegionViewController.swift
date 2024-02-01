@@ -13,7 +13,7 @@ import RxCocoa
 final class SettingRegionViewController: RxBaseViewController<SettingRegionViewModel> {
     
     private var progressBar = CSProgressView(0.66)
-    private var navigationView = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
+    private var navigationView = CSNavigationView(.leftButton(.navi_back))
     private var explanationLabel = CSLabel(.bold, 24, "동네를 설정해주세요")
     
     private let searchImage = UIImageView()
