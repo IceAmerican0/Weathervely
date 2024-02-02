@@ -11,7 +11,11 @@ import Then
 import FlexLayout
 import PinLayout
 
-public class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitializerProtocol, BaseDisposebag where ViewModel: RxBaseViewModel {
+public class RxBaseViewController<ViewModel>:
+    UIViewController,
+    CodeBaseInitializerProtocol,
+    BaseDisposebag,
+    UIGestureRecognizerDelegate where ViewModel: RxBaseViewModel {
     
     lazy var bag: DisposeBag = {
         self.viewModel.bag
@@ -52,6 +56,8 @@ public class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitiali
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
  
     // MARK: - Attribute
@@ -178,4 +184,8 @@ public class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitiali
         self.view.endEditing(true)
     }
     
+    // MARK: UIGestureRecognizerDelegate
+    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        navigationController?.viewControllers.count ?? 0 > 1
+    }
 }

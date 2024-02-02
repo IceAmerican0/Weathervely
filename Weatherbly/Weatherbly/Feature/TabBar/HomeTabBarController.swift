@@ -8,10 +8,12 @@
 import UIKit
 
 public final class HomeTabBarController: UITabBarController {
-    
-    public override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: animated)
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        navigationController?.interactivePopGestureRecognizer?.delegate = nil
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        
         setTabBar()
     }
     
