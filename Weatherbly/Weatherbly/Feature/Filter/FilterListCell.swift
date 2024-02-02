@@ -19,6 +19,7 @@ public struct FilterListCellState {
 
 final class FilterListCell: UICollectionViewCell {
     private let listButton = UIButton().then {
+        $0.titleLabel?.numberOfLines = 1
         $0.titleLabel?.adjustsFontSizeToFitWidth = true
     }
     

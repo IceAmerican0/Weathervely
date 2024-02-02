@@ -120,11 +120,10 @@ extension ClosetFilterHeaderView {
     func layout() {
         backgroundColor = .white
         
-        self.flex.addItem(container).direction(.row).alignItems(.center).define {
+        self.flex.addItem(container).direction(.row).alignItems(.center).justifyContent(.spaceBetween).define {
             $0.addItem(styleFilterButton).width(80).height(29)
             $0.addItem(itemFilterButton).marginLeft(8).width(80).height(29)
             $0.addItem().grow(1)
-        }.justifyContent(.spaceBetween).define {
             $0.addItem(filterIcon).size(24)
         }
     }

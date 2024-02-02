@@ -51,8 +51,8 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
         $0.register(withType: NotificationListTableViewCell.self)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         viewModel.getNotiInfo()
     }
 
@@ -84,7 +84,9 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
         
         navigationView.rightButtonDidTapRelay
             .bind(with: self) { owner, _ in
-                owner.viewModel.toSettingView()
+                if let homeTabBarController = owner.navigationController?.tabBarController as? HomeTabBarController {
+                    homeTabBarController.switchToSettingsTab()
+                }
             }.disposed(by: bag)
         
         tableView.rx.itemSelected
@@ -97,6 +99,7 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
                 cellIdentifier: NotificationListTableViewCell.identifier,
                 cellType: NotificationListTableViewCell.self
             )) { _, data, cell in
+                cell.selectionStyle = .none
                 cell.configureCellState(state: data)
             }.disposed(by: bag)
     }

@@ -54,6 +54,10 @@ public final class HomeTabBarController: UITabBarController {
             UIColor.black10.cgColor, 1, 4
         )
     }
+    
+    func switchToSettingsTab() {
+        selectedIndex = 2
+    }
 }
 
 extension UITabBar {
