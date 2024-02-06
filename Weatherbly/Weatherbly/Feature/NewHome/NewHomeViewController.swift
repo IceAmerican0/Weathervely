@@ -78,10 +78,10 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
     
     private lazy var homeCollectionView = UICollectionView(
         frame: .zero,
-        collectionViewLayout: flowLayout
+        collectionViewLayout: setLayout()
     ).then {
         $0.showsVerticalScrollIndicator = false
-        $0.contentInset = .init(top: 0, left: 20, bottom: 0, right: 20)
+//        $0.contentInset = .init(top: 0, left: 20, bottom: 0, right: 20)
         $0.backgroundColor = .clear
         $0.refreshControl = refresh
         $0.register(withType: HomeForecastCell.self)
@@ -327,14 +327,14 @@ extension NewHomeViewController: UICollectionViewDelegate {
     func setClosetLayout() -> NSCollectionLayoutSection {
         let banner = NSCollectionLayoutItem(
             layoutSize: NSCollectionLayoutSize(
-                widthDimension: .estimated(158),
-                heightDimension: .estimated(158)
+                widthDimension: .absolute(158),
+                heightDimension: .absolute(158)
             )
         )
         
         let bannerGroup = NSCollectionLayoutGroup.horizontal(
             layoutSize: NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1),
+                widthDimension: .fractionalWidth(0.5),
                 heightDimension: banner.layoutSize.heightDimension
             ),
             subitems: [banner]
@@ -343,8 +343,8 @@ extension NewHomeViewController: UICollectionViewDelegate {
         
         let item = NSCollectionLayoutItem(
             layoutSize: NSCollectionLayoutSize(
-                widthDimension: .estimated(158),
-                heightDimension: .estimated(236)
+                widthDimension: .fractionalWidth(0.5),
+                heightDimension: .absolute(236)
             )
         )
         
@@ -392,7 +392,7 @@ extension NewHomeViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         if section == 1 {
-            return CGSize(width: collectionView.frame.width, height: 56)
+            return CGSize(width: collectionView.frame.width - 40, height: 56)
         } else {
             return .zero
         }
@@ -404,9 +404,9 @@ extension NewHomeViewController: UICollectionViewDelegateFlowLayout {
         }
         
         if indexPath.item == 0 {
-            return CGSize(width: (collectionView.frame.width / 2) - 59, height: 158)
+            return CGSize(width: (collectionView.frame.width - 59) / 2, height: 158)
         } else {
-            return CGSize(width: (collectionView.frame.width / 2) - 59, height: 236)
+            return CGSize(width: (collectionView.frame.width - 59) / 2, height: 236)
         }
     }
 }

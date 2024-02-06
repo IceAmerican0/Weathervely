@@ -47,7 +47,9 @@ final class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastV
         fontColor: .white
     ).make()
     
-    private let weatherImage = UIImageView()
+    private let weatherImage = UIImageView().then {
+        $0.contentMode = .scaleAspectFit
+    }
     
     private lazy var tableView = UITableView(
         frame: .zero,

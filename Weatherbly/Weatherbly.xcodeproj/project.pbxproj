@@ -83,8 +83,6 @@
 		5CE0FEAD2A8DDE9200A0E655 /* AddressListEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE0FEAC2A8DDE9200A0E655 /* AddressListEntity.swift */; };
 		5CE0FEB02A8EEC0000A0E655 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5CE0FEAF2A8EEC0000A0E655 /* Kingfisher */; };
 		5CE0FEB22A8F00F700A0E655 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CE0FEB12A8F00F700A0E655 /* WebKit.framework */; };
-		5CE0FEB42A8F3BE000A0E655 /* PrivatePolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE0FEB32A8F3BE000A0E655 /* PrivatePolicyViewController.swift */; };
-		5CE0FEB62A8F401100A0E655 /* PrivatePolicyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE0FEB52A8F401100A0E655 /* PrivatePolicyViewModel.swift */; };
 		5CE0FEB82A8F4CE200A0E655 /* SetSensoryTempRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE0FEB72A8F4CE200A0E655 /* SetSensoryTempRequest.swift */; };
 		5CE0FEBA2A93529100A0E655 /* AuthLoginEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE0FEB92A93529100A0E655 /* AuthLoginEntity.swift */; };
 		5CF0A49E2B5A32EA00D2AB4C /* HomeForecastEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF0A49D2B5A32EA00D2AB4C /* HomeForecastEntity.swift */; };
@@ -256,8 +254,6 @@
 		5CDE81CD2A89F4780099FF87 /* MainToolTipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainToolTipViewController.swift; sourceTree = "<group>"; };
 		5CE0FEAC2A8DDE9200A0E655 /* AddressListEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressListEntity.swift; sourceTree = "<group>"; };
 		5CE0FEB12A8F00F700A0E655 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
-		5CE0FEB32A8F3BE000A0E655 /* PrivatePolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivatePolicyViewController.swift; sourceTree = "<group>"; };
-		5CE0FEB52A8F401100A0E655 /* PrivatePolicyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivatePolicyViewModel.swift; sourceTree = "<group>"; };
 		5CE0FEB72A8F4CE200A0E655 /* SetSensoryTempRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetSensoryTempRequest.swift; sourceTree = "<group>"; };
 		5CE0FEB92A93529100A0E655 /* AuthLoginEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthLoginEntity.swift; sourceTree = "<group>"; };
 		5CF0A49D2B5A32EA00D2AB4C /* HomeForecastEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeForecastEntity.swift; sourceTree = "<group>"; };
@@ -844,8 +840,8 @@
 				BD5169462A5AA39000582BA9 /* EditNicknameViewController.swift */,
 				5C9D02C72A6FC45300AF2DA3 /* EditRegionTableViewCell.swift */,
 				5C4BE89A2A5E2D1200FD2CEF /* EditRegionViewController.swift */,
-				5CE0FEB32A8F3BE000A0E655 /* PrivatePolicyViewController.swift */,
 				BD69B8F62A54337000DDCD7A /* SettingViewController.swift */,
+				5C9CED832B71B6A80041801C /* SettingTableViewCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -856,7 +852,6 @@
 				BD5169502A5EB48D00582BA9 /* ChangeNicknameViewModel.swift */,
 				BD51694A2A5D763000582BA9 /* EditNicknameViewModel.swift */,
 				5C9D02C52A6FB71F00AF2DA3 /* EditRegionViewModel.swift */,
-				5CE0FEB52A8F401100A0E655 /* PrivatePolicyViewModel.swift */,
 				BD5169442A5A9BD600582BA9 /* SettingViewModel.swift */,
 			);
 			name = ViewModel;
@@ -1069,7 +1064,6 @@
 				5CDCD7DE2B564A89008465B9 /* FilterListHeaderView.swift in Sources */,
 				6987EBBD2B41409E00CF1E74 /* NewHomeViewModel.swift in Sources */,
 				BD69B8F92A553A0C00DDCD7A /* CSNavigationView.swift in Sources */,
-				5CE0FEB62A8F401100A0E655 /* PrivatePolicyViewModel.swift in Sources */,
 				5CAB60CF2A53F61700CD431A /* TenDaysForecastViewController.swift in Sources */,
 				5C9D02DD2A72284300AF2DA3 /* UserTarget.swift in Sources */,
 				5C4691782A78A02100E2CC70 /* AlertViewController.swift in Sources */,
@@ -1167,6 +1161,7 @@
 				5C46917F2A78F95800E2CC70 /* ConnectionLostViewController.swift in Sources */,
 				BD7DAB272A6E786E00422D25 /* StatusOnlyEntity.swift in Sources */,
 				BDA66FEA2A4075270061A1F0 /* UIImageView+Extension.swift in Sources */,
+				5C9CED842B71B6A80041801C /* SettingTableViewCell.swift in Sources */,
 				BD5D16932A63B3AD00435816 /* CALayer+Extension.swift in Sources */,
 				5C9D02E32A72408C00AF2DA3 /* TypeDataSource.swift in Sources */,
 				BD4AC38A2A655AEC00537583 /* Date+Extension.swift in Sources */,
@@ -1197,7 +1192,6 @@
 				BD4907312A83C3C00027DEE8 /* SensoryTempClosetEntity.swift in Sources */,
 				BD51694B2A5D763000582BA9 /* EditNicknameViewModel.swift in Sources */,
 				BD2D01B62A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift in Sources */,
-				5CE0FEB42A8F3BE000A0E655 /* PrivatePolicyViewController.swift in Sources */,
 				BD2D01B22A38889E003A25D5 /* CSButton.swift in Sources */,
 				BD5169452A5A9BD600582BA9 /* SettingViewModel.swift in Sources */,
 				5C9D02BC2A68FC0200AF2DA3 /* Dependency.swift in Sources */,

@@ -68,6 +68,16 @@ extension UIImage {
     static let moreHot_banner = UIImage(named: "moreHot_banner")!
     static let moreHot_illust = UIImage(named: "moreHot_illust")!
     
+    // MyPage
+    static let commontab = UIImage(named: "commontab")!
+    static let icon_favorites = UIImage(named: "icon_favorites")!
+    static let icon_plusL = UIImage(named: "icon_plusL")!
+    static let icon_profile = UIImage(named: "icon_profile")!
+    static let icon_set = UIImage(named: "icon_set")!
+    static let icon_temperature = UIImage(named: "icon_temperature")!
+    static let toggle_off = UIImage(named: "toggle_off")!
+    static let toggle_on = UIImage(named: "toggle_on")!
+    
     // Navigation
     static let navi_back = UIImage(named: "navigationBackButton")!
     

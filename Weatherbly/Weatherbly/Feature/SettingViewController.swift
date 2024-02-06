@@ -7,217 +7,100 @@
 
 import UIKit
 import FlexLayout
+import PinLayout
+import Then
 import RxCocoa
 import RxSwift
-import RxGesture
 
 final class SettingViewController: RxBaseViewController<SettingViewModel> {
     
-    // MARK: - Component
-    private var titleLabel = CSLabel(.bold, 22, "설정")
-    private let contentWrapper = UIView()
-    private var nickNameView = UIView()
-    private var nickNameLabel = CSLabel(.bold, 18, "님")
-    private var editButton = UIButton()
+    private var titleLabel = LabelMaker(
+        font: .title_3_B,
+        alignment: .center
+    ).make(text: "마이페이지")
     
-    private var messageView = UIView()
-    private var stickerIcon = UIImageView()
-    private var messageLabel = CSLabel(.regular, 16, "")
-    
-    private var firstButtonWrapper = UIView()
-    
-    private var buttonInnerView = UIView()
-    private var buttonInnerImageView = UIImageView(image: AssetsImage.settingLocationIcon.image)
-    
-    private var locationButton = UIButton()
-    private var locationTitleLabel = UILabel()
-    private var locationSubtitleLabel = UILabel()
-    
-    private var bottomView = UIView()
-    private var bottomLabel = CSLabel(.regular, 12, "")
-    private var versionLabel = CSLabel(.regular, 12, "")
-    
-    private let tapGesture = UITapGestureRecognizer()
-
-    // MARK: - Attiribute
-    override func attribute() {
-        super.attribute()
-        
-        nickNameView.do {
-            $0.addBorder(.top)
-            $0.addBorder(.bottom)
-            $0.addGestureRecognizer(tapGesture)
-        }
-        
-        nickNameLabel.do {
-            $0.textAlignment = .left
-            $0.numberOfLines = 0
-            nickNameLabel.attributedText = NSMutableAttributedString().bold("\(UserDefaultManager.shared.nickname)님", 18, CSColor.none)
-        }
-        
-        editButton.do {
-            $0.setImage(AssetsImage.editNameIcon.image, for: .normal)
-        }
-        
-        stickerIcon.do {
-            $0.image = AssetsImage.whiteHeart.image
-        }
-        
-        messageView.do {
-            $0.addBorder(.bottom)
-        }
-        
-        messageLabel.do {
-            $0.textAlignment = .natural
-            $0.attributedText = NSMutableAttributedString().regular("오늘 하루는 어떠셨나요?\n지치고 힘든 하루를 잘 견뎌낸 나에게\n\"잘했다\"한 마디는 어떨까요?", 16, CSColor.none)
-        }
-        
-        locationButton.do {
-            $0.setShadow(CGSize(width: 0, height: 3), UIColor.black.cgColor, 0.25, 2)
-            $0.titleLabel?.font = .systemFont(ofSize: 17,weight: .medium)
-            $0.setBackgroundColor(CSColor._245_245_245.color)
-            $0.setCornerRadius(24)
-        }
-        
-        buttonInnerView.do {
-            $0.isUserInteractionEnabled = false
-        }
-        
-        locationTitleLabel.do {
-            $0.attributedText = NSMutableAttributedString().bold("동네 설정", 18, CSColor._128_128_128)
-            $0.isUserInteractionEnabled = false
-        }
-        
-        locationSubtitleLabel.do {
-            $0.attributedText = NSMutableAttributedString().medium("즐겨찾기 추가 / 변경", 20, CSColor.none)
-            $0.isUserInteractionEnabled = false
-        }
-        
-        bottomLabel.do {
-            $0.isUserInteractionEnabled = true
-            $0.attributedText = NSMutableAttributedString()
-                .regular("개인정보 처리 방침 및 정보 제공처", 12, CSColor._78_78_78)
-        }
-        
-        versionLabel.do {
-            $0.attributedText = NSMutableAttributedString()
-                .regular("WeatherVely v\(Constants.bundleShortVersion)", 10, CSColor._128_128_128)
-        }
-        
-        bottomView.do {
-            $0.addBorder(.top)
-        }
+    private let topView = UIView().then {
+        $0.backgroundColor = .violet500
+        $0.setCornerRadius(16)
     }
-
-    // MARK: - Layout
+    
+    private var profileImage = UIImageView().then {
+        $0.image = .icon_profile
+    }
+    
+    private var nameLabel = LabelMaker(
+        font: .title_3_B,
+        fontColor: .white
+    ).make()
+    
+    private var nameSetButton = UIButton().then {
+        $0.backgroundColor = .white
+        $0.setCornerRadius(5)
+        $0.titleLabel?.font = .body_5_M
+        $0.setTitle("설정", for: .normal)
+        $0.setTitleColor(.violet800, for: .normal)
+    }
+    
+    private lazy var tableView = UITableView(
+        frame: .zero,
+        style: .plain
+    ).then {
+        $0.delegate = self
+        $0.isScrollEnabled = false
+        $0.backgroundColor = .white
+        $0.separatorColor = .gray20
+        $0.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        $0.contentInset.top = 8
+        $0.register(withType: SettingTableViewCell.self)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        nameLabel.text = UserDefaultManager.shared.nickname
+    }
+    
     override func layout() {
         super.layout()
-        container.flex
-            .direction(.column)
-            .justifyContent(.spaceBetween)
-            .define { flex in
-            flex.addItem(titleLabel).marginTop(10)
-            flex.addItem(contentWrapper)
-                .grow(1)
-                .shrink(1)
-                .define { flex in
-                    flex.addItem(nickNameView)
-                        .direction(.row)
-                        .marginTop(27)
-                        .marginHorizontal(32)
-                        .define { flex in
-                        flex.addItem(nickNameLabel)
-                            .marginVertical(9)
-                            .marginLeft(60)
-                        flex.addItem(editButton)
-                                .marginTop(5)
-                                .marginLeft(6)
-                                .size(24)
-                    }
-                    flex.addItem(messageView)
-                        .marginHorizontal(32)
-                        .direction(.row)
-                        .define { flex in
-                            flex.addItem(stickerIcon)
-                                .size(32)
-                                .margin(18, 13, 35, 15)
-                            flex.addItem(messageLabel)
-                                .marginVertical(11)
-                    }
-                    flex.addItem(firstButtonWrapper)
-                        .marginTop(40)
-                        .marginHorizontal(32)
-                        .define { flex in
-                            flex.addItem(locationButton)
-                                .height(113)
-                                .direction(.row)
-                                .define { flex in
-                                    flex.addItem(buttonInnerView)
-                                        .marginLeft(34)
-                                        .define { flex in
-                                            flex.addItem(locationTitleLabel).marginTop(22)
-                                            flex.addItem(locationSubtitleLabel).marginTop(15)
-                                    }
-                                    flex.addItem(buttonInnerImageView).width(56).height(60).position(.absolute).marginVertical(26.5).right(36)
-                            }
-                    }
+        
+        container.flex.alignItems(.center).define {
+            $0.addItem(titleLabel)
+            $0.addItem(topView).direction(.row).alignItems(.center).justifyContent(.spaceBetween).marginTop(20).width(Constants.screenWidth - 40).height(68).define { top in
+                top.addItem(profileImage).marginLeft(20).size(24)
+                top.addItem(nameLabel).marginLeft(12).grow(1)
+                top.addItem(nameSetButton).marginRight(20).width(53).height(24)
             }
-            flex.addItem(bottomView)
-                .position(.absolute)
-                .width(UIScreen.main.bounds.width)
-                .bottom(2)
-                .define { flex in
-                    flex.addItem(bottomLabel).marginTop(7)
-                    flex.addItem(versionLabel).marginTop(5)
-            }
+            $0.addItem().backgroundColor(.gray10).width(100%).height(16)
+            $0.addItem(tableView).marginBottom(20).grow(1)
         }
-        
     }
-
-    override func bind() {
-        super.bind()
+    
+    override func viewBinding() {
+        super.viewBinding()
         
-        tapGesture.rx
-            .event
+        nameSetButton.rx.tap
             .bind(with: self) { owner, _ in
                 owner.viewModel.toEditNicknameView()
-            }
-            .disposed(by: bag)
+            }.disposed(by: bag)
         
-        editButton.rx.tap
-            .bind(with: self) { owner, _ in
-                owner.viewModel.toEditNicknameView()
-            }
-            .disposed(by: bag)
+        viewModel.menuTitle
+            .bind(to: tableView.rx.items(
+                cellIdentifier: SettingTableViewCell.identifier,
+                cellType: SettingTableViewCell.self
+            )) { _, data, cell in
+                cell.configureCellState(state: data)
+            }.disposed(by: bag)
         
-        locationButton.rx.tap
-            .bind(with: self) { owner, _ in
-                owner.viewModel.toEditRegionView()
-            }
-            .disposed(by: bag)
+        tableView.rx.itemSelected
+            .bind(with: self) { owner, indexPath in
+                owner.viewModel.didTapCell(at: indexPath.item)
+            }.disposed(by: bag)
+    }
+}
 
-        bottomLabel.rx.tapGesture().when(.recognized)
-            .bind(with: self) { owner, result in
-                owner.viewModel.toPrivacyPolicyView()
-            }
-            .disposed(by: bag)
-        
-        locationButton.rx.controlEvent(.touchDown)
-            .asDriver()
-            .drive(
-                with: self,
-                onNext: { owner, _ in
-                    owner.locationButton.setBackgroundColor(CSColor._255_255_255_05.color)
-            })
-            .disposed(by: bag)
-        
-        locationButton.rx.controlEvent([.touchUpInside, .touchUpOutside, .touchDragInside ])
-            .asDriver()
-            .drive(
-                with: self,
-                onNext: { owner, _ in
-                    owner.locationButton.setBackgroundColor(CSColor._245_245_245.color)
-            })
-            .disposed(by: bag)
+extension SettingViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == viewModel.menuTitle.value.count - 1 {
+            cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0)
+        }
     }
 }

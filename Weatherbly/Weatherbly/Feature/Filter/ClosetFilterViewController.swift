@@ -96,6 +96,20 @@ final class ClosetFilterViewController: RxBaseViewController<ClosetFilterViewMod
             }
         }
     }
+    
+    override func viewBinding() {
+        super.viewBinding()
+        
+        resetButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.view.layoutIfNeeded()
+            }.disposed(by: bag)
+        
+        confirmButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.dismiss(animated: true)
+            }.disposed(by: bag)
+    }
 }
 
 // MARK: UIPageViewController Delegate & DataSource
