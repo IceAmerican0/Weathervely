@@ -510,14 +510,14 @@
 			path = NewHome;
 			sourceTree = "<group>";
 		};
-		698F6CAA2ADD6EC200C2B33A /* Trend */ = {
+		698F6CAA2ADD6EC200C2B33A /* Style */ = {
 			isa = PBXGroup;
 			children = (
 				698F6CAB2ADD6EDB00C2B33A /* StyleViewController.swift */,
 				698F6CAC2ADD6EDB00C2B33A /* StyleViewModel.swift */,
 				698F6CAF2ADFF8A600C2B33A /* StyleCollectionViewCell.swift */,
 			);
-			path = Trend;
+			path = Style;
 			sourceTree = "<group>";
 		};
 		69C714D02ADD60C500748CF6 /* TabBar */ = {
@@ -629,7 +629,7 @@
 			isa = PBXGroup;
 			children = (
 				6987EBB72B41400600CF1E74 /* NewHome */,
-				698F6CAA2ADD6EC200C2B33A /* Trend */,
+				698F6CAA2ADD6EC200C2B33A /* Style */,
 				69C714D02ADD60C500748CF6 /* TabBar */,
 				BD2D01A12A3887E0003A25D5 /* OnBoard */,
 				5C68E91F2AF375CE0046D0BE /* Forecast */,
