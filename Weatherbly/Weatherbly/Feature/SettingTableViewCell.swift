@@ -25,11 +25,8 @@ public final class SettingTableViewCell: UITableViewCell {
         font: .body_3_M
     ).make()
     
-    private let toggleSwitch = UISwitch().then {
-        $0.onTintColor = .violet150
-        $0.onImage = .toggle_on
-        $0.offImage = .toggle_off
-        $0.tintColor = .violet600
+    private let toggleSwitch = CSSwitch().then {
+        $0.isSelected = false
     }
     
     private let naviButton = UIImageView().then {
@@ -95,7 +92,7 @@ private extension SettingTableViewCell {
     private func layout() {
         contentView.flex.direction(.row).alignItems(.center).justifyContent(.spaceBetween).define {
             $0.addItem(titleLabel).marginLeft(8)
-            $0.addItem(toggleSwitch).marginRight(8).width(44).height(29).display(.none)
+            $0.addItem(toggleSwitch).marginRight(8).display(.none)
             $0.addItem(naviButton).marginRight(8).size(16).display(.none)
             $0.addItem(version).marginRight(8).display(.none)
         }

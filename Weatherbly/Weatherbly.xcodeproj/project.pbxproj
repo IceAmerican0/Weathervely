@@ -82,6 +82,7 @@
 		5CDCD7E42B56782F008465B9 /* FilterStyleListEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDCD7E32B56782F008465B9 /* FilterStyleListEntity.swift */; };
 		5CDE81CE2A89F4780099FF87 /* MainToolTipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE81CD2A89F4780099FF87 /* MainToolTipViewController.swift */; };
 		5CDFB8C02B721D1900A1C21F /* SettingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDFB8BF2B721D1900A1C21F /* SettingCollectionViewCell.swift */; };
+		5CDFB8C22B733AA600A1C21F /* CSSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDFB8C12B733AA600A1C21F /* CSSwitch.swift */; };
 		5CE0FEAD2A8DDE9200A0E655 /* AddressListEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE0FEAC2A8DDE9200A0E655 /* AddressListEntity.swift */; };
 		5CE0FEB02A8EEC0000A0E655 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5CE0FEAF2A8EEC0000A0E655 /* Kingfisher */; };
 		5CE0FEB22A8F00F700A0E655 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CE0FEB12A8F00F700A0E655 /* WebKit.framework */; };
@@ -256,6 +257,7 @@
 		5CDCD7E32B56782F008465B9 /* FilterStyleListEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterStyleListEntity.swift; sourceTree = "<group>"; };
 		5CDE81CD2A89F4780099FF87 /* MainToolTipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainToolTipViewController.swift; sourceTree = "<group>"; };
 		5CDFB8BF2B721D1900A1C21F /* SettingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCollectionViewCell.swift; sourceTree = "<group>"; };
+		5CDFB8C12B733AA600A1C21F /* CSSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSSwitch.swift; sourceTree = "<group>"; };
 		5CE0FEAC2A8DDE9200A0E655 /* AddressListEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressListEntity.swift; sourceTree = "<group>"; };
 		5CE0FEB12A8F00F700A0E655 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		5CE0FEB72A8F4CE200A0E655 /* SetSensoryTempRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetSensoryTempRequest.swift; sourceTree = "<group>"; };
@@ -623,6 +625,7 @@
 				BD05E0792B38114B00A48E61 /* NewCSButton.swift */,
 				BD05E07B2B3816B300A48E61 /* NewImageButton.swift */,
 				BD05E07D2B3816BB00A48E61 /* NewCombiButton.swift */,
+				5CDFB8C12B733AA600A1C21F /* CSSwitch.swift */,
 			);
 			path = Atom;
 			sourceTree = "<group>";
@@ -1193,6 +1196,7 @@
 				693231642B4A80FE00816B7B /* HomeSection.swift in Sources */,
 				5CDCD7C92B54E7C8008465B9 /* ClosetFilterViewController.swift in Sources */,
 				69CCF1CB2A63CA5000756127 /* RegionDataSource.swift in Sources */,
+				5CDFB8C22B733AA600A1C21F /* CSSwitch.swift in Sources */,
 				696176B42A63E3C000B83B4C /* BaseDisposeBag.swift in Sources */,
 				BD4907312A83C3C00027DEE8 /* SensoryTempClosetEntity.swift in Sources */,
 				BD51694B2A5D763000582BA9 /* EditNicknameViewModel.swift in Sources */,

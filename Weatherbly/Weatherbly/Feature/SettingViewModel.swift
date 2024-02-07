@@ -43,11 +43,11 @@ final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
     func didTapTableViewCell(at index: Int) {
         let data = menuTitle.value
         switch data[index] {
-        case .noti, .share, .inquiry, .logout, .openSource:
+        case .share, .inquiry, .logout, .openSource:
             toBeContinue()
         case .policy:
             toPrivacyPolicyView()
-        case .versionInfo:
+        case .noti, .versionInfo:
             break
         }
     }
