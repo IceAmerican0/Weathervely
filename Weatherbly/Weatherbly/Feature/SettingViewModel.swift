@@ -13,15 +13,34 @@ public protocol SettingViewModelLogic: ViewModelBusinessLogic {
     func toEditNicknameView()
     func toEditRegionView()
     func toBeContinue()
-    func didTapCell(at index: Int)
+    func didTapCollectionViewCell(at index: Int)
+    func didTapTableViewCell(at index: Int)
     
+    var profileMenuTitle: BehaviorRelay<[ProfileMenuTitle]> { get }
     var menuTitle: BehaviorRelay<[SettingMenuTitle]> { get }
 }
 
 final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
-    public var menuTitle = BehaviorRelay<[SettingMenuTitle]>(value: SettingMenuTitle.allCases.map { $0 })
+    /// 내 정보 설정 리스트
+    public var profileMenuTitle = BehaviorRelay<[ProfileMenuTitle]>(
+        value: ProfileMenuTitle.allCases.map { $0 }
+    )
+    /// 앱 설정 리스트
+    public var menuTitle = BehaviorRelay<[SettingMenuTitle]>(
+        value: SettingMenuTitle.allCases.map { $0 }
+    )
     
-    func didTapCell(at index: Int) {
+    func didTapCollectionViewCell(at index: Int) {
+        let data = profileMenuTitle.value
+        switch data[index] {
+        case .region:
+            toEditRegionView()
+        case .wishList, .sensoryTemp:
+            toBeContinue()
+        }
+    }
+    
+    func didTapTableViewCell(at index: Int) {
         let data = menuTitle.value
         switch data[index] {
         case .noti, .share, .inquiry, .logout, .openSource:

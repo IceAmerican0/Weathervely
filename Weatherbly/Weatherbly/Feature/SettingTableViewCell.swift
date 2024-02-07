@@ -71,18 +71,16 @@ public final class SettingTableViewCell: UITableViewCell {
             toggleSwitch.flex.display(.flex)
             toggleSwitch.flex.markDirty()
         case .versionInfo:
-            toggleSwitch.flex.display(.none)
             toggleSwitch.isHidden = true
-            toggleSwitch.flex.markDirty()
             version.flex.display(.flex)
             version.text = "\(Constants.bundleDisplayName) Ver \(Constants.bundleShortVersion)"
             version.flex.markDirty()
-        case .share, .inquiry, .policy, .openSource, .logout:
-            toggleSwitch.flex.display(.none)
+        case .share, .inquiry, .policy, .openSource:
             toggleSwitch.isHidden = true
-            toggleSwitch.flex.markDirty()
             naviButton.flex.display(.flex)
             naviButton.flex.markDirty()
+        case .logout:
+            toggleSwitch.isHidden = true
         }
         setNeedsLayout()
     }
