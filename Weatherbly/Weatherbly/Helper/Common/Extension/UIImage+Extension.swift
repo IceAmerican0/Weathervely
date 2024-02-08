@@ -78,6 +78,7 @@ extension UIImage {
     
     // Navigation
     static let navi_back = UIImage(named: "navigationBackButton")!
+    static let navi_back_white = UIImage(named: "navi_back_white")!
     
     // Notification
     static let alarm_codi = UIImage(named: "alarm_codi")!

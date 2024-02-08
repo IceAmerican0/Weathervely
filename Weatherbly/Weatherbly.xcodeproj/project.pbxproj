@@ -69,7 +69,6 @@
 		5CCC914B2A6114880025B522 /* RegionTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC914A2A6114880025B522 /* RegionTarget.swift */; };
 		5CCC91522A61197B0025B522 /* SearchRegionEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC91512A61197B0025B522 /* SearchRegionEntity.swift */; };
 		5CCC91562A613F010025B522 /* SettingRegionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC91552A613F010025B522 /* SettingRegionViewModel.swift */; };
-		5CDB15AF2B50D1F400470127 /* CAGradientLayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDB15AE2B50D1F400470127 /* CAGradientLayer+Extension.swift */; };
 		5CDCD7C92B54E7C8008465B9 /* ClosetFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDCD7C72B54E7C8008465B9 /* ClosetFilterViewController.swift */; };
 		5CDCD7CA2B54E7C8008465B9 /* ClosetFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDCD7C82B54E7C8008465B9 /* ClosetFilterViewModel.swift */; };
 		5CDCD7CC2B54EAC6008465B9 /* FilterListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDCD7CB2B54EAC6008465B9 /* FilterListCell.swift */; };
@@ -244,7 +243,6 @@
 		5CCC914A2A6114880025B522 /* RegionTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionTarget.swift; sourceTree = "<group>"; };
 		5CCC91512A61197B0025B522 /* SearchRegionEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRegionEntity.swift; sourceTree = "<group>"; };
 		5CCC91552A613F010025B522 /* SettingRegionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingRegionViewModel.swift; sourceTree = "<group>"; };
-		5CDB15AE2B50D1F400470127 /* CAGradientLayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CAGradientLayer+Extension.swift"; sourceTree = "<group>"; };
 		5CDCD7C72B54E7C8008465B9 /* ClosetFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetFilterViewController.swift; sourceTree = "<group>"; };
 		5CDCD7C82B54E7C8008465B9 /* ClosetFilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetFilterViewModel.swift; sourceTree = "<group>"; };
 		5CDCD7CB2B54EAC6008465B9 /* FilterListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterListCell.swift; sourceTree = "<group>"; };
@@ -736,7 +734,6 @@
 		BD2D01A82A38881B003A25D5 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				5CDB15AE2B50D1F400470127 /* CAGradientLayer+Extension.swift */,
 				BD5D16922A63B3AD00435816 /* CALayer+Extension.swift */,
 				BD9191A52A973EBE00CBD595 /* Calendar+Extension.swift */,
 				BDF208FE2A4EAEF2001177B2 /* CGFloat+Extension.swift */,
@@ -1182,7 +1179,6 @@
 				BD5169472A5AA39000582BA9 /* EditNicknameViewController.swift in Sources */,
 				BD69B8F72A54337000DDCD7A /* SettingViewController.swift in Sources */,
 				5CDCD7DB2B564144008465B9 /* FilterListViewController.swift in Sources */,
-				5CDB15AF2B50D1F400470127 /* CAGradientLayer+Extension.swift in Sources */,
 				5CBD391E2B5F3EFE00B0A85F /* ToastView.swift in Sources */,
 				698F6CB22AE00FCC00C2B33A /* UIImage+Extension.swift in Sources */,
 				5C4A0ABD2B43ED8F006BE52A /* HomeForecastCell.swift in Sources */,

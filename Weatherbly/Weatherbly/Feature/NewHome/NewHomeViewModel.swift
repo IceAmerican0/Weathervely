@@ -99,19 +99,55 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
                 date: "현재",
                 time: "오전 9시",
                 mainTemp: 18,
-                minTemp: 10,
-                maxTemp: 22,
+                minTemp: 15,
+                maxTemp: 25,
+                weather: "맑음",
+                comment: "해가 쨍쨍"
+            ),
+            .init(
+                date: "오늘",
+                time: "오후 3시",
+                mainTemp: 25,
+                minTemp: 15,
+                maxTemp: 25,
+                weather: "구름많음",
+                comment: "뭉게뭉게 뭉게구름"
+            ),
+            .init(
+                date: "오늘",
+                time: "오후 8시",
+                mainTemp: 16,
+                minTemp: 15,
+                maxTemp: 25,
+                weather: "흐림",
+                comment: "상당히 흐리네요"
+            ),
+            .init(
+                date: "내일",
+                time: "오전 9시",
+                mainTemp: 18,
+                minTemp: 16,
+                maxTemp: 20,
                 weather: "비",
                 comment: "흐리고 비가 내려요. 우산 깜빡하진 않으셨죠?"
             ),
             .init(
                 date: "내일",
-                time: "오후 8시",
-                mainTemp: 18,
-                minTemp: 10,
-                maxTemp: 22,
+                time: "오후 3시",
+                mainTemp: 20,
+                minTemp: 16,
+                maxTemp: 20,
                 weather: "바람",
                 comment: "바람이 겁나게 부네요."
+            ),
+            .init(
+                date: "내일",
+                time: "오후 8시",
+                mainTemp: 16,
+                minTemp: 16,
+                maxTemp: 20,
+                weather: "맑음",
+                comment: "날이 좋네요"
             ),
         ]
         forecastInfo = data
@@ -171,17 +207,10 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
                     .init(
                         title: "내일 날씨까지만 볼 수 있어요",
                         alertType: .toast
-                ))
+                    ))
                 return
             }
         }
-        
-//        let selectedTime = forecastInfo[selectedIndex].time
-//        let startIndex = selectedTime.index(selectedTime.startIndex, offsetBy: 1)
-//        let endIndex =
-//        let range = ...selectedTime.endIndex
-//        if selectedTime[range] ==
-        
         getSelectedTimeInfo(direction: direction)
     }
     
@@ -192,14 +221,21 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
         } else {
             selectedIndex += 1
         }
-        
         selectedForecastState.accept(forecastInfo[selectedIndex])
         getClosetInfo()
     }
     
     /// 현재/내일 이동
     public func didTapTimeLabel() {
+        let info = selectedForecastState.value
         
+        if info.date == "현재" {
+            selectedIndex = forecastInfo.count - 3
+        } else {
+            selectedIndex = 0
+        }
+        selectedForecastState.accept((forecastInfo[selectedIndex]))
+        getClosetInfo()
     }
     
     /// 필터링

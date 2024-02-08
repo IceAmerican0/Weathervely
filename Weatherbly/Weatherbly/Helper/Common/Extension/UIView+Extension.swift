@@ -197,3 +197,46 @@ extension UIView {
         }
     }
 }
+
+// MARK: Gradient
+extension UIView {
+    public func setWeatherUI(weather: String, time: String) -> ([UIColor], UIImage) {
+        let isAM = time.isAM()
+        
+        return switch weather {
+        case "맑음": isAM ?
+            (.gradient10, UIImage.sunny_am) :
+            (.gradient20, UIImage.sunny_pm)
+        case "흐림": (.gradient30, UIImage.cloudy)
+        case "구름많음": isAM ?
+            (.gradient40, UIImage.clouds_am) :
+            (.gradient50, UIImage.clouds_pm)
+        case "비": (.gradient60, UIImage.rainy)
+        case "눈비": (.gradient70, UIImage.snowyRainy)
+        case "눈": (.gradient80, UIImage.snowy)
+        case "바람": (.gradient90, UIImage.windy)
+        default: (.gradient10, UIImage.sunny_am)
+        }
+    }
+    
+    func addGradient(colors: [UIColor]) {
+        let gradient = CAGradientLayer().then {
+            $0.colors = colors.map { $0.cgColor }
+            $0.locations = [0, 1]
+            $0.startPoint = CGPoint(x: 0.25, y: 0.5)
+            $0.endPoint = CGPoint(x: 0.75, y: 0.5)
+//            $0.transform = CATransform3DMakeAffineTransform(
+//                CGAffineTransform(
+//                    a: 0.97, b: 0.95, c: -0.85, d: 0.6, tx: 0.44, ty: -0.3
+//            ))
+            $0.bounds = bounds.insetBy(
+                dx: (-0.5 * bounds.size.width),
+                dy: (-0.5 * bounds.size.height)
+            )
+            $0.position = center
+        }
+        
+        layer.sublayers?.removeAll(where: { $0 is CAGradientLayer })
+        layer.insertSublayer(gradient, at: 0)
+    }
+}

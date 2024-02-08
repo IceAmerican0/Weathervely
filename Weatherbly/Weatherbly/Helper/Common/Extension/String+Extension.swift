@@ -50,6 +50,21 @@ extension String {
         return self
     }
     
+    /// "오전/오후 00시" 입력 > 오전일시 true
+    func isAM() -> Bool {
+        let dateFormatter = DateFormatter.shared
+        dateFormatter.dateFormat = "a h시"
+
+        guard let date = dateFormatter.date(from: self) else {
+            return false
+        }
+
+        let calendar = Calendar.current
+        let hour = calendar.component(.hour, from: date)
+
+        return (6...17).contains(hour)
+    }
+
     /// "1.0.0" -> 100
     func versionToInt() -> Int {
         Int(self.replacingOccurrences(of: ".", with: "")) ?? 100
