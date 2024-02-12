@@ -14,34 +14,45 @@ final class HorizontalCollectionViewCell: UICollectionViewCell {
     
     private let container = UIView()
     var imageView = UIImageView()
-    var detailLabel = LabelMaker(font: UIFont.body_5_M).make("Detail Text")
+    var nameLabel = LabelMaker(font: UIFont.body_5_M).make("Detail TextDetail TextDetail TextDetail Text")
     
     override init(frame: CGRect) {
-        super.init(frame: .zero)
-        self.backgroundColor = .yellow
-        layout()
+        super.init(frame: frame)
+        cellLayout()
+        cellAttribute()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
     override func layoutSubviews() {
         super.layoutSubviews()
+        contentView.pin.all()
         contentView.flex.layout()
     }
     
-    func layout() {
-        self.backgroundColor = .gray10
+    func cellAttribute() {
         
-        contentView.flex.define { flex in
-            flex.addItem(container)
-            
+        nameLabel.do {
+            $0.numberOfLines = 1
+            $0.textAlignment = .left
+        }
+        
+        imageView.do {
+            $0.tintColor = .green
+            $0.contentMode = .scaleAspectFit
+        }
+    }
+    
+    func cellLayout() {
+        
+        contentView.flex.width(120).height(209).define { flex in
+            flex.addItem(imageView).height(180).width(100%)
+            flex.addItem(nameLabel).width(100%).height(17).marginTop(12)
         }
         
     }
-    
-    func configureCellState() {
-        
-    }
+
 }

@@ -13,20 +13,25 @@ import Then
 public class HorizonCollectionViewMoleCule: UIView,CodeBaseInitializerProtocol {
 
     public var themeTitleLabel = LabelMaker(font: UIFont.title_3_B).make("#Title: 멋있는데 따뜻하게")
-    public var collectionView = UICollectionView()
-    public let collectionViewLayer = UICollectionViewFlowLayout().then {
-        $0.sectionInset = UIEdgeInsets(top: 5.0, left: 7.0, bottom: 5.0, right: 7.0)
-        $0.minimumLineSpacing = 5
-        $0.minimumInteritemSpacing = 1
+    
+    var flowLayout = UICollectionViewFlowLayout().then {
+        $0.scrollDirection = .horizontal
+        $0.minimumLineSpacing = 16
     }
     
-//    public var collectionView = UICollectionView()
+    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout).then {
+        $0.showsHorizontalScrollIndicator = false
+        $0.contentInset = PEdgeInsets(top: 0, left: 0, bottom: 0, right: 40)
+        
+        $0.register(withType: HorizontalCollectionViewCell.self)
+    }
+
     
     // MARK: - Initialize
     public override init(frame: CGRect) {
         super.init(frame: frame)
         codeBaseInitializer()
-        layout()
+        moleculeLayout()
         
     }
     
@@ -54,22 +59,14 @@ public class HorizonCollectionViewMoleCule: UIView,CodeBaseInitializerProtocol {
     // layoutSubviews: 뷰의 레이아웃이 필요할 때 호출됩니다. 서브뷰의 크기와 위치를 조정하기에 적합한 메서드입니다.
     public override func layoutSubviews() {
         super.layoutSubviews()
-        // 기본 height 설정해주기
-//        self.bounds.size.height = 800
-        self.backgroundColor = .orange
-        
-        
         self.flex.layout()
     }
     
-    func layout() {
-        
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayer)
-        collectionView.backgroundColor = .yellow100
+    func moleculeLayout() {
         
         self.flex.define { flex in
             flex.addItem(themeTitleLabel).width(100%).height(23)
-            flex.addItem(collectionView).width(100%).height(210)
+            flex.addItem(collectionView).width(100%).height(209).marginLeft(20).marginTop(12)
         }
     }
     /// setNeedsLayout: 뷰에 레이아웃 업데이트가 필요하다고 시스템에 알릴 때 사용됩니다. 이 메서드를 호출하면 시스템은 다음 업데이트 주기에서 layoutSubviews를 호출합니다.

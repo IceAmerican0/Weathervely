@@ -14,29 +14,43 @@ import Kingfisher
 
 final class StyleViewController: RxBaseScrollViewController<StyleViewModel> {
     
-    
-    private var titleLabel = LabelMaker(font: UIFont.title_3_B).make("스타일")
-    private var bannerView = UIImageView()
-    private var firstThemeView = HorizonCollectionViewMoleCule()
-    
-    override func attribute() {
-        super.attribute()
-        titleLabel.do {
-            $0.backgroundColor = .red
-        }
-        
-        firstThemeView.do {
-            $0.collectionView.dataSource = self
-            $0.collectionView.delegate = self
-        }
+    private var titleLabel = LabelMaker(font: UIFont.title_3_B).make("스타일").then {
+        $0.backgroundColor = .red
     }
+    
+    private lazy var bannerView = UIImageView().then {
+        $0.image = UIImage(named: testData[0])
+        $0.contentMode = .scaleAspectFit
+    }
+    
+//    private var flowLayout = UICollectionViewFlowLayout().then {
+//        $0.scrollDirection = .horizontal
+//        $0.minimumLineSpacing = 16
+//    }
+//    
+//    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout).then { [weak self] in
+//        $0.showsHorizontalScrollIndicator = false
+//        $0.dataSource = self
+//        $0.delegate = self
+//        
+//        $0.register(withType: HorizontalCollectionViewCell.self)
+//    }
+    
+    private lazy var firstThemeView = HorizonCollectionViewMoleCule().then { [weak self] in
+        $0.collectionView.dataSource = self
+        $0.collectionView.delegate = self
+    }
+    
+    var testData = ["look1", "look2", "look1", "look1", "look2", "look1", "look1", "look2", "look1", "look1", "look2"]
+    
     override func layout() {
         super.layout()
         
         contentView.flex.define { flex in
             flex.addItem(titleLabel).width(100%).height(400)
-            flex.addItem(firstThemeView).width(100%).height(800)
-            
+            flex.addItem(bannerView).width(100%).height(209)
+//            flex.addItem(collectionView).width(100%).height(209)
+                        flex.addItem(firstThemeView).width(100%).height(244)
         }
     }
     
@@ -59,52 +73,29 @@ final class StyleViewController: RxBaseScrollViewController<StyleViewModel> {
     }
     
 }
-//
-//extension StyleViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        viewModel.recommendClosetEntityRelay.value.count
-//    }
-//    
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        let cell = collectionView.dequeueCell(withType: StyleCollectionViewCell.self, for: indexPath)
-//        let closetInfo = viewModel.recommendClosetEntityRelay.value[indexPath.item]
-//        
-//        if let url = URL(string: closetInfo.imageUrl) {
-//            cell.imageView.kf.setImage(with: url,
-//                                            placeholder: nil,
-//                                            options: [.retryStrategy(DelayRetryStrategy(maxRetryCount: 2,
-//                                                                                        retryInterval: .seconds(2))),
-//                                                      .transition(.fade(0.1)),
-//                                                      .cacheOriginalImage]) { result in
-//                switch result {
-//                case .success:
-//                    break
-//                case .failure:
-//                    cell.imageView.image = AssetsImage.defaultImage.image
-//                    break
-//                }
-//            }
-//        }
-//        
-//        return cell
-//    }
-//}
 
-
-extension StyleViewController: UICollectionViewDataSource {
+extension StyleViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 10
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = firstThemeView.collectionView.dequeueCell(withType: HorizontalCollectionViewCell.self, for: indexPath)
-        
+        let cell = collectionView.dequeueCell(withType: HorizontalCollectionViewCell.self, for: indexPath)
+      
+        let image = UIImage(named: testData[indexPath.item])
+        cell.imageView.image = image
+      
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 120, height: collectionView.frame.height)
+    }
     
 }
 
 extension StyleViewController: UICollectionViewDelegate {
     
 }
+
