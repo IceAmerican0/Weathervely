@@ -23,20 +23,13 @@ final class StyleViewController: RxBaseScrollViewController<StyleViewModel> {
         $0.contentMode = .scaleAspectFit
     }
     
-//    private var flowLayout = UICollectionViewFlowLayout().then {
-//        $0.scrollDirection = .horizontal
-//        $0.minimumLineSpacing = 16
-//    }
-//    
-//    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout).then { [weak self] in
-//        $0.showsHorizontalScrollIndicator = false
-//        $0.dataSource = self
-//        $0.delegate = self
-//        
-//        $0.register(withType: HorizontalCollectionViewCell.self)
-//    }
-    
     private lazy var firstThemeView = HorizonCollectionViewMoleCule().then { [weak self] in
+        $0.themeTitleLabel.text = "#Title: 멋있는데 따뜻하게"
+        $0.collectionView.dataSource = self
+        $0.collectionView.delegate = self
+    }
+    
+    private lazy var secoundThemeView = HorizonCollectionViewMoleCule().then { [weak self] in
         $0.collectionView.dataSource = self
         $0.collectionView.delegate = self
     }
@@ -49,8 +42,7 @@ final class StyleViewController: RxBaseScrollViewController<StyleViewModel> {
         contentView.flex.define { flex in
             flex.addItem(titleLabel).width(100%).height(400)
             flex.addItem(bannerView).width(100%).height(209)
-//            flex.addItem(collectionView).width(100%).height(209)
-                        flex.addItem(firstThemeView).width(100%).height(244)
+            flex.addItem(firstThemeView).width(100%).height(244)
         }
     }
     
