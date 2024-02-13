@@ -82,6 +82,8 @@ final class ClosetFilterViewController: RxBaseViewController<ClosetFilterViewMod
                     )
                 }
             ).disposed(by: bag)
+        
+        setBottomSheet()
     }
 
     override func layout() {

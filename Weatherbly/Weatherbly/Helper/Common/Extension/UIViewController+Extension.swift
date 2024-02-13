@@ -25,3 +25,21 @@ extension UIViewController {
     @objc func keyboardWillShow(_ notification: Notification) {}
     @objc func keyboardWillHide(_ notification: Notification) {}
 }
+
+// MARK: Custom BottomSheet
+extension UIViewController {
+    /// 높이 커스텀 가능한 BottomSheet >> default = 500
+    func setBottomSheet(SheetHeight: CGFloat? = 500) {
+        isModalInPresentation = true
+        
+        if let sheet = sheetPresentationController {
+            let identifier = UISheetPresentationController.Detent.Identifier("custom")
+            let customDetent = UISheetPresentationController.Detent.custom(identifier: identifier) { _ in
+                SheetHeight
+            }
+            
+            sheet.detents = [customDetent]
+            sheet.prefersScrollingExpandsWhenScrolledToEdge = true
+        }
+    }
+}
