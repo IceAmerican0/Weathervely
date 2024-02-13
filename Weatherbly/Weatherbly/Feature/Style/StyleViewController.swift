@@ -43,6 +43,7 @@ final class StyleViewController: RxBaseScrollViewController<StyleViewModel> {
             flex.addItem(titleLabel).width(100%).height(400)
             flex.addItem(bannerView).width(100%).height(209)
             flex.addItem(firstThemeView).width(100%).height(244)
+            flex.addItem(secoundThemeView).width(100%).height(244)
         }
     }
     

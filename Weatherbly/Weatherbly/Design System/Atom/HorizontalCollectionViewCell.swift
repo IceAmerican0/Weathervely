@@ -50,7 +50,7 @@ final class HorizontalCollectionViewCell: UICollectionViewCell {
         
         contentView.flex.width(120).height(209).define { flex in
             flex.addItem(imageView).height(180).width(100%)
-            flex.addItem(nameLabel).width(100%).height(17).marginTop(12)
+            flex.addItem(nameLabel).width(100%).height(nameLabel.lineHeight).marginTop(12)
         }
         
     }
