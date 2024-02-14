@@ -29,9 +29,7 @@ extension UIViewController {
 // MARK: Custom BottomSheet
 extension UIViewController {
     /// 높이 커스텀 가능한 BottomSheet >> default = 500
-    func setBottomSheet(SheetHeight: CGFloat? = 500) {
-        isModalInPresentation = true
-        
+    func setBottomSheet(SheetHeight: CGFloat = Constants.screenHeight * 0.61) {
         if let sheet = sheetPresentationController {
             let identifier = UISheetPresentationController.Detent.Identifier("custom")
             let customDetent = UISheetPresentationController.Detent.custom(identifier: identifier) { _ in
@@ -39,7 +37,6 @@ extension UIViewController {
             }
             
             sheet.detents = [customDetent]
-            sheet.prefersScrollingExpandsWhenScrolledToEdge = true
         }
     }
 }

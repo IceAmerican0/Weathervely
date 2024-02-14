@@ -107,9 +107,9 @@ final class FilterListViewModel: RxBaseViewModel, FilterListViewModelLogic {
         // TODO: delete mock
         let randomCount = Int.random(in: 1 ... 100)
         let itemSection: [FilterSection] = data.map {
-            .cloth(
+            .item(
                 category: $0.category,
-                items: $0.info.map { .cloth($0) }
+                items: $0.info.map { .item($0) }
             )
         }
         filterSection.accept(itemSection)

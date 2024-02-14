@@ -30,7 +30,9 @@ public final class HomeForecastCell: UICollectionViewCell {
         fontColor: .white
     ).make()
     
-    private let weatherImage = UIImageView()
+    private let weatherImage = UIImageView().then {
+        $0.contentMode = .scaleAspectFit
+    }
     
     private let commentLabel = LabelMaker(
         font: .body_3_M,
@@ -94,13 +96,13 @@ private extension HomeForecastCell {
         clipsToBounds = true
         
         contentView.flex.alignItems(.center).define {
-            $0.addItem().direction(.row).justifyContent(.spaceBetween).alignItems(.center).marginTop(27).width(100%).define {
-                $0.addItem(mainTempLabel).marginLeft(20)
+            $0.addItem().direction(.row).justifyContent(.spaceBetween).alignItems(.center).alignSelf(.stretch).marginHorizontal(20).marginTop(27).define {
+                $0.addItem(mainTempLabel)
                 $0.addItem().marginTop(-10).marginLeft(18).grow(1).define { middle in
                     middle.addItem(sensoryTempLabel)
                     middle.addItem(dailyTempLabel).marginTop(5)
                 }
-                $0.addItem(weatherImage).marginRight(20).width(110).height(74)
+                $0.addItem(weatherImage).width(110).height(74)
             }
             $0.addItem(commentLabel).alignSelf(.stretch).marginHorizontal(20).marginTop(4).height(32)
         }

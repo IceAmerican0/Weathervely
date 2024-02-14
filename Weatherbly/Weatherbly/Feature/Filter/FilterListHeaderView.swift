@@ -41,6 +41,7 @@ public final class FilterListHeaderView: UICollectionReusableView {
     
     public func configureViewState(title: String) {
         category.text = title
+        category.flex.markDirty()
     }
 }
 

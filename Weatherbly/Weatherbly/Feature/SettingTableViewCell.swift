@@ -9,6 +9,8 @@ import UIKit
 import FlexLayout
 import PinLayout
 import Then
+import RxCocoa
+import RxSwift
 
 public enum SettingMenuTitle: String, CaseIterable {
     case noti = "알림 설정"
@@ -25,9 +27,7 @@ public final class SettingTableViewCell: UITableViewCell {
         font: .body_3_M
     ).make()
     
-    private let toggleSwitch = CSSwitch().then {
-        $0.isSelected = false
-    }
+    private let toggleSwitch = CSSwitch()
     
     private let naviButton = UIImageView().then {
         $0.image = .commontab
@@ -38,6 +38,8 @@ public final class SettingTableViewCell: UITableViewCell {
         fontColor: .gray50,
         alignment: .right
     ).make()
+    
+    var toggleTap: Driver<Bool>?
     
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
