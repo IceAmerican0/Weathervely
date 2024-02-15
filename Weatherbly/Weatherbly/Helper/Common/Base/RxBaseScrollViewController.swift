@@ -51,7 +51,6 @@ public class RxBaseScrollViewController<ViewModel>: UIViewController, CodeBaseIn
         super.viewDidLayoutSubviews()
     /// child component들의 속성을 잡아주기 위해서 flex.layout()을 먼저 호출한다.
         scrollView.pin.all(view.pin.safeArea)
-        contentView.backgroundColor = .yellow
         contentView.pin.all()
         
         contentView.flex.layout(mode: .adjustHeight)

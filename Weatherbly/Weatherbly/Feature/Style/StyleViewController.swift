@@ -12,6 +12,7 @@ import Then
 import RxSwift
 import Kingfisher
 
+
 final class StyleViewController: RxBaseScrollViewController<StyleViewModel> {
     
     private var titleLabel = LabelMaker(font: UIFont.title_3_B).make("스타일").then {
@@ -19,12 +20,16 @@ final class StyleViewController: RxBaseScrollViewController<StyleViewModel> {
     }
     
     private lazy var bannerView = UIImageView().then {
-        $0.image = UIImage(named: testData[0])
-        $0.contentMode = .scaleAspectFit
+        $0.image = UIImage.style_banner
+        $0.contentMode = .scaleAspectFill
+        $0.layer.cornerRadius = 12
+        $0.clipsToBounds = true
+        $0.translatesAutoresizingMaskIntoConstraints = true
     }
     
     private lazy var firstThemeView = HorizonCollectionViewMoleCule().then { [weak self] in
-        $0.themeTitleLabel.text = "#Title: 멋있는데 따뜻하게"
+        $0.themeTitleLabel.text = "#Title: 멋있는데 따뜻하게 Title"
+
         $0.collectionView.dataSource = self
         $0.collectionView.delegate = self
     }
@@ -40,8 +45,8 @@ final class StyleViewController: RxBaseScrollViewController<StyleViewModel> {
         super.layout()
         
         contentView.flex.define { flex in
-            flex.addItem(titleLabel).width(100%).height(400)
-            flex.addItem(bannerView).width(100%).height(209)
+            flex.addItem(titleLabel).width(100%).height(UIFont.title_3_B.lineHeight).margin(11.5, 20, 17.5)
+            flex.addItem(bannerView).width(100%).height(80).alignContent(.start).justifyContent(.center).marginHorizontal(20)
             flex.addItem(firstThemeView).width(100%).height(244)
             flex.addItem(secoundThemeView).width(100%).height(244)
         }
@@ -91,4 +96,3 @@ extension StyleViewController: UICollectionViewDataSource, UICollectionViewDeleg
 extension StyleViewController: UICollectionViewDelegate {
     
 }
-

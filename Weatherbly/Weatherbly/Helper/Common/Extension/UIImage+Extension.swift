@@ -55,6 +55,9 @@ extension UIImage {
     static let sunny_pm = UIImage(named: "sunny_pm")!
     static let windy = UIImage(named: "windy")!
     
+    // Style
+    static let style_banner = UIImage(named: "style_banner")!
+    
     // Common
     static let networkError = UIImage(named: "networkError_illust")!
     static let loadError = UIImage(named: "popup_illust_loadError")!
