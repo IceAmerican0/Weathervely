@@ -54,7 +54,7 @@ final class UnderlineTitleSegmentView: UISegmentedControl {
         addSubview(underline)
         bringSubviewToFront(underline)
         
-        var xCoordinate = (bounds.width / CGFloat(numberOfSegments)) * CGFloat(selectedSegmentIndex)
+        let xCoordinate = (bounds.width / CGFloat(numberOfSegments)) * CGFloat(selectedSegmentIndex)
         
         UIView.animate(
           withDuration: 0.1,

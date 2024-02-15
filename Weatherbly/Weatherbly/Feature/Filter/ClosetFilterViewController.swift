@@ -73,9 +73,17 @@ final class ClosetFilterViewController: RxBaseViewController<ClosetFilterViewMod
         super.viewDidLoad()
         view.backgroundColor = .white
         
+        // FilterListViewDelegate
         filterViewControllers.forEach { vc in
             if let vc = vc as? FilterListViewController {
                 vc.delegate = self
+            }
+        }
+        
+        // UIScrollViewDelegate
+        for view in pageViewController.view.subviews {
+            if let scrollView = view as? UIScrollView {
+                scrollView.delegate = self
             }
         }
         
@@ -153,12 +161,30 @@ extension ClosetFilterViewController: UIPageViewControllerDelegate, UIPageViewCo
         }
         return filterViewControllers[next]
     }
-    
-    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-        guard let vc = pageViewController.viewControllers?[0],
-              let index = filterViewControllers.firstIndex(of: vc) else { return }
-        currentPage.accept(index)
-        segmentView.selectedSegmentIndex = index
+}
+
+extension ClosetFilterViewController: UIScrollViewDelegate {
+    /// 실시간 스크롤 처리 절반 이상시 페이지 넘어가도록
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let position = scrollView.contentOffset.x - view.frame.size.width
+        let percent = abs(position) / view.frame.size.width
+        
+        let nowPage = currentPage.value
+        
+        DispatchQueue.main.async {
+            if percent > 0.5 {
+                if position > 0 {
+                    self.segmentView.selectedSegmentIndex = nowPage + 1
+                } else {
+                    if nowPage == 0 { return }
+                    self.segmentView.selectedSegmentIndex = nowPage - 1
+                }
+            } else {
+                self.segmentView.selectedSegmentIndex = nowPage
+                return
+            }
+            self.currentPage.accept(self.segmentView.selectedSegmentIndex)
+        }
     }
 }
 
