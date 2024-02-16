@@ -79,7 +79,7 @@ public final class OnBoardSensoryTempViewModel: RxBaseViewModel, OnBoardSensoryT
                 },
                 onError: { owner, error in
                     owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
-                                                         alertType: .Error,
+                                                         alertType: .popup,
                                                          closeAction: owner.popViewController))
             })
             .disposed(by: bag)
@@ -95,7 +95,7 @@ public final class OnBoardSensoryTempViewModel: RxBaseViewModel, OnBoardSensoryT
                 },
                 onError: { owner, error in
                     owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
-                                                         alertType: .Error))
+                                                         alertType: .popup))
             })
             .disposed(by: bag)
     }

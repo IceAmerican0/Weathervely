@@ -41,14 +41,14 @@ public final class SettingRegionViewModel: RxBaseViewModel, SettingRegionViewMod
                     if response.documents.count == 0 {
                         owner.alertMessageRelay.accept(.init(title: "해당하는 동네 정보가 없어요",
                                                              message: "동네 이름을 확인해주세요",
-                                                             alertType: .Error))
+                                                             alertType: .popup))
                     } else {
                         owner.searchedListRelay.accept(response.documents)
                     }
                 },
                 onError: { owner, error in
                     owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
-                                                         alertType: .Error))
+                                                         alertType: .popup))
             })
             .disposed(by: bag)
     }

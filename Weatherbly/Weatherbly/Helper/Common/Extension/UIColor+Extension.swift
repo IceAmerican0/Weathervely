@@ -34,7 +34,14 @@ extension UIColor {
 
 // MARK: Custom Color
 public extension UIColor {
+    static let clear10 = UIColor(named: "clear10")!
+    
+    static let white20 = UIColor(named: "white20")!
+    static let white30 = UIColor(named: "white30")!
+    
     static let black10 = UIColor(named: "black10")!
+    static let black50 = UIColor(named: "black50")!
+    static let black90 = UIColor(named: "black90")!
     
     static let blue10 = UIColor(named: "blue10")!
     static let blue50 = UIColor(named: "blue50")!
@@ -62,6 +69,8 @@ public extension UIColor {
     static let violet800 = UIColor(named: "violet800")!
     static let violet900 = UIColor(named: "violet900")!
     
+    static let kiwiGray90 = UIColor(named: "kiwiGray90")!
+    static let kiwiGray700 = UIColor(named: "kiwiGray700")!
     static let gray10 = UIColor(named: "gray10")!
     static let gray20 = UIColor(named: "gray20")!
     static let gray30 = UIColor(named: "gray30")!
@@ -210,4 +219,8 @@ public extension UIColor {
     static let pink700 = UIColor(named: "pink700")!
     static let pink800 = UIColor(named: "pink800")!
     static let pink900 = UIColor(named: "pink900")!
+    
+    static let gradient30 = UIColor(named: "gradient30")!
+    static let gradient40 = UIColor(named: "gradient40")!
+    static let gradient70 = UIColor(named: "gradient70")!
 }

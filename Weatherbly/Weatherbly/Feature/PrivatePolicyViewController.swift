@@ -11,7 +11,7 @@ import PinLayout
 import RxSwift
 
 final class PrivatePolicyViewController: RxBaseViewController<PrivatePolicyViewModel> {
-    private var navigationView = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
+    private var navigationView = CSNavigationView(.leftButton(.navi_back))
     private let privatePolicyLabel = UILabel()
     private let labelTapGesture = UITapGestureRecognizer()
     

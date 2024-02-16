@@ -52,7 +52,7 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
                 },
                 onError: { owner, error in
                     owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
-                                                         alertType: .Error))
+                                                         alertType: .popup))
             })
             .disposed(by: bag)
     }
@@ -68,7 +68,7 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
                 },
                 onError: { owner, error in
                     owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
-                                                         alertType: .Error))
+                                                         alertType: .popup))
             })
             .disposed(by: bag)
     }
@@ -84,13 +84,13 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
                     let errorString = error.localizedDescription
                     if errorString == "중복된 주소를 등록 했습니다." {
                         owner.alertMessageRelay.accept(.init(title: errorString,
-                                                             alertType: .Error,
+                                                             alertType: .popup,
                                                              closeAction: {
                             owner.navigationPopViewControllerRelay.accept(Void())
                         }))
                     } else {
                         owner.alertMessageRelay.accept(.init(title: errorString,
-                                                             alertType: .Error))
+                                                             alertType: .popup))
                     }
             })
             .disposed(by: bag)

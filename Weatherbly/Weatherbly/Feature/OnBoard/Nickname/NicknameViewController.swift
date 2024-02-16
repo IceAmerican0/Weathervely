@@ -13,7 +13,7 @@ import RxCocoa
 final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
     
     private var progressBar = CSProgressView(0.33)
-    private var navigationView = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
+    private var navigationView = CSNavigationView(.leftButton(.navi_back))
     private var explanationLabel = CSLabel(.bold, 25, "닉네임을 설정해주세요")
     private var guideLabel = CSLabel(.bold, 20, "(10글자 이내 / 띄어쓰기, 쉼표 불가)")
     private var inputNickname = UITextField.neatKeyboard()

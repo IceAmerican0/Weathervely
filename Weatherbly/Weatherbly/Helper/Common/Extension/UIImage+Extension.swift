@@ -39,6 +39,7 @@ extension UIImage {
     static let home_date_right_dis = UIImage(named: "home_date_right_dis")!
     static let home_date_right_nor = UIImage(named: "home_date_right_nor")!
     static let home_drop_off = UIImage(named: "home_drop_off")!
+    static let home_drop_on = UIImage(named: "home_drop_on")!
     static let home_nodata = UIImage(named: "home_nodata")!
     static let home_option = UIImage(named: "home_option")!
     static let home_place = UIImage(named: "home_place")!
@@ -70,4 +71,14 @@ extension UIImage {
     static let moreCool_illust = UIImage(named: "moreCool_illust")!
     static let moreHot_banner = UIImage(named: "moreHot_banner")!
     static let moreHot_illust = UIImage(named: "moreHot_illust")!
+    
+    // Navigation
+    static let navi_back = UIImage(named: "navigationBackButton")!
+    
+    // Notification
+    static let alarm_codi = UIImage(named: "alarm_codi")!
+    static let alarm_empty = UIImage(named: "alarm_empty")!
+    static let alarm_favorites = UIImage(named: "alarm_favorites")!
+    static let alarm_set = UIImage(named: "alarm_set")!
+    static let alarm_tip = UIImage(named: "alarm_tip")!
 }

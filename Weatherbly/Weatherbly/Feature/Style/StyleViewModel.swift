@@ -31,7 +31,7 @@ final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
                 },
                 onError: { owner, error in
                     owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
-                                                         alertType: .Error,
+                                                         alertType: .popup,
                                                          closeAction: {
                         owner.navigationPopToSelfRelay.accept(Void())
                     }))

@@ -60,7 +60,7 @@ class HomeSensoryTempViewModel: RxBaseViewModel, HomeSensoryLogic {
                 },
                 onError: { owner, error in
                     owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
-                                                         alertType: .Error,
+                                                         alertType: .popup,
                                                          closeAction: owner.popViewController))
             })
             .disposed(by: bag)
@@ -80,7 +80,7 @@ class HomeSensoryTempViewModel: RxBaseViewModel, HomeSensoryLogic {
                 },
                 onError: { owner, error in
                     owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
-                                                         alertType: .Error))
+                                                         alertType: .popup))
             })
             .disposed(by: bag)
     }

@@ -12,7 +12,7 @@ import RxSwift
 
 final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> {
     
-    private var navigationView = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
+    private var navigationView = CSNavigationView(.leftButton(.navi_back))
     
     private let contentWrapper = UIView()
     private let outlineImage = UIImageView()
@@ -80,6 +80,8 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
                             break
                         }
                     }
+                    
+                    owner.viewModel.navigationPoptoRootRelay.accept(Void())
                 }
             }
             .disposed(by: bag)
