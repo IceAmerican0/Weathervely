@@ -38,7 +38,7 @@ public class SlotMachineViewModel: RxBaseViewModel, SlotMachineViewModelLogic {
                     owner.toHomeView()
                 },
                 onError: { owner, error in
-                    owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
+                    owner.alertState.accept(.init(title: error.localizedDescription,
                                                          alertType: .popup))
             })
             .disposed(by: bag)

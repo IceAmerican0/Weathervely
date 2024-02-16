@@ -27,7 +27,7 @@ final class NicknameViewModel: RxBaseViewModel, NicknameViewModelLogic {
                     KeychainManager.shared.saveUUID(uuid)
                 },
                 onError: { owner, error in
-                    owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
+                    owner.alertState.accept(.init(title: error.localizedDescription,
                                                          alertType: .popup))
             })
             .disposed(by: bag)

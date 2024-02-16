@@ -59,7 +59,7 @@ class HomeSensoryTempViewModel: RxBaseViewModel, HomeSensoryLogic {
                     //                    owner.closetListByTempRelay.accept(closets)
                 },
                 onError: { owner, error in
-                    owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
+                    owner.alertState.accept(.init(title: error.localizedDescription,
                                                          alertType: .popup,
                                                          closeAction: owner.popViewController))
             })
@@ -79,7 +79,7 @@ class HomeSensoryTempViewModel: RxBaseViewModel, HomeSensoryLogic {
                     owner.dismissSelfWithAnimationRelay.accept(Void())
                 },
                 onError: { owner, error in
-                    owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
+                    owner.alertState.accept(.init(title: error.localizedDescription,
                                                          alertType: .popup))
             })
             .disposed(by: bag)

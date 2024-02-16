@@ -27,7 +27,9 @@ public final class SettingTableViewCell: UITableViewCell {
         font: .body_3_M
     ).make()
     
-    private let toggleSwitch = CSSwitch()
+    private let toggleSwitch = CSSwitch().then {
+        $0.isSelected = false
+    }
     
     private let naviButton = UIImageView().then {
         $0.image = .commontab

@@ -39,7 +39,7 @@ public final class SettingRegionViewModel: RxBaseViewModel, SettingRegionViewMod
                 with: self,
                 onNext: { owner, response in
                     if response.documents.count == 0 {
-                        owner.alertMessageRelay.accept(.init(title: "해당하는 동네 정보가 없어요",
+                        owner.alertState.accept(.init(title: "해당하는 동네 정보가 없어요",
                                                              message: "동네 이름을 확인해주세요",
                                                              alertType: .popup))
                     } else {
@@ -47,7 +47,7 @@ public final class SettingRegionViewModel: RxBaseViewModel, SettingRegionViewMod
                     }
                 },
                 onError: { owner, error in
-                    owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
+                    owner.alertState.accept(.init(title: error.localizedDescription,
                                                          alertType: .popup))
             })
             .disposed(by: bag)

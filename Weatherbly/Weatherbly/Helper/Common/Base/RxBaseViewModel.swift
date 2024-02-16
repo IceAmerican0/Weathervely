@@ -14,10 +14,9 @@ public protocol ViewModelBusinessLogic: AnyObject {}
 public protocol ViewModelable: AnyObject {}
 
 public class RxBaseViewModel: BaseDisposebag, ViewModelable {
-    
     let bag = DisposeBag()
-    
-    let alertMessageRelay = PublishRelay<AlertViewState>()
+    /// 알럿 / 토스트 정보
+    let alertState = PublishRelay<AlertViewState>()
     
     let viewWillAppearRelay = PublishRelay<Void>()
     let viewDidAppearRelay = PublishRelay<Void>()

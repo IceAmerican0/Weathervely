@@ -169,7 +169,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
                 },
                 onError: { owner, error in
                     owner.refreshStatus.accept(false)
-                    owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
+                    owner.alertState.accept(.init(title: error.localizedDescription,
                                                          alertType: .popup,
                                                          closeAction: {
                         owner.navigationPopToSelfRelay.accept(Void())
@@ -194,7 +194,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
         
         if direction == .right {
             if info.date == "현재" {
-                alertMessageRelay.accept(
+                alertState.accept(
                     .init(
                         title: "현재보다 이전 시간은 확인할 수 없어요",
                         alertType: .toast
@@ -203,7 +203,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
             }
         } else {
             if (info.date == "내일") && (info.time == "오후 8시") {
-                alertMessageRelay.accept(
+                alertState.accept(
                     .init(
                         title: "내일 날씨까지만 볼 수 있어요",
                         alertType: .toast

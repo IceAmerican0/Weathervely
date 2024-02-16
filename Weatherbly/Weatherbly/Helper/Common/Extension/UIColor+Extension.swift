@@ -43,6 +43,8 @@ public extension UIColor {
     static let black50 = UIColor(named: "black50")!
     static let black90 = UIColor(named: "black90")!
     
+    static let dim68 = UIColor(named: "dim68")!
+    
     static let blue10 = UIColor(named: "blue10")!
     static let blue50 = UIColor(named: "blue50")!
     static let blue100 = UIColor(named: "blue100")!

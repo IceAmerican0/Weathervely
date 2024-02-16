@@ -71,7 +71,7 @@ final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
     }
     
     func toBeContinue() {
-        alertMessageRelay.accept(.init(title: "준비 중인 기능이에요",
+        alertState.accept(.init(title: "준비 중인 기능이에요",
                                        alertType: .toast))
     }
   
