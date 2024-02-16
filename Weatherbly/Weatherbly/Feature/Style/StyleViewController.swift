@@ -15,7 +15,7 @@ import Kingfisher
 
 final class StyleViewController: RxBaseScrollViewController<StyleViewModel> {
     
-    private var titleLabel = LabelMaker(font: UIFont.title_3_B).make("스타일").then {
+    private var titleLabel = LabelMaker(font: UIFont.title_3_B).make(text: "스타일").then {
         $0.backgroundColor = .red
     }
     

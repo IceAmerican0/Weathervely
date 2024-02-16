@@ -12,7 +12,7 @@ import Then
 
 public class HorizonCollectionViewMoleCule: UIView, CodeBaseInitializerProtocol {
 
-    public var themeTitleLabel = LabelMaker(font: UIFont.title_3_B).make("#Title: 멋있는데 따뜻하게")
+    public var themeTitleLabel = LabelMaker(font: UIFont.title_3_B).make(text: "#Title: 멋있는데 따뜻하게")
     
     var flowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .horizontal

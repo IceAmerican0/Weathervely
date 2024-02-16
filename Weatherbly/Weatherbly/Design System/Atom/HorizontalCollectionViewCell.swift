@@ -19,7 +19,7 @@ final class HorizontalCollectionViewCell: UICollectionViewCell {
         $0.translatesAutoresizingMaskIntoConstraints = true
     }
     
-    var nameLabel = LabelMaker(font: UIFont.body_5_M).make("Detail TextDetail TextDetail TextDetail Text")
+    var nameLabel = LabelMaker(font: UIFont.body_5_M).make(text: "Detail TextDetail TextDetail TextDetail Text")
     
     override init(frame: CGRect) {
         super.init(frame: frame)

@@ -13,7 +13,7 @@ import RxSwift
 
 class HeritageRBViewController: RxBaseScrollViewController<StyleViewModel> {
     
-    private var titleLabel = LabelMaker(font: UIFont.title_3_B).make("스타일")
+    private var titleLabel = LabelMaker(font: UIFont.title_3_B).make(text: "스타일")
     private var btn1 = NewCSButton(.standard, style: .violet600)
     private var btn2 = NewCSButton(.standard, style: .violet600)
     private var btn3 = NewCSButton(.standard, style: .violet600)

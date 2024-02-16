@@ -87,7 +87,7 @@ public protocol LabelDesign {
 
 public extension LabelDesign {
     func make(
-        _ text: String? = nil,
+        text: String? = nil,
         attributed: AttributedText? = nil
     ) -> NewCSLabel {
         return NewCSLabel(padding: padding).then {
