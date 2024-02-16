@@ -27,6 +27,7 @@ final class StyleViewController: RxBaseScrollViewController<StyleViewModel> {
         $0.translatesAutoresizingMaskIntoConstraints = true
     }
     
+    private var firstWrapper = UIView()
     private lazy var firstThemeView = HorizonCollectionViewMoleCule().then { [weak self] in
         $0.themeTitleLabel.text = "#Title: 멋있는데 따뜻하게 Title"
 
@@ -34,6 +35,7 @@ final class StyleViewController: RxBaseScrollViewController<StyleViewModel> {
         $0.collectionView.delegate = self
     }
     
+    private var secoundWrapper = UIView()
     private lazy var secoundThemeView = HorizonCollectionViewMoleCule().then { [weak self] in
         $0.collectionView.dataSource = self
         $0.collectionView.delegate = self
@@ -41,14 +43,18 @@ final class StyleViewController: RxBaseScrollViewController<StyleViewModel> {
     
     var testData = ["look1", "look2", "look1", "look1", "look2", "look1", "look1", "look2", "look1", "look1", "look2"]
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+    }
     override func layout() {
         super.layout()
-        
+
         contentView.flex.define { flex in
-            flex.addItem(titleLabel).height(UIFont.title_3_B.lineHeight).margin(11.5, 20, 17.5)
-            flex.addItem(bannerView).height(80).marginHorizontal(20)//.marginBottom(30)
-            flex.addItem(firstThemeView).height(244).paddingLeft(20)
-            flex.addItem(secoundThemeView).height(244).paddingLeft(20).marginTop(15)
+            flex.addItem(titleLabel).height(titleLabel.font.setLineHeight()).margin(11.5, 20, 17.5)
+            flex.addItem(bannerView).height(80).marginHorizontal(20).marginBottom(30)
+            flex.addItem(firstThemeView).height(244).paddingLeft(20).marginBottom(30)
+            flex.addItem(secoundThemeView).height(244).paddingLeft(20)
         }
     }
     

@@ -12,7 +12,6 @@ import Then
 
 final class HorizontalCollectionViewCell: UICollectionViewCell {
     
-    private let container = UIView()
     var imageView = UIImageView()
     var nameLabel = LabelMaker(font: UIFont.body_5_M).make("Detail TextDetail TextDetail TextDetail Text")
     
@@ -29,6 +28,7 @@ final class HorizontalCollectionViewCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        
         contentView.pin.all()
         contentView.flex.layout()
     }
@@ -50,7 +50,7 @@ final class HorizontalCollectionViewCell: UICollectionViewCell {
         
         contentView.flex.width(120).height(209).define { flex in
             flex.addItem(imageView).height(180)
-            flex.addItem(nameLabel).height(nameLabel.lineHeight).marginTop(12)
+            flex.addItem(nameLabel).height(nameLabel.font.setLineHeight()).marginTop(12)
         }
         
     }

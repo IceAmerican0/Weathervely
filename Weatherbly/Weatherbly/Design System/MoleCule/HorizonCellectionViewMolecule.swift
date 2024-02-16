@@ -10,7 +10,7 @@ import FlexLayout
 import PinLayout
 import Then
 
-public class HorizonCollectionViewMoleCule: UIView,CodeBaseInitializerProtocol {
+public class HorizonCollectionViewMoleCule: UIView, CodeBaseInitializerProtocol {
 
     public var themeTitleLabel = LabelMaker(font: UIFont.title_3_B).make("#Title: 멋있는데 따뜻하게")
     
@@ -60,23 +60,16 @@ public class HorizonCollectionViewMoleCule: UIView,CodeBaseInitializerProtocol {
     public override func layoutSubviews() {
         super.layoutSubviews()
         self.flex.layout(mode: .adjustHeight)
-        
-//        let contentViewHeight = contentView.frame.height
-//        let contentViewWidth = contentView.frame.width
-//        if contentViewHeight < scrollView.frame.size.height {
-//            scrollView.contentSize = CGSize(width: contentViewWidth, height: scrollView.frame.height + 20)
-//        } else {
-//            scrollView.contentSize = CGSize(width: contentViewWidth, height: contentViewHeight)
-//        }
     }
     
     func moleculeLayout() {
         
-        self.flex.define { flex in
-            flex.addItem(themeTitleLabel).height(UIFont.title_3_B.lineHeight)
+        self.flex.justifyContent(.spaceBetween).define { flex in
+            flex.addItem(themeTitleLabel).height(themeTitleLabel.font.setLineHeight())
             flex.addItem(collectionView).height(209).marginTop(12)
         }
     }
+    
     /// setNeedsLayout: 뷰에 레이아웃 업데이트가 필요하다고 시스템에 알릴 때 사용됩니다. 이 메서드를 호출하면 시스템은 다음 업데이트 주기에서 layoutSubviews를 호출합니다.
     /// layoutIfNeeded: 현재의 레이아웃 업데이트가 필요한 경우 "즉시" 레이아웃을 업데이트합니다.
 }
