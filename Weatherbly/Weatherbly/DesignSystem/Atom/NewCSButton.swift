@@ -37,9 +37,13 @@ final public class NewCSButton: UIButton {
     
     var bag = DisposeBag()
     var font = UIFont()
+    var scale = ButtonScale.standard
+    var style = ButtonStyle.violet600
     
     init (_ scale: ButtonScale, style: ButtonStyle) {
         super.init(frame: .zero)
+        self.scale = scale
+        self.style = style
         buttonConfigure(scale, style)
         setRxBinding(style)
     }
@@ -47,7 +51,7 @@ final public class NewCSButton: UIButton {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+   
     // Button Pressed effect
     func setRxBinding(_ style: ButtonStyle) {
         self.rx.controlEvent(.touchDown)
@@ -85,16 +89,25 @@ final public class NewCSButton: UIButton {
             .disposed(by: bag)
     }
     
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        if self.scale == .standard {
+            self.titleLabel?.font = UIFont.title_3_B
+        } else {
+            self.titleLabel?.font = UIFont.body_2_M
+        }
+    }
     /// bgColor, titleColor, font, radius, titleColor
     func buttonConfigure(_ scale: ButtonScale, _ style: ButtonStyle) {
         
-        self.configuration = .plain()
+//        self.configuration = .plain()
+//    self.configuration = .gray()
         
         if scale == .standard {
-            font = UIFont.title_3_B
 
             self.layer.cornerRadius = 12
-            
+            font = UIFont.title_3_B
             switch style {
             case .violet600:
                 self.setBackgroundColor(UIColor(resource: .violet600))

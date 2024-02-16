@@ -18,12 +18,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         
+        let rootVC = HomeTabBarController()
+        self.window?.rootViewController = rootVC
+        self.window?.makeKeyAndVisible()
         /// Firebase
-        FirebaseApp.configure()
-        registerRemoteNotification()
-        checkToken()
-
-        checkForceUpdate()
+//        FirebaseApp.configure()
+//        registerRemoteNotification()
+//        checkToken()
+//
+//        checkForceUpdate()
     }
     
     func setWindow(_ vc: UIViewController) {
@@ -99,7 +102,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillResignActive(_ scene: UIScene) {}
 
     func sceneWillEnterForeground(_ scene: UIScene) {
-        checkForceUpdate()
+//        checkForceUpdate()
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {}

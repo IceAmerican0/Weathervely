@@ -36,16 +36,10 @@ extension CodeBaseInitializerProtocol {
         bind()
     }
 
-    func attribute() {
+    func attribute() { }
 
-    }
+    func layout() { }
 
-    func layout() {
-
-    }
-
-    func bind() {
-
-    }
+    func bind() { }
 
 }

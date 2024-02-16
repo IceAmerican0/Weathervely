@@ -41,7 +41,7 @@ enum Tab: CaseIterable {
         case .home: NewHomeViewController(NewHomeViewModel(
             closetDataSource: ClosetDataSource()
         ))
-        case .style: TrendingViewController(TrendingViewModel())
+        case .style: StyleViewController(StyleViewModel())
         case .setting: SettingViewController(SettingViewModel())
         }
     }
