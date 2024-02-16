@@ -49,8 +49,8 @@ final class HorizontalCollectionViewCell: UICollectionViewCell {
     func cellLayout() {
         
         contentView.flex.width(120).height(209).define { flex in
-            flex.addItem(imageView).height(180).width(100%)
-            flex.addItem(nameLabel).width(100%).height(nameLabel.lineHeight).marginTop(12)
+            flex.addItem(imageView).height(180)
+            flex.addItem(nameLabel).height(nameLabel.lineHeight).marginTop(12)
         }
         
     }

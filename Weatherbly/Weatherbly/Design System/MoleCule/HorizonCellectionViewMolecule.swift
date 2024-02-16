@@ -21,7 +21,7 @@ public class HorizonCollectionViewMoleCule: UIView,CodeBaseInitializerProtocol {
     
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout).then {
         $0.showsHorizontalScrollIndicator = false
-        $0.contentInset = PEdgeInsets(top: 0, left: 0, bottom: 0, right: 40)
+        $0.contentInset = PEdgeInsets(top: 0, left: 0, bottom: 0, right: 20)
         
         $0.register(withType: HorizontalCollectionViewCell.self)
     }
@@ -59,14 +59,22 @@ public class HorizonCollectionViewMoleCule: UIView,CodeBaseInitializerProtocol {
     // layoutSubviews: 뷰의 레이아웃이 필요할 때 호출됩니다. 서브뷰의 크기와 위치를 조정하기에 적합한 메서드입니다.
     public override func layoutSubviews() {
         super.layoutSubviews()
-        self.flex.layout()
+        self.flex.layout(mode: .adjustHeight)
+        
+//        let contentViewHeight = contentView.frame.height
+//        let contentViewWidth = contentView.frame.width
+//        if contentViewHeight < scrollView.frame.size.height {
+//            scrollView.contentSize = CGSize(width: contentViewWidth, height: scrollView.frame.height + 20)
+//        } else {
+//            scrollView.contentSize = CGSize(width: contentViewWidth, height: contentViewHeight)
+//        }
     }
     
     func moleculeLayout() {
         
         self.flex.define { flex in
-            flex.addItem(themeTitleLabel).width(100%).height(23)
-            flex.addItem(collectionView).width(100%).height(209).marginLeft(20).marginTop(12)
+            flex.addItem(themeTitleLabel).height(UIFont.title_3_B.lineHeight)
+            flex.addItem(collectionView).height(209).marginTop(12)
         }
     }
     /// setNeedsLayout: 뷰에 레이아웃 업데이트가 필요하다고 시스템에 알릴 때 사용됩니다. 이 메서드를 호출하면 시스템은 다음 업데이트 주기에서 layoutSubviews를 호출합니다.

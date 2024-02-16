@@ -45,10 +45,10 @@ final class StyleViewController: RxBaseScrollViewController<StyleViewModel> {
         super.layout()
         
         contentView.flex.define { flex in
-            flex.addItem(titleLabel).width(100%).height(UIFont.title_3_B.lineHeight).margin(11.5, 20, 17.5)
-            flex.addItem(bannerView).width(100%).height(80).alignContent(.start).justifyContent(.center).marginHorizontal(20)
-            flex.addItem(firstThemeView).width(100%).height(244)
-            flex.addItem(secoundThemeView).width(100%).height(244)
+            flex.addItem(titleLabel).height(UIFont.title_3_B.lineHeight).margin(11.5, 20, 17.5)
+            flex.addItem(bannerView).height(80).marginHorizontal(20)//.marginBottom(30)
+            flex.addItem(firstThemeView).height(244).paddingLeft(20)
+            flex.addItem(secoundThemeView).height(244).paddingLeft(20).marginTop(15)
         }
     }
     
