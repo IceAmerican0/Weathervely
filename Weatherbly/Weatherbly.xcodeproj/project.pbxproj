@@ -148,6 +148,7 @@
 		BD2D01B62A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D01B52A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift */; };
 		BD2D11BC2A9AEB0D008CBF0D /* TenDaysForecastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D11BB2A9AEB0D008CBF0D /* TenDaysForecastViewModel.swift */; };
 		BD2D11BE2A9AEDCE008CBF0D /* SevenDayForecastInfoEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D11BD2A9AEDCE008CBF0D /* SevenDayForecastInfoEntity.swift */; };
+		BD3714312B7FFC8700527577 /* HorizonCollectionViewMoleCule.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3714302B7FFC8700527577 /* HorizonCollectionViewMoleCule.swift */; };
 		BD3BA9EA2B63948400BD3BFF /* LifeCycleTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3BA9E92B63948400BD3BFF /* LifeCycleTest.swift */; };
 		BD4316342A3C967900E86271 /* OnBoardSensoryTempViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4316332A3C967900E86271 /* OnBoardSensoryTempViewController.swift */; };
 		BD4316362A3C9DB700E86271 /* AssetsImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4316352A3C9DB700E86271 /* AssetsImage.swift */; };
@@ -174,7 +175,6 @@
 		BD6135D32A7E3C9C00DB3DF9 /* RecommendClosetEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6135D22A7E3C9C00DB3DF9 /* RecommendClosetEntity.swift */; };
 		BD69B8F72A54337000DDCD7A /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD69B8F62A54337000DDCD7A /* SettingViewController.swift */; };
 		BD69B8F92A553A0C00DDCD7A /* CSNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD69B8F82A553A0C00DDCD7A /* CSNavigationView.swift */; };
-		BD6F43042B6F9E6A00DA5763 /* HorizonCellectionViewMolecule.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6F43032B6F9E6A00DA5763 /* HorizonCellectionViewMolecule.swift */; };
 		BD77B8282A388C9400E7D57A /* CSColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD77B8272A388C9400E7D57A /* CSColor.swift */; };
 		BD77B82A2A388CEF00E7D57A /* OnBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD77B8292A388CEF00E7D57A /* OnBoardViewController.swift */; };
 		BD77B82C2A388D2000E7D57A /* OnBoardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD77B82B2A388D2000E7D57A /* OnBoardViewModel.swift */; };
@@ -320,6 +320,7 @@
 		BD2D01B52A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeBaseInitialzerProtocol.swift; sourceTree = "<group>"; };
 		BD2D11BB2A9AEB0D008CBF0D /* TenDaysForecastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TenDaysForecastViewModel.swift; sourceTree = "<group>"; };
 		BD2D11BD2A9AEDCE008CBF0D /* SevenDayForecastInfoEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SevenDayForecastInfoEntity.swift; sourceTree = "<group>"; };
+		BD3714302B7FFC8700527577 /* HorizonCollectionViewMoleCule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HorizonCollectionViewMoleCule.swift; path = ../../../../../../../../Downloads/HorizonCollectionViewMoleCule.swift; sourceTree = "<group>"; };
 		BD3BA9E92B63948400BD3BFF /* LifeCycleTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeCycleTest.swift; sourceTree = "<group>"; };
 		BD4316332A3C967900E86271 /* OnBoardSensoryTempViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardSensoryTempViewController.swift; sourceTree = "<group>"; };
 		BD4316352A3C9DB700E86271 /* AssetsImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetsImage.swift; sourceTree = "<group>"; };
@@ -346,7 +347,6 @@
 		BD6135D22A7E3C9C00DB3DF9 /* RecommendClosetEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendClosetEntity.swift; sourceTree = "<group>"; };
 		BD69B8F62A54337000DDCD7A /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		BD69B8F82A553A0C00DDCD7A /* CSNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSNavigationView.swift; sourceTree = "<group>"; };
-		BD6F43032B6F9E6A00DA5763 /* HorizonCellectionViewMolecule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizonCellectionViewMolecule.swift; sourceTree = "<group>"; };
 		BD77B8272A388C9400E7D57A /* CSColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSColor.swift; sourceTree = "<group>"; };
 		BD77B8292A388CEF00E7D57A /* OnBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardViewController.swift; sourceTree = "<group>"; };
 		BD77B82B2A388D2000E7D57A /* OnBoardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardViewModel.swift; sourceTree = "<group>"; };
@@ -542,6 +542,7 @@
 			isa = PBXGroup;
 			children = (
 				BD69B8F82A553A0C00DDCD7A /* CSNavigationView.swift */,
+				BD3714302B7FFC8700527577 /* HorizonCollectionViewMoleCule.swift */,
 			);
 			path = Molecule;
 			sourceTree = "<group>";
@@ -875,7 +876,6 @@
 		BD6F43022B6F9D7900DA5763 /* MoleCule */ = {
 			isa = PBXGroup;
 			children = (
-				BD6F43032B6F9E6A00DA5763 /* HorizonCellectionViewMolecule.swift */,
 			);
 			path = MoleCule;
 			sourceTree = "<group>";
@@ -1108,7 +1108,6 @@
 				BD2D01B42A3888AA003A25D5 /* UIColor+Extension.swift in Sources */,
 				BD05E07A2B38114B00A48E61 /* NewCSButton.swift in Sources */,
 				BD3BA9EA2B63948400BD3BFF /* LifeCycleTest.swift in Sources */,
-				BD6F43042B6F9E6A00DA5763 /* HorizonCellectionViewMolecule.swift in Sources */,
 				5C9D02D72A71EEC900AF2DA3 /* AuthTarget.swift in Sources */,
 				5CCC914B2A6114880025B522 /* RegionTarget.swift in Sources */,
 				BD2D11BC2A9AEB0D008CBF0D /* TenDaysForecastViewModel.swift in Sources */,
@@ -1197,6 +1196,7 @@
 				BD7DAB252A6E757C00422D25 /* PrimitiveSequence+Extension.swift in Sources */,
 				5CAB60D12A54FC5F00CD431A /* UITableView+Extension.swift in Sources */,
 				5CCC91562A613F010025B522 /* SettingRegionViewModel.swift in Sources */,
+				BD3714312B7FFC8700527577 /* HorizonCollectionViewMoleCule.swift in Sources */,
 				BD7DAB312A70DEF400422D25 /* ForeCastTarget.swift in Sources */,
 				5CDCD7E22B566F87008465B9 /* FilterItemListEntity.swift in Sources */,
 				5C9D02C42A6E61C700AF2DA3 /* SettingRegionCompleteViewModel.swift in Sources */,

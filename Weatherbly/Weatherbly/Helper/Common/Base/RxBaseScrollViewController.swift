@@ -154,15 +154,34 @@ public class RxBaseScrollViewController<ViewModel>: UIViewController, CodeBaseIn
         viewModel.alertMessageRelay
             .bind(with: self) { owner, message in
                 switch message.alertType {
-                case .Error:
+                case .popup:
                     let alertVC = AlertViewController(state: .init(title: message.title,
                                                                    message: message.message,
                                                                    alertType: message.alertType,
                                                                    closeAction: message.closeAction))
                     alertVC.modalPresentationStyle = .overCurrentContext
                     owner.viewModel.presentViewControllerNoAnimationRelay.accept(alertVC)
-                case .Info:
-                    owner.view.showToast(message: message.title, font: .systemFont(ofSize: 16))
+                case .toast:
+                    guard let superView = owner.view.superview else { return }
+                    
+                    // 이미 떠있는 토스트 제거
+                    superView.subviews.forEach {
+                        ($0 as? ToastView)?.dismiss()
+                    }
+                    
+                    let toast = ToastView(
+                        text: message.title,
+                        completionHandler: message.closeAction
+                    )
+                    superView.addSubview(toast)
+                    
+                    NSLayoutConstraint.activate([
+                        toast.centerXAnchor.constraint(equalTo: superView.centerXAnchor),
+                        toast.leadingAnchor.constraint(greaterThanOrEqualTo: superView.leadingAnchor, constant: 15),
+                        toast.trailingAnchor.constraint(lessThanOrEqualTo: superView.trailingAnchor, constant: -15),
+                        toast.bottomAnchor.constraint(equalTo: superView.safeAreaLayoutGuide.bottomAnchor, constant: -30),
+                        toast.heightAnchor.constraint(lessThanOrEqualToConstant: 58)
+                    ])
                 }
             }
             .disposed(by: bag)
