@@ -12,7 +12,13 @@ import Then
 
 final class HorizontalCollectionViewCell: UICollectionViewCell {
     
-    var imageView = UIImageView()
+    lazy var imageView = UIImageView().then {
+        $0.contentMode = .scaleAspectFill
+        $0.layer.cornerRadius = 12
+        $0.clipsToBounds = true
+        $0.translatesAutoresizingMaskIntoConstraints = true
+    }
+    
     var nameLabel = LabelMaker(font: UIFont.body_5_M).make("Detail TextDetail TextDetail TextDetail Text")
     
     override init(frame: CGRect) {
