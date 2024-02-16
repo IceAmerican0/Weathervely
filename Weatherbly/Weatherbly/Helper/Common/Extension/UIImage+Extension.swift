@@ -57,6 +57,7 @@ extension UIImage {
     
     // Style
     static let style_banner = UIImage(named: "style_banner")!
+    static let style_screen_devider = UIImage(named: "style_screen_devider")!
     
     // Common
     static let networkError = UIImage(named: "networkError_illust")!

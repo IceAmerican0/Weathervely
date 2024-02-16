@@ -41,6 +41,9 @@ final class StyleViewController: RxBaseScrollViewController<StyleViewModel> {
         $0.collectionView.delegate = self
     }
     
+    private var screenDevider = UIImageView().then {
+        $0.image = UIImage.style_screen_devider
+    }
     var testData = ["look1", "look2", "look1", "look1", "look2", "look1", "look1", "look2", "look1", "look1", "look2"]
     
     override func viewDidLayoutSubviews() {
@@ -54,7 +57,8 @@ final class StyleViewController: RxBaseScrollViewController<StyleViewModel> {
             flex.addItem(titleLabel).height(titleLabel.font.setLineHeight()).margin(11.5, 20, 17.5)
             flex.addItem(bannerView).height(80).marginHorizontal(20).marginBottom(30)
             flex.addItem(firstThemeView).height(244).paddingLeft(20).marginBottom(30)
-            flex.addItem(secoundThemeView).height(244).paddingLeft(20)
+            flex.addItem(secoundThemeView).height(244).paddingLeft(20).marginBottom(30)
+            flex.addItem(screenDevider).width(100%).height(16).marginBottom(30)
         }
     }
     
