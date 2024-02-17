@@ -10,6 +10,8 @@ import FlexLayout
 import PinLayout
 import Then
 import RxSwift
+import RxDataSources
+import RxGesture
 import Kingfisher
 
 
@@ -62,6 +64,10 @@ final class StyleViewController: RxBaseScrollViewController<StyleViewModel> {
         }
     }
     
+    override func viewBinding() {
+        super.viewBinding()
+    }
+    
     override func viewModelBinding() {
         super.viewModelBinding()
         
@@ -85,7 +91,7 @@ final class StyleViewController: RxBaseScrollViewController<StyleViewModel> {
 extension StyleViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return self.testData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -105,4 +111,46 @@ extension StyleViewController: UICollectionViewDataSource, UICollectionViewDeleg
 
 extension StyleViewController: UICollectionViewDelegate {
     
+    // MARK: - DataSource
+    func setDataSource() -> RxCollectionViewSectionedReloadDataSource<StyleSection> {
+        RxCollectionViewSectionedReloadDataSource<StyleSection> (configureCell: { [ weak self ] dataSource, collectionView, indexPath, _ in
+            guard self != nil else { return UICollectionViewCell() }
+            
+            switch dataSource[indexPath] {
+            case .normal(let cellState):
+                return collectionView.dequeueCell(withType: HorizontalCollectionViewCell.self, for: indexPath)
+            }
+        },configureSupplementaryView: { [ weak self ] dataSource, collectionView, kind, indexPath in
+            guard let self else { return UICollectionReusableView() }
+            
+            switch kind {
+            case UICollectionView.elementKindSectionHeader:
+                let header = collectionView.dequeueReusableHeaderView(withType: ClosetFilterHeaderView.self, for: indexPath).then {
+                    let state: ClosetFilterHeaderViewState = .init(
+                        styleFilter: self.viewModel.filteredStyle,
+                        itemFilter: self.viewModel.filteredItem
+                    )
+                    $0.configureViewState(state: state)
+                }
+                
+                if case .normal = dataSource[indexPath.section] {
+                    header.styleTap
+                        .drive(with: self, onNext: { owner, _ in
+                            owner.viewModel.filterCloset(state: .style)
+                        }).disposed(by: header.bag)
+                    
+                    header.filterTap
+                        .drive(with: self, onNext: { owner, _ in
+                            owner.viewModel.filterCloset(state: .item)
+                        }).disposed(by: header.bag)
+                    return header
+                }
+
+                return UICollectionReusableView()
+            default:
+                fatalError("Cannot Generate SupplementaryView")
+            }
+            
+        })
+    }
 }
