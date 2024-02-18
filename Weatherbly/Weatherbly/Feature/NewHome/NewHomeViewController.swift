@@ -242,18 +242,19 @@ extension NewHomeViewController: UICollectionViewDelegate {
             }
         }, configureSupplementaryView: { [weak self] dataSource, collectionView, kind, indexPath in
             guard let self else { return UICollectionReusableView() }
-            
+            // .closet일 경우에만 헤더를 넣어줌
             switch kind {
             case UICollectionView.elementKindSectionHeader:
                 let header = collectionView.dequeueReusableHeaderView(
                     withType: ClosetFilterHeaderView.self,
-                    for: indexPath).then {
-                        let state: ClosetFilterHeaderViewState = .init(
-                            styleFilter: self.viewModel.filteredStyle,
-                            itemFilter: self.viewModel.filteredItem
-                        )
-                        $0.configureViewState(state: state)
-                    }
+                    for: indexPath
+                ).then {
+                    let state: ClosetFilterHeaderViewState = .init(
+                        styleFilter: self.viewModel.filteredStyle,
+                        itemFilter: self.viewModel.filteredItem
+                    )
+                    $0.configureViewState(state: state)
+                }
                 
                 if case .closet = dataSource[indexPath.section] {
                     header.itemTap
@@ -318,6 +319,7 @@ extension NewHomeViewController: UICollectionViewDelegate {
     
     /// 추천 Cell Layout
     func setClosetLayout() -> NSCollectionLayoutSection {
+        // 셀 크기
         let banner = NSCollectionLayoutItem(
             layoutSize: NSCollectionLayoutSize(
                 widthDimension: .estimated(158),
@@ -325,6 +327,7 @@ extension NewHomeViewController: UICollectionViewDelegate {
             )
         )
         
+        // 한 줄 크기
         let bannerGroup = NSCollectionLayoutGroup.horizontal(
             layoutSize: NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1),
@@ -350,6 +353,7 @@ extension NewHomeViewController: UICollectionViewDelegate {
         )
         group.interItemSpacing = .fixed(19)
         
+        // 헤더 크기
         let headerSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
             heightDimension: .estimated(56)
@@ -360,12 +364,14 @@ extension NewHomeViewController: UICollectionViewDelegate {
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .top
         )
+        // 스티키 헤더 옵션
         sectionHeader.pinToVisibleBounds = true
-        
+        // 섹션 inset
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(
             top: 0, leading: 20, bottom: 0, trailing: 20
         )
+        // 섹션 내 간격
         section.interGroupSpacing = 19
         section.boundarySupplementaryItems = [sectionHeader]
         
