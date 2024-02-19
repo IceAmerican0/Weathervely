@@ -30,7 +30,7 @@ final class StyleViewController: RxBaseScrollViewController<StyleViewModel> {
     }
     
     private var firstWrapper = UIView()
-    private lazy var firstThemeView = HorizonCollectionViewMoleCule().then { [weak self] in
+    private lazy var firstThemeView = HorizonCollectionViewMolecule().then { [weak self] in
         $0.themeTitleLabel.text = "#Title: 멋있는데 따뜻하게 Title"
 
         $0.collectionView.dataSource = self
@@ -38,7 +38,7 @@ final class StyleViewController: RxBaseScrollViewController<StyleViewModel> {
     }
     
     private var secoundWrapper = UIView()
-    private lazy var secoundThemeView = HorizonCollectionViewMoleCule().then { [weak self] in
+    private lazy var secoundThemeView = HorizonCollectionViewMolecule().then { [weak self] in
         $0.collectionView.dataSource = self
         $0.collectionView.delegate = self
     }
