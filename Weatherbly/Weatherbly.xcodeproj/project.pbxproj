@@ -87,6 +87,9 @@
 		5CE0FEB22A8F00F700A0E655 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CE0FEB12A8F00F700A0E655 /* WebKit.framework */; };
 		5CE0FEB82A8F4CE200A0E655 /* SetSensoryTempRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE0FEB72A8F4CE200A0E655 /* SetSensoryTempRequest.swift */; };
 		5CE0FEBA2A93529100A0E655 /* AuthLoginEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE0FEB92A93529100A0E655 /* AuthLoginEntity.swift */; };
+		5CE8CD5A2B83275000AB6EBD /* NewClosetTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE8CD592B83275000AB6EBD /* NewClosetTarget.swift */; };
+		5CE8CD5C2B832ED700AB6EBD /* NewClosetDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE8CD5B2B832ED700AB6EBD /* NewClosetDataSource.swift */; };
+		5CE8CD602B83363700AB6EBD /* NewClosetEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE8CD5F2B83363700AB6EBD /* NewClosetEntity.swift */; };
 		5CF0A49E2B5A32EA00D2AB4C /* HomeForecastEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF0A49D2B5A32EA00D2AB4C /* HomeForecastEntity.swift */; };
 		690B6EE92AA9EF9000D54ABC /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 690B6EE82AA9EF9000D54ABC /* FirebaseAnalytics */; };
 		690B6EEB2AA9EF9000D54ABC /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 690B6EEA2AA9EF9000D54ABC /* FirebaseCrashlytics */; };
@@ -260,6 +263,9 @@
 		5CE0FEB12A8F00F700A0E655 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		5CE0FEB72A8F4CE200A0E655 /* SetSensoryTempRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetSensoryTempRequest.swift; sourceTree = "<group>"; };
 		5CE0FEB92A93529100A0E655 /* AuthLoginEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthLoginEntity.swift; sourceTree = "<group>"; };
+		5CE8CD592B83275000AB6EBD /* NewClosetTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewClosetTarget.swift; sourceTree = "<group>"; };
+		5CE8CD5B2B832ED700AB6EBD /* NewClosetDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewClosetDataSource.swift; sourceTree = "<group>"; };
+		5CE8CD5F2B83363700AB6EBD /* NewClosetEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewClosetEntity.swift; sourceTree = "<group>"; };
 		5CF0A49D2B5A32EA00D2AB4C /* HomeForecastEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeForecastEntity.swift; sourceTree = "<group>"; };
 		690B6EF02AAA0F2D00D54ABC /* ForceUpdateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForceUpdateViewController.swift; sourceTree = "<group>"; };
 		693231632B4A80FE00816B7B /* HomeSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSection.swift; sourceTree = "<group>"; };
@@ -486,6 +492,7 @@
 				5C9D02D32A71EE7F00AF2DA3 /* AuthAPI */,
 				5C9D02E42A72423900AF2DA3 /* ClosetAPI */,
 				BD7DAB1C2A6E62F600422D25 /* ForcastAPI */,
+				5CE8CD582B83255900AB6EBD /* NewClosetAPI */,
 				5CCC914E2A61195D0025B522 /* RegionAPI */,
 				BD7DAB362A7129E000422D25 /* TypeAPI */,
 				5C9D02D52A71EE9300AF2DA3 /* UserAPI */,
@@ -537,6 +544,15 @@
 				BD69B8F82A553A0C00DDCD7A /* CSNavigationView.swift */,
 			);
 			path = Molecule;
+			sourceTree = "<group>";
+		};
+		5CE8CD582B83255900AB6EBD /* NewClosetAPI */ = {
+			isa = PBXGroup;
+			children = (
+				5CE8CD592B83275000AB6EBD /* NewClosetTarget.swift */,
+				5CE8CD5B2B832ED700AB6EBD /* NewClosetDataSource.swift */,
+			);
+			path = NewClosetAPI;
 			sourceTree = "<group>";
 		};
 		6987EBB72B41400600CF1E74 /* NewHome */ = {
@@ -814,6 +830,7 @@
 		BD6135D12A7E3C6700DB3DF9 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				5CE8CD5F2B83363700AB6EBD /* NewClosetEntity.swift */,
 				BD7DAB262A6E786E00422D25 /* StatusOnlyEntity.swift */,
 				BD7DAB322A70DEFC00422D25 /* VillageForecastInfoEntity.swift */,
 				BD6135D22A7E3C9C00DB3DF9 /* RecommendClosetEntity.swift */,
@@ -1100,6 +1117,7 @@
 				5C9D02D92A71F27B00AF2DA3 /* AuthDataSource.swift in Sources */,
 				69D25C992AD04F6300C17FB1 /* KakaoErrorResponse.swift in Sources */,
 				5CE0FEBA2A93529100A0E655 /* AuthLoginEntity.swift in Sources */,
+				5CE8CD5A2B83275000AB6EBD /* NewClosetTarget.swift in Sources */,
 				5C8F2D432B6B6A71002DF94E /* NotificationEntity.swift in Sources */,
 				69A7F0D92A80B42A00834974 /* UserDefaultKey.swift in Sources */,
 				BD5169492A5D6FEA00582BA9 /* UITextField+Extension.swift in Sources */,
@@ -1179,6 +1197,7 @@
 				BD5169472A5AA39000582BA9 /* EditNicknameViewController.swift in Sources */,
 				BD69B8F72A54337000DDCD7A /* SettingViewController.swift in Sources */,
 				5CDCD7DB2B564144008465B9 /* FilterListViewController.swift in Sources */,
+				5CE8CD5C2B832ED700AB6EBD /* NewClosetDataSource.swift in Sources */,
 				5CBD391E2B5F3EFE00B0A85F /* ToastView.swift in Sources */,
 				698F6CB22AE00FCC00C2B33A /* UIImage+Extension.swift in Sources */,
 				5C4A0ABD2B43ED8F006BE52A /* HomeForecastCell.swift in Sources */,
@@ -1186,6 +1205,7 @@
 				BDF208FF2A4EAEF2001177B2 /* CGFloat+Extension.swift in Sources */,
 				5C9D02C62A6FB71F00AF2DA3 /* EditRegionViewModel.swift in Sources */,
 				696176B62A63E4A400B83B4C /* EmptyViewModel.swift in Sources */,
+				5CE8CD602B83363700AB6EBD /* NewClosetEntity.swift in Sources */,
 				BD5169512A5EB48D00582BA9 /* ChangeNicknameViewModel.swift in Sources */,
 				69FDD4C62A39E42900830927 /* NicknameViewController.swift in Sources */,
 				5C8F2D412B6B6836002DF94E /* NotificationListTableViewCell.swift in Sources */,
