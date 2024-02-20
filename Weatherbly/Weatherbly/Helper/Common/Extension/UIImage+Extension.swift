@@ -29,6 +29,7 @@ extension UIImage {
     static let tab_style_sel = UIImage(named: "tab_style_sel")!
     
     // Home Resources
+    static let filter_exit = UIImage(named: "filter_exit")!
     static let filter_reset_dis = UIImage(named: "filter_reset_dis")!
     static let filter_reset = UIImage(named: "filter_reset")!
     static let filter_x = UIImage(named: "filter_x")!

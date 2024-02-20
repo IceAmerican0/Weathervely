@@ -13,6 +13,10 @@ import RxCocoa
 import RxSwift
 
 final class ClosetFilterViewController: RxBaseViewController<ClosetFilterViewModel> {
+    private var exitButton = UIButton().then {
+        $0.setImage(.filter_exit, for: .normal)
+    }
+    
     private lazy var segmentView = UnderlineTitleSegmentView(items: ["스타일", "아이템"]).then {
         $0.setTitleTextAttributes(
             [
@@ -107,7 +111,8 @@ final class ClosetFilterViewController: RxBaseViewController<ClosetFilterViewMod
         super.layout()
         
         container.flex.define {
-            $0.addItem().marginTop(26).horizontally(20).define { head in
+            $0.addItem(exitButton).alignSelf(.end).marginTop(16).marginRight(20).size(24)
+            $0.addItem().horizontally(20).define { head in
                 head.addItem(segmentView).width(view.bounds.width - 40).height(48)
             }
             $0.addItem().backgroundColor(.gray30).width(100%).height(1)
@@ -122,6 +127,11 @@ final class ClosetFilterViewController: RxBaseViewController<ClosetFilterViewMod
     override func viewBinding() {
         super.viewBinding()
         
+        exitButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.dismiss(animated: true)
+            }.disposed(by: bag)
+        
         resetButton.rx.tap
             .bind(with: self) { owner, _ in
                 owner.view.layoutIfNeeded()
@@ -134,6 +144,7 @@ final class ClosetFilterViewController: RxBaseViewController<ClosetFilterViewMod
     }
     
     @objc func changeValue(control: UISegmentedControl) {
+        if currentPage.value == control.selectedSegmentIndex { return }
         currentPage.accept(control.selectedSegmentIndex)
     }
 }
@@ -183,7 +194,15 @@ extension ClosetFilterViewController: UIScrollViewDelegate {
                 self.segmentView.selectedSegmentIndex = nowPage
                 return
             }
-            self.currentPage.accept(self.segmentView.selectedSegmentIndex)
+//            self.currentPage.accept(self.segmentView.selectedSegmentIndex)
+        }
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        DispatchQueue.main.async {
+            if self.currentPage.value != self.segmentView.selectedSegmentIndex {
+                self.currentPage.accept(self.segmentView.selectedSegmentIndex)
+            }
         }
     }
 }
