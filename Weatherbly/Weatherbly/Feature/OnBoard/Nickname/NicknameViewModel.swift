@@ -11,30 +11,15 @@ import RxRelay
 
 public protocol NicknameViewModelLogic: ViewModelBusinessLogic {
     func didTapConfirmButton(_ text: String)
-    func toSettingRegionView()
+    
+    var errorMessage: PublishRelay<String> { get }
 }
 
 final class NicknameViewModel: RxBaseViewModel, NicknameViewModelLogic {
-    func didTapConfirmButton(_ text: String) {
-        let uuid = UUID().uuidString
-        let dataSource = AuthDataSource()
-        dataSource.setNickname(text, uuid)
-            .subscribe(
-                with: self,
-                onNext: { owner, _ in
-                    owner.toSettingRegionView()
-                    userDefault.set(text, forKey: UserDefaultKey.nickname.rawValue)
-                    KeychainManager.shared.saveUUID(uuid)
-                },
-                onError: { owner, error in
-                    owner.alertState.accept(.init(title: error.localizedDescription,
-                                                         alertType: .popup))
-            })
-            .disposed(by: bag)
-    }
+    var errorMessage: PublishRelay<String> = .init()
     
-    func toSettingRegionView() {
-        let vc = SettingRegionViewController(SettingRegionViewModel(.onboard))
+    func didTapConfirmButton(_ text: String) {
+        let vc = NicknameCompleteViewController(NicknameCompleteViewModel(nickname: text))
         navigationPushViewControllerRelay.accept(vc)
     }
 }

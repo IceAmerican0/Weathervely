@@ -28,6 +28,9 @@
 		5C4A0ACB2B47D34A006BE52A /* ClosetFilterHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4A0ACA2B47D34A006BE52A /* ClosetFilterHeaderView.swift */; };
 		5C4BE89B2A5E2D1200FD2CEF /* EditRegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4BE89A2A5E2D1200FD2CEF /* EditRegionViewController.swift */; };
 		5C4BE89D2A5E63C000FD2CEF /* RegionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4BE89C2A5E63C000FD2CEF /* RegionTableViewCell.swift */; };
+		5C5C1C2A2B86CAE500294BFF /* CSTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C1C292B86CAE500294BFF /* CSTextField.swift */; };
+		5C5C1C2D2B8738D500294BFF /* NicknameCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C1C2B2B8738D500294BFF /* NicknameCompleteViewController.swift */; };
+		5C5C1C2E2B8738D500294BFF /* NicknameCompleteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C1C2C2B8738D500294BFF /* NicknameCompleteViewModel.swift */; };
 		5C68E9212AF376080046D0BE /* ForcastUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C68E9202AF376080046D0BE /* ForcastUseCase.swift */; };
 		5C6AC7022A84A4D000CE5D34 /* UserInfoEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6AC7012A84A4D000CE5D34 /* UserInfoEntity.swift */; };
 		5C84169E2B68CAA5003AE726 /* TenDayForecastEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C84169D2B68CAA5003AE726 /* TenDayForecastEntity.swift */; };
@@ -206,6 +209,9 @@
 		5C4A0ACA2B47D34A006BE52A /* ClosetFilterHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetFilterHeaderView.swift; sourceTree = "<group>"; };
 		5C4BE89A2A5E2D1200FD2CEF /* EditRegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRegionViewController.swift; sourceTree = "<group>"; };
 		5C4BE89C2A5E63C000FD2CEF /* RegionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionTableViewCell.swift; sourceTree = "<group>"; };
+		5C5C1C292B86CAE500294BFF /* CSTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSTextField.swift; sourceTree = "<group>"; };
+		5C5C1C2B2B8738D500294BFF /* NicknameCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameCompleteViewController.swift; sourceTree = "<group>"; };
+		5C5C1C2C2B8738D500294BFF /* NicknameCompleteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameCompleteViewModel.swift; sourceTree = "<group>"; };
 		5C68E9202AF376080046D0BE /* ForcastUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForcastUseCase.swift; sourceTree = "<group>"; };
 		5C6AC7012A84A4D000CE5D34 /* UserInfoEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoEntity.swift; sourceTree = "<group>"; };
 		5C84169D2B68CAA5003AE726 /* TenDayForecastEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TenDayForecastEntity.swift; sourceTree = "<group>"; };
@@ -399,6 +405,8 @@
 			children = (
 				69FDD4C52A39E42900830927 /* NicknameViewController.swift */,
 				5C1BCA162A67D2FF00D02D84 /* NicknameViewModel.swift */,
+				5C5C1C2B2B8738D500294BFF /* NicknameCompleteViewController.swift */,
+				5C5C1C2C2B8738D500294BFF /* NicknameCompleteViewModel.swift */,
 			);
 			path = Nickname;
 			sourceTree = "<group>";
@@ -641,6 +649,7 @@
 				BD05E07B2B3816B300A48E61 /* NewImageButton.swift */,
 				BD05E07D2B3816BB00A48E61 /* NewCombiButton.swift */,
 				5CDFB8C12B733AA600A1C21F /* CSSwitch.swift */,
+				5C5C1C292B86CAE500294BFF /* CSTextField.swift */,
 			);
 			path = Atom;
 			sourceTree = "<group>";
@@ -1091,6 +1100,7 @@
 				5C4691782A78A02100E2CC70 /* AlertView.swift in Sources */,
 				5C4BE89D2A5E63C000FD2CEF /* RegionTableViewCell.swift in Sources */,
 				5CDE81CE2A89F4780099FF87 /* MainToolTipViewController.swift in Sources */,
+				5C5C1C2E2B8738D500294BFF /* NicknameCompleteViewModel.swift in Sources */,
 				696176B22A63E37F00B83B4C /* RxBaseViewModel.swift in Sources */,
 				69D25C962AD04F6300C17FB1 /* WVProvider.swift in Sources */,
 				BD7DAB2D2A70DEE100422D25 /* ForecastDataSource.swift in Sources */,
@@ -1173,6 +1183,7 @@
 				5C9D02EC2A725BA200AF2DA3 /* Encodable+Extension.swift in Sources */,
 				5C6AC7022A84A4D000CE5D34 /* UserInfoEntity.swift in Sources */,
 				BD5D168C2A612BC900435816 /* DateTimePickViewController.swift in Sources */,
+				5C5C1C2A2B86CAE500294BFF /* CSTextField.swift in Sources */,
 				5C9D02E82A72426D00AF2DA3 /* ClosetDataSource.swift in Sources */,
 				5CDCD7E02B566C04008465B9 /* FilterSection.swift in Sources */,
 				BD05E0722B380C9400A48E61 /* NewCSLabel.swift in Sources */,
@@ -1182,6 +1193,7 @@
 				BD05E05D2B3801B600A48E61 /* UIFont+Extension.swift in Sources */,
 				5CE0FEB82A8F4CE200A0E655 /* SetSensoryTempRequest.swift in Sources */,
 				5C46917F2A78F95800E2CC70 /* ConnectionLostViewController.swift in Sources */,
+				5C5C1C2D2B8738D500294BFF /* NicknameCompleteViewController.swift in Sources */,
 				BD7DAB272A6E786E00422D25 /* StatusOnlyEntity.swift in Sources */,
 				BDA66FEA2A4075270061A1F0 /* UIImageView+Extension.swift in Sources */,
 				5C9CED842B71B6A80041801C /* SettingTableViewCell.swift in Sources */,

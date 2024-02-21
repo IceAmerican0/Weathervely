@@ -75,18 +75,27 @@ extension UITextField {
 }
 
 extension UITextFieldDelegate {
-    func customTextField(_ textField: UITextField, _ range: NSRange, _ string: String) -> Bool {
+    /// 닉네임 유효성 체크 >> 통과 못할시 에러메시지 반환
+    func nicknameValidationCheck(_ textField: UITextField, _ range: NSRange, _ string: String) -> String? {
         /// 백스페이스 처리
         if let char = string.cString(using: String.Encoding.utf8) {
             let isBackSpace = strcmp(char, "\\b")
-            if isBackSpace == -92 { return true }
+            if isBackSpace == -92 { return nil }
         }
         /// 글자수 제한
-        guard let text = textField.text else { return false }
-        guard text.count < 10 else { return false }
+        guard let text = textField.text else { return "" }
+        guard text.count < 10 else { return "닉네임은 최대 10글자에요" }
+        
+        /// 띄어쓰기 제한
+        if string == " " {
+            return "띄어쓰기는 불가해요"
+        }
         /// 특수기호 제한
         let disallowedCharacterSet = CharacterSet(charactersIn: "₩!@#$%^&*()_-+=[]{}|\\:;\"'<>,.?/~`")
-        /// 띄어쓰기 제한
-        return string != " " && string.rangeOfCharacter(from: disallowedCharacterSet) == nil
+        if string.rangeOfCharacter(from: disallowedCharacterSet) != nil {
+            return "사용 불가 문자가 포함됐어요"
+        }
+        
+        return nil
     }
 }

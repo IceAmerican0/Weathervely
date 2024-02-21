@@ -17,7 +17,9 @@ class CSNavigationView: UIView, CodeBaseInitializerProtocol {
     // MARK: - UI Component
     private let wrapperView = UIView()
     
-    private var leftButton = UIButton()
+    private var leftButton = UIButton().then {
+        $0.imageView?.contentMode = .scaleAspectFit
+    }
     
     private var titleLabel = LabelMaker(
         font: .title_3_B,
@@ -26,6 +28,7 @@ class CSNavigationView: UIView, CodeBaseInitializerProtocol {
     
     private var rightButton = UIButton().then {
         $0.isHidden = true
+        $0.imageView?.contentMode = .scaleAspectFill
     }
     
     // MARK: - Control Property
@@ -64,7 +67,6 @@ class CSNavigationView: UIView, CodeBaseInitializerProtocol {
             leftButton.setImage(leftImage, for: .normal)
             
             rightButton.setImage(rightImage, for: .normal)
-            rightButton.imageView?.contentMode = .scaleAspectFill
             rightButton.isHidden = false
         }
     }

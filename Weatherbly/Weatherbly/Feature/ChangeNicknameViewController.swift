@@ -285,7 +285,12 @@ class ChangeNicknameViewController: RxBaseViewController<ChangeNicknameViewModel
 // MARK: UITextFieldDelegate
 extension ChangeNicknameViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        customTextField(textField, range, string)
+        if let message = nicknameValidationCheck(textField, range, string) {
+//            viewModel.errorMessage.accept(message)
+            return false
+        } else {
+            return true
+        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
