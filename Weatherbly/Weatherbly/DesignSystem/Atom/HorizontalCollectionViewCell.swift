@@ -41,14 +41,14 @@ final class HorizontalCollectionViewCell: UICollectionViewCell {
     
     func cellAttribute() {
         
-        nameLabel.do {
-            $0.numberOfLines = 1
-            $0.textAlignment = .left
-        }
-        
         imageView.do {
             $0.tintColor = .green
             $0.contentMode = .scaleAspectFit
+        }
+        
+        nameLabel.do {
+            $0.numberOfLines = 1
+            $0.textAlignment = .left
         }
     }
     

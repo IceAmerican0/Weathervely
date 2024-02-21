@@ -29,20 +29,29 @@ final class StyleViewController: RxBaseScrollViewController<StyleViewModel> {
         $0.translatesAutoresizingMaskIntoConstraints = true
     }
     
-    private var firstWrapper = UIView()
-    private lazy var firstThemeView = HorizonCollectionViewMolecule().then { [weak self] in
-        $0.themeTitleLabel.text = "#Title: 멋있는데 따뜻하게 Title"
-
-        $0.collectionView.dataSource = self
-        $0.collectionView.delegate = self
+    var flowLayout = UICollectionViewFlowLayout().then {
+        $0.scrollDirection = .horizontal
+        $0.minimumLineSpacing = 16
     }
     
-    private var secoundWrapper = UIView()
-    private lazy var secoundThemeView = HorizonCollectionViewMolecule().then { [weak self] in
-        $0.collectionView.dataSource = self
-        $0.collectionView.delegate = self
+    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout).then {
+        $0.showsHorizontalScrollIndicator = false
+        $0.contentInset = PEdgeInsets(top: 0, left: 0, bottom: 0, right: 20)
+        $0.registerHeader(withType: ThemeTitleHeaderView.self)
+        $0.register(withType: HorizontalCollectionViewCell.self)
+//        $0.registerHeader(withType: <#T##T.Type#>)
     }
     
+//    private lazy var firstThemeView = HorizonCollectionViewMolecule().then { [weak self] in
+//        $0.collectionView.dataSource = self
+//        $0.collectionView.delegate = self
+//    }
+//
+//    private lazy var secoundThemeView = HorizonCollectionViewMolecule().then { [weak self] in
+//        $0.collectionView.dataSource = self
+//        $0.collectionView.delegate = self
+//    }
+//    
     private var screenDevider = UIImageView().then {
         $0.image = UIImage.style_screen_devider
     }

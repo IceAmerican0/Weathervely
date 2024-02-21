@@ -11,9 +11,6 @@ import PinLayout
 import Then
 
 public class HorizonCollectionViewMolecule: UIView, CodeBaseInitializerProtocol {
-
-    public var themeTitleLabel = LabelMaker(font: UIFont.title_3_B).make(text: "#Title: 멋있는데 따뜻하게")
-    
     var flowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .horizontal
         $0.minimumLineSpacing = 16
@@ -32,7 +29,6 @@ public class HorizonCollectionViewMolecule: UIView, CodeBaseInitializerProtocol 
         super.init(frame: frame)
         codeBaseInitializer()
         moleculeLayout()
-        
     }
     
     required init?(coder: NSCoder) {
@@ -65,8 +61,7 @@ public class HorizonCollectionViewMolecule: UIView, CodeBaseInitializerProtocol 
     func moleculeLayout() {
         
         self.flex.justifyContent(.spaceBetween).define { flex in
-            flex.addItem(themeTitleLabel).height(themeTitleLabel.font.setLineHeight())
-            flex.addItem(collectionView).height(209).marginTop(12)
+            flex.addItem(collectionView).height(209)
         }
     }
     
