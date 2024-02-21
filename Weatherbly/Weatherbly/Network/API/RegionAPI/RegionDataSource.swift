@@ -9,20 +9,19 @@ import Moya
 import RxSwift
 
 public protocol RegionDataSourceProtocol {
-    func searchRegion(_ request: String) -> Observable<Result<SearchRegionEntity, WBNetworkError>>
+    func searchRegion(_ request: String) -> Observable<SearchRegionEntity>
 }
 
 public final class RegionDataSource: RegionDataSourceProtocol {
     
-    private let provider: MoyaProvider<RegionTarget>
+    private let provider: WVProvider<RegionTarget>
     
-    public init(provider: MoyaProvider<RegionTarget> = MoyaProvider<RegionTarget>()) {
+    public init(provider: WVProvider<RegionTarget> = WVProvider<RegionTarget>()) {
         self.provider = provider
     }
     
-    public func searchRegion(_ request: String) -> Observable<Result<SearchRegionEntity, WBNetworkError>> {
-        provider
-            .rx
+    public func searchRegion(_ request: String) -> Observable<SearchRegionEntity> {
+        provider.rx
             .request(.searchRegion(request))
             .mapTo(SearchRegionEntity.self)
     }

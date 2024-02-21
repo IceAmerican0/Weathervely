@@ -8,9 +8,8 @@
 import UIKit
 
 extension UILabel {
-    
     func setLineHeight(_ height: CGFloat) {
-        var paragraphStyle = NSMutableParagraphStyle()
+        let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = height
         
         self.attributedText = NSAttributedString(string: self.text ?? "", attributes: [NSAttributedString.Key.paragraphStyle: paragraphStyle])

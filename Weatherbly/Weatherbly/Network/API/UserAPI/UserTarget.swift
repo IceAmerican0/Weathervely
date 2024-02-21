@@ -25,7 +25,7 @@ public enum UserTarget {
     case deleteAddress(_ addressID: Int)
 }
 
-extension UserTarget: WBTargetType {
+extension UserTarget: WVTargetType {
     public var path: String {
         switch self {
         case .getUserInfo,

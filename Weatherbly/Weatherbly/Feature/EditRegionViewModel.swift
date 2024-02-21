@@ -9,87 +9,114 @@ import Foundation
 import RxSwift
 import RxCocoa
 
+public enum EditRegionState {
+    /// 설정페이지에서 진입시
+    case edit
+    /// 주소 변경
+    case change
+    /// 주소 추가
+    case add
+}
+
 public protocol EditRegionViewModelLogic: ViewModelBusinessLogic {
     func loadRegionList()
-    func deleteRegion(_ indexPath: IndexPath)
-    func updateMainRegion(_ indexPath: IndexPath)
-    func didTapCellButton(_ indexPath: IndexPath)
+    func deleteRegion(_ index: Int)
+    func updateMainRegion(_ index: Int)
+    func didTapCellButton(_ index: Int)
     func didTapConfirmButton()
     func toSettingRegionView(_ settingRegionState: SettingRegionState)
-    func toSettingView()
 }
 
 public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogic {
-    private let dataSource = UserDataSource()
     public var loadedListRelay = BehaviorRelay<[AddressListInfo]>(value: [])
+    
+    private let dataSource = UserDataSource()
+    
+    public var editRegionState: EditRegionState
+    
+    public init(_ editRegionState: EditRegionState) {
+        self.editRegionState = editRegionState
+    }
     
     public func loadRegionList() {
         dataSource.getAddressList()
-            .subscribe(onNext: { [weak self] result in
-                switch result {
-                case .success(let response):
+            .subscribe(
+                with: self,
+                onNext: { owner, response in
                     guard let list = response.data?.list else { return }
-                    self?.loadedListRelay.accept(list)
-                case .failure(let err):
-                    guard let errorString = err.errorDescription else { return }
-                    self?.alertMessageRelay.accept(.init(title: errorString,
-                                                        alertType: .Error))
-                }
+                    self.loadedListRelay.accept(list)
+                    switch self.editRegionState {
+                    case .edit:
+                        break
+                    case .change:
+                        owner.alertState.accept(.init(title: "현재 동네가 \(UserDefaultManager.shared.dong)(으)로 변경됐어요",
+                                                             alertType: .toast))
+                    case .add:
+                        owner.alertState.accept(.init(title: "동네가 추가됐어요",
+                                                             alertType: .toast))
+                    }
+                },
+                onError: { owner, error in
+                    owner.alertState.accept(.init(title: error.localizedDescription,
+                                                        alertType: .popup,
+                                                        closeAction: {
+                        owner.navigationPopViewControllerRelay.accept(Void())
+                    }))
             })
             .disposed(by: bag)
     }
     
-    public func deleteRegion(_ indexPath: IndexPath) {
-        let regionInfo = loadedListRelay.value[indexPath.row]
+    public func deleteRegion(_ index: Int) {
+        editRegionState = .edit
+        let regionInfo = loadedListRelay.value[index]
         dataSource.deleteAddress(regionInfo.id)
-            .subscribe(onNext: { [weak self] result in
-                switch result {
-                case .success:
-                    self?.loadRegionList()
-                    self?.alertMessageRelay.accept(.init(title: "선택한 주소가 삭제됐어요",
-                                                         alertType: .Info))
-                case .failure(let err):
-                    guard let errorString = err.errorDescription else { return }
-                    self?.alertMessageRelay.accept(.init(title: errorString,
-                                                        alertType: .Error))
-                }
+            .subscribe(
+                with: self,
+                onNext: { owner, _ in
+                    owner.loadRegionList()
+                    owner.alertState.accept(.init(title: "선택한 동네가 삭제됐어요",
+                                                         alertType: .toast))
+                },
+                onError: { owner, error in
+                    owner.alertState.accept(.init(title: error.localizedDescription,
+                                                        alertType: .popup))
             })
             .disposed(by: bag)
     }
     
-    public func updateMainRegion(_ indexPath: IndexPath) {
-        let regionInfo = loadedListRelay.value[indexPath.row]
+    public func updateMainRegion(_ index: Int) {
+        editRegionState = .edit
+        let regionInfo = loadedListRelay.value[index]
         dataSource.setMainAddress(regionInfo.id)
-            .subscribe(onNext: { [weak self] result in
-                switch result {
-                case .success:
-                    self?.loadRegionList()
+            .subscribe(
+                with: self,
+                onNext: { owner, _ in
+                    owner.loadRegionList()
                     userDefault.set(regionInfo.dong, forKey: UserDefaultKey.dong.rawValue)
-                    self?.alertMessageRelay.accept(.init(title: "현재 동네가 \(regionInfo.addressName)으로 변경됐어요",
-                                                         alertType: .Info))
-                case .failure(let err):
-                    guard let errorString = err.errorDescription else { return }
-                    self?.alertMessageRelay.accept(.init(title: errorString,
-                                                        alertType: .Error))
-                }
+                    owner.alertState.accept(.init(title: "현재 동네가 \(regionInfo.dong)(으)로 변경됐어요",
+                                                         alertType: .toast))
+                },
+                onError: { owner, error in
+                    owner.alertState.accept(.init(title: error.localizedDescription,
+                                                        alertType: .popup))
             })
             .disposed(by: bag)
     }
     
-    public func didTapCellButton(_ indexPath: IndexPath) {
+    public func didTapCellButton(_ index: Int) {
         let regionInfo = loadedListRelay.value
         if regionInfo.count == 1 {
-            userDefault.set(regionInfo[indexPath.row].id, forKey: UserDefaultKey.regionID.rawValue)
+            userDefault.set(regionInfo[index].id, forKey: UserDefaultKey.regionID.rawValue)
             toSettingRegionView(.change)
         } else {
-            deleteRegion(indexPath)
+            deleteRegion(index)
         }
     }
     
     public func didTapConfirmButton() {
         if loadedListRelay.value.count == 3 {
-            alertMessageRelay.accept(.init(title: "동네는 최대 3개까지 지정할 수 있어요",
-                                           alertType: .Info))
+            alertState.accept(.init(title: "동네는 최대 3개까지 지정할 수 있어요",
+                                           alertType: .toast))
         } else {
             toSettingRegionView(.add)
         }
@@ -97,11 +124,6 @@ public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogi
     
     public func toSettingRegionView(_ settingRegionState: SettingRegionState) {
         let vc = SettingRegionViewController(SettingRegionViewModel(settingRegionState))
-        navigationPushViewControllerRelay.accept(vc)
-    }
-    
-    public func toSettingView() {
-        let vc = SettingViewController(SettingViewModel())
         navigationPushViewControllerRelay.accept(vc)
     }
 }

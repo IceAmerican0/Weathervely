@@ -12,8 +12,8 @@ import RxCocoa
 
 final class SettingRegionViewController: RxBaseViewController<SettingRegionViewModel> {
     
-    private var progressBar = CSProgressView(0.5)
-    private var navigationView = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
+    private var progressBar = CSProgressView(0.66)
+    private var navigationView = CSNavigationView(.leftButton(.navi_back))
     private var explanationLabel = CSLabel(.bold, 24, "동네를 설정해주세요")
     
     private let searchImage = UIImageView()
@@ -21,6 +21,9 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
     
     private var confirmButton = CSButton(.grayFilled)
     private var regionTableView = UITableView()
+    
+    private let tableViewMarginTop = UIScreen.main.bounds.height * 0.06
+    private let tableViewHeight = UIScreen.main.bounds.height * 0.6
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,6 +44,10 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
         explanationLabel.do {
             $0.backgroundColor = .white
             $0.adjustsFontSizeToFitWidth = true
+        }
+        
+        navigationView.do {
+            $0.isHidden = true
         }
         
         searchImage.do {
@@ -68,8 +75,10 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
         
         regionTableView.do {
             $0.delegate = self
-            $0.dataSource = self
+            $0.rowHeight = 56
             $0.isScrollEnabled = true
+            $0.bounces = false
+            $0.showsVerticalScrollIndicator = true
             $0.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
             $0.showsHorizontalScrollIndicator = false
             $0.register(withType: RegionTableViewCell.self)
@@ -82,17 +91,18 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
         container.flex.alignItems(.center).define { flex in
             flex.addItem(progressBar)
             flex.addItem(navigationView).width(100%)
-            flex.addItem(explanationLabel).marginTop(27).marginHorizontal(35).width(85%)
+            flex.addItem(explanationLabel).marginTop(27).marginHorizontal(35).width(85%).height(34)
             flex.addItem(inputRegion).marginTop(22).marginHorizontal(30).width(85%).height(50)
-            flex.addItem(confirmButton).width(88%).height(62)
-            flex.addItem(regionTableView).marginHorizontal(30).height(59%)
+            flex.addItem(regionTableView).marginTop(tableViewMarginTop).marginHorizontal(30).height(tableViewHeight)
+            flex.addItem(confirmButton).position(.absolute).bottom(10%).marginHorizontal(43).width(78%).height(62)
         }
-        confirmButton.pin.bottom(10%)
         regionTableView.isHidden = true
         
-        if UserDefaultManager.shared.isOnBoard == false {
+        if viewModel.settingRegionState != .onboard {
             progressBar.isHidden = true
+            navigationView.isHidden = false
             navigationView.setTitle("동네 변경 / 추가")
+            navigationView.addBorder(.bottom)
             explanationLabel.isHidden = true
         }
     }
@@ -105,20 +115,23 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
             .disposed(by: bag)
         
         confirmButton.rx.tap
-            .bind(onNext: showResult)
+            .bind(with: self) { owner, _ in
+                owner.showResult()
+            }
             .disposed(by: bag)
         
         inputRegion.rx.text.orEmpty
-            .subscribe(onNext: { _ in
-                if let value = self.inputRegion.text {
-                    if value.count > 1 {
-                        self.confirmButton.isEnabled = true
-                        self.confirmButton.setButtonStyle(.primary)
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, text in
+                    if text.count > 1 {
+                        owner.confirmButton.isEnabled = true
+                        owner.confirmButton.setButtonStyle(.primary)
                     } else {
-                        self.confirmButton.isEnabled = false
-                        self.confirmButton.setButtonStyle(.grayFilled)
+                        owner.confirmButton.isEnabled = false
+                        owner.confirmButton.setButtonStyle(.grayFilled)
                     }
-                }
             })
             .disposed(by: bag)
     }
@@ -127,16 +140,18 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
         super.viewModelBinding()
         
         viewModel.searchedListRelay
-            .subscribe(onNext: { [weak self] _ in
-                self?.regionTableView.reloadData()
-            })
+            .bind(to: regionTableView.rx
+                .items(cellIdentifier: RegionTableViewCell.identifier,
+                       cellType: RegionTableViewCell.self)) { _, data, cell in
+                cell.configureCellState(data.addressName)
+                self.regionTableView.flashScrollIndicators()
+            }
             .disposed(by: bag)
     }
     
     private func showResult() {
         unregisterKeyboardNotifications()
         
-        regionTableView.pin.bottom(12)
         regionTableView.isHidden = false
         
         if let text = inputRegion.text {
@@ -151,8 +166,6 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
 
 // MARK: UITableViewDelegate
 extension SettingRegionViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { 56 }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
         cell?.selectionStyle = .none
@@ -167,23 +180,6 @@ extension SettingRegionViewController: UITableViewDelegate {
     }
 }
 
-extension SettingRegionViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if viewModel.searchedListRelay.value.isEmpty {
-            return 0
-        } else {
-            return viewModel.searchedListRelay.value.count
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        tableView.dequeueCell(withType: RegionTableViewCell.self, for: indexPath).then {
-            let regionName = viewModel.searchedListRelay.value[indexPath.row].addressName
-            $0.configureCellState(regionName)
-        }
-    }
-}
-
 // MARK: UITextFieldDelegate
 extension SettingRegionViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -193,9 +189,8 @@ extension SettingRegionViewController: UITextFieldDelegate {
             if isBackSpace == -92 { return true }
         }
         /// 글자수 제한
-        if let text = textField.text {
-            guard text.count < 20 else { return false }
-        }
+        guard let text = textField.text else { return false }
+        guard text.count < 10 else { return false }
         return true
     }
     

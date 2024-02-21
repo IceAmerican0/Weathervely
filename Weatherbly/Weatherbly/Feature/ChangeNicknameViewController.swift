@@ -14,7 +14,7 @@ import RxSwift
 class ChangeNicknameViewController: RxBaseViewController<ChangeNicknameViewModel> {
     
     private var leftButtonDidTapRelay = PublishRelay<Void>()
-    private var csNavigationView = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
+    private var csNavigationView = CSNavigationView(.leftButton(.navi_back))
     
     private let contentWrapper = UIView()
     
@@ -46,6 +46,16 @@ class ChangeNicknameViewController: RxBaseViewController<ChangeNicknameViewModel
     var displayMode: editMode = .justShow
     
     private var isFemale = UserDefaultManager.shared.isFemale
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        registerKeyboardNotifications()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        unregisterKeyboardNotifications()
+    }
     
     override func attribute() {
         super.attribute()
@@ -172,69 +182,91 @@ class ChangeNicknameViewController: RxBaseViewController<ChangeNicknameViewModel
                                     }
                             }
                         
-                                flex.addItem(genderLableView)
-                                    .marginHorizontal(22)
-                                    .direction(.row)
-                                    .define { flex in
-                                        flex.addItem(genderTitleLabel)
-                                            .marginVertical(14)
-                                            .width(67)
-                                            .marginLeft(26)
-                                        
-                                        flex.addItem(buttonWrapper)
-                                            .marginVertical(9)
-                                            .marginLeft(18)
-                                            .grow(0.5)
-                                            .shrink(0.5)
-                                            .direction(.row)
-                                            .define { flex in
-                                            flex.addItem(womanButton)
-                                                    .padding(10)
-                                                    .right(7)
-                                                    .grow(1).shrink(1)
-                                                
-                                            flex.addItem(manButton)
-                                                    .padding(10)
-                                                    .left(7)
-                                                    .grow(1).shrink(1)
-                                        }
-                                    }
-                        
-                        flex.addItem(bottomButton)
-                            .marginHorizontal(43)
-                            .height(bottomButton.primaryHeight)
-                            .marginTop(UIScreen.main.bounds.height * 0.44)
-
-                        bottomButton.pin.bottom(53)
-                    }
+//                        flex.addItem(genderLableView)
+//                            .marginHorizontal(22)
+//                            .direction(.row)
+//                            .define { flex in
+//                                flex.addItem(genderTitleLabel)
+//                                    .marginVertical(14)
+//                                    .width(67)
+//                                    .marginLeft(26)
+//
+//                                flex.addItem(buttonWrapper)
+//                                    .marginVertical(9)
+//                                    .marginLeft(18)
+//                                    .grow(0.5)
+//                                    .shrink(0.5)
+//                                    .direction(.row)
+//                                    .define { flex in
+//                                    flex.addItem(womanButton)
+//                                            .padding(10)
+//                                            .right(7)
+//                                            .grow(1).shrink(1)
+//
+//                                    flex.addItem(manButton)
+//                                            .padding(10)
+//                                            .left(7)
+//                                            .grow(1).shrink(1)
+//                                }
+//                            }
             }
+            flex.addItem(bottomButton)
+                .position(.absolute)
+                .bottom(10%)
+                .marginHorizontal(43)
+                .width(78%)
+                .height(bottomButton.primaryHeight)
+        }
     }
     
     override func bind() {
         super.bind()
         
         csNavigationView.leftButtonDidTapRelay
-            .bind(onNext: { [weak self] _ in
-                self?.navigationController?.popViewController(animated: true)
-            })
+            .bind(with: self) { owner, _ in
+                owner.navigationController?.popViewController(animated: true)
+            }
             .disposed(by: bag)
         
         womanButton.rx.tap
-            .subscribe { [weak self] _ in
-                if self?.isFemale == false { self?.buttonToggle() }
-            }.disposed(by: bag)
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, _ in
+                    if owner.isFemale == false { owner.buttonToggle() }
+            })
+            .disposed(by: bag)
         
         manButton.rx.tap
-            .subscribe { [weak self] _ in
-                if self?.isFemale == true { self?.buttonToggle() }
-            }.disposed(by: bag)
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, _ in
+                    if owner.isFemale == true { owner.buttonToggle() }
+            })
+            .disposed(by: bag)
         
         bottomButton.rx.tap
-            .subscribe { [weak self] _ in
-                guard let inputNickname = self?.nicknameTextField.text else { return }
-                self?.viewModel.didTapConfirmButton(UserInfoRequest(nickname: inputNickname,
-                                                                    gender: self?.isFemale == true ? "female" : "male"))
+            .bind(with: self) { owner, _ in
+                guard let inputNickname = owner.nicknameTextField.text else { return }
+                owner.viewModel.didTapConfirmButton(UserInfoRequest(nickname: inputNickname/*,
+                                                                    gender: owner.isFemale == true ? "female" : "male"*/))
             }.disposed(by: bag)
+        
+        nicknameTextField.rx.text.orEmpty
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, text in
+                    if text.count > 1 {
+                        owner.bottomButton.isEnabled = true
+                        owner.bottomButton.setButtonStyle(.primary)
+                    } else {
+                        owner.bottomButton.isEnabled = false
+                        owner.bottomButton.setButtonStyle(.grayFilled)
+                    }
+            })
+            .disposed(by: bag)
     }
     
     private func buttonToggle() {
@@ -250,10 +282,27 @@ class ChangeNicknameViewController: RxBaseViewController<ChangeNicknameViewModel
     }
 }
 
+// MARK: UITextFieldDelegate
 extension ChangeNicknameViewController: UITextFieldDelegate {
-    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        customTextField(textField, range, string)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
 }
 
+// MARK: Keyboard Action
+extension ChangeNicknameViewController {
+    override func keyboardWillShow(_ notification: Notification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            bottomButton.pin.bottom(keyboardSize.height + 30)
+        }
+    }
+    
+    override func keyboardWillHide(_ notification: Notification) {
+        bottomButton.pin.bottom(10%)
+    }
+}

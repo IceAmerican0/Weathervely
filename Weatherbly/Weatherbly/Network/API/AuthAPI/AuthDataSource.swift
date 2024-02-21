@@ -10,38 +10,38 @@ import RxSwift
 import RxMoya
 
 public protocol AuthDataSourceProtocol {
-    func getToken(_ nickname: String) -> Observable<Result<StatusOnlyEntity, WBNetworkError>>
-    func setNickname(_ nickname: String) -> Observable<Result<EmptyEntity, WBNetworkError>>
-    func setAddress(_ addressInfo: AddressRequest) -> Observable<Result<EmptyEntity, WBNetworkError>>
-    func setGender(_ gender: String) -> Observable<Result<EmptyEntity, WBNetworkError>>
+    func getToken() -> Observable<AuthLoginEntity>
+    func setNickname(_ nickname: String, _ uuid: String) -> Observable<EmptyEntity>
+    func setAddress(_ addressInfo: AddressRequest) -> Observable<EmptyEntity>
+    func setGender(_ gender: String) -> Observable<EmptyEntity>
 }
 
 public final class AuthDataSource: AuthDataSourceProtocol {
-    private let provider: MoyaProvider<AuthTarget>
+    private let provider: WVProvider<AuthTarget>
     
-    public init(provider: MoyaProvider<AuthTarget> = MoyaProvider<AuthTarget>()) {
+    public init(provider: WVProvider<AuthTarget> = WVProvider<AuthTarget>()) {
         self.provider = provider
     }
     
-    public func getToken(_ nickname: String) -> Observable<Result<StatusOnlyEntity, WBNetworkError>> {
+    public func getToken() -> Observable<AuthLoginEntity> {
         provider.rx
-            .request(.login(nickname))
-            .mapTo(StatusOnlyEntity.self)
+            .request(.login)
+            .mapTo(AuthLoginEntity.self)
     }
     
-    public func setNickname(_ nickname: String) -> Observable<Result<EmptyEntity, WBNetworkError>> {
+    public func setNickname(_ nickname: String, _ uuid: String) -> Observable<EmptyEntity> {
         provider.rx
-            .request(.nickname(nickname))
+            .request(.nickname(nickname, uuid))
             .mapTo(EmptyEntity.self)
     }
     
-    public func setAddress(_ addressInfo: AddressRequest) -> Observable<Result<EmptyEntity, WBNetworkError>> {
+    public func setAddress(_ addressInfo: AddressRequest) -> Observable<EmptyEntity> {
         provider.rx
             .request(.address(addressInfo))
             .mapTo(EmptyEntity.self)
     }
     
-    public func setGender(_ gender: String) -> Observable<Result<EmptyEntity, WBNetworkError>> {
+    public func setGender(_ gender: String) -> Observable<EmptyEntity> {
         provider.rx
             .request(.gender(gender))
             .mapTo(EmptyEntity.self)

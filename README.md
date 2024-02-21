@@ -1,6 +1,5 @@
-# sunnyOOTD
 
-Notion: [Notion](https://www.notion.so/dreamda/iOS-cd847e3703e24a1ca02bd5dda7ff2c8d?pvs=4)
+Released!
 
-Figma: [Figma](https://www.figma.com/file/Dh7JI7aYR5IkrPdICtMTGd/%EC%8D%A8%EB%8B%88%EB%84%A4-%EC%98%B7%EC%B0%A8%EB%A6%BC_-%ED%94%84%EB%A1%9C%ED%86%A0%ED%83%80%EC%9E%85?type=design&node-id=151%3A11227&t=EM7VliZyBCaUtKMo-1)
-
+![29](https://github.com/IceAmerican0/IceAmerican0/assets/72787036/99d12403-cc84-48d4-9022-95a77a771139) 
+[웨더블리](https://apps.apple.com/app/%EC%9B%A8%EB%8D%94%EB%B8%94%EB%A6%AC/id6462055767) Outfit Recommendation Based on Temperature(Weather)

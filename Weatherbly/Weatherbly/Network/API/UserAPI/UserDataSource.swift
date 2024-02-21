@@ -9,61 +9,61 @@ import Moya
 import RxSwift
 import RxMoya
 
-public protocol UserDataSourceProtocol { // TODO: return값 수정
-    func getUserInfo(_ nickname: String) -> Observable<Result<UserInfoEntity, WBNetworkError>>
-    func fetchUserInfo(_ userInfo: UserInfoRequest) -> Observable<Result<EmptyEntity, WBNetworkError>>
-    func getAddressList() -> Observable<Result<AddressListEntity, WBNetworkError>>
-    func addAddress(_ addressInfo: AddressRequest) -> Observable<Result<EmptyEntity, WBNetworkError>>
-    func setMainAddress(_ addressID: Int) -> Observable<Result<EmptyEntity, WBNetworkError>>
-    func fetchAddress(_ addressID: Int, _ addressInfo: AddressRequest) -> Observable<Result<EmptyEntity, WBNetworkError>>
-    func deleteAddress(_ addressID: Int) -> Observable<Result<EmptyEntity, WBNetworkError>>
+public protocol UserDataSourceProtocol {
+    func getUserInfo(_ nickname: String) -> Observable<UserInfoEntity>
+    func fetchUserInfo(_ userInfo: UserInfoRequest) -> Observable<EmptyEntity>
+    func getAddressList() -> Observable<AddressListEntity>
+    func addAddress(_ addressInfo: AddressRequest) -> Observable<EmptyEntity>
+    func setMainAddress(_ addressID: Int) -> Observable<EmptyEntity>
+    func fetchAddress(_ addressID: Int, _ addressInfo: AddressRequest) -> Observable<EmptyEntity>
+    func deleteAddress(_ addressID: Int) -> Observable<EmptyEntity>
 }
 
 public final class UserDataSource: UserDataSourceProtocol {
     
-    private let provider: MoyaProvider<UserTarget>
+    private let provider: WVProvider<UserTarget>
     
-    public init(provider: MoyaProvider<UserTarget> = MoyaProvider<UserTarget>()) {
+    public init(provider: WVProvider<UserTarget> = WVProvider<UserTarget>()) {
         self.provider = provider
     }
     
-    public func getUserInfo(_ nickname: String) -> Observable<Result<UserInfoEntity, WBNetworkError>> {
+    public func getUserInfo(_ nickname: String) -> Observable<UserInfoEntity> {
         provider.rx
             .request(.getUserInfo(nickname))
             .mapTo(UserInfoEntity.self)
     }
     
-    public func fetchUserInfo(_ userInfo: UserInfoRequest) -> Observable<Result<EmptyEntity, WBNetworkError>> {
+    public func fetchUserInfo(_ userInfo: UserInfoRequest) -> Observable<EmptyEntity> {
         provider.rx
             .request(.fetchUserInfo(userInfo))
             .mapTo(EmptyEntity.self)
     }
     
-    public func getAddressList() -> Observable<Result<AddressListEntity, WBNetworkError>> {
+    public func getAddressList() -> Observable<AddressListEntity> {
         provider.rx
             .request(.getAddressList)
             .mapTo(AddressListEntity.self)
     }
     
-    public func addAddress(_ addressInfo: AddressRequest) -> Observable<Result<EmptyEntity, WBNetworkError>> {
+    public func addAddress(_ addressInfo: AddressRequest) -> Observable<EmptyEntity> {
         provider.rx
             .request(.addAddress(addressInfo))
             .mapTo(EmptyEntity.self)
     }
     
-    public func setMainAddress(_ addressID: Int) -> Observable<Result<EmptyEntity, WBNetworkError>> {
+    public func setMainAddress(_ addressID: Int) -> Observable<EmptyEntity> {
         provider.rx
             .request(.setMainAddress(addressID))
             .mapTo(EmptyEntity.self)
     }
     
-    public func fetchAddress(_ addressID: Int, _ addressInfo: AddressRequest) -> Observable<Result<EmptyEntity, WBNetworkError>> {
+    public func fetchAddress(_ addressID: Int, _ addressInfo: AddressRequest) -> Observable<EmptyEntity> {
         provider.rx
             .request(.fetchAddress(addressID, addressInfo))
             .mapTo(EmptyEntity.self)
     }
     
-    public func deleteAddress(_ addressID: Int) -> Observable<Result<EmptyEntity, WBNetworkError>> {
+    public func deleteAddress(_ addressID: Int) -> Observable<EmptyEntity> {
         provider.rx
             .request(.deleteAddress(addressID))
             .mapTo(EmptyEntity.self)

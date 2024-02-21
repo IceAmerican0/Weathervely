@@ -25,14 +25,14 @@ public class DateTimePickViewModel: RxBaseViewModel, DateTimePickViewModelLogic 
                 if pickerDayTime == "오전" {
                     // 시간 비교
                     if Int(today[3])! < (pickerTime == 12 ? 0 : pickerTime) {
-                        self.alertMessageRelay.accept(.init(title: "미래 시간은 선택 할 수 없어요",
-                                                            alertType: .Info))
+                        self.alertState.accept(.init(title: "미래 시간은 선택할 수 없어요",
+                                                            alertType: .toast))
                     } else {
                         toOnBoardSensoryTempView(pickerDay, pickerDayTime, pickerTime)
                     }
                 } else { // 선택시간이 오후
-                    self.alertMessageRelay.accept(.init(title: "미래 시간은 선택 할 수 없어요",
-                                                        alertType: .Info))
+                    self.alertState.accept(.init(title: "미래 시간은 선택할 수 없어요",
+                                                        alertType: .toast))
                 }
             } else {
                 toOnBoardSensoryTempView(pickerDay, pickerDayTime, pickerTime)
@@ -42,8 +42,8 @@ public class DateTimePickViewModel: RxBaseViewModel, DateTimePickViewModelLogic 
                 if pickerDayTime == "오후" {
                     //시간비교
                     if Int(today[3])! < pickerTime {
-                        self.alertMessageRelay.accept(.init(title: "미래 시간은 선택 할 수 없어요",
-                                                            alertType: .Info))
+                        self.alertState.accept(.init(title: "미래 시간은 선택할 수 없어요",
+                                                            alertType: .toast))
                     } else {
                         toOnBoardSensoryTempView(pickerDay, pickerDayTime, pickerTime)
                     }

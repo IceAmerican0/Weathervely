@@ -7,29 +7,26 @@
 
 import Foundation
 import RxSwift
-import RxRelay
 import RxCocoa
 import UIKit
-
 
 protocol HomeSensoryTempViewControllerDelegate: AnyObject {
     func willDismiss()
 }
 
-protocol HomeSensoryLogic {
+protocol HomeSensoryLogic: ViewModelBusinessLogic {
     func getClosetBySensoryTemp()
     func setSensoryTemperature()
     func getCurrentIndex(_ closets: [ClosetList])
-    func yOffsetForIndex(_ index: Int)
+    func yOffsetForIndex(_ index: Int, _ scrollView: UIScrollView?)
 }
-class HomeSensoryTempViewModel: RxBaseViewModel {
-    
+
+class HomeSensoryTempViewModel: RxBaseViewModel, HomeSensoryLogic {
     weak var delegate: HomeSensoryTempViewControllerDelegate?
     let closetDataSource = ClosetDataSource()
     
     var closetIdFromHomeViewRelay = BehaviorRelay<Int?>(value: nil)
     var closetListByTempRelay = BehaviorRelay<[ClosetList]?>(value: nil)
-
     
     var selectedDateRelay = BehaviorRelay<String?>(value: nil)
     var selectedTimeRelay = BehaviorRelay<String?>(value: nil)
@@ -37,68 +34,58 @@ class HomeSensoryTempViewModel: RxBaseViewModel {
     
     var setClosetIdRelay = BehaviorRelay<Int?>(value: nil)
     var setClosetTempRelay = BehaviorRelay<String?>(value: nil)
-    var emptyEntityRelay = BehaviorRelay<EmptyEntity?>(value: nil)
     
     var slotMachineIndexRelay = BehaviorRelay<Int>(value: 0)
     var focusingIndexRelay = BehaviorRelay<CGFloat>(value: CGFloat())
-    
-    override init() {
-        super.init()
-    }
     
     init(_ selectedDate: String, _ selectedTime: String, _ selectedTemp: String,  _ closetId: Int) {
         self.selectedDateRelay.accept(selectedDate)
         self.selectedTimeRelay.accept(selectedTime)
         self.selectedTempRelay.accept(selectedTemp)
         self.closetIdFromHomeViewRelay.accept(closetId)
-
     }
     
     func getClosetBySensoryTemp() {
-        
         guard let selectedDate = self.selectedDateRelay.value,
               let closetId = self.closetIdFromHomeViewRelay.value
         else { return }
         
         closetDataSource.getMainSensoryTemperatureCloset(selectedDate, closetId)
-            .subscribe(onNext: { [ weak self ] result in
-                switch result {
-                case .success(let response):
+            .subscribe(
+                with: self,
+                onNext: { owner, response in
                     let closets = response.data.list
-                    self?.getCurrentIndex(closets)
-                    
-//                    self?.closetListByTempRelay.accept(closets)
-                case .failure(let error):
-                    debugPrint("viewModel error GetSensoryTemp", error.localizedDescription)
-                }
+                    owner.getCurrentIndex(closets)
+                    //                    owner.closetListByTempRelay.accept(closets)
+                },
+                onError: { owner, error in
+                    owner.alertState.accept(.init(title: error.localizedDescription,
+                                                         alertType: .popup,
+                                                         closeAction: owner.popViewController))
             })
             .disposed(by: bag)
     }
     
     func setSensoryTemperature() {
-        
         guard let closetId = setClosetIdRelay.value,
-              var currentTemp = selectedTempRelay.value?.dropLast()
+              let currentTemp = selectedTempRelay.value?.dropLast()
         else { return }
         
         closetDataSource.setSensoryTemperature(.init(closet: closetId, currentTemp: String(currentTemp)))
-            .subscribe(onNext: { [weak self] result in
-                switch result {
-                case.success(let response):
-                    self?.delegate?.willDismiss()
-                    self?.dismissSelfWithAnimationRelay.accept(Void())
-                    break
-                case .failure(let error):
-                
-                    debugPrint("viewModel error setTemperature", error.localizedDescription)
-
-                }
+            .subscribe(
+                with: self,
+                onNext: { owner, _ in
+                    owner.delegate?.willDismiss()
+                    owner.dismissSelfWithAnimationRelay.accept(Void())
+                },
+                onError: { owner, error in
+                    owner.alertState.accept(.init(title: error.localizedDescription,
+                                                         alertType: .popup))
             })
             .disposed(by: bag)
     }
     
     func getCurrentIndex(_ closets: [ClosetList]) {
-       
         for i in 0..<closets.count {
             if (closets[i].closetId == self.closetIdFromHomeViewRelay.value!) {
                 // index 없데이트
@@ -113,9 +100,11 @@ class HomeSensoryTempViewModel: RxBaseViewModel {
     }
     
     func yOffsetForIndex(_ index: Int, _ scrollView: UIScrollView?) {
-        var slotMachineIndex = slotMachineIndexRelay.value
+        let slotMachineIndex = slotMachineIndexRelay.value
         focusingIndexRelay.accept(CGFloat(slotMachineIndex) * (scrollView?.bounds.height)!)
     }
     
-    
+    private func popViewController() {
+        self.navigationPopViewControllerRelay.accept(Void())
+    }
 }

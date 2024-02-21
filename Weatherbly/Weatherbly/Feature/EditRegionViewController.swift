@@ -12,7 +12,7 @@ import RxSwift
 
 final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> {
     
-    private var navigationView = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
+    private var navigationView = CSNavigationView(.leftButton(.navi_back))
     
     private let contentWrapper = UIView()
     private let outlineImage = UIImageView()
@@ -40,8 +40,9 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
         
         favoriteTableView.do {
             $0.delegate = self
-            $0.dataSource = self
+            $0.rowHeight = 56
             $0.isScrollEnabled = false
+            $0.bounces = false
             $0.backgroundColor = CSColor._253_253_253.color
             $0.layer.cornerRadius = 5
             $0.register(EditRegionTableViewCell.self, forCellReuseIdentifier: EditRegionTableViewCell.identifier)
@@ -62,22 +63,33 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
                 flex.addItem(outlineImage).size(24)
                 flex.addItem(subtitleLabel).marginLeft(3).height(28)
             }
-            flex.addItem(confirmButton).width(88%).height(62)
             flex.addItem(favoriteTableView).marginTop(8).marginHorizontal(24).height(168)
+            flex.addItem(confirmButton).position(.absolute).alignSelf(.center).bottom(buttonMarginBottom).width(88%).height(62)
         }
-        
-        confirmButton.pin.hCenter().bottom(buttonMarginBottom)
     }
     
     override func viewBinding() {
         super.viewBinding()
         
         navigationView.leftButtonDidTapRelay
-            .bind(onNext: viewModel.toSettingView)
+            .bind(with: self) { owner, _ in
+                if let viewControllers = owner.navigationController?.viewControllers {
+                    for viewController in viewControllers {
+                        if let settingViewController = viewController as? SettingViewController {
+                            owner.navigationController?.popToViewController(settingViewController, animated: true)
+                            break
+                        }
+                    }
+                    
+                    owner.viewModel.navigationPoptoRootRelay.accept(Void())
+                }
+            }
             .disposed(by: bag)
         
         confirmButton.rx.tap
-            .bind(onNext: viewModel.didTapConfirmButton)
+            .bind(with:self) { owner, _ in
+                owner.viewModel.didTapConfirmButton()
+            }
             .disposed(by: bag)
     }
     
@@ -87,11 +99,24 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
         viewModel.loadRegionList()
         
         viewModel.loadedListRelay
-            .subscribe(onNext: { [weak self] _ in
-                self?.listCount = self?.viewModel.loadedListRelay.value.count ?? 0
-                self?.confirmButtonState()
-                self?.favoriteTableView.reloadData()
-            })
+            .bind(to: favoriteTableView.rx
+                .items(cellIdentifier: EditRegionTableViewCell.identifier,
+                       cellType: EditRegionTableViewCell.self)) { row, data, cell in
+                self.listCount = self.viewModel.loadedListRelay.value.count
+                
+                if row == 0 {
+                    cell.backgroundColor = CSColor._248_248_248.color
+                } else {
+                    cell.backgroundColor = .white
+                }
+                
+                cell.configureCellState(EditRegionCellState(region: data.addressName, count: self.listCount), row)
+                cell.buttonTapAction { [weak self] index in
+                    self?.viewModel.didTapCellButton(index)
+                }
+                
+                self.confirmButtonState()
+            }
             .disposed(by: bag)
     }
     
@@ -110,38 +135,19 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
 
 // MARK: UITableViewDelegate
 extension EditRegionViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { 56 }
-    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { 25 }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
         cell?.selectionStyle = .none
         cell?.isSelected = true
-        viewModel.updateMainRegion(indexPath)
+        viewModel.updateMainRegion(indexPath.row)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
         cell?.selectionStyle = .default
         cell?.isSelected = false
-    }
-}
-
-extension EditRegionViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        listCount
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return tableView.dequeueCell(withType: EditRegionTableViewCell.self, for: indexPath).then {
-            let regionName = viewModel.loadedListRelay.value[indexPath.row].addressName
-            $0.configureCellState(EditRegionCellState(region: regionName, count: listCount))
-            $0.buttonDidTapRelay
-                .subscribe(onNext: { [weak self] _ in
-                    self?.viewModel.didTapCellButton(indexPath)
-                })
-                .disposed(by: bag)
-        }
     }
 }

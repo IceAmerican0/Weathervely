@@ -19,10 +19,6 @@ public protocol OnBoardSensoryTempViewModelLogic: ViewModelBusinessLogic {
 }
 
 public final class OnBoardSensoryTempViewModel: RxBaseViewModel, OnBoardSensoryTempViewModelLogic {
-    private let pickerDay: String
-    private let pickerDayTime: String
-    private let pickerTime: Int
-    
     public var temperatureRelay = BehaviorRelay<String>(value: "")
     public var dateStringRelay = BehaviorRelay<String>(value: "")
     public var formattedDateStringRelay = BehaviorRelay<String>(value: "")
@@ -30,6 +26,10 @@ public final class OnBoardSensoryTempViewModel: RxBaseViewModel, OnBoardSensoryT
     public let closetIDRelay = BehaviorRelay<Int>(value: 0)
     
     private let closetDataSource = ClosetDataSource()
+    
+    private let pickerDay: String
+    private let pickerDayTime: String
+    private let pickerTime: Int
     
     init(_ pickerDay: String, _ pickerDayTime: String, _ pickerTime: Int) {
         self.pickerDay = pickerDay
@@ -70,17 +70,17 @@ public final class OnBoardSensoryTempViewModel: RxBaseViewModel, OnBoardSensoryT
     
     public func getClosetBySensoryTemp() {
         closetDataSource.getOnBoardSensoryTemperatureCloset(formattedDateStringRelay.value)
-            .subscribe(onNext: { [weak self] result in
-                switch result {
-                case .success(let response):
-                    let closets = response.data.list
-                    self?.closetListRelay.accept(closets)
-                    self?.temperatureRelay.accept(response.data.fcstValue)
-                case .failure(let err):
-                    guard let errorString = err.errorDescription else { return }
-                    self?.alertMessageRelay.accept(.init(title: errorString,
-                                                         alertType: .Error))
-                }
+            .subscribe(
+                with: self,
+                onNext: { owner, response in
+                    let data = response.data
+                    owner.temperatureRelay.accept(data.fcstValue)
+                    owner.closetListRelay.accept(data.list)
+                },
+                onError: { owner, error in
+                    owner.alertState.accept(.init(title: error.localizedDescription,
+                                                         alertType: .popup,
+                                                         closeAction: owner.popViewController))
             })
             .disposed(by: bag)
     }
@@ -88,15 +88,14 @@ public final class OnBoardSensoryTempViewModel: RxBaseViewModel, OnBoardSensoryT
     public func didTapAcceptButton() {
         closetDataSource.setSensoryTemperature(.init(closet: closetIDRelay.value,
                                                      currentTemp: temperatureRelay.value))
-            .subscribe(onNext: { [weak self] result in
-                switch result {
-                case .success:
-                    self?.toHomeView()
-                case .failure(let err):
-                    guard let errorString = err.errorDescription else { return }
-                    self?.alertMessageRelay.accept(.init(title: errorString,
-                                                         alertType: .Error))
-                }
+            .subscribe(
+                with: self,
+                onNext: { owner, _ in
+                    owner.toHomeView()
+                },
+                onError: { owner, error in
+                    owner.alertState.accept(.init(title: error.localizedDescription,
+                                                         alertType: .popup))
             })
             .disposed(by: bag)
     }
@@ -104,13 +103,17 @@ public final class OnBoardSensoryTempViewModel: RxBaseViewModel, OnBoardSensoryT
     public func toSlotMachineView() {
         let vc = SlotMachineViewController(SlotMachineViewModel(dateStringRelay,
                                                                 temperatureRelay,
-                                                                closetListRelay))
+                                                                closetListRelay,
+                                                                closetIDRelay))
         self.navigationPushViewControllerRelay.accept(vc)
     }
     
     public func toHomeView() {
-        let vc = HomeViewController(HomeViewModel())
+        let vc = HomeTabBarController()
         self.navigationPushViewControllerRelay.accept(vc)
     }
     
+    func popViewController() {
+        navigationPopViewControllerRelay.accept(Void())
+    }
 }

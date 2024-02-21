@@ -11,7 +11,11 @@ import Then
 import FlexLayout
 import PinLayout
 
-public class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitializerProtocol, BaseDisposebag where ViewModel: RxBaseViewModel {
+public class RxBaseViewController<ViewModel>:
+    UIViewController,
+    CodeBaseInitializerProtocol,
+    BaseDisposebag,
+    UIGestureRecognizerDelegate where ViewModel: RxBaseViewModel {
     
     lazy var bag: DisposeBag = {
         self.viewModel.bag
@@ -41,17 +45,19 @@ public class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitiali
     /// child component들의 속성을 잡아주기 위해서 flex.layout()을 먼저 호출한다.
         container.pin.all(view.pin.safeArea)
         container.flex.layout()
-        
-        layout()
     }
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.navigationController?.isNavigationBarHidden = true
-
         view.backgroundColor = .white
         view.addSubview(container)
+    }
+    
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
  
     // MARK: - Attribute
@@ -71,86 +77,124 @@ public class RxBaseViewController<ViewModel>: UIViewController, CodeBaseInitiali
     
     func viewModelBinding() {
         viewModel
+            .navigationPoptoRootRelay
+            .bind(with: self) { owner, _ in
+                owner.navigationController?.popToRootViewController(animated: true)
+            }
+            .disposed(by: bag)
+        
+        viewModel
             .navigationPopToSelfRelay
-            .subscribe(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                self.navigationController?.popToViewController(self, animated: true)
-            })
+            .bind(with: self) { owner, _ in
+                owner.navigationController?.popToViewController(owner, animated: true)
+            }
             .disposed(by: bag)
         
         viewModel
             .navigationPopViewControllerRelay
-            .subscribe(onNext: { [weak self] _ in
-                self?.navigationController?.popViewController(animated: true)
-            })
-        .disposed(by: bag)
+            .bind(with: self) { owner, _ in
+                owner.navigationController?.popViewController(animated: true)
+            }
+            .disposed(by: bag)
         
         viewModel
             .navigationPushViewControllerRelay
-            .subscribe(onNext: { [weak self] viewController in
-                guard let self = self, let viewController = viewController else { return }
-                self.navigationController?.pushViewController(viewController, animated: true)
-            })
-        .disposed(by: bag)
+            .bind(with: self) { owner, viewController in
+                guard let viewController else { return }
+                viewController.hidesBottomBarWhenPushed = true
+                owner.navigationController?.pushViewController(viewController, animated: true)
+            }
+            .disposed(by: bag)
         
         viewModel
             .presentViewControllerWithAnimationRelay
-            .subscribe(onNext: { [weak self] viewController in
-                guard let self = self, let viewController = viewController else { return }
-                self.present(viewController, animated: true)
-            })
+            .bind(with: self) { owner, viewController in
+                guard let viewController else { return }
+                owner.present(viewController, animated: true)
+            }
             .disposed(by: bag)
         
         viewModel
             .presentViewControllerNoAnimationRelay
-            .subscribe(onNext: { [weak self] viewController in
-                guard let self = self, let viewController = viewController else { return }
-                self.present(viewController, animated: false)
-            })
+            .bind(with: self) { owner, viewController in
+                guard let viewController else { return }
+                owner.present(viewController, animated: false)
+            }
             .disposed(by: bag)
         
         viewModel
             .dismissSelfNoAnimationRelay
-            .subscribe(onNext: { [weak self] _ in
-                self?.dismiss(animated: false)
-            })
-        .disposed(by: bag)
+            .bind(with: self) { owner, _ in
+                owner.dismiss(animated: false)
+            }
+            .disposed(by: bag)
         
         viewModel
             .dismissSelfWithAnimationRelay
-            .subscribe(onNext: { [weak self] _ in
-                self?.dismiss(animated: true)
-            })
-        .disposed(by: bag)
+            .bind(with: self) { owner, _ in
+                owner.dismiss(animated: true)
+            }
+            .disposed(by: bag)
         
         viewModel.dismissSelfAnimationClosureRelay
-            .bind { [weak self] closure in
-                self?.dismiss(animated: true, completion: closure)
+            .bind(with: self) { owner, closure in
+                owner.dismiss(animated: true, completion: closure)
             }
             .disposed(by: bag)
     }
     
     func alertBinding() {
-        viewModel.alertMessageRelay
-            .subscribe(onNext: { [weak self] message in
-                switch message.alertType {
-                case .Error:
-                    let alertVC = AlertViewController(state: .init(title: message.title,
-                                                                   message: message.message,
-                                                                   alertType: message.alertType))
-                    alertVC.modalPresentationStyle = .overCurrentContext
-                    self?.viewModel.presentViewControllerNoAnimationRelay.accept(alertVC)
-                // TODO: alertType = .Info 일시 토스트 띄우게
-                case .Info:
-                    self?.view.showToast(message: message.title, font: .systemFont(ofSize: 16))
-                }
+        viewModel.alertState
+            .bind(with: self) { owner, state in
+                guard let superView = owner.view.superview else { return }
                 
-            })
-            .disposed(by: bag)
+                switch state.alertType {
+                case .popup:
+                    // 이미 떠있는 알럿 제거
+                    superView.subviews.forEach {
+                        ($0 as? AlertView)?.dismiss()
+                    }
+                    
+                    superView.accessibilityViewIsModal = true
+                    
+                    let alert = AlertView(state: state)
+                    superView.addSubview(alert)
+//                    
+//                    NSLayoutConstraint.activate([
+//                        alert.leadingAnchor.constraint(equalTo: superView.leadingAnchor, constant: 0),
+//                        alert.trailingAnchor.constraint(equalTo: superView.trailingAnchor, constant: 0),
+//                        alert.bottomAnchor.constraint(equalTo: superView.bottomAnchor, constant: 0),
+//                        alert.topAnchor.constraint(equalTo: superView.topAnchor, constant: 0)
+//                    ])
+                case .toast:
+                    // 이미 떠있는 토스트 제거
+                    superView.subviews.forEach {
+                        ($0 as? ToastView)?.dismiss()
+                    }
+                    
+                    let toast = ToastView(
+                        text: state.title ?? "",
+                        completionHandler: state.closeAction
+                    )
+                    superView.addSubview(toast)
+                    
+                    NSLayoutConstraint.activate([
+                        toast.centerXAnchor.constraint(equalTo: superView.centerXAnchor),
+                        toast.leadingAnchor.constraint(greaterThanOrEqualTo: superView.leadingAnchor, constant: 15),
+                        toast.trailingAnchor.constraint(lessThanOrEqualTo: superView.trailingAnchor, constant: -15),
+                        toast.bottomAnchor.constraint(equalTo: superView.safeAreaLayoutGuide.bottomAnchor, constant: -30),
+                        toast.heightAnchor.constraint(lessThanOrEqualToConstant: 58)
+                    ])
+                }
+            }.disposed(by: bag)
     }
 
     override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
     
+    // MARK: UIGestureRecognizerDelegate
+    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        navigationController?.viewControllers.count ?? 0 > 1
+    }
 }

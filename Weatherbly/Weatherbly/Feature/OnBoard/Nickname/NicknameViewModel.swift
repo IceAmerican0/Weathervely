@@ -16,18 +16,19 @@ public protocol NicknameViewModelLogic: ViewModelBusinessLogic {
 
 final class NicknameViewModel: RxBaseViewModel, NicknameViewModelLogic {
     func didTapConfirmButton(_ text: String) {
+        let uuid = UUID().uuidString
         let dataSource = AuthDataSource()
-        dataSource.setNickname(text)
-            .subscribe(onNext: { result in
-                switch result {
-                case .success:
-                    self.toSettingRegionView()
+        dataSource.setNickname(text, uuid)
+            .subscribe(
+                with: self,
+                onNext: { owner, _ in
+                    owner.toSettingRegionView()
                     userDefault.set(text, forKey: UserDefaultKey.nickname.rawValue)
-                case .failure(let err):
-                    guard let errorString = err.errorDescription else { return }
-                    self.alertMessageRelay.accept(.init(title: errorString,
-                                                        alertType: .Error))
-                }
+                    KeychainManager.shared.saveUUID(uuid)
+                },
+                onError: { owner, error in
+                    owner.alertState.accept(.init(title: error.localizedDescription,
+                                                         alertType: .popup))
             })
             .disposed(by: bag)
     }

@@ -9,31 +9,35 @@ import UIKit
 import FlexLayout
 import PinLayout
 import RxSwift
+import RxGesture
 import Kingfisher
+import Then
 
 final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensoryTempViewModel> {
     
-    var progressBar = CSProgressView(1.0)
-    var navigationBackButton = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
+    private var progressBar = CSProgressView(1.0)
+    private var navigationBackButton = CSNavigationView(.leftButton(.navi_back))
     
-    var mainMessageLabel = CSLabel(.bold, 22, "")
+    private var mainMessageLabel = CSLabel(.bold, 22, "")
     
-    var clothViewWrapper = UIView()
+    private var clothViewWrapper = UIView()
     
-    var tempWrapper = UIView()
-    var tempLabel = UILabel()
-    var tempImageView = UIImageView()
-    var imageSourceLabel = CSLabel(.regular, 11, "by 0000")
+    private var tempWrapper = UIView()
+    private var tempLabel = UILabel()
+    private var tempImageView = UIImageView()
+    private var imageSourceLabel = CSLabel(.regular, 11, "loading...")
     
-    var discriptionLabel = CSLabel(.regular, 16 , "외출하셨을 때 날씨에\n추천되는 표준 옷차림이에요")
+    private var indicator = UIActivityIndicatorView(style: .medium).then {
+        $0.startAnimating()
+    }
     
-    var buttonWrapper = UIView()
-    var acceptButton = CSButton(.primary)
-    var denyButton = CSButton(.primary)
+    private var discriptionLabel = CSLabel(.regular, 16 , "외출하셨을 때 날씨에\n추천되는 표준 옷차림이에요")
     
-    var selectOtherDayLabel = CSLabel(.underline, 15, "다른 시간대 선택하기")
+    private var buttonWrapper = UIView()
+    private var acceptButton = CSButton(.primary)
+    private var denyButton = CSButton(.primary)
     
-    private var labelTapGesture = UITapGestureRecognizer()
+    private var selectOtherDayLabel = CSLabel(.underline, 18, "다른 시간대 선택하기")
     
     private let imageHeight = UIScreen.main.bounds.height * 0.38
     private let buttonHeight = UIScreen.main.bounds.height * 0.054
@@ -59,27 +63,23 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
             $0.layer.cornerRadius = 20.0
             $0.backgroundColor = CSColor._253_253_253.color
             $0.setShadow(CGSize(width: 0, height: 4), CSColor._220_220_220.cgColor, 1, 10)
-            // TODO: - shadow처리
         }
     
         tempLabel.do {
             $0.setBackgroundColor(CSColor._172_107_255_004.color)
-            $0.addBorders([.top, .left, .right, .bottom])
-            $0.setCornerRadius(5)
+            $0.layer.borderWidth = 1
+            $0.layer.borderColor = CSColor._217_217_217.cgColor
+            $0.setCornerRadius(3)
             $0.textAlignment = .center
             $0.adjustsFontSizeToFitWidth = true
             $0.numberOfLines = 1
         }
         
-        tempImageView.do {
-            $0.image = AssetsImage.defaultImage.image
-        }
-        
         discriptionLabel.do {
+            $0.setLineHeight(1.26)
             $0.adjustsFontSizeToFitWidth = true
             $0.numberOfLines = 0
             $0.textColor = CSColor._102_102_102.color
-            $0.setLineHeight(1.26)
         }
        
         acceptButton.do {
@@ -87,11 +87,11 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
         }
         
         denyButton.do {
-            $0.setTitle("아니오", for: .normal)
+            $0.setTitle("아니요", for: .normal)
         }
         
         selectOtherDayLabel.do {
-            $0.addGestureRecognizer(labelTapGesture)
+            $0.isUserInteractionEnabled = true
         }
     }
     
@@ -99,7 +99,6 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
         super.layout()
         
         container.flex
-//            .justifyContent(.spaceBetween)
             .paddingBottom(20)
             .define { flex in
             
@@ -107,8 +106,9 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
             flex.addItem(navigationBackButton).width(100%)
 
             flex.addItem(mainMessageLabel)
-                    .marginTop(-20).marginBottom(24)
-
+                    .marginTop(-20)
+                    .marginBottom(24)
+                
             flex.addItem(clothViewWrapper)
                 .justifyContent(.spaceAround)
                 .paddingTop(24)
@@ -125,6 +125,7 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
                         .width(50%)
                         .height(78%)
                     flex.addItem(imageSourceLabel)
+                        .height(13)
                         .marginTop(7)
                         .marginBottom(7)
             }
@@ -149,7 +150,10 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
             }
             
             flex.addItem(selectOtherDayLabel).marginTop(27)
+            flex.addItem(indicator)
         }
+        
+        indicator.pin.hCenter(to: tempImageView.edge.hCenter).vCenter(to: tempImageView.edge.vCenter)
     }
     
     override func viewBinding() {
@@ -160,20 +164,21 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
             .disposed(by: bag)
         
         denyButton.rx.tap
-            .bind(onNext: viewModel.toSlotMachineView)
+            .bind(with: self) { owner, _ in
+                owner.viewModel.toSlotMachineView()
+            }
             .disposed(by: bag)
         
         acceptButton.rx.tap
-            .subscribe(onNext: { [weak self] _ in
-                self?.viewModel.didTapAcceptButton()
-            })
+            .bind(with: self) { owner, _ in
+                owner.viewModel.didTapAcceptButton()
+            }
             .disposed(by: bag)
         
-        labelTapGesture.rx
-            .event
-            .subscribe(onNext: { [weak self] _ in
-                self?.viewModel.navigationPopViewControllerRelay.accept(Void())
-            })
+        selectOtherDayLabel.rx.tapGesture().when(.recognized)
+            .bind(with: self) { owner, _ in
+                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
+            }
             .disposed(by: bag)
     }
     
@@ -183,35 +188,48 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
         viewModel.getInfo()
         
         viewModel.closetListRelay
-            .subscribe(onNext: { [weak self] _ in
-                guard let closets = self?.viewModel.closetListRelay.value else { return }
-                let middle = Int((Double(closets.count) / 2.0).rounded())
-                
-                if let url = URL(string: closets[middle-1].imageUrl) {
-                    self?.tempImageView.kf.indicatorType = .activity
-                    self?.tempImageView.kf.setImage(with: url,
-                                                    placeholder: nil,
-                                                    options: [.retryStrategy(DelayRetryStrategy(maxRetryCount: 2, retryInterval: .seconds(2))),
-                                                              .transition(.fade(0.1)),
-                                                              .cacheOriginalImage]) { result in
-                        switch result {
-                        case .success:
-                            self?.imageSourceLabel.text = "by \(closets[middle].shopName)"
-                            self?.viewModel.closetIDRelay.accept(closets[middle-1].closetId)
-                        case .failure:
-                            break
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, data in
+                    let temperature = owner.viewModel.temperatureRelay.value
+                    guard let closets = data else { return }
+                    
+                    for i in 0..<closets.count {
+                        if temperature >= closets[i].minTemp && temperature < closets[i].maxTemp {
+                            if let url = URL(string: closets[i].imageUrl) {
+                                owner.tempImageView.kf.setImage(with: url,
+                                                                placeholder: nil,
+                                                                options: [.retryStrategy(DelayRetryStrategy(maxRetryCount: 2, retryInterval: .seconds(2))),
+                                                                          .transition(.fade(0.1)),
+                                                                          .cacheOriginalImage]) { result in
+                                    switch result {
+                                    case .success:
+                                        owner.indicator.stopAnimating()
+                                        owner.indicator.isHidden = true
+                                        owner.imageSourceLabel.attributedText = NSMutableAttributedString().regular("by \(closets[i].shopName)", 11, CSColor.none)
+                                        owner.viewModel.closetIDRelay.accept(closets[i].closetId)
+                                    case .failure:
+                                        owner.indicator.stopAnimating()
+                                        owner.indicator.isHidden = true
+                                        owner.tempImageView.image = AssetsImage.defaultImage.image
+                                        owner.imageSourceLabel.text = ""
+                                    }
+                                }
+                            }
                         }
                     }
-                }
             })
             .disposed(by: bag)
         
         viewModel.temperatureRelay
-            .subscribe(onNext: { [weak self] _ in
-                guard let time = self?.viewModel.dateStringRelay.value else { return }
-                guard let temp = self?.viewModel.temperatureRelay.value else { return }
-                self?.tempLabel.attributedText = NSMutableAttributedString()
-                    .bold("\(time)시 (\(temp)℃)", 16, CSColor._172_107_255)
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, temp in
+                    let time = owner.viewModel.dateStringRelay.value
+                    owner.tempLabel.attributedText = NSMutableAttributedString()
+                        .bold("\(time)시 (\(temp)℃)", 16, CSColor._172_107_255)
             })
             .disposed(by: bag)
     }

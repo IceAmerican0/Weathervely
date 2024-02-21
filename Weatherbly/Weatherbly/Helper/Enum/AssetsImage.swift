@@ -6,7 +6,7 @@
 
 import UIKit
 
-enum AssetsImage: String {
+public enum AssetsImage: String {
     
     // Arrow
     case downArrow
@@ -17,14 +17,10 @@ enum AssetsImage: String {
     
     // Background
     case cloudyAfternoon
-    case cloudyDawn
     case cloudyEvening
-    case cloudyLunch
     case cloudyMorning
     case sunnyAfternoon
-    case sunnyDawn
     case sunnyEvening
-    case sunnyLunch
     case sunnyMorning
     
     // Common
@@ -52,6 +48,7 @@ enum AssetsImage: String {
     case setting
     case settingInquryIcon
     case settingLocationIcon
+    case settingMenuButton
     case settingStyleIcon
     case settingTemperatureIcon
     case whiteHeart
@@ -67,6 +64,14 @@ enum AssetsImage: String {
     case moonCloudy
     case clouds
     case windy
+    
+    // TenDayWeather
+    case tenDayAmCloud
+    case tenDayPmCloud
+    case tenDayRain
+    case tenDayRainSnow
+    case tenDaySnow
+    case tenDaySunny
     
     
     var image: UIImage? {

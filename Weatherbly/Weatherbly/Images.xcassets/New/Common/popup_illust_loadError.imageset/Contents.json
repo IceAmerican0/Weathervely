@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "popup_illust_loadError.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

@@ -9,7 +9,7 @@ import RxRelay
 import RxSwift
 import UIKit
 
-public enum SettingRegionState: String {
+public enum SettingRegionState {
     /// 온보딩
     case onboard
     /// 주소 변경
@@ -35,21 +35,20 @@ public final class SettingRegionViewModel: RxBaseViewModel, SettingRegionViewMod
     public func searchRegion(_ region: String) {
         let datasource = RegionDataSource()
         datasource.searchRegion(region)
-            .subscribe(onNext: { result in
-                switch result {
-                case .success(let response):
+            .subscribe(
+                with: self,
+                onNext: { owner, response in
                     if response.documents.count == 0 {
-                        self.alertMessageRelay.accept(.init(title: "해당하는 동네 정보가 없어요",
-                                                            message: "동네 이름을 확인해주세요",
-                                                            alertType: .Error))
+                        owner.alertState.accept(.init(title: "해당하는 동네 정보가 없어요",
+                                                             message: "동네 이름을 확인해주세요",
+                                                             alertType: .popup))
                     } else {
-                        self.searchedListRelay.accept(response.documents)
+                        owner.searchedListRelay.accept(response.documents)
                     }
-                case .failure(let err):
-                    guard let errorString = err.errorDescription else { return }
-                    self.alertMessageRelay.accept(.init(title: errorString,
-                                                        alertType: .Error))
-                }
+                },
+                onError: { owner, error in
+                    owner.alertState.accept(.init(title: error.localizedDescription,
+                                                         alertType: .popup))
             })
             .disposed(by: bag)
     }

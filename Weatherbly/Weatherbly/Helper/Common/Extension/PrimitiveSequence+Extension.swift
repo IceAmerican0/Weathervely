@@ -29,50 +29,66 @@ import Moya
 /// 즉 PrimitiveSequence 에서 Trait을 SingleTrait으로 지정하는 것은 오류또는 단일항목을 반드시 배출하도록 보장한다.
 
 extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
-    
-    func mapTo<D: Decodable>(_ type: D.Type) -> Observable<Result<D, WBNetworkError>> {
+    func mapTo<D: Decodable>(_ type: D.Type) -> Observable<D> {
         flatMap { response in
             do {
-                
                 if (200..<300 ~= response.statusCode) { // status : 200
                     guard try JSONSerialization.jsonObject(with: response.data, options: []) is [String:Any] else {
-                        return .just(.failure(.decodeError))
+                        return .error(WVNetworkError.decodeError)
                     }
                     
-                    debugPrint(
+                    #if DEBUG
+                    print(
                         """
-                        ==============================
                         Request : \(type)
                         Response : \(String(decoding: response.data, as: UTF8.self))
                         """
                     )
-                    return .just(.success(try response.map(D.self)))
-                } else {
-                    // status : !(200 ~ 300)
+                    #endif
+                    
+                    return .just(try response.map(type))
+                } else { // status : !(200 ~ 300)
                     guard let dictionary = try JSONSerialization.jsonObject(with: response.data, options: []) as? [String:Any] else {
-                        return .just(.failure(.decodeError))
+                        return .error(WVNetworkError.decodeError)
                     }
                     
-                    if let status = dictionary["status"] as? Int , let apiMessage = dictionary["apiMessage"] as? [String:Any] {
-                        let errDescription = apiMessage["message"] as? String
-                        debugPrint(
+                    if let apiMessage = dictionary["apiMessage"] as? [String:Any] {
+                        let errMessage = apiMessage["message"] as? String ?? ""
+                        let errDetail = apiMessage["detail"] as? String ?? ""
+                        
+                        #if DEBUG
+                        print(
                             """
-                            ==============================
                             Request : \(type)
                             Response : \(dictionary)
                             """
                         )
-                        return .just(.failure(.badRequestError(errDescription!)))
+                        #endif
+                        
+                        return .error(WVNetworkError.badRequestError(errDetail.isEmpty ? errMessage : errDetail))
                     }
                 }
             } catch(let error) {
-                debugPrint(error)
-                debugPrint(String(decoding: response.data, as: UTF8.self))
-                return .just(.failure(.decodeError))
+                #if DEBUG
+                print(String(decoding: response.data, as: UTF8.self))
+                #endif
+                
+                if let error = error as? MoyaError {
+                    return .error(WVNetworkError.networkError(error))
+                }
             }
             
-            return .error(RemoteError.unknownError)
+            return .error(WVNetworkError.unknownError)
         }
         .asObservable()
+    }
+    
+    func mapNetworkError() -> Single<Response> {
+        `catch` { error in
+            guard let error = error as? MoyaError else {
+                throw WVNetworkError.unknownError
+            }
+            throw WVNetworkError.networkError(error)
+        }
     }
 }

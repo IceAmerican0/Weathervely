@@ -7,7 +7,7 @@
 
 import UIKit
 
-public final class CSLabel: UILabel, CodeBaseInitializerProtocol {
+public final class CSLabel: UILabel {
     
     enum LabelStyle {
         case bold
@@ -30,7 +30,7 @@ public final class CSLabel: UILabel, CodeBaseInitializerProtocol {
         self.labelText = labelText
         self.labelColor = labelColor
         super.init(frame: .zero)
-        codeBaseInitializer()
+        setLabelStyle()
     }
     
     init(_ labelStyle: LabelStyle,
@@ -47,15 +47,12 @@ public final class CSLabel: UILabel, CodeBaseInitializerProtocol {
         self.labelText = labelText
         self.labelColor = .none
         super.init(frame: .zero)
-        codeBaseInitializer()
+        setLabelStyle()
+        self.textColor = .black
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    func attribute() {
-        setLabelStyle()
     }
     
     func setLabelStyle() {

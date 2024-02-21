@@ -55,10 +55,7 @@ extension UITextField {
     }
     
     @objc func clear() {
-        
-        guard let text = self.text else {
-            return
-        }
+        guard let text else { return }
         
         if !text.isEmpty {
             self.text?.removeAll()
@@ -68,9 +65,28 @@ extension UITextField {
     
     @objc
        private func displayClearButtonIfNeeded() {
-           self.rightView?.isHidden = (self.text?.isEmpty) ?? true
+           if !((self.text?.isEmpty) ?? true) {
+               self.rightView?.isHidden = false
+           } else {
+               self.rightView?.isHidden = true
+           }
        }
     
 }
 
-
+extension UITextFieldDelegate {
+    func customTextField(_ textField: UITextField, _ range: NSRange, _ string: String) -> Bool {
+        /// 백스페이스 처리
+        if let char = string.cString(using: String.Encoding.utf8) {
+            let isBackSpace = strcmp(char, "\\b")
+            if isBackSpace == -92 { return true }
+        }
+        /// 글자수 제한
+        guard let text = textField.text else { return false }
+        guard text.count < 10 else { return false }
+        /// 특수기호 제한
+        let disallowedCharacterSet = CharacterSet(charactersIn: "₩!@#$%^&*()_-+=[]{}|\\:;\"'<>,.?/~`")
+        /// 띄어쓰기 제한
+        return string != " " && string.rangeOfCharacter(from: disallowedCharacterSet) == nil
+    }
+}

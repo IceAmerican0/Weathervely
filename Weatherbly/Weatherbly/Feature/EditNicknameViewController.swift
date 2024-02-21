@@ -14,7 +14,7 @@ import RxCocoa
 final class EditNicknameViewController: RxBaseViewController<EditNicknameViewModel> {
     
     private var leftButtonDidTapRelay = PublishRelay<Void>()
-    private var csNavigationView = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
+    private var csNavigationView = CSNavigationView(.leftButton(.navi_back))
     
     private let contentWrapper = UIView()
     
@@ -156,26 +156,25 @@ final class EditNicknameViewController: RxBaseViewController<EditNicknameViewMod
                                 
                             }
                         
-                                flex.addItem(genderLableView)
-                                    .marginHorizontal(22)
-                                    .direction(.row)
-                                    .define { flex in
-                                        flex.addItem(genderTitleLabel)
-                                            .marginVertical(14)
-                                            .width(67)
-                                            .marginLeft(26)
-                                        flex.addItem(genderLabel)
-                                            .view?.pin.left(to: genderTitleLabel.edge.right).right(to: genderLableView.edge.right)
-                                            .marginLeft(18)
-                                    }
-                        
-                        flex.addItem(bottomButton)
-                            .marginHorizontal(43)
-                            .height(bottomButton.primaryHeight)
-                            .marginTop(UIScreen.main.bounds.height * 0.44)
-
-//                        bottomButton.pin.bottom(to: contentWrapper.edge.bottom).marginBottom(10)
+//                        flex.addItem(genderLableView)
+//                            .marginHorizontal(22)
+//                            .direction(.row)
+//                            .define { flex in
+//                                flex.addItem(genderTitleLabel)
+//                                    .marginVertical(14)
+//                                    .width(67)
+//                                    .marginLeft(26)
+//                                flex.addItem(genderLabel)
+//                                    .view?.pin.left(to: genderTitleLabel.edge.right).right(to: genderLableView.edge.right)
+//                                    .marginLeft(18)
+//                            }
                     }
+                flex.addItem(bottomButton)
+                    .position(.absolute)
+                    .bottom(10%)
+                    .marginHorizontal(43)
+                    .width(78%)
+                    .height(bottomButton.primaryHeight)
             }
     }
     
@@ -183,26 +182,26 @@ final class EditNicknameViewController: RxBaseViewController<EditNicknameViewMod
         super.viewBinding()
         
         csNavigationView.leftButtonDidTapRelay
-            .bind(onNext: { [weak self] _ in
-                self?.navigationController?.popViewController(animated: true)
-            })
+            .bind(with: self) { owner, _ in
+                owner.navigationController?.popViewController(animated: true)
+            }
             .disposed(by: bag)
     
         
         bottomButton.rx.tap
-            .subscribe(onNext: { [weak self] _ in
-                self?.viewModel.toChangeNicknameView()
-//                guard let displayMode = self?.viewModel.bottomButtonDidTap() else {
+            .bind(with: self) { owner, _ in
+                owner.viewModel.toChangeNicknameView()
+//                guard let displayMode = owner.viewModel.bottomButtonDidTap() else {
 //                    return
 //                }
-//                self?.nicknameTextField.setEditMode(displayMode)
-//                self?.genderLabel.setEditMode(displayMode)
+//                owner.nicknameTextField.setEditMode(displayMode)
+//                owner.genderLabel.setEditMode(displayMode)
 //                UIView.animate(withDuration: 0.5) {
-//                    self?.layout()
+//                    owner.layout()
 //                }
-//                self?.nicknameTextField.becomeFirstResponder()
-//                self?.nicknameTextFieldWrapper.backgroundColor = CSColor._248_248_248.color
-            })
+//                owner.nicknameTextField.becomeFirstResponder()
+//                owner.nicknameTextFieldWrapper.backgroundColor = CSColor._248_248_248.color
+            }
             .disposed(by: bag)
         
         viewModel.loadUserInfo()

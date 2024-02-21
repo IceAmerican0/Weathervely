@@ -16,36 +16,36 @@ public class SlotMachineViewModel: RxBaseViewModel, SlotMachineViewModelLogic {
     public let labelStringRelay: BehaviorRelay<String>
     public let temperatureRelay: BehaviorRelay<String>
     public let closetListRelay: BehaviorRelay<[ClosetList]?>
-    public let closetIDRelay = BehaviorRelay<Int>(value: 0)
+    public let closetIDRelay: BehaviorRelay<Int>
     
     init(_ labelStringRelay: BehaviorRelay<String>,
          _ temperatureRelay: BehaviorRelay<String>,
-         _ closetListRelay: BehaviorRelay<[ClosetList]?>) {
+         _ closetListRelay: BehaviorRelay<[ClosetList]?>,
+         _ closetIDRelay: BehaviorRelay<Int>) {
         self.labelStringRelay = labelStringRelay
         self.temperatureRelay = temperatureRelay
         self.closetListRelay = closetListRelay
+        self.closetIDRelay = closetIDRelay
     }
     
     public func didTapAcceptButton() {
         let closetDataSource = ClosetDataSource()
         closetDataSource.setSensoryTemperature(.init(closet: closetIDRelay.value,
                                                      currentTemp: temperatureRelay.value))
-            .subscribe(onNext: { [weak self] result in
-                switch result {
-                case .success:
-                    self?.toHomeView()
-                case .failure(let err):
-                    guard let errorString = err.errorDescription else { return }
-                    self?.alertMessageRelay.accept(.init(title: errorString,
-                                                         alertType: .Error))
-                }
+            .subscribe(
+                with: self,
+                onNext: { owner, _ in
+                    owner.toHomeView()
+                },
+                onError: { owner, error in
+                    owner.alertState.accept(.init(title: error.localizedDescription,
+                                                         alertType: .popup))
             })
             .disposed(by: bag)
     }
     
-    
     public func toHomeView() {
-        let vc = HomeViewController(HomeViewModel())
+        let vc = HomeTabBarController()
         navigationPushViewControllerRelay.accept(vc)
     }
 }

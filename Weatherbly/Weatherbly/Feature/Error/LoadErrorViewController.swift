@@ -9,7 +9,7 @@ import UIKit
 import PinLayout
 import FlexLayout
 
-final class LoadErrorViewController: RxBaseViewController<EmptyViewModel> {
+final class LoadErrorViewController: RxBaseViewController<LoadErrorViewModel> {
     private var imageView = UIImageView()
     private var topLabel = CSLabel(.regular, 45, "Oops..!")
     private var middleLabel = CSLabel(.bold, 18, "인터넷 연결을 확인해주세요")
@@ -21,6 +21,8 @@ final class LoadErrorViewController: RxBaseViewController<EmptyViewModel> {
         
         imageView.do {
             $0.image = AssetsImage.wifiError.image
+            $0.layer.setShadow(CGSize(width: 0, height: 4), CSColor._0__03.cgColor, 1, 4)
+            $0.clipsToBounds = false
         }
         
         topLabel.do {
@@ -45,7 +47,7 @@ final class LoadErrorViewController: RxBaseViewController<EmptyViewModel> {
         
         container.flex.alignItems(.center).justifyContent(.spaceBetween)
             .define { flex in
-            flex.addItem(imageView).width(78%).height(31.5%)
+            flex.addItem(imageView).marginTop(UIScreen.main.bounds.height * 0.13).width(78%).height(31.5%)
             flex.addItem(topLabel).marginTop(38)
             flex.addItem(middleLabel).marginTop(15)
             flex.addItem(bottomLabel).marginTop(8)
@@ -53,5 +55,15 @@ final class LoadErrorViewController: RxBaseViewController<EmptyViewModel> {
         }
         
         retryButton.pin.bottom(10%)
+    }
+    
+    override func viewBinding() {
+        super.viewBinding()
+        
+        retryButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.viewModel.getToken()
+            }
+            .disposed(by: bag)
     }
 }

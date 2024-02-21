@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "home_weather_08_snowy.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

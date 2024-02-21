@@ -26,13 +26,12 @@ public struct RecommendClosetData: Codable {
 }
 
 
-struct RecommendClosetBody: Codable {
+public struct RecommendClosetBody: Codable {
     let closets: [RecommendClosetInfo]
     let temperatureDifference: Int
 }
 
-struct RecommendClosetInfo: Codable {
-
+public struct RecommendClosetInfo: Codable {
     let id: Int
     let name: String
     let shopName: String

@@ -6,21 +6,50 @@
 //
 
 import UIKit
-import RxSwift
 import RxRelay
 import SafariServices
 
 public protocol SettingViewModelLogic: ViewModelBusinessLogic {
-    func toHomeView()
     func toEditNicknameView()
     func toEditRegionView()
     func toBeContinue()
+    func didTapCollectionViewCell(at index: Int)
+    func didTapTableViewCell(at index: Int)
+    
+    var profileMenuTitle: BehaviorRelay<[ProfileMenuTitle]> { get }
+    var menuTitle: BehaviorRelay<[SettingMenuTitle]> { get }
 }
 
 final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
-    func toHomeView() {
-        let vc = HomeViewController(HomeViewModel())
-        navigationPushViewControllerRelay.accept(vc)
+    /// 내 정보 설정 리스트
+    public var profileMenuTitle = BehaviorRelay<[ProfileMenuTitle]>(
+        value: ProfileMenuTitle.allCases.map { $0 }
+    )
+    /// 앱 설정 리스트
+    public var menuTitle = BehaviorRelay<[SettingMenuTitle]>(
+        value: SettingMenuTitle.allCases.map { $0 }
+    )
+    
+    func didTapCollectionViewCell(at index: Int) {
+        let data = profileMenuTitle.value
+        switch data[index] {
+        case .region:
+            toEditRegionView()
+        case .wishList, .sensoryTemp:
+            toBeContinue()
+        }
+    }
+    
+    func didTapTableViewCell(at index: Int) {
+        let data = menuTitle.value
+        switch data[index] {
+        case .share, .inquiry, .logout, .openSource:
+            toBeContinue()
+        case .policy:
+            toPrivacyPolicyView()
+        case .noti, .versionInfo:
+            break
+        }
     }
     
     func toEditNicknameView() {
@@ -29,13 +58,11 @@ final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
     }
     
     func toEditRegionView() {
-        let vc = EditRegionViewController(EditRegionViewModel())
+        let vc = EditRegionViewController(EditRegionViewModel(.edit))
         navigationPushViewControllerRelay.accept(vc)
     }
     
     func toPrivacyPolicyView() {
-//        let vc = PrivatePolicyViewController(PrivatePolicyViewModel())
-//        navigationPushViewControllerRelay.accept(vc)
         let urlString = "https://docs.google.com/document/d/1MnwR04jGms26yha2oSdps06Ju0wMn-hGS1Zs6JtDAf8/edit?usp=sharing"
         if let url = URL(string: urlString) {
             let webView = SFSafariViewController(url: url)
@@ -44,8 +71,8 @@ final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
     }
     
     func toBeContinue() {
-        alertMessageRelay.accept(.init(title: "준비 중인 기능이에요",
-                                       alertType: .Info))
+        alertState.accept(.init(title: "준비 중인 기능이에요",
+                                       alertType: .toast))
     }
   
 }

@@ -7,22 +7,18 @@
 
 import UIKit
 
-public final class CSProgressView: UIProgressView, CodeBaseInitializerProtocol {
+public final class CSProgressView: UIProgressView {
     
     private var degree: Float
     
     init(_ degree: Float) {
         self.degree = degree
         super.init(frame: .zero)
-        codeBaseInitializer()
+        setProgressStyle()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    func attribute() {
-        setProgressStyle()
     }
     
     func setProgressStyle() {

@@ -12,8 +12,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // TODO: 로고 너무 빨리 꺼질시 시간조율? 필요
-//        sleep(1)
+        sleep(1)
         return true
     }
 

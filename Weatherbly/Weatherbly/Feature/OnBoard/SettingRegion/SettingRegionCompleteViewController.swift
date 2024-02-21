@@ -12,8 +12,8 @@ import RxSwift
 
 public final class SettingRegionCompleteViewController: RxBaseViewController<SettingRegionCompleteViewModel> {
     
-    private let progressBar = CSProgressView(0.5)
-    private let navigationView = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
+    private let progressBar = CSProgressView(0.66)
+    private let navigationView = CSNavigationView(.leftButton(.navi_back))
     private var explanationLabel = CSLabel(.bold, 24, "선택한 동네로 설정할까요?")
     
     private let regionWrapper = UIView()
@@ -33,7 +33,7 @@ public final class SettingRegionCompleteViewController: RxBaseViewController<Set
         }
         
         regionLabel.do {
-            $0.text = viewModel.regionDataRelay.value.address_name
+            $0.attributedText = NSMutableAttributedString().regular(viewModel.regionDataRelay.value.address_name!, 20, CSColor.none)
             $0.adjustsFontSizeToFitWidth = true
         }
         
@@ -63,16 +63,17 @@ public final class SettingRegionCompleteViewController: RxBaseViewController<Set
                 .define { flex in
                     flex.addItem(regionLabel).marginHorizontal(14).width(81.5%).height(28)
             }
-            flex.addItem(buttonWrapper).direction(.row).alignItems(.center)
+            flex.addItem(buttonWrapper).position(.absolute).direction(.row).justifyContent(.center).bottom(22%).width(100%)
                 .define { flex in
                 flex.addItem(negativeButton).width(39%).height(62)
                 flex.addItem(confirmButton).marginLeft(22).width(39%).height(62)
             }
-            buttonWrapper.pin.bottom(22%).marginHorizontal(32)
         }
         
-        if !UserDefaultManager.shared.isOnBoard {
+        if viewModel.settingRegionState != .onboard {
             progressBar.isHidden = true
+            navigationView.setTitle("동네 변경 / 추가")
+            navigationView.addBorder(.bottom)
         }
     }
     
@@ -88,7 +89,9 @@ public final class SettingRegionCompleteViewController: RxBaseViewController<Set
             .disposed(by: bag)
         
         confirmButton.rx.tap
-            .bind(onNext: viewModel.didTapConfirmButton)
+            .bind(with: self) { owner, _ in
+                owner.viewModel.didTapConfirmButton()
+            }
             .disposed(by: bag)
     }
 }

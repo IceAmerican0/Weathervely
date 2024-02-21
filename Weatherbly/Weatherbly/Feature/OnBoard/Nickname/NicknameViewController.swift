@@ -12,8 +12,8 @@ import RxCocoa
 
 final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
     
-    private var progressBar = CSProgressView(0.25)
-    private var navigationView = CSNavigationView(.leftButton(AssetsImage.navigationBackButton.image))
+    private var progressBar = CSProgressView(0.33)
+    private var navigationView = CSNavigationView(.leftButton(.navi_back))
     private var explanationLabel = CSLabel(.bold, 25, "닉네임을 설정해주세요")
     private var guideLabel = CSLabel(.bold, 20, "(10글자 이내 / 띄어쓰기, 쉼표 불가)")
     private var inputNickname = UITextField.neatKeyboard()
@@ -21,9 +21,13 @@ final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         registerKeyboardNotifications()
         gestureEndEditing()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        unregisterKeyboardNotifications()
     }
     
     override func attribute() {
@@ -39,6 +43,7 @@ final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
             $0.backgroundColor = CSColor._248_248_248.color
             $0.layer.cornerRadius = 13
             $0.delegate = self
+            $0.setClearButton(AssetsImage.delete.image, .whileEditing)
             $0.becomeFirstResponder()
         }
         
@@ -58,9 +63,8 @@ final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
             flex.addItem(explanationLabel).marginTop(27)
             flex.addItem(guideLabel).marginTop(10)
             flex.addItem(inputNickname).marginTop(36).width(85%).height(50)
-            flex.addItem(confirmButton).width(78%).height(62)
+            flex.addItem(confirmButton).position(.absolute).bottom(10%).marginHorizontal(43).width(78%).height(62)
         }
-        confirmButton.pin.bottom(10%)
     }
     
     override func viewBinding() {
@@ -71,20 +75,23 @@ final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
             .disposed(by: bag)
         
         confirmButton.rx.tap
-            .bind(onNext: getInputNickname)
+            .bind(with: self) { owner, _ in
+                owner.getInputNickname()
+            }
             .disposed(by: bag)
         
         inputNickname.rx.text.orEmpty
-            .subscribe(onNext: { _ in
-                if let value = self.inputNickname.text {
-                    if value.count > 1 {
-                        self.confirmButton.isEnabled = true
-                        self.confirmButton.setButtonStyle(.primary)
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, text in
+                    if text.count > 1 {
+                        owner.confirmButton.isEnabled = true
+                        owner.confirmButton.setButtonStyle(.primary)
                     } else {
-                        self.confirmButton.isEnabled = false
-                        self.confirmButton.setButtonStyle(.grayFilled)
+                        owner.confirmButton.isEnabled = false
+                        owner.confirmButton.setButtonStyle(.grayFilled)
                     }
-                }
             })
             .disposed(by: bag)
     }
@@ -99,17 +106,7 @@ final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
 // MARK: UITextFieldDelegate
 extension NicknameViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        /// 백스페이스 처리
-        if let char = string.cString(using: String.Encoding.utf8) {
-            let isBackSpace = strcmp(char, "\\b")
-            if isBackSpace == -92 { return true }
-        }
-        /// 글자수 제한
-        if let text = textField.text {
-            guard text.count < 10 else { return false }
-        }
-        /// 띄어쓰기 제한
-        return string != " "
+        customTextField(textField, range, string)
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
