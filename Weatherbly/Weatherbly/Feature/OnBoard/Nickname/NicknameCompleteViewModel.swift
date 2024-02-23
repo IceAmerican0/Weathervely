@@ -32,9 +32,9 @@ public final class NicknameCompleteViewModel: RxBaseViewModel, NicknameCompleteV
         dataSource.setNickname(nickname, uuid)
             .subscribe(
                 with: self,
-                onNext: { owner, nickname in
+                onNext: { owner, _ in
                     owner.toSettingRegionView()
-                    userDefault.set(nickname, forKey: UserDefaultKey.nickname.rawValue)
+                    userDefault.set(owner.nickname, forKey: UserDefaultKey.nickname.rawValue)
                     KeychainManager.shared.saveUUID(uuid)
                 },
                 onError: { owner, error in
@@ -50,6 +50,6 @@ public final class NicknameCompleteViewModel: RxBaseViewModel, NicknameCompleteV
     
     public func toSettingRegionView() {
         let vc = SettingRegionViewController(SettingRegionViewModel(.onboard))
-        navigationPushViewControllerRelay.accept(vc)
+        navigationSetRootPushViewControllerRelay.accept(vc)
     }
 }

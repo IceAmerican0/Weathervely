@@ -106,6 +106,13 @@ public class RxBaseViewController<ViewModel>:
             }
             .disposed(by: bag)
         
+        viewModel.navigationSetRootPushViewControllerRelay
+            .bind(with: self) { owner, viewController in
+                guard let viewController else { return }
+                owner.navigationController?.pushViewController(viewController, animated: true)
+                owner.navigationController?.viewControllers = [viewController]
+            }.disposed(by: bag)
+        
         viewModel
             .presentViewControllerWithAnimationRelay
             .bind(with: self) { owner, viewController in
@@ -159,13 +166,7 @@ public class RxBaseViewController<ViewModel>:
                     
                     let alert = AlertView(state: state)
                     superView.addSubview(alert)
-//                    
-//                    NSLayoutConstraint.activate([
-//                        alert.leadingAnchor.constraint(equalTo: superView.leadingAnchor, constant: 0),
-//                        alert.trailingAnchor.constraint(equalTo: superView.trailingAnchor, constant: 0),
-//                        alert.bottomAnchor.constraint(equalTo: superView.bottomAnchor, constant: 0),
-//                        alert.topAnchor.constraint(equalTo: superView.topAnchor, constant: 0)
-//                    ])
+                    
                 case .toast:
                     // 이미 떠있는 토스트 제거
                     superView.subviews.forEach {
@@ -173,7 +174,7 @@ public class RxBaseViewController<ViewModel>:
                     }
                     
                     let toast = ToastView(
-                        text: state.title ?? "",
+                        text: state.title,
                         completionHandler: state.closeAction
                     )
                     superView.addSubview(toast)
@@ -187,10 +188,6 @@ public class RxBaseViewController<ViewModel>:
                     ])
                 }
             }.disposed(by: bag)
-    }
-
-    override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
     }
     
     // MARK: UIGestureRecognizerDelegate

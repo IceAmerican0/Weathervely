@@ -12,8 +12,6 @@ import RxCocoa
 import Then
 
 final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
-    private var progressBar = CSProgressView(0.33)
-    
     private var navigationView = CSNavigationView(.leftButton(.navi_back)).then {
         $0.setTitle("닉네임 설정")
     }
@@ -36,6 +34,8 @@ final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
         $0.becomeFirstResponder()
     }
     
+    private var buttonView = UIView()
+    
     private var confirmButton = NewCSButton(.standard, style: .violet600).then {
         $0.setTitle("확인", for: .normal)
     }
@@ -49,12 +49,13 @@ final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
         super.layout()
         
         container.flex.define {
-            $0.addItem(progressBar)
             $0.addItem(navigationView).width(100%)
             $0.addItem(explanationLabel).marginTop(50).marginLeft(20)
             $0.addItem(guideLabel).marginTop(8).marginLeft(20)
             $0.addItem(inputNickname).alignSelf(.stretch).marginTop(32).marginHorizontal(20).height(40)
-            $0.addItem(confirmButton).position(.absolute).bottom(20).marginHorizontal(20).height(48)
+            $0.addItem(buttonView).position(.absolute).bottom(20).width(100%).height(48).define {
+                $0.addItem(confirmButton).marginHorizontal(20).grow(1)
+            }
         }
     }
     
@@ -67,7 +68,7 @@ final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
         
         confirmButton.rx.tap
             .bind(with: self) { owner, _ in
-//                owner.getInputNickname()
+                owner.getInputNickname()
             }.disposed(by: bag)
         
         inputNickname.rx.text.orEmpty
@@ -121,13 +122,8 @@ extension NicknameViewController: UITextFieldDelegate {
 extension NicknameViewController {
     override func keyboardWillShow(_ notification: Notification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            confirmButton.flex.bottom(keyboardSize.height)
+            buttonView.flex.bottom(keyboardSize.height)
             container.flex.layout()
         }
-    }
-    
-    override func keyboardWillHide(_ notification: Notification) {
-        confirmButton.flex.bottom(20)
-        container.flex.layout()
     }
 }

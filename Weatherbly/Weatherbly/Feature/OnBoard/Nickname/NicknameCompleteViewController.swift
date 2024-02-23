@@ -12,8 +12,6 @@ import PinLayout
 import Then
 
 final class NicknameCompleteViewController: RxBaseViewController<NicknameCompleteViewModel> {
-    private var progressBar = CSProgressView(0.33)
-    
     private var navigationView = CSNavigationView(.leftButton(.navi_back)).then {
         $0.setTitle("닉네임 확인")
     }
@@ -48,7 +46,6 @@ final class NicknameCompleteViewController: RxBaseViewController<NicknameComplet
         super.layout()
         
         container.flex.define {
-            $0.addItem(progressBar)
             $0.addItem(navigationView).width(100%)
             $0.addItem(explanationLabel).marginTop(50).marginLeft(20)
             $0.addItem(guideLabel).marginTop(8).marginLeft(20)
@@ -68,5 +65,19 @@ final class NicknameCompleteViewController: RxBaseViewController<NicknameComplet
     
     override func bind() {
         super.bind()
+        
+        navigationView.leftButtonDidTapRelay
+            .bind(to: viewModel.navigationPopViewControllerRelay)
+            .disposed(by: bag)
+        
+        refuseButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.viewModel.didTapRefuseButton()
+            }.disposed(by: bag)
+        
+        confirmButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.viewModel.didTapConfirmButton()
+            }.disposed(by: bag)
     }
 }

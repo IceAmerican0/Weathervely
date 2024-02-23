@@ -27,7 +27,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func setWindow(_ vc: UIViewController) {
-        self.window?.rootViewController = vc
+        let rootVC = UINavigationController(rootViewController: vc)
+        self.window?.rootViewController = rootVC
         self.window?.makeKeyAndVisible()
     }
     
@@ -77,7 +78,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     if let address = data.address {
                         userDefault.set(address.dong, forKey: UserDefaultKey.dong.rawValue)
                         if data.setTemperature == true {
-                            owner.setWindow(HomeTabBarController())
+                            owner.window?.rootViewController = HomeTabBarController()
+                            owner.window?.makeKeyAndVisible()
                         } else {
                             owner.setWindow(DateTimePickViewController(DateTimePickViewModel()))
                         }
