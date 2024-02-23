@@ -9,28 +9,34 @@ import UIKit
 import PinLayout
 import FlexLayout
 import RxCocoa
+import Then
 
 final class SettingRegionViewController: RxBaseViewController<SettingRegionViewModel> {
     
-    private var progressBar = CSProgressView(0.66)
     private var navigationView = CSNavigationView(.leftButton(.navi_back))
     private var explanationLabel = CSLabel(.bold, 24, "동네를 설정해주세요")
     
     private let searchImage = UIImageView()
     private var inputRegion = UITextField.neatKeyboard()
     
-    private var confirmButton = CSButton(.grayFilled)
-    private var regionTableView = UITableView()
+    private var confirmButton = NewCSButton(.standard, style: .violet600).then {
+        $0.setTitle("확인", for: .normal)
+    }
     
-    private let tableViewMarginTop = UIScreen.main.bounds.height * 0.06
-    private let tableViewHeight = UIScreen.main.bounds.height * 0.6
+    private lazy var regionTableView = UITableView().then {
+        $0.delegate = self
+        $0.rowHeight = 56
+        $0.isScrollEnabled = true
+        $0.bounces = false
+        $0.showsVerticalScrollIndicator = true
+        $0.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        $0.showsHorizontalScrollIndicator = false
+        $0.register(withType: RegionTableViewCell.self)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         registerKeyboardNotifications()
-        
-        // TODO: 배경 터치했을때 키보드 내림 / 테이블뷰와 터치 겹치는 현상 수정
-//        gestureEndEditing()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -72,34 +78,21 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
             $0.setTitleColor(.white, for: .normal)
             $0.isEnabled = false
         }
-        
-        regionTableView.do {
-            $0.delegate = self
-            $0.rowHeight = 56
-            $0.isScrollEnabled = true
-            $0.bounces = false
-            $0.showsVerticalScrollIndicator = true
-            $0.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-            $0.showsHorizontalScrollIndicator = false
-            $0.register(withType: RegionTableViewCell.self)
-        }
     }
     
     override func layout() {
         super.layout()
         
         container.flex.alignItems(.center).define { flex in
-            flex.addItem(progressBar)
             flex.addItem(navigationView).width(100%)
             flex.addItem(explanationLabel).marginTop(27).marginHorizontal(35).width(85%).height(34)
             flex.addItem(inputRegion).marginTop(22).marginHorizontal(30).width(85%).height(50)
-            flex.addItem(regionTableView).marginTop(tableViewMarginTop).marginHorizontal(30).height(tableViewHeight)
+            flex.addItem(regionTableView).marginTop(33).marginHorizontal(20).grow(1)
             flex.addItem(confirmButton).position(.absolute).bottom(10%).marginHorizontal(43).width(78%).height(62)
         }
         regionTableView.isHidden = true
         
         if viewModel.settingRegionState != .onboard {
-            progressBar.isHidden = true
             navigationView.isHidden = false
             navigationView.setTitle("동네 변경 / 추가")
             navigationView.addBorder(.bottom)
@@ -127,13 +120,11 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
                 onNext: { owner, text in
                     if text.count > 1 {
                         owner.confirmButton.isEnabled = true
-                        owner.confirmButton.setButtonStyle(.primary)
                     } else {
                         owner.confirmButton.isEnabled = false
-                        owner.confirmButton.setButtonStyle(.grayFilled)
                     }
-            })
-            .disposed(by: bag)
+                }
+            ).disposed(by: bag)
     }
     
     override func viewModelBinding() {
