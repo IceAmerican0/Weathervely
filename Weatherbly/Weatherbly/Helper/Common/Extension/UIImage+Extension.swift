@@ -58,7 +58,10 @@ extension UIImage {
     static let windy = UIImage(named: "windy")!
     
     // Common
+    static let logo_color = UIImage(named: "logo_color")!
+    static let logo_white = UIImage(named: "logo_white")!
     static let networkError = UIImage(named: "networkError_illust")!
+    static let search_empty = UIImage(named: "search_empty")!
     static let loadError = UIImage(named: "popup_illust_loadError")!
     static let serverError = UIImage(named: "serverError_illust")!
     
@@ -80,6 +83,7 @@ extension UIImage {
     // Navigation
     static let navi_back = UIImage(named: "navigationBackButton")!
     static let navi_back_white = UIImage(named: "navi_back_white")!
+    static let rightArrow_gray = UIImage(named: "rightArrow_gray")!
     
     // Notification
     static let alarm_codi = UIImage(named: "alarm_codi")!
