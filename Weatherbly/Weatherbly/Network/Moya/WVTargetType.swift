@@ -17,7 +17,7 @@ public protocol WVTargetType: TargetType {}
 public extension WVTargetType {
     var baseURL: URL {
         #if DEBUG
-        return URL(string: "http://13.209.50.66:3000/v1")!
+        return URL(string: "http://3.34.99.171:3000/v1")!
         #else
         return URL(string: "https://prod-server.weathervely.com/v1")!
         #endif
