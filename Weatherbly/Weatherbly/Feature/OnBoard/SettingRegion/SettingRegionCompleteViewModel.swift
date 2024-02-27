@@ -84,16 +84,16 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
                     let errorString = error.localizedDescription
                     if errorString == "중복된 주소를 등록 했습니다." {
                         owner.alertState.accept(.init(title: errorString,
-                                                             alertType: .popup,
-                                                             closeAction: {
+                                                      alertType: .popup,
+                                                      closeAction: {
                             owner.navigationPopViewControllerRelay.accept(Void())
                         }))
                     } else {
                         owner.alertState.accept(.init(title: errorString,
-                                                             alertType: .popup))
+                                                      alertType: .popup))
                     }
-            })
-            .disposed(by: bag)
+                }
+            ).disposed(by: bag)
     }
     
     public func toEditRegionView(_ editRegionState: EditRegionState) {

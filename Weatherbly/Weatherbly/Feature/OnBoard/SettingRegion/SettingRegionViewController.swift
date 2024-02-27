@@ -9,29 +9,69 @@ import UIKit
 import PinLayout
 import FlexLayout
 import RxCocoa
+import RxSwift
 import Then
 
 final class SettingRegionViewController: RxBaseViewController<SettingRegionViewModel> {
+    private var titleLabel = LabelMaker(
+        font: .title_3_B,
+        alignment: .center
+    ).make(text: "동네 설정")
     
-    private var navigationView = CSNavigationView(.leftButton(.navi_back))
-    private var explanationLabel = CSLabel(.bold, 24, "동네를 설정해주세요")
+    private var comment = LabelMaker(
+        font: .heading_5_B
+    ).make(text: "동네를 설정해 주세요").then {
+        $0.adjustsFontSizeToFitWidth = true
+    }
     
-    private let searchImage = UIImageView()
-    private var inputRegion = UITextField.neatKeyboard()
+    private lazy var inputRegion = CSTextField().then {
+        $0.delegate = self
+        $0.setPlaceholder(
+            text: "동네 이름(동, 읍, 면)으로 검색",
+            font: .body_3_M
+        )
+        $0.becomeFirstResponder()
+    }
+    
+    private lazy var regionTableView = UITableView(
+        frame: .zero,
+        style: .plain
+    ).then {
+//        $0.addBorders([.top, .bottom], 1, .violet500)
+        $0.rowHeight = 56
+        $0.bounces = false
+        $0.showsVerticalScrollIndicator = true
+        $0.separatorColor = .gray20
+        $0.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        $0.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        $0.showsHorizontalScrollIndicator = false
+        $0.register(withType: RegionTableViewCell.self)
+    }
+    
+    private var noResultView = UIView().then {
+        $0.addBorders([.top, .bottom], 1, .violet500)
+    }
+    
+    private var noResultInfoView = UIView()
+    
+    private var noResultImage = UIImageView().then {
+        $0.image = .search_empty
+    }
+    
+    private var noResultComment = LabelMaker(
+        font: .body_5_M,
+        fontColor: .gray50,
+        alignment: .center
+    ).make(text: "해당하는 동네 정보가 없어요\n동네 이름을 확인해주세요")
+    
+    private var buttonView = UIView()
     
     private var confirmButton = NewCSButton(.standard, style: .violet600).then {
         $0.setTitle("확인", for: .normal)
     }
     
-    private lazy var regionTableView = UITableView().then {
-        $0.delegate = self
-        $0.rowHeight = 56
-        $0.isScrollEnabled = true
-        $0.bounces = false
-        $0.showsVerticalScrollIndicator = true
-        $0.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        $0.showsHorizontalScrollIndicator = false
-        $0.register(withType: RegionTableViewCell.self)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
     }
     
     override func viewDidLoad() {
@@ -39,135 +79,102 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
         registerKeyboardNotifications()
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        unregisterKeyboardNotifications()
-    }
-    
-    override func attribute() {
-        super.attribute()
-        
-        explanationLabel.do {
-            $0.backgroundColor = .white
-            $0.adjustsFontSizeToFitWidth = true
-        }
-        
-        navigationView.do {
-            $0.isHidden = true
-        }
-        
-        searchImage.do {
-            $0.setAssetsImage(AssetsImage.search)
-        }
-        
-        inputRegion.do {
-            $0.backgroundColor = CSColor._248_248_248.color
-            $0.layer.cornerRadius = 13
-            $0.delegate = self
-            $0.placeholder = "동네 이름(동,읍,면)으로 검색"
-            $0.textAlignment = .center
-            $0.font = .systemFont(ofSize: 20)
-            $0.setClearButton(AssetsImage.delete.image, .whileEditing)
-            $0.becomeFirstResponder()
-            $0.adjustsFontSizeToFitWidth = true
-            $0.delegate = self
-        }
-        
-        confirmButton.do {
-            $0.setTitle("확인", for: .normal)
-            $0.setTitleColor(.white, for: .normal)
-            $0.isEnabled = false
-        }
-    }
-    
     override func layout() {
         super.layout()
         
-        container.flex.alignItems(.center).define { flex in
-            flex.addItem(navigationView).width(100%)
-            flex.addItem(explanationLabel).marginTop(27).marginHorizontal(35).width(85%).height(34)
-            flex.addItem(inputRegion).marginTop(22).marginHorizontal(30).width(85%).height(50)
-            flex.addItem(regionTableView).marginTop(33).marginHorizontal(20).grow(1)
-            flex.addItem(confirmButton).position(.absolute).bottom(10%).marginHorizontal(43).width(78%).height(62)
+        container.flex.define {
+            $0.addItem(titleLabel).marginTop(11.5)
+            $0.addItem(comment).marginTop(59.5).marginLeft(20)
+            $0.addItem(inputRegion).alignSelf(.stretch).marginTop(32).marginHorizontal(20).height(40)
+            $0.addItem(regionTableView).marginTop(32).marginHorizontal(20).marginBottom(20).grow(1).display(.none)
+            $0.addItem(noResultView).alignItems(.center).justifyContent(.center).marginTop(32).marginHorizontal(20).marginBottom(20).grow(1).define {
+                $0.addItem(noResultInfoView).alignItems(.center).define { noResult in
+                    noResult.addItem(noResultImage).size(48)
+                    noResult.addItem(noResultComment).marginTop(10)
+                }
+            }.display(.none)
+            $0.addItem(buttonView).position(.absolute).bottom(20).width(100%).height(48).define {
+                $0.addItem(confirmButton).marginHorizontal(20).grow(1)
+            }
         }
-        regionTableView.isHidden = true
         
         if viewModel.settingRegionState != .onboard {
-            navigationView.isHidden = false
-            navigationView.setTitle("동네 변경 / 추가")
-            navigationView.addBorder(.bottom)
-            explanationLabel.isHidden = true
+            titleLabel.text = "동네 변경 / 추가"
+            comment.isHidden = true
         }
     }
     
-    override func viewBinding() {
-        super.viewBinding()
-        
-        navigationView.leftButtonDidTapRelay
-            .bind(to: viewModel.navigationPopViewControllerRelay)
-            .disposed(by: bag)
+    override func bind() {
+        super.bind()
         
         confirmButton.rx.tap
-            .bind(with: self) { owner, _ in
+            .asDriver()
+            .drive(with: self) { owner, _ in
                 owner.showResult()
             }
             .disposed(by: bag)
         
         inputRegion.rx.text.orEmpty
             .asDriver()
-            .drive(
-                with: self,
-                onNext: { owner, text in
-                    if text.count > 1 {
-                        owner.confirmButton.isEnabled = true
-                    } else {
-                        owner.confirmButton.isEnabled = false
-                    }
+            .drive(with: self) { owner, text in
+                if text.count > 1 {
+                    owner.confirmButton.isEnabled = true
+                } else {
+                    owner.confirmButton.isEnabled = false
                 }
-            ).disposed(by: bag)
-    }
-    
-    override func viewModelBinding() {
-        super.viewModelBinding()
+            }.disposed(by: bag)
+        
+        viewModel.resultIsEmpty
+            .asDriver(onErrorJustReturn: false)
+            .drive(with: self) { owner, isEmpty in
+                if isEmpty {
+                    owner.regionTableView.flex.display(.none).markDirty()
+                    owner.noResultView.flex.display(.flex).markDirty()
+                } else {
+                    owner.regionTableView.flex.display(.flex).markDirty()
+                    owner.noResultView.flex.display(.none).markDirty()
+                    owner.regionTableView.reloadData()
+                }
+                owner.container.flex.layout()
+            }.disposed(by: bag)
         
         viewModel.searchedListRelay
-            .bind(to: regionTableView.rx
-                .items(cellIdentifier: RegionTableViewCell.identifier,
-                       cellType: RegionTableViewCell.self)) { _, data, cell in
+            .observe(on: MainScheduler.instance)
+            .bind(to: regionTableView.rx.items(
+                cellIdentifier: RegionTableViewCell.identifier,
+                cellType: RegionTableViewCell.self
+            )) { _, data, cell in
                 cell.configureCellState(data.addressName)
                 self.regionTableView.flashScrollIndicators()
-            }
-            .disposed(by: bag)
+            }.disposed(by: bag)
+        
+        regionTableView.rx.itemSelected
+            .bind(with: self) { owner, index in
+                owner.viewModel.didTapTableViewCell(at: index)
+            }.disposed(by: bag)
     }
     
     private func showResult() {
-        unregisterKeyboardNotifications()
-        
-        regionTableView.isHidden = false
+        if !buttonView.isHidden {
+            buttonView.isHidden = true
+            unregisterKeyboardNotifications()
+        }
         
         if let text = inputRegion.text {
-            explanationLabel.text = "'\(text)' 검색 결과에요"
+            let attributed = AttributedText.custom(
+                originText: "'\(text)' 검색 결과에요",
+                targetText: "'\(text)'",
+                attributes: [
+                    .font: UIFont.heading_5_B,
+                    .foregroundColor: UIColor.violet500
+                ]
+            ).setAttribute
+            
+            comment.attributedText = attributed
             view.endEditing(true)
-            confirmButton.isHidden = true
             
             viewModel.searchRegion(text)
         } else { return }
-    }
-}
-
-// MARK: UITableViewDelegate
-extension SettingRegionViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath)
-        cell?.selectionStyle = .none
-        cell?.isSelected = true
-        viewModel.didTapTableViewCell(at: indexPath)
-    }
-    
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath)
-        cell?.selectionStyle = .default
-        cell?.isSelected = false
     }
 }
 
@@ -195,11 +202,17 @@ extension SettingRegionViewController: UITextFieldDelegate {
 extension SettingRegionViewController {
     override func keyboardWillShow(_ notification: Notification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            confirmButton.pin.bottom(keyboardSize.height + 30)
+            if !buttonView.isHidden {
+                buttonView.flex.bottom(keyboardSize.height)
+                container.flex.layout()
+            }
         }
     }
     
     override func keyboardWillHide(_ notification: Notification) {
-        confirmButton.pin.bottom(10%)
+        if !buttonView.isHidden {
+            buttonView.flex.bottom(20)
+            container.flex.layout()
+        }
     }
 }

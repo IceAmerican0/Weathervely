@@ -9,22 +9,18 @@ import UIKit
 import RxSwift
 import FlexLayout
 import PinLayout
+import Then
 
 public final class RegionTableViewCell: UITableViewCell {
+    public var regionLabel = LabelMaker(
+        font: .body_3_M
+    ).make()
     
-    var regionLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 20)
-        $0.adjustsFontSizeToFitWidth = true
-        $0.numberOfLines = 0
-    }
-    
-    let rightArrowImageView = UIButton().then {
-        $0.setImage(AssetsImage.rightArrow.image, for: .normal)
+    var arrow = UIImageView().then {
+        $0.image = .rightArrow_gray
     }
     
     var disposeBag = DisposeBag()
-    
-    private let labelWidth = UIScreen.main.bounds.width * 0.75
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -38,14 +34,12 @@ public final class RegionTableViewCell: UITableViewCell {
     override public func layoutSubviews() {
         super.layoutSubviews()
         contentView.flex.layout()
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-        separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
     
     private func layout() {
-        contentView.flex.direction(.row).justifyContent(.center).alignItems(.center).define { flex in
-            flex.addItem(regionLabel).marginLeft(10).width(labelWidth).height(28)
-            flex.addItem(rightArrowImageView).marginLeft(8).size(24)
+        contentView.flex.direction(.row).justifyContent(.spaceBetween).alignItems(.center).define { flex in
+            flex.addItem(regionLabel).marginLeft(8).grow(1).shrink(1)
+            flex.addItem(arrow).marginRight(8).size(16)
         }
     }
     

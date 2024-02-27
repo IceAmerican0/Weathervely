@@ -34,7 +34,7 @@ final class NicknameCompleteViewController: RxBaseViewController<NicknameComplet
     }
     
     private var confirmButton = NewCSButton(.standard, style: .violet600).then {
-        $0.setTitle("확인", for: .normal)
+        $0.setTitle("네", for: .normal)
     }
     
     override func viewDidLoad() {
