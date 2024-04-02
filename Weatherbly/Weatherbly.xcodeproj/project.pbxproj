@@ -65,6 +65,7 @@
 		5CAB60D12A54FC5F00CD431A /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAB60D02A54FC5F00CD431A /* UITableView+Extension.swift */; };
 		5CAB60D32A54FC6A00CD431A /* UITableViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAB60D22A54FC6900CD431A /* UITableViewCell+Extension.swift */; };
 		5CADDD282A9DDF9900EAB678 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CADDD272A9DDF9900EAB678 /* Constants.swift */; };
+		5CAED17F2BBB97CE00287EF7 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 5CAED17E2BBB97CE00287EF7 /* PrivacyInfo.xcprivacy */; };
 		5CBD391E2B5F3EFE00B0A85F /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBD391D2B5F3EFE00B0A85F /* ToastView.swift */; };
 		5CC61E1F2A56850F001435E6 /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC61E1E2A56850F001435E6 /* DateFormatter+Extension.swift */; };
 		5CC61E262A5BC223001435E6 /* SettingRegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC61E252A5BC223001435E6 /* SettingRegionViewController.swift */; };
@@ -245,6 +246,7 @@
 		5CAB60D02A54FC5F00CD431A /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
 		5CAB60D22A54FC6900CD431A /* UITableViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extension.swift"; sourceTree = "<group>"; };
 		5CADDD272A9DDF9900EAB678 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		5CAED17E2BBB97CE00287EF7 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		5CBD391D2B5F3EFE00B0A85F /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		5CC61E1E2A56850F001435E6 /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
 		5CC61E252A5BC223001435E6 /* SettingRegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingRegionViewController.swift; sourceTree = "<group>"; };
@@ -683,6 +685,7 @@
 				BD2D01912A388755003A25D5 /* Images.xcassets */,
 				BD2D01962A388755003A25D5 /* Info.plist */,
 				5C84F1FD2AA0238000CF614E /* GoogleService-Info.plist */,
+				5CAED17E2BBB97CE00287EF7 /* PrivacyInfo.xcprivacy */,
 				BD6135D12A7E3C6700DB3DF9 /* Entity */,
 				BD6135CA2A7D5E9F00DB3DF9 /* Mock */,
 				BD2D019E2A3887B8003A25D5 /* Network */,
@@ -1047,6 +1050,7 @@
 				BD05E06E2B38045500A48E61 /* AppleSDGothicNeoR.ttf in Resources */,
 				BD05E0692B38045500A48E61 /* AppleSDGothicNeoSB.ttf in Resources */,
 				BD05E06F2B38045500A48E61 /* AppleSDGothicNeoL.ttf in Resources */,
+				5CAED17F2BBB97CE00287EF7 /* PrivacyInfo.xcprivacy in Resources */,
 				69A7F0E02A80CDD800834974 /* LaunchScreen.storyboard in Resources */,
 				BD05E06B2B38045500A48E61 /* AppleSDGothicNeoEB.ttf in Resources */,
 				BD05E06A2B38045500A48E61 /* AppleSDGothicNeoH.ttf in Resources */,
