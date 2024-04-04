@@ -77,12 +77,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     
                     if let address = data.address {
                         userDefault.set(address.dong, forKey: UserDefaultKey.dong.rawValue)
-                        if data.setTemperature == true {
-                            owner.window?.rootViewController = HomeTabBarController()
-                            owner.window?.makeKeyAndVisible()
-                        } else {
-                            owner.setWindow(DateTimePickViewController(DateTimePickViewModel()))
-                        }
+                        owner.window?.rootViewController = HomeTabBarController()
+                        owner.window?.makeKeyAndVisible()
                     } else {
                         owner.setWindow(SettingRegionViewController(SettingRegionViewModel(.onboard)))
                     }

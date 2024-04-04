@@ -12,6 +12,7 @@ import RxMoya
 public protocol UserDataSourceProtocol {
     func getUserInfo(_ nickname: String) -> Observable<UserInfoEntity>
     func fetchUserInfo(_ userInfo: UserInfoRequest) -> Observable<EmptyEntity>
+    func resetUserInfo(_ userID: Int) -> Observable<EmptyEntity>
     func getAddressList() -> Observable<AddressListEntity>
     func addAddress(_ addressInfo: AddressRequest) -> Observable<EmptyEntity>
     func setMainAddress(_ addressID: Int) -> Observable<EmptyEntity>
@@ -27,15 +28,21 @@ public final class UserDataSource: UserDataSourceProtocol {
         self.provider = provider
     }
     
-    public func getUserInfo(_ nickname: String) -> Observable<UserInfoEntity> {
+    public func getUserInfo() -> Observable<UserInfoEntity> {
         provider.rx
-            .request(.getUserInfo(nickname))
+            .request(.getUserInfo)
             .mapTo(UserInfoEntity.self)
     }
     
     public func fetchUserInfo(_ userInfo: UserInfoRequest) -> Observable<EmptyEntity> {
         provider.rx
             .request(.fetchUserInfo(userInfo))
+            .mapTo(EmptyEntity.self)
+    }
+    
+    public func resetUserInfo(_ userID: Int) -> Observable<EmptyEntity> {
+        provider.rx
+            .request(.resetUserInfo(userID))
             .mapTo(EmptyEntity.self)
     }
     

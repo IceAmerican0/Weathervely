@@ -28,7 +28,7 @@ class EditNicknameViewModel: RxBaseViewModel, EditNicknameViewModelLogic {
     
     func loadUserInfo() {
         let dataSource = UserDataSource()
-        dataSource.getUserInfo(UserDefaultManager.shared.nickname)
+        dataSource.getUserInfo()
             .subscribe(
                 with: self,
                 onNext: { owner, response in

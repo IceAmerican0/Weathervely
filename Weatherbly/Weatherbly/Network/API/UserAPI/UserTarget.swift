@@ -10,9 +10,11 @@ import Foundation
 
 public enum UserTarget {
     /// 유저 정보 가져오기
-    case getUserInfo(_ nickname: String)
+    case getUserInfo
     /// 유저 정보 수정
     case fetchUserInfo(_ userInfo: UserInfoRequest)
+    /// 유저 정보 초기화(테스트용 정보 삭제)
+    case resetUserInfo(_ userID: Int)
     /// 주소 리스트 가져오기
     case getAddressList
     /// 주소 추가
@@ -29,16 +31,13 @@ extension UserTarget: WVTargetType {
     public var path: String {
         switch self {
         case .getUserInfo,
-             .fetchUserInfo:
-            return "/user"
+             .fetchUserInfo:                    "/user"
+        case .resetUserInfo(let userID):        "/user/\(userID)"
         case .getAddressList,
-             .addAddress:
-            return "/user/address"
+             .addAddress:                       "/user/address"
         case .fetchAddress(let addressID, _),
-             .deleteAddress(let addressID):
-            return "/user/address/\(addressID)"
-        case .setMainAddress(let addressID):
-            return "/user/address/setMain/\(addressID)"
+             .deleteAddress(let addressID):     "/user/address/\(addressID)"
+        case .setMainAddress(let addressID):    "/user/address/setMain/\(addressID)"
         }
     }
     
@@ -47,7 +46,8 @@ extension UserTarget: WVTargetType {
         case .getUserInfo,
              .getAddressList:
             return .get
-        case .addAddress,
+        case .resetUserInfo,
+             .addAddress,
              .setMainAddress,
              .deleteAddress:
             return .post
@@ -59,24 +59,32 @@ extension UserTarget: WVTargetType {
     
     public var task: Moya.Task {
         switch self {
-        case .getUserInfo(let nickname):
-            return .requestParameters(parameters: ["nickname": nickname],
-                                      encoding: URLEncoding.queryString)
+        case .getUserInfo:
+            .requestPlain
         case .fetchUserInfo(let userInfo):
-            return .requestParameters(parameters: userInfo.dictionary,
-                                      encoding: JSONEncoding.default)
-        case .getAddressList:
-            return .requestPlain
+            .requestParameters(
+                parameters: userInfo.dictionary,
+                encoding: JSONEncoding.default
+            )
+        case .resetUserInfo,
+             .getAddressList:
+            .requestPlain
         case .addAddress(let addressInfo):
-            return .requestParameters(parameters: addressInfo.dictionary,
-                                      encoding: JSONEncoding.default)
+            .requestParameters(
+                parameters: addressInfo.dictionary,
+                encoding: JSONEncoding.default
+            )
         case .fetchAddress(_, let addressInfo):
-            return .requestParameters(parameters: addressInfo.dictionary,
-                                      encoding: JSONEncoding.default)
+            .requestParameters(
+                parameters: addressInfo.dictionary,
+                encoding: JSONEncoding.default
+            )
         case .setMainAddress(let addressID),
              .deleteAddress(let addressID):
-            return .requestParameters(parameters: ["addressId": addressID],
-                                      encoding: JSONEncoding.default)
+            .requestParameters(
+                parameters: ["addressId": addressID],
+                encoding: JSONEncoding.default
+            )
         }
     }
 }

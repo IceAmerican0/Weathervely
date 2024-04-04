@@ -27,19 +27,13 @@ public enum ClosetTarget {
 extension ClosetTarget: WVTargetType {
     public var path: String {
         switch self {
-        case .getStyleList:
-            return "/closet"
-        case .styleStylePickedList:
-            return "/closet/pick"
+        case .getStyleList:                   "/closet"
+        case .styleStylePickedList:           "/closet/pick"
         case .getOnBoardClosetByTemperature,
-             .getMainClosetByTemperature:
-            return "/closet/getClosetByTemperature"
-        case .setSensoryTemperature:
-            return "/closet/setTemperature"
-        case .getRecommendStyleList:
-            return "/closet/getRecommendCloset"
-        case .pagerViewClicked(let closetID):
-            return "/closet/pick/\(closetID)"
+             .getMainClosetByTemperature:     "/closet/getClosetByTemperature"
+        case .setSensoryTemperature:          "/closet/setTemperature"
+        case .getRecommendStyleList:          "/closet/getRecommendCloset"
+        case .pagerViewClicked(let closetID): "/closet/pick/\(closetID)"
         }
     }
     
@@ -60,27 +54,40 @@ extension ClosetTarget: WVTargetType {
     public var task: Moya.Task {
         switch self {
         case .getStyleList:
-            return .requestPlain
+            .requestPlain
         case .styleStylePickedList(let closetIDs):
-            return .requestParameters(parameters: ["closet_ids": closetIDs],
-                                      encoding: JSONEncoding.default)
+            .requestParameters(
+                parameters: ["closet_ids": closetIDs],
+                encoding: JSONEncoding.default
+            )
         case .getOnBoardClosetByTemperature(let dateTime):
-            return .requestParameters(parameters: ["dateTime": dateTime],
-                                      encoding: URLEncoding.queryString)
+            .requestParameters(
+                parameters: ["dateTime": dateTime],
+                encoding: URLEncoding.queryString
+            )
         case .getMainClosetByTemperature(let dateTime, let closetId):
-            return .requestParameters(parameters: ["dateTime": dateTime,
-                                                   "closet_id": closetId],
-                                          encoding: URLEncoding.queryString)
+            .requestParameters(
+                parameters: [
+                    "dateTime": dateTime,
+                    "closet_id": closetId
+                ],
+                encoding: URLEncoding.queryString
+            )
         case .setSensoryTemperature(let sensoryTempRequest):
-            return .requestParameters(parameters: ["closet": sensoryTempRequest.closet,
-                                                   "current_temperature": sensoryTempRequest.currentTemp,
-                                                  ],
-                                      encoding: JSONEncoding.default)
+            .requestParameters(
+                parameters: [
+                    "closet": sensoryTempRequest.closet,
+                    "current_temperature": sensoryTempRequest.currentTemp,
+                ],
+                encoding: JSONEncoding.default
+            )
         case .getRecommendStyleList(let dateTime):
-            return .requestParameters(parameters: ["dateTime": dateTime],
-                                      encoding: URLEncoding.queryString)
+            .requestParameters(
+                parameters: ["dateTime": dateTime],
+                encoding: URLEncoding.queryString
+            )
         case .pagerViewClicked:
-            return .requestPlain
+            .requestPlain
         }
     }
 }

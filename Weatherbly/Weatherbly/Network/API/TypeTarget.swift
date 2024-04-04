@@ -15,8 +15,7 @@ public enum TypeTarget {
 extension TypeTarget: WVTargetType {
     public var path: String {
         switch self {
-        case .getTypeList:
-            return "/type"
+        case .getTypeList: "/type"
         }
     }
     
@@ -24,8 +23,7 @@ extension TypeTarget: WVTargetType {
     
     public var task: Moya.Task {
         switch self {
-        case .getTypeList:
-            return .requestPlain
+        case .getTypeList: .requestPlain
         }
     }
 }

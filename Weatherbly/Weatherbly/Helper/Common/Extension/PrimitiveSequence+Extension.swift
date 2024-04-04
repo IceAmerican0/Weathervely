@@ -62,7 +62,13 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
                 }
             } catch(let error) {
                 #if DEBUG
-                print(String(decoding: response.data, as: UTF8.self))
+                print(
+                    """
+                    Request : \(type)
+                    Response : \(String(decoding: response.data, as: UTF8.self))
+                    Error : \(error)
+                    """
+                )
                 #endif
                 
                 if let error = error as? MoyaError {

@@ -31,6 +31,7 @@
 		5C5C1C2A2B86CAE500294BFF /* CSTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C1C292B86CAE500294BFF /* CSTextField.swift */; };
 		5C5C1C2D2B8738D500294BFF /* NicknameCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C1C2B2B8738D500294BFF /* NicknameCompleteViewController.swift */; };
 		5C5C1C2E2B8738D500294BFF /* NicknameCompleteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C1C2C2B8738D500294BFF /* NicknameCompleteViewModel.swift */; };
+		5C61B97F2BB52E67002EA200 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C61B97E2BB52E67002EA200 /* AppEnvironment.swift */; };
 		5C68E9212AF376080046D0BE /* ForcastUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C68E9202AF376080046D0BE /* ForcastUseCase.swift */; };
 		5C6AC7022A84A4D000CE5D34 /* UserInfoEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6AC7012A84A4D000CE5D34 /* UserInfoEntity.swift */; };
 		5C84169E2B68CAA5003AE726 /* TenDayForecastEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C84169D2B68CAA5003AE726 /* TenDayForecastEntity.swift */; };
@@ -213,6 +214,7 @@
 		5C5C1C292B86CAE500294BFF /* CSTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSTextField.swift; sourceTree = "<group>"; };
 		5C5C1C2B2B8738D500294BFF /* NicknameCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameCompleteViewController.swift; sourceTree = "<group>"; };
 		5C5C1C2C2B8738D500294BFF /* NicknameCompleteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameCompleteViewModel.swift; sourceTree = "<group>"; };
+		5C61B97E2BB52E67002EA200 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
 		5C68E9202AF376080046D0BE /* ForcastUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForcastUseCase.swift; sourceTree = "<group>"; };
 		5C6AC7012A84A4D000CE5D34 /* UserInfoEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoEntity.swift; sourceTree = "<group>"; };
 		5C84169D2B68CAA5003AE726 /* TenDayForecastEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TenDayForecastEntity.swift; sourceTree = "<group>"; };
@@ -722,6 +724,7 @@
 				69683A572A9BAAEE00A2BD5A /* KeychainManager.swift */,
 				69A7F0D82A80B42A00834974 /* UserDefaultKey.swift */,
 				69A7F0E12A811EC000834974 /* UserDefaultManager.swift */,
+				5C61B97E2BB52E67002EA200 /* AppEnvironment.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -1210,6 +1213,7 @@
 				BD7DAB312A70DEF400422D25 /* ForeCastTarget.swift in Sources */,
 				5CDCD7E22B566F87008465B9 /* FilterItemListEntity.swift in Sources */,
 				5C9D02C42A6E61C700AF2DA3 /* SettingRegionCompleteViewModel.swift in Sources */,
+				5C61B97F2BB52E67002EA200 /* AppEnvironment.swift in Sources */,
 				BD5169472A5AA39000582BA9 /* EditNicknameViewController.swift in Sources */,
 				BD69B8F72A54337000DDCD7A /* SettingViewController.swift in Sources */,
 				5CDCD7DB2B564144008465B9 /* FilterListViewController.swift in Sources */,

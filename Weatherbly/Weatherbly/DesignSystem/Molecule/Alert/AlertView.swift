@@ -97,7 +97,7 @@ final class AlertView: UIView {
                 switch owner.state.buttonListState {
                 case .single:
                     owner.state.closeAction?()
-                case .double(let left, let right):
+                case .double(let left, _):
                     left.action?()
                 }
             }.disposed(by: bag)
@@ -109,7 +109,7 @@ final class AlertView: UIView {
                 switch owner.state.buttonListState {
                 case .single:
                     owner.state.closeAction?()
-                case .double(let left, let right):
+                case .double(_, let right):
                     right.action?()
                 }
             }.disposed(by: bag)

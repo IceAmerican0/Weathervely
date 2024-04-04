@@ -69,4 +69,16 @@ public final class UserDefaultManager {
             return "00동"
         }
     }
+    
+    public var environmentType: EnvironmentType {
+        if let appEnvironment = userDefault.object(forKey: UserDefaultKey.appEnvironment.rawValue) as? String {
+            return appEnvironment == "production" ? .production : .develop
+        } else {
+            #if DEBUG
+                return .develop
+            #else
+                return .production
+            #endif
+        }
+    }
 }

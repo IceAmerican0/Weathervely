@@ -22,14 +22,10 @@ public enum AuthTarget {
 extension AuthTarget: WVTargetType {
     public var path: String {
         switch self {
-        case .login:
-            return "/auth/login"
-        case .nickname:
-            return "/auth/nickName"
-        case .address:
-            return "/auth/address"
-        case .gender:
-            return "/auth/gender"
+        case .login:    "/auth/login"
+        case .nickname: "/auth/nickName"
+        case .address:  "/auth/address"
+        case .gender:   "/auth/gender"
         }
     }
     
@@ -38,19 +34,28 @@ extension AuthTarget: WVTargetType {
     public var task: Moya.Task {
         switch self {
         case .login:
-            return .requestParameters(parameters: ["phone_id": UserDefaultManager.shared.uuid],
-                                      encoding: JSONEncoding.default)
+            .requestParameters(
+                parameters: ["phone_id": "string"/*UserDefaultManager.shared.uuid*/],
+                encoding: JSONEncoding.default
+            )
         case .nickname(let nickname, let uuid):
-            return .requestParameters(parameters: ["nickname": nickname,
-                                                   "phone_id": uuid
-                                                  ],
-                                      encoding: JSONEncoding.default)
+            .requestParameters(
+                parameters: [
+                    "nickname": nickname,
+                    "phone_id": uuid
+                ],
+                encoding: JSONEncoding.default
+            )
         case .address(let addressInfo):
-            return .requestParameters(parameters: addressInfo.dictionary,
-                                      encoding: JSONEncoding.default)
+            .requestParameters(
+                parameters: addressInfo.dictionary,
+                encoding: JSONEncoding.default
+            )
         case .gender(let gender):
-            return .requestParameters(parameters: ["gender": gender],
-                                      encoding: JSONEncoding.default)
+            .requestParameters(
+                parameters: ["gender": gender],
+                encoding: JSONEncoding.default
+            )
         }
     }
 }

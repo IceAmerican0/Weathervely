@@ -11,6 +11,7 @@ import PinLayout
 import Then
 import RxCocoa
 import RxSwift
+import RxGesture
 
 final class SettingViewController: RxBaseViewController<SettingViewModel> {
     
@@ -130,6 +131,12 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
         tableView.rx.itemSelected
             .bind(with: self) { owner, indexPath in
                 owner.viewModel.didTapTableViewCell(at: indexPath.item)
+            }.disposed(by: bag)
+        
+        titleLabel.rx.tapGesture()
+            .when(.recognized)
+            .bind(with: self) { owner, _ in
+                owner.viewModel.didTapSecretReset()
             }.disposed(by: bag)
     }
 }
