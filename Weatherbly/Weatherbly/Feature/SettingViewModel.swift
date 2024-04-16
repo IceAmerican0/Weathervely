@@ -38,7 +38,7 @@ final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
         switch data[index] {
         case .region:
             toEditRegionView()
-        case .wishList, .sensoryTemp:
+        case .notification:
             toBeContinue()
         }
     }
@@ -46,11 +46,11 @@ final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
     func didTapTableViewCell(at index: Int) {
         let data = menuTitle.value
         switch data[index] {
-        case .share, .inquiry, .logout, .openSource:
+        case .inquiry:
             toBeContinue()
         case .policy:
             toPrivacyPolicyView()
-        case .noti, .versionInfo:
+        case .versionInfo:
             break
         }
     }

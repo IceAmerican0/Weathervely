@@ -12,26 +12,22 @@ import Then
 import RxSwift
 
 public enum ProfileMenuTitle: CaseIterable {
-    /// 동네
+    /// 동네 추가
     case region
-    /// 찜
-    case wishList
-    /// 체감온도
-    case sensoryTemp
+    /// 알림설정
+    case notification
     
     var title: String {
         switch self {
-        case .region:      "동네 추가"
-        case .wishList:    "찜"
-        case .sensoryTemp: "체감온도"
+        case .region:       "동네 추가"
+        case .notification: "알림 설정"
         }
     }
     
     var image: UIImage {
         switch self {
-        case .region:      UIImage.icon_plusL
-        case .wishList:    UIImage.icon_favorites
-        case .sensoryTemp: UIImage.icon_temperature
+        case .region:       UIImage.icon_plusL
+        case .notification: checkAuthorization() ? UIImage.icon_alarm_on : UIImage.icon_alarm_off
         }
     }
 }

@@ -13,13 +13,9 @@ import RxCocoa
 import RxSwift
 
 public enum SettingMenuTitle: String, CaseIterable {
-    case noti = "알림 설정"
-    case share = "앱 공유하기"
     case inquiry = "문의하기"
     case policy = "약관 및 정책"
-    case openSource = "오픈소스 라이브러리"
     case versionInfo = "버전정보"
-    case logout = "로그아웃"
 }
 
 public final class SettingTableViewCell: UITableViewCell {
@@ -65,25 +61,16 @@ public final class SettingTableViewCell: UITableViewCell {
     public func configureCellState(state: SettingMenuTitle) {
         self.selectionStyle = .none
         titleLabel.text = state.rawValue
-        titleLabel.flex.markDirty()
         
         switch state {
-        case .noti:
-            toggleSwitch.flex.display(.flex)
-            toggleSwitch.flex.markDirty()
         case .versionInfo:
             toggleSwitch.isHidden = true
             version.flex.display(.flex)
-            version.text = "\(Constants.bundleDisplayName) Ver \(Constants.bundleShortVersion)"
-            version.flex.markDirty()
-        case .share, .inquiry, .policy, .openSource:
+            version.text = "\(Constants.bundleShortVersion)"
+        case .inquiry, .policy:
             toggleSwitch.isHidden = true
             naviButton.flex.display(.flex)
-            naviButton.flex.markDirty()
-        case .logout:
-            toggleSwitch.isHidden = true
         }
-        setNeedsLayout()
     }
 }
 

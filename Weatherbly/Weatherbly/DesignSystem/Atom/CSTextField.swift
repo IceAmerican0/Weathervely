@@ -73,7 +73,7 @@ public final class CSTextField: UITextField {
         ])
     }
     
-    public func bind() {
+    private func bind() {
         self.rx.controlEvent(.editingDidBegin)
             .asDriver()
             .drive(
@@ -103,6 +103,8 @@ public final class CSTextField: UITextField {
                     
                     if isError {
                         owner.layer.borderColor = UIColor.red500.cgColor
+                    } else {
+                        owner.layer.borderColor = UIColor.violet500.cgColor
                     }
                 }
             ).disposed(by: bag)
@@ -130,6 +132,6 @@ public final class CSTextField: UITextField {
     
     public func setErrorMessage(message: String) {
         errorLabel.text = message
-        isError.accept(true)
+        message == "" ? isError.accept(false) : isError.accept(true)
     }
 }

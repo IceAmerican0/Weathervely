@@ -108,6 +108,7 @@ extension NicknameViewController: UITextFieldDelegate {
             viewModel.errorMessage.accept(message)
             return false
         } else {
+            viewModel.errorMessage.accept("")
             return true
         }
     }

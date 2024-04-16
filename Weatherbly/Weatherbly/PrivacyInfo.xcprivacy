@@ -60,6 +60,7 @@
 	<array>
 		<string>app-measurement.com</string>
 		<string>firebaselogging-pa.googleapis.com</string>
+		<string>crashlyticsreports-pa.googleapis.com</string>
 	</array>
 	<key>NSPrivacyTracking</key>
 	<true/>

@@ -45,7 +45,7 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
     private let flowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .horizontal
         $0.itemSize = CGSize(
-            width: (Constants.screenWidth - 72) / 3,
+            width: (Constants.screenWidth - 56) / 2,
             height: 100
         )
         $0.sectionInset = UIEdgeInsets(

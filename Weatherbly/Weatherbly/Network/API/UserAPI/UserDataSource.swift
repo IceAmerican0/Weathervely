@@ -10,7 +10,7 @@ import RxSwift
 import RxMoya
 
 public protocol UserDataSourceProtocol {
-    func getUserInfo(_ nickname: String) -> Observable<UserInfoEntity>
+    func getUserInfo() -> Observable<UserInfoEntity>
     func fetchUserInfo(_ userInfo: UserInfoRequest) -> Observable<EmptyEntity>
     func resetUserInfo(_ userID: Int) -> Observable<EmptyEntity>
     func getAddressList() -> Observable<AddressListEntity>

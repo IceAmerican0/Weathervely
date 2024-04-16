@@ -78,7 +78,8 @@ extension UIImage {
     static let icon_plusL = UIImage(named: "icon_plusL")!
     static let icon_profile = UIImage(named: "icon_profile")!
     static let icon_set = UIImage(named: "icon_set")!
-    static let icon_temperature = UIImage(named: "icon_temperature")!
+    static let icon_alarm_on = UIImage(named: "icon_alarm_on")!
+    static let icon_alarm_off = UIImage(named: "icon_alarm_off")!
     
     // Navigation
     static let navi_back = UIImage(named: "navigationBackButton")!
