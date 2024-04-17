@@ -105,12 +105,8 @@ public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogi
     
     public func didTapCellButton(_ index: Int) {
         let regionInfo = loadedListRelay.value
-        if regionInfo.count == 1 {
-            userDefault.set(regionInfo[index].id, forKey: UserDefaultKey.regionID.rawValue)
-            toSettingRegionView(.change)
-        } else {
-            deleteRegion(index)
-        }
+        userDefault.set(regionInfo[index].id, forKey: UserDefaultKey.regionID.rawValue)
+        toSettingRegionView(.change)
     }
     
     public func didTapConfirmButton() {

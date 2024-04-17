@@ -20,18 +20,15 @@ public final class EditRegionTableViewCell: UITableViewCell {
     var buttonTapDisposable: Disposable?
     var cellIndex = 0
     
-    public var regionLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 20)
-        $0.adjustsFontSizeToFitWidth = true
-        $0.numberOfLines = 0
+    public var regionLabel = LabelMaker(
+        font: .body_1_M
+    ).make().then {
+        $0.lineBreakMode = .byTruncatingTail
     }
     
-    public let button = UIButton().then {
-        $0.setImage(AssetsImage.regionChange.image, for: .normal)
-        $0.layer.cornerRadius = 5
+    public let button = NewCSButton(.compact, style: .violet600).then {
+        $0.setTitle("편집", for: .normal)
     }
-    
-    public let labelWidth = UIScreen.main.bounds.width * 0.69
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -52,19 +49,18 @@ public final class EditRegionTableViewCell: UITableViewCell {
     public override func layoutSubviews() {
         super.layoutSubviews()
         contentView.flex.layout()
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-        separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
     
     func layout() {
-        contentView.flex.direction(.row).alignItems(.center).justifyContent(.center).define { flex in
-            flex.addItem(regionLabel).marginLeft(15).width(labelWidth).height(28)
-            flex.addItem(button).size(45)
+        contentView.flex.direction(.row).alignItems(.center).justifyContent(.spaceBetween).define { flex in
+            flex.addItem(regionLabel).marginLeft(20).height(21).grow(1)
+            flex.addItem(button).marginHorizontal(20).width(53).height(24)
         }
         
         self.backgroundColor = .white
-        self.layer.borderColor = UIColor.clear.cgColor
+        self.layer.borderColor = UIColor.violet150.cgColor
         self.layer.borderWidth = 1
+        self.layer.cornerRadius = 16
         self.layer.masksToBounds = false
         self.clipsToBounds = false
     }
@@ -72,7 +68,6 @@ public final class EditRegionTableViewCell: UITableViewCell {
     func configureCellState(_ cellState: EditRegionCellState, _ index: Int) {
         cellIndex = index
         regionLabel.text = cellState.region
-        cellState.count == 1 ? button.setImage(AssetsImage.regionChange.image, for: .normal) : button.setImage(AssetsImage.delete.image, for: .normal)
     }
     
     func buttonTapAction(completion: @escaping ((Int) -> Void)) {

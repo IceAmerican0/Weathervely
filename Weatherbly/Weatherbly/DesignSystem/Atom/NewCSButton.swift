@@ -110,7 +110,7 @@ final public class NewCSButton: UIButton {
                 self.layer.borderColor = UIColor.violet150.cgColor
             }
         } else {
-            self.titleLabel?.font = UIFont.body_2_M
+            self.titleLabel?.font = UIFont.body_5_M
             self.layer.cornerRadius = 5
             self.backgroundColor = isEnabled ? .violet100 : .gray30
             self.setTitleColor(.violet800, for: .normal)

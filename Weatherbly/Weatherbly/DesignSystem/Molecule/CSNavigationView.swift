@@ -12,7 +12,7 @@ import RxCocoa
 import RxSwift
 import Then
 
-class CSNavigationView: UIView, CodeBaseInitializerProtocol {
+public final class CSNavigationView: UIView {
     
     // MARK: - UI Component
     private let wrapperView = UIView()
@@ -46,14 +46,15 @@ class CSNavigationView: UIView, CodeBaseInitializerProtocol {
     init(_ option: ButtonLayout) {
         super.init(frame: .zero)
         generateButton(option)
-        codeBaseInitializer()
+        layout()
+        bind()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
+    public override func layoutSubviews() {
         super.layoutSubviews()
         wrapperView.pin.all()
         wrapperView.flex.layout()
@@ -71,8 +72,8 @@ class CSNavigationView: UIView, CodeBaseInitializerProtocol {
         }
     }
     
-    func layout() {
-        backgroundColor = .clear
+    private func layout() {
+        backgroundColor = .white
         self.addSubview(wrapperView)
         
         wrapperView.flex.direction(.row).alignItems(.center).justifyContent(.spaceBetween).height(44).define {
@@ -83,7 +84,7 @@ class CSNavigationView: UIView, CodeBaseInitializerProtocol {
     }
     
     // MARK: - Bind
-    func bind() {
+    private func bind() {
         leftButton.rx.tap
             .bind(to: leftButtonDidTapRelay)
             .disposed(by: bag)
@@ -93,11 +94,11 @@ class CSNavigationView: UIView, CodeBaseInitializerProtocol {
             .disposed(by: bag)
     }
 
-    func setTitle(_ text: String) {
+    public func setTitle(_ text: String) {
         titleLabel.text = text
     }
     
-    func setTitleColor(color: UIColor) {
+    public func setTitleColor(color: UIColor) {
         titleLabel.textColor = color
     }
 }
