@@ -43,6 +43,8 @@ public extension UIColor {
     static let black50 = UIColor(named: "black50")!
     static let black90 = UIColor(named: "black90")!
     
+    static let dim68 = UIColor(named: "dim68")!
+    
     static let blue10 = UIColor(named: "blue10")!
     static let blue50 = UIColor(named: "blue50")!
     static let blue100 = UIColor(named: "blue100")!
@@ -220,7 +222,20 @@ public extension UIColor {
     static let pink800 = UIColor(named: "pink800")!
     static let pink900 = UIColor(named: "pink900")!
     
-    static let gradient30 = UIColor(named: "gradient30")!
-    static let gradient40 = UIColor(named: "gradient40")!
-    static let gradient70 = UIColor(named: "gradient70")!
+    static let gdBlue30 = UIColor(named: "gdBlue30")!
+    static let gdBlue40 = UIColor(named: "gdBlue40")!
+    static let gdBlue70 = UIColor(named: "gdBlue70")!
+}
+
+// MARK: Gradient
+extension [UIColor] {
+    static let gradient10: [UIColor] = [.violet500, .blue500]
+    static let gradient20: [UIColor] = [.violet500, .gray100]
+    static let gradient30: [UIColor] = [.violet150, .gdBlue30]
+    static let gradient40: [UIColor] = [.blue200, .gdBlue40]
+    static let gradient50: [UIColor] = [.gray60, .gray400]
+    static let gradient60: [UIColor] = [.blue500, .gray70]
+    static let gradient70: [UIColor] = [.blue500, .gdBlue70]
+    static let gradient80: [UIColor] = [.blue200, .blue700]
+    static let gradient90: [UIColor] = [.violet500, .blue300]
 }

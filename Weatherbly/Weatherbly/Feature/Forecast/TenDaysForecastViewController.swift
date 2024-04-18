@@ -12,7 +12,7 @@ import Then
 import RxSwift
 
 final class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastViewModel> {
-    private var navigationView = CSNavigationView(.leftButton(.navi_back)).then {
+    private var navigationView = CSNavigationView(.leftButton(.navi_back_white)).then {
         $0.backgroundColor = .clear
         $0.setTitle("10일간 예보")
         $0.setTitleColor(color: .white)
@@ -47,7 +47,9 @@ final class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastV
         fontColor: .white
     ).make()
     
-    private let weatherImage = UIImageView()
+    private let weatherImage = UIImageView().then {
+        $0.contentMode = .scaleAspectFit
+    }
     
     private lazy var tableView = UITableView(
         frame: .zero,
@@ -99,24 +101,18 @@ final class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastV
             .disposed(by: bag)
         
         viewModel.currentTemp
-            .bind(to: mainTempLabel.rx.text)
-            .disposed(by: bag)
+            .bind(with: self) { owner, data in
+                owner.mainTempLabel.text = "\(data)°"
+            }.disposed(by: bag)
         
         viewModel.currentWeather
             .asDriver()
             .drive(
                 with: self,
                 onNext: { owner, data in
-                    let (gradient, image) = owner.view.setWeatherUI(weather: data, isDayTime: "오전")
+                    let (gradient, image) = owner.view.setWeatherUI(weather: data, time: "오전")
                     owner.weatherImage.image = image
-                    let bound = owner.view.bounds
-                    gradient.frame = bound
-                    gradient.bounds = bound.insetBy(
-                        dx: (-0.5 * bound.size.width),
-                        dy: (-0.5 * bound.size.height)
-                    )
-                    gradient.position = owner.view.center
-                    owner.view.layer.insertSublayer(gradient, at: 0)
+                    owner.view.addGradient(colors: gradient)
                     
                     // 화면 전환시 잔상 해결
                     owner.view.clipsToBounds = true

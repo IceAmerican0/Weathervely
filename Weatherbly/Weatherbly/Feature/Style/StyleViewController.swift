@@ -67,8 +67,8 @@ final class StyleViewController: RxBaseScrollViewController<StyleViewModel> {
         contentView.flex.define { flex in
             flex.addItem(titleLabel).height(titleLabel.font.setLineHeight()).margin(11.5, 20, 17.5)
             flex.addItem(bannerView).height(80).marginHorizontal(20).marginBottom(30)
-            flex.addItem(firstThemeView).height(244).paddingLeft(20).marginBottom(30)
-            flex.addItem(secoundThemeView).height(244).paddingLeft(20).marginBottom(30)
+//            flex.addItem(firstThemeView).height(244).paddingLeft(20).marginBottom(30)
+//            flex.addItem(secoundThemeView).height(244).paddingLeft(20).marginBottom(30)
             flex.addItem(screenDevider).width(100%).height(16).marginBottom(30)
         }
     }

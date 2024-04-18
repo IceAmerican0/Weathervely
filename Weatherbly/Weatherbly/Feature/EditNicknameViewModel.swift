@@ -28,7 +28,7 @@ class EditNicknameViewModel: RxBaseViewModel, EditNicknameViewModelLogic {
     
     func loadUserInfo() {
         let dataSource = UserDataSource()
-        dataSource.getUserInfo(UserDefaultManager.shared.nickname)
+        dataSource.getUserInfo()
             .subscribe(
                 with: self,
                 onNext: { owner, response in
@@ -39,7 +39,7 @@ class EditNicknameViewModel: RxBaseViewModel, EditNicknameViewModelLogic {
                     owner.loadUserInfoRelay.accept(response)
                 },
                 onError: { owner, error in
-                    owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
+                    owner.alertState.accept(.init(title: error.localizedDescription,
                                                         alertType: .popup))
             })
             .disposed(by: bag)

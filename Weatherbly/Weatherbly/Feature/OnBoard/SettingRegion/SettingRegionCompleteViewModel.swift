@@ -14,9 +14,6 @@ public protocol SettingRegionCompleteViewModelLogic: ViewModelBusinessLogic {
     func setAddress()
     func changeAddress()
     func addAddress()
-    func toEditRegionView(_ editRegionState: EditRegionState)
-    func toSelectGenderView()
-    func toDateTimePickView()
 }
 
 public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegionCompleteViewModelLogic {
@@ -48,13 +45,13 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
                 with: self,
                 onNext: { owner, _ in
                     userDefault.set(owner.regionDataRelay.value.dong, forKey: UserDefaultKey.dong.rawValue)
-                    owner.toDateTimePickView()
+                    owner.toHomeView()
                 },
                 onError: { owner, error in
-                    owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
-                                                         alertType: .popup))
-            })
-            .disposed(by: bag)
+                    owner.alertState.accept(.init(title: error.localizedDescription,
+                                                  alertType: .popup))
+                }
+            ).disposed(by: bag)
     }
     
     public func changeAddress() {
@@ -67,7 +64,7 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
                     owner.toEditRegionView(.change)
                 },
                 onError: { owner, error in
-                    owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
+                    owner.alertState.accept(.init(title: error.localizedDescription,
                                                          alertType: .popup))
             })
             .disposed(by: bag)
@@ -83,31 +80,26 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
                 onError: { owner, error in
                     let errorString = error.localizedDescription
                     if errorString == "중복된 주소를 등록 했습니다." {
-                        owner.alertMessageRelay.accept(.init(title: errorString,
-                                                             alertType: .popup,
-                                                             closeAction: {
+                        owner.alertState.accept(.init(title: errorString,
+                                                      alertType: .popup,
+                                                      closeAction: {
                             owner.navigationPopViewControllerRelay.accept(Void())
                         }))
                     } else {
-                        owner.alertMessageRelay.accept(.init(title: errorString,
-                                                             alertType: .popup))
+                        owner.alertState.accept(.init(title: errorString,
+                                                      alertType: .popup))
                     }
-            })
-            .disposed(by: bag)
+                }
+            ).disposed(by: bag)
     }
     
-    public func toEditRegionView(_ editRegionState: EditRegionState) {
+    private func toEditRegionView(_ editRegionState: EditRegionState) {
         let vc = EditRegionViewController(EditRegionViewModel(editRegionState))
         navigationPushViewControllerRelay.accept(vc)
     }
     
-    public func toSelectGenderView() {
-        let vc = SelectGenderViewController(SelectGenderViewModel())
-        navigationPushViewControllerRelay.accept(vc)
-    }
-    
-    public func toDateTimePickView() {
-        let vc = DateTimePickViewController(DateTimePickViewModel())
-        navigationPushViewControllerRelay.accept(vc)
+    private func toHomeView() {
+        let vc = HomeTabBarController()
+        navigationSetRootPushViewControllerRelay.accept(vc)
     }
 }

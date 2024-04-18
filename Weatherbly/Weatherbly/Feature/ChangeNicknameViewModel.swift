@@ -25,7 +25,7 @@ class ChangeNicknameViewModel: RxBaseViewModel, ChangeNicknameViewModelLogic {
                     owner.navigationPopViewControllerRelay.accept(Void())
                 },
                 onError: { owner, error in
-                    owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
+                    owner.alertState.accept(.init(title: error.localizedDescription,
                                                         alertType: .popup))
             })
             .disposed(by: bag)

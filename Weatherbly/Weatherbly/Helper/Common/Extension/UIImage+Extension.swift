@@ -29,6 +29,7 @@ extension UIImage {
     static let tab_style_sel = UIImage(named: "tab_style_sel")!
     
     // Home Resources
+    static let filter_exit = UIImage(named: "filter_exit")!
     static let filter_reset_dis = UIImage(named: "filter_reset_dis")!
     static let filter_reset = UIImage(named: "filter_reset")!
     static let filter_x = UIImage(named: "filter_x")!
@@ -61,7 +62,10 @@ extension UIImage {
     static let style_screen_devider = UIImage(named: "style_screen_devider")!
     
     // Common
+    static let logo_color = UIImage(named: "logo_color")!
+    static let logo_white = UIImage(named: "logo_white")!
     static let networkError = UIImage(named: "networkError_illust")!
+    static let search_empty = UIImage(named: "search_empty")!
     static let loadError = UIImage(named: "popup_illust_loadError")!
     static let serverError = UIImage(named: "serverError_illust")!
     
@@ -72,8 +76,19 @@ extension UIImage {
     static let moreHot_banner = UIImage(named: "moreHot_banner")!
     static let moreHot_illust = UIImage(named: "moreHot_illust")!
     
+    // MyPage
+    static let commontab = UIImage(named: "commontab")!
+    static let icon_favorites = UIImage(named: "icon_favorites")!
+    static let icon_plusL = UIImage(named: "icon_plusL")!
+    static let icon_profile = UIImage(named: "icon_profile")!
+    static let icon_set = UIImage(named: "icon_set")!
+    static let icon_alarm_on = UIImage(named: "icon_alarm_on")!
+    static let icon_alarm_off = UIImage(named: "icon_alarm_off")!
+    
     // Navigation
-    static let navi_back = UIImage(named: "navigationBackButton")!
+    static let leftArrow_black = UIImage(named: "leftArrow_black")!
+    static let navi_back_white = UIImage(named: "navi_back_white")!
+    static let rightArrow_gray = UIImage(named: "rightArrow_gray")!
     
     // Notification
     static let alarm_codi = UIImage(named: "alarm_codi")!

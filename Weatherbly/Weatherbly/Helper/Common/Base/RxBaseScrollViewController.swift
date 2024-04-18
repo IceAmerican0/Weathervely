@@ -151,27 +151,31 @@ public class RxBaseScrollViewController<ViewModel>: UIViewController, CodeBaseIn
     }
     
     func alertBinding() {
-        viewModel.alertMessageRelay
-            .bind(with: self) { owner, message in
-                switch message.alertType {
+        viewModel.alertState
+            .bind(with: self) { owner, state in
+                guard let superView = owner.view.superview else { return }
+                
+                switch state.alertType {
                 case .popup:
-                    let alertVC = AlertViewController(state: .init(title: message.title,
-                                                                   message: message.message,
-                                                                   alertType: message.alertType,
-                                                                   closeAction: message.closeAction))
-                    alertVC.modalPresentationStyle = .overCurrentContext
-                    owner.viewModel.presentViewControllerNoAnimationRelay.accept(alertVC)
-                case .toast:
-                    guard let superView = owner.view.superview else { return }
+                    // 이미 떠있는 알럿 제거
+                    superView.subviews.forEach {
+                        ($0 as? AlertView)?.dismiss()
+                    }
                     
+                    superView.accessibilityViewIsModal = true
+                    
+                    let alert = AlertView(state: state)
+                    superView.addSubview(alert)
+                    
+                case .toast:
                     // 이미 떠있는 토스트 제거
                     superView.subviews.forEach {
                         ($0 as? ToastView)?.dismiss()
                     }
                     
                     let toast = ToastView(
-                        text: message.title,
-                        completionHandler: message.closeAction
+                        text: state.title,
+                        completionHandler: state.closeAction
                     )
                     superView.addSubview(toast)
                     
@@ -183,8 +187,7 @@ public class RxBaseScrollViewController<ViewModel>: UIViewController, CodeBaseIn
                         toast.heightAnchor.constraint(lessThanOrEqualToConstant: 58)
                     ])
                 }
-            }
-            .disposed(by: bag)
+            }.disposed(by: bag)
     }
 
     override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

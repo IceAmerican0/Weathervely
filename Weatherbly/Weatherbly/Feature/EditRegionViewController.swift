@@ -9,62 +9,65 @@ import UIKit
 import PinLayout
 import FlexLayout
 import RxSwift
+import Then
 
 final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> {
+    private var navigationView = CSNavigationView(.leftButton(.leftArrow_black)).then {
+        $0.setTitle("동네 설정")
+        $0.addBorder(.bottom)
+    }
     
-    private var navigationView = CSNavigationView(.leftButton(.navi_back))
+    private let header = LabelMaker(
+        font: .body_3_M,
+        fontColor: .gray200
+    ).make(text: "즐겨 찾는 동네 (최대 3개)")
     
-    private let contentWrapper = UIView()
-    private let outlineImage = UIImageView()
-    private let subtitleLabel = CSLabel(.bold, 18, "즐겨 찾는 동네 (최대 3개)")
-    private var favoriteTableView = UITableView()
-    private var confirmButton = CSButton(.primary)
+    private lazy var favoriteTableView = UITableView(
+        frame: .zero,
+        style: .plain
+    ).then {
+        $0.delegate = self
+        $0.rowHeight = 68
+        $0.isScrollEnabled = false
+        $0.separatorStyle = .none
+        $0.backgroundColor = .clear
+        $0.layer.cornerRadius = 5
+        $0.register(EditRegionTableViewCell.self, forCellReuseIdentifier: EditRegionTableViewCell.identifier)
+    }
     
-    private let textFieldMarginHeight = UIScreen.main.bounds.height * 0.186
-    private let tableViewWidth = UIScreen.main.bounds.width * 0.864
-    private let buttonMarginBottom = UIScreen.main.bounds.height * 0.1
+    private var confirmButton = NewCSButton(.standard, style: .violet600).then {
+        $0.setTitle("동네 추가하기", for: .normal)
+        $0.setTitleColor(.white, for: .normal)
+    }
     
     private var listCount = 0
     
-    override func attribute() {
-        super.attribute()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
-        navigationView.do {
-            $0.setTitle("동네 설정")
-            $0.addBorder(.bottom)
-        }
-        
-        outlineImage.do {
-            $0.setAssetsImage(AssetsImage.rightArrow)
-        }
-        
-        favoriteTableView.do {
-            $0.delegate = self
-            $0.rowHeight = 56
-            $0.isScrollEnabled = false
-            $0.bounces = false
-            $0.backgroundColor = CSColor._253_253_253.color
-            $0.layer.cornerRadius = 5
-            $0.register(EditRegionTableViewCell.self, forCellReuseIdentifier: EditRegionTableViewCell.identifier)
-        }
-        
-        confirmButton.do {
-            $0.setTitle("동네 추가하기", for: .normal)
-            $0.setTitleColor(.white, for: .normal)
+        // 주소 추가나 변경 후 뒤로가기 방지
+        if case .edit = viewModel.editRegionState {} else {
+            guard let navigationController else { return }
+            var viewControllers = navigationController.viewControllers
+            viewControllers = viewControllers.filter { !($0 is SettingRegionCompleteViewController || $0 is SettingRegionViewController || $0 is Self) }
+            navigationController.viewControllers = viewControllers
         }
     }
     
     override func layout() {
         super.layout()
         
-        container.flex.define { flex in
-            flex.addItem(navigationView).width(UIScreen.main.bounds.width)
-            flex.addItem(contentWrapper).direction(.row).alignItems(.center).marginLeft(21).marginTop(64).define { flex in
-                flex.addItem(outlineImage).size(24)
-                flex.addItem(subtitleLabel).marginLeft(3).height(28)
+        view.backgroundColor = .violet10
+        
+        container.flex.define {
+            $0.addItem(navigationView).width(UIScreen.main.bounds.width)
+            $0.addItem(header).marginTop(22).marginLeft(20)
+            $0.addItem().grow(1).define {
+                $0.addItem(favoriteTableView).marginTop(12).marginHorizontal(20).grow(1)
+                $0.addItem().position(.absolute).bottom(20).width(100%).height(48).define {
+                    $0.addItem(confirmButton).marginHorizontal(20).grow(1)
+                }
             }
-            flex.addItem(favoriteTableView).marginTop(8).marginHorizontal(24).height(168)
-            flex.addItem(confirmButton).position(.absolute).alignSelf(.center).bottom(buttonMarginBottom).width(88%).height(62)
         }
     }
     
@@ -73,16 +76,7 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
         
         navigationView.leftButtonDidTapRelay
             .bind(with: self) { owner, _ in
-                if let viewControllers = owner.navigationController?.viewControllers {
-                    for viewController in viewControllers {
-                        if let settingViewController = viewController as? SettingViewController {
-                            owner.navigationController?.popToViewController(settingViewController, animated: true)
-                            break
-                        }
-                    }
-                    
-                    owner.viewModel.navigationPoptoRootRelay.accept(Void())
-                }
+                owner.viewModel.navigationPoptoRootRelay.accept(Void())
             }
             .disposed(by: bag)
         
@@ -96,20 +90,13 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
     override func viewModelBinding() {
         super.viewModelBinding()
         
-        viewModel.loadRegionList()
-        
         viewModel.loadedListRelay
             .bind(to: favoriteTableView.rx
                 .items(cellIdentifier: EditRegionTableViewCell.identifier,
                        cellType: EditRegionTableViewCell.self)) { row, data, cell in
                 self.listCount = self.viewModel.loadedListRelay.value.count
                 
-                if row == 0 {
-                    cell.backgroundColor = CSColor._248_248_248.color
-                } else {
-                    cell.backgroundColor = .white
-                }
-                
+                cell.selectionStyle = .none
                 cell.configureCellState(EditRegionCellState(region: data.addressName, count: self.listCount), row)
                 cell.buttonTapAction { [weak self] index in
                     self?.viewModel.didTapCellButton(index)
@@ -124,10 +111,8 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
         confirmButton.do {
             if listCount == 3 {
                 $0.isEnabled = false
-                $0.setButtonStyle(.grayFilled)
             } else {
                 $0.isEnabled = true
-                $0.setButtonStyle(.primary)
             }
         }
     }
@@ -135,19 +120,10 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
 
 // MARK: UITableViewDelegate
 extension EditRegionViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { 25 }
+//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { 25 }
+    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath)
-        cell?.selectionStyle = .none
-        cell?.isSelected = true
         viewModel.updateMainRegion(indexPath.row)
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
-    
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath)
-        cell?.selectionStyle = .default
-        cell?.isSelected = false
     }
 }

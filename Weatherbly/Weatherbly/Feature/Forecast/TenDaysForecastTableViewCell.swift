@@ -57,11 +57,11 @@ public final class TenDaysForecastTableViewCell: UITableViewCell {
         
         let (_, AMImage) = setWeatherUI(
             weather: state.weatherAM,
-            isDayTime: "오전"
+            time: "오전"
         )
         let (_, PMImage) = setWeatherUI(
             weather: state.weatherPM,
-            isDayTime: "오후"
+            time: "오후"
         )
         weatherAM.image = AMImage
         weatherPM.image = PMImage

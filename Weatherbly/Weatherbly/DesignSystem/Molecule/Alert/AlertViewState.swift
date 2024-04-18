@@ -26,33 +26,37 @@ public struct AlertViewState {
     public var title: String
     public var message: String?
     public let alertType: AlertType
+    public let closeAction: AlertActionHandler?
+    public let buttonListState: AlertButtonListState
     public let hapticType: HapticType
-    public let closeAction: (() -> Void)?
     
-    public init(title: String,
-                message: String? = nil,
-                alertType: AlertType,
-                closeAction: (() -> Void)? = nil,
-                hapticType: HapticType = .impact) {
+    public init(
+        title: String,
+        message: String? = nil,
+        alertType: AlertType,
+        closeAction: AlertActionHandler? = nil,
+        buttonListState: AlertButtonListState = .single,
+        hapticType: HapticType = .impact
+    ) {
         self.title = title
         self.message = message
         self.alertType = alertType
-        self.hapticType = hapticType
         self.closeAction = closeAction
+        self.buttonListState = buttonListState
+        self.hapticType = hapticType
     }
 }
 
 public typealias AlertActionHandler = () -> Void
 
-// TODO: 추후 예/아니오 알럿 선택시
-public enum AlertBoxButtonListState {
+public enum AlertButtonListState {
     case single
-    case double
+    case double(left: AlertButtonState, right: AlertButtonState)
 }
 
-public struct AlertBoxButtonState {
+public struct AlertButtonState {
     let title: String
-    let action: (() -> Void)?
+    let action: AlertActionHandler?
     
     public init(title: String, action: (() -> Void)?) {
         self.title = title

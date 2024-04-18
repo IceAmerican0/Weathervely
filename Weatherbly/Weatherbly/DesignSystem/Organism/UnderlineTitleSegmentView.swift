@@ -13,20 +13,23 @@ import Then
 final class UnderlineTitleSegmentView: UISegmentedControl {
     
     private lazy var underline = UIView().then {
-        let width = bounds.size.width / CGFloat(numberOfSegments)
+        let width = bounds.width / CGFloat(numberOfSegments)
         let height = 2.0
         let xCoordinate = CGFloat(selectedSegmentIndex * Int(width))
-        let yCoordinate = bounds.size.height - height
-        let frame = CGRect(x: xCoordinate, y: yCoordinate, width: width, height: height)
+        let yCoordinate = bounds.height - height
+        let frame = CGRect(
+            x: xCoordinate,
+            y: yCoordinate,
+            width: width,
+            height: height
+        )
         $0.frame = frame
         $0.backgroundColor = .gray600
-        $0.setCornerRadius(1)
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setDefault()
-        addTarget(self, action: #selector(handleValueChange), for: .valueChanged)
     }
     
     override init(items: [Any]?) {
@@ -44,7 +47,7 @@ final class UnderlineTitleSegmentView: UISegmentedControl {
     }
     
     override var intrinsicContentSize: CGSize {
-        CGSize(width: Constants.screenWidth, height: 48)
+        CGSize(width: bounds.width, height: 48)
     }
     
     func layout() {
@@ -52,6 +55,7 @@ final class UnderlineTitleSegmentView: UISegmentedControl {
         bringSubviewToFront(underline)
         
         let xCoordinate = (bounds.width / CGFloat(numberOfSegments)) * CGFloat(selectedSegmentIndex)
+        
         UIView.animate(
           withDuration: 0.1,
           animations: {
@@ -72,9 +76,5 @@ final class UnderlineTitleSegmentView: UISegmentedControl {
         setBackgroundImage(image, for: .normal, barMetrics: .default)
         setBackgroundImage(image, for: .selected, barMetrics: .default)
         setBackgroundImage(image, for: .highlighted, barMetrics: .default)
-    }
-    
-    @objc func handleValueChange() {
-        layout()
     }
 }

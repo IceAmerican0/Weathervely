@@ -9,71 +9,51 @@ import UIKit
 import PinLayout
 import FlexLayout
 import RxSwift
+import Then
 
 public final class SettingRegionCompleteViewController: RxBaseViewController<SettingRegionCompleteViewModel> {
+    private let navigationView = CSNavigationView(.leftButton(.leftArrow_black)).then {
+        $0.setTitle("동네 설정")
+    }
     
-    private let progressBar = CSProgressView(0.66)
-    private let navigationView = CSNavigationView(.leftButton(.navi_back))
-    private var explanationLabel = CSLabel(.bold, 24, "선택한 동네로 설정할까요?")
+    private var comment = LabelMaker(
+        font: .heading_5_B
+    ).make(text: "선택한 동네로 설정할까요?")
     
-    private let regionWrapper = UIView()
-    private var regionLabel = CSLabel(.regular, 20, "서울특별시 송파구 풍납4동")
+    private lazy var region = LabelMaker(
+        font: .body_3_M
+    ).make(text: "\(viewModel.regionDataRelay.value.address_name ?? "")")
     
-    private let buttonWrapper = UIView()
-    private let negativeButton = CSButton(.grayFilled)
-    private let confirmButton = CSButton(.primary)
+    private let negativeButton = NewCSButton(.standard, style: .violet100).then {
+        $0.setTitle("아니오", for: .normal)
+    }
     
-    override func attribute() {
-        super.attribute()
-        
-        regionWrapper.do {
-            $0.backgroundColor = CSColor._248_248_248.color
-            $0.addBorder(.top)
-            $0.addBorder(.bottom)
-        }
-        
-        regionLabel.do {
-            $0.attributedText = NSMutableAttributedString().regular(viewModel.regionDataRelay.value.address_name!, 20, CSColor.none)
-            $0.adjustsFontSizeToFitWidth = true
-        }
-        
-        negativeButton.do {
-            $0.setTitle("아니요", for: .normal)
-            $0.titleLabel?.font = .boldSystemFont(ofSize: 18)
-            $0.backgroundColor = CSColor._151_151_151.color
-            $0.setTitleColor(.white, for: .normal)
-        }
-        
-        confirmButton.do {
-            $0.setTitle("확인", for: .normal)
-            $0.titleLabel?.font = .boldSystemFont(ofSize: 18)
-            $0.setTitleColor(.white, for: .normal)
-        }
+    private let confirmButton = NewCSButton(.standard, style: .violet600).then {
+        $0.setTitle("네", for: .normal)
     }
     
     override func layout() {
         super.layout()
         
-        container.flex.alignItems(.center).define { flex in
-            flex.addItem(progressBar)
-            flex.addItem(navigationView).width(UIScreen.main.bounds.width)
-            flex.addItem(explanationLabel).marginTop(13%).width(65%).height(34)
-            flex.addItem(regionWrapper).alignItems(.center).justifyContent(.center)
-                .marginTop(27).marginHorizontal(20).width(89%).height(55)
-                .define { flex in
-                    flex.addItem(regionLabel).marginHorizontal(14).width(81.5%).height(28)
+        container.flex.define {
+            $0.addItem(navigationView).width(100%)
+            $0.addItem(comment).marginTop(50).marginLeft(20)
+            $0.addItem().alignSelf(.stretch).alignItems(.center).justifyContent(.center)
+                .marginTop(32).marginHorizontal(20).height(51).backgroundColor(.violet10)
+                .define {
+                    $0.view?.addBorders([.top, .bottom], 1, .violet100)
+                    $0.addItem(region)
             }
-            flex.addItem(buttonWrapper).position(.absolute).direction(.row).justifyContent(.center).bottom(22%).width(100%)
-                .define { flex in
-                flex.addItem(negativeButton).width(39%).height(62)
-                flex.addItem(confirmButton).marginLeft(22).width(39%).height(62)
+            $0.addItem().position(.absolute).direction(.row).alignSelf(.stretch).justifyContent(.spaceBetween)
+                .bottom(20).marginHorizontal(20).height(48).define { bottom in
+                bottom.addItem(negativeButton).width(50%).shrink(1)
+                bottom.addItem().width(8)
+                bottom.addItem(confirmButton).width(50%).shrink(1)
             }
         }
         
         if viewModel.settingRegionState != .onboard {
-            progressBar.isHidden = true
             navigationView.setTitle("동네 변경 / 추가")
-            navigationView.addBorder(.bottom)
         }
     }
     
@@ -91,7 +71,6 @@ public final class SettingRegionCompleteViewController: RxBaseViewController<Set
         confirmButton.rx.tap
             .bind(with: self) { owner, _ in
                 owner.viewModel.didTapConfirmButton()
-            }
-            .disposed(by: bag)
+            }.disposed(by: bag)
     }
 }

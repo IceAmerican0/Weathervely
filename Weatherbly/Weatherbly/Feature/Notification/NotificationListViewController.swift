@@ -12,7 +12,7 @@ import Then
 import RxSwift
 
 final class NotificationListViewController: RxBaseViewController<NotificationListViewModel> {
-    private var navigationView = CSNavigationView(.rightButton(.navi_back, .tab_mypage_nor)).then {
+    private var navigationView = CSNavigationView(.rightButton(.leftArrow_black, .tab_mypage_nor)).then {
         $0.backgroundColor = .clear
         $0.setTitle("알림")
     }
@@ -51,8 +51,8 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
         $0.register(withType: NotificationListTableViewCell.self)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         viewModel.getNotiInfo()
     }
 
@@ -84,7 +84,9 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
         
         navigationView.rightButtonDidTapRelay
             .bind(with: self) { owner, _ in
-                owner.viewModel.toSettingView()
+                if let homeTabBarController = owner.navigationController?.tabBarController as? HomeTabBarController {
+                    homeTabBarController.switchToSettingsTab()
+                }
             }.disposed(by: bag)
         
         tableView.rx.itemSelected
@@ -97,6 +99,7 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
                 cellIdentifier: NotificationListTableViewCell.identifier,
                 cellType: NotificationListTableViewCell.self
             )) { _, data, cell in
+                cell.selectionStyle = .none
                 cell.configureCellState(state: data)
             }.disposed(by: bag)
     }

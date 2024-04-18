@@ -14,10 +14,9 @@ public protocol ViewModelBusinessLogic: AnyObject {}
 public protocol ViewModelable: AnyObject {}
 
 public class RxBaseViewModel: BaseDisposebag, ViewModelable {
-    
     let bag = DisposeBag()
-    
-    let alertMessageRelay = PublishRelay<AlertViewState>()
+    /// 알럿 / 토스트 정보
+    let alertState = PublishRelay<AlertViewState>()
     
     let viewWillAppearRelay = PublishRelay<Void>()
     let viewDidAppearRelay = PublishRelay<Void>()
@@ -28,6 +27,7 @@ public class RxBaseViewModel: BaseDisposebag, ViewModelable {
     let navigationPopToSelfRelay = PublishRelay<Void>()
     let navigationPopViewControllerRelay = PublishRelay<Void>()
     let navigationPushViewControllerRelay = PublishRelay<UIViewController?>()
+    let navigationSetRootPushViewControllerRelay = PublishRelay<UIViewController?>()
     let presentViewControllerWithAnimationRelay = PublishRelay<UIViewController?>()
     let presentViewControllerNoAnimationRelay = PublishRelay<UIViewController?>()
     let dismissSelfWithAnimationRelay = PublishRelay<Void>()
@@ -52,6 +52,9 @@ public class RxBaseViewModel: BaseDisposebag, ViewModelable {
             .disposed(by: bag)
         innerViewModel.navigationPushViewControllerRelay
             .bind(to: navigationPushViewControllerRelay)
+            .disposed(by: bag)
+        innerViewModel.navigationSetRootPushViewControllerRelay
+            .bind(to: navigationSetRootPushViewControllerRelay)
             .disposed(by: bag)
         innerViewModel.presentViewControllerWithAnimationRelay
             .bind(to: presentViewControllerWithAnimationRelay)

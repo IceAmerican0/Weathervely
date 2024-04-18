@@ -32,7 +32,7 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
     
     private let regionLabel = LabelMaker(
         font: .body_1_M
-    ).make(text: UserDefaultManager.shared.dong)
+    ).make()
     
     private let notificationButton = UIButton().then {
         $0.setImage(.home_alarm, for: .normal)
@@ -81,6 +81,7 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
         collectionViewLayout: setLayout()
     ).then {
         $0.showsVerticalScrollIndicator = false
+//        $0.contentInset = .init(top: 0, left: 20, bottom: 0, right: 20)
         $0.backgroundColor = .clear
         $0.refreshControl = refresh
         $0.register(withType: HomeForecastCell.self)
@@ -94,11 +95,17 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
         super.viewDidLoad()
         viewModel.getForecastInfo()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        regionLabel.text = UserDefaultManager.shared.dong
+        regionLabel.flex.markDirty()
+    }
 
     override func layout() {
         super.layout()
         
-        container.flex.alignItems(.center).define {
+        container.flex.define {
             $0.addItem().direction(.row).justifyContent(.spaceBetween).width(100%).marginTop(12).define { header in
                 header.addItem(locationButton).marginLeft(20).size(20)
                 header.addItem(regionLabel).marginLeft(8)
@@ -322,15 +329,15 @@ extension NewHomeViewController: UICollectionViewDelegate {
         // 셀 크기
         let banner = NSCollectionLayoutItem(
             layoutSize: NSCollectionLayoutSize(
-                widthDimension: .estimated(158),
-                heightDimension: .estimated(158)
+                widthDimension: .absolute(158),
+                heightDimension: .absolute(158)
             )
         )
         
         // 한 줄 크기
         let bannerGroup = NSCollectionLayoutGroup.horizontal(
             layoutSize: NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1),
+                widthDimension: .fractionalWidth(0.5),
                 heightDimension: banner.layoutSize.heightDimension
             ),
             subitems: [banner]
@@ -339,8 +346,8 @@ extension NewHomeViewController: UICollectionViewDelegate {
         
         let item = NSCollectionLayoutItem(
             layoutSize: NSCollectionLayoutSize(
-                widthDimension: .estimated(158),
-                heightDimension: .estimated(236)
+                widthDimension: .fractionalWidth(0.5),
+                heightDimension: .absolute(236)
             )
         )
         
@@ -382,12 +389,16 @@ extension NewHomeViewController: UICollectionViewDelegate {
 extension NewHomeViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        if section == 0 {
+            UIEdgeInsets(top: 0, left: 20, bottom: 14, right: 20)
+        } else {
+            UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         if section == 1 {
-            return CGSize(width: collectionView.frame.width, height: 56)
+            return CGSize(width: collectionView.frame.width - 40, height: 56)
         } else {
             return .zero
         }
@@ -399,9 +410,9 @@ extension NewHomeViewController: UICollectionViewDelegateFlowLayout {
         }
         
         if indexPath.item == 0 {
-            return CGSize(width: 158, height: 158)
+            return CGSize(width: (collectionView.frame.width - 59) / 2, height: 158)
         } else {
-            return CGSize(width: 158, height: 236)
+            return CGSize(width: (collectionView.frame.width - 59) / 2, height: 236)
         }
     }
 }

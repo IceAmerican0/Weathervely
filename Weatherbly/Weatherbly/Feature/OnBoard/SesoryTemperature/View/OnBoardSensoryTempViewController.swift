@@ -16,7 +16,7 @@ import Then
 final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensoryTempViewModel> {
     
     private var progressBar = CSProgressView(1.0)
-    private var navigationBackButton = CSNavigationView(.leftButton(.navi_back))
+    private var navigationBackButton = CSNavigationView(.leftButton(.leftArrow_black))
     
     private var mainMessageLabel = CSLabel(.bold, 22, "")
     

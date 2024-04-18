@@ -11,7 +11,6 @@ import RxCocoa
 
 public protocol NotificationListViewModelLogic: ViewModelBusinessLogic {
     func getNotiInfo()
-    func toSettingView()
     
     var notificationInfo: PublishRelay<[NotificationInfo]> { get }
 }
@@ -45,11 +44,5 @@ final class NotificationListViewModel: RxBaseViewModel, NotificationListViewMode
             ),
         ]
         notificationInfo.accept(dummy)
-    }
-    
-    /// 마이페이지 이동
-    public func toSettingView() {
-        let vc = SettingViewController(SettingViewModel())
-        navigationPushViewControllerRelay.accept(vc)
     }
 }

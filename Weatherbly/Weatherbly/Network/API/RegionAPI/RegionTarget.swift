@@ -31,8 +31,10 @@ extension RegionTarget: WVTargetType {
     public var task: Task {
         switch self {
         case .searchRegion(let query):
-            return .requestParameters(parameters: ["query": query],
-                                      encoding: URLEncoding.queryString)
+            .requestParameters(
+                parameters: ["query": query],
+                encoding: URLEncoding.queryString
+            )
         }
     }
 }

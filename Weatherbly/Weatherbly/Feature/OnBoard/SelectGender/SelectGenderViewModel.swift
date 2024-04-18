@@ -24,7 +24,7 @@ final class SelectGenderViewModel: RxBaseViewModel, SelectGenderViewModelLogic {
                     owner.toDateTimePickView()
                 },
                 onError: { owner, error in
-                    owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
+                    owner.alertState.accept(.init(title: error.localizedDescription,
                                                          alertType: .popup))
             })
             .disposed(by: bag)

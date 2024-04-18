@@ -16,26 +16,22 @@ enum ForeCastTarget {
 extension ForeCastTarget: WVTargetType {
     var path: String {
         switch self {
-        case .getVillageForcastInfo:
-            return "/forecast/getVilageForecastInfo"
-        case .getTenDayForecastInfo:
-            return "/forecast/getTenDayForecastInfo"
+        case .getVillageForcastInfo: "/forecast/getVilageForecastInfo"
+        case .getTenDayForecastInfo: "/forecast/getTenDayForecastInfo"
         }
     }
     
     var method: Moya.Method {
         switch self {
         case .getVillageForcastInfo,
-             .getTenDayForecastInfo:
-            return .get
+             .getTenDayForecastInfo: .get
         }
     }
     
     var task: Moya.Task {
         switch self {
         case .getVillageForcastInfo,
-             .getTenDayForecastInfo:
-            return .requestPlain
+             .getTenDayForecastInfo: .requestPlain
         }
     }
     

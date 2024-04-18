@@ -14,7 +14,7 @@ import RxCocoa
 final class EditNicknameViewController: RxBaseViewController<EditNicknameViewModel> {
     
     private var leftButtonDidTapRelay = PublishRelay<Void>()
-    private var csNavigationView = CSNavigationView(.leftButton(.navi_back))
+    private var csNavigationView = CSNavigationView(.leftButton(.leftArrow_black))
     
     private let contentWrapper = UIView()
     

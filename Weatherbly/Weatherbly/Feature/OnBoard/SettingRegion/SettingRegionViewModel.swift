@@ -22,9 +22,13 @@ public protocol SettingRegionViewModelLogic: ViewModelBusinessLogic {
     func searchRegion(_ region: String)
     func didTapTableViewCell(at: IndexPath)
     func toCompleteViewController(_ viewModel: SettingRegionCompleteViewModel)
+    
+    var resultIsEmpty: PublishRelay<Bool> { get }
+    var searchedListRelay: BehaviorRelay<[Document]> { get }
 }
 
 public final class SettingRegionViewModel: RxBaseViewModel, SettingRegionViewModelLogic {
+    public var resultIsEmpty: PublishRelay<Bool> = .init()
     public var searchedListRelay = BehaviorRelay<[Document]>(value: [])
     public let settingRegionState: SettingRegionState
     
@@ -39,15 +43,14 @@ public final class SettingRegionViewModel: RxBaseViewModel, SettingRegionViewMod
                 with: self,
                 onNext: { owner, response in
                     if response.documents.count == 0 {
-                        owner.alertMessageRelay.accept(.init(title: "해당하는 동네 정보가 없어요",
-                                                             message: "동네 이름을 확인해주세요",
-                                                             alertType: .popup))
+                        owner.resultIsEmpty.accept(true)
                     } else {
+                        owner.resultIsEmpty.accept(false)
                         owner.searchedListRelay.accept(response.documents)
                     }
                 },
                 onError: { owner, error in
-                    owner.alertMessageRelay.accept(.init(title: error.localizedDescription,
+                    owner.alertState.accept(.init(title: error.localizedDescription,
                                                          alertType: .popup))
             })
             .disposed(by: bag)

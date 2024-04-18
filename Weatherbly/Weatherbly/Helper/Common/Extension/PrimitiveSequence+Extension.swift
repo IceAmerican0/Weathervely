@@ -32,45 +32,43 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
     func mapTo<D: Decodable>(_ type: D.Type) -> Observable<D> {
         flatMap { response in
             do {
-                if (200..<300 ~= response.statusCode) { // status : 200
-                    guard try JSONSerialization.jsonObject(with: response.data, options: []) is [String:Any] else {
-                        return .error(WVNetworkError.decodeError)
-                    }
-                    
-                    #if DEBUG
-                    print(
-                        """
-                        Request : \(type)
-                        Response : \(String(decoding: response.data, as: UTF8.self))
-                        """
-                    )
-                    #endif
-                    
+                guard let object = try? JSONSerialization.jsonObject(with: response.data, options: []) as? [String:Any],
+                      let prettyData = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted),
+                      let prettyString = String(data: prettyData, encoding: .utf8)
+                else {
+                    return .error(WVNetworkError.decodeError)
+                }
+                
+                #if DEBUG
+                print(
+                    """
+                    Request : \(type)
+                    Response : \(prettyString)
+                    """
+                )
+                #endif
+                
+                // status : 200
+                if (200..<300 ~= response.statusCode) {
                     return .just(try response.map(type))
-                } else { // status : !(200 ~ 300)
-                    guard let dictionary = try JSONSerialization.jsonObject(with: response.data, options: []) as? [String:Any] else {
-                        return .error(WVNetworkError.decodeError)
-                    }
-                    
-                    if let apiMessage = dictionary["apiMessage"] as? [String:Any] {
-                        let errMessage = apiMessage["message"] as? String ?? ""
-                        let errDetail = apiMessage["detail"] as? String ?? ""
+                // status : !(200 ~ 300)
+                } else {
+                    if let apiMessage = object["apiMessage"] as? [String: Any],
+                       let errMessage = apiMessage["message"] as? String,
+                       let errDetail = apiMessage["detail"] as? String {
                         
-                        #if DEBUG
-                        print(
-                            """
-                            Request : \(type)
-                            Response : \(dictionary)
-                            """
-                        )
-                        #endif
-                        
-                        return .error(WVNetworkError.badRequestError(errDetail.isEmpty ? errMessage : errDetail))
+                        return .error(WVNetworkError.badRequestError(errDetail != "" ? errMessage : errDetail))
                     }
                 }
             } catch(let error) {
                 #if DEBUG
-                print(String(decoding: response.data, as: UTF8.self))
+                print(
+                    """
+                    Request : \(type)
+                    Response : \(String(decoding: response.data, as: UTF8.self))
+                    Error : \(error)
+                    """
+                )
                 #endif
                 
                 if let error = error as? MoyaError {

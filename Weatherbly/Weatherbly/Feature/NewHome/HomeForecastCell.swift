@@ -30,7 +30,9 @@ public final class HomeForecastCell: UICollectionViewCell {
         fontColor: .white
     ).make()
     
-    private let weatherImage = UIImageView()
+    private let weatherImage = UIImageView().then {
+        $0.contentMode = .scaleAspectFit
+    }
     
     private let commentLabel = LabelMaker(
         font: .body_3_M,
@@ -73,20 +75,14 @@ public final class HomeForecastCell: UICollectionViewCell {
     
     public func configureCellState(state: HomeForecastInfo) {
         mainTempLabel.text = "\(state.mainTemp)°"
+        mainTempLabel.flex.markDirty()
         dailyTempLabel.text = "\(state.minTemp)° / \(state.maxTemp)°"
+        dailyTempLabel.flex.markDirty()
         commentLabel.text = state.comment
         
-        let (gradient, image) = setWeatherUI(weather: state.weather, isDayTime: String(state.time.prefix(2)))
+        let (gradient, image) = setWeatherUI(weather: state.weather, time: String(state.time))
         weatherImage.image = image
-        gradient.frame = bounds
-        gradient.bounds = bounds.insetBy(
-            dx: (-0.5 * bounds.size.width),
-            dy: (-0.5 * bounds.size.height)
-        )
-        gradient.position = contentView.center
-        contentView.layer.insertSublayer(gradient, at: 0)
-        contentView.flex.markDirty()
-        setNeedsLayout()
+        addGradient(colors: gradient)
     }
 }
 
@@ -100,34 +96,15 @@ private extension HomeForecastCell {
         clipsToBounds = true
         
         contentView.flex.alignItems(.center).define {
-            $0.addItem().direction(.row).justifyContent(.spaceBetween).alignItems(.center).marginTop(27).width(100%).define {
-                $0.addItem(mainTempLabel).marginLeft(20).size(68)
+            $0.addItem().direction(.row).justifyContent(.spaceBetween).alignItems(.center).alignSelf(.stretch).marginHorizontal(20).marginTop(27).define {
+                $0.addItem(mainTempLabel)
                 $0.addItem().marginTop(-10).marginLeft(18).grow(1).define { middle in
                     middle.addItem(sensoryTempLabel)
                     middle.addItem(dailyTempLabel).marginTop(5)
                 }
-                $0.addItem(weatherImage).marginRight(20).width(110).height(74)
+                $0.addItem(weatherImage).width(110).height(74)
             }
             $0.addItem(commentLabel).alignSelf(.stretch).marginHorizontal(20).marginTop(4).height(32)
-        }
-    }
-}
-
-extension UIView {
-    public func setWeatherUI(weather: String, isDayTime: String) -> (CAGradientLayer, UIImage) {
-        switch weather {
-        case "맑음": isDayTime == "오전" ?
-            (.gradient10, UIImage.sunny_am) :
-            (.gradient20, UIImage.sunny_pm)
-        case "흐림": (.gradient30, UIImage.cloudy)
-        case "구름많음": isDayTime == "오전" ?
-            (.gradient40, UIImage.clouds_am) :
-            (.gradient50, UIImage.clouds_pm)
-        case "비": (.gradient60, UIImage.rainy)
-        case "눈비": (.gradient70, UIImage.snowyRainy)
-        case "눈": (.gradient80, UIImage.snowy)
-        case "바람": (.gradient90, UIImage.windy)
-        default: (.gradient10, UIImage.sunny_am)
         }
     }
 }

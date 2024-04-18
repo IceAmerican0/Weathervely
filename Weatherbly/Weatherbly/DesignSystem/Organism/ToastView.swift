@@ -28,6 +28,7 @@ public class ToastView: UIView {
         super.init(frame: frame)
         layout()
         dismiss()
+        completionHandler?()
     }
     
     required init?(coder: NSCoder) {
