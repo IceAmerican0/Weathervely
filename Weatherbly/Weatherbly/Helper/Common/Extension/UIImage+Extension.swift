@@ -82,7 +82,7 @@ extension UIImage {
     static let icon_alarm_off = UIImage(named: "icon_alarm_off")!
     
     // Navigation
-    static let navi_back = UIImage(named: "navigationBackButton")!
+    static let leftArrow_black = UIImage(named: "leftArrow_black")!
     static let navi_back_white = UIImage(named: "navi_back_white")!
     static let rightArrow_gray = UIImage(named: "rightArrow_gray")!
     

@@ -14,9 +14,6 @@ public protocol SettingRegionCompleteViewModelLogic: ViewModelBusinessLogic {
     func setAddress()
     func changeAddress()
     func addAddress()
-    func toEditRegionView(_ editRegionState: EditRegionState)
-    func toSelectGenderView()
-    func toDateTimePickView()
 }
 
 public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegionCompleteViewModelLogic {
@@ -48,13 +45,13 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
                 with: self,
                 onNext: { owner, _ in
                     userDefault.set(owner.regionDataRelay.value.dong, forKey: UserDefaultKey.dong.rawValue)
-                    owner.toDateTimePickView()
+                    owner.toHomeView()
                 },
                 onError: { owner, error in
                     owner.alertState.accept(.init(title: error.localizedDescription,
-                                                         alertType: .popup))
-            })
-            .disposed(by: bag)
+                                                  alertType: .popup))
+                }
+            ).disposed(by: bag)
     }
     
     public func changeAddress() {
@@ -96,18 +93,13 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
             ).disposed(by: bag)
     }
     
-    public func toEditRegionView(_ editRegionState: EditRegionState) {
+    private func toEditRegionView(_ editRegionState: EditRegionState) {
         let vc = EditRegionViewController(EditRegionViewModel(editRegionState))
         navigationPushViewControllerRelay.accept(vc)
     }
     
-    public func toSelectGenderView() {
-        let vc = SelectGenderViewController(SelectGenderViewModel())
-        navigationPushViewControllerRelay.accept(vc)
-    }
-    
-    public func toDateTimePickView() {
-        let vc = DateTimePickViewController(DateTimePickViewModel())
-        navigationPushViewControllerRelay.accept(vc)
+    private func toHomeView() {
+        let vc = HomeTabBarController()
+        navigationSetRootPushViewControllerRelay.accept(vc)
     }
 }

@@ -12,7 +12,7 @@ import RxSwift
 import Then
 
 final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> {
-    private var navigationView = CSNavigationView(.leftButton(.navi_back)).then {
+    private var navigationView = CSNavigationView(.leftButton(.leftArrow_black)).then {
         $0.setTitle("동네 설정")
         $0.addBorder(.bottom)
     }
@@ -42,10 +42,24 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
     
     private var listCount = 0
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // 주소 추가나 변경 후 뒤로가기 방지
+        if case .edit = viewModel.editRegionState {} else {
+            guard let navigationController else { return }
+            var viewControllers = navigationController.viewControllers
+            viewControllers = viewControllers.filter { !($0 is SettingRegionCompleteViewController || $0 is SettingRegionViewController || $0 is Self) }
+            navigationController.viewControllers = viewControllers
+        }
+    }
+    
     override func layout() {
         super.layout()
         
-        container.flex.backgroundColor(.violet10).define {
+        view.backgroundColor = .violet10
+        
+        container.flex.define {
             $0.addItem(navigationView).width(UIScreen.main.bounds.width)
             $0.addItem(header).marginTop(22).marginLeft(20)
             $0.addItem().grow(1).define {
@@ -62,16 +76,7 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
         
         navigationView.leftButtonDidTapRelay
             .bind(with: self) { owner, _ in
-                if let viewControllers = owner.navigationController?.viewControllers {
-                    for viewController in viewControllers {
-                        if let settingViewController = viewController as? SettingViewController {
-                            owner.navigationController?.popToViewController(settingViewController, animated: true)
-                            break
-                        }
-                    }
-                    
-                    owner.viewModel.navigationPoptoRootRelay.accept(Void())
-                }
+                owner.viewModel.navigationPoptoRootRelay.accept(Void())
             }
             .disposed(by: bag)
         
@@ -85,14 +90,13 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
     override func viewModelBinding() {
         super.viewModelBinding()
         
-        viewModel.loadRegionList()
-        
         viewModel.loadedListRelay
             .bind(to: favoriteTableView.rx
                 .items(cellIdentifier: EditRegionTableViewCell.identifier,
                        cellType: EditRegionTableViewCell.self)) { row, data, cell in
                 self.listCount = self.viewModel.loadedListRelay.value.count
                 
+                cell.selectionStyle = .none
                 cell.configureCellState(EditRegionCellState(region: data.addressName, count: self.listCount), row)
                 cell.buttonTapAction { [weak self] index in
                     self?.viewModel.didTapCellButton(index)
@@ -116,19 +120,10 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
 
 // MARK: UITableViewDelegate
 extension EditRegionViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { 25 }
+//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { 25 }
+    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath)
-        cell?.selectionStyle = .none
-        cell?.isSelected = true
         viewModel.updateMainRegion(indexPath.row)
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
-    
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath)
-        cell?.selectionStyle = .default
-        cell?.isSelected = false
     }
 }

@@ -12,7 +12,7 @@ import Then
 import RxSwift
 
 final class NotificationListViewController: RxBaseViewController<NotificationListViewModel> {
-    private var navigationView = CSNavigationView(.rightButton(.navi_back, .tab_mypage_nor)).then {
+    private var navigationView = CSNavigationView(.rightButton(.leftArrow_black, .tab_mypage_nor)).then {
         $0.backgroundColor = .clear
         $0.setTitle("알림")
     }

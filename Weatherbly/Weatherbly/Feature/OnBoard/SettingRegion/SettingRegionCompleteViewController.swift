@@ -12,7 +12,7 @@ import RxSwift
 import Then
 
 public final class SettingRegionCompleteViewController: RxBaseViewController<SettingRegionCompleteViewModel> {
-    private let navigationView = CSNavigationView(.leftButton(.navi_back)).then {
+    private let navigationView = CSNavigationView(.leftButton(.leftArrow_black)).then {
         $0.setTitle("동네 설정")
     }
     

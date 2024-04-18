@@ -12,7 +12,7 @@ import RxCocoa
 import Then
 
 final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
-    private var navigationView = CSNavigationView(.leftButton(.navi_back)).then {
+    private var navigationView = CSNavigationView(.leftButton(.leftArrow_black)).then {
         $0.setTitle("닉네임 설정")
     }
     

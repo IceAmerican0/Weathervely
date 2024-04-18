@@ -35,7 +35,7 @@ extension AuthTarget: WVTargetType {
         switch self {
         case .login:
             .requestParameters(
-                parameters: ["phone_id": "string"/*UserDefaultManager.shared.uuid*/],
+                parameters: ["phone_id": UserDefaultManager.shared.uuid],
                 encoding: JSONEncoding.default
             )
         case .nickname(let nickname, let uuid):

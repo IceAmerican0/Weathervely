@@ -36,6 +36,8 @@ public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogi
     
     public init(_ editRegionState: EditRegionState) {
         self.editRegionState = editRegionState
+        super.init()
+        self.loadRegionList()
     }
     
     public func loadRegionList() {
