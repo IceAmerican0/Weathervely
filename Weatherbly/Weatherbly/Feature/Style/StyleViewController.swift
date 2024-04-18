@@ -10,6 +10,8 @@ import FlexLayout
 import PinLayout
 import Then
 import RxSwift
+import RxDataSources
+import RxGesture
 import Kingfisher
 
 
@@ -27,20 +29,29 @@ final class StyleViewController: RxBaseScrollViewController<StyleViewModel> {
         $0.translatesAutoresizingMaskIntoConstraints = true
     }
     
-    private var firstWrapper = UIView()
-    private lazy var firstThemeView = HorizonCollectionViewMoleCule().then { [weak self] in
-        $0.themeTitleLabel.text = "#Title: 멋있는데 따뜻하게 Title"
-
-        $0.collectionView.dataSource = self
-        $0.collectionView.delegate = self
+    var flowLayout = UICollectionViewFlowLayout().then {
+        $0.scrollDirection = .horizontal
+        $0.minimumLineSpacing = 16
     }
     
-    private var secoundWrapper = UIView()
-    private lazy var secoundThemeView = HorizonCollectionViewMoleCule().then { [weak self] in
-        $0.collectionView.dataSource = self
-        $0.collectionView.delegate = self
+    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout).then {
+        $0.showsHorizontalScrollIndicator = false
+        $0.contentInset = PEdgeInsets(top: 0, left: 0, bottom: 0, right: 20)
+        $0.registerHeader(withType: ThemeTitleHeaderView.self)
+        $0.register(withType: HorizontalCollectionViewCell.self)
+//        $0.registerHeader(withType: <#T##T.Type#>)
     }
     
+//    private lazy var firstThemeView = HorizonCollectionViewMolecule().then { [weak self] in
+//        $0.collectionView.dataSource = self
+//        $0.collectionView.delegate = self
+//    }
+//
+//    private lazy var secoundThemeView = HorizonCollectionViewMolecule().then { [weak self] in
+//        $0.collectionView.dataSource = self
+//        $0.collectionView.delegate = self
+//    }
+//    
     private var screenDevider = UIImageView().then {
         $0.image = UIImage.style_screen_devider
     }
@@ -60,6 +71,10 @@ final class StyleViewController: RxBaseScrollViewController<StyleViewModel> {
             flex.addItem(secoundThemeView).height(244).paddingLeft(20).marginBottom(30)
             flex.addItem(screenDevider).width(100%).height(16).marginBottom(30)
         }
+    }
+    
+    override func viewBinding() {
+        super.viewBinding()
     }
     
     override func viewModelBinding() {
@@ -85,7 +100,7 @@ final class StyleViewController: RxBaseScrollViewController<StyleViewModel> {
 extension StyleViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return self.testData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -105,4 +120,46 @@ extension StyleViewController: UICollectionViewDataSource, UICollectionViewDeleg
 
 extension StyleViewController: UICollectionViewDelegate {
     
+    // MARK: - DataSource
+    func setDataSource() -> RxCollectionViewSectionedReloadDataSource<StyleSection> {
+        RxCollectionViewSectionedReloadDataSource<StyleSection> (configureCell: { [ weak self ] dataSource, collectionView, indexPath, _ in
+            guard self != nil else { return UICollectionViewCell() }
+            
+            switch dataSource[indexPath] {
+            case .normal(let cellState):
+                return collectionView.dequeueCell(withType: HorizontalCollectionViewCell.self, for: indexPath)
+            }
+        },configureSupplementaryView: { [ weak self ] dataSource, collectionView, kind, indexPath in
+            guard let self else { return UICollectionReusableView() }
+            
+            switch kind {
+            case UICollectionView.elementKindSectionHeader:
+                let header = collectionView.dequeueReusableHeaderView(withType: ClosetFilterHeaderView.self, for: indexPath).then {
+                    let state: ClosetFilterHeaderViewState = .init(
+                        styleFilter: self.viewModel.filteredStyle,
+                        itemFilter: self.viewModel.filteredItem
+                    )
+                    $0.configureViewState(state: state)
+                }
+                
+                if case .normal = dataSource[indexPath.section] {
+                    header.styleTap
+                        .drive(with: self, onNext: { owner, _ in
+                            owner.viewModel.filterCloset(state: .style)
+                        }).disposed(by: header.bag)
+                    
+                    header.filterTap
+                        .drive(with: self, onNext: { owner, _ in
+                            owner.viewModel.filterCloset(state: .item)
+                        }).disposed(by: header.bag)
+                    return header
+                }
+
+                return UICollectionReusableView()
+            default:
+                fatalError("Cannot Generate SupplementaryView")
+            }
+            
+        })
+    }
 }

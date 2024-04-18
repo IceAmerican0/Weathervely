@@ -148,7 +148,10 @@
 		BD2D01B62A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D01B52A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift */; };
 		BD2D11BC2A9AEB0D008CBF0D /* TenDaysForecastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D11BB2A9AEB0D008CBF0D /* TenDaysForecastViewModel.swift */; };
 		BD2D11BE2A9AEDCE008CBF0D /* SevenDayForecastInfoEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D11BD2A9AEDCE008CBF0D /* SevenDayForecastInfoEntity.swift */; };
-		BD3714312B7FFC8700527577 /* HorizonCollectionViewMoleCule.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3714302B7FFC8700527577 /* HorizonCollectionViewMoleCule.swift */; };
+		BD3714352B8126A700527577 /* StyleSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3714342B8126A700527577 /* StyleSection.swift */; };
+		BD3714372B81279D00527577 /* StyleClosetEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3714362B81279D00527577 /* StyleClosetEntity.swift */; };
+		BD3714392B8629FD00527577 /* ThemeTitleHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3714382B8629FD00527577 /* ThemeTitleHeaderView.swift */; };
+		BD37143B2B864DC000527577 /* StyleClosetFilterHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD37143A2B864DC000527577 /* StyleClosetFilterHeader.swift */; };
 		BD3BA9EA2B63948400BD3BFF /* LifeCycleTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3BA9E92B63948400BD3BFF /* LifeCycleTest.swift */; };
 		BD4316342A3C967900E86271 /* OnBoardSensoryTempViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4316332A3C967900E86271 /* OnBoardSensoryTempViewController.swift */; };
 		BD4316362A3C9DB700E86271 /* AssetsImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4316352A3C9DB700E86271 /* AssetsImage.swift */; };
@@ -162,6 +165,7 @@
 		BD4AC3912A66899500537583 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4AC3902A66899500537583 /* UILabel+Extension.swift */; };
 		BD4AC3932A669B0500537583 /* SlotMachineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4AC3922A669B0500537583 /* SlotMachineViewModel.swift */; };
 		BD50A5222A4C4072005F066E /* SlotMachineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD50A5212A4C4072005F066E /* SlotMachineViewController.swift */; };
+		BD50FCBA2B82F76400C06FDD /* HorizonCollectionViewMolecule.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD50FCB92B82F76400C06FDD /* HorizonCollectionViewMolecule.swift */; };
 		BD5169452A5A9BD600582BA9 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5169442A5A9BD600582BA9 /* SettingViewModel.swift */; };
 		BD5169472A5AA39000582BA9 /* EditNicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5169462A5AA39000582BA9 /* EditNicknameViewController.swift */; };
 		BD5169492A5D6FEA00582BA9 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5169482A5D6FEA00582BA9 /* UITextField+Extension.swift */; };
@@ -171,7 +175,6 @@
 		BD5D168C2A612BC900435816 /* DateTimePickViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5D168B2A612BC900435816 /* DateTimePickViewController.swift */; };
 		BD5D168E2A612BD500435816 /* DateTimePickViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5D168D2A612BD500435816 /* DateTimePickViewModel.swift */; };
 		BD5D16932A63B3AD00435816 /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5D16922A63B3AD00435816 /* CALayer+Extension.swift */; };
-		BD6135CC2A7D5EAD00DB3DF9 /* message.json in Resources */ = {isa = PBXBuildFile; fileRef = BD6135CB2A7D5EAD00DB3DF9 /* message.json */; };
 		BD6135D32A7E3C9C00DB3DF9 /* RecommendClosetEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6135D22A7E3C9C00DB3DF9 /* RecommendClosetEntity.swift */; };
 		BD69B8F72A54337000DDCD7A /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD69B8F62A54337000DDCD7A /* SettingViewController.swift */; };
 		BD69B8F92A553A0C00DDCD7A /* CSNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD69B8F82A553A0C00DDCD7A /* CSNavigationView.swift */; };
@@ -320,7 +323,10 @@
 		BD2D01B52A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeBaseInitialzerProtocol.swift; sourceTree = "<group>"; };
 		BD2D11BB2A9AEB0D008CBF0D /* TenDaysForecastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TenDaysForecastViewModel.swift; sourceTree = "<group>"; };
 		BD2D11BD2A9AEDCE008CBF0D /* SevenDayForecastInfoEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SevenDayForecastInfoEntity.swift; sourceTree = "<group>"; };
-		BD3714302B7FFC8700527577 /* HorizonCollectionViewMoleCule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HorizonCollectionViewMoleCule.swift; path = ../../../../../../../../Downloads/HorizonCollectionViewMoleCule.swift; sourceTree = "<group>"; };
+		BD3714342B8126A700527577 /* StyleSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleSection.swift; sourceTree = "<group>"; };
+		BD3714362B81279D00527577 /* StyleClosetEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleClosetEntity.swift; sourceTree = "<group>"; };
+		BD3714382B8629FD00527577 /* ThemeTitleHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeTitleHeaderView.swift; sourceTree = "<group>"; };
+		BD37143A2B864DC000527577 /* StyleClosetFilterHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleClosetFilterHeader.swift; sourceTree = "<group>"; };
 		BD3BA9E92B63948400BD3BFF /* LifeCycleTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeCycleTest.swift; sourceTree = "<group>"; };
 		BD4316332A3C967900E86271 /* OnBoardSensoryTempViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardSensoryTempViewController.swift; sourceTree = "<group>"; };
 		BD4316352A3C9DB700E86271 /* AssetsImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetsImage.swift; sourceTree = "<group>"; };
@@ -334,6 +340,7 @@
 		BD4AC3902A66899500537583 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		BD4AC3922A669B0500537583 /* SlotMachineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlotMachineViewModel.swift; sourceTree = "<group>"; };
 		BD50A5212A4C4072005F066E /* SlotMachineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlotMachineViewController.swift; sourceTree = "<group>"; };
+		BD50FCB92B82F76400C06FDD /* HorizonCollectionViewMolecule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizonCollectionViewMolecule.swift; sourceTree = "<group>"; };
 		BD5169442A5A9BD600582BA9 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		BD5169462A5AA39000582BA9 /* EditNicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditNicknameViewController.swift; sourceTree = "<group>"; };
 		BD5169482A5D6FEA00582BA9 /* UITextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
@@ -343,7 +350,6 @@
 		BD5D168B2A612BC900435816 /* DateTimePickViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimePickViewController.swift; sourceTree = "<group>"; };
 		BD5D168D2A612BD500435816 /* DateTimePickViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimePickViewModel.swift; sourceTree = "<group>"; };
 		BD5D16922A63B3AD00435816 /* CALayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
-		BD6135CB2A7D5EAD00DB3DF9 /* message.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = message.json; sourceTree = "<group>"; };
 		BD6135D22A7E3C9C00DB3DF9 /* RecommendClosetEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendClosetEntity.swift; sourceTree = "<group>"; };
 		BD69B8F62A54337000DDCD7A /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		BD69B8F82A553A0C00DDCD7A /* CSNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSNavigationView.swift; sourceTree = "<group>"; };
@@ -542,7 +548,7 @@
 			isa = PBXGroup;
 			children = (
 				BD69B8F82A553A0C00DDCD7A /* CSNavigationView.swift */,
-				BD3714302B7FFC8700527577 /* HorizonCollectionViewMoleCule.swift */,
+				BD50FCB92B82F76400C06FDD /* HorizonCollectionViewMolecule.swift */,
 			);
 			path = Molecule;
 			sourceTree = "<group>";
@@ -564,6 +570,8 @@
 			children = (
 				698F6CAB2ADD6EDB00C2B33A /* StyleViewController.swift */,
 				698F6CAC2ADD6EDB00C2B33A /* StyleViewModel.swift */,
+				BD3714342B8126A700527577 /* StyleSection.swift */,
+				BD37143A2B864DC000527577 /* StyleClosetFilterHeader.swift */,
 			);
 			path = Style;
 			sourceTree = "<group>";
@@ -617,7 +625,6 @@
 		BD05E0742B38109100A48E61 /* DesignSystem */ = {
 			isa = PBXGroup;
 			children = (
-				BD6F43022B6F9D7900DA5763 /* MoleCule */,
 				5CDCD7CE2B5522C6008465B9 /* Organism */,
 				5CDCD7CF2B5522CD008465B9 /* Molecule */,
 				BD05E0752B3810A400A48E61 /* Atom */,
@@ -628,6 +635,7 @@
 		BD05E0752B3810A400A48E61 /* Atom */ = {
 			isa = PBXGroup;
 			children = (
+				BD3714382B8629FD00527577 /* ThemeTitleHeaderView.swift */,
 				698F6CAF2ADFF8A600C2B33A /* HorizontalCollectionViewCell.swift */,
 				BD05E0712B380C9400A48E61 /* NewCSLabel.swift */,
 				BD05E0792B38114B00A48E61 /* NewCSButton.swift */,
@@ -667,7 +675,6 @@
 				BD2D01962A388755003A25D5 /* Info.plist */,
 				5C84F1FD2AA0238000CF614E /* GoogleService-Info.plist */,
 				BD6135D12A7E3C6700DB3DF9 /* Entity */,
-				BD6135CA2A7D5E9F00DB3DF9 /* Mock */,
 				BD2D019E2A3887B8003A25D5 /* Network */,
 				BD2D019D2A3887AA003A25D5 /* Helper */,
 				BD2D019C2A3887A3003A25D5 /* Feature */,
@@ -814,14 +821,6 @@
 			path = SesoryTemperature;
 			sourceTree = "<group>";
 		};
-		BD6135CA2A7D5E9F00DB3DF9 /* Mock */ = {
-			isa = PBXGroup;
-			children = (
-				BD6135CB2A7D5EAD00DB3DF9 /* message.json */,
-			);
-			path = Mock;
-			sourceTree = "<group>";
-		};
 		BD6135D12A7E3C6700DB3DF9 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
@@ -835,6 +834,7 @@
 				5CF0A49D2B5A32EA00D2AB4C /* HomeForecastEntity.swift */,
 				5C84169D2B68CAA5003AE726 /* TenDayForecastEntity.swift */,
 				5C8F2D422B6B6A71002DF94E /* NotificationEntity.swift */,
+				BD3714362B81279D00527577 /* StyleClosetEntity.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -871,13 +871,6 @@
 				BD5169442A5A9BD600582BA9 /* SettingViewModel.swift */,
 			);
 			name = ViewModel;
-			sourceTree = "<group>";
-		};
-		BD6F43022B6F9D7900DA5763 /* MoleCule */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = MoleCule;
 			sourceTree = "<group>";
 		};
 		BD7DAB1C2A6E62F600422D25 /* ForcastAPI */ = {
@@ -1049,7 +1042,6 @@
 				BD05E0702B38045500A48E61 /* AppleSDGothicNeoM.ttf in Resources */,
 				BD05E06C2B38045500A48E61 /* AppleSDGothicNeoT.ttf in Resources */,
 				5C84F1FE2AA0238000CF614E /* GoogleService-Info.plist in Resources */,
-				BD6135CC2A7D5EAD00DB3DF9 /* message.json in Resources */,
 				BD2D01922A388755003A25D5 /* Images.xcassets in Resources */,
 				5C4A0ABB2B3ABA56006BE52A /* Colors.xcassets in Resources */,
 			);
@@ -1137,6 +1129,7 @@
 				5C4A0AC72B46832D006BE52A /* HomeClosetCell.swift in Sources */,
 				5C9D02EA2A725AC300AF2DA3 /* AddressRequest.swift in Sources */,
 				5CE0FEAD2A8DDE9200A0E655 /* AddressListEntity.swift in Sources */,
+				BD3714392B8629FD00527577 /* ThemeTitleHeaderView.swift in Sources */,
 				BD4907332A84D42F0027DEE8 /* String+Extension.swift in Sources */,
 				BD4316382A3CA20900E86271 /* UIView+Extension.swift in Sources */,
 				698F6CAD2ADD6EDB00C2B33A /* StyleViewController.swift in Sources */,
@@ -1155,7 +1148,9 @@
 				5C4BE89B2A5E2D1200FD2CEF /* EditRegionViewController.swift in Sources */,
 				698F6CB02ADFF8A600C2B33A /* HorizontalCollectionViewCell.swift in Sources */,
 				5C84169E2B68CAA5003AE726 /* TenDayForecastEntity.swift in Sources */,
+				BD50FCBA2B82F76400C06FDD /* HorizonCollectionViewMolecule.swift in Sources */,
 				69A7F0E42A8208DB00834974 /* UserInfoRequest.swift in Sources */,
+				BD3714352B8126A700527577 /* StyleSection.swift in Sources */,
 				BD4AC3912A66899500537583 /* UILabel+Extension.swift in Sources */,
 				5CDCD7CC2B54EAC6008465B9 /* FilterListCell.swift in Sources */,
 				69FDD4CC2A407FA400830927 /* CSProgressView.swift in Sources */,
@@ -1184,6 +1179,7 @@
 				BD05E0722B380C9400A48E61 /* NewCSLabel.swift in Sources */,
 				5CAB60C32A528C7A00CD431A /* UICollectionView+Extension.swift in Sources */,
 				698F6CA92ADD624C00C2B33A /* Tab.swift in Sources */,
+				BD37143B2B864DC000527577 /* StyleClosetFilterHeader.swift in Sources */,
 				69C714D22ADD611400748CF6 /* HomeTabBarController.swift in Sources */,
 				BD05E05D2B3801B600A48E61 /* UIFont+Extension.swift in Sources */,
 				5CE0FEB82A8F4CE200A0E655 /* SetSensoryTempRequest.swift in Sources */,
@@ -1196,7 +1192,6 @@
 				BD7DAB252A6E757C00422D25 /* PrimitiveSequence+Extension.swift in Sources */,
 				5CAB60D12A54FC5F00CD431A /* UITableView+Extension.swift in Sources */,
 				5CCC91562A613F010025B522 /* SettingRegionViewModel.swift in Sources */,
-				BD3714312B7FFC8700527577 /* HorizonCollectionViewMoleCule.swift in Sources */,
 				BD7DAB312A70DEF400422D25 /* ForeCastTarget.swift in Sources */,
 				5CDCD7E22B566F87008465B9 /* FilterItemListEntity.swift in Sources */,
 				5C9D02C42A6E61C700AF2DA3 /* SettingRegionCompleteViewModel.swift in Sources */,
@@ -1220,6 +1215,7 @@
 				696176B42A63E3C000B83B4C /* BaseDisposeBag.swift in Sources */,
 				BD4907312A83C3C00027DEE8 /* SensoryTempClosetEntity.swift in Sources */,
 				BD51694B2A5D763000582BA9 /* EditNicknameViewModel.swift in Sources */,
+				BD3714372B81279D00527577 /* StyleClosetEntity.swift in Sources */,
 				BD2D01B62A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift in Sources */,
 				5CE0FEB42A8F3BE000A0E655 /* PrivatePolicyViewController.swift in Sources */,
 				BD2D01B22A38889E003A25D5 /* CSButton.swift in Sources */,

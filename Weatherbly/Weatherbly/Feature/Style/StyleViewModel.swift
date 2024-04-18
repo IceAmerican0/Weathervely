@@ -11,14 +11,29 @@ import RxCocoa
 
 protocol StyleViewModelLogic: ViewModelBusinessLogic {
     func getRecommendCloset()
+    var filteredStyle: Bool { get set }
+    var filteredItem: Bool { get set }
 }
 
 final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
+    private let closetDataSource: ClosetDataSourceProtocol
+    /// 스타일 필터 여부
+    public var filteredStyle: Bool
+    /// 아이템 필터 여부
+    public var filteredItem: Bool
+    
     let recommendClosetEntityRelay = BehaviorRelay<[RecommendClosetInfo]>(value: [])
     
+    
+    
+    init(closetDataSource: ClosetDataSourceProtocol) {
+        self.closetDataSource = closetDataSource
+        self.filteredStyle = .init()
+        self.filteredItem = .init()
+    }
+    
     public func getRecommendCloset() {
-        let getClosetDataSource = ClosetDataSource()
-        getClosetDataSource.getRecommendCloset(Date().todayHourFormat)
+        closetDataSource.getRecommendCloset(Date().todayHourFormat)
             .subscribe(
                 with: self,
                 onNext: { owner, response in
@@ -37,5 +52,11 @@ final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
                     }))
             })
             .disposed(by: bag)
+    }
+    
+    /// 필터링
+    public func filterCloset(state: FilterListViewState) {
+        let vc = ClosetFilterViewController(ClosetFilterViewModel(viewState: state))
+        presentViewControllerWithAnimationRelay.accept(vc)
     }
 }
