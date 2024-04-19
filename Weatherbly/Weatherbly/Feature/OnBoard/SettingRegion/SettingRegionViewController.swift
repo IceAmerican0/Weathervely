@@ -13,10 +13,7 @@ import RxSwift
 import Then
 
 final class SettingRegionViewController: RxBaseViewController<SettingRegionViewModel> {
-    private var titleLabel = LabelMaker(
-        font: .title_3_B,
-        alignment: .center
-    ).make(text: "동네 설정")
+    private var navigationView = CSNavigationView(.leftButton(.leftArrow_black))
     
     private var comment = LabelMaker(
         font: .heading_5_B
@@ -33,11 +30,12 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
         $0.becomeFirstResponder()
     }
     
+    private let middleView = UIView()
+    
     private lazy var regionTableView = UITableView(
         frame: .zero,
         style: .plain
     ).then {
-//        $0.addBorders([.top, .bottom], 1, .violet500)
         $0.rowHeight = 56
         $0.bounces = false
         $0.showsVerticalScrollIndicator = true
@@ -83,29 +81,39 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
         super.layout()
         
         container.flex.define {
-            $0.addItem(titleLabel).marginTop(11.5)
-            $0.addItem(comment).marginTop(59.5).marginLeft(20)
+            $0.addItem(navigationView).width(100%)
+            $0.addItem(comment).marginTop(50).marginLeft(20)
             $0.addItem(inputRegion).alignSelf(.stretch).marginTop(32).marginHorizontal(20).height(40)
-            $0.addItem(regionTableView).marginTop(32).marginHorizontal(20).marginBottom(20).grow(1).display(.none)
-            $0.addItem(noResultView).alignItems(.center).justifyContent(.center).marginTop(32).marginHorizontal(20).marginBottom(20).grow(1).define {
-                $0.addItem(noResultInfoView).alignItems(.center).define { noResult in
-                    noResult.addItem(noResultImage).size(48)
-                    noResult.addItem(noResultComment).marginTop(10)
-                }
-            }.display(.none)
+            $0.addItem(middleView).marginTop(32).marginHorizontal(20).marginBottom(20).grow(1).define {
+                $0.addItem(regionTableView).grow(1).display(.none)
+                $0.addItem(noResultView).alignItems(.center).justifyContent(.center).grow(1).define {
+                    $0.addItem(noResultInfoView).alignItems(.center).define { noResult in
+                        noResult.addItem(noResultImage).size(48)
+                        noResult.addItem(noResultComment).marginTop(10)
+                    }
+                }.display(.none)
+            }
             $0.addItem(buttonView).position(.absolute).bottom(20).width(100%).height(48).define {
                 $0.addItem(confirmButton).marginHorizontal(20).grow(1)
             }
         }
         
-        if viewModel.settingRegionState != .onboard {
-            titleLabel.text = "동네 변경 / 추가"
-            comment.isHidden = true
+        switch viewModel.settingRegionState {
+        case .add:
+            navigationView.setTitle("동네 추가")
+        case .change:
+            navigationView.setTitle("동네 변경")
+        case .onboard:
+            navigationView.setTitle("동네 설정")
         }
     }
     
     override func bind() {
         super.bind()
+        
+        navigationView.leftButtonDidTapRelay
+            .bind(to: viewModel.navigationPopViewControllerRelay)
+            .disposed(by: bag)
         
         confirmButton.rx.tap
             .asDriver()
@@ -144,6 +152,7 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
                 cellIdentifier: RegionTableViewCell.identifier,
                 cellType: RegionTableViewCell.self
             )) { _, data, cell in
+                cell.selectionStyle = .none
                 cell.configureCellState(data.addressName)
                 self.regionTableView.flashScrollIndicators()
             }.disposed(by: bag)
@@ -158,6 +167,7 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
         if !buttonView.isHidden {
             buttonView.isHidden = true
             unregisterKeyboardNotifications()
+            middleView.addBorders([.top, .bottom], 1, .violet500)
         }
         
         if let text = inputRegion.text {

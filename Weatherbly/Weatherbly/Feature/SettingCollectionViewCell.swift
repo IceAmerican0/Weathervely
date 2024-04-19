@@ -19,7 +19,7 @@ public enum ProfileMenuTitle: CaseIterable {
     
     var title: String {
         switch self {
-        case .region:       "동네 추가"
+        case .region:       "동네 설정"
         case .notification: "알림 설정"
         }
     }

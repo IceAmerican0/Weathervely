@@ -91,14 +91,13 @@ final public class NewCSButton: UIButton {
         if self.scale == .standard {
             self.titleLabel?.font = UIFont.title_3_B
         } else {
-            self.titleLabel?.font = UIFont.body_2_M
+            self.titleLabel?.font = UIFont.body_5_M
         }
     }
     
     /// bgColor, titleColor, font, radius, titleColor
     func buttonConfigure() {
         if scale == .standard {
-            self.titleLabel?.font = UIFont.title_3_B
             self.layer.cornerRadius = 12
             
             switch style {
@@ -120,7 +119,6 @@ final public class NewCSButton: UIButton {
                 self.layer.borderColor = UIColor.violet150.cgColor
             }
         } else {
-            self.titleLabel?.font = UIFont.body_5_M
             self.layer.cornerRadius = 5
             self.backgroundColor = isEnabled ? .violet100 : .gray30
             self.setTitleColor(.violet800, for: .normal)

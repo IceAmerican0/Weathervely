@@ -11,8 +11,6 @@ import SafariServices
 
 public protocol SettingViewModelLogic: ViewModelBusinessLogic {
     func toEditNicknameView()
-    func toEditRegionView()
-    func toBeContinue()
     func didTapCollectionViewCell(at index: Int)
     func didTapTableViewCell(at index: Int)
     func didTapSecretReset()
@@ -39,7 +37,7 @@ final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
         case .region:
             toEditRegionView()
         case .notification:
-            toBeContinue()
+            toNotificationView()
         }
     }
     
@@ -47,7 +45,7 @@ final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
         let data = menuTitle.value
         switch data[index] {
         case .inquiry:
-            toBeContinue()
+            sendMail()
         case .policy:
             toPrivacyPolicyView()
         case .versionInfo:
@@ -55,31 +53,37 @@ final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
         }
     }
     
+    /// 닉네임 설정
     func toEditNicknameView() {
         let vc = EditNicknameViewController(EditNicknameViewModel())
         navigationPushViewControllerRelay.accept(vc)
     }
     
-    func toEditRegionView() {
+    /// 동네 설정
+    private func toEditRegionView() {
         let vc = EditRegionViewController(EditRegionViewModel(.edit))
         navigationPushViewControllerRelay.accept(vc)
     }
     
-    func toPrivacyPolicyView() {
-        let urlString = "https://docs.google.com/document/d/1MnwR04jGms26yha2oSdps06Ju0wMn-hGS1Zs6JtDAf8/edit?usp=sharing"
-        if let url = URL(string: urlString) {
-            let webView = SFSafariViewController(url: url)
-            presentViewControllerNoAnimationRelay.accept(webView)
-        }
+    /// 알림 설정
+    private func toNotificationView() {
+        let vc = NotificationListViewController(NotificationListViewModel())
+        navigationPushViewControllerRelay.accept(vc)
     }
     
-    func toBeContinue() {
-        alertState.accept(
-            .init(
-                title: "준비 중인 기능이에요",
-                alertType: .toast
-            )
-        )
+    /// 문의하기
+    private func sendMail() {
+        let email = "weathervely@gmail.com"
+        guard let url = URL(string: "mailto:\(email)") else { return }
+        UIApplication.shared.open(url)
+    }
+    
+    /// 약관 및 정책
+    private func toPrivacyPolicyView() {
+        let urlString = "https://docs.google.com/document/d/1MnwR04jGms26yha2oSdps06Ju0wMn-hGS1Zs6JtDAf8/edit?usp=sharing"
+        guard let url = URL(string: urlString) else { return }
+        let webView = SFSafariViewController(url: url)
+        presentViewControllerNoAnimationRelay.accept(webView)
     }
     
     // MARK: Gimmick Logic

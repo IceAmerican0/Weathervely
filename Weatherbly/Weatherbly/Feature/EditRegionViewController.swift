@@ -27,7 +27,7 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
         style: .plain
     ).then {
         $0.delegate = self
-        $0.rowHeight = 68
+        $0.rowHeight = 84
         $0.isScrollEnabled = false
         $0.separatorStyle = .none
         $0.backgroundColor = .clear
@@ -49,17 +49,21 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
         if case .edit = viewModel.editRegionState {} else {
             guard let navigationController else { return }
             var viewControllers = navigationController.viewControllers
-            viewControllers = viewControllers.filter { !($0 is SettingRegionCompleteViewController || $0 is SettingRegionViewController || $0 is Self) }
+            viewControllers = viewControllers.filter { !($0 is SettingRegionCompleteViewController || $0 is SettingRegionViewController) }
             navigationController.viewControllers = viewControllers
         }
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        container.pin.top(view.pin.safeArea.top).horizontally().bottom()
     }
     
     override func layout() {
         super.layout()
         
-        view.backgroundColor = .violet10
-        
-        container.flex.define {
+        container.flex.backgroundColor(.violet10).define {
             $0.addItem(navigationView).width(UIScreen.main.bounds.width)
             $0.addItem(header).marginTop(22).marginLeft(20)
             $0.addItem().grow(1).define {
@@ -97,10 +101,16 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
                 self.listCount = self.viewModel.loadedListRelay.value.count
                 
                 cell.selectionStyle = .none
-                cell.configureCellState(EditRegionCellState(region: data.addressName, count: self.listCount), row)
-                cell.buttonTapAction { [weak self] index in
-                    self?.viewModel.didTapCellButton(index)
-                }
+                cell.configureCellState(EditRegionCellState(region: data.addressName, count: self.listCount))
+                cell.buttonTap
+                    .drive(
+                        with: self,
+                        onNext: { owner, _ in
+                            owner.viewModel.didTapCellButton(row)
+                            cell.button.isSelected = false
+                            cell.button.isHighlighted = false
+                        }
+                    ).disposed(by: cell.bag)
                 
                 self.confirmButtonState()
             }
@@ -120,9 +130,6 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
 
 // MARK: UITableViewDelegate
 extension EditRegionViewController: UITableViewDelegate {
-//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { 25 }
-    
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         viewModel.updateMainRegion(indexPath.row)
     }

@@ -20,8 +20,6 @@ public final class RegionTableViewCell: UITableViewCell {
         $0.image = .rightArrow_gray
     }
     
-    var disposeBag = DisposeBag()
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         layout()
