@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class OnBoardViewModel: RxBaseViewModel {
+public final class OnBoardViewModel: RxBaseViewModel {
     public func toNicknameView() {
         let vc = NicknameViewController(NicknameViewModel())
         navigationPushViewControllerRelay.accept(vc)

@@ -63,6 +63,7 @@ extension UIImage {
     
     // Common
     static let logo_color = UIImage(named: "logo_color")!
+    static let logo_violet_bg = UIImage(named: "logo_violet_bg")!
     static let logo_white = UIImage(named: "logo_white")!
     static let networkError = UIImage(named: "networkError_illust")!
     static let search_empty = UIImage(named: "search_empty")!

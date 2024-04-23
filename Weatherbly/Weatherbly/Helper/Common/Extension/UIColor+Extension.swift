@@ -83,6 +83,7 @@ public extension UIColor {
     static let gray80 = UIColor(named: "gray80")!
     static let gray90 = UIColor(named: "gray90")!
     static let gray100 = UIColor(named: "gray100")!
+    static let gray155 = UIColor(named: "gray155")!
     static let gray200 = UIColor(named: "gray200")!
     static let gray300 = UIColor(named: "gray300")!
     static let gray400 = UIColor(named: "gray400")!

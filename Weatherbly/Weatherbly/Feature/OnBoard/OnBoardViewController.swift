@@ -9,50 +9,57 @@ import UIKit
 import FlexLayout
 import PinLayout
 import RxSwift
-import RxRelay
-import RxCocoa
+import Then
 
-final class OnBoardViewController: RxBaseViewController<OnBoardViewModel> {
+public final class OnBoardViewController: RxBaseViewController<OnBoardViewModel> {
     
-    private var topGreetingLabel = CSLabel(.bold, 25, "웨더블리에 오신 걸\n환영해요!")
-    private var logo = UIImageView()
-    private var bottomGreetingLabel = CSLabel(.bold, 20, "웨더블리가 날씨에 맞는\n옷차림을 알려드릴 거에요")
-    private var startButton = CSButton(.primary)
+    private var logo = UIImageView().then {
+        $0.image = .logo_color
+    }
     
-    override func viewDidLoad() {
+    private var topLabel = LabelMaker(
+        font: .body_1_M
+    ).make(text: "날씨와 스타일까지 쿨하게")
+    
+    private var middleLabel = LabelMaker(
+        font: .heading_3_B,
+        fontColor: .violet600
+    ).make(text: "웨더블리")
+    
+    private var bottomLabel = LabelMaker(
+        font: .body_3_M,
+        fontColor: .gray155
+    ).make(text: "체감 온도에 맞는 스타일을 추천 받아보세요!")
+    
+    private var startButton = NewCSButton(.standard, style: .violet600).then {
+        $0.setTitle("시작하기", for: .normal)
+    }
+    
+    private var backgroundLogo = UIImageView().then {
+        $0.image = .logo_violet_bg
+    }
+    
+    public override func viewDidLoad() {
         super.viewDidLoad()
         userDefault.set(true, forKey: UserDefaultKey.isOnboard.rawValue)
     }
     
-    override func attribute() {
-        super.attribute()
-        
-        logo.do {
-            $0.setAssetsImage(AssetsImage.mainLogo)
-            $0.setCornerRadius(20)
-            $0.setShadow(CGSize(width: 0, height: 4), UIColor.black.cgColor, 0.25, 2)
-        }
-        
-        startButton.do {
-            $0.setTitle("시작하기", for: .normal)
-            $0.setTitleColor(.white, for: .normal)
-        }
-        
-    }
-    
     override func layout() {
         super.layout()
-    
-        container.flex
-            .justifyContent(.spaceAround)
-            .define { flex in
-                flex.addItem(topGreetingLabel)
-                flex.addItem(logo).width(43.5%).height(23%).alignSelf(.center)
-                flex.addItem(bottomGreetingLabel)
-                flex.addItem(startButton)
-                    .marginHorizontal(43)
-                    .height(startButton.primaryHeight)
-        }
+        
+        view.addSubview(logo)
+        view.addSubview(topLabel)
+        view.addSubview(middleLabel)
+        view.addSubview(bottomLabel)
+        view.addSubview(startButton)
+        view.addSubview(backgroundLogo)
+        
+        middleLabel.pin.hCenter().vCenter().sizeToFit()
+        topLabel.pin.above(of: middleLabel).marginBottom(8).hCenter().sizeToFit()
+        logo.pin.above(of: topLabel).marginBottom(20).hCenter().size(160)
+        bottomLabel.pin.below(of: middleLabel).marginTop(100).hCenter().sizeToFit()
+        startButton.pin.below(of: bottomLabel).marginTop(20).horizontally(52).height(48)
+        backgroundLogo.pin.bottomRight().width(100%).aspectRatio()
     }
     
     override func viewBinding() {
