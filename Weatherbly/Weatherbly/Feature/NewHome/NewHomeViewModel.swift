@@ -158,11 +158,11 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     /// 메인 코디 추천 받아오기
     public func getClosetInfo() {
         let dataSource = NewClosetDataSource(provider: WVProvider<NewClosetTarget>())
-        dataSource.getMainCloset(page: 1, pageSize: 1)
+        dataSource.getStyleCloset(style: "casual", page: 1)
             .subscribe(
                 with: self,
                 onNext: { owner, response in
-                    owner.recommendedCloset.accept(response.data.list)
+                    owner.recommendedCloset.accept(response.data.list.closets)
                     owner.loadHome()
                 },
                 onError: { owner, error in

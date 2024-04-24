@@ -10,13 +10,13 @@ import Moya
 public enum NewClosetTarget {
     /// 메인탭 코디 가져오기
     case getMainCloset(
-        page: Int,
-        pageSize: Int
+        style: String,
+        page: Int
     )
     /// 스타일탭 코디 가져오기
     case getStyleCloset(
-        page: Int,
-        pageSize: Int
+        style: String,
+        page: Int
     )
     /// 메인탭 필터 후 코디 가져오기
     case getMainFilteredCloset(
@@ -48,20 +48,22 @@ extension NewClosetTarget: WVTargetType {
     
     public var task: Moya.Task {
         switch self {
-        case .getMainCloset(let page, let pageSize):
+        case .getMainCloset(let style, let page):
             .requestParameters(
                 parameters: [
+                    "style": style,
                     "page": page,
-                    "pageSize": pageSize
+                    "pageSize": 20
                 ],
                 encoding: URLEncoding.queryString
             )
-        case .getStyleCloset(let page, let pageSize):
+        case .getStyleCloset(let style, let page):
                 .requestParameters(
                     parameters: [
                         "tab": "style",
+                        "style": style,
                         "page": page,
-                        "pageSize": pageSize
+                        "pageSize": 20
                     ],
                     encoding: URLEncoding.queryString
                 )

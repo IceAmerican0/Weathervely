@@ -10,8 +10,8 @@ import RxSwift
 import RxMoya
 
 protocol NewClosetDataSourceProtocol {
-    func getMainCloset(page: Int, pageSize: Int) -> Observable<NewClosetEntity>
-    func getStyleCloset(page: Int, pageSize: Int) -> Observable<NewClosetEntity>
+    func getHomeCloset(style: String, page: Int) -> Observable<NewClosetEntity>
+    func getStyleCloset(style: String, page: Int) -> Observable<NewClosetEntity>
     func getMainFilteredCloset(page: Int, pageSize: Int, styleID: [String], category: [String]) -> Observable<NewClosetEntity>
     func getStyleFilteredCloset(page: Int, pageSize: Int, styleID: [String], category: [String]) -> Observable<NewClosetEntity>
 }
@@ -23,15 +23,15 @@ final class NewClosetDataSource: NewClosetDataSourceProtocol {
         self.provider = provider
     }
     
-    func getMainCloset(page: Int, pageSize: Int) -> Observable<NewClosetEntity> {
+    func getHomeCloset(style: String, page: Int) -> Observable<NewClosetEntity> {
         provider.rx
-            .request(.getMainCloset(page: page, pageSize: pageSize))
+            .request(.getMainCloset(style: style, page: page))
             .mapTo(NewClosetEntity.self)
     }
     
-    func getStyleCloset(page: Int, pageSize: Int) -> Observable<NewClosetEntity> {
+    func getStyleCloset(style: String, page: Int) -> Observable<NewClosetEntity> {
         provider.rx
-            .request(.getMainCloset(page: page, pageSize: pageSize))
+            .request(.getStyleCloset(style: style, page: page))
             .mapTo(NewClosetEntity.self)
     }
     

@@ -17,10 +17,19 @@ public struct NewClosetEntity: Codable {
 }
 
 public struct NewClosetData: Codable {
-    let list: [NewClosetInfo]
+    let list: NewCloset
     
     enum CodingKeys: String, CodingKey {
         case list
+    }
+}
+
+public struct NewCloset: Codable {
+    let counts: Int
+    let closets: [NewClosetInfo]
+    
+    enum CodingKeys: String, CodingKey {
+        case counts, closets
     }
 }
 
@@ -29,10 +38,11 @@ public struct NewClosetInfo: Codable {
     let name: String
     let imageURL: String
     let status: String
-    let types: [NewClosetType]
+    let code: String
+    let style: NewClosetType
     
     enum CodingKeys: String, CodingKey {
-        case id, name, status, types
+        case id, name, status, code, style
         case imageURL = "image_url"
     }
 }
