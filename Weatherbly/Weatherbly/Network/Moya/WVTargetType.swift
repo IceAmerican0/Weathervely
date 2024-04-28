@@ -17,8 +17,8 @@ public protocol WVTargetType: TargetType {}
 public extension WVTargetType {
     var baseURL: URL {
         switch AppSetting.shared.environmentType {
-        case .production: URL(string: "https://prod-server.weathervely.com/v1")!
-        case .develop:    URL(string: "http://54.180.98.1:3000/v1")!
+        case .production: URL(string: "https://prod-server.weathervely.com/v2")!
+        case .develop:    URL(string: "http://54.180.98.1:3000/v2")!
         }
     }
     

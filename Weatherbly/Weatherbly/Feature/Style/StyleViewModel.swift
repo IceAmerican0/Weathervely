@@ -17,6 +17,8 @@ protocol StyleViewModelLogic: ViewModelBusinessLogic {
 
 final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
     private let closetDataSource: ClosetDataSourceProtocol
+    /// 스타일 콜렉션 뷰 정보
+    public var styleSections = PublishRelay<[StyleClosetSection]>()
     /// 스타일 필터 여부
     public var filteredStyle: Bool
     /// 아이템 필터 여부
@@ -30,6 +32,14 @@ final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
         self.closetDataSource = closetDataSource
         self.filteredStyle = .init()
         self.filteredItem = .init()
+    }
+    
+    public func setMockDataSetup() {
+//        
+//        let mockData = [
+//            
+//        ]
+//        
     }
     
     public func getRecommendCloset() {

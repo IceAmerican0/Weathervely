@@ -25,7 +25,7 @@
 		5C4A0ABB2B3ABA56006BE52A /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5C4A0ABA2B3ABA56006BE52A /* Colors.xcassets */; };
 		5C4A0ABD2B43ED8F006BE52A /* HomeForecastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4A0ABC2B43ED8F006BE52A /* HomeForecastCell.swift */; };
 		5C4A0AC72B46832D006BE52A /* HomeClosetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4A0AC62B46832D006BE52A /* HomeClosetCell.swift */; };
-		5C4A0ACB2B47D34A006BE52A /* ClosetFilterHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4A0ACA2B47D34A006BE52A /* ClosetFilterHeaderView.swift */; };
+		5C4A0ACB2B47D34A006BE52A /* ClosetFilterHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4A0ACA2B47D34A006BE52A /* ClosetFilterHeader.swift */; };
 		5C4BE89B2A5E2D1200FD2CEF /* EditRegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4BE89A2A5E2D1200FD2CEF /* EditRegionViewController.swift */; };
 		5C4BE89D2A5E63C000FD2CEF /* RegionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4BE89C2A5E63C000FD2CEF /* RegionTableViewCell.swift */; };
 		5C501F942BCE5A8000533F68 /* UserNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C501F932BCE5A8000533F68 /* UserNotification.swift */; };
@@ -115,7 +115,7 @@
 		698F6CA92ADD624C00C2B33A /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698F6CA82ADD624B00C2B33A /* Tab.swift */; };
 		698F6CAD2ADD6EDB00C2B33A /* StyleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698F6CAB2ADD6EDB00C2B33A /* StyleViewController.swift */; };
 		698F6CAE2ADD6EDB00C2B33A /* StyleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698F6CAC2ADD6EDB00C2B33A /* StyleViewModel.swift */; };
-		698F6CB02ADFF8A600C2B33A /* HorizontalCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698F6CAF2ADFF8A600C2B33A /* HorizontalCollectionViewCell.swift */; };
+		698F6CB02ADFF8A600C2B33A /* StyleClosetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698F6CAF2ADFF8A600C2B33A /* StyleClosetCell.swift */; };
 		698F6CB22AE00FCC00C2B33A /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698F6CB12AE00FCC00C2B33A /* UIImage+Extension.swift */; };
 		69A3D9EB2B484D2A00CA1FD5 /* UICollectionReusableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A3D9EA2B484D2A00CA1FD5 /* UICollectionReusableView+Extension.swift */; };
 		69A7F0D92A80B42A00834974 /* UserDefaultKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A7F0D82A80B42A00834974 /* UserDefaultKey.swift */; };
@@ -160,8 +160,8 @@
 		BD3714352B8126A700527577 /* StyleSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3714342B8126A700527577 /* StyleSection.swift */; };
 		BD3714372B81279D00527577 /* StyleClosetEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3714362B81279D00527577 /* StyleClosetEntity.swift */; };
 		BD3714392B8629FD00527577 /* ThemeTitleHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3714382B8629FD00527577 /* ThemeTitleHeaderView.swift */; };
-		BD37143B2B864DC000527577 /* StyleClosetFilterHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD37143A2B864DC000527577 /* StyleClosetFilterHeader.swift */; };
 		BD3BA9EA2B63948400BD3BFF /* LifeCycleTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3BA9E92B63948400BD3BFF /* LifeCycleTest.swift */; };
+		BD3BDE662BDD456E002E9E0C /* BannerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3BDE652BDD456E002E9E0C /* BannerCell.swift */; };
 		BD4316342A3C967900E86271 /* OnBoardSensoryTempViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4316332A3C967900E86271 /* OnBoardSensoryTempViewController.swift */; };
 		BD4316362A3C9DB700E86271 /* AssetsImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4316352A3C9DB700E86271 /* AssetsImage.swift */; };
 		BD4316382A3CA20900E86271 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4316372A3CA20900E86271 /* UIView+Extension.swift */; };
@@ -216,7 +216,7 @@
 		5C4A0ABA2B3ABA56006BE52A /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		5C4A0ABC2B43ED8F006BE52A /* HomeForecastCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeForecastCell.swift; sourceTree = "<group>"; };
 		5C4A0AC62B46832D006BE52A /* HomeClosetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeClosetCell.swift; sourceTree = "<group>"; };
-		5C4A0ACA2B47D34A006BE52A /* ClosetFilterHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetFilterHeaderView.swift; sourceTree = "<group>"; };
+		5C4A0ACA2B47D34A006BE52A /* ClosetFilterHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetFilterHeader.swift; sourceTree = "<group>"; };
 		5C4BE89A2A5E2D1200FD2CEF /* EditRegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRegionViewController.swift; sourceTree = "<group>"; };
 		5C4BE89C2A5E63C000FD2CEF /* RegionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionTableViewCell.swift; sourceTree = "<group>"; };
 		5C501F932BCE5A8000533F68 /* UserNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNotification.swift; sourceTree = "<group>"; };
@@ -298,7 +298,7 @@
 		698F6CA82ADD624B00C2B33A /* Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
 		698F6CAB2ADD6EDB00C2B33A /* StyleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleViewController.swift; sourceTree = "<group>"; };
 		698F6CAC2ADD6EDB00C2B33A /* StyleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleViewModel.swift; sourceTree = "<group>"; };
-		698F6CAF2ADFF8A600C2B33A /* HorizontalCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalCollectionViewCell.swift; sourceTree = "<group>"; };
+		698F6CAF2ADFF8A600C2B33A /* StyleClosetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleClosetCell.swift; sourceTree = "<group>"; };
 		698F6CB12AE00FCC00C2B33A /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		69A3D9EA2B484D2A00CA1FD5 /* UICollectionReusableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionReusableView+Extension.swift"; sourceTree = "<group>"; };
 		69A7F0D82A80B42A00834974 /* UserDefaultKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultKey.swift; sourceTree = "<group>"; };
@@ -344,8 +344,8 @@
 		BD3714342B8126A700527577 /* StyleSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleSection.swift; sourceTree = "<group>"; };
 		BD3714362B81279D00527577 /* StyleClosetEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleClosetEntity.swift; sourceTree = "<group>"; };
 		BD3714382B8629FD00527577 /* ThemeTitleHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeTitleHeaderView.swift; sourceTree = "<group>"; };
-		BD37143A2B864DC000527577 /* StyleClosetFilterHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleClosetFilterHeader.swift; sourceTree = "<group>"; };
 		BD3BA9E92B63948400BD3BFF /* LifeCycleTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeCycleTest.swift; sourceTree = "<group>"; };
+		BD3BDE652BDD456E002E9E0C /* BannerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerCell.swift; sourceTree = "<group>"; };
 		BD4316332A3C967900E86271 /* OnBoardSensoryTempViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardSensoryTempViewController.swift; sourceTree = "<group>"; };
 		BD4316352A3C9DB700E86271 /* AssetsImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetsImage.swift; sourceTree = "<group>"; };
 		BD4316372A3CA20900E86271 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
@@ -544,7 +544,7 @@
 		5CDCD7C62B54E767008465B9 /* Filter */ = {
 			isa = PBXGroup;
 			children = (
-				5C4A0ACA2B47D34A006BE52A /* ClosetFilterHeaderView.swift */,
+				5C4A0ACA2B47D34A006BE52A /* ClosetFilterHeader.swift */,
 				5CDCD7C72B54E7C8008465B9 /* ClosetFilterViewController.swift */,
 				5CDCD7C82B54E7C8008465B9 /* ClosetFilterViewModel.swift */,
 				5CDCD7D92B564144008465B9 /* FilterListViewController.swift */,
@@ -601,8 +601,9 @@
 			children = (
 				698F6CAB2ADD6EDB00C2B33A /* StyleViewController.swift */,
 				698F6CAC2ADD6EDB00C2B33A /* StyleViewModel.swift */,
+				698F6CAF2ADFF8A600C2B33A /* StyleClosetCell.swift */,
 				BD3714342B8126A700527577 /* StyleSection.swift */,
-				BD37143A2B864DC000527577 /* StyleClosetFilterHeader.swift */,
+				BD3BDE652BDD456E002E9E0C /* BannerCell.swift */,
 			);
 			path = Style;
 			sourceTree = "<group>";
@@ -667,7 +668,6 @@
 			isa = PBXGroup;
 			children = (
 				BD3714382B8629FD00527577 /* ThemeTitleHeaderView.swift */,
-				698F6CAF2ADFF8A600C2B33A /* HorizontalCollectionViewCell.swift */,
 				BD05E0712B380C9400A48E61 /* NewCSLabel.swift */,
 				BD05E0792B38114B00A48E61 /* NewCSButton.swift */,
 				BD05E07B2B3816B300A48E61 /* NewImageButton.swift */,
@@ -701,6 +701,10 @@
 			children = (
 				BD8668E22B45607200B0B16A /* Test */,
 				BD05E0742B38109100A48E61 /* DesignSystem */,
+				BD6135D12A7E3C6700DB3DF9 /* Entity */,
+				BD2D019E2A3887B8003A25D5 /* Network */,
+				BD2D019D2A3887AA003A25D5 /* Helper */,
+				BD2D019C2A3887A3003A25D5 /* Feature */,
 				BD2D01882A388753003A25D5 /* AppDelegate.swift */,
 				BD2D018A2A388753003A25D5 /* SceneDelegate.swift */,
 				5C4A0ABA2B3ABA56006BE52A /* Colors.xcassets */,
@@ -708,10 +712,6 @@
 				BD2D01962A388755003A25D5 /* Info.plist */,
 				5C84F1FD2AA0238000CF614E /* GoogleService-Info.plist */,
 				5CAED17E2BBB97CE00287EF7 /* PrivacyInfo.xcprivacy */,
-				BD6135D12A7E3C6700DB3DF9 /* Entity */,
-				BD2D019E2A3887B8003A25D5 /* Network */,
-				BD2D019D2A3887AA003A25D5 /* Helper */,
-				BD2D019C2A3887A3003A25D5 /* Feature */,
 			);
 			path = Weatherbly;
 			sourceTree = "<group>";
@@ -1131,7 +1131,7 @@
 				5CAB60D32A54FC6A00CD431A /* UITableViewCell+Extension.swift in Sources */,
 				5C9D02C82A6FC45300AF2DA3 /* EditRegionTableViewCell.swift in Sources */,
 				BDAEBC9F2A8F5EE4002E10F2 /* WeatherMessageEnum.swift in Sources */,
-				5C4A0ACB2B47D34A006BE52A /* ClosetFilterHeaderView.swift in Sources */,
+				5C4A0ACB2B47D34A006BE52A /* ClosetFilterHeader.swift in Sources */,
 				5CDCD7E42B56782F008465B9 /* FilterStyleListEntity.swift in Sources */,
 				BD2D01B42A3888AA003A25D5 /* UIColor+Extension.swift in Sources */,
 				BD05E07A2B38114B00A48E61 /* NewCSButton.swift in Sources */,
@@ -1183,7 +1183,7 @@
 				BD7DAB332A70DEFC00422D25 /* VillageForecastInfoEntity.swift in Sources */,
 				BD4AC38F2A6671B500537583 /* OnBoardSensoryTempViewModel.swift in Sources */,
 				5C4BE89B2A5E2D1200FD2CEF /* EditRegionViewController.swift in Sources */,
-				698F6CB02ADFF8A600C2B33A /* HorizontalCollectionViewCell.swift in Sources */,
+				698F6CB02ADFF8A600C2B33A /* StyleClosetCell.swift in Sources */,
 				5C84169E2B68CAA5003AE726 /* TenDayForecastEntity.swift in Sources */,
 				BD50FCBA2B82F76400C06FDD /* HorizonCollectionViewMolecule.swift in Sources */,
 				69A7F0E42A8208DB00834974 /* UserInfoRequest.swift in Sources */,
@@ -1218,11 +1218,11 @@
 				BD05E0722B380C9400A48E61 /* NewCSLabel.swift in Sources */,
 				5CAB60C32A528C7A00CD431A /* UICollectionView+Extension.swift in Sources */,
 				698F6CA92ADD624C00C2B33A /* Tab.swift in Sources */,
-				BD37143B2B864DC000527577 /* StyleClosetFilterHeader.swift in Sources */,
 				69C714D22ADD611400748CF6 /* HomeTabBarController.swift in Sources */,
 				BD05E05D2B3801B600A48E61 /* UIFont+Extension.swift in Sources */,
 				5CE0FEB82A8F4CE200A0E655 /* SetSensoryTempRequest.swift in Sources */,
 				5C46917F2A78F95800E2CC70 /* ConnectionLostViewController.swift in Sources */,
+				BD3BDE662BDD456E002E9E0C /* BannerCell.swift in Sources */,
 				5C5C1C2D2B8738D500294BFF /* NicknameCompleteViewController.swift in Sources */,
 				BD7DAB272A6E786E00422D25 /* StatusOnlyEntity.swift in Sources */,
 				BDA66FEA2A4075270061A1F0 /* UIImageView+Extension.swift in Sources */,
