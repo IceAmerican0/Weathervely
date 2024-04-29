@@ -11,6 +11,8 @@ import Moya
 public enum AuthTarget {
     /// 임시 토큰 발행
     case login
+    /// 닉네임 중복 검증
+    case nicknameValidation(_ nickname: String)
     /// 닉네임 설정
     case nickname(_ nickname: String, _ uuid: String)
     /// 주소 설정
@@ -22,10 +24,11 @@ public enum AuthTarget {
 extension AuthTarget: WVTargetType {
     public var path: String {
         switch self {
-        case .login:    "/auth/login"
-        case .nickname: "/auth/nickName"
-        case .address:  "/auth/address"
-        case .gender:   "/auth/gender"
+        case .login:              "/auth/login"
+        case .nicknameValidation: "/auth/validatedNickName"
+        case .nickname:           "/auth/nickName"
+        case .address:            "/auth/address"
+        case .gender:             "/auth/gender"
         }
     }
     
@@ -36,6 +39,11 @@ extension AuthTarget: WVTargetType {
         case .login:
             .requestParameters(
                 parameters: ["phone_id": UserDefaultManager.shared.uuid],
+                encoding: JSONEncoding.default
+            )
+        case .nicknameValidation(let nickname):
+            .requestParameters(
+                parameters: ["nickname": nickname],
                 encoding: JSONEncoding.default
             )
         case .nickname(let nickname, let uuid):

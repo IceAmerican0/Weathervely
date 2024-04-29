@@ -8,9 +8,8 @@
 import UIKit
 
 public protocol NicknameCompleteViewModelLogic: ViewModelBusinessLogic {
-    func didTapConfirmButton()
     func didTapRefuseButton()
-    func toSettingRegionView()
+    func didTapConfirmButton()
     
     var nickname: String { get }
 }
@@ -22,10 +21,12 @@ public final class NicknameCompleteViewModel: RxBaseViewModel, NicknameCompleteV
         self.nickname = nickname
     }
     
+    /// 아니오 버튼
     public func didTapRefuseButton() {
         navigationPopViewControllerRelay.accept(Void())
     }
     
+    /// 네 버튼
     public func didTapConfirmButton() {
         let uuid = UUID().uuidString
         let dataSource = AuthDataSource()
@@ -48,7 +49,8 @@ public final class NicknameCompleteViewModel: RxBaseViewModel, NicknameCompleteV
             ).disposed(by: bag)
     }
     
-    public func toSettingRegionView() {
+    /// 동네설정뷰
+    private func toSettingRegionView() {
         let vc = SettingRegionViewController(SettingRegionViewModel(.onboard))
         navigationSetRootPushViewControllerRelay.accept(vc)
     }

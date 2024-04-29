@@ -6,6 +6,7 @@
 //
 
 import UserNotifications
+import UIKit
 
 @discardableResult
 public func checkAuthorization() -> Bool {
@@ -26,4 +27,22 @@ public func checkAuthorization() -> Bool {
     }
     
     return didAuthorized
+}
+
+public func toPushSetting() {
+    guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+    DispatchQueue.main.async {
+        UIApplication.shared.open(url) { success in
+            guard success else { return }
+            NotificationCenter.default.addObserver(
+                forName: UIApplication.willEnterForegroundNotification,
+                object: nil,
+                queue: nil
+            ) { _ in
+                UNUserNotificationCenter.current().getNotificationSettings { setting in
+                    
+                }
+            }
+        }
+    }
 }

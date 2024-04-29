@@ -28,6 +28,12 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
         fontColor: .gray50
     ).make(text: "알림이 없습니다.")
     
+    private var buttonView = UIView()
+    
+    private var notiButton = NewCSButton(.standard, style: .violet600).then {
+        $0.setTitle("알림 받기", for: .normal)
+    }
+    
     private let infoView = UIView().then {
         $0.backgroundColor = .gray10
         $0.setCornerRadius(12)
@@ -55,6 +61,19 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
         super.viewDidLayoutSubviews()
         viewModel.getNotiInfo()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if checkAuthorization() {
+            zeroNotiView.flex.display(.none)
+            tableView.flex.display(.flex)
+        } else {
+            zeroNotiView.flex.display(.flex)
+            buttonView.flex.display(.flex)
+            tableView.flex.display(.none)
+        }
+    }
 
     override func layout() {
         super.layout()
@@ -62,15 +81,17 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
         container.flex.define {
             $0.addItem(navigationView).width(100%)
             $0.addItem().grow(1).define {
-                $0.addItem(zeroNotiView).alignItems(.center).define {
+                $0.addItem(zeroNotiView).alignItems(.center).justifyContent(.center).grow(1).define {
                     $0.addItem(zeroNotiImageView).size(48)
                     $0.addItem(zeroNotiLabel).marginTop(10)
+                    $0.addItem(buttonView).marginTop(40).marginHorizontal(52).height(48).grow(1).define {
+                        $0.addItem(notiButton).grow(1)
+                    }.display(.none)
                 }.display(.none)
-                
-                $0.addItem(infoView).marginTop(16).marginHorizontal(20).maxHeight(40).grow(1).define {
-                    $0.addItem(infoLabel).marginLeft(20).grow(1)
-                }
-                $0.addItem(tableView).grow(1)
+                $0.addItem(tableView).marginTop(16).grow(1)
+//                $0.addItem(infoView).marginTop(16).marginHorizontal(20).maxHeight(40).grow(1).define {
+//                    $0.addItem(infoLabel).marginLeft(20).grow(1)
+//                }
             }
         }
     }
