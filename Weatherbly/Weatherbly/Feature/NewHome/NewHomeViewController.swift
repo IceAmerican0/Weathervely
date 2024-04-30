@@ -85,7 +85,7 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
         $0.backgroundColor = .clear
         $0.refreshControl = refresh
         $0.register(withType: HomeForecastCell.self)
-        $0.registerHeader(withType: ClosetFilterHeaderView.self)
+        $0.registerHeader(withType: HomeFilterHeaderView.self)
         $0.register(withType: HomeClosetCell.self)
     }
     
@@ -155,10 +155,6 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
     
     override func viewModelBinding() {
         super.viewModelBinding()
-        
-        homeCollectionView.rx
-            .setDelegate(self)
-            .disposed(by: bag)
         
         homeCollectionView.rx
             .itemSelected
@@ -250,42 +246,22 @@ extension NewHomeViewController: UICollectionViewDelegate {
         }, configureSupplementaryView: { [weak self] dataSource, collectionView, kind, indexPath in
             guard let self else { return UICollectionReusableView() }
             // .closet일 경우에만 헤더를 넣어줌
-            switch kind {
-            case UICollectionView.elementKindSectionHeader:
-                let header = collectionView.dequeueReusableHeaderView(
-                    withType: ClosetFilterHeaderView.self,
-                    for: indexPath
-                ).then {
-                    let state: ClosetFilterHeaderViewState = .init(
-                        styleFilter: self.viewModel.filteredStyle,
-                        itemFilter: self.viewModel.filteredItem
-                    )
-                    $0.configureViewState(state: state)
-                }
-                
+            if case UICollectionView.elementKindSectionHeader = kind {
                 if case .closet = dataSource[indexPath.section] {
-                    header.itemTap
-                        .drive(with: self, onNext: { owner, _ in
-                            owner.viewModel.buttonTapAction(action: .didTapItem)
-                        }).disposed(by: header.bag)
-                    
-                    header.styleTap
-                        .drive(with: self, onNext: { owner, _ in
-                            owner.viewModel.buttonTapAction(action: .didTapStyle)
-                        }).disposed(by: header.bag)
-                    
-                    header.filterTap
-                        .drive(with: self, onNext: { owner, _ in
-                            owner.viewModel.buttonTapAction(action: .didTapStyle)
-                        }).disposed(by: header.bag)
-                    
-                    return header
+                    return collectionView.dequeueReusableHeaderView(
+                        withType: HomeFilterHeaderView.self,
+                        for: indexPath
+                    ).then {
+                        $0.configureCellState(state: self.viewModel.styleList)
+                        
+                        $0.buttonTap
+                            .drive(with: self, onNext: { owner, _ in
+                                owner.viewModel.filterCloset(state: .item)
+                            }).disposed(by: $0.bag)
+                    }
                 }
-                
-                return UICollectionReusableView()
-            default:
-                fatalError("Cannot Generate SupplementaryView")
             }
+            return UICollectionReusableView()
         })
     }
     
@@ -386,7 +362,7 @@ extension NewHomeViewController: UICollectionViewDelegate {
     }
 }
 
-extension NewHomeViewController: UICollectionViewDelegateFlowLayout {
+extension NewHomeViewController {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         if section == 0 {

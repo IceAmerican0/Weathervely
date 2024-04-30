@@ -70,36 +70,6 @@ public class StyleClosetFilterHeader: UICollectionReusableView {
         setContainerLayout()
     }
     
-    public func configureViewState(state: ClosetFilterHeaderViewState) {
-        styleFilterButton.configuration = config
-        itemFilterButton.configuration = config
-        
-        var attString: NSAttributedString
-        var (color, image) = buttonState(state: state.styleFilter)
-        
-        styleFilterButton.configuration?.baseBackgroundColor = color
-        styleFilterButton.configuration?.image = image
-        attString = NSAttributedString(string: "스타일", attributes: attributed)
-        styleFilterButton.setAttributedTitle(attString, for: .normal)
-        
-        (color, image) = buttonState(state: state.itemFilter)
-        itemFilterButton.configuration?.baseBackgroundColor = color
-        itemFilterButton.configuration?.image = image
-        attString = NSAttributedString(string: "아이템", attributes: attributed)
-        itemFilterButton.setAttributedTitle(attString, for: .normal)
-        setContainerLayout()
-    }
-    
-    private func buttonState(state: Bool) -> (UIColor,UIImage) {
-        if state {
-            attributed.updateValue(UIColor.violet700, forKey: .foregroundColor)
-            return (.violet50, .home_drop_on)
-        } else {
-            attributed.updateValue(UIColor.black, forKey: .foregroundColor)
-            return (.gray10, .home_drop_off)
-        }
-    }
-    
     func setContainerLayout() {
         self.addSubviews(container)
         container.pin.all()

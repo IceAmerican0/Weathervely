@@ -12,8 +12,8 @@ import RxMoya
 protocol NewClosetDataSourceProtocol {
     func getHomeCloset(style: String, page: Int) -> Observable<NewClosetEntity>
     func getStyleCloset(style: String, page: Int) -> Observable<NewClosetEntity>
-    func getMainFilteredCloset(page: Int, pageSize: Int, styleID: [String], category: [String]) -> Observable<NewClosetEntity>
-    func getStyleFilteredCloset(page: Int, pageSize: Int, styleID: [String], category: [String]) -> Observable<NewClosetEntity>
+    func getMainFilteredCloset(page: Int, styleID: [String], category: [String]) -> Observable<NewClosetEntity>
+    func getStyleFilteredCloset(page: Int, styleID: [String], category: [String]) -> Observable<NewClosetEntity>
 }
 
 final class NewClosetDataSource: NewClosetDataSourceProtocol {
@@ -25,7 +25,7 @@ final class NewClosetDataSource: NewClosetDataSourceProtocol {
     
     func getHomeCloset(style: String, page: Int) -> Observable<NewClosetEntity> {
         provider.rx
-            .request(.getMainCloset(style: style, page: page))
+            .request(.getHomeCloset(style: style, page: page))
             .mapTo(NewClosetEntity.self)
     }
     
@@ -37,15 +37,13 @@ final class NewClosetDataSource: NewClosetDataSourceProtocol {
     
     func getMainFilteredCloset(
         page: Int,
-        pageSize: Int,
         styleID: [String],
         category: [String]
     ) -> Observable<NewClosetEntity> {
         provider.rx
             .request(
-                .getMainFilteredCloset(
+                .getHomeFilteredCloset(
                     page: page,
-                    pageSize: pageSize,
                     styleID: styleID,
                     category: category
                 )
@@ -55,7 +53,6 @@ final class NewClosetDataSource: NewClosetDataSourceProtocol {
     
     func getStyleFilteredCloset(
         page: Int,
-        pageSize: Int,
         styleID: [String],
         category: [String]
     ) -> Observable<NewClosetEntity> {
@@ -63,7 +60,6 @@ final class NewClosetDataSource: NewClosetDataSourceProtocol {
             .request(
                 .getStyleFilteredCloset(
                     page: page,
-                    pageSize: pageSize,
                     styleID: styleID,
                     category: category
                 )

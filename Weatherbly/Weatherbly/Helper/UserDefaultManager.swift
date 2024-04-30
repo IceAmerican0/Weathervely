@@ -81,4 +81,12 @@ public final class UserDefaultManager {
             #endif
         }
     }
+    
+    public var homeStyleFilterList: [Int] {
+        if let list = userDefault.object(forKey: UserDefaultKey.homeStyleFilterList.rawValue) as? [Int] {
+            return list
+        } else {
+            return []
+        }
+    }
 }

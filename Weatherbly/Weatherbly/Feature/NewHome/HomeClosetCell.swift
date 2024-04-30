@@ -58,11 +58,11 @@ public final class HomeClosetCell: UICollectionViewCell {
     }
     
     func configureCellState(state: NewClosetInfo) {
-        if state.imageURL == "" {
+        if state.closetImageUrl == "" {
             cloth.flex.width(158).height(158)
             cloth.image = .home_banner_01
         } else {
-            cloth.setKF(urlString: state.imageURL)
+            cloth.setKF(urlString: state.closetImageUrl)
         }
         
         cloth.flex.markDirty()

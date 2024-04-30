@@ -9,8 +9,9 @@ import UIKit
 import FlexLayout
 import RxGesture
 import RxSwift
+import Then
 
-final public class NewCSButton: UIButton {
+public final class NewCSButton: UIButton {
     
     // MARK: - Control Property
     // 버튼 크기에 따라
@@ -27,8 +28,10 @@ final public class NewCSButton: UIButton {
     }
     
     var bag = DisposeBag()
-    var scale = ButtonScale.standard
-    var style = ButtonStyle.violet600
+    
+    var scale: ButtonScale
+    
+    var style: ButtonStyle
     
     init(_ scale: ButtonScale, style: ButtonStyle) {
         self.scale = scale
@@ -41,7 +44,7 @@ final public class NewCSButton: UIButton {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     public override var isEnabled: Bool {
         didSet {
             buttonConfigure()
@@ -85,46 +88,38 @@ final public class NewCSButton: UIButton {
             ).disposed(by: bag)
     }
     
-    public override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        if self.scale == .standard {
-            self.titleLabel?.font = UIFont.title_3_B
-        } else {
-            self.titleLabel?.font = UIFont.body_5_M
-        }
-    }
-    
     /// bgColor, titleColor, font, radius, titleColor
     func buttonConfigure() {
-        if scale == .standard {
-            self.layer.cornerRadius = 12
-            
-            switch style {
-            case .violet600:
-                self.backgroundColor = isEnabled ? .violet600 : .gray30
-                self.setTitleColor(.white, for: .normal)
-                self.setTitleColor(.white, for: .disabled)
+        self.do {
+            if scale == .standard {
+                $0.titleLabel?.font = UIFont.title_3_B
+                $0.layer.cornerRadius = 12
                 
-            case .violet100:
-                self.backgroundColor = isEnabled ? .violet100 : .gray30
-                self.setTitleColor(.violet600, for: .normal)
-                self.setTitleColor(.white, for: .disabled)
-                
-            case .white:
-                self.backgroundColor = .white
-                self.setTitleColor(.violet600, for: .normal)
-                self.setTitleColor(.gray30, for: .disabled)
-                self.layer.borderWidth = 1
-                self.layer.borderColor = UIColor.violet150.cgColor
+                switch style {
+                case .violet600:
+                    $0.backgroundColor = isEnabled ? .violet600 : .gray30
+                    $0.setTitleColor(.white, for: .normal)
+                    $0.setTitleColor(.white, for: .disabled)
+                    
+                case .violet100:
+                    $0.backgroundColor = isEnabled ? .violet100 : .gray30
+                    $0.setTitleColor(.violet600, for: .normal)
+                    $0.setTitleColor(.white, for: .disabled)
+                    
+                case .white:
+                    $0.backgroundColor = .white
+                    $0.setTitleColor(.violet600, for: .normal)
+                    $0.setTitleColor(.gray30, for: .disabled)
+                    $0.layer.borderWidth = 1
+                    $0.layer.borderColor = UIColor.violet150.cgColor
+                }
+            } else {
+                $0.titleLabel?.font = UIFont.body_5_M
+                $0.layer.cornerRadius = 5
+                $0.backgroundColor = isEnabled ? .violet100 : .gray30
+                $0.setTitleColor(.violet800, for: .normal)
+                $0.setTitleColor(.white, for: .disabled)
             }
-        } else {
-            self.layer.cornerRadius = 5
-            self.backgroundColor = isEnabled ? .violet100 : .gray30
-            self.setTitleColor(.violet800, for: .normal)
-            self.setTitleColor(.white, for: .disabled)
         }
     }
 }
-
-

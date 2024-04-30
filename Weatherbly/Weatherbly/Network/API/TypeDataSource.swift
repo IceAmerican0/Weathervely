@@ -10,7 +10,7 @@ import RxSwift
 import RxMoya
 
 public protocol TypeDataSourceProtocol {
-    func getTypeList() -> Observable<EmptyEntity>
+    func getTypeList() -> Observable<StyleTypeEntity>
 }
 
 public final class TypeDataSource: TypeDataSourceProtocol {
@@ -20,9 +20,9 @@ public final class TypeDataSource: TypeDataSourceProtocol {
         self.provider = provider
     }
     
-    public func getTypeList() -> Observable<EmptyEntity> {
+    public func getTypeList() -> Observable<StyleTypeEntity> {
         provider.rx
             .request(.getTypeList)
-            .mapTo(EmptyEntity.self)
+            .mapTo(StyleTypeEntity.self)
     }
 }

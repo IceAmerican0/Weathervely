@@ -132,34 +132,18 @@ extension StyleViewController: UICollectionViewDelegate {
         },configureSupplementaryView: { [ weak self ] dataSource, collectionView, kind, indexPath in
             guard let self else { return UICollectionReusableView() }
             
-            switch kind {
-            case UICollectionView.elementKindSectionHeader:
-                let header = collectionView.dequeueReusableHeaderView(withType: ClosetFilterHeaderView.self, for: indexPath).then {
-                    let state: ClosetFilterHeaderViewState = .init(
-                        styleFilter: self.viewModel.filteredStyle,
-                        itemFilter: self.viewModel.filteredItem
-                    )
-                    $0.configureViewState(state: state)
-                }
-                
+            if case UICollectionView.elementKindSectionHeader = kind {
                 if case .normal = dataSource[indexPath.section] {
-                    header.styleTap
-                        .drive(with: self, onNext: { owner, _ in
-                            owner.viewModel.filterCloset(state: .style)
-                        }).disposed(by: header.bag)
-                    
-                    header.filterTap
-                        .drive(with: self, onNext: { owner, _ in
-                            owner.viewModel.filterCloset(state: .item)
-                        }).disposed(by: header.bag)
-                    return header
+                    return collectionView.dequeueReusableHeaderView(
+                        withType: HomeFilterHeaderView.self,
+                        for: indexPath
+                    ).then {
+                        let styleList: [StyleTypeInfo] = []
+                        $0.configureCellState(state: styleList)
+                    }
                 }
-
-                return UICollectionReusableView()
-            default:
-                fatalError("Cannot Generate SupplementaryView")
             }
-            
+            return UICollectionReusableView()
         })
     }
 }

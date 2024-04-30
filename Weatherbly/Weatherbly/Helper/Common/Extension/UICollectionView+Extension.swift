@@ -48,17 +48,17 @@ public extension UICollectionView {
         register(type.self, forCellWithReuseIdentifier: type.identifier)
     }
     
-    /// 휴먼 에러 방지용 ReusableView Header register
+    /// 휴먼 에러 방지용 register ReusableView Header
     func registerHeader<T: UICollectionReusableView>(withType type: T.Type) {
         registerReusableView(withType: type, kind: .sectionHeader)
     }
     
-    /// 휴먼 에러 방지용 ReusableView Footer register
+    /// 휴먼 에러 방지용 register ReusableView Footer
     func registerFooter<T: UICollectionReusableView>(withType type: T.Type) {
         registerReusableView(withType: type, kind: .sectionFooter)
     }
     
-    /// 휴먼 에러 방지용 dequeue ReusableView
+    /// 휴먼 에러 방지용 register ReusableView
     func registerReusableView<T: UICollectionReusableView>(withType type: T.Type, kind: Elements) {
         register(type.self, forSupplementaryViewOfKind: kind.rawValue, withReuseIdentifier: type.identifier)
     }

@@ -28,4 +28,6 @@ public enum UserDefaultKey: String {
     case dong
     /// 주소 정보
     case regionInfo
+    /// 홈 스타일 필터 리스트
+    case homeStyleFilterList
 }

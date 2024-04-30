@@ -14,6 +14,7 @@ public protocol NewHomeViewModelLogic: ViewModelBusinessLogic {
     func loadHome()
     func pullToRefresh()
     func getForecastInfo()
+    func getStyleFilterList()
     func getClosetInfo()
     func buttonTapAction(action: ButtonTapAction)
     func configureTime(direction: UISwipeGestureRecognizer.Direction)
@@ -29,8 +30,7 @@ public protocol NewHomeViewModelLogic: ViewModelBusinessLogic {
     var homeSections: PublishRelay<[HomeSection]> { get }
     var forecastInfo: [HomeForecastInfo] { get }
     var selectedForecastState: BehaviorRelay<HomeForecastInfo> { get }
-    var filteredStyle: Bool { get set }
-    var filteredItem: Bool { get set }
+    var styleList: [StyleTypeInfo] { get }
 }
 
 public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
@@ -46,20 +46,16 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     private var selectedIndex = 0
     /// 선택돼있는 날씨 정보
     public var selectedForecastState = BehaviorRelay<HomeForecastInfo>(value: .init(date: "", time: "", mainTemp: 0, minTemp: 0, maxTemp: 0, weather: "", comment: ""))
-    /// 스타일 필터 여부
-    public var filteredStyle: Bool
-    /// 아이템 필터 여부
-    public var filteredItem: Bool
+    /// 스타일 필터 리스트
+    public var styleList: [StyleTypeInfo] = []
     /// 스타일 추천 리스트
-    public var recommendedCloset = BehaviorRelay<[NewClosetInfo]?>(value: nil)
+    private var recommendedCloset: [NewClosetInfo] = []
     
     init(
         closetDataSource: ClosetDataSourceProtocol
     ) {
         self.closetDataSource = closetDataSource
         self.refreshStatus = .init()
-        self.filteredStyle = .init()
-        self.filteredItem = .init()
         super.init()
     }
     
@@ -72,8 +68,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
         
         /// 첫 Cell Banner 처리를 위한 Dummy Data 넣어줌(Banner + List)
         var banner: [NewClosetInfo] = .init()
-        guard let data = recommendedCloset.value else { return }
-        banner += data
+        banner += recommendedCloset
         
         /// 추천 Section 정보
         let closet: [HomeSection] = [
@@ -152,17 +147,40 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
         forecastInfo = data
         selectedIndex = 0
         selectedForecastState.accept(forecastInfo[selectedIndex])
-        getClosetInfo()
+        
+        styleList.count == 0 ? getStyleFilterList() : getClosetInfo()
+    }
+    
+    /// 스타일 필터 리스트 받아오기
+    public func getStyleFilterList() {
+        let dataSource = TypeDataSource(provider: WVProvider<TypeTarget>())
+        dataSource.getTypeList()
+            .subscribe(
+                with: self,
+                onNext: { owner, response in
+                    owner.styleList = response.data.types
+                    owner.getClosetInfo()
+                },
+                onError: { owner, error in
+                    owner.alertState.accept(
+                        .init(
+                            title: error.localizedDescription,
+                            alertType: .popup,
+                            closeAction: { owner.getStyleFilterList() }
+                        )
+                    )
+                }
+            ).disposed(by: bag)
     }
     
     /// 메인 코디 추천 받아오기
     public func getClosetInfo() {
         let dataSource = NewClosetDataSource(provider: WVProvider<NewClosetTarget>())
-        dataSource.getStyleCloset(style: "casual", page: 1)
+        dataSource.getHomeCloset(style: "casual", page: 1)
             .subscribe(
                 with: self,
                 onNext: { owner, response in
-                    owner.recommendedCloset.accept(response.data.list.closets)
+                    owner.recommendedCloset = response.data.closets
                     owner.loadHome()
                 },
                 onError: { owner, error in

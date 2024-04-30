@@ -32,7 +32,7 @@ final class FilterListViewController: RxBaseViewController<FilterListViewModel> 
         $0.showsVerticalScrollIndicator = false
         $0.backgroundColor = .clear
         $0.registerHeader(withType: FilterListHeaderView.self)
-        $0.register(withType: FilterListCell.self)
+        $0.register(withType: ItemFilterCell.self)
     }
     
     private lazy var dataSource = setDataSource()
@@ -98,44 +98,24 @@ extension FilterListViewController: UICollectionViewDelegate {
             switch dataSource[indexPath] {
             case let .style(cellState):
                 return collectionView.dequeueCell(
-                    withType: FilterListCell.self,
+                    withType: ItemFilterCell.self,
                     for: indexPath
                 ).then {
-                    let state: FilterListCellState = .init(
-                        title: cellState.title,
-                        selectable: true,
-                        selected: cellState.selected
-                    )
-                    $0.configureCellState(state: state)
+                    $0.configureCellState(state: cellState)
                 }
             case let .item(cellState):
                 return collectionView.dequeueCell(
-                    withType: FilterListCell.self,
+                    withType: ItemFilterCell.self,
                     for: indexPath
                 ).then {
-                    let state: FilterListCellState = .init(
+                    let state: FilterStyleListInfo = .init(
+                        id: cellState.id,
                         title: cellState.title,
-                        selectable: cellState.selectable,
                         selected: cellState.selected
                     )
                     $0.configureCellState(state: state)
                 }
             }
-        }, configureSupplementaryView: { [weak self] dataSource, collectionView, kind, indexPath in
-            guard self != nil else { return UICollectionReusableView() }
-            
-            if kind == UICollectionView.elementKindSectionHeader {
-                if case let .item(title, _) = dataSource[indexPath.section] {
-                    return collectionView.dequeueReusableHeaderView(
-                        withType: FilterListHeaderView.self,
-                        for: indexPath
-                    ).then {
-                        $0.configureViewState(title: title)
-                    }
-                }
-            }
-            
-            return UICollectionReusableView()
         })
     }
     
