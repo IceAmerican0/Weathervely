@@ -24,10 +24,13 @@ final class StyleViewController: RxBaseViewController<StyleViewModel> {
     var flowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .horizontal
         $0.minimumLineSpacing = 16
+        $0.itemSize = CGSize(width: 120, height: 209)
+        
     }
     
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout).then {
         $0.showsHorizontalScrollIndicator = false
+//        $0.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 30, right: 0)
         $0.registerHeader(withType: ThemeTitleHeaderView.self)
         $0.register(withType: BannerCell.self)
         $0.register(withType: StyleClosetCell.self)
@@ -49,7 +52,8 @@ final class StyleViewController: RxBaseViewController<StyleViewModel> {
         
         container.flex.define { container in
             container.addItem(titleLabel).marginHorizontal(20).marginTop(11).marginBottom(9).height(23)
-            container.addItem(collectionView).grow(1).backgroundColor(.green)
+//            container.addItem(collectionView).grow(1).backgroundColor(.green)
+            container.addItem(collectionView).height(430).marginLeft(20)
         }
         
     }
@@ -89,7 +93,7 @@ extension StyleViewController: /*UICollectionViewDataSource,*/ UICollectionViewD
 //        }
 //    
 //        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//            return CGSize(width: 120, height: 180)
+//            return CGSize(width: 120, height: 209)
 //        }
 //    
 }
@@ -100,19 +104,22 @@ extension StyleViewController: UICollectionViewDelegate {
     func setRxDataSources() -> RxCollectionViewSectionedReloadDataSource<StyleClosetSection> {
         RxCollectionViewSectionedReloadDataSource<StyleClosetSection> (configureCell: { [ weak self ] dataSource, collectionView, indexPath, item in
             guard self != nil else { return UICollectionViewCell() }
-            
+
             switch item {
             case .styles(let closetInfo):
                 let cell = collectionView.dequeueCell(withType: StyleClosetCell.self, for: indexPath)
+                cell.nameLabel.text = "\(indexPath)"
+                cell.configureCell(closetInfo)
 
                 return cell
             }
         }, configureSupplementaryView: { [ weak self ] dataSource, collectionView, kind, indexPath in
-            guard let self else { return UICollectionReusableView() }
+            guard self != nil else { return UICollectionReusableView() }
             
             switch dataSource.sectionModels[indexPath.section] {
             case .styles:
                 let header = collectionView.dequeueReusableHeaderView(withType: ThemeTitleHeaderView.self, for: indexPath)
+//                header.size
                 return header
             }
         })

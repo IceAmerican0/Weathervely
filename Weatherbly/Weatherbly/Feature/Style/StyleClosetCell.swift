@@ -9,27 +9,29 @@ import UIKit
 import FlexLayout
 import PinLayout
 import Then
+import RxSwift
 
 final class StyleClosetCell: UICollectionViewCell {
     
+    var bag = DisposeBag()
+    
     lazy var imageView = UIImageView().then {
         $0.contentMode = .scaleAspectFit
+        $0.adjustsImageSizeForAccessibilityContentSizeCategory = true
         $0.layer.cornerRadius = 12
         $0.clipsToBounds = true
         $0.translatesAutoresizingMaskIntoConstraints = true
         $0.tintColor = .green
     }
     
-    var nameLabel = LabelMaker(font: UIFont.body_5_M).make(text: "Detail TextDetail TextDetail TextDetail Text").then {
+    var nameLabel = LabelMaker(font: UIFont.body_5_M).make().then {
         $0.numberOfLines = 1
         $0.textAlignment = .left
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = .blue
         cellLayout()
-        cellAttribute()
     }
     
     required init?(coder: NSCoder) {
@@ -44,26 +46,42 @@ final class StyleClosetCell: UICollectionViewCell {
         contentView.flex.layout()
     }
     
-    func cellAttribute() {
-        
-//        imageView.do {
-//            $0.tintColor = .green
-//            $0.contentMode = .scaleAspectFit
-//        }
-//        
-//        nameLabel.do {
-//            $0.numberOfLines = 1
-//            $0.textAlignment = .left
-//        }
-    }
-    
     func cellLayout() {
         
         contentView.flex.width(120).height(209).define { flex in
-            flex.addItem(imageView).height(180)
+            flex.addItem(imageView).height(180).justifyContent(.center)
             flex.addItem(nameLabel).height(nameLabel.font.setLineHeight()).marginTop(12)
         }
         
     }
+    
+    func configureCell(_ info: StyleClosetInfo?) {
+        guard let info = info else { return }
+        
+        let placeHoleder = UIImage.image_indicator
+        // TODO: nameLabel Text -> Shop name
+        imageView.setKF(urlString: info.imageUrl, placeHolder: placeHoleder) { result in
+            switch result {
+            case .success(let value):
+                print("success: \(value)")
+            case .failure(let error):
+                print("ERROR : \(result)")
+            }
+            
+        }
+//        imageView.flex.markDirty()
+
+    }
+    
+    
+    
+//    override func prepareForReuse() {
+//        super.prepareForReuse()
+//        self.bag = DisposeBag()
+//        contentView.removeFromSuperview()
+//        imageView.removeFromSuperview()
+//        nameLabel.removeFromSuperview()
+//        
+//    }
 
 }
