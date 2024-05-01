@@ -16,7 +16,7 @@ enum StyleClosetSection {
 
 enum StyleSectionItem {
 //    case banner(UIImage)
-    case styles(StyleClosets)
+    case styles(StyleClosetInfo)
 }
 
 extension StyleClosetSection: SectionModelType {

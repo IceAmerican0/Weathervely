@@ -27,6 +27,7 @@ final class StyleClosetCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.backgroundColor = .blue
         cellLayout()
         cellAttribute()
     }

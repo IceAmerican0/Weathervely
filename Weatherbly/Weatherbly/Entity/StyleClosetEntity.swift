@@ -13,31 +13,21 @@ struct StyleClosetEntity: Codable {
 }
 
 struct StyleClosetData: Codable {
-    let list: [StyleClosetDataList]
-}
-
-struct StyleClosetDataList: Codable {
     let counts: Int
-    let closets: [StyleClosets]
+    let closets: [StyleClosetInfo]
 }
 
-struct StyleClosets: Codable {
+struct StyleClosetInfo: Codable {
     let id: Int
     let name: String
     let imageUrl: String
-    let saleStatus: String
-    let code: String
-    let style: [StyleInfo]
-    
-    enum CodingKeys: String, CodingKey {
-        case id, name
-        case imageUrl = "image_url"
-        case saleStatus = "status"
-        case code, style
-    }
-}
+    let closetStatus: String
 
-struct StyleInfo: Codable {
-    let styleID: Int
-    let name: String
+    enum CodingKeys: String, CodingKey {
+        case id = "closetId"
+        case name = "closetName"
+        case imageUrl = "closetImageUrl"
+        case closetStatus
+        
+    }
 }

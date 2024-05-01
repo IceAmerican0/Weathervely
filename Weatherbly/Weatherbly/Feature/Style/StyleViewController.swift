@@ -22,33 +22,18 @@ final class StyleViewController: RxBaseViewController<StyleViewModel> {
     }
     
     var flowLayout = UICollectionViewFlowLayout().then {
-        $0.scrollDirection = .vertical
+        $0.scrollDirection = .horizontal
         $0.minimumLineSpacing = 16
     }
     
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout).then {
         $0.showsHorizontalScrollIndicator = false
-//        $0.contentInset = PEdgeInsets(top: 0, left: 0, bottom: 0, right: 20)
         $0.registerHeader(withType: ThemeTitleHeaderView.self)
         $0.register(withType: BannerCell.self)
         $0.register(withType: StyleClosetCell.self)
     }
     
     private lazy var rxDataSources = setRxDataSources()
-    
-    var testData: [StyleClosets] = [
-    StyleClosets(id: 1, name: "look1", imageUrl: "stat.fill", saleStatus: "ACTIVE", code: "100", style: [StyleInfo(styleID: 200, name: "name1")]),
-    StyleClosets(id: 1, name: "look1", imageUrl: "stat.fill", saleStatus: "ACTIVE", code: "100", style: [StyleInfo(styleID: 200, name: "name1")]),
-    StyleClosets(id: 1, name: "look1", imageUrl: "stat.fill", saleStatus: "ACTIVE", code: "100", style: [StyleInfo(styleID: 200, name: "name1")]),
-    StyleClosets(id: 1, name: "look1", imageUrl: "stat.fill", saleStatus: "ACTIVE", code: "100", style: [StyleInfo(styleID: 200, name: "name1")]),
-    StyleClosets(id: 1, name: "look1", imageUrl: "stat.fill", saleStatus: "ACTIVE", code: "100", style: [StyleInfo(styleID: 200, name: "name1")]),
-    StyleClosets(id: 1, name: "look1", imageUrl: "stat.fill", saleStatus: "ACTIVE", code: "100", style: [StyleInfo(styleID: 200, name: "name1")]),
-    StyleClosets(id: 1, name: "look1", imageUrl: "stat.fill", saleStatus: "ACTIVE", code: "100", style: [StyleInfo(styleID: 200, name: "name1")]),
-    StyleClosets(id: 1, name: "look1", imageUrl: "stat.fill", saleStatus: "ACTIVE", code: "100", style: [StyleInfo(styleID: 200, name: "name1")]),
-    StyleClosets(id: 1, name: "look1", imageUrl: "stat.fill", saleStatus: "ACTIVE", code: "100", style: [StyleInfo(styleID: 200, name: "name1")]),
-    StyleClosets(id: 1, name: "look1", imageUrl: "stat.fill", saleStatus: "ACTIVE", code: "100", style: [StyleInfo(styleID: 200, name: "name1")]),
-    StyleClosets(id: 1, name: "look1", imageUrl: "stat.fill", saleStatus: "ACTIVE", code: "100", style: [StyleInfo(styleID: 200, name: "name1")])]
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,110 +60,61 @@ final class StyleViewController: RxBaseViewController<StyleViewModel> {
         collectionView.rx
             .setDelegate(self)
             .disposed(by: bag)
-        
     }
     
     override func viewModelBinding() {
         super.viewModelBinding()
         
-        viewModel.recommendClosetEntityRelay
-            .asDriver()
-            .drive(
-                with: self,
-                onNext: { owner, _ in
-//                    owner.collectionView.reloadData()
-                }
-            )
-            .disposed(by: bag)
-        
-        // TODO: Delete TestCode
-        viewModel.styleSections.accept(testData)
-          
         viewModel.styleSections
-            .bind(to: self.collectionView.rx.items(dataSource: setRxDataSources()))
+            .bind(to: collectionView.rx.items(dataSource: setRxDataSources()))
             .disposed(by: bag)
-        
     }
-    
     
 }
 
 extension StyleViewController: /*UICollectionViewDataSource,*/ UICollectionViewDelegateFlowLayout {
     
-    //    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    //        return self.testData.count
-    //    }
-    //
-    //    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    //        let cell = collectionView.dequeueCell(withType: StyleClosetCell.self, for: indexPath)
-    //
-    //        let image = UIImage(named: testData[indexPath.item])
-    //        cell.imageView.image = image
-    //
-    //        return cell
-    //    }
+        func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+            var count = viewModel.styleSections.value.count
+            return count
+        }
     
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        return CGSize(width: 120, height: collectionView.frame.height)
-//    }
-    
+//        func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//            let cell = collectionView.dequeueCell(withType: StyleClosetCell.self, for: indexPath)
+//    
+//            let image = UIImage(named: testData[indexPath.item])
+//            cell.imageView.image = image
+//    
+//            return cell
+//        }
+//    
+//        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//            return CGSize(width: 120, height: 180)
+//        }
+//    
 }
 
 extension StyleViewController: UICollectionViewDelegate {
     
     // MARK: - DataSource
     func setRxDataSources() -> RxCollectionViewSectionedReloadDataSource<StyleClosetSection> {
-        RxCollectionViewSectionedReloadDataSource<StyleClosetSection> (configureCell: { [ weak self ] dataSource, collectionView, indexPath, _ in
-            print("here")
+        RxCollectionViewSectionedReloadDataSource<StyleClosetSection> (configureCell: { [ weak self ] dataSource, collectionView, indexPath, item in
             guard self != nil else { return UICollectionViewCell() }
             
-            print("whats it : \(dataSource[indexPath])")
+            switch item {
+            case .styles(let closetInfo):
+                let cell = collectionView.dequeueCell(withType: StyleClosetCell.self, for: indexPath)
+
+                return cell
+            }
+        }, configureSupplementaryView: { [ weak self ] dataSource, collectionView, kind, indexPath in
+            guard let self else { return UICollectionReusableView() }
             
-            let cell = collectionView.dequeueCell(withType: StyleClosetCell.self, for: indexPath)
-            
-            cell.
-//            switch dataSource[indexPath] {
-//            case .banner(let image):
-//                return collectionView.dequeueCell(withType: BannerCell.self, for: indexPath).then {
-//                    $0.bannerImageView.image = UIImage.style_banner
-//                    $0.backgroundColor = .red
-//                }
-//            case .styles(let closetInfo):
-//                return collectionView.dequeueCell(withType: StyleClosetCell.self, for: indexPath)
-//            }
-        }
-                                                                       
-                                                                       /*,configureSupplementaryView: { [ weak self ] dataSource, collectionView, kind, indexPath in
-          guard let self else { return UICollectionReusableView() }
-          
-          switch kind {
-          case UICollectionView.elementKindSectionHeader:
-          let header = collectionView.dequeueReusableHeaderView(withType: ClosetFilterHeader.self, for: indexPath).then {
-          let state: ClosetFilterHeaderViewState = .init(
-          styleFilter: self.viewModel.filteredStyle,
-          itemFilter: self.viewModel.filteredItem
-          )
-          $0.configureViewState(state: state)
-          }
-          
-          if case .styles = dataSource[indexPath.section] {
-          header.styleTap
-          .drive(with: self, onNext: { owner, _ in
-          owner.viewModel.filterCloset(state: .style)
-          }).disposed(by: header.bag)
-          
-          header.filterTap
-          .drive(with: self, onNext: { owner, _ in
-          owner.viewModel.filterCloset(state: .item)
-          }).disposed(by: header.bag)
-          return header
-          }
-          
-          return UICollectionReusableView()
-          default:
-          fatalError("Cannot Generate SupplementaryView")
-          }
-          
-          }*/)
+            switch dataSource.sectionModels[indexPath.section] {
+            case .styles:
+                let header = collectionView.dequeueReusableHeaderView(withType: ThemeTitleHeaderView.self, for: indexPath)
+                return header
+            }
+        })
     }
 }
