@@ -12,13 +12,16 @@ import RxCocoa
 import Then
 
 final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
-    private var navigationView = CSNavigationView(.leftButton(.leftArrow_black)).then {
-        $0.setTitle("닉네임 설정")
+    
+    private let viewState = UserDefaultManager.shared.isOnBoard ? "설정" : "수정"
+    
+    private lazy var navigationView = CSNavigationView(.leftButton(.leftArrow_black)).then {
+        $0.setTitle("닉네임 \(viewState)")
     }
     
-    private var explanationLabel = LabelMaker(
+    private lazy var explanationLabel = LabelMaker(
         font: .heading_5_B
-    ).make(text: "닉네임을 설정해 주세요")
+    ).make(text: "닉네임을 \(viewState)해 주세요")
     
     private var guideLabel = LabelMaker(
         font: .body_3_M,

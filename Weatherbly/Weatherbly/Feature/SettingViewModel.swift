@@ -55,7 +55,7 @@ final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
     
     /// 닉네임 설정
     func toEditNicknameView() {
-        let vc = EditNicknameViewController(EditNicknameViewModel())
+        let vc = NicknameViewController(NicknameViewModel())
         navigationPushViewControllerRelay.accept(vc)
     }
     

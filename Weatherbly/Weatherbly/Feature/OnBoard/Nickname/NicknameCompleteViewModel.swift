@@ -28,6 +28,11 @@ public final class NicknameCompleteViewModel: RxBaseViewModel, NicknameCompleteV
     
     /// 네 버튼
     public func didTapConfirmButton() {
+        UserDefaultManager.shared.isOnBoard ? setNickname() : editNickname()
+    }
+    
+    /// 닉네임 설정(온보딩)
+    private func setNickname() {
         let uuid = UUID().uuidString
         let dataSource = AuthDataSource()
         dataSource.setNickname(nickname, uuid)
@@ -47,6 +52,34 @@ public final class NicknameCompleteViewModel: RxBaseViewModel, NicknameCompleteV
                     )
                 }
             ).disposed(by: bag)
+    }
+    
+    /// 닉네임 수정
+    private func editNickname() {
+        let userInfo = UserInfoRequest(nickname: nickname)
+        let dataSource = UserDataSource()
+        dataSource.fetchUserInfo(userInfo)
+            .subscribe(
+                with: self,
+                onNext: { owner, _ in
+                    owner.toSettingView()
+                    userDefault.set(owner.nickname, forKey: UserDefaultKey.nickname.rawValue)
+                },
+                onError: { owner, error in
+                    owner.alertState.accept(
+                        .init(
+                            title: error.localizedDescription,
+                            alertType: .popup
+                        )
+                    )
+                }
+            ).disposed(by: bag)
+    }
+    
+    /// 마이페이지
+    private func toSettingView() {
+        let vc = SettingViewController(SettingViewModel())
+        navigationPushViewControllerRelay.accept(vc)
     }
     
     /// 동네설정뷰

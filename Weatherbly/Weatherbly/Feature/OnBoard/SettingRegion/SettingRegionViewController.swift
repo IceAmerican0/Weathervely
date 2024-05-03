@@ -13,7 +13,10 @@ import RxSwift
 import Then
 
 final class SettingRegionViewController: RxBaseViewController<SettingRegionViewModel> {
-    private var navigationView = CSNavigationView(.leftButton(.leftArrow_black))
+    private var titleLabel = LabelMaker(
+        font: .title_3_B,
+        alignment: .center
+    ).make()
     
     private var comment = LabelMaker(
         font: .heading_5_B
@@ -81,7 +84,7 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
         super.layout()
         
         container.flex.define {
-            $0.addItem(navigationView).width(100%)
+            $0.addItem(titleLabel).marginTop(11.5).width(100%)
             $0.addItem(comment).marginTop(50).marginLeft(20)
             $0.addItem(inputRegion).alignSelf(.stretch).marginTop(32).marginHorizontal(20).height(40)
             $0.addItem(middleView).marginTop(32).marginHorizontal(20).marginBottom(20).grow(1).define {
@@ -100,20 +103,16 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
         
         switch viewModel.settingRegionState {
         case .add:
-            navigationView.setTitle("동네 추가")
+            titleLabel.text = "동네 추가"
         case .change:
-            navigationView.setTitle("동네 변경")
+            titleLabel.text = "동네 변경"
         case .onboard:
-            navigationView.setTitle("동네 설정")
+            titleLabel.text = "동네 설정"
         }
     }
     
     override func bind() {
         super.bind()
-        
-        navigationView.leftButtonDidTapRelay
-            .bind(to: viewModel.navigationPopViewControllerRelay)
-            .disposed(by: bag)
         
         confirmButton.rx.tap
             .asDriver()

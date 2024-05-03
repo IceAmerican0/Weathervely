@@ -45,6 +45,7 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
                 with: self,
                 onNext: { owner, _ in
                     userDefault.set(owner.regionDataRelay.value.dong, forKey: UserDefaultKey.dong.rawValue)
+                    userDefault.removeObject(forKey: UserDefaultKey.isOnboard.rawValue)
                     owner.toHomeView()
                 },
                 onError: { owner, error in
