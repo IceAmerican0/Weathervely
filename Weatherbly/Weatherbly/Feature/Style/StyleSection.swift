@@ -8,31 +8,35 @@
 import UIKit
 import RxDataSources
 
-enum StyleClosetSection {
-//    case banner(item: [Item])
+enum StyleTabSectionModel {
+    case banner(item: [Item])
     case styles(items: [Item])
 //    case styles(items: [Item])
 }
 
-enum StyleSectionItem {
-//    case banner(UIImage)
+enum StyleTabItem {
+    case banner(StyleBanner)
     case styles(StyleClosetInfo)
 }
 
-extension StyleClosetSection: SectionModelType {
-    public typealias Item = StyleSectionItem
+extension StyleTabSectionModel: SectionModelType {
+    public typealias Item = StyleTabItem
     
     var items: [Item] {
         switch self {
-//        case .banner(item: let item): item.map { $0 }
-        case .styles(items: let items): items.map { $0 }
+        case .banner(item: let item):
+            return item.map { $0 }
+        case .styles(items: let items):
+            return items.map { $0 }
         }
     }
     
-    init(original: StyleClosetSection, items: [StyleSectionItem]) {
+    init(original: StyleTabSectionModel, items: [StyleTabItem]) {
         switch original {
-//        case .banner: self = .banner(item: items)
-        case .styles: self = .styles(items: items)
+        case .banner:
+            self = .banner(item: items)
+        case .styles:
+            self = .styles(items: items)
         }
     }
         

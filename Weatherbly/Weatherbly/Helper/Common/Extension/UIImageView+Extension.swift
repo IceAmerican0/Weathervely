@@ -30,7 +30,7 @@ extension UIImageView {
         
         let retryStrategy = DelayRetryStrategy(
             maxRetryCount: 2,
-            retryInterval: .seconds(2)
+            retryInterval: .seconds(0.2)
         )
         
         self.kf.setImage(
@@ -38,11 +38,17 @@ extension UIImageView {
             placeholder: placeHolder,
             options: [
                 .retryStrategy(retryStrategy),
-                .transition(.fade(0.1)),
+                .transition(.fade(1)),
                 .cacheOriginalImage
             ]
         ) { result in
-            completionHandler?(result)
+//            completionHandler?(result)
+            switch result {
+            case .success:
+                break
+            case .failure:
+                self.image = placeHolder?.resized(to: CGSize(width: 56, height: 56))
+            }
         }
     }
 }

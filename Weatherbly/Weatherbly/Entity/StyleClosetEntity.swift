@@ -22,12 +22,14 @@ struct StyleClosetInfo: Codable {
     let name: String
     let imageUrl: String
     let closetStatus: String
+//    let shopName: String
 
     enum CodingKeys: String, CodingKey {
         case id = "closetId"
         case name = "closetName"
         case imageUrl = "closetImageUrl"
         case closetStatus
+//        case shopName = "closetSiteName"
         
     }
 }

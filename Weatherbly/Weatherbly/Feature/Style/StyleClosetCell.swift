@@ -15,6 +15,10 @@ final class StyleClosetCell: UICollectionViewCell {
     
     var bag = DisposeBag()
     
+    var imageViewWrapper = UIView().then {
+        $0.layer.cornerRadius =  12
+        $0.clipsToBounds = true
+    }
     lazy var imageView = UIImageView().then {
         $0.contentMode = .scaleAspectFit
         $0.adjustsImageSizeForAccessibilityContentSizeCategory = true
@@ -49,7 +53,9 @@ final class StyleClosetCell: UICollectionViewCell {
     func cellLayout() {
         
         contentView.flex.width(120).height(209).define { flex in
-            flex.addItem(imageView).height(180).justifyContent(.center)
+            flex.addItem(imageViewWrapper).backgroundColor(.green).define { wrapper in
+                wrapper.addItem(imageView).height(180).justifyContent(.center)
+            }
             flex.addItem(nameLabel).height(nameLabel.font.setLineHeight()).marginTop(12)
         }
         
@@ -58,19 +64,10 @@ final class StyleClosetCell: UICollectionViewCell {
     func configureCell(_ info: StyleClosetInfo?) {
         guard let info = info else { return }
         
-        let placeHoleder = UIImage.image_indicator
+        let placeHolder = UIImage.image_indicator
         // TODO: nameLabel Text -> Shop name
-        imageView.setKF(urlString: info.imageUrl, placeHolder: placeHoleder) { result in
-            switch result {
-            case .success(let value):
-                print("success: \(value)")
-            case .failure(let error):
-                print("ERROR : \(result)")
-            }
-            
-        }
-//        imageView.flex.markDirty()
-
+        imageView.setKF(urlString: info.imageUrl, placeHolder: placeHolder)
+        
     }
     
     
