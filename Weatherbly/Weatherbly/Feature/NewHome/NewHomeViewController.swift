@@ -106,13 +106,13 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
         super.layout()
         
         container.flex.define {
-            $0.addItem().direction(.row).justifyContent(.spaceBetween).width(100%).marginTop(12).define { header in
+            $0.addItem().direction(.row).alignItems(.center).justifyContent(.spaceBetween).width(100%).height(44).define { header in
                 header.addItem(locationButton).marginLeft(20).size(20)
                 header.addItem(regionLabel).marginLeft(8)
                 header.addItem().grow(1)
                 header.addItem(notificationButton).marginRight(20).size(20)
             }
-            $0.addItem().direction(.row).justifyContent(.center).marginTop(11).define { date in
+            $0.addItem().direction(.row).alignItems(.center).justifyContent(.center).height(30).define { date in
                 date.addItem(prevButton).size(28)
                 date.addItem(dayLabel).marginLeft(16).width(41).height(29)
                 date.addItem(timeLabel).marginLeft(12)
