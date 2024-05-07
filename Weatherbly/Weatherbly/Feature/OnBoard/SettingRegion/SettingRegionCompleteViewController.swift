@@ -61,8 +61,9 @@ public final class SettingRegionCompleteViewController: RxBaseViewController<Set
         super.viewBinding()
         
         navigationView.leftButtonDidTapRelay
-            .bind(to: viewModel.navigationPopViewControllerRelay)
-            .disposed(by: bag)
+            .drive(with: self, onNext: { owner, _ in
+                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
+            }).disposed(by: bag)
         
         negativeButton.rx.tap
             .bind(to: viewModel.navigationPopViewControllerRelay)

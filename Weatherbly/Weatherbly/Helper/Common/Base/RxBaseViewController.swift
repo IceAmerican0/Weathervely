@@ -106,11 +106,24 @@ public class RxBaseViewController<ViewModel>:
             }
             .disposed(by: bag)
         
+        viewModel
+            .navigationPushToPreviousViewControllerRelay
+            .bind(with: self) { owner, viewControllers in
+                guard let firstVC = owner.navigationController?.viewControllers.first,
+                      let viewControllers else { return }
+                
+                viewControllers.forEach { $0.hidesBottomBarWhenPushed = true }
+                
+                // 첫번째(탭바) 네비게이션만 남긴 후 원하는 네비게이션 배열 적용
+                let vc: [UIViewController] = [firstVC] + viewControllers
+                owner.navigationController?.setViewControllers(vc, animated: true)
+            }
+            .disposed(by: bag)
+        
         viewModel.navigationSetRootPushViewControllerRelay
             .bind(with: self) { owner, viewController in
                 guard let viewController else { return }
-                owner.navigationController?.pushViewController(viewController, animated: true)
-                owner.navigationController?.viewControllers = [viewController]
+                owner.navigationController?.setViewControllers([viewController], animated: true)
             }.disposed(by: bag)
         
         viewModel

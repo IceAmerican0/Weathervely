@@ -40,14 +40,19 @@ public final class CSNavigationView: UIView {
     }
     
     var bag = DisposeBag()
-    var leftButtonDidTapRelay = PublishRelay<Void>()
-    var rightButtonDidTapRelay = PublishRelay<Void>()
+    
+    var leftButtonDidTapRelay: Driver<Void> {
+        self.leftButton.rx.tap.asDriver()
+    }
+    
+    var rightButtonDidTapRelay: Driver<Void> {
+        self.rightButton.rx.tap.asDriver()
+    }
     
     init(_ option: ButtonLayout) {
         super.init(frame: .zero)
         generateButton(option)
         layout()
-        bind()
     }
     
     required init?(coder: NSCoder) {
@@ -59,7 +64,22 @@ public final class CSNavigationView: UIView {
         wrapperView.pin.all()
         wrapperView.flex.layout()
     }
+
+    public func setTitle(_ text: String) {
+        titleLabel.text = text
+    }
     
+    public func setTitleColor(color: UIColor) {
+        titleLabel.textColor = color
+    }
+    
+    public func hideLeftButton() {
+        leftButton.isHidden = true
+    }
+}
+
+// MARK: Layout
+private extension CSNavigationView {
     private func generateButton(_ option: ButtonLayout) {
         switch option {
         case .leftButton(let image):
@@ -81,24 +101,5 @@ public final class CSNavigationView: UIView {
             $0.addItem(titleLabel).backgroundColor(.clear).grow(1)
             $0.addItem(rightButton).marginRight(20).size(24)
         }
-    }
-    
-    // MARK: - Bind
-    private func bind() {
-        leftButton.rx.tap
-            .bind(to: leftButtonDidTapRelay)
-            .disposed(by: bag)
-        
-        rightButton.rx.tap
-            .bind(to: rightButtonDidTapRelay)
-            .disposed(by: bag)
-    }
-
-    public func setTitle(_ text: String) {
-        titleLabel.text = text
-    }
-    
-    public func setTitleColor(color: UIColor) {
-        titleLabel.textColor = color
     }
 }

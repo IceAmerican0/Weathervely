@@ -96,7 +96,7 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
     
     private func toEditRegionView(_ editRegionState: EditRegionState) {
         let vc = EditRegionViewController(EditRegionViewModel(editRegionState))
-        navigationPushViewControllerRelay.accept(vc)
+        navigationPushToPreviousViewControllerRelay.accept([vc])
     }
     
     private func toHomeView() {

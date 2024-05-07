@@ -97,8 +97,9 @@ final class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastV
         super.viewModelBinding()
         
         navigationView.leftButtonDidTapRelay
-            .bind(to: viewModel.navigationPopViewControllerRelay)
-            .disposed(by: bag)
+            .drive(with: self, onNext: { owner, _ in
+                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
+            }).disposed(by: bag)
         
         viewModel.currentTemp
             .bind(with: self) { owner, data in

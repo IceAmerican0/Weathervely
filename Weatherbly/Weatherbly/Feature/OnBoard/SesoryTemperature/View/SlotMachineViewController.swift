@@ -200,8 +200,9 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
         super.viewBinding()
         
         navigationView.leftButtonDidTapRelay
-            .bind(to: viewModel.navigationPopViewControllerRelay)
-            .disposed(by: bag)
+            .drive(with: self, onNext: { owner, _ in
+                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
+            }).disposed(by: bag)
         
         upperArrowButton.rx.tap
             .bind(with: self) { owner, _ in

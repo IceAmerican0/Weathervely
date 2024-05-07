@@ -55,8 +55,15 @@ public final class HomeTabBarController: UITabBarController {
         )
     }
     
-    func switchToSettingsTab() {
-        selectedIndex = 2
+    func switchTab(tab: Tab) {
+        switch tab {
+        case .home:
+            selectedIndex = 0
+        case .style:
+            selectedIndex = 1
+        case .setting:
+            selectedIndex = 2
+        }
     }
 }
 

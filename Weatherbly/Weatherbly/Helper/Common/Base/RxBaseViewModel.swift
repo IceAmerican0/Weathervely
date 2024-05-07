@@ -26,7 +26,9 @@ public class RxBaseViewModel: BaseDisposebag, ViewModelable {
     let navigationPoptoRootRelay = PublishRelay<Void>()
     let navigationPopToSelfRelay = PublishRelay<Void>()
     let navigationPopViewControllerRelay = PublishRelay<Void>()
+    
     let navigationPushViewControllerRelay = PublishRelay<UIViewController?>()
+    let navigationPushToPreviousViewControllerRelay = PublishRelay<[UIViewController]?>()
     let navigationSetRootPushViewControllerRelay = PublishRelay<UIViewController?>()
     let presentViewControllerWithAnimationRelay = PublishRelay<UIViewController?>()
     let presentViewControllerNoAnimationRelay = PublishRelay<UIViewController?>()
@@ -40,7 +42,7 @@ public class RxBaseViewModel: BaseDisposebag, ViewModelable {
     
     func baseBinding() {}
     
-    func bindInnerViewModelPresentationBindingToSelf(_ innerViewModel: RxBaseViewModel) {
+    func bindInnerViewModelPresentationToSelf(_ innerViewModel: RxBaseViewModel) {
         innerViewModel.navigationPoptoRootRelay
             .bind(to: navigationPoptoRootRelay)
             .disposed(by: bag)
@@ -52,6 +54,9 @@ public class RxBaseViewModel: BaseDisposebag, ViewModelable {
             .disposed(by: bag)
         innerViewModel.navigationPushViewControllerRelay
             .bind(to: navigationPushViewControllerRelay)
+            .disposed(by: bag)
+        innerViewModel.navigationPushToPreviousViewControllerRelay
+            .bind(to: navigationPushToPreviousViewControllerRelay)
             .disposed(by: bag)
         innerViewModel.navigationSetRootPushViewControllerRelay
             .bind(to: navigationSetRootPushViewControllerRelay)

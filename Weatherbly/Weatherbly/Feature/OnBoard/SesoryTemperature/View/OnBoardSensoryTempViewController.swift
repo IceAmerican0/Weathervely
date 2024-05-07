@@ -160,8 +160,9 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
         super.viewBinding()
         
         navigationBackButton.leftButtonDidTapRelay
-            .bind(to: viewModel.navigationPopViewControllerRelay)
-            .disposed(by: bag)
+            .drive(with: self, onNext: { owner, _ in
+                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
+            }).disposed(by: bag)
         
         denyButton.rx.tap
             .bind(with: self) { owner, _ in

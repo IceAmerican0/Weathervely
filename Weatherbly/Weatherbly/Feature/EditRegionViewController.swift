@@ -42,18 +42,6 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
     
     private var listCount = 0
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        // 주소 추가나 변경 후 뒤로가기 방지
-        if case .edit = viewModel.editRegionState {} else {
-            guard let navigationController else { return }
-            var viewControllers = navigationController.viewControllers
-            viewControllers = viewControllers.filter { !($0 is SettingRegionCompleteViewController || $0 is SettingRegionViewController) }
-            navigationController.viewControllers = viewControllers
-        }
-    }
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -67,7 +55,7 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
             $0.addItem(navigationView).width(UIScreen.main.bounds.width)
             $0.addItem(header).marginTop(22).marginLeft(20)
             $0.addItem().grow(1).define {
-                $0.addItem(favoriteTableView).marginTop(12).marginHorizontal(20).grow(1)
+                $0.addItem(favoriteTableView).marginTop(13).marginHorizontal(20).grow(1)
                 $0.addItem().position(.absolute).bottom(20).width(100%).height(48).define {
                     $0.addItem(confirmButton).marginHorizontal(20).grow(1)
                 }
@@ -79,10 +67,9 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
         super.viewBinding()
         
         navigationView.leftButtonDidTapRelay
-            .bind(with: self) { owner, _ in
-                owner.viewModel.navigationPoptoRootRelay.accept(Void())
-            }
-            .disposed(by: bag)
+            .drive(with: self, onNext: { owner, _ in
+                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
+            }).disposed(by: bag)
         
         confirmButton.rx.tap
             .bind(with:self) { owner, _ in

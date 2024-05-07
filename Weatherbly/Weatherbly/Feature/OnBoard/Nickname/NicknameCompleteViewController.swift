@@ -67,8 +67,9 @@ final class NicknameCompleteViewController: RxBaseViewController<NicknameComplet
         super.bind()
         
         navigationView.leftButtonDidTapRelay
-            .bind(to: viewModel.navigationPopViewControllerRelay)
-            .disposed(by: bag)
+            .drive(with: self, onNext: { owner, _ in
+                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
+            }).disposed(by: bag)
         
         refuseButton.rx.tap
             .bind(with: self) { owner, _ in

@@ -78,8 +78,7 @@ public final class NicknameCompleteViewModel: RxBaseViewModel, NicknameCompleteV
     
     /// 마이페이지
     private func toSettingView() {
-        let vc = SettingViewController(SettingViewModel())
-        navigationPushViewControllerRelay.accept(vc)
+        navigationPushToPreviousViewControllerRelay.accept([])
     }
     
     /// 동네설정뷰
