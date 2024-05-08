@@ -48,7 +48,6 @@ public final class HomeClosetCell: UICollectionViewCell {
     }
     
     func layout() {
-        backgroundColor = .gray10
         setCornerRadius(12)
         layer.masksToBounds = true
         clipsToBounds = true

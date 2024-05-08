@@ -44,11 +44,11 @@ public final class SettingRegionCompleteViewController: RxBaseViewController<Set
                     $0.view?.addBorders([.top, .bottom], 1, .violet100)
                     $0.addItem(region)
             }
-            $0.addItem().position(.absolute).direction(.row).alignSelf(.stretch).justifyContent(.spaceBetween)
-                .bottom(20).marginHorizontal(20).height(48).define { bottom in
-                bottom.addItem(negativeButton).width(50%).shrink(1)
+            $0.addItem().position(.absolute).direction(.row).alignSelf(.stretch)
+                .bottom(20).horizontally(20).height(48).define { bottom in
+                bottom.addItem(negativeButton).basis(0).grow(1)
                 bottom.addItem().width(8)
-                bottom.addItem(confirmButton).width(50%).shrink(1)
+                bottom.addItem(confirmButton).basis(0).grow(1)
             }
         }
         

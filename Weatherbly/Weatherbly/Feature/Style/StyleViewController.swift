@@ -135,7 +135,7 @@ extension StyleViewController: UICollectionViewDelegate {
             if case UICollectionView.elementKindSectionHeader = kind {
                 if case .normal = dataSource[indexPath.section] {
                     return collectionView.dequeueReusableHeaderView(
-                        withType: HomeFilterHeaderView.self,
+                        withType: HomeStyleFilterView.self,
                         for: indexPath
                     ).then {
                         let styleList: [StyleTypeInfo] = []

@@ -25,7 +25,7 @@
 		5C4A0ABB2B3ABA56006BE52A /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5C4A0ABA2B3ABA56006BE52A /* Colors.xcassets */; };
 		5C4A0ABD2B43ED8F006BE52A /* HomeForecastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4A0ABC2B43ED8F006BE52A /* HomeForecastCell.swift */; };
 		5C4A0AC72B46832D006BE52A /* HomeClosetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4A0AC62B46832D006BE52A /* HomeClosetCell.swift */; };
-		5C4A0ACB2B47D34A006BE52A /* HomeFilterHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4A0ACA2B47D34A006BE52A /* HomeFilterHeaderView.swift */; };
+		5C4A0ACB2B47D34A006BE52A /* HomeStyleFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4A0ACA2B47D34A006BE52A /* HomeStyleFilterView.swift */; };
 		5C4BE89B2A5E2D1200FD2CEF /* EditRegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4BE89A2A5E2D1200FD2CEF /* EditRegionViewController.swift */; };
 		5C4BE89D2A5E63C000FD2CEF /* RegionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4BE89C2A5E63C000FD2CEF /* RegionTableViewCell.swift */; };
 		5C501F942BCE5A8000533F68 /* UserNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C501F932BCE5A8000533F68 /* UserNotification.swift */; };
@@ -211,7 +211,7 @@
 		5C4A0ABA2B3ABA56006BE52A /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		5C4A0ABC2B43ED8F006BE52A /* HomeForecastCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeForecastCell.swift; sourceTree = "<group>"; };
 		5C4A0AC62B46832D006BE52A /* HomeClosetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeClosetCell.swift; sourceTree = "<group>"; };
-		5C4A0ACA2B47D34A006BE52A /* HomeFilterHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFilterHeaderView.swift; sourceTree = "<group>"; };
+		5C4A0ACA2B47D34A006BE52A /* HomeStyleFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeStyleFilterView.swift; sourceTree = "<group>"; };
 		5C4BE89A2A5E2D1200FD2CEF /* EditRegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRegionViewController.swift; sourceTree = "<group>"; };
 		5C4BE89C2A5E63C000FD2CEF /* RegionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionTableViewCell.swift; sourceTree = "<group>"; };
 		5C501F932BCE5A8000533F68 /* UserNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNotification.swift; sourceTree = "<group>"; };
@@ -542,7 +542,7 @@
 				5CDCD7CB2B54EAC6008465B9 /* ItemFilterCell.swift */,
 				5C5360E02BDB3C56001543FE /* StyleFilterCell.swift */,
 				5CDCD7DF2B566C04008465B9 /* FilterSection.swift */,
-				5C4A0ACA2B47D34A006BE52A /* HomeFilterHeaderView.swift */,
+				5C4A0ACA2B47D34A006BE52A /* HomeStyleFilterView.swift */,
 				5C7CAE392BE0AFFE007760DD /* StyleListView.swift */,
 			);
 			path = Filter;
@@ -1107,7 +1107,7 @@
 				5CAB60D32A54FC6A00CD431A /* UITableViewCell+Extension.swift in Sources */,
 				5C9D02C82A6FC45300AF2DA3 /* EditRegionTableViewCell.swift in Sources */,
 				BDAEBC9F2A8F5EE4002E10F2 /* WeatherMessageEnum.swift in Sources */,
-				5C4A0ACB2B47D34A006BE52A /* HomeFilterHeaderView.swift in Sources */,
+				5C4A0ACB2B47D34A006BE52A /* HomeStyleFilterView.swift in Sources */,
 				5CDCD7E42B56782F008465B9 /* FilterStyleListEntity.swift in Sources */,
 				BD2D01B42A3888AA003A25D5 /* UIColor+Extension.swift in Sources */,
 				BD05E07A2B38114B00A48E61 /* NewCSButton.swift in Sources */,

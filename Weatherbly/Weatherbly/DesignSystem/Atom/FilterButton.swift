@@ -17,6 +17,8 @@ public final class FilterButton: UIButton {
     
     public var filterType: FilterType
     
+    var title: String?
+    
     init(filterType: FilterType) {
         self.filterType = filterType
         super.init(frame: .zero)
@@ -30,10 +32,13 @@ public final class FilterButton: UIButton {
     public override var isSelected: Bool {
         didSet {
             layout()
+            titleAttribute(title: title)
         }
     }
     
     public func titleAttribute(title: String?) {
+        self.title = title
+        
         var titleFont: UIFont
         var titleColor: UIColor
         var selectedTitleColor: UIColor
@@ -49,10 +54,10 @@ public final class FilterButton: UIButton {
             selectedTitleColor = .white
         }
         
-        self.titleLabel?.font = titleFont
-        self.setTitle(title, for: .normal)
-        self.setTitleColor(titleColor, for: .normal)
-        self.setTitleColor(selectedTitleColor, for: .selected)
+        var container = AttributeContainer()
+        container.font = titleFont
+        self.configuration?.attributedTitle = AttributedString(title ?? "", attributes: container)
+        self.configuration?.baseForegroundColor = self.isSelected ? selectedTitleColor : titleColor
     }
 }
 

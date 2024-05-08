@@ -54,11 +54,11 @@ final class NicknameCompleteViewController: RxBaseViewController<NicknameComplet
                 $0.view?.addBorders([.top, .bottom], 1, .violet100)
                 $0.addItem(nameLabel)
             }
-            $0.addItem().direction(.row).position(.absolute).alignSelf(.stretch).justifyContent(.spaceBetween)
-                .bottom(20).marginHorizontal(20).height(48).define { bottom in
-                    bottom.addItem(refuseButton).width(50%).shrink(1)
-                    bottom.addItem().width(8)
-                    bottom.addItem(confirmButton).width(50%).shrink(1)
+            $0.addItem().position(.absolute).direction(.row).alignSelf(.stretch)
+                .bottom(20).horizontally(20).height(48).define { bottom in
+                bottom.addItem(refuseButton).basis(0).grow(1)
+                bottom.addItem().width(8)
+                bottom.addItem(confirmButton).basis(0).grow(1)
             }
         }
     }

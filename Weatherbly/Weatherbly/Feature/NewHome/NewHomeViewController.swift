@@ -85,7 +85,7 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
         $0.backgroundColor = .clear
         $0.refreshControl = refresh
         $0.register(withType: HomeForecastCell.self)
-        $0.registerHeader(withType: HomeFilterHeaderView.self)
+        $0.registerHeader(withType: HomeStyleFilterView.self)
         $0.register(withType: HomeClosetCell.self)
     }
     
@@ -249,7 +249,7 @@ extension NewHomeViewController: UICollectionViewDelegate {
             if case UICollectionView.elementKindSectionHeader = kind {
                 if case .closet = dataSource[indexPath.section] {
                     return collectionView.dequeueReusableHeaderView(
-                        withType: HomeFilterHeaderView.self,
+                        withType: HomeStyleFilterView.self,
                         for: indexPath
                     ).then {
                         $0.configureCellState(state: self.viewModel.styleList)

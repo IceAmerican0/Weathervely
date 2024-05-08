@@ -1,5 +1,5 @@
 //
-//  StyleFilterView.swift
+//  HomeStyleFilterView.swift
 //  Weatherbly
 //
 //  Created by Khai on 1/5/24.
@@ -12,7 +12,7 @@ import Then
 import RxSwift
 import RxCocoa
 
-public final class HomeFilterHeaderView: UICollectionReusableView {
+public final class HomeStyleFilterView: UICollectionReusableView {
     var bag = DisposeBag()
     
     public lazy var styleListView = StyleListView()
@@ -36,17 +36,7 @@ public final class HomeFilterHeaderView: UICollectionReusableView {
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-        flex.layout()
-    }
-    
-    public override func sizeThatFits(_ size: CGSize) -> CGSize {
-        flex.layout()
-        return CGSize(width: size.width, height: 56)
-    }
-    
-    public override func prepareForReuse() {
-        super.prepareForReuse()
-        
+        layout()
     }
     
     public func configureCellState(state: [StyleTypeInfo]) {
@@ -54,13 +44,14 @@ public final class HomeFilterHeaderView: UICollectionReusableView {
     }
 }
 
-extension HomeFilterHeaderView {
+extension HomeStyleFilterView {
     private func layout() {
         backgroundColor = .white
         
-        flex.direction(.row).alignItems(.center).justifyContent(.center).define {
-            $0.addItem(styleListView).height(29).grow(1)
-            $0.addItem(filterIcon).marginLeft(20).marginRight(0).size(24)
-        }
+        addSubview(styleListView)
+        addSubview(filterIcon)
+        
+        styleListView.pin.before(of: filterIcon, aligned: .center).left().marginRight(20).height(29)
+        filterIcon.pin.vCenter().right().size(24)
     }
 }

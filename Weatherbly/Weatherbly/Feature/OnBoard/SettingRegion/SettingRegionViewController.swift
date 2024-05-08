@@ -62,8 +62,6 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
         alignment: .center
     ).make(text: "해당하는 동네 정보가 없어요\n동네 이름을 확인해주세요")
     
-    private var buttonView = UIView()
-    
     private var confirmButton = NewCSButton(.standard, style: .violet600).then {
         $0.setTitle("확인", for: .normal)
     }
@@ -93,9 +91,7 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
                     }
                 }.display(.none)
             }
-            $0.addItem(buttonView).position(.absolute).bottom(20).width(100%).height(48).define {
-                $0.addItem(confirmButton).marginHorizontal(20).grow(1)
-            }
+            $0.addItem(confirmButton).position(.absolute).alignSelf(.stretch).bottom(20).horizontally(20).height(48)
         }
         
         switch viewModel.settingRegionState {
@@ -166,8 +162,8 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
     }
     
     private func showResult() {
-        if !buttonView.isHidden {
-            buttonView.isHidden = true
+        if !confirmButton.isHidden {
+            confirmButton.isHidden = true
             unregisterKeyboardNotifications()
             middleView.addBorders([.top, .bottom], 1, .violet500)
         }
@@ -214,16 +210,16 @@ extension SettingRegionViewController: UITextFieldDelegate {
 extension SettingRegionViewController {
     override func keyboardWillShow(_ notification: Notification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            if !buttonView.isHidden {
-                buttonView.flex.bottom(keyboardSize.height)
+            if !confirmButton.isHidden {
+                confirmButton.flex.bottom(keyboardSize.height)
                 container.flex.layout()
             }
         }
     }
     
     override func keyboardWillHide(_ notification: Notification) {
-        if !buttonView.isHidden {
-            buttonView.flex.bottom(20)
+        if !confirmButton.isHidden {
+            confirmButton.flex.bottom(20)
             container.flex.layout()
         }
     }

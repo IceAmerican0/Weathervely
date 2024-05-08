@@ -56,9 +56,7 @@ final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
             $0.addItem(explanationLabel).marginTop(50).marginLeft(20)
             $0.addItem(guideLabel).marginTop(8).marginLeft(20)
             $0.addItem(inputNickname).alignSelf(.stretch).marginTop(32).marginHorizontal(20).height(40)
-            $0.addItem(buttonView).position(.absolute).bottom(20).width(100%).height(48).define {
-                $0.addItem(confirmButton).marginHorizontal(20).grow(1)
-            }
+            $0.addItem(confirmButton).position(.absolute).alignSelf(.stretch).bottom(20).horizontally(20).height(48)
         }
     }
     
@@ -127,7 +125,7 @@ extension NicknameViewController: UITextFieldDelegate {
 extension NicknameViewController {
     override func keyboardWillShow(_ notification: Notification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            buttonView.flex.bottom(keyboardSize.height)
+            confirmButton.flex.bottom(keyboardSize.height)
             container.flex.layout()
         }
     }

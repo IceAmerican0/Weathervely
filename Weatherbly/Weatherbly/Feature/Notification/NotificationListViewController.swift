@@ -13,8 +13,8 @@ import RxSwift
 
 final class NotificationListViewController: RxBaseViewController<NotificationListViewModel> {
     private var navigationView = CSNavigationView(.rightButton(.leftArrow_black, .tab_mypage_nor)).then {
-        $0.backgroundColor = .clear
         $0.setTitle("알림")
+        $0.addBorder(.bottom)
     }
     
     private var zeroNotiView = UIView()
@@ -84,9 +84,7 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
                 $0.addItem(zeroNotiView).alignItems(.center).justifyContent(.center).grow(1).define {
                     $0.addItem(zeroNotiImageView).size(48)
                     $0.addItem(zeroNotiLabel).marginTop(10)
-                    $0.addItem(buttonView).marginTop(40).marginHorizontal(52).height(48).grow(1).define {
-                        $0.addItem(notiButton).grow(1)
-                    }.display(.none)
+                    $0.addItem(notiButton).alignSelf(.stretch).marginTop(40).marginHorizontal(52).height(48)
                 }.display(.none)
                 $0.addItem(tableView).marginTop(16).grow(1)
 //                $0.addItem(infoView).marginTop(16).marginHorizontal(20).maxHeight(40).grow(1).define {
@@ -100,15 +98,17 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
         super.viewBinding()
         
         navigationView.leftButtonDidTapRelay
-            .bind(to: viewModel.navigationPopViewControllerRelay)
-            .disposed(by: bag)
+            .drive(with: self, onNext: { owner, _ in
+                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
+            }).disposed(by: bag)
         
         navigationView.rightButtonDidTapRelay
-            .bind(with: self) { owner, _ in
+            .drive(with: self, onNext: { owner, _ in
                 if let homeTabBarController = owner.navigationController?.tabBarController as? HomeTabBarController {
-                    homeTabBarController.switchToSettingsTab()
+                    homeTabBarController.switchTab(tab: .setting)
+                    owner.navigationController?.viewControllers.removeLast()
                 }
-            }.disposed(by: bag)
+            }).disposed(by: bag)
         
         tableView.rx.itemSelected
             .bind(with: self) { owner, _ in

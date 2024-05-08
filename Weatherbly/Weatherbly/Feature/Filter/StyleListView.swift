@@ -52,7 +52,7 @@ private extension StyleListView {
         backgroundColor = .white
         
         flex.define {
-            $0.addItem(filterList).grow(1).shrink(1)
+            $0.addItem(filterList).grow(1)
         }
     }
 }
