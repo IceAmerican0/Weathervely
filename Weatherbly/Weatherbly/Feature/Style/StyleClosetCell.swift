@@ -35,7 +35,7 @@ final class StyleClosetCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        cellLayout()
+        
     }
     
     required init?(coder: NSCoder) {
@@ -45,7 +45,8 @@ final class StyleClosetCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
+        // TODO: - layout의 위치가 어디가 더 적절할까?
+        cellLayout()
         contentView.pin.all()
         contentView.flex.layout()
     }

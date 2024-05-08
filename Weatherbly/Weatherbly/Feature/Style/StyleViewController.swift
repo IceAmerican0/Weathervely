@@ -24,7 +24,7 @@ final class StyleViewController: RxBaseViewController<StyleViewModel> {
     var flowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .horizontal
         $0.minimumLineSpacing = 16
-        $0.itemSize = CGSize(width: 120, height: 209)
+//        $0.itemSize = CGSize(width: 120, height: 209)
         
     }
     
@@ -32,7 +32,7 @@ final class StyleViewController: RxBaseViewController<StyleViewModel> {
     ).then {
         $0.showsHorizontalScrollIndicator = false
         //        $0.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 30, right: 0)
-        $0.registerHeader(withType: ThemeTitleHeaderView.self)
+        $0.registerHeader(withType: StyleTagHeaderView.self)
         $0.register(withType: BannerCell.self)
         $0.register(withType: StyleClosetCell.self)
     }
@@ -83,22 +83,6 @@ extension StyleViewController: /*UICollectionViewDataSource,*/ UICollectionViewD
         var count = viewModel.styleSections.value.count
         return count
     }
-    
-    //        func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    //            let cell = collectionView.dequeueCell(withType: StyleClosetCell.self, for: indexPath)
-    //
-    //            let image = UIImage(named: testData[indexPath.item])
-    //            cell.imageView.image = image
-    //
-    //            return cell
-    //        }
-    //
-    
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        
-//        return CGSize(width: 120, height: 209)
-//    }
-    
 }
 
 extension StyleViewController: UICollectionViewDelegate {
@@ -123,17 +107,16 @@ extension StyleViewController: UICollectionViewDelegate {
             
         }, configureSupplementaryView: { [ weak self ] dataSource, collectionView, kind, indexPath in
             guard self != nil else { return UICollectionReusableView() }
-            
-//            switch dataSource.sectionModels[indexPath.section] {
-//            case .banner(item: let item):
-//                let header = UICollectionReusableView()
-//                return header
-//            case .styles:
-//                let header = collectionView.dequeueReusableHeaderView(withType: ThemeTitleHeaderView.self, for: indexPath)
-//            
-//                return header
-//                
-//            }
+            switch kind {
+            case UICollectionView.elementKindSectionHeader:
+                if case .styles = dataSource[indexPath.section] {
+                    let header = collectionView.dequeueReusableHeaderView(withType: StyleTagHeaderView.self, for: indexPath)
+                    
+                    return header
+                }
+                    default:
+                        fatalError("Cannot Generate SupplemetaryView")
+            }
             return UICollectionReusableView()
         })
     }
