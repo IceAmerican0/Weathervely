@@ -189,7 +189,7 @@ extension StyleViewController: UICollectionViewDelegate {
             heightDimension: .absolute(209)
         )
         let item = NSCollectionLayoutItem(layoutSize: cellSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 12, trailing: 6)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 12, trailing: 0)
         
         /// Group = 한 화면에 들어가는 item을 묶은 단위
         /// https://ios-development.tistory.com/945
@@ -197,13 +197,16 @@ extension StyleViewController: UICollectionViewDelegate {
             widthDimension: .fractionalWidth(1),
             heightDimension: .absolute(209)
         )
+
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: groupSize,
             subitems: [item]
         )
+        group.interItemSpacing = .fixed(16)
         
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 7, leading: 10, bottom: 0, trailing: 0)
+        section.interGroupSpacing = 12
         return section
     }
 }
