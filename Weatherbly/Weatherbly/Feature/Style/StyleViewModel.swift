@@ -55,8 +55,8 @@ final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
     }
     
     /// 필터링
-    public func filterCloset(state: FilterListViewState) {
-        let vc = ClosetFilterViewController(ClosetFilterViewModel(viewState: state))
+    public func filterCloset() {
+        let vc = FilterListViewController(FilterListViewModel())
         presentViewControllerWithAnimationRelay.accept(vc)
     }
 }

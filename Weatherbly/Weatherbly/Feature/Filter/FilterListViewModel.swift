@@ -10,62 +10,29 @@ import RxSwift
 import RxCocoa
 
 protocol FilterListViewModelLogic: ViewModelBusinessLogic {
-    func filterStyleList()
     func filterItemList()
     
-    var viewState: FilterListViewState { get }
     var isLoading: PublishRelay<Bool> { get }
-    var isFiltered: Bool { get }
+    var isFiltered: PublishRelay<Bool> { get }
     var filterSection: PublishRelay<[FilterSection]> { get }
     var filterCount: PublishRelay<Int> { get }
 }
 
 final class FilterListViewModel: RxBaseViewModel, FilterListViewModelLogic {
-    /// 현재 탭
-    var viewState: FilterListViewState
     /// 로딩 상태
     var isLoading: PublishRelay<Bool>
     /// 필터 선택 여부
-    var isFiltered: Bool = .init()
+    var isFiltered: PublishRelay<Bool>
     /// 필터 정보
     var filterSection = PublishRelay<[FilterSection]>()
     /// 코디 카운트
     var filterCount: PublishRelay<Int>
     
-    init(viewState: FilterListViewState) {
-        self.viewState = viewState
+    override init() {
         self.isLoading = .init()
+        self.isFiltered = .init()
         self.filterCount = .init()
         super.init()
-    }
-    
-    /// 스타일 필터
-    func filterStyleList() {
-        // TODO: delete mock
-        let dummy: [FilterStyleListInfo] = [
-            .init(id: 0, title: "캐주얼", selected: false),
-            .init(id: 0, title: "아메카지", selected: false),
-            .init(id: 0, title: "시크", selected: true),
-            .init(id: 0, title: "댄디", selected: false),
-            .init(id: 0, title: "비즈니스캐주얼", selected: true),
-            .init(id: 0, title: "걸리시", selected: false),
-            .init(id: 0, title: "스트릿", selected: false),
-            .init(id: 0, title: "레트로", selected: false),
-            .init(id: 0, title: "로맨틱", selected: false),
-            .init(id: 0, title: "스포티", selected: true),
-        ]
-        setStyleSection(data: dummy)
-    }
-    
-    /// 스타일 탭 구성
-    func setStyleSection(data: [FilterStyleListInfo]) {
-        // TODO: delete mock
-        let randomCount = Int.random(in: 1 ... 100)
-        let styleSection: [FilterSection] = [
-            .style(items: data.map { .style($0) })
-        ]
-        filterSection.accept(styleSection)
-        filterCount.accept(randomCount)
     }
     
     /// 아이템 필터

@@ -1,20 +1,27 @@
 //
-//  FilterListCell.swift
+//  HomeStyleFilterCell.swift
 //  Weatherbly
 //
-//  Created by Khai on 1/15/24.
+//  Created by Khai on 4/26/24.
 //
 
 import UIKit
 import PinLayout
 import FlexLayout
 import Then
+import RxSwift
 import RxCocoa
 
-public final class ItemFilterCell: UICollectionViewCell {
-    private lazy var listButton = FilterButton(filterType: .item).then {
+public final class HomeStyleFilterCell: UICollectionViewCell {
+    var bag = DisposeBag()
+    
+    public var listButton = FilterButton(filterType: .style).then {
         $0.titleLabel?.numberOfLines = 1
         $0.titleLabel?.adjustsFontSizeToFitWidth = true
+    }
+    
+    var buttonTap: Driver<Void> {
+        self.listButton.rx.tap.asDriver()
     }
     
     public override init(frame: CGRect) {
@@ -37,7 +44,18 @@ public final class ItemFilterCell: UICollectionViewCell {
         setLayout()
     }
     
-    public func configureCellState(state: FilterStyleListInfo) {
+    public override func prepareForReuse() {
+        super.prepareForReuse()
+        bag = DisposeBag()
+    }
+    
+    public func configureCellState(state: StyleTypeInfo) {
+        listButton.titleAttribute(title: state.name)
+        
+        UserDefaultManager.shared.homeStyleFilterList.forEach { id in
+            listButton.isSelected = id == state.id
+        }
+        
         /// 셀 크기 재정의
         listButton.flex.markDirty()
         setLayout()
@@ -45,7 +63,7 @@ public final class ItemFilterCell: UICollectionViewCell {
 }
 
 // MARK: UI Settings
-private extension ItemFilterCell {
+private extension HomeStyleFilterCell {
     func setLayout() {
         listButton.pin.all()
         contentView.flex.layout()

@@ -20,7 +20,7 @@ public protocol NewHomeViewModelLogic: ViewModelBusinessLogic {
     func configureTime(direction: UISwipeGestureRecognizer.Direction)
     func getSelectedTimeInfo(direction: UISwipeGestureRecognizer.Direction)
     func didTapTimeLabel()
-    func filterCloset(state: FilterListViewState)
+    func filterCloset()
     func toDetailView(state: NewClosetInfo)
     func toEditRegionView()
     func toNotificationListView()
@@ -200,8 +200,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
         switch action {
         case .didTapPrev: configureTime(direction: .right)
         case .didTapNext: configureTime(direction: .left)
-        case .didTapStyle: filterCloset(state: .style)
-        case .didTapItem: filterCloset(state: .item)
+        case .didTapFilter: filterCloset()
         }
     }
     
@@ -256,8 +255,8 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     }
     
     /// 필터링
-    public func filterCloset(state: FilterListViewState) {
-        let vc = ClosetFilterViewController(ClosetFilterViewModel(viewState: state))
+    public func filterCloset() {
+        let vc = FilterListViewController(FilterListViewModel())
         presentViewControllerWithAnimationRelay.accept(vc)
     }
     

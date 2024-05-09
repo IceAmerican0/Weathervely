@@ -17,13 +17,12 @@ public protocol FilterListViewDelegate: AnyObject {
     func didTapConfirm()
 }
 
-public enum FilterListViewState: Int {
-    case style
-    case item
-}
-
 final class FilterListViewController: RxBaseViewController<FilterListViewModel> {
     weak var delegate: FilterListViewDelegate?
+    
+    private var exitButton = UIButton().then {
+        $0.setImage(.filter_exit, for: .normal)
+    }
     
     private lazy var filterList = UICollectionView(
         frame: .zero,
@@ -32,28 +31,43 @@ final class FilterListViewController: RxBaseViewController<FilterListViewModel> 
         $0.showsVerticalScrollIndicator = false
         $0.backgroundColor = .clear
         $0.registerHeader(withType: FilterListHeaderView.self)
-        $0.register(withType: ItemFilterCell.self)
+        $0.register(withType: HomeItemFilterCell.self)
     }
     
     private lazy var dataSource = setDataSource()
     
+    private var resetButton = NewCSButton(.standard, style: .violet600).then {
+        $0.setImage(.filter_reset_dis, for: .normal)
+        $0.backgroundColor = .gray30
+        $0.isUserInteractionEnabled = false
+    }
+    
+    private let confirmButton = NewCSButton(.standard, style: .violet600).then {
+        $0.titleLabel?.font = .title_3_B
+        $0.setTitle("n개 코디 보기", for: .normal)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        switch viewModel.viewState {
-        case .style: viewModel.filterStyleList()
-        case .item: viewModel.filterItemList()
-        }
+        viewModel.filterItemList()
         
         DispatchQueue.main.async {
             self.filterList.reloadData()
         }
+        
+        setBottomSheet()
     }
 
     override func layout() {
         super.layout()
         
         container.flex.define {
-            $0.addItem(filterList).marginTop(26).grow(1)
+            $0.addItem(exitButton).alignSelf(.end).marginTop(16).marginRight(20).size(24)
+            $0.addItem(filterList).grow(1)
+            $0.addItem().backgroundColor(.white).position(.absolute).direction(.row).alignItems(.center).bottom(20).width(100%).height(88).define { bottom in
+                bottom.addItem(resetButton).marginLeft(20).width(72).height(48)
+                bottom.addItem(confirmButton).marginLeft(8).marginRight(20).height(48).grow(1)
+            }
         }
     }
     
@@ -67,10 +81,7 @@ final class FilterListViewController: RxBaseViewController<FilterListViewModel> 
         filterList.rx
             .itemSelected
             .bind(with: self) { owner, _ in
-                switch owner.viewModel.viewState {
-                case .style: owner.viewModel.filterStyleList()
-                case .item: owner.viewModel.filterItemList()
-                }
+                owner.viewModel.filterItemList()
             }.disposed(by: bag)
         
         viewModel.filterSection
@@ -82,10 +93,37 @@ final class FilterListViewController: RxBaseViewController<FilterListViewModel> 
             .subscribe(
                 with: self,
                 onNext: { owner, count in
-                    let isFiltered = owner.viewModel.isFiltered
-                    owner.delegate?.didTapCell(count: count, isFiltered: isFiltered)
+                    owner.confirmButton.setTitle("\(count)개 코디 보기", for: .normal)
                 }
             ).disposed(by: bag)
+        
+        viewModel.isFiltered
+            .subscribe(
+                with: self,
+                onNext: { owner, isFiltered in
+                    if isFiltered {
+                        owner.resetButton.setImage(.filter_reset, for: .normal)
+                        owner.resetButton.isUserInteractionEnabled = true
+                    } else {
+                        owner.resetButton.setImage(.filter_reset_dis, for: .normal)
+                        owner.resetButton.isUserInteractionEnabled = false
+                    }
+            }).disposed(by: bag)
+        
+        exitButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.dismiss(animated: true)
+            }.disposed(by: bag)
+        
+        resetButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.view.layoutIfNeeded()
+            }.disposed(by: bag)
+        
+        confirmButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.dismiss(animated: true)
+            }.disposed(by: bag)
     }
 }
 
@@ -93,19 +131,11 @@ final class FilterListViewController: RxBaseViewController<FilterListViewModel> 
 extension FilterListViewController: UICollectionViewDelegate {
     func setDataSource() -> RxCollectionViewSectionedReloadDataSource<FilterSection> {
         RxCollectionViewSectionedReloadDataSource<FilterSection>(configureCell: { [weak self] dataSource, collectionView, indexPath, _ in
-            guard self != nil else { return UICollectionViewCell() }
+            guard let self else { return UICollectionViewCell() }
             
-            switch dataSource[indexPath] {
-            case let .style(cellState):
-                return collectionView.dequeueCell(
-                    withType: ItemFilterCell.self,
-                    for: indexPath
-                ).then {
-                    $0.configureCellState(state: cellState)
-                }
-            case let .item(cellState):
-                return collectionView.dequeueCell(
-                    withType: ItemFilterCell.self,
+            if case let .item(cellState) = dataSource[indexPath] {
+                let cell = collectionView.dequeueCell(
+                    withType: HomeItemFilterCell.self,
                     for: indexPath
                 ).then {
                     let state: FilterStyleListInfo = .init(
@@ -115,83 +145,71 @@ extension FilterListViewController: UICollectionViewDelegate {
                     )
                     $0.configureCellState(state: state)
                 }
+                
+                cell.buttonTap
+                    .drive(with: self, onNext: { _, _ in
+                        cell.listButton.isSelected.toggle()
+                    }).disposed(by: cell.bag)
+                
+                return cell
             }
+            
+            return UICollectionViewCell()
+            
+        }, configureSupplementaryView: { [weak self] dataSource, collectionView, kind, indexPath in
+            guard let self else { return UICollectionReusableView() }
+        
+            if case UICollectionView.elementKindSectionHeader = kind {
+                if case let .item(category, _) = dataSource[indexPath.section] {
+                    return collectionView.dequeueReusableHeaderView(
+                        withType: FilterListHeaderView.self,
+                        for: indexPath
+                    ).then {
+                        $0.configureViewState(title: category)
+                    }
+                }
+            }
+            return UICollectionReusableView()
         })
     }
     
     // MARK: UI
-    func setLayout() -> UICollectionViewLayout {
+    func setLayout() -> UICollectionViewCompositionalLayout {
         UICollectionViewCompositionalLayout { [weak self] _, _ -> NSCollectionLayoutSection? in
-            guard let state = self?.viewModel.viewState else { return nil }
-            switch state {
-            case .style:
-                return self?.setStyleSection()
-            case .item:
-                return self?.setItemSection()
-            }
-        }
-    }
-    
-    func setStyleSection() -> NSCollectionLayoutSection {
-        let cellSize = NSCollectionLayoutSize(
-            widthDimension: .estimated(70),
-            heightDimension: .estimated(37)
-        )
-        
-        let item = NSCollectionLayoutItem(layoutSize: cellSize)
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: cellSize.heightDimension
-        )
-        let layoutGroup = NSCollectionLayoutGroup.horizontal(
-            layoutSize: groupSize,
-            subitems: [item]
-        )
-        layoutGroup.interItemSpacing = .fixed(16)
-        
-        let section = NSCollectionLayoutSection(group: layoutGroup)
-        section.contentInsets = NSDirectionalEdgeInsets(
-            top: 0, leading: 20, bottom: 0, trailing: 20
-        )
-        section.interGroupSpacing = 16
-        
-        return section
-    }
-    
-    func setItemSection() -> NSCollectionLayoutSection {
-        let item = NSCollectionLayoutItem(
-            layoutSize: NSCollectionLayoutSize(
-                widthDimension: .estimated(70),
-                heightDimension: .estimated(37)
+            let item = NSCollectionLayoutItem(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .estimated(70),
+                    heightDimension: .estimated(37)
+                )
             )
-        )
-        
-        let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: NSCollectionLayoutSize(
+            
+            let group = NSCollectionLayoutGroup.horizontal(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1),
+                    heightDimension: item.layoutSize.heightDimension
+                ),
+                subitems: [item]
+            )
+            group.interItemSpacing = .fixed(16)
+            
+            let headerSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1),
-                heightDimension: item.layoutSize.heightDimension
-            ),
-            subitems: [item]
-        )
-        group.interItemSpacing = .fixed(16)
-        
-        let headerSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .estimated(19)
-        )
-        
-        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: headerSize,
-            elementKind: UICollectionView.elementKindSectionHeader,
-            alignment: .topLeading
-        )
-        
-        let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(
-            top: 12, leading: 20, bottom: 26, trailing: 20
-        )
-        section.interGroupSpacing = 20
-        section.boundarySupplementaryItems = [sectionHeader]
-        return section
+                heightDimension: .estimated(19)
+            )
+            
+            let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize: headerSize,
+                elementKind: UICollectionView.elementKindSectionHeader,
+                alignment: .topLeading
+            )
+            
+            let section = NSCollectionLayoutSection(group: group)
+            section.contentInsets = NSDirectionalEdgeInsets(
+                top: 12, leading: 20, bottom: 26, trailing: 20
+            )
+            section.interGroupSpacing = 20
+            section.boundarySupplementaryItems = [sectionHeader]
+            return section
+        }
     }
 }

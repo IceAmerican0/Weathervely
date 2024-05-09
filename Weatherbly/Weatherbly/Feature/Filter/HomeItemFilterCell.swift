@@ -1,8 +1,8 @@
 //
-//  StyleFilterCell.swift
+//  HomeItemFilterCell.swift
 //  Weatherbly
 //
-//  Created by Khai on 4/26/24.
+//  Created by Khai on 1/15/24.
 //
 
 import UIKit
@@ -12,10 +12,10 @@ import Then
 import RxSwift
 import RxCocoa
 
-public final class StyleFilterCell: UICollectionViewCell {
+public final class HomeItemFilterCell: UICollectionViewCell {
     var bag = DisposeBag()
     
-    public var listButton = FilterButton(filterType: .style).then {
+    public var listButton = FilterButton(filterType: .item).then {
         $0.titleLabel?.numberOfLines = 1
         $0.titleLabel?.adjustsFontSizeToFitWidth = true
     }
@@ -49,13 +49,8 @@ public final class StyleFilterCell: UICollectionViewCell {
         bag = DisposeBag()
     }
     
-    public func configureCellState(state: StyleTypeInfo) {
-        listButton.titleAttribute(title: state.name)
-        
-        UserDefaultManager.shared.homeStyleFilterList.forEach { id in
-            listButton.isSelected = id == state.id
-        }
-        
+    public func configureCellState(state: FilterStyleListInfo) {
+        listButton.titleAttribute(title: state.title)
         /// 셀 크기 재정의
         listButton.flex.markDirty()
         setLayout()
@@ -63,7 +58,7 @@ public final class StyleFilterCell: UICollectionViewCell {
 }
 
 // MARK: UI Settings
-private extension StyleFilterCell {
+private extension HomeItemFilterCell {
     func setLayout() {
         listButton.pin.all()
         contentView.flex.layout()

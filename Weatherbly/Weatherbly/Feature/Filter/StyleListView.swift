@@ -22,7 +22,7 @@ public final class StyleListView: UIView {
         $0.showsHorizontalScrollIndicator = false
         $0.showsVerticalScrollIndicator = false
         $0.backgroundColor = .clear
-        $0.register(withType: StyleFilterCell.self)
+        $0.register(withType: HomeStyleFilterCell.self)
     }
     
     public var viewState: [StyleTypeInfo] = []
@@ -65,14 +65,14 @@ extension StyleListView: UICollectionViewDelegate, UICollectionViewDataSource {
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueCell(
-            withType: StyleFilterCell.self,
+            withType: HomeStyleFilterCell.self,
             for: indexPath
         ).then {
             $0.configureCellState(state: viewState[indexPath.row])
         }
         
         cell.buttonTap
-            .drive(with: self, onNext: { owner, _ in
+            .drive(with: self, onNext: { _, _ in
                 cell.listButton.isSelected.toggle()
             }).disposed(by: cell.bag)
         

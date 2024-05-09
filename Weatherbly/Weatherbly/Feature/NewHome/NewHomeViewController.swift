@@ -19,10 +19,8 @@ public enum ButtonTapAction {
     case didTapPrev
     /// 다음 시간대
     case didTapNext
-    /// 스타일 필터
-    case didTapStyle
-    /// 아이템 필터
-    case didTapItem
+    /// 필터
+    case didTapFilter
 }
 
 final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
@@ -256,7 +254,7 @@ extension NewHomeViewController: UICollectionViewDelegate {
                         
                         $0.buttonTap
                             .drive(with: self, onNext: { owner, _ in
-                                owner.viewModel.filterCloset(state: .item)
+                                owner.viewModel.filterCloset()
                             }).disposed(by: $0.bag)
                     }
                 }
