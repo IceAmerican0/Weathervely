@@ -90,8 +90,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 },
                 onError: { owner, _ in
                     owner.setWindow(OnBoardViewController(OnBoardViewModel()))
-            })
-            .disposed(by: bag)
+                }
+            ).disposed(by: bag)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {}

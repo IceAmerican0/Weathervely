@@ -154,17 +154,9 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
     override func viewModelBinding() {
         super.viewModelBinding()
         
-        homeCollectionView.rx
-            .itemSelected
-            .withUnretained(self)
-            .subscribe { owner, indexPath in
-                switch owner.dataSource[indexPath] {
-                case .forecast:
-                    owner.viewModel.toTendaysForecastView()
-                case .closet(let cellState):
-                    owner.viewModel.toDetailView(state: cellState)
-                }
-            }.disposed(by: bag)
+        viewModel.homeSections
+            .bind(to: homeCollectionView.rx.items(dataSource: dataSource))
+            .disposed(by: bag)
         
         viewModel.refreshStatus
             .bind(with: self) { owner, refreshing in
@@ -201,9 +193,28 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
                 }
             ).disposed(by: bag)
         
-        viewModel.homeSections
-            .bind(to: homeCollectionView.rx.items(dataSource: dataSource))
-            .disposed(by: bag)
+        homeCollectionView.rx.prefetchItems
+            .filter { indexPath in
+                indexPath.contains { $0.section == 1 }
+            }
+            .compactMap { $0.last?.row }
+            .distinctUntilChanged()
+            .bind(with: self) { owner, row in
+                guard row != 0 else { return }
+                owner.viewModel.getNextCloset(of: row)
+            }.disposed(by: bag)
+        
+        homeCollectionView.rx
+            .itemSelected
+            .withUnretained(self)
+            .subscribe { owner, indexPath in
+                switch owner.dataSource[indexPath] {
+                case .forecast:
+                    owner.viewModel.toTendaysForecastView()
+                case .closet(let cellState):
+                    owner.viewModel.toDetailView(state: cellState)
+                }
+            }.disposed(by: bag)
     }
     
     @objc
@@ -250,7 +261,7 @@ extension NewHomeViewController: UICollectionViewDelegate {
                         withType: HomeStyleFilterView.self,
                         for: indexPath
                     ).then {
-                        $0.configureCellState(state: self.viewModel.styleList)
+                        $0.configureCellState(state: self.viewModel.styleFilterList)
                         
                         $0.buttonTap
                             .drive(with: self, onNext: { owner, _ in

@@ -21,12 +21,7 @@ extension ForeCastTarget: WVTargetType {
         }
     }
     
-    var method: Moya.Method {
-        switch self {
-        case .getVillageForcastInfo,
-             .getTenDayForecastInfo: .get
-        }
-    }
+    var method: Moya.Method { .get }
     
     var task: Moya.Task {
         switch self {

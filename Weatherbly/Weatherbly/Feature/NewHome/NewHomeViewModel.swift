@@ -27,19 +27,20 @@ public protocol NewHomeViewModelLogic: ViewModelBusinessLogic {
     func toTendaysForecastView()
     
     var refreshStatus: PublishRelay<Bool> { get }
-    var homeSections: PublishRelay<[HomeSection]> { get }
+    var homeSections: BehaviorRelay<[HomeSection]> { get }
     var forecastInfo: [HomeForecastInfo] { get }
     var selectedForecastState: BehaviorRelay<HomeForecastInfo> { get }
-    var styleList: [StyleTypeInfo] { get }
+    var styleFilterList: [StyleTypeInfo] { get }
+    var isLoading: Bool { get }
 }
 
 public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
-    private let closetDataSource: ClosetDataSourceProtocol
+    private let closetDataSource: NewClosetDataSourceProtocol
     
     /// 새로고침 상태
     public var refreshStatus: PublishRelay<Bool>
     /// 홈 전체 정보
-    public var homeSections = PublishRelay<[HomeSection]>()
+    public var homeSections = BehaviorRelay<[HomeSection]>(value: [])
     /// 날씨 정보
     public var forecastInfo: [HomeForecastInfo] = []
     /// 선택돼있는 인덱스
@@ -47,12 +48,18 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     /// 선택돼있는 날씨 정보
     public var selectedForecastState = BehaviorRelay<HomeForecastInfo>(value: .init(date: "", time: "", mainTemp: 0, minTemp: 0, maxTemp: 0, weather: "", comment: ""))
     /// 스타일 필터 리스트
-    public var styleList: [StyleTypeInfo] = []
+    public var styleFilterList: [StyleTypeInfo] = []
     /// 스타일 추천 리스트
-    private var recommendedCloset: [NewClosetInfo] = []
+    private var closetList: [NewClosetInfo] = []
+    /// pagination 로딩 여부
+    public var isLoading = false
+    /// pagination용 리스트 총 개수
+    private var closetListMaxCount = 0
+    /// pagination용 이미 로드된 페이지
+    private var loadedPage = 0
     
     init(
-        closetDataSource: ClosetDataSourceProtocol
+        closetDataSource: NewClosetDataSourceProtocol
     ) {
         self.closetDataSource = closetDataSource
         self.refreshStatus = .init()
@@ -68,7 +75,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
         
         /// 첫 Cell Banner 처리를 위한 Dummy Data 넣어줌(Banner + List)
         var banner: [NewClosetInfo] = .init()
-        banner += recommendedCloset
+        banner += closetList
         
         /// 추천 Section 정보
         let closet: [HomeSection] = [
@@ -148,7 +155,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
         selectedIndex = 0
         selectedForecastState.accept(forecastInfo[selectedIndex])
         
-        styleList.count == 0 ? getStyleFilterList() : getClosetInfo()
+        styleFilterList.count == 0 ? getStyleFilterList() : getClosetInfo()
     }
     
     /// 스타일 필터 리스트 받아오기
@@ -158,7 +165,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
             .subscribe(
                 with: self,
                 onNext: { owner, response in
-                    owner.styleList = response.data.types
+                    owner.styleFilterList = response.data.types
                     owner.getClosetInfo()
                 },
                 onError: { owner, error in
@@ -173,14 +180,15 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
             ).disposed(by: bag)
     }
     
-    /// 메인 코디 추천 받아오기
+    /// 메인 코디 추천 받아오기 (첫페이지)
     public func getClosetInfo() {
-        let dataSource = NewClosetDataSource(provider: WVProvider<NewClosetTarget>())
-        dataSource.getHomeCloset(style: "casual", page: 1)
+        closetDataSource.getHomeCloset(style: "casual", page: 1)
             .subscribe(
                 with: self,
                 onNext: { owner, response in
-                    owner.recommendedCloset = response.data.closets
+                    owner.closetList = response.data.closets
+                    owner.closetListMaxCount = response.data.counts
+                    owner.loadedPage = 1
                     owner.loadHome()
                 },
                 onError: { owner, error in
@@ -189,6 +197,53 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
                             title: error.localizedDescription,
                             alertType: .popup,
                             closeAction: { owner.getClosetInfo() }
+                        )
+                    )
+                }
+            ).disposed(by: bag)
+    }
+    
+    /// 메인 코디 추천 받아오기 (스크롤 후 로드)
+    public func getNextCloset(of row: Int) {
+        
+        /**
+         마지막 페이지 or 일정 이상 스크롤되지 않았을시 return
+         페이지당 row 10 / 80퍼 이상 스크롤
+         */
+        if loadedPage >= (closetListMaxCount / 20) || 
+           (row >= Int(Double(loadedPage * 10) * 0.8)) == false { return }
+        
+        guard !isLoading else { return }
+        isLoading = true
+        
+        loadedPage += 1
+        
+        closetDataSource.getHomeCloset(style: "casual", page: loadedPage)
+            .subscribe(
+                with: self,
+                onNext: { owner, response in
+                    let closet = response.data.closets.map { HomeSectionItem.closet($0) }
+                    var closetSectionList = owner.homeSections.value
+                    
+                    // 기존 리스트에 불러온 리스트 추가
+                    for (index, section) in closetSectionList.enumerated() {
+                        if case .closet(let items) = section {
+                            var newItem = items
+                            newItem.append(contentsOf: closet)
+                            closetSectionList[index] = .closet(items: newItem)
+                        }
+                    }
+                    owner.homeSections.accept(closetSectionList)
+                    
+                    owner.closetListMaxCount = response.data.counts
+                    owner.isLoading = false
+                },
+                onError: { owner, error in
+                    owner.alertState.accept(
+                        .init(
+                            title: error.localizedDescription,
+                            alertType: .popup,
+                            closeAction: { owner.getNextCloset(of: owner.loadedPage) }
                         )
                     )
                 }
