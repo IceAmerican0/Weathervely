@@ -24,7 +24,7 @@ final class StyleViewController: RxBaseViewController<StyleViewModel> {
     var flowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .horizontal
         $0.minimumLineSpacing = 16
-//        $0.itemSize = CGSize(width: 120, height: 209)
+        //        $0.itemSize = CGSize(width: 120, height: 209)
         
     }
     
@@ -53,8 +53,7 @@ final class StyleViewController: RxBaseViewController<StyleViewModel> {
         
         container.flex.define { container in
             container.addItem(titleLabel).marginHorizontal(20).marginTop(11).marginBottom(9).height(23)
-            //            container.addItem(collectionView).grow(1).backgroundColor(.green)
-            container.addItem(collectionView).height(430)
+            container.addItem(collectionView).grow(1)
         }
         
     }
@@ -80,8 +79,16 @@ final class StyleViewController: RxBaseViewController<StyleViewModel> {
 extension StyleViewController: /*UICollectionViewDataSource,*/ UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        var count = viewModel.styleSections.value.count
+        let count = viewModel.styleSections.value.count
         return count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        if section == 1 {
+            return CGSize(width: collectionView.frame.width, height: 56)
+        } else {
+            return .zero
+        }
     }
 }
 
@@ -91,7 +98,7 @@ extension StyleViewController: UICollectionViewDelegate {
     func setRxDataSources() -> RxCollectionViewSectionedReloadDataSource<StyleTabSectionModel> {
         RxCollectionViewSectionedReloadDataSource<StyleTabSectionModel> (configureCell: { [ weak self ] dataSource, collectionView, indexPath, item in
             guard self != nil else { return UICollectionViewCell() }
-
+            
             switch dataSource[indexPath] {
             case .banner(let banner):
                 let cell = collectionView.dequeueCell(withType: BannerCell.self, for: indexPath)
@@ -114,8 +121,8 @@ extension StyleViewController: UICollectionViewDelegate {
                     
                     return header
                 }
-                    default:
-                        fatalError("Cannot Generate SupplemetaryView")
+            default:
+                fatalError("Cannot Generate SupplemetaryView")
             }
             return UICollectionReusableView()
         })
@@ -126,28 +133,19 @@ extension StyleViewController: UICollectionViewDelegate {
             
             guard let self = self else { return nil }
             guard sectionIndex < self.viewModel.styleSections.value.count else {
-                       print("Section index \(sectionIndex) out of range.")
-                       return nil
-                   }
+                print("Section index \(sectionIndex) out of range.")
+                return nil
+            }
             let section = self.viewModel.styleSections.value[sectionIndex]
-                   switch section {
-                   case .banner:
-                       return self.setBannerLayout()
-                   case .styles:
-                       return self.setStyleLayout()
-                   }
-//            if let sectionType = self?.rxDataSources[sectionIndex] {
-//                switch sectionType {
-//                case .banner:
-//                    return self?.setBannerLayout()
-//                case .styles(items: let items):
-//                    return self?.setStyleLayout()
-//                }
-//            } else { return nil }
+            switch section {
+            case .banner:
+                return self.setBannerLayout()
+            case .styles:
+                return self.setStyleLayout()
+            }
         }
-      
     }
-
+    
     func setBannerLayout() -> NSCollectionLayoutSection {
         let cellSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
@@ -180,16 +178,33 @@ extension StyleViewController: UICollectionViewDelegate {
             widthDimension: .fractionalWidth(1),
             heightDimension: .absolute(209)
         )
-
+        
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: groupSize,
             subitems: [item]
         )
         group.interItemSpacing = .fixed(16)
         
+        // Header
+        let headerSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .absolute(56)
+        )
+        
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .top
+        )
+        sectionHeader.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0)
+        sectionHeader.pinToVisibleBounds = true
+        
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 7, leading: 10, bottom: 0, trailing: 0)
+        
         section.interGroupSpacing = 12
+        section.boundarySupplementaryItems = [sectionHeader]
+        
         return section
     }
 }
