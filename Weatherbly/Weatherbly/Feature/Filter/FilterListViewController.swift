@@ -47,28 +47,26 @@ final class FilterListViewController: RxBaseViewController<FilterListViewModel> 
         $0.setTitle("n개 코디 보기", for: .normal)
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        exitButton.pin.top(16).right(20).size(24)
+        filterList.pin.below(of: exitButton).horizontally().bottom(88)
+        resetButton.pin.bottomLeft(20).width(72).height(48)
+        confirmButton.pin.after(of: resetButton).bottomRight(20).marginLeft(8).height(48)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        container.addSubview(exitButton)
+        container.addSubview(filterList)
+        container.addSubview(resetButton)
+        container.addSubview(confirmButton)
+        
         viewModel.filterItemList()
         
-        DispatchQueue.main.async {
-            self.filterList.reloadData()
-        }
-        
         setBottomSheet()
-    }
-
-    override func layout() {
-        super.layout()
-        
-        container.flex.define {
-            $0.addItem(exitButton).alignSelf(.end).marginTop(16).marginRight(20).size(24)
-            $0.addItem(filterList).grow(1)
-            $0.addItem().backgroundColor(.white).position(.absolute).direction(.row).alignItems(.center).bottom(20).width(100%).height(88).define { bottom in
-                bottom.addItem(resetButton).marginLeft(20).width(72).height(48)
-                bottom.addItem(confirmButton).marginLeft(8).marginRight(20).height(48).grow(1)
-            }
-        }
+        // 바텀시트형식으로 띄우며 뷰컨 두번 호출되는 현상 방지
+        definesPresentationContext = true
     }
     
     override func viewBinding() {
