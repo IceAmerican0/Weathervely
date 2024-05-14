@@ -106,8 +106,7 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
         container.flex.define {
             $0.addItem().direction(.row).alignItems(.center).justifyContent(.spaceBetween).width(100%).height(44).define { header in
                 header.addItem(locationButton).marginLeft(20).size(20)
-                header.addItem(regionLabel).marginLeft(8)
-                header.addItem().grow(1)
+                header.addItem(regionLabel).marginHorizontal(8).grow(1).shrink(1)
                 header.addItem(notificationButton).marginRight(20).size(20)
             }
             $0.addItem().direction(.row).alignItems(.center).justifyContent(.center).height(30).define { date in
@@ -122,6 +121,12 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
     
     override func viewBinding() {
         super.viewBinding()
+        
+        locationButton.rx.tapGesture()
+            .when(.recognized)
+            .bind(with: self) { owner, _ in
+                owner.viewModel.toEditRegionView()
+            }.disposed(by: bag)
         
         regionLabel.rx.tapGesture()
             .when(.recognized)

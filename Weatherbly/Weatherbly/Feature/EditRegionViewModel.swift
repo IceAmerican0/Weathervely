@@ -20,7 +20,7 @@ public enum EditRegionState {
 
 public protocol EditRegionViewModelLogic: ViewModelBusinessLogic {
     func loadRegionList()
-    func deleteRegion(_ index: Int)
+    func deleteRegion(_ index: Int) -> Bool
     func updateMainRegion(_ index: Int)
     func didTapCellButton(_ index: Int)
     func didTapConfirmButton()
@@ -46,6 +46,7 @@ public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogi
                 with: self,
                 onNext: { owner, response in
                     guard let list = response.data?.list else { return }
+                    userDefault.set(list.first?.dong, forKey: UserDefaultKey.dong.rawValue)
                     self.loadedListRelay.accept(list)
                     switch self.editRegionState {
                     case .edit:
@@ -68,9 +69,11 @@ public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogi
             .disposed(by: bag)
     }
     
-    public func deleteRegion(_ index: Int) {
+    public func deleteRegion(_ index: Int) -> Bool {
         editRegionState = .edit
+        var state: Bool = false
         let regionInfo = loadedListRelay.value[index]
+        
         dataSource.deleteAddress(regionInfo.id)
             .subscribe(
                 with: self,
@@ -78,12 +81,16 @@ public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogi
                     owner.loadRegionList()
                     owner.alertState.accept(.init(title: "선택한 동네가 삭제됐어요",
                                                          alertType: .toast))
+                    state = true
                 },
                 onError: { owner, error in
                     owner.alertState.accept(.init(title: error.localizedDescription,
                                                         alertType: .popup))
+                    state = false
             })
             .disposed(by: bag)
+        
+        return state
     }
     
     public func updateMainRegion(_ index: Int) {

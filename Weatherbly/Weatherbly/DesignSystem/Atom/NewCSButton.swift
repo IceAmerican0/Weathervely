@@ -51,6 +51,12 @@ public final class NewCSButton: UIButton {
         }
     }
     
+    /// 상태 초기화
+    public func resetState() {
+        bag = DisposeBag()
+        buttonConfigure()
+    }
+    
     /// Button Pressed effect
     func setRxBinding() {
         self.rx.controlEvent(.touchDown)

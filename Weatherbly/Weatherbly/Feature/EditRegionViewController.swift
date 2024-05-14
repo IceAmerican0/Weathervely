@@ -9,6 +9,7 @@ import UIKit
 import PinLayout
 import FlexLayout
 import RxSwift
+import RxCocoa
 import Then
 
 final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> {
@@ -22,17 +23,15 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
         fontColor: .gray200
     ).make(text: "즐겨 찾는 동네 (최대 3개)")
     
-    private lazy var favoriteTableView = UITableView(
+    private lazy var collectionView = UICollectionView(
         frame: .zero,
-        style: .plain
+        collectionViewLayout: setLayout()
     ).then {
-        $0.delegate = self
-        $0.rowHeight = 84
-        $0.isScrollEnabled = false
-        $0.separatorStyle = .none
+        $0.dataSource = self
+        $0.showsVerticalScrollIndicator = false
+        $0.bounces = false
         $0.backgroundColor = .clear
-        $0.layer.cornerRadius = 5
-        $0.register(EditRegionTableViewCell.self, forCellReuseIdentifier: EditRegionTableViewCell.identifier)
+        $0.register(withType: EditRegionCollectionViewCell.self)
     }
     
     private var confirmButton = NewCSButton(.standard, style: .violet600).then {
@@ -54,7 +53,7 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
         container.flex.backgroundColor(.violet10).define {
             $0.addItem(navigationView).width(UIScreen.main.bounds.width)
             $0.addItem(header).marginTop(22).marginLeft(20)
-            $0.addItem(favoriteTableView).marginTop(13).marginHorizontal(20).grow(1)
+            $0.addItem(collectionView).marginTop(13).marginHorizontal(20).grow(1)
             $0.addItem(confirmButton).alignSelf(.stretch).marginHorizontal(20).bottom(20).height(48)
         }
     }
@@ -78,26 +77,15 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
         super.viewModelBinding()
         
         viewModel.loadedListRelay
-            .bind(to: favoriteTableView.rx
-                .items(cellIdentifier: EditRegionTableViewCell.identifier,
-                       cellType: EditRegionTableViewCell.self)) { row, data, cell in
-                self.listCount = self.viewModel.loadedListRelay.value.count
-                
-                cell.selectionStyle = .none
-                cell.configureCellState(EditRegionCellState(region: data.addressName, count: self.listCount))
-                cell.buttonTap
-                    .drive(
-                        with: self,
-                        onNext: { owner, _ in
-                            owner.viewModel.didTapCellButton(row)
-                            cell.button.isSelected = false
-                            cell.button.isHighlighted = false
-                        }
-                    ).disposed(by: cell.bag)
-                
-                self.confirmButtonState()
-            }
-            .disposed(by: bag)
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                owner.collectionView.reloadData()
+            }.disposed(by: bag)
+        
+        collectionView.rx.itemSelected
+            .bind(with: self) { owner, indexPath in
+                owner.viewModel.updateMainRegion(indexPath.row)
+            }.disposed(by: bag)
     }
     
     private func confirmButtonState() {
@@ -111,9 +99,50 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
     }
 }
 
-// MARK: UITableViewDelegate
-extension EditRegionViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.updateMainRegion(indexPath.row)
+// MARK: UICollectionViewLayout & DataSource
+extension EditRegionViewController: UICollectionViewDataSource {
+    private func setLayout() -> UICollectionViewLayout {
+        UICollectionViewCompositionalLayout { [weak self] _, environment -> NSCollectionLayoutSection? in
+            var config = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
+            config.trailingSwipeActionsConfigurationProvider = { [weak self] indexPath in
+                let handler: UIContextualAction.Handler = { _, _, success in
+                    success(self?.viewModel.deleteRegion(indexPath.row) ?? false)
+                }
+                let deleteAction = UIContextualAction(style: .destructive, title: "삭제", handler: handler)
+                deleteAction.backgroundColor = .violet600
+                
+                return UISwipeActionsConfiguration(actions: [deleteAction])
+            }
+            config.backgroundColor = .clear
+            
+            let section = NSCollectionLayoutSection.list(using: config, layoutEnvironment: environment)
+            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+            section.interGroupSpacing = 16
+            
+            return section
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        viewModel.loadedListRelay.value.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueCell(withType: EditRegionCollectionViewCell.self, for: indexPath).then {
+            let data = self.viewModel.loadedListRelay.value
+            self.listCount = data.count
+            
+            $0.configureCellState(EditRegionCellState(region: data[indexPath.row].addressName, count: self.listCount))
+            
+            self.confirmButtonState()
+        }
+        
+        cell.buttonTap
+            .drive(with: self) { owner, _ in
+                cell.button.resetState()
+                owner.viewModel.didTapCellButton(indexPath.row)
+            }.disposed(by: cell.bag)
+        
+        return cell
     }
 }

@@ -51,7 +51,7 @@
 		5C9D02C22A6E45D600AF2DA3 /* SettingRegionCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9D02C12A6E45D600AF2DA3 /* SettingRegionCompleteViewController.swift */; };
 		5C9D02C42A6E61C700AF2DA3 /* SettingRegionCompleteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9D02C32A6E61C700AF2DA3 /* SettingRegionCompleteViewModel.swift */; };
 		5C9D02C62A6FB71F00AF2DA3 /* EditRegionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9D02C52A6FB71F00AF2DA3 /* EditRegionViewModel.swift */; };
-		5C9D02C82A6FC45300AF2DA3 /* EditRegionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9D02C72A6FC45300AF2DA3 /* EditRegionTableViewCell.swift */; };
+		5C9D02C82A6FC45300AF2DA3 /* EditRegionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9D02C72A6FC45300AF2DA3 /* EditRegionCollectionViewCell.swift */; };
 		5C9D02D72A71EEC900AF2DA3 /* AuthTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9D02D62A71EEC900AF2DA3 /* AuthTarget.swift */; };
 		5C9D02D92A71F27B00AF2DA3 /* AuthDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9D02D82A71F27B00AF2DA3 /* AuthDataSource.swift */; };
 		5C9D02DD2A72284300AF2DA3 /* UserTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9D02DC2A72284300AF2DA3 /* UserTarget.swift */; };
@@ -235,7 +235,7 @@
 		5C9D02C12A6E45D600AF2DA3 /* SettingRegionCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingRegionCompleteViewController.swift; sourceTree = "<group>"; };
 		5C9D02C32A6E61C700AF2DA3 /* SettingRegionCompleteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingRegionCompleteViewModel.swift; sourceTree = "<group>"; };
 		5C9D02C52A6FB71F00AF2DA3 /* EditRegionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRegionViewModel.swift; sourceTree = "<group>"; };
-		5C9D02C72A6FC45300AF2DA3 /* EditRegionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRegionTableViewCell.swift; sourceTree = "<group>"; };
+		5C9D02C72A6FC45300AF2DA3 /* EditRegionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRegionCollectionViewCell.swift; sourceTree = "<group>"; };
 		5C9D02D62A71EEC900AF2DA3 /* AuthTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTarget.swift; sourceTree = "<group>"; };
 		5C9D02D82A71F27B00AF2DA3 /* AuthDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthDataSource.swift; sourceTree = "<group>"; };
 		5C9D02DC2A72284300AF2DA3 /* UserTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTarget.swift; sourceTree = "<group>"; };
@@ -870,7 +870,7 @@
 		BD69B8F42A54335800DDCD7A /* View */ = {
 			isa = PBXGroup;
 			children = (
-				5C9D02C72A6FC45300AF2DA3 /* EditRegionTableViewCell.swift */,
+				5C9D02C72A6FC45300AF2DA3 /* EditRegionCollectionViewCell.swift */,
 				5C4BE89A2A5E2D1200FD2CEF /* EditRegionViewController.swift */,
 				BD69B8F62A54337000DDCD7A /* SettingViewController.swift */,
 				5C9CED832B71B6A80041801C /* SettingTableViewCell.swift */,
@@ -1099,7 +1099,7 @@
 				BD5D168E2A612BD500435816 /* DateTimePickViewModel.swift in Sources */,
 				BD4AC3932A669B0500537583 /* SlotMachineViewModel.swift in Sources */,
 				5CAB60D32A54FC6A00CD431A /* UITableViewCell+Extension.swift in Sources */,
-				5C9D02C82A6FC45300AF2DA3 /* EditRegionTableViewCell.swift in Sources */,
+				5C9D02C82A6FC45300AF2DA3 /* EditRegionCollectionViewCell.swift in Sources */,
 				BDAEBC9F2A8F5EE4002E10F2 /* WeatherMessageEnum.swift in Sources */,
 				5C4A0ACB2B47D34A006BE52A /* HomeStyleFilterView.swift in Sources */,
 				5CDCD7E42B56782F008465B9 /* FilterStyleListEntity.swift in Sources */,
