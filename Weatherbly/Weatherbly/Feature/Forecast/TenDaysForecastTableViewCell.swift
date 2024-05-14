@@ -14,11 +14,21 @@ public final class TenDaysForecastTableViewCell: UITableViewCell {
     private let dateLabel = LabelMaker(
         font: .body_3_B,
         fontColor: .white
-    ).make(text: "")
+    ).make()
+    
+    private let rainAM = LabelMaker(
+        font: .caption_1_M,
+        fontColor: .white
+    ).make()
     
     private let weatherAM = UIImageView()
     
     private let weatherPM = UIImageView()
+    
+    private let rainPM = LabelMaker(
+        font: .caption_1_M,
+        fontColor: .white
+    ).make()
     
     private let minTempLabel = LabelMaker(
         font: .body_1_M,
@@ -54,6 +64,10 @@ public final class TenDaysForecastTableViewCell: UITableViewCell {
         dateLabel.text = state.date
         minTempLabel.text = "\(state.minTemp)°"
         maxTempLabel.text = "\(state.maxTemp)°"
+        rainAM.text = state.rainAM != 0 ? "\(state.rainAM)%" : ""
+        rainAM.flex.markDirty()
+        rainPM.text = state.rainAM != 0 ? "\(state.rainPM)%" : ""
+        rainPM.flex.markDirty()
         
         let (_, AMImage) = setWeatherUI(
             weather: state.weatherAM,
@@ -73,14 +87,16 @@ private extension TenDaysForecastTableViewCell {
         backgroundColor = .clear
         
         contentView.flex.direction(.row).justifyContent(.spaceBetween).alignItems(.center).define {
-            $0.addItem(dateLabel).width(60)
+            $0.addItem(dateLabel).width(38)
+            $0.addItem(rainAM).marginLeft(12).marginRight(4).width(28)
             $0.addItem().direction(.row).define { mid in
                 mid.addItem(weatherAM).width(44).height(32)
-                mid.addItem(weatherPM).marginLeft(12).width(44).height(32)
+                mid.addItem(weatherPM).marginLeft(4).width(44).height(32)
             }
+            $0.addItem(rainPM).marginLeft(4).marginRight(13).width(28)
             $0.addItem().direction(.row).define { end in
-                end.addItem(minTempLabel)
-                end.addItem(maxTempLabel).marginLeft(20)
+                end.addItem(minTempLabel).width(30)
+                end.addItem(maxTempLabel).marginLeft(8).width(30)
             }
         }
     }

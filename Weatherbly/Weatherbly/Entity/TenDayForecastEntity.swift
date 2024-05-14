@@ -24,4 +24,6 @@ public struct TenDayForecastInfo {
     let maxTemp: Int
     let weatherAM: String
     let weatherPM: String
+    let rainAM: Int
+    let rainPM: Int
 }
