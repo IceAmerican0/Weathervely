@@ -16,21 +16,15 @@ import RxCocoa
 public class StyleTagHeaderView: UICollectionReusableView {
     var bag = DisposeBag()
     
-    public let tags = ["비즈니스 캐주얼", "캐주얼", "시크", "걸리시", "레트로","로맨틱", "스트릿"]
-    
-    private let container = UIView()
-    
-    var testView = UIView().then {
-        $0.backgroundColor = .red
-    }
+    public let tags = ["#비즈니스 캐주얼", "#캐주얼", "#시크", "#걸리시", "#레트로","#로맨틱", "#스트릿"]
     
     lazy var tagCollectionFlowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .horizontal
         $0.minimumLineSpacing = 12
-        $0.estimatedItemSize = CGSize(width: 100, height: 30)
+
     }
     
-    public lazy var tagCollectionView = UICollectionView(frame: .zero, collectionViewLayout: setLayout()).then {
+    public lazy var tagCollectionView = UICollectionView(frame: .zero, collectionViewLayout: tagCollectionFlowLayout).then {
         $0.showsHorizontalScrollIndicator = false
         $0.showsVerticalScrollIndicator = false
         $0.register(withType: StyleTagCell.self)
@@ -52,11 +46,11 @@ public class StyleTagHeaderView: UICollectionReusableView {
     }
     
     func layout() {
-        self.flex.addItem(tagCollectionView).width(100%).height(56).alignContent(.center).backgroundColor(.violet200).direction(.row).justifyContent(.center)
+        self.flex.addItem(tagCollectionView).width(100%).height(56).direction(.row)
     }
 }
 
-extension StyleTagHeaderView: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension StyleTagHeaderView: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return tags.count
     }
@@ -70,33 +64,21 @@ extension StyleTagHeaderView: UICollectionViewDataSource, UICollectionViewDelega
         return cell
     }
     
-    
-    func setLayout() -> UICollectionViewCompositionalLayout {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        UICollectionViewCompositionalLayout { [weak self] _, _ -> NSCollectionLayoutSection? in
-            let itemSize = NSCollectionLayoutSize(
-                widthDimension: .estimated(100),
-                heightDimension: .absolute(29)
-            )
-            let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            
-            let groupSize = NSCollectionLayoutSize(
-                widthDimension: .estimated(100),
-                heightDimension: .absolute(29)
-            )
-            let group = NSCollectionLayoutGroup.horizontal(
-                layoutSize: itemSize,
-                subitems: [item]
-            )
-            
-            let section = NSCollectionLayoutSection(group: group)
-            section.orthogonalScrollingBehavior = .continuous
-            section.contentInsets = NSDirectionalEdgeInsets(top: 14, leading: 0, bottom: 0, trailing: 0)
-
-            section.interGroupSpacing = 12
-            return section
+        let label = UILabel().then {
+            $0.font = UIFont.body_5_B
+            $0.setLineHeight(UIFont.body_5_B.lineHeight)
+            $0.text = tags[indexPath.item]
+            $0.sizeToFit()
         }
+        
+        let size = label.frame.size
+        return CGSize(width: size.width + 28, height: size.height + 12)
     }
+    
+    
+
 }
 
 

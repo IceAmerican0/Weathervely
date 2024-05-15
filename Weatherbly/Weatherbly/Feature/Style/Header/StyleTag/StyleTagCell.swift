@@ -31,7 +31,7 @@ final class StyleTagCell: UICollectionViewCell {
         super.layoutSubviews()
         
         contentView.pin.all()
-        contentView.flex.layout()
+//        contentView.flex.layout()
         
         cellLayout()
     }
@@ -52,9 +52,11 @@ final class StyleTagCell: UICollectionViewCell {
 
     func cellLayout() {
         
-        contentView.flex.define { flex in
-            flex.addItem(tagLabel).grow(1)
-        }
+//        contentView.flex.define { flex in
+//            flex.addItem(tagLabel).grow(1)
+//        }
+        contentView.addSubview(tagLabel)
+        tagLabel.pin.all()
     }
     
 }
