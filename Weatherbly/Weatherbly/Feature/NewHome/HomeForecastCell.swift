@@ -50,7 +50,7 @@ public final class HomeForecastCell: UICollectionViewCell {
     
     public override init(frame: CGRect) {
         super.init(frame: .zero)
-        layout()
+        setLayout()
     }
     
     required init?(coder: NSCoder) {
@@ -59,13 +59,13 @@ public final class HomeForecastCell: UICollectionViewCell {
     
     public override func sizeThatFits(_ size: CGSize) -> CGSize {
         contentView.pin.width(size.width)
-        setLayout()
+        contentView.flex.layout()
         return contentView.frame.size
     }
     
     override public func layoutSubviews() {
         super.layoutSubviews()
-        setLayout()
+        layout()
     }
     
     public override func prepareForReuse() {
@@ -88,23 +88,23 @@ public final class HomeForecastCell: UICollectionViewCell {
 
 private extension HomeForecastCell {
     func setLayout() {
-        contentView.flex.layout()
+        contentView.addSubview(mainTempLabel)
+        contentView.addSubview(sensoryTempLabel)
+        contentView.addSubview(dailyTempLabel)
+        contentView.addSubview(weatherImage)
+        contentView.addSubview(commentLabel)
     }
     
     func layout() {
         setCornerRadius(12)
         clipsToBounds = true
         
-        contentView.flex.alignItems(.center).define {
-            $0.addItem().direction(.row).justifyContent(.spaceBetween).alignItems(.center).alignSelf(.stretch).marginHorizontal(20).marginTop(27).define {
-                $0.addItem(mainTempLabel)
-                $0.addItem().marginTop(-10).marginLeft(18).grow(1).define { middle in
-                    middle.addItem(sensoryTempLabel)
-                    middle.addItem(dailyTempLabel).marginTop(5)
-                }
-                $0.addItem(weatherImage).width(110).height(74)
-            }
-            $0.addItem(commentLabel).alignSelf(.stretch).marginHorizontal(20).marginTop(4).height(32)
-        }
+        contentView.flex.layout()
+        
+        mainTempLabel.pin.left(20).top(27).maxWidth(90).maxHeight(67)
+        weatherImage.pin.topRight(20).width(110).height(74)
+        sensoryTempLabel.pin.after(of: mainTempLabel).marginLeft(20).top(38).maxWidth(42)
+        dailyTempLabel.pin.after(of: mainTempLabel).below(of: sensoryTempLabel).marginLeft(20).marginTop(5).maxWidth(60)
+        commentLabel.pin.horizontally(20).bottom(20).height(32)
     }
 }
