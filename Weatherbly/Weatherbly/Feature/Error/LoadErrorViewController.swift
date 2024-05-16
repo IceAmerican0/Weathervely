@@ -20,7 +20,7 @@ final class LoadErrorViewController: RxBaseViewController<LoadErrorViewModel> {
         super.attribute()
         
         imageView.do {
-            $0.image = AssetsImage.wifiError.image
+            $0.image = .networkError
             $0.layer.setShadow(CGSize(width: 0, height: 4), CSColor._0__03.cgColor, 1, 4)
             $0.clipsToBounds = false
         }

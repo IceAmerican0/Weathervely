@@ -219,7 +219,26 @@ extension UIView {
         }
     }
     
-    func addGradient(colors: [UIColor]) {
+    public func setTenDaysWeatherUI(weather: String, time: String) -> ([UIColor], UIImage) {
+        let isAM = time.isAM()
+        
+        return switch weather {
+        case "맑음": isAM ?
+            (.gradient10, UIImage.ten_sunny_am) :
+            (.gradient20, UIImage.sunny_pm)
+        case "흐림": (.gradient30, UIImage.ten_cloudy)
+        case "구름많음": isAM ?
+            (.gradient40, UIImage.ten_clouds_am) :
+            (.gradient50, UIImage.clouds_pm)
+        case "비": (.gradient60, UIImage.ten_rainy)
+        case "눈비": (.gradient70, UIImage.ten_snowyRainy)
+        case "눈": (.gradient80, UIImage.ten_snowy)
+        case "바람": (.gradient90, UIImage.ten_windy)
+        default: (.gradient10, UIImage.ten_sunny_am)
+        }
+    }
+    
+    public func addGradient(colors: [UIColor]) {
         let gradient = CAGradientLayer().then {
             $0.colors = colors.map { $0.cgColor }
             $0.locations = [0, 1]

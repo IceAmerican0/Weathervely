@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "ten_rainy.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

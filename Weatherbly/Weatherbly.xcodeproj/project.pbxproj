@@ -34,7 +34,6 @@
 		5C5C1C2D2B8738D500294BFF /* NicknameCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C1C2B2B8738D500294BFF /* NicknameCompleteViewController.swift */; };
 		5C5C1C2E2B8738D500294BFF /* NicknameCompleteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C1C2C2B8738D500294BFF /* NicknameCompleteViewModel.swift */; };
 		5C61B97F2BB52E67002EA200 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C61B97E2BB52E67002EA200 /* AppEnvironment.swift */; };
-		5C68E9212AF376080046D0BE /* ForcastUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C68E9202AF376080046D0BE /* ForcastUseCase.swift */; };
 		5C6AC7022A84A4D000CE5D34 /* UserInfoEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6AC7012A84A4D000CE5D34 /* UserInfoEntity.swift */; };
 		5C7CAE362BE08280007760DD /* FilterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7CAE352BE08280007760DD /* FilterButton.swift */; };
 		5C7CAE382BE08CCF007760DD /* StyleTypeEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7CAE372BE08CCF007760DD /* StyleTypeEntity.swift */; };
@@ -162,7 +161,6 @@
 		BD37143B2B864DC000527577 /* StyleClosetFilterHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD37143A2B864DC000527577 /* StyleClosetFilterHeader.swift */; };
 		BD3BA9EA2B63948400BD3BFF /* LifeCycleTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3BA9E92B63948400BD3BFF /* LifeCycleTest.swift */; };
 		BD4316342A3C967900E86271 /* OnBoardSensoryTempViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4316332A3C967900E86271 /* OnBoardSensoryTempViewController.swift */; };
-		BD4316362A3C9DB700E86271 /* AssetsImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4316352A3C9DB700E86271 /* AssetsImage.swift */; };
 		BD4316382A3CA20900E86271 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4316372A3CA20900E86271 /* UIView+Extension.swift */; };
 		BD49072D2A80DED70027DEE8 /* HomeSensoryTempViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD49072C2A80DED70027DEE8 /* HomeSensoryTempViewController.swift */; };
 		BD49072F2A80DEED0027DEE8 /* HomeSensoryTempViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD49072E2A80DEED0027DEE8 /* HomeSensoryTempViewModel.swift */; };
@@ -218,7 +216,6 @@
 		5C5C1C2B2B8738D500294BFF /* NicknameCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameCompleteViewController.swift; sourceTree = "<group>"; };
 		5C5C1C2C2B8738D500294BFF /* NicknameCompleteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameCompleteViewModel.swift; sourceTree = "<group>"; };
 		5C61B97E2BB52E67002EA200 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
-		5C68E9202AF376080046D0BE /* ForcastUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForcastUseCase.swift; sourceTree = "<group>"; };
 		5C6AC7012A84A4D000CE5D34 /* UserInfoEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoEntity.swift; sourceTree = "<group>"; };
 		5C7CAE352BE08280007760DD /* FilterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterButton.swift; sourceTree = "<group>"; };
 		5C7CAE372BE08CCF007760DD /* StyleTypeEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleTypeEntity.swift; sourceTree = "<group>"; };
@@ -339,7 +336,6 @@
 		BD37143A2B864DC000527577 /* StyleClosetFilterHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleClosetFilterHeader.swift; sourceTree = "<group>"; };
 		BD3BA9E92B63948400BD3BFF /* LifeCycleTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeCycleTest.swift; sourceTree = "<group>"; };
 		BD4316332A3C967900E86271 /* OnBoardSensoryTempViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardSensoryTempViewController.swift; sourceTree = "<group>"; };
-		BD4316352A3C9DB700E86271 /* AssetsImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetsImage.swift; sourceTree = "<group>"; };
 		BD4316372A3CA20900E86271 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		BD49072C2A80DED70027DEE8 /* HomeSensoryTempViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSensoryTempViewController.swift; sourceTree = "<group>"; };
 		BD49072E2A80DEED0027DEE8 /* HomeSensoryTempViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSensoryTempViewModel.swift; sourceTree = "<group>"; };
@@ -441,7 +437,6 @@
 			children = (
 				5CAB60CE2A53F61700CD431A /* TenDaysForecastViewController.swift */,
 				BD2D11BB2A9AEB0D008CBF0D /* TenDaysForecastViewModel.swift */,
-				5C68E9202AF376080046D0BE /* ForcastUseCase.swift */,
 				5C84169F2B68D9FC003AE726 /* TenDaysForecastTableViewCell.swift */,
 			);
 			path = Forecast;
@@ -759,7 +754,6 @@
 			isa = PBXGroup;
 			children = (
 				BD77B8272A388C9400E7D57A /* CSColor.swift */,
-				BD4316352A3C9DB700E86271 /* AssetsImage.swift */,
 				BDAEBC9E2A8F5EE4002E10F2 /* WeatherMessageEnum.swift */,
 			);
 			path = Enum;
@@ -1141,7 +1135,6 @@
 				BD2D01AE2A38886C003A25D5 /* RxBaseViewController.swift in Sources */,
 				BDB2DDAC2B666C1B009741E0 /* HeritageTest.swift in Sources */,
 				69683A562A9B81BC00A2BD5A /* LoadErrorViewModel.swift in Sources */,
-				BD4316362A3C9DB700E86271 /* AssetsImage.swift in Sources */,
 				5CF0A49E2B5A32EA00D2AB4C /* HomeForecastEntity.swift in Sources */,
 				69D25C972AD04F6300C17FB1 /* WVNetWorkError.swift in Sources */,
 				BD6135D32A7E3C9C00DB3DF9 /* RecommendClosetEntity.swift in Sources */,
@@ -1210,7 +1203,6 @@
 				5CBD391E2B5F3EFE00B0A85F /* ToastView.swift in Sources */,
 				698F6CB22AE00FCC00C2B33A /* UIImage+Extension.swift in Sources */,
 				5C4A0ABD2B43ED8F006BE52A /* HomeForecastCell.swift in Sources */,
-				5C68E9212AF376080046D0BE /* ForcastUseCase.swift in Sources */,
 				BDF208FF2A4EAEF2001177B2 /* CGFloat+Extension.swift in Sources */,
 				5C9D02C62A6FB71F00AF2DA3 /* EditRegionViewModel.swift in Sources */,
 				696176B62A63E4A400B83B4C /* EmptyViewModel.swift in Sources */,

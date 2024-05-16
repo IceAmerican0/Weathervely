@@ -20,7 +20,7 @@ final class ConnectionLostViewController: RxBaseViewController<EmptyViewModel> {
         super.attribute()
         
         imageView.do {
-            $0.image = AssetsImage.connectionLost.image
+            $0.image = .loadError
         }
         
         topLabel.do {

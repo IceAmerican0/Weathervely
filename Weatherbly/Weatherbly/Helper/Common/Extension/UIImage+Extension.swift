@@ -57,6 +57,15 @@ extension UIImage {
     static let sunny_pm = UIImage(named: "sunny_pm")!
     static let windy = UIImage(named: "windy")!
     
+    // Tendays Weather
+    static let ten_clouds_am = UIImage(named: "ten_clouds_am")!
+    static let ten_cloudy = UIImage(named: "ten_cloudy")!
+    static let ten_rainy = UIImage(named: "ten_rainy")!
+    static let ten_snowy = UIImage(named: "ten_snowy")!
+    static let ten_snowyRainy = UIImage(named: "ten_snowyRainy")!
+    static let ten_sunny_am = UIImage(named: "ten_sunny_am")!
+    static let ten_windy = UIImage(named: "ten_windy")!
+    
     // Style
     static let style_banner = UIImage(named: "style_banner")!
     static let style_screen_devider = UIImage(named: "style_screen_devider")!
@@ -90,6 +99,8 @@ extension UIImage {
     static let leftArrow_black = UIImage(named: "leftArrow_black")!
     static let navi_back_white = UIImage(named: "navi_back_white")!
     static let rightArrow_gray = UIImage(named: "rightArrow_gray")!
+    static let downArrow_gray = UIImage(named: "downArrow")!
+    static let upArrow_gray = UIImage(named: "upArrow")!
     
     // Notification
     static let alarm_codi = UIImage(named: "alarm_codi")!

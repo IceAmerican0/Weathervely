@@ -9,15 +9,6 @@ import UIKit
 import Kingfisher
 
 extension UIImageView {
-    
-    convenience init(_ assetEnum: AssetsImage) {
-        self.init(image: assetEnum.image)
-    }
-    
-    func setAssetsImage(_ assetEnum: AssetsImage) {
-        self.image = assetEnum.image
-    }
-    
     /// Setting Kingfisher Image
     func setKF(
         urlString: String,

@@ -69,11 +69,11 @@ public final class TenDaysForecastTableViewCell: UITableViewCell {
         rainPM.text = state.rainAM != 0 ? "\(state.rainPM)%" : ""
         rainPM.flex.markDirty()
         
-        let (_, AMImage) = setWeatherUI(
+        let (_, AMImage) = setTenDaysWeatherUI(
             weather: state.weatherAM,
             time: "오전"
         )
-        let (_, PMImage) = setWeatherUI(
+        let (_, PMImage) = setTenDaysWeatherUI(
             weather: state.weatherPM,
             time: "오후"
         )

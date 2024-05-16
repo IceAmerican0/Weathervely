@@ -213,7 +213,7 @@ final class OnBoardSensoryTempViewController: RxBaseViewController<OnBoardSensor
                                     case .failure:
                                         owner.indicator.stopAnimating()
                                         owner.indicator.isHidden = true
-                                        owner.tempImageView.image = AssetsImage.defaultImage.image
+                                        owner.tempImageView.image = .home_nodata
                                         owner.imageSourceLabel.text = ""
                                     }
                                 }

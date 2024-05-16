@@ -67,7 +67,7 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
                         case .failure:
                             indicator.stopAnimating()
                             indicator.isHidden = true
-                            imageView.image = AssetsImage.defaultImage.image
+                            imageView.image = .home_nodata
                             self.imageSourceLabel.text = ""
                         }
                     }
@@ -84,7 +84,7 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
         super.attribute()
         
         navigationDismissButton.do {
-            $0.setImage(AssetsImage.closeButton.image, for: .normal)
+            $0.setImage(.filter_x, for: .normal)
         }
         
         mainLabel.do {
@@ -106,7 +106,7 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
         }
         
         upperArrowButton.do {
-            $0.setImage(AssetsImage.upArrow.image, for: .normal)
+            $0.setImage(.upArrow_gray, for: .normal)
         }
         
         tempLabel.do {
@@ -120,7 +120,7 @@ class HomeSensoryTempViewController: RxBaseViewController<HomeSensoryTempViewMod
         }
         
         downArrowButton.do {
-            $0.setImage(AssetsImage.downArrow.image, for: .normal)
+            $0.setImage(.downArrow_gray, for: .normal)
         }
         
         discriptionLabel.do {

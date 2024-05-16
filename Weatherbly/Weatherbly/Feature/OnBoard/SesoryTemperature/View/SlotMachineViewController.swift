@@ -77,7 +77,7 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
                     case .failure:
                         indicator.stopAnimating()
                         indicator.isHidden = true
-                        imageView.image = AssetsImage.defaultImage.image
+                        imageView.image = .home_nodata
                         self.imageSourceLabel.text = ""
                     }
                 }
@@ -116,7 +116,7 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
         }
         
         upperArrowButton.do {
-            $0.setImage(AssetsImage.upArrow.image, for: .normal)
+            $0.setImage(.upArrow_gray, for: .normal)
         }
         
         tempLabel.do {
@@ -128,7 +128,7 @@ final class SlotMachineViewController: RxBaseViewController<SlotMachineViewModel
         }
         
         downArrowButton.do {
-            $0.setImage(AssetsImage.downArrow.image, for: .normal)
+            $0.setImage(.downArrow_gray, for: .normal)
         }
         
         discriptionLabel.do {

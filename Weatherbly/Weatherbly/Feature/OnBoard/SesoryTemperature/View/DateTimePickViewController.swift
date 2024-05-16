@@ -17,7 +17,7 @@ final class DateTimePickViewController: RxBaseViewController<DateTimePickViewMod
     private var progressBar = CSProgressView(1.0)
     
     private let titleMessageLabel = CSLabel(.bold, 22, "나에게 딱 맞는\n체감온도를 설정해보세요")
-    private let clockImage = UIImageView(image: AssetsImage.clockIcon.image)
+    private let clockImage = UIImageView()
     
     private let questionLabel = CSLabel(.bold, 20, "언제 외출하셨나요?")
     
