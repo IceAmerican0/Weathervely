@@ -21,13 +21,9 @@ public final class TenDaysForecastTableViewCell: UITableViewCell {
         fontColor: .white
     ).make()
     
-    private let weatherAM = UIImageView().then {
-        $0.contentMode = .scaleAspectFit
-    }
+    private let weatherAM = UIImageView()
     
-    private let weatherPM = UIImageView().then {
-        $0.contentMode = .scaleAspectFit
-    }
+    private let weatherPM = UIImageView()
     
     private let rainPM = LabelMaker(
         font: .caption_1_M,

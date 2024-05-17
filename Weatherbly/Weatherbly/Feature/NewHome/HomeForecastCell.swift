@@ -30,9 +30,7 @@ public final class HomeForecastCell: UICollectionViewCell {
         fontColor: .white
     ).make()
     
-    private let weatherImage = UIImageView().then {
-        $0.contentMode = .scaleAspectFit
-    }
+    private let weatherImage = UIImageView()
     
     private let commentLabel = LabelMaker(
         font: .body_3_M,
@@ -71,6 +69,10 @@ public final class HomeForecastCell: UICollectionViewCell {
     public override func prepareForReuse() {
         super.prepareForReuse()
         bag = DisposeBag()
+        mainTempLabel.text = nil
+        dailyTempLabel.text = nil
+        commentLabel.text = nil
+        weatherImage.image = nil
     }
     
     public func configureCellState(state: HomeForecastInfo) {
@@ -101,10 +103,10 @@ private extension HomeForecastCell {
         
         contentView.flex.layout()
         
-        mainTempLabel.pin.left(20).top(27).maxWidth(90).maxHeight(67)
+        mainTempLabel.pin.left(20).top(27).maxHeight(67).sizeToFit()
         weatherImage.pin.topRight(20).width(110).height(74)
-        sensoryTempLabel.pin.after(of: mainTempLabel).marginLeft(20).top(38).maxWidth(42)
-        dailyTempLabel.pin.after(of: mainTempLabel).below(of: sensoryTempLabel).marginLeft(20).marginTop(5).maxWidth(60)
+        sensoryTempLabel.pin.after(of: mainTempLabel).marginLeft(20).top(38).sizeToFit()
+        dailyTempLabel.pin.after(of: mainTempLabel).below(of: sensoryTempLabel).marginLeft(20).marginTop(5).sizeToFit()
         commentLabel.pin.horizontally(20).bottom(20).height(32)
     }
 }

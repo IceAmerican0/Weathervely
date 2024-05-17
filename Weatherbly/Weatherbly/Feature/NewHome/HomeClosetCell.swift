@@ -13,7 +13,6 @@ import Kingfisher
 
 public final class HomeClosetCell: UICollectionViewCell {
     let cloth = UIImageView().then {
-        $0.contentMode = .scaleAspectFit
         $0.clipsToBounds = true
     }
     
@@ -33,7 +32,6 @@ public final class HomeClosetCell: UICollectionViewCell {
     
     public override func sizeThatFits(_ size: CGSize) -> CGSize {
         setLayout()
-        contentView.flex.layout()
         return contentView.frame.size
     }
     
@@ -43,8 +41,8 @@ public final class HomeClosetCell: UICollectionViewCell {
     }
     
     func setLayout() {
-        cloth.pin.all()
         contentView.flex.layout()
+        cloth.pin.all()
     }
     
     func layout() {

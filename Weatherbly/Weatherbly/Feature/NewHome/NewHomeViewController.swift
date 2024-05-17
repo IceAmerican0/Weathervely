@@ -66,20 +66,13 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
         $0.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
     }
     
-    private let flowLayout = UICollectionViewFlowLayout().then {
-        $0.scrollDirection = .vertical
-        $0.minimumInteritemSpacing = 19
-        $0.minimumLineSpacing = 19
-        $0.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-        $0.sectionHeadersPinToVisibleBounds = true
-    }
-    
     private lazy var homeCollectionView = UICollectionView(
         frame: .zero,
-        collectionViewLayout: setLayout()
+        collectionViewLayout: HomeBannerLayout()
     ).then {
         $0.showsVerticalScrollIndicator = false
-//        $0.contentInset = .init(top: 0, left: 20, bottom: 0, right: 20)
+        $0.showsHorizontalScrollIndicator = false
+        $0.contentInset = .init(top: 0, left: 20, bottom: 0, right: 20)
         $0.backgroundColor = .clear
         $0.refreshControl = refresh
         $0.register(withType: HomeForecastCell.self)
@@ -228,9 +221,8 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
     }
 }
 
-// MARK: UICollectionview DataSource & UI & Delegate
-extension NewHomeViewController: UICollectionViewDelegate {
-    // MARK: DataSource
+// MARK: UICollectionview DataSource
+extension NewHomeViewController {
     func setDataSource() -> RxCollectionViewSectionedReloadDataSource<HomeSection> {
         RxCollectionViewSectionedReloadDataSource<HomeSection> (configureCell: { [weak self] dataSource, collectionView, indexPath, _ in
             guard self != nil else { return UICollectionViewCell() }
@@ -277,132 +269,5 @@ extension NewHomeViewController: UICollectionViewDelegate {
             }
             return UICollectionReusableView()
         })
-    }
-    
-    // MARK: UI
-    func setLayout() -> UICollectionViewCompositionalLayout {
-        UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ -> NSCollectionLayoutSection? in
-            if let section = self?.dataSource[sectionIndex] {
-                switch section {
-                case .forecast:
-                    return self?.setForecastLayout()
-                case .closet:
-                    return self?.setClosetLayout()
-                }
-            } else {
-                return nil
-            }
-        }
-    }
-    
-    /// 예보 Cell Layout
-    func setForecastLayout() -> NSCollectionLayoutSection {
-        let cellSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .absolute(150)
-        )
-        
-        let item = NSCollectionLayoutItem(layoutSize: cellSize)
-        let group = NSCollectionLayoutGroup.vertical(
-            layoutSize: cellSize,
-            subitems: [item]
-        )
-        let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(
-            top: 0, leading: 20, bottom: 14, trailing: 20
-        )
-        return section
-    }
-    
-    /// 추천 Cell Layout
-    func setClosetLayout() -> NSCollectionLayoutSection {
-        // 셀 크기
-        let banner = NSCollectionLayoutItem(
-            layoutSize: NSCollectionLayoutSize(
-                widthDimension: .absolute(158),
-                heightDimension: .absolute(158)
-            )
-        )
-        
-        // 한 줄 크기
-        let bannerGroup = NSCollectionLayoutGroup.horizontal(
-            layoutSize: NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(0.5),
-                heightDimension: banner.layoutSize.heightDimension
-            ),
-            subitems: [banner]
-        )
-        bannerGroup.interItemSpacing = .fixed(19)
-        
-        let item = NSCollectionLayoutItem(
-            layoutSize: NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(0.5),
-                heightDimension: .absolute(236)
-            )
-        )
-        
-        let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1),
-                heightDimension: item.layoutSize.heightDimension
-            ),
-            subitems: [item]
-        )
-        group.interItemSpacing = .fixed(19)
-        
-        // 헤더 크기
-        let headerSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .estimated(56)
-        )
-        
-        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: headerSize,
-            elementKind: UICollectionView.elementKindSectionHeader,
-            alignment: .top
-        )
-        // 스티키 헤더 옵션
-        sectionHeader.pinToVisibleBounds = true
-        // 섹션 inset
-        let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(
-            top: 0, leading: 20, bottom: 0, trailing: 20
-        )
-        // 섹션 내 간격
-        section.interGroupSpacing = 19
-        section.boundarySupplementaryItems = [sectionHeader]
-        
-        return section
-    }
-}
-
-extension NewHomeViewController {
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        if section == 0 {
-            UIEdgeInsets(top: 0, left: 20, bottom: 14, right: 20)
-        } else {
-            UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        if section == 1 {
-            return CGSize(width: collectionView.frame.width - 40, height: 56)
-        } else {
-            return .zero
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if indexPath.section == 0 {
-            return CGSize(width: collectionView.frame.width - 40, height: 150)
-        }
-        
-        if indexPath.item == 0 {
-            return CGSize(width: (collectionView.frame.width - 59) / 2, height: 158)
-        } else {
-            return CGSize(width: (collectionView.frame.width - 59) / 2, height: 236)
-        }
     }
 }
