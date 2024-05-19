@@ -31,7 +31,6 @@ final class StyleViewController: RxBaseViewController<StyleViewModel> {
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: setSectionLayout()
     ).then {
         $0.showsHorizontalScrollIndicator = false
-        //        $0.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 30, right: 0)
         $0.registerHeader(withType: StyleTagHeaderView.self)
         $0.register(withType: BannerCell.self)
         $0.register(withType: StyleClosetCell.self)
@@ -52,7 +51,7 @@ final class StyleViewController: RxBaseViewController<StyleViewModel> {
         super.layout()
         
         container.flex.define { container in
-            container.addItem(titleLabel).marginHorizontal(20).marginTop(11).marginBottom(9).height(23)
+            container.addItem(titleLabel).marginHorizontal(20).marginTop(11).marginBottom(17.5).height(23)
             container.addItem(collectionView).grow(1)
         }
         
@@ -149,7 +148,7 @@ extension StyleViewController: UICollectionViewDelegate {
     func setBannerLayout() -> NSCollectionLayoutSection {
         let cellSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
-            heightDimension: .absolute(95)
+            heightDimension: .absolute(80)
         )
         
         let item = NSCollectionLayoutItem(layoutSize: cellSize)
@@ -159,7 +158,6 @@ extension StyleViewController: UICollectionViewDelegate {
         )
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 0, bottom: 7, trailing: 0)
         return section
     }
     
