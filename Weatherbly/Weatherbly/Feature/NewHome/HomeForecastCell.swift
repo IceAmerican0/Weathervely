@@ -55,12 +55,6 @@ public final class HomeForecastCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public override func sizeThatFits(_ size: CGSize) -> CGSize {
-        contentView.pin.width(size.width)
-        contentView.flex.layout()
-        return contentView.frame.size
-    }
-    
     override public func layoutSubviews() {
         super.layoutSubviews()
         layout()
@@ -69,10 +63,6 @@ public final class HomeForecastCell: UICollectionViewCell {
     public override func prepareForReuse() {
         super.prepareForReuse()
         bag = DisposeBag()
-        mainTempLabel.text = nil
-        dailyTempLabel.text = nil
-        commentLabel.text = nil
-        weatherImage.image = nil
     }
     
     public func configureCellState(state: HomeForecastInfo) {
@@ -90,6 +80,9 @@ public final class HomeForecastCell: UICollectionViewCell {
 
 private extension HomeForecastCell {
     func setLayout() {
+        setCornerRadius(12)
+        clipsToBounds = true
+        
         contentView.addSubview(mainTempLabel)
         contentView.addSubview(sensoryTempLabel)
         contentView.addSubview(dailyTempLabel)
@@ -98,10 +91,7 @@ private extension HomeForecastCell {
     }
     
     func layout() {
-        setCornerRadius(12)
-        clipsToBounds = true
-        
-        contentView.flex.layout()
+        contentView.pin.all()
         
         mainTempLabel.pin.left(20).top(27).maxHeight(67).sizeToFit()
         weatherImage.pin.topRight(20).width(110).height(74)
