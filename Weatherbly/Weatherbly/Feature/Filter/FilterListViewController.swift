@@ -155,7 +155,7 @@ extension FilterListViewController: UICollectionViewDelegate {
             return UICollectionViewCell()
             
         }, configureSupplementaryView: { [weak self] dataSource, collectionView, kind, indexPath in
-            guard let self else { return UICollectionReusableView() }
+            guard self != nil else { return UICollectionReusableView() }
         
             if case UICollectionView.elementKindSectionHeader = kind {
                 if case let .item(category, _) = dataSource[indexPath.section] {
@@ -174,6 +174,8 @@ extension FilterListViewController: UICollectionViewDelegate {
     // MARK: UI
     func setLayout() -> UICollectionViewCompositionalLayout {
         UICollectionViewCompositionalLayout { [weak self] _, _ -> NSCollectionLayoutSection? in
+            guard self != nil else { return nil }
+            
             let item = NSCollectionLayoutItem(
                 layoutSize: NSCollectionLayoutSize(
                     widthDimension: .estimated(70),

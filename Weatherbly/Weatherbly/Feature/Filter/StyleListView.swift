@@ -81,6 +81,8 @@ extension StyleListView: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func setCollectionLayout() -> UICollectionViewCompositionalLayout {
         UICollectionViewCompositionalLayout { [weak self] _, _ -> NSCollectionLayoutSection? in
+            guard self != nil else { return nil }
+            
             let itemSize = NSCollectionLayoutSize(
                 widthDimension: .estimated(70),
                 heightDimension: .estimated(29)

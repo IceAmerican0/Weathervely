@@ -32,14 +32,14 @@ public final class HomeBannerLayout: UICollectionViewLayout {
         guard cache.isEmpty, let collectionView else { return }
         
         for section in 0..<collectionView.numberOfSections {
+            let indexPath = IndexPath(item: 0, section: section)
+            
             if section == 0 {
-                let indexPath = IndexPath(item: 0, section: section)
                 let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
                 attributes.frame = CGRect(x: 0, y: 0, width: Constants.screenWidth - 40, height: 150)
                 cache.append(attributes)
             } else {
                 // 헤더 부분
-                let indexPath = IndexPath(item: 0, section: section)
                 let attributes = UICollectionViewLayoutAttributes(
                     forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                     with: indexPath

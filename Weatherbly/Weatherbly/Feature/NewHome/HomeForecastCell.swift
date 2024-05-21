@@ -91,12 +91,12 @@ private extension HomeForecastCell {
     }
     
     func layout() {
-        contentView.pin.all()
+        contentView.flex.layout()
         
         mainTempLabel.pin.left(20).top(27).maxHeight(67).sizeToFit()
         weatherImage.pin.topRight(20).width(110).height(74)
         sensoryTempLabel.pin.after(of: mainTempLabel).marginLeft(20).top(38).sizeToFit()
-        dailyTempLabel.pin.after(of: mainTempLabel).below(of: sensoryTempLabel).marginLeft(20).marginTop(5).sizeToFit()
+        dailyTempLabel.pin.below(of: sensoryTempLabel, aligned: .left).marginTop(5).sizeToFit()
         commentLabel.pin.horizontally(20).bottom(20).height(32)
     }
 }

@@ -220,9 +220,7 @@ extension UIView {
     }
     
     public func setTenDaysWeatherUI(weather: String, time: String) -> ([UIColor], UIImage) {
-        let isAM = time.isAM()
-        
-        return switch weather {
+        switch weather {
         case "맑음": (.gradient10, UIImage.ten_sunny_am)
         case "흐림": (.gradient30, UIImage.ten_cloudy)
         case "구름많음": (.gradient40, UIImage.ten_clouds_am)
