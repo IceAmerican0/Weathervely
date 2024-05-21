@@ -11,6 +11,8 @@ import PinLayout
 import Then
 
 public final class NotificationListTableViewCell: UITableViewCell {
+    private let container = UIView()
+    
     private let icon = UIImageView()
     
     private var titleLabel = LabelMaker(
@@ -21,11 +23,7 @@ public final class NotificationListTableViewCell: UITableViewCell {
     private var commentLabel = LabelMaker(
         font: .body_3_M,
         fontColor: .kiwiGray700
-    ).make().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.lineBreakMode = .byWordWrapping
-        $0.sizeToFit()
-    }
+    ).make()
     
     private var timeLabel = LabelMaker(
         font: .body_5_M,
@@ -43,7 +41,7 @@ public final class NotificationListTableViewCell: UITableViewCell {
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-        contentView.pin.vertically().horizontally(20)
+        contentView.pin.all()
         contentView.flex.layout()
     }
     
@@ -71,13 +69,11 @@ private extension NotificationListTableViewCell {
         backgroundColor = .clear
         
         contentView.flex.define {
-            $0.addItem().direction(.row).justifyContent(.spaceBetween).marginVertical(19).define {
-                $0.addItem().direction(.row).grow(1).shrink(1).define {
-                    $0.addItem(icon).size(40)
-                    $0.addItem().marginHorizontal(20).define {
-                        $0.addItem(titleLabel)
-                        $0.addItem(commentLabel).marginTop(4)
-                    }
+            $0.addItem().direction(.row).justifyContent(.spaceBetween).marginVertical(19).marginHorizontal(20).grow(1).define {
+                $0.addItem(icon).size(40)
+                $0.addItem().marginHorizontal(20).grow(1).shrink(1).define {
+                    $0.addItem(titleLabel)
+                    $0.addItem(commentLabel).marginTop(4)
                 }
                 $0.addItem(timeLabel).height(17)
             }

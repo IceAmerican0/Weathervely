@@ -24,10 +24,13 @@ public enum ProfileMenuTitle: CaseIterable {
         }
     }
     
-    var image: UIImage {
+    func image() async -> UIImage {
         switch self {
-        case .region:       UIImage.icon_plusL
-        case .notification: checkAuthorization() ? UIImage.icon_alarm_on : UIImage.icon_alarm_off
+        case .region:
+            return UIImage.icon_plusL
+        case .notification:
+            let isAuthorized = await checkAuthorization()
+            return isAuthorized ? UIImage.icon_alarm_on : UIImage.icon_alarm_off
         }
     }
 }
@@ -62,7 +65,9 @@ public final class SettingCollectionViewCell: UICollectionViewCell {
     }
     
     public func configureCellState(state: ProfileMenuTitle) {
-        titleImage.image = state.image
+        Task {
+            titleImage.image = await state.image()
+        }
         titleLabel.text = state.title
     }
 }

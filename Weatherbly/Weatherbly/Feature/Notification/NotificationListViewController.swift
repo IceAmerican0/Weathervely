@@ -28,8 +28,6 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
         fontColor: .gray50
     ).make(text: "알림이 없습니다.")
     
-    private var buttonView = UIView()
-    
     private var notiButton = NewCSButton(.standard, style: .violet600).then {
         $0.setTitle("알림 받기", for: .normal)
     }
@@ -40,21 +38,18 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
         $0.layer.masksToBounds = true
     }
     
-    private var infoLabel = LabelMaker(
-        font: .body_5_M,
-        fontColor: .gray70
-    ).make(text: "30일이 지난 알림은 자동으로 삭제돼요.")
-    
     private lazy var tableView = UITableView(
         frame: .zero,
         style: .plain
     ).then {
-        $0.delegate = self
         $0.backgroundColor = .clear
-        $0.contentInset.top = 16
         $0.separatorColor = .gray20
+        $0.showsVerticalScrollIndicator = true
+        $0.showsHorizontalScrollIndicator = false
         $0.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        $0.tableFooterView = NotificationListTableFooterView()
         $0.register(withType: NotificationListTableViewCell.self)
+        $0.registerHeaderFooterView(withType: NotificationListTableFooterView.self)
     }
     
     override func viewDidLayoutSubviews() {
@@ -65,13 +60,24 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if checkAuthorization() {
-            zeroNotiView.flex.display(.none)
-            tableView.flex.display(.flex)
-        } else {
-            zeroNotiView.flex.display(.flex)
-            buttonView.flex.display(.flex)
-            tableView.flex.display(.none)
+        Task {
+            let isAuthorized = await checkAuthorization()
+            if isAuthorized {
+                if viewModel.notificationInfo.value.count > 0 {
+                    zeroNotiView.flex.display(.none)
+                    tableView.flex.display(.flex)
+                } else {
+                    zeroNotiView.flex.display(.flex)
+                    tableView.flex.display(.none)
+                }
+            } else {
+                zeroNotiView.flex.display(.flex)
+                notiButton.flex.display(.flex)
+                tableView.flex.display(.none)
+            }
+            zeroNotiView.flex.markDirty()
+            tableView.flex.markDirty()
+            container.flex.layout()
         }
     }
 
@@ -80,17 +86,12 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
         
         container.flex.define {
             $0.addItem(navigationView).width(100%)
-            $0.addItem().grow(1).define {
-                $0.addItem(zeroNotiView).alignItems(.center).justifyContent(.center).grow(1).define {
-                    $0.addItem(zeroNotiImageView).size(48)
-                    $0.addItem(zeroNotiLabel).marginTop(10)
-                    $0.addItem(notiButton).alignSelf(.stretch).marginTop(40).marginHorizontal(52).height(48)
-                }.display(.none)
-                $0.addItem(tableView).marginTop(16).grow(1)
-//                $0.addItem(infoView).marginTop(16).marginHorizontal(20).maxHeight(40).grow(1).define {
-//                    $0.addItem(infoLabel).marginLeft(20).grow(1)
-//                }
-            }
+            $0.addItem(zeroNotiView).alignItems(.center).justifyContent(.center).grow(1).define {
+                $0.addItem(zeroNotiImageView).size(48)
+                $0.addItem(zeroNotiLabel).marginTop(10)
+                $0.addItem(notiButton).alignSelf(.stretch).marginTop(40).marginHorizontal(52).height(48).display(.none)
+            }.display(.none)
+            $0.addItem(tableView).marginTop(16).grow(1)
         }
     }
     
@@ -110,6 +111,11 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
                 }
             }).disposed(by: bag)
         
+        notiButton.rx.tap
+            .bind(with: self) { _, _ in
+                toPushSetting()
+            }.disposed(by: bag)
+        
         tableView.rx.itemSelected
             .bind(with: self) { owner, _ in
                 
@@ -119,13 +125,13 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
             .bind(to: tableView.rx.items(
                 cellIdentifier: NotificationListTableViewCell.identifier,
                 cellType: NotificationListTableViewCell.self
-            )) { _, data, cell in
+            )) { row, data, cell in
+                if row == self.viewModel.notificationInfo.value.count - 1 {
+                    cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+                }
+                
                 cell.selectionStyle = .none
                 cell.configureCellState(state: data)
             }.disposed(by: bag)
     }
-}
-
-extension NotificationListViewController: UITableViewDelegate {
-    
 }

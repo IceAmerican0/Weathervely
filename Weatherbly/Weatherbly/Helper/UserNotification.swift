@@ -8,25 +8,20 @@
 import UserNotifications
 import UIKit
 
-@discardableResult
-public func checkAuthorization() -> Bool {
-    var didAuthorized = false
+public func checkAuthorization() async -> Bool {
+    let settings = await UNUserNotificationCenter.current().notificationSettings()
     
-    UNUserNotificationCenter.current().getNotificationSettings { settings in
-        switch settings.authorizationStatus {
-        case .notDetermined,
-             .denied:
-            didAuthorized = false
-        case .authorized,
-             .provisional,
-             .ephemeral:
-            didAuthorized = true
-        @unknown default:
-            didAuthorized = false
-        }
+    switch settings.authorizationStatus {
+    case .notDetermined,
+         .denied:
+        return false
+    case .authorized,
+         .provisional,
+         .ephemeral:
+        return true
+    @unknown default:
+        return false
     }
-    
-    return didAuthorized
 }
 
 public func toPushSetting() {

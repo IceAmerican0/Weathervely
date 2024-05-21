@@ -12,12 +12,12 @@ import RxCocoa
 public protocol NotificationListViewModelLogic: ViewModelBusinessLogic {
     func getNotiInfo()
     
-    var notificationInfo: PublishRelay<[NotificationInfo]> { get }
+    var notificationInfo: BehaviorRelay<[NotificationInfo]> { get }
 }
 
 final class NotificationListViewModel: RxBaseViewModel, NotificationListViewModelLogic {
     /// 알림 정보
-    public var notificationInfo = PublishRelay<[NotificationInfo]>()
+    public var notificationInfo = BehaviorRelay<[NotificationInfo]>(value: [])
     
     public func getNotiInfo() {
         // TODO: Delete Dummy

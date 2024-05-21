@@ -83,6 +83,7 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         nameLabel.text = UserDefaultManager.shared.nickname
+        collectionView.reloadData()
     }
     
     override func layout() {

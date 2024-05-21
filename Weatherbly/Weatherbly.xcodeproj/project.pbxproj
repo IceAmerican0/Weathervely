@@ -36,6 +36,8 @@
 		5C5C1C2E2B8738D500294BFF /* NicknameCompleteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C1C2C2B8738D500294BFF /* NicknameCompleteViewModel.swift */; };
 		5C61B97F2BB52E67002EA200 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C61B97E2BB52E67002EA200 /* AppEnvironment.swift */; };
 		5C6AC7022A84A4D000CE5D34 /* UserInfoEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6AC7012A84A4D000CE5D34 /* UserInfoEntity.swift */; };
+		5C6F0E272BFC89D800AB0C90 /* NotificationListTableFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F0E262BFC89D800AB0C90 /* NotificationListTableFooterView.swift */; };
+		5C6F0E292BFC8D4500AB0C90 /* UITableViewHeaderFooterView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F0E282BFC8D4500AB0C90 /* UITableViewHeaderFooterView+Extension.swift */; };
 		5C7CAE362BE08280007760DD /* FilterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7CAE352BE08280007760DD /* FilterButton.swift */; };
 		5C7CAE382BE08CCF007760DD /* StyleTypeEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7CAE372BE08CCF007760DD /* StyleTypeEntity.swift */; };
 		5C7CAE3A2BE0AFFE007760DD /* StyleListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7CAE392BE0AFFE007760DD /* StyleListView.swift */; };
@@ -219,6 +221,8 @@
 		5C5C1C2C2B8738D500294BFF /* NicknameCompleteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameCompleteViewModel.swift; sourceTree = "<group>"; };
 		5C61B97E2BB52E67002EA200 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
 		5C6AC7012A84A4D000CE5D34 /* UserInfoEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoEntity.swift; sourceTree = "<group>"; };
+		5C6F0E262BFC89D800AB0C90 /* NotificationListTableFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationListTableFooterView.swift; sourceTree = "<group>"; };
+		5C6F0E282BFC8D4500AB0C90 /* UITableViewHeaderFooterView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewHeaderFooterView+Extension.swift"; sourceTree = "<group>"; };
 		5C7CAE352BE08280007760DD /* FilterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterButton.swift; sourceTree = "<group>"; };
 		5C7CAE372BE08CCF007760DD /* StyleTypeEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleTypeEntity.swift; sourceTree = "<group>"; };
 		5C7CAE392BE0AFFE007760DD /* StyleListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleListView.swift; sourceTree = "<group>"; };
@@ -450,6 +454,7 @@
 				5C8F2D3B2B6B30F0002DF94E /* NotificationListViewController.swift */,
 				5C8F2D3C2B6B30F0002DF94E /* NotificationListViewModel.swift */,
 				5C8F2D402B6B6836002DF94E /* NotificationListTableViewCell.swift */,
+				5C6F0E262BFC89D800AB0C90 /* NotificationListTableFooterView.swift */,
 			);
 			path = Notification;
 			sourceTree = "<group>";
@@ -784,6 +789,7 @@
 				BD4AC3902A66899500537583 /* UILabel+Extension.swift */,
 				5CAB60D02A54FC5F00CD431A /* UITableView+Extension.swift */,
 				5CAB60D22A54FC6900CD431A /* UITableViewCell+Extension.swift */,
+				5C6F0E282BFC8D4500AB0C90 /* UITableViewHeaderFooterView+Extension.swift */,
 				BD5169482A5D6FEA00582BA9 /* UITextField+Extension.swift */,
 				BD4316372A3CA20900E86271 /* UIView+Extension.swift */,
 				5CC61E272A5BDCCC001435E6 /* UIViewController+Extension.swift */,
@@ -1181,6 +1187,7 @@
 				5CAB60C32A528C7A00CD431A /* UICollectionView+Extension.swift in Sources */,
 				698F6CA92ADD624C00C2B33A /* Tab.swift in Sources */,
 				BD37143B2B864DC000527577 /* StyleClosetFilterHeader.swift in Sources */,
+				5C6F0E272BFC89D800AB0C90 /* NotificationListTableFooterView.swift in Sources */,
 				69C714D22ADD611400748CF6 /* HomeTabBarController.swift in Sources */,
 				5C7CAE382BE08CCF007760DD /* StyleTypeEntity.swift in Sources */,
 				BD05E05D2B3801B600A48E61 /* UIFont+Extension.swift in Sources */,
@@ -1188,6 +1195,7 @@
 				5C46917F2A78F95800E2CC70 /* ConnectionLostViewController.swift in Sources */,
 				5C5360E12BDB3C56001543FE /* HomeStyleFilterCell.swift in Sources */,
 				5C5C1C2D2B8738D500294BFF /* NicknameCompleteViewController.swift in Sources */,
+				5C6F0E292BFC8D4500AB0C90 /* UITableViewHeaderFooterView+Extension.swift in Sources */,
 				BD7DAB272A6E786E00422D25 /* StatusOnlyEntity.swift in Sources */,
 				BDA66FEA2A4075270061A1F0 /* UIImageView+Extension.swift in Sources */,
 				5C9CED842B71B6A80041801C /* SettingTableViewCell.swift in Sources */,

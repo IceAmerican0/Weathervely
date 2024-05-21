@@ -18,17 +18,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         
-        switch AppSetting.shared.environmentType {
-        case .production:
-            /// Firebase
-            FirebaseApp.configure()
-            registerRemoteNotification()
-            checkToken()
+        /// Firebase
+        FirebaseApp.configure()
+        registerRemoteNotification()
+        checkFCMToken()
 
-            checkForceUpdate()
-        case .develop:
-            getToken()
-        }
+        getToken()
     }
     
     func setWindow(_ vc: UIViewController) {
@@ -100,11 +95,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func sceneWillResignActive(_ scene: UIScene) {}
 
-    func sceneWillEnterForeground(_ scene: UIScene) {
-        if case .production = AppSetting.shared.environmentType {
-            checkForceUpdate()
-        }
-    }
+    func sceneWillEnterForeground(_ scene: UIScene) {}
 
     func sceneDidEnterBackground(_ scene: UIScene) {}
     
@@ -125,18 +116,18 @@ extension SceneDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
         )
         
         UIApplication.shared.registerForRemoteNotifications()
-        
-        let messaging = Messaging.messaging()
-        messaging.delegate = self
-        // 자동 초기화 방지
-        messaging.isAutoInitEnabled = true
     }
     
     /// FCM Token 확인용
     /// 해당 메서드를 통해서 토큰을 저장하지 않고 언제든지 토큰에 액세스 가능
     /// token 클로저를 통하여 토큰을 직접 가져올 수 있다. 실패일 경우 nil이 아닌 오류를 내보낸다.
-    func checkToken() {
-        Messaging.messaging().token { token, error in
+    func checkFCMToken() {
+        let messaging = Messaging.messaging()
+        messaging.delegate = self
+        // 자동 초기화 방지
+        messaging.isAutoInitEnabled = true
+        
+        messaging.token { token, error in
             if let error = error {
                 print("Error fetching FCM registration token: \(error)")
             } else if let token = token {
