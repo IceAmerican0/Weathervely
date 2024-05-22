@@ -11,7 +11,7 @@ import PinLayout
 import Then
 import RxSwift
 
-final class StyleClosetCell: UICollectionViewCell {
+final class HorizonClosetCell: UICollectionViewCell {
     
     var bag = DisposeBag()
     

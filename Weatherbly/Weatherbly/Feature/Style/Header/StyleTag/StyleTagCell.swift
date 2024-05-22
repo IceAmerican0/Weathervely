@@ -15,12 +15,11 @@ final class StyleTagCell: UICollectionViewCell {
         font: UIFont.body_5_B,
         fontColor: .black,
         alignment: .center
-//        padding: UIEdgeInsets(top: 6, left: 14, bottom: 6, right: 14)
     ).make(text: "#tag1")
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configure()
+        attribute()
     }
     
     required init?(coder: NSCoder) {
@@ -31,12 +30,11 @@ final class StyleTagCell: UICollectionViewCell {
         super.layoutSubviews()
         
         contentView.pin.all()
-//        contentView.flex.layout()
-        
+        tagLabel.frame = bounds //  tagLabel이 부모 뷰를 완전히 덮도록 설정
         cellLayout()
     }
     
-    private func configure() {
+    private func attribute() {
         
         contentView.do {
             $0.layer.cornerRadius = 14
@@ -44,19 +42,75 @@ final class StyleTagCell: UICollectionViewCell {
         }
         
         tagLabel.do {
-            $0.frame = bounds
             $0.numberOfLines = 1
-            
         }
     }
 
     func cellLayout() {
         
-//        contentView.flex.define { flex in
-//            flex.addItem(tagLabel).grow(1)
-//        }
         contentView.addSubview(tagLabel)
         tagLabel.pin.all()
     }
     
 }
+
+//func setBannerLayout() -> NSCollectionLayoutSection {
+//    let cellSize = NSCollectionLayoutSize(
+//        widthDimension: .fractionalWidth(1),
+//        heightDimension: .absolute(80)
+//    )
+//    
+//    let item = NSCollectionLayoutItem(layoutSize: cellSize)
+//    let group = NSCollectionLayoutGroup.horizontal(
+//        layoutSize: cellSize,
+//        subitems: [item]
+//    )
+//    
+//    let section = NSCollectionLayoutSection(group: group)
+//    return section
+//}
+//
+//// StyleLayout
+//func setStyleLayout() -> NSCollectionLayoutSection {
+//    let cellSize = NSCollectionLayoutSize(
+//        widthDimension: .absolute(120),
+//        heightDimension: .absolute(572)
+//    )
+//    let item = NSCollectionLayoutItem(layoutSize: cellSize)
+//    item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 12, trailing: 0)
+//    
+//    /// Group = 한 화면에 들어가는 item을 묶은 단위
+//    /// https://ios-development.tistory.com/945
+//    let groupSize = NSCollectionLayoutSize(
+//        widthDimension: .fractionalWidth(1),
+//        heightDimension: .absolute(209)
+//    )
+//    
+//    let group = NSCollectionLayoutGroup.vertical(
+//        layoutSize: groupSize,
+//        subitems: [item]
+//    )
+//    group.interItemSpacing = .fixed(16)
+//    
+//    // Header
+//    let headerSize = NSCollectionLayoutSize(
+//        widthDimension: .fractionalWidth(1),
+//        heightDimension: .absolute(56)
+//    )
+//    
+//    let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+//        layoutSize: headerSize,
+//        elementKind: UICollectionView.elementKindSectionHeader,
+//        alignment: .top
+//    )
+//    sectionHeader.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0)
+//    sectionHeader.pinToVisibleBounds = true
+//    
+//    let section = NSCollectionLayoutSection(group: group)
+//    section.contentInsets = NSDirectionalEdgeInsets(top: 7, leading: 10, bottom: 0, trailing: 0)
+//    
+//    section.interGroupSpacing = 12
+//    section.boundarySupplementaryItems = [sectionHeader]
+//    
+//    return section
+//}
