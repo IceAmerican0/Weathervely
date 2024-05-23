@@ -22,9 +22,11 @@ public final class HomeTabBarController: UITabBarController {
         Tab.allCases.forEach { tab in
             let viewController = tab.viewController
             viewController.title = tab.title
-            viewController.tabBarItem = UITabBarItem(title: tab.title,
-                                                     image: tab.image,
-                                                     selectedImage: tab.selectedImage.withRenderingMode(.alwaysOriginal))
+            viewController.tabBarItem = UITabBarItem(
+                title: tab.title,
+                image: tab.image,
+                selectedImage: tab.selectedImage.withRenderingMode(.alwaysOriginal)
+            )
             
             // 탭 타이틀 폰트 조정
             let baseAttributes: [NSAttributedString.Key: Any] = [

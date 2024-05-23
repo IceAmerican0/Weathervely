@@ -166,7 +166,9 @@ public class RxBaseViewController<ViewModel>:
     func alertBinding() {
         viewModel.alertState
             .bind(with: self) { owner, state in
-                guard let superView = owner.view.superview else { return }
+                let scenes = UIApplication.shared.connectedScenes
+                let windowScene = scenes.first as? UIWindowScene
+                guard let superView = windowScene?.windows.first else { return }
                 
                 switch state.alertType {
                 case .popup:

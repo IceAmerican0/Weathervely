@@ -99,17 +99,17 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
         super.viewBinding()
         
         navigationView.leftButtonDidTapRelay
-            .drive(with: self, onNext: { owner, _ in
+            .drive(with: self) { owner, _ in
                 owner.viewModel.navigationPopViewControllerRelay.accept(Void())
-            }).disposed(by: bag)
+            }.disposed(by: bag)
         
         navigationView.rightButtonDidTapRelay
-            .drive(with: self, onNext: { owner, _ in
+            .drive(with: self) { owner, _ in
                 if let homeTabBarController = owner.navigationController?.tabBarController as? HomeTabBarController {
                     homeTabBarController.switchTab(tab: .setting)
                     owner.navigationController?.viewControllers.removeLast()
                 }
-            }).disposed(by: bag)
+            }.disposed(by: bag)
         
         notiButton.rx.tap
             .bind(with: self) { _, _ in
@@ -118,7 +118,7 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
         
         tableView.rx.itemSelected
             .bind(with: self) { owner, _ in
-                
+                owner.viewModel.navigationPushToPreviousViewControllerRelay.accept([])
             }.disposed(by: bag)
         
         viewModel.notificationInfo

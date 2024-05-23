@@ -34,7 +34,6 @@ final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
             text: "감자, 뽀롱이, 써니 등 뭐든 좋아요! :-)",
             font: .body_3_M
         )
-        $0.becomeFirstResponder()
     }
     
     private var buttonView = UIView()
@@ -46,6 +45,11 @@ final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
     override func viewDidLoad() {
         super.viewDidLoad()
         registerKeyboardNotifications()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        inputNickname.becomeFirstResponder()
     }
     
     override func layout() {

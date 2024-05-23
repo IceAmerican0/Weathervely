@@ -89,6 +89,17 @@ final class AlertView: UIView {
     }
     
     func bind() {
+        // 1초 이상 눌렀다 떼야만 dismiss
+        dimView.rx
+            .longPressGesture(configuration: { recognizer, _ in
+                recognizer.minimumPressDuration = 1.0
+            })
+            .when(.recognized)
+            .asDriver { _ in .never() }
+            .drive(with: self) { owner, _ in
+                owner.dismiss()
+            }.disposed(by: bag)
+        
         // 버튼 두개일시 왼쪽 버튼
         confirmButton.rx.tap
             .bind(with: self) { owner, _ in

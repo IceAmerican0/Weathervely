@@ -58,7 +58,7 @@ public struct AlertButtonState {
     let title: String
     let action: AlertActionHandler?
     
-    public init(title: String, action: (() -> Void)?) {
+    public init(title: String, action: AlertActionHandler?) {
         self.title = title
         self.action = action
     }

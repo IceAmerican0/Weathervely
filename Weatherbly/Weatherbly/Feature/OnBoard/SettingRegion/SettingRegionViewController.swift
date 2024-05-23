@@ -27,7 +27,6 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
             text: "동네 이름(동, 읍, 면)으로 검색",
             font: .body_3_M
         )
-        $0.becomeFirstResponder()
     }
     
     private let middleView = UIView()
@@ -73,6 +72,11 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
     override func viewDidLoad() {
         super.viewDidLoad()
         registerKeyboardNotifications()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        inputRegion.becomeFirstResponder()
     }
     
     override func layout() {
