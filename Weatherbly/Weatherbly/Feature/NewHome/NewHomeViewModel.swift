@@ -21,6 +21,7 @@ public protocol NewHomeViewModelLogic: ViewModelBusinessLogic {
     func getSelectedTimeInfo(direction: UISwipeGestureRecognizer.Direction)
     func didTapTimeLabel()
     func filterCloset()
+    func stylePicked(closetID: Int)
     func toDetailView(state: NewClosetInfo)
     func toEditRegionView()
     func toNotificationListView()
@@ -313,6 +314,18 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     public func filterCloset() {
         let vc = FilterListViewController(FilterListViewModel())
         presentViewControllerWithAnimationRelay.accept(vc)
+    }
+    
+    /// 스타일 선택 히스토리 저장
+    public func stylePicked(closetID: Int) {
+        let dataSource: ClosetDataSourceProtocol = ClosetDataSource()
+        dataSource.stylePicked(closetID)
+            .subscribe(
+                with: self,
+                onError: { _, error in
+                    debugPrint(error.localizedDescription)
+                }
+            ).disposed(by: bag)
     }
     
     /// 상세보기 이동

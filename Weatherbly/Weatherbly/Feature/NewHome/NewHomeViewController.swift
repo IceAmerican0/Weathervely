@@ -210,6 +210,7 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
                 case .forecast:
                     owner.viewModel.toTendaysForecastView()
                 case .closet(let cellState):
+                    owner.viewModel.stylePicked(closetID: cellState.closetId)
                     owner.viewModel.toDetailView(state: cellState)
                 }
             }.disposed(by: bag)

@@ -21,7 +21,7 @@ public enum ClosetTarget {
     /// 메인 > 스타일 추천 리스트 가져오기
     case getRecommendStyleList(_ dateTime: String)
     /// 메인 > 메인 카드 클릭시 히스토리 저장
-    case pagerViewClicked(_ closetID: Int)
+    case stylePicked(_ closetID: Int)
 }
 
 extension ClosetTarget: WVTargetType {
@@ -33,7 +33,7 @@ extension ClosetTarget: WVTargetType {
              .getMainClosetByTemperature:     "/closet/getClosetByTemperature"
         case .setSensoryTemperature:          "/closet/setTemperature"
         case .getRecommendStyleList:          "/closet/getRecommendCloset"
-        case .pagerViewClicked(let closetID): "/closet/pick/\(closetID)"
+        case .stylePicked(let closetID):      "/closet/pick/\(closetID)"
         }
     }
     
@@ -46,7 +46,7 @@ extension ClosetTarget: WVTargetType {
             return .get
         case .styleStylePickedList,
              .setSensoryTemperature,
-             .pagerViewClicked:
+             .stylePicked:
             return .post
         }
     }
@@ -86,7 +86,7 @@ extension ClosetTarget: WVTargetType {
                 parameters: ["dateTime": dateTime],
                 encoding: URLEncoding.queryString
             )
-        case .pagerViewClicked:
+        case .stylePicked:
             .requestPlain
         }
     }
