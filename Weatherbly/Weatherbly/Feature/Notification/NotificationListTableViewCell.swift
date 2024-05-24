@@ -11,8 +11,6 @@ import PinLayout
 import Then
 
 public final class NotificationListTableViewCell: UITableViewCell {
-    private let container = UIView()
-    
     private let icon = UIImageView()
     
     private var titleLabel = LabelMaker(
@@ -50,7 +48,7 @@ public final class NotificationListTableViewCell: UITableViewCell {
         return contentView.frame.size
     }
     
-    public func configureCellState(state: NotificationInfo) {
+    public func configureCellState(state: PushNotification) {
         switch state.title {
         case "날씨와 옷차림": icon.image = .alarm_codi
         case "찜": icon.image = .alarm_favorites
@@ -59,8 +57,8 @@ public final class NotificationListTableViewCell: UITableViewCell {
         }
         
         titleLabel.text = state.title
-        commentLabel.text = state.comment
-        timeLabel.text = state.receivedTime
+        commentLabel.text = state.message
+        timeLabel.text = state.date
     }
 }
 

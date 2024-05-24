@@ -42,6 +42,7 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
         frame: .zero,
         style: .plain
     ).then {
+        $0.delegate = self
         $0.backgroundColor = .clear
         $0.separatorColor = .gray20
         $0.showsVerticalScrollIndicator = true
@@ -133,5 +134,17 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
                 cell.selectionStyle = .none
                 cell.configureCellState(state: data)
             }.disposed(by: bag)
+    }
+}
+
+extension NotificationListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "삭제", handler: { [weak self] action, view, handler in
+            guard let self else { return }
+            handler(self.viewModel.deleteNoti(row: indexPath.row))
+        })
+        deleteAction.backgroundColor = .violet600
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction])
     }
 }

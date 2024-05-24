@@ -34,6 +34,7 @@
 		5C5C1C2A2B86CAE500294BFF /* CSTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C1C292B86CAE500294BFF /* CSTextField.swift */; };
 		5C5C1C2D2B8738D500294BFF /* NicknameCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C1C2B2B8738D500294BFF /* NicknameCompleteViewController.swift */; };
 		5C5C1C2E2B8738D500294BFF /* NicknameCompleteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C1C2C2B8738D500294BFF /* NicknameCompleteViewModel.swift */; };
+		5C60387E2C005E8E008F3C3C /* PushNotificationDBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C60387D2C005E8E008F3C3C /* PushNotificationDBManager.swift */; };
 		5C61B97F2BB52E67002EA200 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C61B97E2BB52E67002EA200 /* AppEnvironment.swift */; };
 		5C6AC7022A84A4D000CE5D34 /* UserInfoEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6AC7012A84A4D000CE5D34 /* UserInfoEntity.swift */; };
 		5C6F0E272BFC89D800AB0C90 /* NotificationListTableFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F0E262BFC89D800AB0C90 /* NotificationListTableFooterView.swift */; };
@@ -44,6 +45,7 @@
 		5C84169E2B68CAA5003AE726 /* TenDayForecastEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C84169D2B68CAA5003AE726 /* TenDayForecastEntity.swift */; };
 		5C8416A02B68D9FC003AE726 /* TenDaysForecastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C84169F2B68D9FC003AE726 /* TenDaysForecastTableViewCell.swift */; };
 		5C84F1FE2AA0238000CF614E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5C84F1FD2AA0238000CF614E /* GoogleService-Info.plist */; };
+		5C8833742BFF1FBF00769743 /* PushNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8833732BFF1FBF00769743 /* PushNotification.swift */; };
 		5C8F2D3D2B6B30F0002DF94E /* NotificationListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8F2D3B2B6B30F0002DF94E /* NotificationListViewController.swift */; };
 		5C8F2D3E2B6B30F0002DF94E /* NotificationListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8F2D3C2B6B30F0002DF94E /* NotificationListViewModel.swift */; };
 		5C8F2D412B6B6836002DF94E /* NotificationListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8F2D402B6B6836002DF94E /* NotificationListTableViewCell.swift */; };
@@ -219,6 +221,7 @@
 		5C5C1C292B86CAE500294BFF /* CSTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSTextField.swift; sourceTree = "<group>"; };
 		5C5C1C2B2B8738D500294BFF /* NicknameCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameCompleteViewController.swift; sourceTree = "<group>"; };
 		5C5C1C2C2B8738D500294BFF /* NicknameCompleteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameCompleteViewModel.swift; sourceTree = "<group>"; };
+		5C60387D2C005E8E008F3C3C /* PushNotificationDBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationDBManager.swift; sourceTree = "<group>"; };
 		5C61B97E2BB52E67002EA200 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
 		5C6AC7012A84A4D000CE5D34 /* UserInfoEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoEntity.swift; sourceTree = "<group>"; };
 		5C6F0E262BFC89D800AB0C90 /* NotificationListTableFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationListTableFooterView.swift; sourceTree = "<group>"; };
@@ -229,6 +232,7 @@
 		5C84169D2B68CAA5003AE726 /* TenDayForecastEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TenDayForecastEntity.swift; sourceTree = "<group>"; };
 		5C84169F2B68D9FC003AE726 /* TenDaysForecastTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TenDaysForecastTableViewCell.swift; sourceTree = "<group>"; };
 		5C84F1FD2AA0238000CF614E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		5C8833732BFF1FBF00769743 /* PushNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotification.swift; sourceTree = "<group>"; };
 		5C8F2D3B2B6B30F0002DF94E /* NotificationListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationListViewController.swift; sourceTree = "<group>"; };
 		5C8F2D3C2B6B30F0002DF94E /* NotificationListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationListViewModel.swift; sourceTree = "<group>"; };
 		5C8F2D402B6B6836002DF94E /* NotificationListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationListTableViewCell.swift; sourceTree = "<group>"; };
@@ -733,6 +737,8 @@
 				69A7F0E12A811EC000834974 /* UserDefaultManager.swift */,
 				5C61B97E2BB52E67002EA200 /* AppEnvironment.swift */,
 				5C501F932BCE5A8000533F68 /* UserNotification.swift */,
+				5C8833732BFF1FBF00769743 /* PushNotification.swift */,
+				5C60387D2C005E8E008F3C3C /* PushNotificationDBManager.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -1087,6 +1093,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C8833742BFF1FBF00769743 /* PushNotification.swift in Sources */,
 				5CC61E262A5BC223001435E6 /* SettingRegionViewController.swift in Sources */,
 				5CDCD7DE2B564A89008465B9 /* FilterListHeaderView.swift in Sources */,
 				6987EBBD2B41409E00CF1E74 /* NewHomeViewModel.swift in Sources */,
@@ -1113,6 +1120,7 @@
 				5CCC914B2A6114880025B522 /* RegionTarget.swift in Sources */,
 				BD2D11BC2A9AEB0D008CBF0D /* TenDaysForecastViewModel.swift in Sources */,
 				5CDCD7DC2B564144008465B9 /* FilterListViewModel.swift in Sources */,
+				5C60387E2C005E8E008F3C3C /* PushNotificationDBManager.swift in Sources */,
 				5CCC91522A61197B0025B522 /* SearchRegionEntity.swift in Sources */,
 				5CAB60B92A4563B300CD431A /* NSMutableAttributedString+Extension.swift in Sources */,
 				5CC61E282A5BDCCC001435E6 /* UIViewController+Extension.swift in Sources */,
@@ -1403,6 +1411,7 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1444,6 +1453,7 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

@@ -8,6 +8,7 @@
 import UserNotifications
 import UIKit
 
+/// 알림 권한 체크
 public func checkAuthorization() async -> Bool {
     let settings = await UNUserNotificationCenter.current().notificationSettings()
     
@@ -24,6 +25,7 @@ public func checkAuthorization() async -> Bool {
     }
 }
 
+/// 알림 설정창 이동
 public func toPushSetting() {
     guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
     DispatchQueue.main.async {
