@@ -49,16 +49,25 @@ public final class NotificationListTableViewCell: UITableViewCell {
     }
     
     public func configureCellState(state: PushNotification) {
-        switch state.title {
+        switch state.category {
         case "날씨와 옷차림": icon.image = .alarm_codi
         case "찜": icon.image = .alarm_favorites
         case "웨더블리 꿀팁": icon.image = .alarm_tip
         default: break
         }
         
-        titleLabel.text = state.title
-        commentLabel.text = state.message
-        timeLabel.text = state.date
+        titleLabel.text = state.category
+        timeLabel.text = state.date.toDate.timePassed()
+        
+        if state.category == state.title {
+            commentLabel.text = state.message
+        } else {
+            commentLabel.text = "\(state.title)\n\(state.message)"
+        }
+        
+        titleLabel.flex.markDirty()
+        commentLabel.flex.markDirty()
+        timeLabel.flex.markDirty()
     }
 }
 

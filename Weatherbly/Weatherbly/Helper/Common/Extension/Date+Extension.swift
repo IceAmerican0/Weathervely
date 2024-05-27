@@ -5,9 +5,14 @@
 //  Created by 최수훈 on 2023/07/17.
 //
 
-import UIKit
+import Foundation
 
 extension Date {
+    
+    var now: String {
+        DateFormatter.shared.dateFormat = "yyyy.MM.dd HH:mm:ss"
+        return DateFormatter.shared.string(from: self)
+    }
     
     // MARK: - Yesterday
 
@@ -168,6 +173,34 @@ extension Date {
         dateFormatter.dateFormat = "E"
         
         return dateFormatter.string(from: date)
+    }
+    
+    func timePassed() -> String {
+        let second = Int(Date().timeIntervalSince(self))
+        
+        let minute = 60
+        let hour = 60 * minute
+        let day = 24 * hour
+        let week = 7 * day
+        
+        if second < minute {
+            return "방금 전"
+        }
+        
+        if second < hour {
+            return "\(second / minute)분 전"
+        }
+        
+        if second < day {
+            return "\(second / hour)시간 전"
+        }
+        
+        if second < week {
+            return "\(second / day)일 전"
+        }
+        
+        DateFormatter.shared.dateFormat = "yyyy.MM.dd"
+        return DateFormatter.shared.string(from: self)
     }
 }
 

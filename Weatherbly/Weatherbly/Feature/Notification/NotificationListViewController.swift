@@ -38,11 +38,16 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
         $0.layer.masksToBounds = true
     }
     
+    private lazy var refresh = UIRefreshControl().then {
+        $0.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
+    }
+    
     private lazy var tableView = UITableView(
         frame: .zero,
         style: .plain
     ).then {
         $0.delegate = self
+        $0.refreshControl = refresh
         $0.backgroundColor = .clear
         $0.separatorColor = .gray20
         $0.showsVerticalScrollIndicator = true
@@ -51,11 +56,6 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
         $0.tableFooterView = NotificationListTableFooterView()
         $0.register(withType: NotificationListTableViewCell.self)
         $0.registerHeaderFooterView(withType: NotificationListTableFooterView.self)
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        viewModel.getNotiInfo()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -117,6 +117,16 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
                 toPushSetting()
             }.disposed(by: bag)
         
+        viewModel.refreshStatus
+            .bind(with: self) { owner, refreshing in
+                switch refreshing {
+                case true:
+                    owner.tableView.refreshControl?.beginRefreshing()
+                case false:
+                    owner.tableView.refreshControl?.endRefreshing()
+                }
+            }.disposed(by: bag)
+        
         tableView.rx.itemSelected
             .bind(with: self) { owner, _ in
                 owner.viewModel.navigationPushToPreviousViewControllerRelay.accept([])
@@ -135,15 +145,21 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
                 cell.configureCellState(state: data)
             }.disposed(by: bag)
     }
+    
+    @objc
+    private func pullToRefresh() {
+        viewModel.pullToRefresh()
+    }
 }
 
 extension NotificationListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title: "삭제", handler: { [weak self] action, view, handler in
+        let deleteAction = UIContextualAction(style: .destructive, title: nil, handler: { [weak self] action, view, handler in
             guard let self else { return }
             handler(self.viewModel.deleteNoti(row: indexPath.row))
         })
-        deleteAction.backgroundColor = .violet600
+        deleteAction.backgroundColor = .clear
+        deleteAction.image = UIImage(systemName: "trash.fill")
         
         return UISwipeActionsConfiguration(actions: [deleteAction])
     }

@@ -217,7 +217,7 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
     }
     
     @objc
-    func pullToRefresh() {
+    private func pullToRefresh() {
         viewModel.pullToRefresh()
     }
 }

@@ -148,14 +148,38 @@ extension SceneDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
     }
     
     /// FCM Token 등록
-    func application(application: UIApplication,
-                     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    func application(application: UIApplication,didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().apnsToken = deviceToken
         Messaging.messaging().setAPNSToken(deviceToken, type: .unknown)
     }
     
+    /// 알림 받을시(Foreground)
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.alert, .badge, .sound])
+        let info = notification.request.content.userInfo
+        saveNotiToDatabase(info: info)
+        completionHandler([.banner, .sound])
+    }
+    
+    /// 알림 선택시
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        let info = response.notification.request.content.userInfo
+        saveNotiToDatabase(info: info)
+        completionHandler()
+    }
+    
+    private func saveNotiToDatabase(info: [AnyHashable: Any]) {
+        guard let aps = info["aps"] as? [String: AnyObject],
+              let category = info["google.c.a.c_l"] as? String,
+              let alert = aps["alert"] as? [String: Any],
+              let title = alert["title"] as? String,
+              let message = alert["body"] as? String else { return }
+        
+        PushNotificationDBManager.shared.addNotification(
+            category: category,
+            title: title,
+            message: message,
+            date: Date().now
+        )
     }
 }
 

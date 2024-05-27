@@ -50,6 +50,11 @@ extension String {
         return self
     }
     
+    var toDate: Date {
+        DateFormatter.shared.dateFormat = "yyyy.MM.dd HH:mm:ss"
+        return DateFormatter.shared.date(from: self) ?? Date()
+    }
+    
     /// "오전/오후 00시" 입력 > 오전일시 true
     func isAM() -> Bool {
         let dateFormatter = DateFormatter.shared
