@@ -13,12 +13,12 @@ public struct TenDayForecastEntity: Codable {
 }
 
 public struct TenDayForecastData: Codable {
-//    let list: [TenDayForecastInfo]
+    let list: [TenDayForecastInfo]
     let currentTemp: Int
     let currentWeather: String
 }
 
-public struct TenDayForecastInfo {
+public struct TenDayForecastInfo: Codable {
     let date: String
     let minTemp: Int
     let maxTemp: Int

@@ -10,8 +10,8 @@ import Moya
 import RxMoya
 
 public protocol ForecastDataSourceProtocol {
-    func getVillageForcast() -> Observable<VillageForecastInfoEntity>
-    func getTenDayForeCast() -> Observable<SevenDayForecastInfoEntity>
+    func getVillageForcast() -> Observable<HomeForecastEntity>
+    func getTenDayForeCast() -> Observable<TenDayForecastEntity>
 }
 
 public final class ForecastDataSource: ForecastDataSourceProtocol {
@@ -21,15 +21,15 @@ public final class ForecastDataSource: ForecastDataSourceProtocol {
         self.provider = provider
     }
     
-    public func getVillageForcast() -> Observable<VillageForecastInfoEntity> {
+    public func getVillageForcast() -> Observable<HomeForecastEntity> {
         provider.rx
             .request(.getVillageForcastInfo)
-            .mapTo(VillageForecastInfoEntity.self)
+            .mapTo(HomeForecastEntity.self)
     }
     
-    public func getTenDayForeCast() -> Observable<SevenDayForecastInfoEntity> {
+    public func getTenDayForeCast() -> Observable<TenDayForecastEntity> {
         provider.rx
             .request(.getTenDayForecastInfo)
-            .mapTo(SevenDayForecastInfoEntity.self)
+            .mapTo(TenDayForecastEntity.self)
     }
 }

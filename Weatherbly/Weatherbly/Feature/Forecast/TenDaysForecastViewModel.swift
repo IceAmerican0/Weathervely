@@ -123,4 +123,23 @@ public final class TenDaysForecastViewModel: RxBaseViewModel, TenDaysForecastVie
         currentWeather.accept("맑음")
         forecastInfo.accept(dummy)
     }
+    
+    func getList() {
+        let dataSource: ForecastDataSourceProtocol = ForecastDataSource()
+        dataSource.getTenDayForeCast()
+            .subscribe(
+                with: self,
+                onNext: { owner, response in
+                    let data = response.data
+                    owner.currentTemp.accept("\(data.currentTemp)")
+                    owner.currentWeather.accept(data.currentWeather)
+                    owner.forecastInfo.accept(data.list)
+                },
+                onError: { owner, error in
+                    owner.alertState.accept(
+                        .init(title: error.localizedDescription, alertType: .popup)
+                    )
+                }
+            ).disposed(by: bag)
+    }
 }

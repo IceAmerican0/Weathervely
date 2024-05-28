@@ -159,6 +159,30 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
         styleFilterList.count == 0 ? getStyleFilterList() : getClosetInfo()
     }
     
+    func getForecastList() {
+        let dataSource: ForecastDataSourceProtocol = ForecastDataSource()
+        dataSource.getVillageForcast()
+            .subscribe(
+                with: self,
+                onNext: { owner, response in
+                    let data = response.data
+                    owner.forecastInfo = data.forecast
+                    owner.selectedIndex = 0
+                    owner.selectedForecastState.accept(owner.forecastInfo[owner.selectedIndex])
+                    owner.styleFilterList.count == 0 ? owner.getStyleFilterList() : owner.getClosetInfo()
+                },
+                onError: { owner, error in
+                    owner.alertState.accept(
+                        .init(
+                            title: error.localizedDescription,
+                            alertType: .popup,
+                            closeAction: { owner.getForecastInfo() }
+                        )
+                    )
+                }
+            ).disposed(by: bag)
+    }
+    
     /// 스타일 필터 리스트 받아오기
     public func getStyleFilterList() {
         let dataSource = TypeDataSource(provider: WVProvider<TypeTarget>())

@@ -9,7 +9,6 @@ import UIKit
 import FlexLayout
 import PinLayout
 import RxCocoa
-import RxSwift
 import Then
 
 public final class CSNavigationView: UIView {
@@ -38,8 +37,6 @@ public final class CSNavigationView: UIView {
         /// leftButton & rightButton
         case rightButton(UIImage, UIImage)
     }
-    
-    var bag = DisposeBag()
     
     var leftButtonDidTapRelay: Driver<Void> {
         self.leftButton.rx.tap.asDriver()

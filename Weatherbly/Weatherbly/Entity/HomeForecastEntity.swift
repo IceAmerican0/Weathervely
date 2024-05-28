@@ -13,10 +13,10 @@ public struct HomeForecastEntity: Codable {
 }
 
 public struct HomeForecastData: Codable {
-//    let list: [HomeForecastInfo]
+    let forecast: [HomeForecastInfo]
 }
 
-public struct HomeForecastInfo {
+public struct HomeForecastInfo: Codable {
     let date: String
     let time: String
     let mainTemp: Int
