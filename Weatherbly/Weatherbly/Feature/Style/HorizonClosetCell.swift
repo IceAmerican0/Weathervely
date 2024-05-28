@@ -48,12 +48,12 @@ final class HorizonClosetCell: UICollectionViewCell {
         // TODO: - layout의 위치가 어디가 더 적절할까?
         cellLayout()
         contentView.pin.all()
-        contentView.flex.layout()
+        contentView.flex.layout(mode: .adjustHeight)
     }
     
     func cellLayout() {
         
-        contentView.flex.width(120).height(209).define { flex in
+        contentView.flex.height(209).define { flex in
             flex.addItem(imageViewWrapper).backgroundColor(.green).define { wrapper in
                 wrapper.addItem(imageView).height(180).justifyContent(.center)
             }
@@ -68,6 +68,7 @@ final class HorizonClosetCell: UICollectionViewCell {
         let placeHolder = UIImage.image_indicator
         // TODO: nameLabel Text -> Shop name
         imageView.setKF(urlString: info.imageUrl, placeHolder: placeHolder)
+        nameLabel.text = info.name
         
     }
     

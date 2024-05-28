@@ -251,7 +251,8 @@ extension StyleViewController: UICollectionViewDelegate {
         /// Group = 한 화면에 들어가는 item을 묶은 단위
         /// https://ios-development.tistory.com/945
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
+//            widthDimension: .fractionalWidth(1),
+            widthDimension: .absolute(800),
             heightDimension: .absolute(209)
         )
         

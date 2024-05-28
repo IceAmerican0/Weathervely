@@ -38,7 +38,8 @@ final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
     public func setMockDataSetup() {
         // "#비즈니스 캐주얼", "#캐주얼", "#시크", "#걸리시", "#레트로","#로맨틱", "#스트릿"
         let mockBannerList: [StyleTabItem] = [.banner(StyleBanner())]
-        let mockHeaderList: [ClosetTypeInfo] = [ClosetTypeInfo(id: 7, name: "#비즈니스 캐주얼"),
+        let mockHeaderList: [ClosetTypeInfo] = [
+                                              ClosetTypeInfo(id: 7, name: "#비즈니스 캐주얼"),
                                               ClosetTypeInfo(id: 1, name: "#캐주얼"),
                                               ClosetTypeInfo(id: 14, name: "#시크"),
                                               ClosetTypeInfo(id: 12, name: "#걸리시"),

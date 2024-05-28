@@ -146,6 +146,8 @@
 		BD05E07A2B38114B00A48E61 /* NewCSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD05E0792B38114B00A48E61 /* NewCSButton.swift */; };
 		BD05E07C2B3816B300A48E61 /* NewImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD05E07B2B3816B300A48E61 /* NewImageButton.swift */; };
 		BD05E07E2B3816BB00A48E61 /* NewCombiButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD05E07D2B3816BB00A48E61 /* NewCombiButton.swift */; };
+		BD0A68572C00EE46005460B1 /* ClosetSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD0A68562C00EE46005460B1 /* ClosetSectionModel.swift */; };
+		BD0A68592C00F244005460B1 /* MediumCategoryEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD0A68582C00F244005460B1 /* MediumCategoryEntity.swift */; };
 		BD1F3AF12A7BA08100E528DC /* RxGesture in Frameworks */ = {isa = PBXBuildFile; productRef = BD1F3AF02A7BA08100E528DC /* RxGesture */; };
 		BD2D01892A388753003A25D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D01882A388753003A25D5 /* AppDelegate.swift */; };
 		BD2D018B2A388753003A25D5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D018A2A388753003A25D5 /* SceneDelegate.swift */; };
@@ -335,6 +337,8 @@
 		BD05E0792B38114B00A48E61 /* NewCSButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCSButton.swift; sourceTree = "<group>"; };
 		BD05E07B2B3816B300A48E61 /* NewImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewImageButton.swift; sourceTree = "<group>"; };
 		BD05E07D2B3816BB00A48E61 /* NewCombiButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCombiButton.swift; sourceTree = "<group>"; };
+		BD0A68562C00EE46005460B1 /* ClosetSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetSectionModel.swift; sourceTree = "<group>"; };
+		BD0A68582C00F244005460B1 /* MediumCategoryEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumCategoryEntity.swift; sourceTree = "<group>"; };
 		BD2D01852A388753003A25D5 /* Weatherbly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Weatherbly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD2D01882A388753003A25D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BD2D018A2A388753003A25D5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -619,6 +623,7 @@
 				BD3BDE652BDD456E002E9E0C /* BannerCell.swift */,
 				BD3BDE672BE8E522002E9E0C /* StyleBanner.swift */,
 				BD3BDE6F2BFA03EF002E9E0C /* StyleCell.swift */,
+				BD0A68562C00EE46005460B1 /* ClosetSectionModel.swift */,
 			);
 			path = Style;
 			sourceTree = "<group>";
@@ -890,6 +895,7 @@
 		BD3BDE762BFB758D002E9E0C /* Style */ = {
 			isa = PBXGroup;
 			children = (
+				BD0A68582C00F244005460B1 /* MediumCategoryEntity.swift */,
 				BD3714362B81279D00527577 /* StyleClosetEntity.swift */,
 				BD3BDE772BFB75A5002E9E0C /* ClosetTypeEntity.swift */,
 			);
@@ -1172,6 +1178,7 @@
 				5C4691782A78A02100E2CC70 /* AlertView.swift in Sources */,
 				5C4BE89D2A5E63C000FD2CEF /* RegionTableViewCell.swift in Sources */,
 				5CDE81CE2A89F4780099FF87 /* MainToolTipViewController.swift in Sources */,
+				BD0A68572C00EE46005460B1 /* ClosetSectionModel.swift in Sources */,
 				5C5C1C2E2B8738D500294BFF /* NicknameCompleteViewModel.swift in Sources */,
 				696176B22A63E37F00B83B4C /* RxBaseViewModel.swift in Sources */,
 				69D25C962AD04F6300C17FB1 /* WVProvider.swift in Sources */,
@@ -1195,6 +1202,7 @@
 				5CC61E282A5BDCCC001435E6 /* UIViewController+Extension.swift in Sources */,
 				5C8416A02B68D9FC003AE726 /* TenDaysForecastTableViewCell.swift in Sources */,
 				690B6EF12AAA0F2D00D54ABC /* ForceUpdateViewController.swift in Sources */,
+				BD0A68592C00F244005460B1 /* MediumCategoryEntity.swift in Sources */,
 				5CDCD7CA2B54E7C8008465B9 /* ClosetFilterViewModel.swift in Sources */,
 				69D25C982AD04F6300C17FB1 /* EmptyEntity.swift in Sources */,
 				5C9D02D92A71F27B00AF2DA3 /* AuthDataSource.swift in Sources */,

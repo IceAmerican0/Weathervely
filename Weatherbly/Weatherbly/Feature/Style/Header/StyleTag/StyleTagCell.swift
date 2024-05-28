@@ -70,8 +70,8 @@ final class StyleTagCell: UICollectionViewCell {
 //    return section
 //}
 //
-//// StyleLayout
-//func setStyleLayout() -> NSCollectionLayoutSection {
+//// ClosetLayout
+//func setClosetLayout() -> NSCollectionLayoutSection {
 //    let cellSize = NSCollectionLayoutSize(
 //        widthDimension: .absolute(120),
 //        heightDimension: .absolute(572)

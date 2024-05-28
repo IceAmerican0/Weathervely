@@ -5,7 +5,6 @@
 //  Created by 최수훈 on 2/18/24.
 //
 
-import UIKit
 import RxDataSources
 
 enum StyleTabSectionModel {
