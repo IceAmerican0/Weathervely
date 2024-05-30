@@ -27,7 +27,7 @@ extension UIView {
     func addBorder(
         _ direction: BorderDirection,
         _ borderWidth: CGFloat = 1,
-        _ borderColor: UIColor = CSColor._220_220_220.color
+        _ borderColor: UIColor = .violet600
     ) {
         switch direction {
         case .top:
@@ -60,7 +60,7 @@ extension UIView {
     func addBorders(
         _ direction: [BorderDirection],
         _ borderWidth: CGFloat = 1,
-        _ borderColor: UIColor = CSColor._220_220_220.color
+        _ borderColor: UIColor = .violet600
     ) {
         direction.forEach { direct in
             switch direct {

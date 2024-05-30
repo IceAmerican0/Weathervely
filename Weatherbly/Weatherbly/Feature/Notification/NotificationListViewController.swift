@@ -14,7 +14,7 @@ import RxSwift
 final class NotificationListViewController: RxBaseViewController<NotificationListViewModel> {
     private var navigationView = CSNavigationView(.rightButton(.leftArrow_black, .tab_mypage_nor)).then {
         $0.setTitle("알림")
-        $0.addBorder(.bottom)
+        $0.addBorder(.bottom, 1, .gray30)
     }
     
     private var zeroNotiView = UIView()
