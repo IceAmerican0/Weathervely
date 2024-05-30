@@ -19,7 +19,7 @@ final class ItemTagcell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configure()
+        attribute()
     }
     
     required init?(coder: NSCoder) {
@@ -34,7 +34,7 @@ final class ItemTagcell: UICollectionViewCell {
         cellLayout()
     }
     
-    private func configure() {
+    private func attribute() {
         
         contentView.do {
             $0.layer.cornerRadius = 14
@@ -52,6 +52,12 @@ final class ItemTagcell: UICollectionViewCell {
         contentView.addSubview(tagLabel)
         tagLabel.pin.all()
     }
+    
+    func configure(with text: String) {
+        tagLabel.text = text
+        tagLabel.sizeToFit()
+           setNeedsLayout()
+       }
     
 }
 

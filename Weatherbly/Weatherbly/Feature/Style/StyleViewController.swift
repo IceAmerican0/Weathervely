@@ -28,7 +28,7 @@ final class StyleViewController: RxBaseViewController<StyleViewModel> {
     
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout
     ).then {
-        $0.showsHorizontalScrollIndicator = false
+        $0.showsVerticalScrollIndicator = false
         $0.registerHeader(withType: StyleTagHeaderView.self)
         $0.register(withType: BannerCell.self)
         $0.register(withType: StyleCell.self)
@@ -52,7 +52,6 @@ final class StyleViewController: RxBaseViewController<StyleViewModel> {
             container.addItem(titleLabel).marginHorizontal(20).marginTop(11).marginBottom(17.5).height(23)
             container.addItem(collectionView).grow(1)
         }
-        
     }
     
     override func viewBinding() {
@@ -251,8 +250,7 @@ extension StyleViewController: UICollectionViewDelegate {
         /// Group = 한 화면에 들어가는 item을 묶은 단위
         /// https://ios-development.tistory.com/945
         let groupSize = NSCollectionLayoutSize(
-//            widthDimension: .fractionalWidth(1),
-            widthDimension: .absolute(800),
+            widthDimension: .fractionalWidth(1),
             heightDimension: .absolute(209)
         )
         
@@ -261,7 +259,7 @@ extension StyleViewController: UICollectionViewDelegate {
             subitems: [item]
         )
         group.interItemSpacing = .fixed(16)
-        
+
         // Header
         let headerSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),

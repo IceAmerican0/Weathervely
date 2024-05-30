@@ -3,7 +3,7 @@
 //  Weatherbly
 //
 //  Created by 최수훈 on 2023/06/19.
-//
+//  Fixed by 최수훈 on 2024/05/30
 
 import UIKit
 import Kingfisher
@@ -30,7 +30,7 @@ extension UIImageView {
         
         let retryStrategy = DelayRetryStrategy(
             maxRetryCount: 2,
-            retryInterval: .seconds(0.2)
+            retryInterval: .seconds(0.1)
         )
         
         self.kf.setImage(
@@ -39,15 +39,17 @@ extension UIImageView {
             options: [
                 .retryStrategy(retryStrategy),
                 .transition(.fade(1)),
-                .cacheOriginalImage
+                .cacheOriginalImage,
             ]
         ) { result in
-//            completionHandler?(result)
+            completionHandler?(result)
             switch result {
-            case .success:
+            case .success(let value):
                 break
-            case .failure:
-                self.image = placeHolder?.resized(to: CGSize(width: 56, height: 56))
+            case .failure(let error):
+                print("imageDownLoad 실패!!!")
+                self.image = placeHolder
+                completionHandler?(.failure(error))
             }
         }
     }

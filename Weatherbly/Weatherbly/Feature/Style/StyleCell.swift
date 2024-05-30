@@ -28,16 +28,16 @@ final class StyleCell: UICollectionViewCell {
         alignment: .left
     ).make(text: "#Type1")
     
+    var itemTagHeader = ItemTagHeaderView()
     lazy var closetCollectionFlowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .horizontal
-        $0.minimumLineSpacing = 12
+        $0.minimumLineSpacing = 16
         $0.minimumInteritemSpacing = 12
         $0.itemSize = CGSize(width: ((UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen.bounds.size.width ?? 375) / 3 - 20 , height: 209)
-
     }
     
     lazy var closetCollectionView = UICollectionView(frame: .zero, collectionViewLayout: closetCollectionFlowLayout).then {
-        $0.registerHeader(withType: ItemTagHeaderView.self)
+        $0.showsHorizontalScrollIndicator = false
         $0.register(withType: HorizonClosetCell.self)
     }
     
@@ -62,7 +62,8 @@ final class StyleCell: UICollectionViewCell {
         
         contentView.flex.height(516).define {
             $0.addItem(typeTitleLabel).marginVertical(16.5)
-            $0.addItem(closetCollectionView).height(516)
+            $0.addItem(itemTagHeader).width(100%).height(66).backgroundColor(.red)
+            $0.addItem(closetCollectionView).height(430)
         }
     }
     
@@ -90,14 +91,14 @@ final class StyleCell: UICollectionViewCell {
         
         // TODO: - Test Code
         let mockItemData: [ClosetSectionModel] = [ClosetSectionModel(header: MediumCategoryInfo(id: 1, name: "name 1"), items: [
-            StyleClosetInfo(id: 889, name: "아메리칸 캐주얼", imageUrl: "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_casual_detail_37045_500.jpg", closetStatus: "Active"),
-            StyleClosetInfo(id: 889, name: "아메리칸 캐주얼", imageUrl: "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_casual_detail_37045_500.jpg", closetStatus: "Active"),
-            StyleClosetInfo(id: 890, name: "개성 더하기", imageUrl: "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_casual_detail_36771_500.jpg", closetStatus: "Active"),
-            StyleClosetInfo(id: 891, name: "아메카지 감성", imageUrl: "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_casual_detail_36502_500.jpg", closetStatus: "Active"),
-            StyleClosetInfo(id: 892, name: "아메리칸 캐주얼", imageUrl: "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_casual_detail_36501_500.jpg", closetStatus: "Active"),
-            StyleClosetInfo(id: 893, name: "아메리칸 캐주얼", imageUrl: "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_casual_detail_36493_500.jpg", closetStatus: "Active"),
-            StyleClosetInfo(id: 894, name: "아메리칸 캐주얼", imageUrl: "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_casual_detail_35815_500.jpg", closetStatus: "Active"),
-            StyleClosetInfo(id: 895, name: "아메리칸 캐주얼", imageUrl: "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_casual_detail_36082_500.jpg", closetStatus: "Active"),
+            StyleClosetInfo(id: 889, name: "아메리칸 캐주얼", imageUrl: "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_casual_detail_31111_500.jpg", closetStatus: "Active"),
+            StyleClosetInfo(id: 889, name: "아메리칸 캐주얼", imageUrl: "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_casual_detail_31110_500.jpg", closetStatus: "Active"),
+            StyleClosetInfo(id: 890, name: "개성 더하기", imageUrl: "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_casual_detail_31104_500.jpg", closetStatus: "Active"),
+            StyleClosetInfo(id: 891, name: "아메카지 감성", imageUrl: "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_casual_detail_31056_500.jpg", closetStatus: "Active"),
+            StyleClosetInfo(id: 892, name: "아메리칸 캐주얼", imageUrl: "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_casual_detail_31055_500.jpg", closetStatus: "Active"),
+            StyleClosetInfo(id: 893, name: "아메리칸 캐주얼", imageUrl: "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_casual_detail_31054_500.jpg", closetStatus: "Active"),
+            StyleClosetInfo(id: 894, name: "아메리칸 캐주얼", imageUrl: "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_casual_detail_37133_500.jpg", closetStatus: "Active"),
+            StyleClosetInfo(id: 895, name: "아메리칸 캐주얼", imageUrl: "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_casual_detail_37133_500.jpg", closetStatus: "Active"),
             StyleClosetInfo(id: 896, name: "아메리칸 캐주얼", imageUrl:  "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_casual_detail_36081_500.jpg", closetStatus: "Active"),
             StyleClosetInfo(id: 897, name: "아메리칸 캐주얼", imageUrl: "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_casual_detail_32212_500.jpg", closetStatus: "Active"),
             StyleClosetInfo(id: 898, name: "아메리칸 캐주얼", imageUrl: "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_casual_detail_37134_500.jpg", closetStatus: "Active"),
@@ -117,6 +118,9 @@ final class StyleCell: UICollectionViewCell {
     }
 }
 
+extension StyleCell: UICollectionViewDelegateFlowLayout {
+    
+}
 extension StyleCell: UICollectionViewDelegate {
     func setRxDataSources() -> RxCollectionViewSectionedReloadDataSource<ClosetSectionModel> {
         RxCollectionViewSectionedReloadDataSource<ClosetSectionModel> (configureCell: { [weak self] dataSource, collectionView, indexPath, item in
@@ -124,6 +128,8 @@ extension StyleCell: UICollectionViewDelegate {
             
             return collectionView.dequeueCell(withType: HorizonClosetCell.self, for: indexPath).then {
                 $0.configureCell(item)
+                
+                
             }
             
         })

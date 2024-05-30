@@ -22,12 +22,12 @@ public class StyleTagHeaderView: UICollectionReusableView {
     
     lazy var tagCollectionFlowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .horizontal
-        $0.minimumLineSpacing = 12
+        $0.minimumLineSpacing = 8
+        $0.minimumInteritemSpacing = 8
     }
     
     public lazy var tagCollectionView = UICollectionView(frame: .zero, collectionViewLayout: tagCollectionFlowLayout).then {
         $0.showsHorizontalScrollIndicator = false
-        $0.showsVerticalScrollIndicator = false
         $0.register(withType: StyleTagCell.self)
         $0.dataSource = self
         $0.delegate = self

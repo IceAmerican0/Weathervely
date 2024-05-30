@@ -28,7 +28,7 @@ public enum Constants {
         "https://apps.apple.com/app/%EC%9B%A8%EB%8D%94%EB%B8%94%EB%A6%AC/id6462055767"
     }
     /// Screen Width
-    static let screenWidth = UIScreen.main.bounds.width
+    static let screenWidth = (UIApplication.shared.connectedScenes.first as? UIWindowScene)!.screen.bounds.size.width
     /// Screen Height
     static let screenHeight = UIScreen.main.bounds.height
 }
