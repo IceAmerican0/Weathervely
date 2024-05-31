@@ -15,6 +15,21 @@ import RxGesture
 public final class HomeForecastCell: UICollectionViewCell {
     var bag = DisposeBag()
     
+    private let loadFailedView = UIView().then {
+        $0.isHidden = true
+    }
+    
+    private let failImageView = UIImageView().then {
+        $0.image = .home_weather_empty
+    }
+    
+    private let failLabel = LabelMaker(
+        font: .body_5_M,
+        fontColor: .white
+    ).make(text: "날씨를 불러올 수 없습니다.")
+    
+    private let successView = UIView()
+    
     private let mainTempLabel = LabelMaker(
         font: .heading_1_UL,
         fontColor: .white
@@ -76,6 +91,11 @@ public final class HomeForecastCell: UICollectionViewCell {
         weatherImage.image = image
         addGradient(colors: gradient)
     }
+    
+    public func loadFailed() {
+        successView.isHidden = true
+        loadFailedView.isHidden = false
+    }
 }
 
 private extension HomeForecastCell {
@@ -83,16 +103,26 @@ private extension HomeForecastCell {
         setCornerRadius(12)
         clipsToBounds = true
         
-        contentView.addSubview(mainTempLabel)
-        contentView.addSubview(sensoryTempLabel)
-        contentView.addSubview(dailyTempLabel)
-        contentView.addSubview(weatherImage)
-        contentView.addSubview(commentLabel)
+        contentView.addSubview(loadFailedView)
+        contentView.addSubview(successView)
+        loadFailedView.addSubview(failImageView)
+        loadFailedView.addSubview(failLabel)
+        successView.addSubview(mainTempLabel)
+        successView.addSubview(sensoryTempLabel)
+        successView.addSubview(dailyTempLabel)
+        successView.addSubview(weatherImage)
+        successView.addSubview(commentLabel)
     }
     
     func layout() {
-        contentView.flex.layout()
+        successView.flex.layout()
+        loadFailedView.flex.layout()
         
+        successView.pin.all()
+        loadFailedView.pin.all()
+        
+        failImageView.pin.hCenter().top(37).size(48)
+        failLabel.pin.below(of: failImageView, aligned: .center).marginTop(10).sizeToFit()
         mainTempLabel.pin.left(20).top(27).maxHeight(67).sizeToFit()
         weatherImage.pin.topRight(20).width(110).height(74)
         sensoryTempLabel.pin.after(of: mainTempLabel).marginLeft(20).top(38).sizeToFit()

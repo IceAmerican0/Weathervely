@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RxRelay
 
 public final class UserDefaultManager {
     public static let shared = UserDefaultManager()
@@ -82,8 +83,24 @@ public final class UserDefaultManager {
         }
     }
     
-    public var homeStyleFilterList: [Int] {
+//    public var homeStyleFilterList: [Int] {
+//        if let list = userDefault.object(forKey: UserDefaultKey.homeStyleFilterList.rawValue) as? [Int] {
+//            return list
+//        } else {
+//            return []
+//        }
+//    }
+    
+    public var homeStyleFilterList: BehaviorRelay<[Int]> {
         if let list = userDefault.object(forKey: UserDefaultKey.homeStyleFilterList.rawValue) as? [Int] {
+            return BehaviorRelay<[Int]>(value: list)
+        } else {
+            return BehaviorRelay<[Int]>(value: [])
+        }
+    }
+    
+    public var homeItemFilterList: [Int] {
+        if let list = userDefault.object(forKey: UserDefaultKey.homeItemFilterList.rawValue) as? [Int] {
             return list
         } else {
             return []

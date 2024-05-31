@@ -52,7 +52,7 @@ public final class HomeStyleFilterCell: UICollectionViewCell {
     public func configureCellState(state: StyleTypeInfo) {
         listButton.titleAttribute(title: state.name)
         
-        UserDefaultManager.shared.homeStyleFilterList.forEach { id in
+        UserDefaultManager.shared.homeStyleFilterList.value.forEach { id in
             listButton.isSelected = id == state.id
         }
         

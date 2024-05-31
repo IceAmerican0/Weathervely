@@ -49,8 +49,8 @@ public final class HomeItemFilterCell: UICollectionViewCell {
         bag = DisposeBag()
     }
     
-    public func configureCellState(state: FilterStyleListInfo) {
-        listButton.titleAttribute(title: state.title)
+    public func configureCellState(state: MediumCategoryInfo) {
+        listButton.titleAttribute(title: state.name)
         /// 셀 크기 재정의
         listButton.flex.markDirty()
         setLayout()

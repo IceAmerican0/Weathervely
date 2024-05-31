@@ -36,7 +36,7 @@ public protocol NewHomeViewModelLogic: ViewModelBusinessLogic {
 }
 
 public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
-    private let closetDataSource: NewClosetDataSourceProtocol
+    private let closetDataSource: NewClosetDataSourceProtocol = NewClosetDataSource()
     
     /// 새로고침 상태
     public var refreshStatus: PublishRelay<Bool>
@@ -59,10 +59,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     /// pagination용 이미 로드된 페이지
     private var loadedPage = 0
     
-    init(
-        closetDataSource: NewClosetDataSourceProtocol
-    ) {
-        self.closetDataSource = closetDataSource
+    override init() {
         self.refreshStatus = .init()
         super.init()
     }
@@ -95,7 +92,6 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     
     /// 날씨 정보 받아오기
     public func getForecastInfo() {
-        // TODO: delete mock
         let data: [HomeForecastInfo] = [
             .init(
                 date: "현재",
@@ -157,30 +153,26 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
         selectedForecastState.accept(forecastInfo[selectedIndex])
         
         styleFilterList.count == 0 ? getStyleFilterList() : getClosetInfo()
-    }
-    
-    func getForecastList() {
-        let dataSource: ForecastDataSourceProtocol = ForecastDataSource()
-        dataSource.getVillageForcast()
-            .subscribe(
-                with: self,
-                onNext: { owner, response in
-                    let data = response.data
-                    owner.forecastInfo = data.forecast
-                    owner.selectedIndex = 0
-                    owner.selectedForecastState.accept(owner.forecastInfo[owner.selectedIndex])
-                    owner.styleFilterList.count == 0 ? owner.getStyleFilterList() : owner.getClosetInfo()
-                },
-                onError: { owner, error in
-                    owner.alertState.accept(
-                        .init(
-                            title: error.localizedDescription,
-                            alertType: .popup,
-                            closeAction: { owner.getForecastInfo() }
-                        )
-                    )
-                }
-            ).disposed(by: bag)
+//        let dataSource: ForecastDataSourceProtocol = ForecastDataSource()
+//        dataSource.getVillageForcast()
+//            .subscribe(
+//                with: self,
+//                onNext: { owner, response in
+//                    let data = response.data
+//                    owner.forecastInfo = data.forecast
+//                    owner.selectedIndex = 0
+//                    owner.selectedForecastState.accept(owner.forecastInfo[owner.selectedIndex])
+//                    owner.styleFilterList.count == 0 ? owner.getStyleFilterList() : owner.getClosetInfo()
+//                },
+//                onError: { owner, error in
+//                    owner.alertState.accept(
+//                        .init(
+//                            title: error.localizedDescription,
+//                            alertType: .popup
+//                        )
+//                    )
+//                }
+//            ).disposed(by: bag)
     }
     
     /// 스타일 필터 리스트 받아오기
@@ -207,7 +199,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     
     /// 메인 코디 추천 받아오기 (첫페이지)
     public func getClosetInfo() {
-        closetDataSource.getHomeCloset(style: "casual", page: 1)
+        closetDataSource.getHomeCloset(page: 1)
             .subscribe(
                 with: self,
                 onNext: { owner, response in
@@ -220,8 +212,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
                     owner.alertState.accept(
                         .init(
                             title: error.localizedDescription,
-                            alertType: .popup,
-                            closeAction: { owner.getClosetInfo() }
+                            alertType: .popup
                         )
                     )
                 }
@@ -243,7 +234,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
         
         loadedPage += 1
         
-        closetDataSource.getHomeCloset(style: "casual", page: loadedPage)
+        closetDataSource.getHomeCloset(page: loadedPage)
             .subscribe(
                 with: self,
                 onNext: { owner, response in
@@ -267,8 +258,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
                     owner.alertState.accept(
                         .init(
                             title: error.localizedDescription,
-                            alertType: .popup,
-                            closeAction: { owner.getNextCloset(of: owner.loadedPage) }
+                            alertType: .popup
                         )
                     )
                 }

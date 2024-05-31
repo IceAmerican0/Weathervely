@@ -62,7 +62,7 @@ final class FilterListViewController: RxBaseViewController<FilterListViewModel> 
         container.addSubview(resetButton)
         container.addSubview(confirmButton)
         
-        viewModel.filterItemList()
+        viewModel.getCategoryList()
         
         setBottomSheet()
         // 바텀시트형식으로 띄우며 뷰컨 두번 호출되는 현상 방지
@@ -78,8 +78,8 @@ final class FilterListViewController: RxBaseViewController<FilterListViewModel> 
         
         filterList.rx
             .itemSelected
-            .bind(with: self) { owner, _ in
-                owner.viewModel.filterItemList()
+            .bind(with: self) { owner, indexPath in
+                
             }.disposed(by: bag)
         
         viewModel.filterSection
@@ -136,12 +136,7 @@ extension FilterListViewController: UICollectionViewDelegate {
                     withType: HomeItemFilterCell.self,
                     for: indexPath
                 ).then {
-                    let state: FilterStyleListInfo = .init(
-                        id: cellState.id,
-                        title: cellState.title,
-                        selected: cellState.selected
-                    )
-                    $0.configureCellState(state: state)
+                    $0.configureCellState(state: cellState)
                 }
                 
                 cell.buttonTap

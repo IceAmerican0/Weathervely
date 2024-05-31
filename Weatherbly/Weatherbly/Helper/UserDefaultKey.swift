@@ -30,4 +30,6 @@ public enum UserDefaultKey: String {
     case regionInfo
     /// 홈 스타일 필터 리스트
     case homeStyleFilterList
+    /// 홈 아이템 필터 리스트
+    case homeItemFilterList
 }

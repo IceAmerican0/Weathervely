@@ -44,7 +44,7 @@ extension UIImage {
     static let home_nodata = UIImage(named: "home_nodata")!
     static let home_option = UIImage(named: "home_option")!
     static let home_place = UIImage(named: "home_place")!
-    static let home_whether_empty = UIImage(named: "home_whether_empty")!
+    static let home_weather_empty = UIImage(named: "home_weather_empty")!
 
     // Home Weather
     static let clouds_am = UIImage(named: "clouds_am")!

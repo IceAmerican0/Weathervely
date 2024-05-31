@@ -10,7 +10,8 @@ import RxSwift
 import RxCocoa
 
 protocol FilterListViewModelLogic: ViewModelBusinessLogic {
-    func filterItemList()
+    func getCategoryList()
+    func getFilterCount(section: Int?, row: Int?)
     
     var isLoading: PublishRelay<Bool> { get }
     var isFiltered: PublishRelay<Bool> { get }
@@ -35,51 +36,65 @@ final class FilterListViewModel: RxBaseViewModel, FilterListViewModelLogic {
         super.init()
     }
     
-    /// 아이템 필터
-    func filterItemList() {
-        // TODO: delete mock
-        let dummy: [FilterItemList] = [
+    /// 아이템 리스트 가져오기
+    public func getCategoryList() {
+        let dummy: [MediumCategoryList] = [
             .init(
                 category: "아우터",
-                info: [
-                    .init(id: 0, title: "자켓", selectable: true, selected: true),
-                    .init(id: 0, title: "가디건", selectable: true, selected: false),
-                    .init(id: 0, title: "집업", selectable: false, selected: false),
+                items: [
+                    .init(id: 0, name: "자켓"),
+                    .init(id: 0, name: "가디건"),
+                    .init(id: 0, name: "집업")
                 ]
             ),
             .init(
                 category: "상의",
-                info: [
-                    .init(id: 0, title: "티셔츠", selectable: false, selected: false),
-                    .init(id: 0, title: "셔츠", selectable: false, selected: false),
-                    .init(id: 0, title: "블라우스", selectable: true, selected: false),
-                    .init(id: 0, title: "맨투맨", selectable: false, selected: false),
-                    .init(id: 0, title: "니트", selectable: false, selected: false),
+                items: [
+                    .init(id: 0, name: "티셔츠"),
+                    .init(id: 0, name: "셔츠"),
+                    .init(id: 0, name: "블라우스"),
+                    .init(id: 0, name: "맨투맨"),
+                    .init(id: 0, name: "니트")
                 ]
             ),
             .init(
                 category: "하의",
-                info: [
-                    .init(id: 0, title: "청바지", selectable: false, selected: false),
-                    .init(id: 0, title: "슬랙스", selectable: false, selected: false),
-                    .init(id: 0, title: "치마", selectable: true, selected: false),
+                items: [
+                    .init(id: 0, name: "청바지"),
+                    .init(id: 0, name: "슬랙스"),
+                    .init(id: 0, name: "치마")
                 ]
             )
         ]
-        setItemSection(data: dummy)
-    }
-    
-    /// 아이템 필터 구성
-    func setItemSection(data: [FilterItemList]) {
-        // TODO: delete mock
+        
         let randomCount = Int.random(in: 1 ... 100)
-        let itemSection: [FilterSection] = data.map {
+        let itemSection: [FilterSection] = dummy.map {
             .item(
                 category: $0.category,
-                items: $0.info.map { .item($0) }
+                items: $0.items.map { .item($0) }
             )
         }
         filterSection.accept(itemSection)
         filterCount.accept(randomCount)
+//        let dataSource: MediumCategoryDataSourceProtocol = MediumCategoryDataSource()
+//        dataSource.getMediumCategoryList(id: UserDefaultManager.shared.homeStyleFilterList)
+//            .subscribe(
+//                with: self,
+//                onNext: { owner, response in
+//                    let list = response.data.mediumCategories
+//                    let section: [FilterSection] = list.map {
+//                        .item(category: $0.category, items: $0.items.map { .item($0) } )
+//                    }
+//                    owner.filterSection.accept(section)
+//                },
+//                onError: { owner, error in
+//                    
+//                }
+//            ).disposed(by: bag)
+    }
+    
+    /// 아이템 필터 구성
+    public func getFilterCount(section: Int? = nil, row: Int? = nil) {
+        
     }
 }

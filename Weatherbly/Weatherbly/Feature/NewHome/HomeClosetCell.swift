@@ -12,9 +12,7 @@ import Then
 import Kingfisher
 
 public final class HomeClosetCell: UICollectionViewCell {
-    let cloth = UIImageView().then {
-        $0.clipsToBounds = true
-    }
+    let cloth = UIImageView()
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -57,10 +55,9 @@ public final class HomeClosetCell: UICollectionViewCell {
     
     func configureCellState(state: NewClosetInfo) {
         if state.closetImageUrl == "" {
-            cloth.flex.width(158).height(158)
             cloth.image = .home_banner_01
         } else {
-            cloth.setKF(urlString: state.closetImageUrl)
+            cloth.setKF(urlString: state.closetImageUrl, placeHolder: .home_nodata)
         }
         
         cloth.flex.markDirty()
