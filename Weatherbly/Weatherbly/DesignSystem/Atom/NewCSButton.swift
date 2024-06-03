@@ -33,18 +33,24 @@ public final class NewCSButton: UIButton {
     
     var style: ButtonStyle
     
+    private lazy var indicator = UIActivityIndicatorView(style: .medium).then {
+        $0.color = .white
+        $0.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
     init(_ scale: ButtonScale, style: ButtonStyle) {
         self.scale = scale
         self.style = style
         super.init(frame: .zero)
         buttonConfigure()
         setRxBinding()
+        setIndicator()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     public override var isEnabled: Bool {
         didSet {
             buttonConfigure()
@@ -57,6 +63,18 @@ public final class NewCSButton: UIButton {
         buttonConfigure()
     }
     
+    public func startAnimation() {
+        indicator.flex.display(.flex)
+        indicator.startAnimating()
+    }
+    
+    public func stopAnimation() {
+        indicator.flex.display(.none)
+        indicator.stopAnimating()
+    }
+}
+
+private extension NewCSButton {
     /// Button Pressed effect
     func setRxBinding() {
         self.rx.controlEvent(.touchDown)
@@ -126,6 +144,12 @@ public final class NewCSButton: UIButton {
                 $0.setTitleColor(.violet800, for: .normal)
                 $0.setTitleColor(.white, for: .disabled)
             }
+        }
+    }
+    
+    func setIndicator() {
+        flex.alignItems(.center).justifyContent(.center).define {
+            $0.addItem(indicator).display(.none)
         }
     }
 }

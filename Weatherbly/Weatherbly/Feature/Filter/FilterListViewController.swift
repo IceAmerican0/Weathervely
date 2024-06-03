@@ -88,12 +88,14 @@ final class FilterListViewController: RxBaseViewController<FilterListViewModel> 
             .disposed(by: bag)
         
         viewModel.filterCount
-            .subscribe(
-                with: self,
-                onNext: { owner, count in
+            .asDriver(onErrorJustReturn: -1)
+            .drive(with: self) { owner, count in
+                if count >= 0 {
                     owner.confirmButton.setTitle("\(count)개 코디 보기", for: .normal)
+                } else {
+                    owner.confirmButton.setTitle("다시 시도해주세요", for: .normal)
                 }
-            ).disposed(by: bag)
+            }.disposed(by: bag)
         
         viewModel.isFiltered
             .subscribe(
@@ -108,6 +110,17 @@ final class FilterListViewController: RxBaseViewController<FilterListViewModel> 
                     }
             }).disposed(by: bag)
         
+        viewModel.isLoading
+            .asDriver(onErrorJustReturn: false)
+            .drive(with: self) { owner, isLoading in
+                switch isLoading {
+                case true:
+                    owner.confirmButton.startAnimation()
+                case false:
+                    owner.confirmButton.stopAnimation()
+                }
+            }.disposed(by: bag)
+        
         exitButton.rx.tap
             .bind(with: self) { owner, _ in
                 owner.dismiss(animated: true)
@@ -120,6 +133,9 @@ final class FilterListViewController: RxBaseViewController<FilterListViewModel> 
         
         confirmButton.rx.tap
             .bind(with: self) { owner, _ in
+                if owner.confirmButton.titleLabel?.text != "다시 시도해주세요" {
+                    
+                }
                 owner.dismiss(animated: true)
             }.disposed(by: bag)
     }
@@ -140,13 +156,13 @@ extension FilterListViewController: UICollectionViewDelegate {
                 }
                 
                 cell.buttonTap
-                    .drive(with: self, onNext: { _, _ in
+                    .drive(with: self, onNext: { owner, _ in
+                        self.viewModel.getFilterCount(id: cellState.id)
                         cell.listButton.isSelected.toggle()
                     }).disposed(by: cell.bag)
                 
                 return cell
             }
-            
             return UICollectionViewCell()
             
         }, configureSupplementaryView: { [weak self] dataSource, collectionView, kind, indexPath in

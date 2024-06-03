@@ -18,6 +18,10 @@ public struct StyleTypeEntity: Codable {
 
 public struct StyleTypeData: Codable {
     let types: [StyleTypeInfo]
+    
+    enum CodingKeys: String, CodingKey {
+        case types
+    }
 }
 
 public struct StyleTypeInfo: Codable {

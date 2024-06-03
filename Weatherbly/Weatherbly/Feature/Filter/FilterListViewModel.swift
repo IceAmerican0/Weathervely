@@ -11,7 +11,7 @@ import RxCocoa
 
 protocol FilterListViewModelLogic: ViewModelBusinessLogic {
     func getCategoryList()
-    func getFilterCount(section: Int?, row: Int?)
+    func getFilterCount(id: Int?)
     
     var isLoading: PublishRelay<Bool> { get }
     var isFiltered: PublishRelay<Bool> { get }
@@ -28,16 +28,21 @@ final class FilterListViewModel: RxBaseViewModel, FilterListViewModelLogic {
     var filterSection = PublishRelay<[FilterSection]>()
     /// 코디 카운트
     var filterCount: PublishRelay<Int>
+    /// 선택된 아이템 리스트
+    private var selectedList: [Int]
     
     override init() {
         self.isLoading = .init()
         self.isFiltered = .init()
         self.filterCount = .init()
+        self.selectedList = UserDefaultManager.shared.homeItemFilterList
         super.init()
+        self.isFiltered.accept(selectedList.isEmpty ? false : true)
     }
     
     /// 아이템 리스트 가져오기
     public func getCategoryList() {
+        isLoading.accept(true)
         let dummy: [MediumCategoryList] = [
             .init(
                 category: "아우터",
@@ -76,11 +81,13 @@ final class FilterListViewModel: RxBaseViewModel, FilterListViewModelLogic {
         }
         filterSection.accept(itemSection)
         filterCount.accept(randomCount)
+        isLoading.accept(false)
 //        let dataSource: MediumCategoryDataSourceProtocol = MediumCategoryDataSource()
 //        dataSource.getMediumCategoryList(id: UserDefaultManager.shared.homeStyleFilterList)
 //            .subscribe(
 //                with: self,
 //                onNext: { owner, response in
+//                    owner.isLoading.accept(false)
 //                    let list = response.data.mediumCategories
 //                    let section: [FilterSection] = list.map {
 //                        .item(category: $0.category, items: $0.items.map { .item($0) } )
@@ -88,13 +95,28 @@ final class FilterListViewModel: RxBaseViewModel, FilterListViewModelLogic {
 //                    owner.filterSection.accept(section)
 //                },
 //                onError: { owner, error in
-//                    
+//                    owner.isLoading.accept(false)
 //                }
 //            ).disposed(by: bag)
     }
     
     /// 아이템 필터 구성
-    public func getFilterCount(section: Int? = nil, row: Int? = nil) {
+    public func getFilterCount(id: Int? = nil) {
+        isLoading.accept(true)
+        selectedList += [id].compactMap { $0 }
         
+//        let dataSource: FilteredStyleDataSourceProtocol = FilteredStyleDataSource()
+//        dataSource.getFilteredStyledCount(id: selectedList)
+//            .subscribe(
+//                with: self,
+//                onNext: { owner, response in
+//                    owner.isLoading.accept(false)
+//                    owner.filterCount.accept(response.data.count)
+//                },
+//                onError: { owner, error in
+//                    owner.isLoading.accept(false)
+//                    owner.filterCount.accept(-1)
+//                }
+//            ).disposed(by: bag)
     }
 }
