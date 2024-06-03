@@ -66,9 +66,6 @@ class ItemTagView: UIView {
             $0.clipsToBounds = true
         }
         tagLabel.do {
-//            $0.layer.cornerRadius = 14
-//            $0.layer.borderWidth = 1
-//            $0.layer.borderColor = UIColor.gray20.cgColor
             $0.translatesAutoresizingMaskIntoConstraints = false
             $0.numberOfLines = 1
             $0.clipsToBounds = true
@@ -78,12 +75,13 @@ class ItemTagView: UIView {
     
     func layout() {
         
-        let g = self
+        // Pin 또는 Flex 사용할 경우 Layout 정상적으로 작동하지 않는다.
+        // UIView의 라이프싸이클 문제로 추측 된다.
         NSLayoutConstraint.activate([
-            labelWrapper.topAnchor.constraint(equalTo: g.topAnchor, constant: 0),
-            labelWrapper.leadingAnchor.constraint(equalTo: g.leadingAnchor, constant: 0),
-            labelWrapper.trailingAnchor.constraint(equalTo: g.trailingAnchor, constant: 0),
-            labelWrapper.bottomAnchor.constraint(equalTo: g.bottomAnchor, constant: 0),
+            labelWrapper.topAnchor.constraint(equalTo: self.topAnchor, constant: 0),
+            labelWrapper.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
+            labelWrapper.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
+            labelWrapper.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0),
             labelWrapper.widthAnchor.constraint(greaterThanOrEqualToConstant: 30),
             labelWrapper.heightAnchor.constraint(equalToConstant: 29)
         ])

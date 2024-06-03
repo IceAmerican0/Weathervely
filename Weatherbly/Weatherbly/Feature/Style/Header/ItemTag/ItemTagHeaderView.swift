@@ -18,145 +18,102 @@ protocol ItemTagsHeaderDelegate {
 }
 
 final class ItemTagsHeaderView: UIView  {
-    
+
     public var delegate: ItemTagsHeaderDelegate?
     var bag = DisposeBag()
-    
     public var tagsRelay = BehaviorRelay<[String]>(value: [])
-    public let tags = ["#니트/스웨터", "#후드 티셔츠", "#맨투맨/스웨트셔츠", "#긴소매 티셔츠", "#셔츠/블라우스","#피케/카라 티셔츠", "#반소매 티셔츠",
-                       "민소매 티셔츠","기타 상의","후드 집업","블루종/MA-1","레더/라이더스 재킷","무스탕/퍼","트러커 재킷","슈트/블레이저 재킷","카디건","아노락 재킷","플리스/뽀글이","스타디움 재킷","겨울 싱글 코트","겨울 더블 코트","겨울 기타 코트","숏패딩/숏헤비 아우터","패딩 베스트","베스트","사파리/헌팅 재킷","나일론/코치 재킷"]
-    var tagViews: [ItemTagView] = []
-    public var theTags: [String] = [] {
-        didSet {
-            vStack.arrangedSubviews.forEach { v in
-                v.removeFromSuperview()
-            }
-            tagViews = []
-            var totalWidth: CGFloat = 0
-            theTags.forEach{ str in
-                let t = ItemTagView()
-                t.tagLabel.text = str
-                let size = t.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
-                totalWidth += size.width
-                tagViews.append(t)
-            }
-            
-            let rowWidth: CGFloat = totalWidth / CGFloat(numRows)
-            var iTag: Int = 0
-            while iTag < tagViews.count {
-                let v = UIStackView().then {
-                    $0.spacing = 8
-                }
-                vStack.addArrangedSubview(v)
-                var cw: CGFloat = 0
-                while cw < rowWidth, iTag < tagViews.count {
-                    let t = tagViews[iTag]
-                    let size = t.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
-                    v.addArrangedSubview(t)
-                    cw += size.width
-                    iTag += 1
-                }
-            }
-            
-            // set closure so we can track selections
-//            tagViews.forEach { tv in
-//                tv.stateChangeRealy.subscribe(onNext: { [weak self] theTagView in
-//                    
-//                    guard let self = self,
-//                          let index = self.tagViews.firstIndex(of: theTagView) else { return }
-//                    
-//                    if theTagView.selectedState == .selected {
-//                        self.delegate?.itemTagView(self, didSelectItemAt: index)
-//                    } else {
-//                        self.delegate?.itemTagView(self, didDeSelectItemAt: index)
-//                    }
-//                }).disposed(by: bag)
-            
-            
-//                tv.stateChangeRealy = { [weak self] theTagView in
-//                    guard let self = self,
-//                    let index = self.tagViews.firstIndex(of: theTagView) else { return }
-//                    
-//                    if theTagView.state {
-//                        self.itemTagDelegate?.myTagsView(self, didSelectItemAt: index)
-//                    } else {
-//                        self.itemTagDelegate?.myTagsView(self, didDeSelectItemAt: index)
-//                    }
-//                }
-//            }
-        }
+    var scrollView = UIScrollView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.showsHorizontalScrollIndicator = false
     }
-    
-    var numRows = 2
-    let vStack = UIStackView().then {
+    public var numRows: Int = 2
+    // vertical stack view to hold the rows
+    private let vStack = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 8
         $0.alignment = .leading
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    func commonInit() -> Void {
-        let scrollView = UIScrollView().then {
-            $0.translatesAutoresizingMaskIntoConstraints = false
-            $0.addSubview(vStack)
+    public var tagViews: [ItemTagView] = []
+    
+    var tags: [String] = [] {
+        didSet {
+            // clear existing (in case we're setting the tags multiple times)
+            vStack.arrangedSubviews.forEach { v in
+                v.removeFromSuperview()
+            }
+            tagViews = []
+            var totalWidth: CGFloat = 0
+            // create individual tag views and get the total width
+            tags.forEach { str in
+                let t = ItemTagView()
+                t.tagLabel.text = str
+                let sz = t.labelWrapper.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
+                totalWidth += sz.width + 28
+                tagViews.append(t)
+            }
+ 
+            let rowWidth: CGFloat = totalWidth / CGFloat(numRows)
+            var iTag: Int = 0
+            while iTag < tagViews.count {
+                // create a new "row" horizontal stack view
+                let v = UIStackView()
+                v.spacing = 8
+                vStack.addArrangedSubview(v)
+                var currentRowWidth: CGFloat = 0
+                // add tag views
+                while currentRowWidth < rowWidth, iTag < tagViews.count {
+                    let t = tagViews[iTag]
+                    let sz = t.labelWrapper.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
+                    v.addArrangedSubview(t)
+                    currentRowWidth += sz.width + 28
+                    iTag += 1
+                }
+            }
         }
-        addSubviews(scrollView)
+    }
+    
+  
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        commonInit()
+    }
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        commonInit()
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+    }
+    
+    func commonInit() {
+        // Pin 또는 Flex 사용할 경우 Layout 정상적으로 작동하지 않는다.
+        // UIView의 라이프싸이클 문제로 추측 된다.
+        addSubview(scrollView)
+        scrollView.addSubview(vStack)
+        
         
         let g = self
         let cg = scrollView.contentLayoutGuide
         NSLayoutConstraint.activate([
-                   scrollView.topAnchor.constraint(equalTo: g.topAnchor, constant: 0.0),
-                   scrollView.leadingAnchor.constraint(equalTo: g.leadingAnchor, constant: 0.0),
-                   scrollView.trailingAnchor.constraint(equalTo: g.trailingAnchor, constant: 0.0),
-                   scrollView.bottomAnchor.constraint(equalTo: g.bottomAnchor, constant: 0.0),
-                   
-                   vStack.topAnchor.constraint(equalTo: cg.topAnchor, constant: 8.0),
-                   vStack.leadingAnchor.constraint(equalTo: cg.leadingAnchor, constant: 8.0),
-                   vStack.trailingAnchor.constraint(equalTo: cg.trailingAnchor, constant: -8.0),
-                   vStack.bottomAnchor.constraint(equalTo: cg.bottomAnchor, constant: -8.0),
-                   
-                   scrollView.heightAnchor.constraint(equalTo: vStack.heightAnchor, constant: 16.0),
-               ])
+            scrollView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0.0),
+            scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0.0),
+            scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0.0),
+            scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0.0),
+            
+            vStack.topAnchor.constraint(equalTo: cg.topAnchor, constant: 0),
+            vStack.leadingAnchor.constraint(equalTo: cg.leadingAnchor, constant: 0),
+            vStack.trailingAnchor.constraint(equalTo: cg.trailingAnchor, constant: 0),
+            vStack.bottomAnchor.constraint(equalTo: cg.bottomAnchor, constant: 0),
+            
+            scrollView.heightAnchor.constraint(equalTo: vStack.heightAnchor, constant: 0),
+        ])
     }
     
-    public override func layoutSubviews() {
-        super.layoutSubviews()
-        layout()
-        self.flex.layout()
-    }
-    
-    func layout() {
-//        self.flex.addItem(tagCollectionView).width(100%).height(66).direction(.row)
-        
-        let scrollView = UIScrollView().then {
-            $0.translatesAutoresizingMaskIntoConstraints = false
-            $0.addSubview(vStack)
-        }
-//        addSubviews(scrollView)
-        
-        self.flex.addItem(scrollView).define {
-            $0.addItem(vStack).width(100%).height(100%)
-        }
-//        let g = self
-//        let cg = scrollView.contentLayoutGuide
-//        NSLayoutConstraint.activate([
-//                   scrollView.topAnchor.constraint(equalTo: g.topAnchor, constant: 0.0),
-//                   scrollView.leadingAnchor.constraint(equalTo: g.leadingAnchor, constant: 0.0),
-//                   scrollView.trailingAnchor.constraint(equalTo: g.trailingAnchor, constant: 0.0),
-//                   scrollView.bottomAnchor.constraint(equalTo: g.bottomAnchor, constant: 0.0),
-//                   
-//                   vStack.topAnchor.constraint(equalTo: cg.topAnchor, constant: 8.0),
-//                   vStack.leadingAnchor.constraint(equalTo: cg.leadingAnchor, constant: 8.0),
-//                   vStack.trailingAnchor.constraint(equalTo: cg.trailingAnchor, constant: -8.0),
-//                   vStack.bottomAnchor.constraint(equalTo: cg.bottomAnchor, constant: -8.0),
-//                   
-//                   scrollView.heightAnchor.constraint(equalTo: vStack.heightAnchor, constant: 16.0),
-//               ])
-        
-    }
-    
-//    func configure() {
-//        tagsRelay.accept(tags)
-//    }
 }
+
 

@@ -50,7 +50,7 @@ final class StyleViewController: RxBaseViewController<StyleViewModel> {
         
         container.flex.define { container in
             container.addItem(titleLabel).marginHorizontal(20).marginTop(11).marginBottom(17.5).height(23)
-            container.addItem(collectionView).grow(1)
+            container.addItem(collectionView).margin(0, 20, 0, 0).grow(1)
         }
     }
     
@@ -90,68 +90,7 @@ extension StyleViewController: UICollectionViewDelegateFlowLayout {
             return CGSize()
         }
     }
-    /*
-    let cellSize = NSCollectionLayoutSize(
-        widthDimension: .fractionalWidth(1),
-        heightDimension: .absolute(80)
-    )
     
-    let item = NSCollectionLayoutItem(layoutSize: cellSize)
-    let group = NSCollectionLayoutGroup.horizontal(
-        layoutSize: cellSize,
-        subitems: [item]
-    )
-    
-    let section = NSCollectionLayoutSection(group: group)
-    return section
-    */
-    
-    /*
-     func setStyleLayout() -> NSCollectionLayoutSection {
-         let cellSize = NSCollectionLayoutSize(
-             widthDimension: .absolute(120),
-             heightDimension: .absolute(572)
-         )
-         let item = NSCollectionLayoutItem(layoutSize: cellSize)
-         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 12, trailing: 0)
-         
-         /// Group = 한 화면에 들어가는 item을 묶은 단위
-         /// https://ios-development.tistory.com/945
-         let groupSize = NSCollectionLayoutSize(
-             widthDimension: .fractionalWidth(1),
-             heightDimension: .absolute(209)
-         )
-         
-         let group = NSCollectionLayoutGroup.vertical(
-             layoutSize: groupSize,
-             subitems: [item]
-         )
-         group.interItemSpacing = .fixed(16)
-         
-         // Header
-         let headerSize = NSCollectionLayoutSize(
-             widthDimension: .fractionalWidth(1),
-             heightDimension: .absolute(56)
-         )
-         
-         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
-             layoutSize: headerSize,
-             elementKind: UICollectionView.elementKindSectionHeader,
-             alignment: .top
-         )
-         sectionHeader.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0)
-         sectionHeader.pinToVisibleBounds = true
-         
-         let section = NSCollectionLayoutSection(group: group)
-         section.contentInsets = NSDirectionalEdgeInsets(top: 7, leading: 10, bottom: 0, trailing: 0)
-         
-         section.interGroupSpacing = 12
-         section.boundarySupplementaryItems = [sectionHeader]
-         
-         return section
-     }
-     
-     */
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         if section == 1 {
             return CGSize(width: collectionView.frame.width, height: 56)
@@ -175,8 +114,6 @@ extension StyleViewController: UICollectionViewDelegate {
                 }
             case .styles(let styleInfo):
                 return collectionView.dequeueCell(withType: StyleCell.self, for: indexPath).then {
-                    // FIXME: - Test Background Color
-                    $0.backgroundColor = .yellow
                     $0.configure(styleInfo)
                 }
             }
@@ -203,84 +140,84 @@ extension StyleViewController: UICollectionViewDelegate {
         })
     }
     
-    func setSectionLayout() -> UICollectionViewCompositionalLayout {
-        UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ -> NSCollectionLayoutSection? in
-            
-            guard let self = self else { return nil }
-            guard sectionIndex < self.viewModel.styleSections.value.count else {
-                print("Section index \(sectionIndex) out of range.")
-                return nil
-            }
-            
-            let section = self.viewModel.styleSections.value[sectionIndex]
-            switch section {
-            case .banner:
-                return self.setBannerLayout()
-            case .styles:
-                return self.setStyleLayout()
-            }
-        }
-    }
-    
-    func setBannerLayout() -> NSCollectionLayoutSection {
-        let cellSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .absolute(80)
-        )
-        
-        let item = NSCollectionLayoutItem(layoutSize: cellSize)
-        let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: cellSize,
-            subitems: [item]
-        )
-        
-        let section = NSCollectionLayoutSection(group: group)
-        return section
-    }
-    
-    // StyleLayout
-    func setStyleLayout() -> NSCollectionLayoutSection {
-        let cellSize = NSCollectionLayoutSize(
-            widthDimension: .absolute(120),
-            heightDimension: .absolute(572)
-        )
-        let item = NSCollectionLayoutItem(layoutSize: cellSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 12, trailing: 0)
-        
-        /// Group = 한 화면에 들어가는 item을 묶은 단위
-        /// https://ios-development.tistory.com/945
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .absolute(209)
-        )
-        
-        let group = NSCollectionLayoutGroup.vertical(
-            layoutSize: groupSize,
-            subitems: [item]
-        )
-        group.interItemSpacing = .fixed(16)
-
-        // Header
-        let headerSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .absolute(56)
-        )
-        
-        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: headerSize,
-            elementKind: UICollectionView.elementKindSectionHeader,
-            alignment: .top
-        )
-        sectionHeader.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0)
-        sectionHeader.pinToVisibleBounds = true
-        
-        let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 7, leading: 10, bottom: 0, trailing: 0)
-        
-        section.interGroupSpacing = 12
-        section.boundarySupplementaryItems = [sectionHeader]
-        
-        return section
-    }
+//    func setSectionLayout() -> UICollectionViewCompositionalLayout {
+//        UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ -> NSCollectionLayoutSection? in
+//            
+//            guard let self = self else { return nil }
+//            guard sectionIndex < self.viewModel.styleSections.value.count else {
+//                print("Section index \(sectionIndex) out of range.")
+//                return nil
+//            }
+//            
+//            let section = self.viewModel.styleSections.value[sectionIndex]
+//            switch section {
+//            case .banner:
+//                return self.setBannerLayout()
+//            case .styles:
+//                return self.setStyleLayout()
+//            }
+//        }
+//    }
+//    
+//    func setBannerLayout() -> NSCollectionLayoutSection {
+//        let cellSize = NSCollectionLayoutSize(
+//            widthDimension: .fractionalWidth(1),
+//            heightDimension: .absolute(80)
+//        )
+//        
+//        let item = NSCollectionLayoutItem(layoutSize: cellSize)
+//        let group = NSCollectionLayoutGroup.horizontal(
+//            layoutSize: cellSize,
+//            subitems: [item]
+//        )
+//        
+//        let section = NSCollectionLayoutSection(group: group)
+//        return section
+//    }
+//    
+//    // StyleLayout
+//    func setStyleLayout() -> NSCollectionLayoutSection {
+//        let cellSize = NSCollectionLayoutSize(
+//            widthDimension: .absolute(120),
+//            heightDimension: .absolute(572)
+//        )
+//        let item = NSCollectionLayoutItem(layoutSize: cellSize)
+//        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 12, trailing: 0)
+//        
+//        /// Group = 한 화면에 들어가는 item을 묶은 단위
+//        /// https://ios-development.tistory.com/945
+//        let groupSize = NSCollectionLayoutSize(
+//            widthDimension: .fractionalWidth(1),
+//            heightDimension: .absolute(209)
+//        )
+//        
+//        let group = NSCollectionLayoutGroup.vertical(
+//            layoutSize: groupSize,
+//            subitems: [item]
+//        )
+//        group.interItemSpacing = .fixed(16)
+//
+//        // Header
+//        let headerSize = NSCollectionLayoutSize(
+//            widthDimension: .fractionalWidth(1),
+//            heightDimension: .absolute(56)
+//        )
+//        
+//        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+//            layoutSize: headerSize,
+//            elementKind: UICollectionView.elementKindSectionHeader,
+//            alignment: .top
+//        )
+//        sectionHeader.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0)
+//        sectionHeader.pinToVisibleBounds = true
+//        
+//        let section = NSCollectionLayoutSection(group: group)
+//        section.contentInsets = NSDirectionalEdgeInsets(top: 7, leading: 10, bottom: 0, trailing: 0)
+//        
+//        section.interGroupSpacing = 12
+//        section.boundarySupplementaryItems = [sectionHeader]
+//        
+//        return section
+//    }
 }
 

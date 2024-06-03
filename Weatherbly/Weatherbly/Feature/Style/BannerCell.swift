@@ -40,7 +40,7 @@ final class BannerCell: UICollectionViewCell {
     private func cellLayout() {
         
         contentView.flex.define { contentView in
-            contentView.addItem(bannerImageView).marginHorizontal(20).height(80)
+            contentView.addItem(bannerImageView).margin(0, 0, 0, 20).height(80)
         }
     }
     

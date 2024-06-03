@@ -19,20 +19,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         
         
-        window?.rootViewController = MyTagsVC()
-        window?.makeKeyAndVisible()
-        
-//        switch AppSetting.shared.environmentType {
-//        case .production:
-//            /// Firebase
-//            FirebaseApp.configure()
-//            registerRemoteNotification()
-//            checkToken()
-//
-//            checkForceUpdate()
-//        case .develop:
-//            getToken()
-//        }
+        switch AppSetting.shared.environmentType {
+        case .production:
+            /// Firebase
+            FirebaseApp.configure()
+            registerRemoteNotification()
+            checkToken()
+
+            checkForceUpdate()
+        case .develop:
+            getToken()
+        }
     }
     
     func setWindow(_ vc: UIViewController) {

@@ -12,10 +12,11 @@ import Then
 import RxSwift
 import RxCocoa
 import RxDataSources
+import SnapKit
 
 /// StyleViewController -> StyleCell -> { ItemTagHeaderView ( tagCollectionView + ItemTagCell) + closetCollectionView( HorizonClosetCell ) }
 
-final class StyleCell: UICollectionViewCell {
+final class StyleCell: UICollectionViewCell, ItemTagsHeaderDelegate {
     
     var bag = DisposeBag()
     
@@ -28,7 +29,7 @@ final class StyleCell: UICollectionViewCell {
         alignment: .left
     ).make(text: "#Type1")
     
-//    var itemTagHeader = ItemTagHeaderView()
+    var itemTagHeaderWrapper = UIStackView()
     lazy var closetCollectionFlowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .horizontal
         $0.minimumLineSpacing = 16
@@ -41,59 +42,67 @@ final class StyleCell: UICollectionViewCell {
         $0.register(withType: HorizonClosetCell.self)
     }
     
+    let theTags: [String] = [
+        "#니트/스웨터", "#후드 티셔츠", "#맨투맨/스웨트셔츠", "#긴소매 티셔츠", "#셔츠/블라우스","#피케/카라 티셔츠", "#반소매 티셔츠",
+                                 "민소매 티셔츠","기타 상의","후드 집업","블루종/MA-1","레더/라이더스 재킷","무스탕/퍼","트러커 재킷","슈트/블레이저 재킷","카디건","아노락 재킷","플리스/뽀글이","스타디움 재킷","겨울 싱글 코트","겨울 더블 코트","겨울 기타 코트","숏패딩/숏헤비 아우터","패딩 베스트","베스트","사파리/헌팅 재킷","나일론/코치 재킷"
+    ]
+    
     override init(frame: CGRect) {
         super.init(frame: .zero)
         binding()
+        snapKitlayout()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        cellLayout()
-        contentView.pin.all()
-        contentView.flex.layout(mode: .adjustHeight)
+    func snapKitlayout() {
+        self.translatesAutoresizingMaskIntoConstraints = false
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubviews(typeTitleLabel,
+                                itemTagHeaderWrapper,
+                                closetCollectionView)
         
-    }
-    // =========test TagView=================
-//    let theTags: [String] = [
-//          "streetphotograhy", "portraits", "wild", "india", "landscape", "portrait",
-//          "These", "Are", "Tags", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday",
-//          "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December",
-//          "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L",
-//      ]
-//    
-//    func initTagView() {
-//        for i in 2...4 {
-//            let tv = MyTagsView()
-//            tv.backgroundColor = .white
-//            tv.numRows = 1
-//            tv.theTags = self.theTags
-//            tv.delegate = self
-//            
-//        }
-//    }
-    
-    
-//    func itemTagView(_ itemTagView: ItemTagView, didSelectItemAt index: Int) {
-//        guard let tvIDX = stack.arrangedSubviews.firstIndex(of: itemTagView) else { return }
-//        print("Selected: \(index) / \"\(theTags[index])\" in tags view \(tvIDX)")
-//    }
-//    
-//    func itemTagView(_ itemTagView: ItemTagView, didDeSelectItemAt index: Int) {
-//        guard let tvIDX = stack.arrangedSubviews.firstIndex(of: itemTagView) else { return }
-//        print("Deselected: \(index) / \"\(theTags[index])\" in tags view \(tvIDX)")
-//    }
-    // =========test TagView=================
-    
-    func cellLayout() {
+        // TagHeaderView
+        let tv = ItemTagsHeaderView()
+        tv.backgroundColor = .white
+        tv.numRows = 2
+        tv.tags = self.theTags
+        tv.delegate = self
+        itemTagHeaderWrapper.addSubview(tv)
         
-        contentView.flex.height(516).define {
-            $0.addItem(typeTitleLabel).marginVertical(16.5)
-            $0.addItem(MyTagsView()).width(100%).height(66).backgroundColor(.red)
-            $0.addItem(closetCollectionView).height(430)
+        contentView.snp.makeConstraints {
+            $0.top.leading.trailing.bottom.equalToSuperview()
+//            $0.leading.equalToSuperview().offset(20)
+            $0.height.equalTo(516)
+        }
+        
+        typeTitleLabel.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(56)
+        }
+        
+        tv.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        itemTagHeaderWrapper.snp.makeConstraints {
+            $0.top.equalTo(typeTitleLabel.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(64)
+        }
+        itemTagHeaderWrapper.backgroundColor = .red
+        tv.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        
+        closetCollectionView.snp.makeConstraints {
+            $0.top.equalTo(itemTagHeaderWrapper.snp.bottom).offset(20)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(430)
         }
     }
     
@@ -110,6 +119,7 @@ final class StyleCell: UICollectionViewCell {
         sectionModelRelay
             .bind(to: closetCollectionView.rx.items(dataSource: setRxDataSources()))
             .disposed(by: bag)
+        
     }
     
     public func configure(_ type: ClosetTypeInfo?) {
@@ -141,11 +151,13 @@ final class StyleCell: UICollectionViewCell {
         sectionModelRelay.accept(mockItemData)
     }
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        //        bag = DisposeBag()
-        //        binding()
+    func itemTagView(_ itemTagView: ItemTagsHeaderView, didSelectItemAt index: Int) {
+    
     }
+    
+    func itemTagView(_ itemTagView: ItemTagsHeaderView, didDeSelectItemAt index: Int) {
+    }
+    
 }
 
 extension StyleCell: UICollectionViewDelegateFlowLayout {
@@ -154,14 +166,11 @@ extension StyleCell: UICollectionViewDelegateFlowLayout {
 extension StyleCell: UICollectionViewDelegate {
     func setRxDataSources() -> RxCollectionViewSectionedReloadDataSource<ClosetSectionModel> {
         RxCollectionViewSectionedReloadDataSource<ClosetSectionModel> (configureCell: { [weak self] dataSource, collectionView, indexPath, item in
-            guard self != nil else { return UICollectionViewCell() }
+            guard self != nil else {  return UICollectionViewCell() }
             
             return collectionView.dequeueCell(withType: HorizonClosetCell.self, for: indexPath).then {
                 $0.configureCell(item)
-                
-                
             }
-            
         })
     }
     

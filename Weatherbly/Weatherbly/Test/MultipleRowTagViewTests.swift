@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class MyTagsVC: UIViewController, MyTagsViewDelegate {
+class MyTagsVC: UIViewController, MyTagsViewDelegate, ItemTagsHeaderDelegate {
     
     let theTags: [String] = [
         "#니트/스웨터", "#후드 티셔츠", "#맨투맨/스웨트셔츠", "#긴소매 티셔츠", "#셔츠/블라우스","#피케/카라 티셔츠", "#반소매 티셔츠",
@@ -29,16 +29,16 @@ class MyTagsVC: UIViewController, MyTagsViewDelegate {
         
         let g = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
-            stack.topAnchor.constraint(equalTo: g.topAnchor, constant: 16.0),
-            stack.leadingAnchor.constraint(equalTo: g.leadingAnchor, constant: 20.0),
-            stack.trailingAnchor.constraint(equalTo: g.trailingAnchor, constant: -20.0),
+            stack.topAnchor.constraint(equalTo: g.topAnchor, constant: 0),
+            stack.leadingAnchor.constraint(equalTo: g.leadingAnchor, constant: 0),
+            stack.trailingAnchor.constraint(equalTo: g.trailingAnchor, constant: 0),
             // let the view determine its own height
         ])
         
-            let tv = MyTagsView()
+            let tv = ItemTagsHeaderView()
             tv.backgroundColor = .white
             tv.numRows = 2
-            tv.theTags = self.theTags
+            tv.tags = self.theTags
             tv.delegate = self
             stack.addArrangedSubview(tv)
         

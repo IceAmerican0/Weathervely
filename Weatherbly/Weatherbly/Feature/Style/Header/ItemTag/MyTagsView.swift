@@ -18,9 +18,11 @@ class MyTagsView: UIView {
 
     public var delegate: MyTagsViewDelegate?
     
-    // number of rows of tagViews
+    var scrollView = UIScrollView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.showsHorizontalScrollIndicator = false
+    }
     public var numRows: Int = 2
-    
     // vertical stack view to hold the rows
     private let vStack = UIStackView().then {
         $0.axis = .vertical
@@ -30,9 +32,8 @@ class MyTagsView: UIView {
     }
     
     public var tagViews: [ItemTagView] = []
-//        public var tagViews: [MyTagView] = []
     
-    var theTags: [String] = [] {
+    var tags: [String] = [] {
         didSet {
             // clear existing (in case we're setting the tags multiple times)
             vStack.arrangedSubviews.forEach { v in
@@ -41,10 +42,8 @@ class MyTagsView: UIView {
             tagViews = []
             var totalWidth: CGFloat = 0
             // create individual tag views and get the total width
-            theTags.forEach { str in
-//                let t = MyTagView()
+            tags.forEach { str in
                 let t = ItemTagView()
-//                t.text = str
                 t.tagLabel.text = str
                 let sz = t.labelWrapper.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
                 totalWidth += sz.width + 28
@@ -68,20 +67,6 @@ class MyTagsView: UIView {
                     iTag += 1
                 }
             }
-
-            // set closure so we can track selections
-//            tagViews.forEach { tv in
-//                tv.state = { [weak self] selectedState in
-//                    guard let self = self,
-//                    else { return }
-//                    if selectedState.selected {
-//                        self.delegate?.itemTa(self, didSelectItemAt: idx)
-//                    } 
-//                    else {
-//                        self.delegate?.myTagsView(self, didDeSelectItemAt: idx)
-//                    }
-//                }
-//            }
         }
     }
     
@@ -101,20 +86,20 @@ class MyTagsView: UIView {
         
     }
     
-    func commonInit() -> Void {
-        let scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.showsHorizontalScrollIndicator = false
-        scrollView.addSubview(vStack)
+    func commonInit() {
+        // Pin 또는 Flex 사용할 경우 Layout 정상적으로 작동하지 않는다.
+        // UIView의 라이프싸이클 문제로 추측 된다.
         addSubview(scrollView)
+        scrollView.addSubview(vStack)
+        
         
         let g = self
         let cg = scrollView.contentLayoutGuide
         NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: g.topAnchor, constant: 0.0),
-            scrollView.leadingAnchor.constraint(equalTo: g.leadingAnchor, constant: 0.0),
-            scrollView.trailingAnchor.constraint(equalTo: g.trailingAnchor, constant: 0.0),
-            scrollView.bottomAnchor.constraint(equalTo: g.bottomAnchor, constant: 0.0),
+            scrollView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0.0),
+            scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0.0),
+            scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0.0),
+            scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0.0),
             
             vStack.topAnchor.constraint(equalTo: cg.topAnchor, constant: 0),
             vStack.leadingAnchor.constraint(equalTo: cg.leadingAnchor, constant: 0),
