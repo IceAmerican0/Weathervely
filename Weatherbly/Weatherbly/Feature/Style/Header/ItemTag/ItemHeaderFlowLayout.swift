@@ -12,6 +12,8 @@ class ItemHeaderFlowLayout: UICollectionViewFlowLayout {
     weak var delegate: UICollectionViewDelegateFlowLayout?
     override func prepare() {
            super.prepare()
+        
+            self.scrollDirection = .horizontal
            guard let collectionView = collectionView else { return }
            
            let availableWidth = collectionView.bounds.width - sectionInset.left - sectionInset.right

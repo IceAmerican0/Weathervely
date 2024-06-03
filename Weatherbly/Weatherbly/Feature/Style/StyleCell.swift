@@ -28,7 +28,7 @@ final class StyleCell: UICollectionViewCell {
         alignment: .left
     ).make(text: "#Type1")
     
-    var itemTagHeader = ItemTagHeaderView()
+//    var itemTagHeader = ItemTagHeaderView()
     lazy var closetCollectionFlowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .horizontal
         $0.minimumLineSpacing = 16
@@ -57,12 +57,42 @@ final class StyleCell: UICollectionViewCell {
         contentView.flex.layout(mode: .adjustHeight)
         
     }
+    // =========test TagView=================
+//    let theTags: [String] = [
+//          "streetphotograhy", "portraits", "wild", "india", "landscape", "portrait",
+//          "These", "Are", "Tags", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday",
+//          "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December",
+//          "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L",
+//      ]
+//    
+//    func initTagView() {
+//        for i in 2...4 {
+//            let tv = MyTagsView()
+//            tv.backgroundColor = .white
+//            tv.numRows = 1
+//            tv.theTags = self.theTags
+//            tv.delegate = self
+//            
+//        }
+//    }
+    
+    
+//    func itemTagView(_ itemTagView: ItemTagView, didSelectItemAt index: Int) {
+//        guard let tvIDX = stack.arrangedSubviews.firstIndex(of: itemTagView) else { return }
+//        print("Selected: \(index) / \"\(theTags[index])\" in tags view \(tvIDX)")
+//    }
+//    
+//    func itemTagView(_ itemTagView: ItemTagView, didDeSelectItemAt index: Int) {
+//        guard let tvIDX = stack.arrangedSubviews.firstIndex(of: itemTagView) else { return }
+//        print("Deselected: \(index) / \"\(theTags[index])\" in tags view \(tvIDX)")
+//    }
+    // =========test TagView=================
     
     func cellLayout() {
         
         contentView.flex.height(516).define {
             $0.addItem(typeTitleLabel).marginVertical(16.5)
-            $0.addItem(itemTagHeader).width(100%).height(66).backgroundColor(.red)
+            $0.addItem(MyTagsView()).width(100%).height(66).backgroundColor(.red)
             $0.addItem(closetCollectionView).height(430)
         }
     }
