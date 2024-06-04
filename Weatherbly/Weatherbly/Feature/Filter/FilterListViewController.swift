@@ -134,7 +134,7 @@ final class FilterListViewController: RxBaseViewController<FilterListViewModel> 
         confirmButton.rx.tap
             .bind(with: self) { owner, _ in
                 if owner.confirmButton.titleLabel?.text != "다시 시도해주세요" {
-                    
+                    owner.viewModel.filterCompleted()
                 }
                 owner.dismiss(animated: true)
             }.disposed(by: bag)

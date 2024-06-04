@@ -64,11 +64,14 @@ public final class NewCSButton: UIButton {
     }
     
     public func startAnimation() {
+        titleLabel?.isHidden = true
+        indicator.pin.center()
         indicator.flex.display(.flex)
         indicator.startAnimating()
     }
     
     public func stopAnimation() {
+        titleLabel?.isHidden = false
         indicator.flex.display(.none)
         indicator.stopAnimating()
     }
@@ -148,7 +151,7 @@ private extension NewCSButton {
     }
     
     func setIndicator() {
-        flex.alignItems(.center).justifyContent(.center).define {
+        flex.define {
             $0.addItem(indicator).display(.none)
         }
     }

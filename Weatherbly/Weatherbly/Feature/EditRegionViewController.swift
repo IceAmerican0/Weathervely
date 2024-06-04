@@ -105,13 +105,16 @@ extension EditRegionViewController: UICollectionViewDataSource {
         UICollectionViewCompositionalLayout { [weak self] _, environment -> NSCollectionLayoutSection? in
             var config = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
             config.trailingSwipeActionsConfigurationProvider = { [weak self] indexPath in
-                let handler: UIContextualAction.Handler = { _, _, success in
-                    success(self?.viewModel.deleteRegion(indexPath.row) ?? false)
-                }
-                let deleteAction = UIContextualAction(style: .destructive, title: "삭제", handler: handler)
-                deleteAction.backgroundColor = .violet600
+                let deleteAction = UIContextualAction(style: .destructive, title: "삭제", handler: { _, _, handler in
+                    handler(self?.viewModel.deleteRegion(indexPath.row) ?? false)
+                })
                 
-                return UISwipeActionsConfiguration(actions: [deleteAction])
+                let editAction = UIContextualAction(style: .normal, title: "편집", handler: { _, _, handler in
+                    self?.viewModel.didTapCellButton(indexPath.row)
+                })
+                editAction.backgroundColor = .violet600
+                
+                return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
             }
             config.backgroundColor = .clear
             

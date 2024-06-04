@@ -12,6 +12,7 @@ import RxCocoa
 protocol FilterListViewModelLogic: ViewModelBusinessLogic {
     func getCategoryList()
     func getFilterCount(id: Int?)
+    func filterCompleted()
     
     var isLoading: PublishRelay<Bool> { get }
     var isFiltered: PublishRelay<Bool> { get }
@@ -47,27 +48,27 @@ final class FilterListViewModel: RxBaseViewModel, FilterListViewModelLogic {
             .init(
                 category: "아우터",
                 items: [
-                    .init(id: 0, name: "자켓"),
-                    .init(id: 0, name: "가디건"),
-                    .init(id: 0, name: "집업")
+                    .init(id: 1, name: "자켓"),
+                    .init(id: 2, name: "가디건"),
+                    .init(id: 3, name: "집업")
                 ]
             ),
             .init(
                 category: "상의",
                 items: [
-                    .init(id: 0, name: "티셔츠"),
-                    .init(id: 0, name: "셔츠"),
-                    .init(id: 0, name: "블라우스"),
-                    .init(id: 0, name: "맨투맨"),
-                    .init(id: 0, name: "니트")
+                    .init(id: 4, name: "티셔츠"),
+                    .init(id: 5, name: "셔츠"),
+                    .init(id: 6, name: "블라우스"),
+                    .init(id: 7, name: "맨투맨"),
+                    .init(id: 8, name: "니트")
                 ]
             ),
             .init(
                 category: "하의",
                 items: [
-                    .init(id: 0, name: "청바지"),
-                    .init(id: 0, name: "슬랙스"),
-                    .init(id: 0, name: "치마")
+                    .init(id: 9, name: "청바지"),
+                    .init(id: 10, name: "슬랙스"),
+                    .init(id: 11, name: "치마")
                 ]
             )
         ]
@@ -103,7 +104,20 @@ final class FilterListViewModel: RxBaseViewModel, FilterListViewModelLogic {
     /// 아이템 필터 구성
     public func getFilterCount(id: Int? = nil) {
         isLoading.accept(true)
-        selectedList += [id].compactMap { $0 }
+        
+        if let id {
+            if let index = selectedList.firstIndex(of: id) {
+                selectedList.remove(at: index)
+            } else {
+                selectedList.append(id)
+            }
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+            guard let self else { return }
+            self.isLoading.accept(false)
+            self.filterCount.accept(selectedList.count)
+        }
         
 //        let dataSource: FilteredStyleDataSourceProtocol = FilteredStyleDataSource()
 //        dataSource.getFilteredStyledCount(id: selectedList)
@@ -118,5 +132,10 @@ final class FilterListViewModel: RxBaseViewModel, FilterListViewModelLogic {
 //                    owner.filterCount.accept(-1)
 //                }
 //            ).disposed(by: bag)
+    }
+    
+    /// 필터 완료
+    public func filterCompleted() {
+        userDefault.set(selectedList, forKey: UserDefaultKey.homeItemFilterList.rawValue)
     }
 }
