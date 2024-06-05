@@ -180,6 +180,21 @@ public final class PushNotificationDBManager {
         sqlite3_finalize(statement)
     }
     
+    public func saveNotiToDatabase(info: [AnyHashable: Any]) {
+        guard let aps = info["aps"] as? [String: AnyObject],
+              let category = info["google.c.a.c_l"] as? String,
+              let alert = aps["alert"] as? [String: Any],
+              let title = alert["title"] as? String,
+              let message = alert["body"] as? String else { return }
+        
+        addNotification(
+            category: category,
+            title: title,
+            message: message,
+            date: Date().now
+        )
+    }
+    
     private func columnTextToString(statement: OpaquePointer?, row: Int32) -> String {
         String(describing: String(cString: sqlite3_column_text(statement, row)))
     }
