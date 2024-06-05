@@ -112,7 +112,13 @@ extension EditRegionViewController: UICollectionViewDataSource {
                 let editAction = UIContextualAction(style: .normal, title: "편집", handler: { _, _, handler in
                     self?.viewModel.didTapCellButton(indexPath.row)
                 })
-                editAction.backgroundColor = .violet600
+                
+                let size = CGSize(width: 68, height: 68)
+                deleteAction.image = UIImage().setSwipeActionView(size: size, color: .red, radius: 12, text: "삭제")
+                editAction.image = UIImage().setSwipeActionView(size: size, color: .violet600, radius: 12, text: "편집")
+                
+                deleteAction.backgroundColor = .violet10
+                editAction.backgroundColor = .violet10
                 
                 return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
             }

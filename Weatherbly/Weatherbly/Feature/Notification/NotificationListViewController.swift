@@ -154,7 +154,7 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
 
 extension NotificationListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title: nil, handler: { [weak self] action, view, handler in
+        let deleteAction = UIContextualAction(style: .destructive, title: nil, handler: { [weak self] _, _, handler in
             guard let self else { return }
             handler(self.viewModel.deleteNoti(row: indexPath.row))
         })

@@ -16,6 +16,31 @@ extension UIImage {
         UIGraphicsEndImageContext()
         return newImage ?? self
     }
+    
+    /// Custom SwipeAction
+    func setSwipeActionView(size: CGSize, color: UIColor, radius: CGFloat, text: String? = nil) -> UIImage {
+        UIGraphicsImageRenderer(size: size).image { _ in
+            let path = UIBezierPath(roundedRect: CGRect(origin: .zero, size: size), cornerRadius: radius)
+            color.setFill()
+            path.fill()
+            
+            guard let text else { return }
+            
+            let attribute: [NSAttributedString.Key: Any] = [
+                .font: UIFont.body_1_M,
+                .foregroundColor: UIColor.white
+            ]
+            
+            let textSize = text.size(withAttributes: attribute)
+            let rect = CGRect(
+                x: (size.width - textSize.width) / 2,
+                y: (size.height - textSize.height) / 2,
+                width: textSize.width,
+                height: textSize.height
+            )
+            text.draw(in: rect, withAttributes: attribute)
+        }
+    }
 }
 
 // MARK: Custom Image
