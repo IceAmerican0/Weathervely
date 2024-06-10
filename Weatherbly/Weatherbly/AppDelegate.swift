@@ -93,6 +93,10 @@ extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
             object: nil,
             userInfo: dataDict
         )
+        
+        if UserDefaultManager.shared.pushToken != fcmToken {
+            userDefault.set(fcmToken, forKey: UserDefaultKey.pushToken.rawValue)
+        }
     }
     
     /// FCM Token 등록

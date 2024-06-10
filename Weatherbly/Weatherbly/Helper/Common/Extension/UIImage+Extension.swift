@@ -18,7 +18,13 @@ extension UIImage {
     }
     
     /// Custom SwipeAction
-    func setSwipeActionView(size: CGSize, color: UIColor, radius: CGFloat, text: String? = nil) -> UIImage {
+    func setSwipeActionView(
+        size: CGSize,
+        color: UIColor,
+        radius: CGFloat,
+        text: String? = nil,
+        textColor: UIColor = .white
+    ) -> UIImage {
         UIGraphicsImageRenderer(size: size).image { _ in
             let path = UIBezierPath(roundedRect: CGRect(origin: .zero, size: size), cornerRadius: radius)
             color.setFill()
@@ -27,8 +33,8 @@ extension UIImage {
             guard let text else { return }
             
             let attribute: [NSAttributedString.Key: Any] = [
-                .font: UIFont.body_1_M,
-                .foregroundColor: UIColor.white
+                .font: UIFont.body_5_M,
+                .foregroundColor: textColor
             ]
             
             let textSize = text.size(withAttributes: attribute)

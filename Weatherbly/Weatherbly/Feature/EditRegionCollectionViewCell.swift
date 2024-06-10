@@ -34,16 +34,6 @@ public final class EditRegionCollectionViewCell: UICollectionViewCell {
         $0.lineBreakMode = .byTruncatingTail
     }
     
-    public let button = NewCSButton(.compact, style: .violet600).then {
-        $0.setTitle("편집", for: .normal)
-    }
-    
-    public var buttonTap: Driver<Void> {
-        self.button.rx.tap.asDriver()
-    }
-    
-    var bag = DisposeBag()
-    
     public override init(frame: CGRect) {
         super.init(frame: .zero)
         layout()
@@ -62,17 +52,10 @@ public final class EditRegionCollectionViewCell: UICollectionViewCell {
         contentView.flex.layout()
     }
     
-    public override func prepareForReuse() {
-        super.prepareForReuse()
-        bag = DisposeBag()
-        button.resetState()
-    }
-    
     private func layout() {
         contentView.flex.define {
             $0.addItem(container).direction(.row).alignItems(.center).justifyContent(.spaceBetween).grow(1).define {
                 $0.addItem(regionLabel).marginHorizontal(20).height(21).grow(1).shrink(1)
-                $0.addItem(button).marginRight(20).width(53).height(24)
             }
         }
         

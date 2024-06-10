@@ -114,8 +114,8 @@ extension EditRegionViewController: UICollectionViewDataSource {
                 })
                 
                 let size = CGSize(width: 68, height: 68)
-                deleteAction.image = UIImage().setSwipeActionView(size: size, color: .red, radius: 12, text: "삭제")
-                editAction.image = UIImage().setSwipeActionView(size: size, color: .violet600, radius: 12, text: "편집")
+                deleteAction.image = UIImage().setSwipeActionView(size: size, color: .gray20, radius: 12, text: "삭제", textColor: .gray300)
+                editAction.image = UIImage().setSwipeActionView(size: size, color: .violet100, radius: 12, text: "편집", textColor: .violet800)
                 
                 deleteAction.backgroundColor = .violet10
                 editAction.backgroundColor = .violet10
@@ -137,7 +137,7 @@ extension EditRegionViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueCell(withType: EditRegionCollectionViewCell.self, for: indexPath).then {
+        collectionView.dequeueCell(withType: EditRegionCollectionViewCell.self, for: indexPath).then {
             let data = self.viewModel.loadedListRelay.value
             self.listCount = data.count
             
@@ -145,13 +145,5 @@ extension EditRegionViewController: UICollectionViewDataSource {
             
             self.confirmButtonState()
         }
-        
-        cell.buttonTap
-            .drive(with: self) { owner, _ in
-                cell.button.resetState()
-                owner.viewModel.didTapCellButton(indexPath.row)
-            }.disposed(by: cell.bag)
-        
-        return cell
     }
 }

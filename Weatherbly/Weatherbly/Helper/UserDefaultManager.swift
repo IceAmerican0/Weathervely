@@ -35,6 +35,14 @@ public final class UserDefaultManager {
         }
     }
     
+    public var pushToken: String {
+        if let pushToken = userDefault.object(forKey: UserDefaultKey.pushToken.rawValue) {
+            return "\(pushToken)"
+        } else {
+            return ""
+        }
+    }
+    
     public var gender: String {
         return isFemale ? "여성" : "남성"
     }

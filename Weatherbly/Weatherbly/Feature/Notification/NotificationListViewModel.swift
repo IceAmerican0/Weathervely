@@ -49,6 +49,16 @@ final class NotificationListViewModel: RxBaseViewModel, NotificationListViewMode
     public func deleteNoti(row: Int) -> Bool {
         let id = notificationInfo.value[row].id
         let state = DBManager.deleteNotification(id: id)
+        
+        if state {
+            alertState.accept(
+                .init(
+                    title: "알림이 삭제됐어요",
+                    alertType: .toast
+                )
+            )
+        }
+        
         getNotiInfo()
         
         return state

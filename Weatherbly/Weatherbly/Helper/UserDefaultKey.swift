@@ -16,8 +16,8 @@ public enum UserDefaultKey: String {
     case isOnboard
     /// 닉네임
     case nickname
-    /// UUID
-    case uuid
+    /// 푸시토큰
+    case pushToken
     /// 유저성별
     case gender
     /// 코디ID

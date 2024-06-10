@@ -72,7 +72,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
         ]
         
         /// 첫 Cell Banner 처리를 위한 Dummy Data 넣어줌(Banner + List)
-        var banner: [NewClosetInfo] = [.init(closetId: 0, closetName: "", closetImageUrl: "", closetStatus: "")]
+        var banner: [NewClosetInfo] = [.init(closetId: -1, closetName: "", closetImageUrl: "", closetStatus: "")]
         banner += closetList
         
         /// 추천 Section 정보

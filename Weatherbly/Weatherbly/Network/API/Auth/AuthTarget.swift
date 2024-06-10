@@ -38,7 +38,11 @@ extension AuthTarget: WVTargetType {
         switch self {
         case .login:
             .requestParameters(
-                parameters: ["phone_id": UserDefaultManager.shared.uuid],
+                parameters: [
+                    "phone_id": UserDefaultManager.shared.uuid,
+//                    "pushAgree": checkAuthorization(),
+//                    "pushToken": UserDefaultManager.shared.pushToken
+                ],
                 encoding: JSONEncoding.default
             )
         case .nicknameValidation(let nickname):
@@ -50,7 +54,9 @@ extension AuthTarget: WVTargetType {
             .requestParameters(
                 parameters: [
                     "nickname": nickname,
-                    "phone_id": uuid
+                    "phone_id": uuid,
+//                    "pushAgree": checkAuthorization(),
+//                    "pushToken": UserDefaultManager.shared.pushToken
                 ],
                 encoding: JSONEncoding.default
             )

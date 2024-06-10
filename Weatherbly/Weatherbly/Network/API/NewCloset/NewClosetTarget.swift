@@ -15,7 +15,7 @@ public enum NewClosetTarget {
 }
 
 extension NewClosetTarget: WVTargetType {
-    public var path: String { "/closet/casual" }
+    public var path: String { "/closet" }
     
     public var method: Moya.Method { .get }
     
@@ -24,20 +24,20 @@ extension NewClosetTarget: WVTargetType {
         case .getHomeCloset(let page):
             .requestParameters(
                 parameters: [
-//                    "tab": "main",
-//                    "style_id": UserDefaultManager.shared.homeStyleFilterList,
-//                    "medium_category_ids": UserDefaultManager.shared.homeItemFilterList,
-                    "page": page
+                    "page": page,
+                    "tab": "main",
+                    "style_ids": UserDefaultManager.shared.homeStyleFilterList,
+                    "medium_category_ids": UserDefaultManager.shared.homeItemFilterList
                 ],
                 encoding: URLEncoding.queryString
             )
         case .getStyleCloset(let style, let item, let page):
                 .requestParameters(
                     parameters: [
+                        "page": page,
                         "tab": "style",
-                        "style_id": style,
-                        "medium_category_ids": item,
-                        "page": page
+                        "style_ids": style,
+                        "medium_category_ids": item
                     ],
                     encoding: URLEncoding.queryString
                 )
