@@ -188,6 +188,23 @@
 		BD5106F32C0AFCF100D8AFBE /* MyTagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5106F22C0AFCF100D8AFBE /* MyTagsView.swift */; };
 		BD5106F52C0B108400D8AFBE /* MultipleRowTagViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5106F42C0B108400D8AFBE /* MultipleRowTagViewTests.swift */; };
 		BD5106F82C0E248700D8AFBE /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BD5106F72C0E248700D8AFBE /* SnapKit */; };
+		BD5106FE2C0F64FD00D8AFBE /* StyleTabTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5106FD2C0F64FD00D8AFBE /* StyleTabTest.swift */; };
+		BD5107012C0F672000D8AFBE /* StyleTabSectionModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5107002C0F672000D8AFBE /* StyleTabSectionModelTest.swift */; };
+		BD5107082C0F726F00D8AFBE /* BannerCellTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5107072C0F726F00D8AFBE /* BannerCellTest.swift */; };
+		BD51070C2C0F756700D8AFBE /* ClosetDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD51070B2C0F756700D8AFBE /* ClosetDetailViewController.swift */; };
+		BD51070E2C0F75B300D8AFBE /* ClosetDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD51070D2C0F75B300D8AFBE /* ClosetDetailViewModel.swift */; };
+		BD5107102C1152AD00D8AFBE /* DetailViewSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD51070F2C1152AD00D8AFBE /* DetailViewSectionModel.swift */; };
+		BD5107122C11DE4000D8AFBE /* ClosetDetailEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5107112C11DE4000D8AFBE /* ClosetDetailEntity.swift */; };
+		BD5107142C11E00600D8AFBE /* SelectedClosetInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5107132C11E00600D8AFBE /* SelectedClosetInfo.swift */; };
+		BD5107162C11E14800D8AFBE /* WithClosetInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5107152C11E14800D8AFBE /* WithClosetInfo.swift */; };
+		BD5107182C12B2EE00D8AFBE /* DiffTempEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5107172C12B2EE00D8AFBE /* DiffTempEntity.swift */; };
+		BD51071A2C12B89C00D8AFBE /* FirstWrammerRowEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5107192C12B89C00D8AFBE /* FirstWrammerRowEntity.swift */; };
+		BD51071C2C13224300D8AFBE /* SecoundRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD51071B2C13224300D8AFBE /* SecoundRow.swift */; };
+		BD51071F2C132D5500D8AFBE /* MainDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD51071E2C132D5500D8AFBE /* MainDetailCell.swift */; };
+		BD5107212C17270200D8AFBE /* WithItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5107202C17270200D8AFBE /* WithItemCell.swift */; };
+		BD5107232C17313700D8AFBE /* DiffTempCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5107222C17313700D8AFBE /* DiffTempCell.swift */; };
+		BD5107262C1893AE00D8AFBE /* ClosetDetailDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5107252C1893AE00D8AFBE /* ClosetDetailDataSource.swift */; };
+		BD5107282C18942600D8AFBE /* ClosetDetailTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5107272C18942600D8AFBE /* ClosetDetailTarget.swift */; };
 		BD5169452A5A9BD600582BA9 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5169442A5A9BD600582BA9 /* SettingViewModel.swift */; };
 		BD5169472A5AA39000582BA9 /* EditNicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5169462A5AA39000582BA9 /* EditNicknameViewController.swift */; };
 		BD5169492A5D6FEA00582BA9 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5169482A5D6FEA00582BA9 /* UITextField+Extension.swift */; };
@@ -397,6 +414,23 @@
 		BD5106F02C0AFCCE00D8AFBE /* MyTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTagView.swift; sourceTree = "<group>"; };
 		BD5106F22C0AFCF100D8AFBE /* MyTagsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTagsView.swift; sourceTree = "<group>"; };
 		BD5106F42C0B108400D8AFBE /* MultipleRowTagViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleRowTagViewTests.swift; sourceTree = "<group>"; };
+		BD5106FD2C0F64FD00D8AFBE /* StyleTabTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleTabTest.swift; sourceTree = "<group>"; };
+		BD5107002C0F672000D8AFBE /* StyleTabSectionModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleTabSectionModelTest.swift; sourceTree = "<group>"; };
+		BD5107072C0F726F00D8AFBE /* BannerCellTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerCellTest.swift; sourceTree = "<group>"; };
+		BD51070B2C0F756700D8AFBE /* ClosetDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetDetailViewController.swift; sourceTree = "<group>"; };
+		BD51070D2C0F75B300D8AFBE /* ClosetDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetDetailViewModel.swift; sourceTree = "<group>"; };
+		BD51070F2C1152AD00D8AFBE /* DetailViewSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewSectionModel.swift; sourceTree = "<group>"; };
+		BD5107112C11DE4000D8AFBE /* ClosetDetailEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetDetailEntity.swift; sourceTree = "<group>"; };
+		BD5107132C11E00600D8AFBE /* SelectedClosetInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedClosetInfo.swift; sourceTree = "<group>"; };
+		BD5107152C11E14800D8AFBE /* WithClosetInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithClosetInfo.swift; sourceTree = "<group>"; };
+		BD5107172C12B2EE00D8AFBE /* DiffTempEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DiffTempEntity.swift; path = Weatherbly/Entity/DiffTempEntity.swift; sourceTree = "<group>"; };
+		BD5107192C12B89C00D8AFBE /* FirstWrammerRowEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstWrammerRowEntity.swift; sourceTree = "<group>"; };
+		BD51071B2C13224300D8AFBE /* SecoundRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecoundRow.swift; sourceTree = "<group>"; };
+		BD51071E2C132D5500D8AFBE /* MainDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainDetailCell.swift; sourceTree = "<group>"; };
+		BD5107202C17270200D8AFBE /* WithItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithItemCell.swift; sourceTree = "<group>"; };
+		BD5107222C17313700D8AFBE /* DiffTempCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffTempCell.swift; sourceTree = "<group>"; };
+		BD5107252C1893AE00D8AFBE /* ClosetDetailDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetDetailDataSource.swift; sourceTree = "<group>"; };
+		BD5107272C18942600D8AFBE /* ClosetDetailTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetDetailTarget.swift; sourceTree = "<group>"; };
 		BD5169442A5A9BD600582BA9 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		BD5169462A5AA39000582BA9 /* EditNicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditNicknameViewController.swift; sourceTree = "<group>"; };
 		BD5169482A5D6FEA00582BA9 /* UITextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
@@ -723,6 +757,9 @@
 		BD2D017C2A388753003A25D5 = {
 			isa = PBXGroup;
 			children = (
+				BD5107172C12B2EE00D8AFBE /* DiffTempEntity.swift */,
+				BD51071B2C13224300D8AFBE /* SecoundRow.swift */,
+				BD5107192C12B89C00D8AFBE /* FirstWrammerRowEntity.swift */,
 				69A7F0DF2A80CDD800834974 /* LaunchScreen.storyboard */,
 				BD2D01872A388753003A25D5 /* Weatherbly */,
 				BD2D01862A388753003A25D5 /* Products */,
@@ -761,6 +798,7 @@
 		BD2D019C2A3887A3003A25D5 /* Feature */ = {
 			isa = PBXGroup;
 			children = (
+				BD51070A2C0F755400D8AFBE /* ClosetDetail */,
 				5CDCD7C62B54E767008465B9 /* Filter */,
 				6987EBB72B41400600CF1E74 /* NewHome */,
 				5C8F2D3A2B6B30D1002DF94E /* Notification */,
@@ -794,6 +832,7 @@
 		BD2D019E2A3887B8003A25D5 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				BD5107242C18938F00D8AFBE /* DetailAPI */,
 				5CCC91492A6114640025B522 /* API */,
 				69D25C8F2AD04F6300C17FB1 /* Moya */,
 			);
@@ -937,6 +976,62 @@
 			path = SesoryTemperature;
 			sourceTree = "<group>";
 		};
+		BD5106FF2C0F66F000D8AFBE /* StyleTabTest */ = {
+			isa = PBXGroup;
+			children = (
+				BD5107062C0F725D00D8AFBE /* Closet */,
+				BD5107052C0F725500D8AFBE /* Banner */,
+				BD5106FD2C0F64FD00D8AFBE /* StyleTabTest.swift */,
+				BD5107002C0F672000D8AFBE /* StyleTabSectionModelTest.swift */,
+			);
+			path = StyleTabTest;
+			sourceTree = "<group>";
+		};
+		BD5107052C0F725500D8AFBE /* Banner */ = {
+			isa = PBXGroup;
+			children = (
+				BD5107072C0F726F00D8AFBE /* BannerCellTest.swift */,
+			);
+			path = Banner;
+			sourceTree = "<group>";
+		};
+		BD5107062C0F725D00D8AFBE /* Closet */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Closet;
+			sourceTree = "<group>";
+		};
+		BD51070A2C0F755400D8AFBE /* ClosetDetail */ = {
+			isa = PBXGroup;
+			children = (
+				BD51071D2C132C8400D8AFBE /* Cell */,
+				BD51070B2C0F756700D8AFBE /* ClosetDetailViewController.swift */,
+				BD51070D2C0F75B300D8AFBE /* ClosetDetailViewModel.swift */,
+				BD51070F2C1152AD00D8AFBE /* DetailViewSectionModel.swift */,
+			);
+			path = ClosetDetail;
+			sourceTree = "<group>";
+		};
+		BD51071D2C132C8400D8AFBE /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				BD51071E2C132D5500D8AFBE /* MainDetailCell.swift */,
+				BD5107202C17270200D8AFBE /* WithItemCell.swift */,
+				BD5107222C17313700D8AFBE /* DiffTempCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		BD5107242C18938F00D8AFBE /* DetailAPI */ = {
+			isa = PBXGroup;
+			children = (
+				BD5107252C1893AE00D8AFBE /* ClosetDetailDataSource.swift */,
+				BD5107272C18942600D8AFBE /* ClosetDetailTarget.swift */,
+			);
+			path = DetailAPI;
+			sourceTree = "<group>";
+		};
 		BD6135D12A7E3C6700DB3DF9 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
@@ -952,6 +1047,9 @@
 				5CF0A49D2B5A32EA00D2AB4C /* HomeForecastEntity.swift */,
 				5C84169D2B68CAA5003AE726 /* TenDayForecastEntity.swift */,
 				5C8F2D422B6B6A71002DF94E /* NotificationEntity.swift */,
+				BD5107112C11DE4000D8AFBE /* ClosetDetailEntity.swift */,
+				BD5107152C11E14800D8AFBE /* WithClosetInfo.swift */,
+				BD5107132C11E00600D8AFBE /* SelectedClosetInfo.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -1011,6 +1109,7 @@
 		BD8668E22B45607200B0B16A /* Test */ = {
 			isa = PBXGroup;
 			children = (
+				BD5106FF2C0F66F000D8AFBE /* StyleTabTest */,
 				BD8668E32B45607B00B0B16A /* CSButtonTests.swift */,
 				BD3BA9E92B63948400BD3BFF /* LifeCycleTest.swift */,
 				BDB2DDAB2B666C1B009741E0 /* HeritageTest.swift */,
@@ -1214,6 +1313,7 @@
 				696176B22A63E37F00B83B4C /* RxBaseViewModel.swift in Sources */,
 				69D25C962AD04F6300C17FB1 /* WVProvider.swift in Sources */,
 				BD7DAB2D2A70DEE100422D25 /* ForecastDataSource.swift in Sources */,
+				BD5107102C1152AD00D8AFBE /* DetailViewSectionModel.swift in Sources */,
 				BD5D168E2A612BD500435816 /* DateTimePickViewModel.swift in Sources */,
 				BD4AC3932A669B0500537583 /* SlotMachineViewModel.swift in Sources */,
 				5CAB60D32A54FC6A00CD431A /* UITableViewCell+Extension.swift in Sources */,
@@ -1221,6 +1321,7 @@
 				BDAEBC9F2A8F5EE4002E10F2 /* WeatherMessageEnum.swift in Sources */,
 				5C4A0ACB2B47D34A006BE52A /* ClosetFilterHeader.swift in Sources */,
 				5CDCD7E42B56782F008465B9 /* FilterStyleListEntity.swift in Sources */,
+				BD5107232C17313700D8AFBE /* DiffTempCell.swift in Sources */,
 				BD2D01B42A3888AA003A25D5 /* UIColor+Extension.swift in Sources */,
 				BD05E07A2B38114B00A48E61 /* NewCSButton.swift in Sources */,
 				BD3BA9EA2B63948400BD3BFF /* LifeCycleTest.swift in Sources */,
@@ -1241,6 +1342,7 @@
 				5CE0FEBA2A93529100A0E655 /* AuthLoginEntity.swift in Sources */,
 				5CE8CD5A2B83275000AB6EBD /* NewClosetTarget.swift in Sources */,
 				5C8F2D432B6B6A71002DF94E /* NotificationEntity.swift in Sources */,
+				BD51071A2C12B89C00D8AFBE /* FirstWrammerRowEntity.swift in Sources */,
 				69A7F0D92A80B42A00834974 /* UserDefaultKey.swift in Sources */,
 				BD5169492A5D6FEA00582BA9 /* UITextField+Extension.swift in Sources */,
 				BD77B82C2A388D2000E7D57A /* OnBoardViewModel.swift in Sources */,
@@ -1252,6 +1354,7 @@
 				5CAB60C52A528C9700CD431A /* UICollectionViewCell+Extension.swift in Sources */,
 				BD49072F2A80DEED0027DEE8 /* HomeSensoryTempViewModel.swift in Sources */,
 				5C9D02C22A6E45D600AF2DA3 /* SettingRegionCompleteViewController.swift in Sources */,
+				BD5107182C12B2EE00D8AFBE /* DiffTempEntity.swift in Sources */,
 				5C8F2D3D2B6B30F0002DF94E /* NotificationListViewController.swift in Sources */,
 				5C4A0AC72B46832D006BE52A /* HomeClosetCell.swift in Sources */,
 				5C9D02EA2A725AC300AF2DA3 /* AddressRequest.swift in Sources */,
@@ -1263,8 +1366,10 @@
 				BD2D01AE2A38886C003A25D5 /* RxBaseViewController.swift in Sources */,
 				BDB2DDAC2B666C1B009741E0 /* HeritageTest.swift in Sources */,
 				69683A562A9B81BC00A2BD5A /* LoadErrorViewModel.swift in Sources */,
+				BD5107122C11DE4000D8AFBE /* ClosetDetailEntity.swift in Sources */,
 				BD4316362A3C9DB700E86271 /* AssetsImage.swift in Sources */,
 				BDA66FED2A444C470061A1F0 /* SelectGenderViewController.swift in Sources */,
+				BD5107162C11E14800D8AFBE /* WithClosetInfo.swift in Sources */,
 				5CF0A49E2B5A32EA00D2AB4C /* HomeForecastEntity.swift in Sources */,
 				69D25C972AD04F6300C17FB1 /* WVNetWorkError.swift in Sources */,
 				BD6135D32A7E3C9C00DB3DF9 /* RecommendClosetEntity.swift in Sources */,
@@ -1285,6 +1390,7 @@
 				5C4691812A78F96D00E2CC70 /* LoadErrorViewController.swift in Sources */,
 				BD8668E42B45607B00B0B16A /* CSButtonTests.swift in Sources */,
 				5C9F45562A8388130079ABA6 /* AddressEntity.swift in Sources */,
+				BD51070C2C0F756700D8AFBE /* ClosetDetailViewController.swift in Sources */,
 				BD51694F2A5EB43500582BA9 /* ChangeNicknameViewController.swift in Sources */,
 				BD77B82A2A388CEF00E7D57A /* OnBoardViewController.swift in Sources */,
 				5CC61E1F2A56850F001435E6 /* DateFormatter+Extension.swift in Sources */,
@@ -1295,6 +1401,7 @@
 				69A3D9EB2B484D2A00CA1FD5 /* UICollectionReusableView+Extension.swift in Sources */,
 				BD05E07E2B3816BB00A48E61 /* NewCombiButton.swift in Sources */,
 				69D25C9C2AD050D800C17FB1 /* WVTargetType.swift in Sources */,
+				BD5107282C18942600D8AFBE /* ClosetDetailTarget.swift in Sources */,
 				69D25C9A2AD04F6300C17FB1 /* WBErrorResponse.swift in Sources */,
 				BD05E07C2B3816B300A48E61 /* NewImageButton.swift in Sources */,
 				69A7F0E22A811EC000834974 /* UserDefaultManager.swift in Sources */,
@@ -1305,6 +1412,8 @@
 				BD5D168C2A612BC900435816 /* DateTimePickViewController.swift in Sources */,
 				5C5C1C2A2B86CAE500294BFF /* CSTextField.swift in Sources */,
 				5C9D02E82A72426D00AF2DA3 /* ClosetDataSource.swift in Sources */,
+				BD5107212C17270200D8AFBE /* WithItemCell.swift in Sources */,
+				BD51070E2C0F75B300D8AFBE /* ClosetDetailViewModel.swift in Sources */,
 				5CDCD7E02B566C04008465B9 /* FilterSection.swift in Sources */,
 				5C501F942BCE5A8000533F68 /* UserNotification.swift in Sources */,
 				BD05E0722B380C9400A48E61 /* NewCSLabel.swift in Sources */,
@@ -1312,6 +1421,7 @@
 				698F6CA92ADD624C00C2B33A /* Tab.swift in Sources */,
 				69C714D22ADD611400748CF6 /* HomeTabBarController.swift in Sources */,
 				BD05E05D2B3801B600A48E61 /* UIFont+Extension.swift in Sources */,
+				BD51071F2C132D5500D8AFBE /* MainDetailCell.swift in Sources */,
 				5CE0FEB82A8F4CE200A0E655 /* SetSensoryTempRequest.swift in Sources */,
 				5C46917F2A78F95800E2CC70 /* ConnectionLostViewController.swift in Sources */,
 				BD3BDE662BDD456E002E9E0C /* BannerCell.swift in Sources */,
@@ -1326,8 +1436,10 @@
 				BD3BDE702BFA03EF002E9E0C /* StyleCell.swift in Sources */,
 				5CAB60D12A54FC5F00CD431A /* UITableView+Extension.swift in Sources */,
 				BD3BDE732BFA1692002E9E0C /* ItemTagHeaderView.swift in Sources */,
+				BD5107262C1893AE00D8AFBE /* ClosetDetailDataSource.swift in Sources */,
 				5CCC91562A613F010025B522 /* SettingRegionViewModel.swift in Sources */,
 				BD7DAB312A70DEF400422D25 /* ForeCastTarget.swift in Sources */,
+				BD5107012C0F672000D8AFBE /* StyleTabSectionModelTest.swift in Sources */,
 				5CDCD7E22B566F87008465B9 /* FilterItemListEntity.swift in Sources */,
 				5C9D02C42A6E61C700AF2DA3 /* SettingRegionCompleteViewModel.swift in Sources */,
 				5C61B97F2BB52E67002EA200 /* AppEnvironment.swift in Sources */,
@@ -1339,11 +1451,13 @@
 				698F6CB22AE00FCC00C2B33A /* UIImage+Extension.swift in Sources */,
 				5C4A0ABD2B43ED8F006BE52A /* HomeForecastCell.swift in Sources */,
 				5C68E9212AF376080046D0BE /* ForcastUseCase.swift in Sources */,
+				BD51071C2C13224300D8AFBE /* SecoundRow.swift in Sources */,
 				BDF208FF2A4EAEF2001177B2 /* CGFloat+Extension.swift in Sources */,
 				5C9D02C62A6FB71F00AF2DA3 /* EditRegionViewModel.swift in Sources */,
 				696176B62A63E4A400B83B4C /* EmptyViewModel.swift in Sources */,
 				5CE8CD602B83363700AB6EBD /* NewClosetEntity.swift in Sources */,
 				BD5169512A5EB48D00582BA9 /* ChangeNicknameViewModel.swift in Sources */,
+				BD5106FE2C0F64FD00D8AFBE /* StyleTabTest.swift in Sources */,
 				69FDD4C62A39E42900830927 /* NicknameViewController.swift in Sources */,
 				5C8F2D412B6B6836002DF94E /* NotificationListTableViewCell.swift in Sources */,
 				693231642B4A80FE00816B7B /* HomeSection.swift in Sources */,
@@ -1357,11 +1471,13 @@
 				BD2D01B62A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift in Sources */,
 				BD2D01B22A38889E003A25D5 /* CSButton.swift in Sources */,
 				BD5169452A5A9BD600582BA9 /* SettingViewModel.swift in Sources */,
+				BD5107082C0F726F00D8AFBE /* BannerCellTest.swift in Sources */,
 				5C9D02BC2A68FC0200AF2DA3 /* Dependency.swift in Sources */,
 				BD2D01B02A38887D003A25D5 /* UIButton+Extension.swift in Sources */,
 				BD5106F12C0AFCCE00D8AFBE /* MyTagView.swift in Sources */,
 				5C1D5A112A3C500A00E66788 /* CSLabel.swift in Sources */,
 				BD50A5222A4C4072005F066E /* SlotMachineViewController.swift in Sources */,
+				BD5107142C11E00600D8AFBE /* SelectedClosetInfo.swift in Sources */,
 				5C9D02E12A72405100AF2DA3 /* TypeTarget.swift in Sources */,
 				BD3BDE6D2BEBD2EE002E9E0C /* StyleTagCell.swift in Sources */,
 				698F6CAE2ADD6EDB00C2B33A /* StyleViewModel.swift in Sources */,
