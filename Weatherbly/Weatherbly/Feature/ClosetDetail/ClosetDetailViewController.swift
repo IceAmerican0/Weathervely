@@ -41,6 +41,10 @@ final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewMod
     
     override func viewModelBinding() {
         super.viewModelBinding()
+        
+        viewModel.detailViewSections
+            .bind(to: parentCollectionView.rx.items(dataSource: setParentCollectionView()))
+            .disposed(by: bag)
     }
 }
 

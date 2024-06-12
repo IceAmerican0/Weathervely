@@ -27,9 +27,9 @@ extension DetailViewSectionModel: SectionModelType {
     var items: [Item] {
         switch self {
         case .mainDetail(items: let items):
-            return items
+            return items.map { $0 }
         case .withItem(items: let items):
-            return items
+            return items.map { $0 }
         case .warmmer(items: let items):
             return items
         case .cooler(items: let items):

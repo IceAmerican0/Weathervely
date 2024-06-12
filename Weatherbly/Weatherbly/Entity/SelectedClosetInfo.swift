@@ -13,6 +13,7 @@ struct SelectedClosetInfo: Codable {
     var imageUrl: String?
     var shopName: String?
     var style: SelectedClosetTypeInfo
+    var withItems: [WithItemsInfo]?
     
     enum CodingKeys: String, CodingKey {
         case id = "closetId"
@@ -20,6 +21,7 @@ struct SelectedClosetInfo: Codable {
         case imageUrl = "closetImageUrl"
         case shopName = "closetSiteName"
         case style = "style"
+        case withItems = "clothes"
     }
 }
 

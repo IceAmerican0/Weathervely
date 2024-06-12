@@ -14,11 +14,9 @@ struct ClosetDetailEntity: Codable{
 
 struct ClosetDetailData: Codable {
     var selectedCloset: SelectedClosetInfo?
-    var withItems: WithItemsInfo?
     
     enum CodingKeys: String, CodingKey {
         case selectedCloset = "closet"
-        case withItems = "clothes"
     }
 }
 
