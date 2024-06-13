@@ -26,14 +26,14 @@ public struct HomeForecastData: Codable {
 
 public struct HomeForecastInfo: Codable {
     let date: String
-    let time: String
-    let mainTemp: Int
-    let minTemp: Int
-    let maxTemp: Int
+    let time: String?
+    let currentTemp: String
+    let minTemp: String
+    let maxTemp: String
     let weather: String
     let comment: String
     
     enum CodingKeys: String, CodingKey {
-        case date, time, mainTemp, minTemp, maxTemp, weather, comment
+        case date, time, currentTemp, minTemp, maxTemp, weather, comment
     }
 }

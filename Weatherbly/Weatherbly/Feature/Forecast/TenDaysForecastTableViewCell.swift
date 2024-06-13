@@ -18,7 +18,8 @@ public final class TenDaysForecastTableViewCell: UITableViewCell {
     
     private let rainAM = LabelMaker(
         font: .caption_1_M,
-        fontColor: .white
+        fontColor: .white,
+        alignment: .center
     ).make()
     
     private let weatherAM = UIImageView()
@@ -27,7 +28,8 @@ public final class TenDaysForecastTableViewCell: UITableViewCell {
     
     private let rainPM = LabelMaker(
         font: .caption_1_M,
-        fontColor: .white
+        fontColor: .white,
+        alignment: .center
     ).make()
     
     private let minTempLabel = LabelMaker(
@@ -57,7 +59,7 @@ public final class TenDaysForecastTableViewCell: UITableViewCell {
     
     public override func sizeThatFits(_ size: CGSize) -> CGSize {
         contentView.flex.layout()
-        return CGSize(width: contentView.frame.width, height: 49)
+        return CGSize(width: contentView.frame.width, height: 48)
     }
     
     public func configureCellState(state: TenDayForecastInfo) {
@@ -66,16 +68,16 @@ public final class TenDaysForecastTableViewCell: UITableViewCell {
         maxTempLabel.text = "\(state.maxTemp)°"
         rainAM.text = state.rainAM != 0 ? "\(state.rainAM)%" : ""
         rainAM.flex.markDirty()
-        rainPM.text = state.rainAM != 0 ? "\(state.rainPM)%" : ""
+        rainPM.text = state.rainPM != 0 ? "\(state.rainPM)%" : ""
         rainPM.flex.markDirty()
         
         let (_, AMImage) = setWeatherUI(
             weather: state.weatherAM,
-            time: "오전"
+            time: "오전 9시"
         )
         let (_, PMImage) = setWeatherUI(
             weather: state.weatherPM,
-            time: "오후"
+            time: "오후 3시"
         )
         weatherAM.image = AMImage
         weatherPM.image = PMImage

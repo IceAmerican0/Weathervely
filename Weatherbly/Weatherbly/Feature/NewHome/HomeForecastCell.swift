@@ -81,13 +81,13 @@ public final class HomeForecastCell: UICollectionViewCell {
     }
     
     public func configureCellState(state: HomeForecastInfo) {
-        mainTempLabel.text = "\(state.mainTemp)°"
+        mainTempLabel.text = "\(state.currentTemp)°"
         mainTempLabel.flex.markDirty()
-        dailyTempLabel.text = "\(state.minTemp)° / \(state.maxTemp)°"
+        dailyTempLabel.text = "\(String(Int(Double(state.minTemp) ?? 0.0)))° / \(String(Int(Double(state.maxTemp) ?? 0.0)))°"
         dailyTempLabel.flex.markDirty()
         commentLabel.text = state.comment
         
-        let (gradient, image) = setWeatherUI(weather: state.weather, time: String(state.time))
+        let (gradient, image) = setWeatherUI(weather: state.weather, time: state.time ?? Date().currentTime())
         weatherImage.image = image
         addGradient(colors: gradient)
     }

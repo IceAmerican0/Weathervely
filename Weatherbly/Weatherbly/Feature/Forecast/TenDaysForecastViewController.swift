@@ -35,7 +35,9 @@ final class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastV
     private let mainTempLabel = LabelMaker(
         font: .heading_1_UL,
         fontColor: .white
-    ).make()
+    ).make().then {
+        $0.sizeToFit()
+    }
     
     private let sensoryTempLabel = LabelMaker(
         font: .body_5_M,
@@ -81,11 +83,11 @@ final class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastV
                 date.addItem(divider).marginLeft(12).width(1).height(10)
                 date.addItem(dateLabel).marginLeft(12)
             }
-            $0.addItem().direction(.row).justifyContent(.spaceBetween).alignItems(.center).marginTop(12).width(100%).define { weather in
-                weather.addItem(mainTempLabel).marginLeft(20).size(68)
-                weather.addItem().marginTop(-13).marginLeft(18).grow(1).define { middle in
+            $0.addItem().direction(.row).justifyContent(.spaceBetween).alignItems(.center).marginTop(12).define { weather in
+                weather.addItem(mainTempLabel).marginLeft(20).shrink(1)
+                weather.addItem().marginHorizontal(18).grow(1).define { middle in
                     middle.addItem(sensoryTempLabel)
-                    middle.addItem(dailyTempLabel).marginTop(7).grow(1)
+                    middle.addItem(dailyTempLabel).marginTop(7)
                 }
                 weather.addItem(weatherImage).marginRight(20).width(110).height(74)
             }
@@ -104,6 +106,7 @@ final class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastV
         viewModel.currentTemp
             .bind(with: self) { owner, data in
                 owner.mainTempLabel.text = "\(data)°"
+                owner.mainTempLabel.flex.markDirty()
             }.disposed(by: bag)
         
         viewModel.currentWeather
@@ -111,7 +114,7 @@ final class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastV
             .drive(
                 with: self,
                 onNext: { owner, data in
-                    let (gradient, image) = owner.view.setWeatherUI(weather: data, time: "오전")
+                    let (gradient, image) = owner.view.setWeatherUI(weather: data, time: Date().currentTime())
                     owner.weatherImage.image = image
                     owner.view.addGradient(colors: gradient)
                     
@@ -131,13 +134,18 @@ final class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastV
         viewModel.forecastInfo
             .bind(with: self) { owner, data in
                 owner.dailyTempLabel.text = "\(data[1].minTemp)° / \(data[1].maxTemp)°"
+                owner.dailyTempLabel.flex.markDirty()
             }.disposed(by: bag)
     }
 }
 
 extension TenDaysForeCastViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row == 9 {
+        if indexPath.row == 0 {
+            cell.alpha = 0.4
+        }
+        
+        if indexPath.row == 10 {
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0)
         }
     }

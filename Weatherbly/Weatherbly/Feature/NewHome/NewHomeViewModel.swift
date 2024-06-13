@@ -30,6 +30,7 @@ public protocol NewHomeViewModelLogic: ViewModelBusinessLogic {
     var refreshStatus: PublishRelay<Bool> { get }
     var homeSections: BehaviorRelay<[HomeSection]> { get }
     var forecastInfo: [HomeForecastInfo] { get }
+    var selectedIndex: BehaviorRelay<Int> { get }
     var selectedForecastState: BehaviorRelay<HomeForecastInfo> { get }
     var styleFilterList: [StyleTypeInfo] { get }
     var isLoading: Bool { get }
@@ -45,9 +46,9 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     /// 날씨 정보
     public var forecastInfo: [HomeForecastInfo] = []
     /// 선택돼있는 인덱스
-    private var selectedIndex = 0
+    public var selectedIndex = BehaviorRelay<Int>(value: 0)
     /// 선택돼있는 날씨 정보
-    public var selectedForecastState = BehaviorRelay<HomeForecastInfo>(value: .init(date: "", time: "", mainTemp: 0, minTemp: 0, maxTemp: 0, weather: "", comment: ""))
+    public var selectedForecastState = BehaviorRelay<HomeForecastInfo>(value: .init(date: "", time: "", currentTemp: "", minTemp: "", maxTemp: "", weather: "", comment: ""))
     /// 스타일 필터 리스트
     public var styleFilterList: [StyleTypeInfo] = []
     /// 스타일 추천 리스트
@@ -92,87 +93,26 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     
     /// 날씨 정보 받아오기
     public func getForecastInfo() {
-        let data: [HomeForecastInfo] = [
-            .init(
-                date: "현재",
-                time: "오전 9시",
-                mainTemp: 18,
-                minTemp: 15,
-                maxTemp: 25,
-                weather: "맑음",
-                comment: "해가 쨍쨍"
-            ),
-            .init(
-                date: "오늘",
-                time: "오후 3시",
-                mainTemp: 25,
-                minTemp: 15,
-                maxTemp: 25,
-                weather: "구름많음",
-                comment: "뭉게뭉게 뭉게구름"
-            ),
-            .init(
-                date: "오늘",
-                time: "오후 8시",
-                mainTemp: 16,
-                minTemp: 15,
-                maxTemp: 25,
-                weather: "흐림",
-                comment: "상당히 흐리네요"
-            ),
-            .init(
-                date: "내일",
-                time: "오전 9시",
-                mainTemp: 18,
-                minTemp: 16,
-                maxTemp: 20,
-                weather: "비",
-                comment: "흐리고 비가 내려요. 우산 깜빡하진 않으셨죠?"
-            ),
-            .init(
-                date: "내일",
-                time: "오후 3시",
-                mainTemp: 20,
-                minTemp: 16,
-                maxTemp: 20,
-                weather: "바람",
-                comment: "바람이 겁나게 부네요."
-            ),
-            .init(
-                date: "내일",
-                time: "오후 8시",
-                mainTemp: 16,
-                minTemp: 16,
-                maxTemp: 20,
-                weather: "맑음",
-                comment: "날이 좋네요"
-            ),
-        ]
-        forecastInfo = data
-        selectedIndex = 0
-        selectedForecastState.accept(forecastInfo[selectedIndex])
-        
-        styleFilterList.count == 0 ? getStyleFilterList() : getClosetInfo()
-//        let dataSource: ForecastDataSourceProtocol = ForecastDataSource()
-//        dataSource.getVillageForcast()
-//            .subscribe(
-//                with: self,
-//                onNext: { owner, response in
-//                    let data = response.data
-//                    owner.forecastInfo = data.forecast
-//                    owner.selectedIndex = 0
-//                    owner.selectedForecastState.accept(owner.forecastInfo[owner.selectedIndex])
-//                    owner.styleFilterList.count == 0 ? owner.getStyleFilterList() : owner.getClosetInfo()
-//                },
-//                onError: { owner, error in
-//                    owner.alertState.accept(
-//                        .init(
-//                            title: error.localizedDescription,
-//                            alertType: .popup
-//                        )
-//                    )
-//                }
-//            ).disposed(by: bag)
+        let dataSource: ForecastDataSourceProtocol = ForecastDataSource()
+        dataSource.getVillageForcast()
+            .subscribe(
+                with: self,
+                onNext: { owner, response in
+                    let data = response.data
+                    owner.forecastInfo = data.forecast
+                    owner.selectedIndex.accept(0)
+                    owner.selectedForecastState.accept(owner.forecastInfo[owner.selectedIndex.value])
+                    owner.styleFilterList.count == 0 ? owner.getStyleFilterList() : owner.getClosetInfo()
+                },
+                onError: { owner, error in
+                    owner.alertState.accept(
+                        .init(
+                            title: error.localizedDescription,
+                            alertType: .popup
+                        )
+                    )
+                }
+            ).disposed(by: bag)
     }
     
     /// 스타일 필터 리스트 받아오기
@@ -186,6 +126,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
                     owner.getClosetInfo()
                 },
                 onError: { owner, error in
+                    owner.refreshStatus.accept(false)
                     owner.alertState.accept(
                         .init(
                             title: error.localizedDescription,
@@ -209,6 +150,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
                     owner.loadHome()
                 },
                 onError: { owner, error in
+                    owner.refreshStatus.accept(false)
                     owner.alertState.accept(
                         .init(
                             title: error.localizedDescription,
@@ -255,6 +197,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
                     owner.isLoading = false
                 },
                 onError: { owner, error in
+                    owner.refreshStatus.accept(false)
                     owner.alertState.accept(
                         .init(
                             title: error.localizedDescription,
@@ -279,7 +222,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
         let info = selectedForecastState.value
         
         if direction == .right {
-            if info.date == "현재" {
+            if selectedIndex.value == 0 {
                 alertState.accept(
                     .init(
                         title: "현재보다 이전 시간은 확인할 수 없어요",
@@ -288,7 +231,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
                 return
             }
         } else {
-            if (info.date == "내일") && (info.time == "오후 8시") {
+            if selectedIndex.value + 1 == forecastInfo.count {
                 alertState.accept(
                     .init(
                         title: "내일 날씨까지만 볼 수 있어요",
@@ -302,12 +245,13 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     
     /// 시간대 이동
     public func getSelectedTimeInfo(direction: UISwipeGestureRecognizer.Direction) {
+        let index = selectedIndex.value
         if direction == .right {
-            selectedIndex -= 1
+            selectedIndex.accept(index - 1)
         } else {
-            selectedIndex += 1
+            selectedIndex.accept(index + 1)
         }
-        selectedForecastState.accept(forecastInfo[selectedIndex])
+        selectedForecastState.accept(forecastInfo[selectedIndex.value])
         getClosetInfo()
     }
     
@@ -316,11 +260,11 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
         let info = selectedForecastState.value
         
         if info.date == "현재" {
-            selectedIndex = forecastInfo.count - 3
+            selectedIndex.accept(forecastInfo.count - 3)
         } else {
-            selectedIndex = 0
+            selectedIndex.accept(0)
         }
-        selectedForecastState.accept((forecastInfo[selectedIndex]))
+        selectedForecastState.accept((forecastInfo[selectedIndex.value]))
         getClosetInfo()
     }
     

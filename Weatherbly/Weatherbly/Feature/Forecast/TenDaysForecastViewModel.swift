@@ -26,105 +26,6 @@ public final class TenDaysForecastViewModel: RxBaseViewModel, TenDaysForecastVie
     public var forecastInfo = PublishRelay<[TenDayForecastInfo]>()
     
     public func getForecastData() {
-        // TODO: Delete Dummy
-        let dummy: [TenDayForecastInfo] = [
-            .init(
-                date: "어제",
-                minTemp: 15,
-                maxTemp: 19,
-                weatherAM: "맑음",
-                weatherPM: "비",
-                rainAM: 100,
-                rainPM: 10
-            ),
-            .init(
-                date: "오늘",
-                minTemp: 18,
-                maxTemp: 25,
-                weatherAM: "안개",
-                weatherPM: "흐림",
-                rainAM: 0,
-                rainPM: 0
-            ),
-            .init(
-                date: "토요일",
-                minTemp: 21,
-                maxTemp: 23,
-                weatherAM: "구름많음",
-                weatherPM: "바람",
-                rainAM: 20,
-                rainPM: 30
-            ),
-            .init(
-                date: "일요일",
-                minTemp: 19,
-                maxTemp: 24,
-                weatherAM: "눈비",
-                weatherPM: "맑음",
-                rainAM: 100,
-                rainPM: 100
-            ),
-            .init(
-                date: "월요일",
-                minTemp: 16,
-                maxTemp: 20,
-                weatherAM: "구름많음",
-                weatherPM: "비",
-                rainAM: 40,
-                rainPM: 100
-            ),
-            .init(
-                date: "화요일",
-                minTemp: 19,
-                maxTemp: 21,
-                weatherAM: "눈",
-                weatherPM: "바람",
-                rainAM: 0,
-                rainPM: 0
-            ),
-            .init(
-                date: "수요일",
-                minTemp: 20,
-                maxTemp: 25,
-                weatherAM: "맑음",
-                weatherPM: "바람",
-                rainAM: 0,
-                rainPM: 0
-            ),
-            .init(
-                date: "목요일",
-                minTemp: 18,
-                maxTemp: 25,
-                weatherAM: "구름많음",
-                weatherPM: "흐림",
-                rainAM: 100,
-                rainPM: 50
-            ),
-            .init(
-                date: "금요일",
-                minTemp: 15,
-                maxTemp: 24,
-                weatherAM: "안개",
-                weatherPM: "바람",
-                rainAM: 90,
-                rainPM: 60
-            ),
-            .init(
-                date: "토요일",
-                minTemp: 20,
-                maxTemp: 31,
-                weatherAM: "구름많음",
-                weatherPM: "흐림",
-                rainAM: 70,
-                rainPM: 80
-            ),
-        ]
-        currentTemp.accept("18")
-        currentWeather.accept("맑음")
-        forecastInfo.accept(dummy)
-    }
-    
-    func getList() {
         let dataSource: ForecastDataSourceProtocol = ForecastDataSource()
         dataSource.getTenDayForeCast()
             .subscribe(
@@ -133,7 +34,7 @@ public final class TenDaysForecastViewModel: RxBaseViewModel, TenDaysForecastVie
                     let data = response.data
                     owner.currentTemp.accept("\(data.currentTemp)")
                     owner.currentWeather.accept(data.currentWeather)
-                    owner.forecastInfo.accept(data.list)
+                    owner.forecastInfo.accept(data.forecast)
                 },
                 onError: { owner, error in
                     owner.alertState.accept(

@@ -55,7 +55,7 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
         font: .title_3_B,
         alignment: .center
     ).make().then {
-        $0.adjustsFontSizeToFitWidth = true
+        $0.sizeToFit()
     }
     
     private let nextButton = UIButton().then {
@@ -105,7 +105,7 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
             $0.addItem().direction(.row).alignItems(.center).justifyContent(.center).height(30).define { date in
                 date.addItem(prevButton).size(28)
                 date.addItem(dayLabel).marginLeft(16).width(41).height(29)
-                date.addItem(timeLabel).marginLeft(12)
+                date.addItem(timeLabel).marginLeft(12).width(66).height(23)
                 date.addItem(nextButton).marginLeft(16).size(28)
             }
             $0.addItem(homeCollectionView).marginTop(14).width(100%).grow(1)
@@ -166,30 +166,33 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
                 }
             }.disposed(by: bag)
         
-        viewModel.selectedForecastState
+        viewModel.selectedIndex
             .asDriver()
-            .drive(
-                with: self,
-                onNext: { owner, info in
-                    if info.date == "현재" {
-                        owner.prevButton.setImage(.home_date_left_dis, for: .normal)
-                        owner.prevButton.isUserInteractionEnabled = false
-                    } else {
-                        owner.prevButton.setImage(.home_date_left_nor, for: .normal)
-                        owner.prevButton.isUserInteractionEnabled = true
-                    }
-                    
-                    if (info.date == "내일") && (info.time == "오후 8시") {
-                        owner.nextButton.setImage(.home_date_right_dis, for: .normal)
-                        owner.nextButton.isUserInteractionEnabled = false
-                    } else {
-                        owner.nextButton.setImage(.home_date_right_nor, for: .normal)
-                        owner.nextButton.isUserInteractionEnabled = true
-                    }
-                    owner.dayLabel.text = info.date
-                    owner.timeLabel.text = "\(info.time)"
+            .drive(with: self) { owner, index in
+                if index == 0 {
+                    owner.prevButton.setImage(.home_date_left_dis, for: .normal)
+                    owner.prevButton.isUserInteractionEnabled = false
+                } else {
+                    owner.prevButton.setImage(.home_date_left_nor, for: .normal)
+                    owner.prevButton.isUserInteractionEnabled = true
                 }
-            ).disposed(by: bag)
+                
+                if index + 1 == 0 {
+                    owner.nextButton.setImage(.home_date_right_dis, for: .normal)
+                    owner.nextButton.isUserInteractionEnabled = false
+                } else {
+                    owner.nextButton.setImage(.home_date_right_nor, for: .normal)
+                    owner.nextButton.isUserInteractionEnabled = true
+                }
+            }.disposed(by: bag)
+        
+        viewModel.selectedForecastState
+            .bind(with: self) { owner, info in
+                owner.dayLabel.text = info.date
+                owner.dayLabel.flex.markDirty()
+                owner.timeLabel.text = info.time ?? Date().currentTime()
+                owner.timeLabel.flex.markDirty()
+            }.disposed(by: bag)
         
         homeCollectionView.rx.prefetchItems
             .filter { indexPath in
@@ -272,3 +275,5 @@ extension NewHomeViewController {
         })
     }
 }
+
+

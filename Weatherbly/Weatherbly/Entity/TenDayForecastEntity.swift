@@ -17,12 +17,12 @@ public struct TenDayForecastEntity: Codable {
 }
 
 public struct TenDayForecastData: Codable {
-    let list: [TenDayForecastInfo]
-    let currentTemp: Int
+    let currentTemp: String
     let currentWeather: String
+    let forecast: [TenDayForecastInfo]
     
     enum CodingKeys: String, CodingKey {
-        case list, currentTemp, currentWeather
+        case currentTemp, currentWeather, forecast
     }
 }
 

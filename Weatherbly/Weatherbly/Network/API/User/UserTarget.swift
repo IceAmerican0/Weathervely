@@ -59,16 +59,15 @@ extension UserTarget: WVTargetType {
     
     public var task: Moya.Task {
         switch self {
-        case .getUserInfo:
+        case .getUserInfo,
+             .resetUserInfo,
+             .getAddressList:
             .requestPlain
         case .fetchUserInfo(let userInfo):
             .requestParameters(
                 parameters: userInfo.dictionary,
                 encoding: JSONEncoding.default
             )
-        case .resetUserInfo,
-             .getAddressList:
-            .requestPlain
         case .addAddress(let addressInfo):
             .requestParameters(
                 parameters: addressInfo.dictionary,

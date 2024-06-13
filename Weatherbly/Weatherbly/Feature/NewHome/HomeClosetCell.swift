@@ -12,7 +12,9 @@ import Then
 import Kingfisher
 
 public final class HomeClosetCell: UICollectionViewCell {
-    let cloth = UIImageView()
+    let cloth = UIImageView().then {
+        $0.backgroundColor = .clear
+    }
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -44,6 +46,7 @@ public final class HomeClosetCell: UICollectionViewCell {
     }
     
     func layout() {
+        backgroundColor = .gray10
         setCornerRadius(12)
         layer.masksToBounds = true
         clipsToBounds = true
@@ -54,7 +57,7 @@ public final class HomeClosetCell: UICollectionViewCell {
     }
     
     func configureCellState(state: NewClosetInfo) {
-        if state.closetImageUrl == "" {
+        if state.closetId == -1 {
             cloth.image = .home_banner_01
         } else {
             cloth.setKF(urlString: state.closetImageUrl, placeHolder: .home_nodata)
