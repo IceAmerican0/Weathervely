@@ -19,8 +19,6 @@ public enum ButtonTapAction {
     case didTapPrev
     /// 다음 시간대
     case didTapNext
-    /// 필터
-    case didTapFilter
 }
 
 final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
@@ -265,9 +263,11 @@ extension NewHomeViewController {
                         $0.configureCellState(state: self.viewModel.styleFilterList)
                         
                         $0.buttonTap
-                            .drive(with: self, onNext: { owner, _ in
-                                owner.viewModel.filterCloset()
-                            }).disposed(by: $0.bag)
+                            .drive(with: self) { owner, _ in
+                                owner.viewModel.filterCloset(delegate: self)
+                            }.disposed(by: $0.bag)
+                        
+                        $0.setDelegate(delegate: self)
                     }
                 }
             }
@@ -276,4 +276,10 @@ extension NewHomeViewController {
     }
 }
 
-
+extension NewHomeViewController: StyleListViewDelegate {
+    /// 스타일필터 선택시
+    func didTap() {
+        homeCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
+        viewModel.pullToRefresh()
+    }
+}

@@ -47,10 +47,15 @@ public final class HomeItemFilterCell: UICollectionViewCell {
     public override func prepareForReuse() {
         super.prepareForReuse()
         bag = DisposeBag()
+        listButton.isSelected = false
     }
     
-    public func configureCellState(state: MediumCategoryInfo) {
+    public func configureCellState(state: MediumCategoryInfo, selectedList: [Int]) {
         listButton.titleAttribute(title: state.name)
+        
+        if selectedList.contains(state.id) {
+            listButton.isSelected = true
+        }
         /// 셀 크기 재정의
         listButton.flex.markDirty()
         setLayout()

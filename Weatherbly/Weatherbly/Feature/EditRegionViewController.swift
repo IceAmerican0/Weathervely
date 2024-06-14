@@ -15,7 +15,7 @@ import Then
 final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> {
     private var navigationView = CSNavigationView(.leftButton(.leftArrow_black)).then {
         $0.setTitle("동네 설정")
-        $0.addBorder(.bottom)
+        $0.addBorder(.bottom, 1, .gray30)
     }
     
     private let header = LabelMaker(

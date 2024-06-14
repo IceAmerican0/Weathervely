@@ -9,7 +9,7 @@ import RxMoya
 import RxSwift
 
 protocol FilteredStyleDataSourceProtocol {
-    func getFilteredStyledCount(id: [Int]) -> Observable<HomeFilterCountEntity>
+    func getFilteredStyleCount(id: [Int]) -> Observable<HomeFilterCountEntity>
 }
 
 final class FilteredStyleDataSource: FilteredStyleDataSourceProtocol {
@@ -19,9 +19,9 @@ final class FilteredStyleDataSource: FilteredStyleDataSourceProtocol {
         self.provider = provider
     }
     
-    func getFilteredStyledCount(id: [Int] = []) -> Observable<HomeFilterCountEntity> {
+    func getFilteredStyleCount(id: [Int] = []) -> Observable<HomeFilterCountEntity> {
         provider.rx
-            .request(.getFilteredStyledCount(id: id))
+            .request(.getFilteredStyleCount(id: id))
             .mapTo(HomeFilterCountEntity.self)
     }
 }

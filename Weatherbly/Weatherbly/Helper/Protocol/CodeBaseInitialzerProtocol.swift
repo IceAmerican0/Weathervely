@@ -18,28 +18,18 @@ import Foundation
 // MARK: - Method
 
 protocol CodeBaseInitializerProtocol {
-
     func codeBaseInitializer()
-
-    func attribute()
-
     func layout()
-
     func bind()
 }
 
 extension CodeBaseInitializerProtocol {
-
     func codeBaseInitializer() {
-        attribute()
         layout()
         bind()
     }
 
-    func attribute() { }
-
     func layout() { }
 
     func bind() { }
-
 }

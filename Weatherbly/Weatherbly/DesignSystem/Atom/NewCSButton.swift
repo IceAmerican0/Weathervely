@@ -63,15 +63,19 @@ public final class NewCSButton: UIButton {
         buttonConfigure()
     }
     
+    /// Loading Indicator On
     public func startAnimation() {
         titleLabel?.isHidden = true
+        isUserInteractionEnabled = false
         indicator.pin.center()
         indicator.flex.display(.flex)
         indicator.startAnimating()
     }
     
+    /// Loading Indicator Off
     public func stopAnimation() {
         titleLabel?.isHidden = false
+        isUserInteractionEnabled = true
         indicator.flex.display(.none)
         indicator.stopAnimating()
     }

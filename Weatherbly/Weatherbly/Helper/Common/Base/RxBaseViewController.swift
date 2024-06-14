@@ -59,9 +59,6 @@ public class RxBaseViewController<ViewModel>:
         navigationController?.interactivePopGestureRecognizer?.delegate = self
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
-
-    // MARK: - Attribute
-    func attribute() { }
     
     // MARK: - Layout
     func layout() { }

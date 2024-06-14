@@ -12,33 +12,29 @@ import RxCocoa
 protocol FilterListViewModelLogic: ViewModelBusinessLogic {
     func getCategoryList()
     func getFilterCount(id: Int?)
+    func reset()
     func filterCompleted()
     
-    var isLoading: PublishRelay<Bool> { get }
-    var isFiltered: PublishRelay<Bool> { get }
+    var isLoading: BehaviorRelay<Bool> { get }
+    var selectedList: BehaviorRelay<[Int]> { get }
     var filterSection: PublishRelay<[FilterSection]> { get }
     var filterCount: PublishRelay<Int> { get }
 }
 
 final class FilterListViewModel: RxBaseViewModel, FilterListViewModelLogic {
     /// 로딩 상태
-    var isLoading: PublishRelay<Bool>
-    /// 필터 선택 여부
-    var isFiltered: PublishRelay<Bool>
+    var isLoading = BehaviorRelay<Bool>(value: false)
+    /// 선택된 아이템 리스트
+    var selectedList = BehaviorRelay<[Int]>(value: [])
     /// 필터 정보
     var filterSection = PublishRelay<[FilterSection]>()
     /// 코디 카운트
     var filterCount: PublishRelay<Int>
-    /// 선택된 아이템 리스트
-    private var selectedList: [Int]
     
     override init() {
-        self.isLoading = .init()
-        self.isFiltered = .init()
         self.filterCount = .init()
-        self.selectedList = UserDefaultManager.shared.homeItemFilterList
         super.init()
-        self.isFiltered.accept(selectedList.isEmpty ? false : true)
+        self.selectedList.accept(UserDefaultManager.shared.homeItemFilterList)
     }
     
     /// 아이템 리스트 가져오기
@@ -73,7 +69,6 @@ final class FilterListViewModel: RxBaseViewModel, FilterListViewModelLogic {
             )
         ]
         
-        let randomCount = Int.random(in: 1 ... 100)
         let itemSection: [FilterSection] = dummy.map {
             .item(
                 category: $0.category,
@@ -81,7 +76,7 @@ final class FilterListViewModel: RxBaseViewModel, FilterListViewModelLogic {
             )
         }
         filterSection.accept(itemSection)
-        filterCount.accept(randomCount)
+        filterCount.accept(selectedList.value.count)
         isLoading.accept(false)
 //        let dataSource: MediumCategoryDataSourceProtocol = MediumCategoryDataSource()
 //        dataSource.getMediumCategoryList(id: UserDefaultManager.shared.homeStyleFilterList)
@@ -105,26 +100,30 @@ final class FilterListViewModel: RxBaseViewModel, FilterListViewModelLogic {
     public func getFilterCount(id: Int? = nil) {
         isLoading.accept(true)
         
+        var list = selectedList.value
+        
         if let id {
-            if let index = selectedList.firstIndex(of: id) {
-                selectedList.remove(at: index)
+            if let index = list.firstIndex(of: id) {
+                list.remove(at: index)
             } else {
-                selectedList.append(id)
+                list.append(id)
             }
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
             guard let self else { return }
             self.isLoading.accept(false)
-            self.filterCount.accept(selectedList.count)
+            self.selectedList.accept(list)
+            self.filterCount.accept(list.count)
         }
         
 //        let dataSource: FilteredStyleDataSourceProtocol = FilteredStyleDataSource()
-//        dataSource.getFilteredStyledCount(id: selectedList)
+//        dataSource.getFilteredStyleCount(id: list)
 //            .subscribe(
 //                with: self,
 //                onNext: { owner, response in
 //                    owner.isLoading.accept(false)
+//                    owner.selectedList.accept(list)
 //                    owner.filterCount.accept(response.data.count)
 //                },
 //                onError: { owner, error in
@@ -134,8 +133,13 @@ final class FilterListViewModel: RxBaseViewModel, FilterListViewModelLogic {
 //            ).disposed(by: bag)
     }
     
+    public func reset() {
+        selectedList.accept([])
+        getFilterCount()
+    }
+    
     /// 필터 완료
     public func filterCompleted() {
-        userDefault.set(selectedList, forKey: UserDefaultKey.homeItemFilterList.rawValue)
+        userDefault.set(selectedList.value, forKey: UserDefaultKey.homeItemFilterList.rawValue)
     }
 }

@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import RxRelay
 
 public final class UserDefaultManager {
     public static let shared = UserDefaultManager()
@@ -91,20 +90,22 @@ public final class UserDefaultManager {
         }
     }
     
-//    public var homeStyleFilterList: [Int] {
-//        if let list = userDefault.object(forKey: UserDefaultKey.homeStyleFilterList.rawValue) as? [Int] {
-//            return list
-//        } else {
-//            return []
-//        }
-//    }
-    
-    public var homeStyleFilterList: BehaviorRelay<[Int]> {
+    public var homeStyleFilterList: [Int] {
         if let list = userDefault.object(forKey: UserDefaultKey.homeStyleFilterList.rawValue) as? [Int] {
-            return BehaviorRelay<[Int]>(value: list)
+            return list
         } else {
-            return BehaviorRelay<[Int]>(value: [])
+            return []
         }
+    }
+    
+    public func filteringStyle(id: Int) {
+        var filteredList = UserDefaultManager.shared.homeStyleFilterList
+        if let index = filteredList.firstIndex(of: id) {
+            filteredList.remove(at: index)
+        } else {
+            filteredList.append(id)
+        }
+        userDefault.set(filteredList, forKey: UserDefaultKey.homeStyleFilterList.rawValue)
     }
     
     public var homeItemFilterList: [Int] {

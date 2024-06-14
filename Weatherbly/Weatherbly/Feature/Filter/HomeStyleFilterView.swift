@@ -15,7 +15,7 @@ import RxCocoa
 public final class HomeStyleFilterView: UICollectionReusableView {
     var bag = DisposeBag()
     
-    public lazy var styleListView = StyleListView()
+    public var styleListView = StyleListView()
     
     private let filterIcon = UIButton().then {
         $0.setImage(.home_option, for: .normal)
@@ -27,6 +27,7 @@ public final class HomeStyleFilterView: UICollectionReusableView {
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
+        setLayout()
         layout()
     }
     
@@ -42,15 +43,21 @@ public final class HomeStyleFilterView: UICollectionReusableView {
     public func configureCellState(state: [StyleTypeInfo]) {
         styleListView.reloadView(state: state)
     }
+    
+    public func setDelegate(delegate: StyleListViewDelegate) {
+        styleListView.delegate = delegate
+    }
 }
 
 extension HomeStyleFilterView {
-    private func layout() {
+    private func setLayout() {
         backgroundColor = .white
         
         addSubview(styleListView)
         addSubview(filterIcon)
-        
+    }
+    
+    private func layout() {
         styleListView.pin.before(of: filterIcon, aligned: .center).left().marginRight(20).height(29)
         filterIcon.pin.vCenter().right().size(24)
     }

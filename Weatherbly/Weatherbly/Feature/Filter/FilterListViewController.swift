@@ -12,13 +12,8 @@ import Then
 import RxSwift
 import RxDataSources
 
-public protocol FilterListViewDelegate: AnyObject {
-    func didTapCell(count: Int, isFiltered: Bool)
-    func didTapConfirm()
-}
-
 final class FilterListViewController: RxBaseViewController<FilterListViewModel> {
-    weak var delegate: FilterListViewDelegate?
+    weak var delegate: StyleListViewDelegate?
     
     private var exitButton = UIButton().then {
         $0.setImage(.filter_exit, for: .normal)
@@ -36,10 +31,11 @@ final class FilterListViewController: RxBaseViewController<FilterListViewModel> 
     
     private lazy var dataSource = setDataSource()
     
-    private var resetButton = NewCSButton(.standard, style: .violet600).then {
-        $0.setImage(.filter_reset_dis, for: .normal)
+    private var resetButton = NewCSButton(.standard, style: .violet100).then {
+        $0.setImage(.filter_reset, for: .normal)
+        $0.setImage(.filter_reset_dis, for: .disabled)
         $0.backgroundColor = .gray30
-        $0.isUserInteractionEnabled = false
+        $0.isEnabled = false
     }
     
     private let confirmButton = NewCSButton(.standard, style: .violet600).then {
@@ -63,24 +59,10 @@ final class FilterListViewController: RxBaseViewController<FilterListViewModel> 
         container.addSubview(confirmButton)
         
         viewModel.getCategoryList()
-        
-        setBottomSheet()
-        // 바텀시트형식으로 띄우며 뷰컨 두번 호출되는 현상 방지
-        definesPresentationContext = true
     }
     
     override func viewBinding() {
         super.viewBinding()
-        
-        filterList.rx
-            .setDelegate(self)
-            .disposed(by: bag)
-        
-        filterList.rx
-            .itemSelected
-            .bind(with: self) { owner, indexPath in
-                
-            }.disposed(by: bag)
         
         viewModel.filterSection
             .observe(on: MainScheduler.instance)
@@ -90,23 +72,27 @@ final class FilterListViewController: RxBaseViewController<FilterListViewModel> 
         viewModel.filterCount
             .asDriver(onErrorJustReturn: -1)
             .drive(with: self) { owner, count in
-                if count >= 0 {
+                if count > 0 {
+                    owner.confirmButton.isEnabled = true
                     owner.confirmButton.setTitle("\(count)개 코디 보기", for: .normal)
                 } else {
-                    owner.confirmButton.setTitle("다시 시도해주세요", for: .normal)
+                    owner.confirmButton.isEnabled = false
+                    if count == 0 {
+                        owner.confirmButton.setTitle("조건에 맞는 코디가 없어요", for: .normal)
+                    } else {
+                        owner.confirmButton.setTitle("다시 시도해주세요", for: .normal)
+                    }
                 }
             }.disposed(by: bag)
         
-        viewModel.isFiltered
+        viewModel.selectedList
             .subscribe(
                 with: self,
-                onNext: { owner, isFiltered in
-                    if isFiltered {
-                        owner.resetButton.setImage(.filter_reset, for: .normal)
-                        owner.resetButton.isUserInteractionEnabled = true
+                onNext: { owner, list in
+                    if list.count > 0 {
+                        owner.resetButton.isEnabled = true
                     } else {
-                        owner.resetButton.setImage(.filter_reset_dis, for: .normal)
-                        owner.resetButton.isUserInteractionEnabled = false
+                        owner.resetButton.isEnabled = false
                     }
             }).disposed(by: bag)
         
@@ -128,13 +114,15 @@ final class FilterListViewController: RxBaseViewController<FilterListViewModel> 
         
         resetButton.rx.tap
             .bind(with: self) { owner, _ in
-                owner.view.layoutIfNeeded()
+                owner.viewModel.reset()
+                owner.filterList.reloadData()
             }.disposed(by: bag)
         
         confirmButton.rx.tap
             .bind(with: self) { owner, _ in
                 if owner.confirmButton.titleLabel?.text != "다시 시도해주세요" {
                     owner.viewModel.filterCompleted()
+                    owner.delegate?.didTap()
                 }
                 owner.dismiss(animated: true)
             }.disposed(by: bag)
@@ -142,7 +130,7 @@ final class FilterListViewController: RxBaseViewController<FilterListViewModel> 
 }
 
 // MARK: UICollectionView DataSource & UI
-extension FilterListViewController: UICollectionViewDelegate {
+extension FilterListViewController {
     func setDataSource() -> RxCollectionViewSectionedReloadDataSource<FilterSection> {
         RxCollectionViewSectionedReloadDataSource<FilterSection>(configureCell: { [weak self] dataSource, collectionView, indexPath, _ in
             guard let self else { return UICollectionViewCell() }
@@ -152,14 +140,15 @@ extension FilterListViewController: UICollectionViewDelegate {
                     withType: HomeItemFilterCell.self,
                     for: indexPath
                 ).then {
-                    $0.configureCellState(state: cellState)
+                    $0.configureCellState(state: cellState, selectedList: self.viewModel.selectedList.value)
                 }
                 
                 cell.buttonTap
-                    .drive(with: self, onNext: { owner, _ in
-                        self.viewModel.getFilterCount(id: cellState.id)
+                    .drive(with: self) { owner, _ in
+                        if owner.viewModel.isLoading.value { return }
+                        owner.viewModel.getFilterCount(id: cellState.id)
                         cell.listButton.isSelected.toggle()
-                    }).disposed(by: cell.bag)
+                    }.disposed(by: cell.bag)
                 
                 return cell
             }

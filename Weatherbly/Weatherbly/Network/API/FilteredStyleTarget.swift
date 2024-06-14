@@ -9,7 +9,7 @@ import Moya
 
 public enum FilteredStyleTarget {
     /// 타입 리스트 가져오기
-    case getFilteredStyledCount(id: [Int])
+    case getFilteredStyleCount(id: [Int])
 }
 
 extension FilteredStyleTarget: WVTargetType {
@@ -19,11 +19,11 @@ extension FilteredStyleTarget: WVTargetType {
     
     public var task: Moya.Task {
         switch self {
-        case .getFilteredStyledCount(let id):
+        case .getFilteredStyleCount(let id):
             .requestParameters(
                 parameters: [
-                    "style_id": id,
-                    "medium_category_ids": ""
+                    "style_ids": UserDefaultManager.shared.homeStyleFilterList,
+                    "medium_category_ids": id
                 ],
                 encoding: URLEncoding.queryString
             )

@@ -47,13 +47,14 @@ public final class HomeStyleFilterCell: UICollectionViewCell {
     public override func prepareForReuse() {
         super.prepareForReuse()
         bag = DisposeBag()
+        listButton.isSelected = false
     }
     
     public func configureCellState(state: StyleTypeInfo) {
         listButton.titleAttribute(title: state.name)
         
-        UserDefaultManager.shared.homeStyleFilterList.value.forEach { id in
-            listButton.isSelected = id == state.id
+        if UserDefaultManager.shared.homeStyleFilterList.contains(state.id) {
+            listButton.isSelected = true
         }
         
         /// 셀 크기 재정의

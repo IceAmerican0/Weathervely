@@ -11,7 +11,14 @@ import PinLayout
 import Then
 import RxSwift
 
+public protocol StyleListViewDelegate: AnyObject {
+    func didTap()
+}
+
 public final class StyleListView: UIView {
+    var bag = DisposeBag()
+    
+    weak var delegate: StyleListViewDelegate?
     
     public lazy var filterList = UICollectionView(
         frame: .zero,
@@ -72,7 +79,9 @@ extension StyleListView: UICollectionViewDelegate, UICollectionViewDataSource {
         }
         
         cell.buttonTap
-            .drive(with: self, onNext: { _, _ in
+            .drive(with: self, onNext: { owner, _ in
+                UserDefaultManager.shared.filteringStyle(id: owner.viewState[indexPath.row].id)
+                owner.delegate?.didTap()
                 cell.listButton.isSelected.toggle()
             }).disposed(by: cell.bag)
         
