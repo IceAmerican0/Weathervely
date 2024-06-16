@@ -46,7 +46,7 @@ final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewMod
         super.layout()
         container.flex.define {
             $0.addItem(navigationBar)
-            $0.addItem(parentCollectionView).grow(1).backgroundColor(.green)
+            $0.addItem(parentCollectionView).grow(1)
         }
     }
     
