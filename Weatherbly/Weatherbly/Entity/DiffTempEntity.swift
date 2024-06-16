@@ -17,8 +17,8 @@ struct DiffTempData: Codable {
 }
 
 struct DiffTempClosetList: Codable {
-    var firstRow: FirstRow?
-    var secondRow: SecondRow?
+    var firstRow: Rows?
+    var secondRow: Rows?
     
     enum CodingKeys: String, CodingKey {
         case firstRow = "row1"

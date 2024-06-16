@@ -14,50 +14,115 @@ final class ClosetDetailViewModel: RxBaseViewModel {
     private let closetDetailDataSource = ClosetDetailDataSource()
     
     /// 전체 CollectionView
-    public var detailViewSections = BehaviorRelay<[DetailViewSectionModel]>(value: [])
-    /// 선택된 옷 정보
-    public var selectedClosetInfo = BehaviorRelay<SelectedClosetInfo?>(value: nil)
-    /// 함께착용한 아이템 정보
-    public var withItemInfo = BehaviorRelay<WithItemsInfo?>(value: nil)
-    /// Warmmer closets
-    public var warmListInfo = BehaviorRelay<DiffTempClosetList?>(value: nil)
-    public var warmFirstRowInfo = BehaviorRelay<FirstRow?>(value: nil)
-    public var warmSecondRowInfo = BehaviorRelay<SecondRow?>(value: nil)
-    /// Cooler losets
-    public var coolListInfo = BehaviorRelay<DiffTempClosetList?>(value: nil)
-    public var coolFirstRowInfo = BehaviorRelay<FirstRow?>(value: nil)
-    public var coolSecondRowInfo = BehaviorRelay<SecondRow?>(value: nil)
+    public var detailViewSections = BehaviorRelay<[DetailViewSectionModel]>(value: [.mainDetail(items: [.mainDetail(SelectedClosetInfo(id: 967, name: "완벽한 조합", imageUrl: "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_chic_detail_37098_500.jpg", shopName: "무신사", style: SelectedClosetTypeInfo(typeId: 1, typeName: "")))])])
     
-    func setSections() {
-        let a = selectedClosetInfo.value
-        let mockSections : [DetailSectionItem] = [
-            .mainDetail(selectedClosetInfo.value!),
-            .withItem(withItemInfo.value!),
-            .warmmer(warmListInfo.value!),
-            .cooler(coolListInfo.value!)
-        ]
-        
-//        detailViewSections.accept(mockSections)
+    /// 선택된 옷 정보
+    public var selectedClosetInfo = BehaviorRelay<SelectedClosetInfo?>(value: SelectedClosetInfo(id: 967, name: "완벽한 조합", imageUrl: "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_chic_detail_37098_500.jpg", shopName: "무신사", style: SelectedClosetTypeInfo(typeId: 1, typeName: "")))
+    
+    /// 함께착용한 아이템 정보
+    public var withItemInfo = BehaviorRelay<[WithItemsInfo]?>(value: [WithItemsInfo(id: 1)])
+    public var withItemSectionItem = BehaviorRelay<[DetailSectionItem]?>(value: [.withItem(WithItemsInfo(id: 1))])
+    /// Warmmer closets
+    public var warmListInfo = BehaviorRelay<DiffTempClosetList?>(value: DiffTempClosetList())
+    public var warmFirstRowInfo = BehaviorRelay<Rows?>(value: Rows(counts: 10, closets: [RowInfo(closetId: 1, closetName: "", closetImageUrl: "", closetStatus: "")]))
+    
+    public var warmSecondRowInfo = BehaviorRelay<Rows?>(value: Rows(counts: 10, closets: [RowInfo(closetId: 1, closetName: "", closetImageUrl: "", closetStatus: "")]))
+    public var warmmerSection = BehaviorRelay<[DetailViewSectionModel]>(value: [])
+    
+    /// Cooler losets
+    public var coolListInfo = BehaviorRelay<DiffTempClosetList?>(value: DiffTempClosetList())
+    public var coolFirstRowInfo = BehaviorRelay<Rows?>(value: Rows(counts: 10, closets: [RowInfo(closetId: 1, closetName: "", closetImageUrl: "", closetStatus: "")]))
+    public var coolSecondRowInfo = BehaviorRelay<Rows?>(value: Rows(counts: 10, closets: [RowInfo(closetId: 1, closetName: "", closetImageUrl: "", closetStatus: "")]))
+    public var coolerSection = BehaviorRelay<[DetailViewSectionModel]>(value: [])
+    
+    public func fetchData(_ completion: @escaping (() -> Void)) {
+        getClosetDetail(closetId: testClosetId)
+        getWarmmerClosets(closetId: testClosetId, page: 1)
+        getCoolerClosets(closetId: testClosetId, page: 1)
+        completion()
     }
     
-    func getClosetDetail(closetId: Int) {
-        closetDetailDataSource.getClosetDetail(closetId: closetId)
+    public func bindSection() {
+        
+        Observable.combineLatest(warmFirstRowInfo, warmSecondRowInfo)
+            .map { firstRow, secondRow -> [DetailViewSectionModel] in
+                var items: [DetailSectionItem] = []
+                if let firstRow = firstRow?.closets {
+                    items.append(contentsOf: firstRow.map { .warmmer($0) })
+                }
+                if let secondRow = secondRow?.closets {
+                    items.append(contentsOf: secondRow.map { .warmmer($0) })
+                }
+                return [.warmmer(items: items)]
+            }
+            .bind(to: warmmerSection)
+            .disposed(by: bag)
+        
+        
+        Observable.combineLatest(coolFirstRowInfo, coolSecondRowInfo)
+            .map { firstRow, secondRow -> [DetailViewSectionModel] in
+                var items: [DetailSectionItem] = []
+                if let firstRow = firstRow?.closets {
+                    items.append(contentsOf: firstRow.map { .cooler($0) })
+                }
+                if let secondRow = secondRow?.closets {
+                    items.append(contentsOf: secondRow.map { .cooler($0) })
+                }
+                return [.cooler(items: items)]
+            }
+            .bind(to: coolerSection)
+            .disposed(by: bag)
+        
+        
+        Observable.combineLatest(warmmerSection, coolerSection)
+            .map { warmSections, coolSections -> [DetailViewSectionModel] in
+                var sections: [DetailViewSectionModel] = [
+                    .mainDetail(items: [.mainDetail(self.selectedClosetInfo.value!)]),
+                    .withItem(items: self.withItemSectionItem.value!)
+                ]
+                sections.append(contentsOf: warmSections)
+                sections.append(contentsOf: coolSections)
+                return sections
+            }
+            .subscribe(onNext: { sections in
+                self.detailViewSections.accept(sections)
+                
+                print("\n\n detailViewSections Value: " , self.detailViewSections.value[0])
+            })
+            .disposed(by: bag)
+
+    }
+    
+    
+    // FIXME: - Test variatio
+    var testClosetId = 967
+    public func getClosetDetail(closetId: Int) {
+        closetDetailDataSource.getClosetDetail(closetId: testClosetId)
             .subscribe(
                 with: self,
                 onNext: { owner, response in
+                    print("response : \(response)")
                     guard let data = response.data else { return }
+                    print("data : \(data)")
                     if let detailInfo = data.selectedCloset,
-                       let withItemInfo = data.selectedCloset?.withItems {
+                       let withItemInfo = detailInfo.withItems {
                         owner.selectedClosetInfo.accept(detailInfo)
                         
+                        var itemArray: [DetailSectionItem] = []
+                        withItemInfo.map {
+                            itemArray.append(DetailSectionItem.withItem($0))
+                        }
+
+                        owner.withItemSectionItem.accept(itemArray)
+                        print("sectioItem \n", owner.withItemSectionItem.value!)
                         owner.withItemInfo.accept(withItemInfo)
                     }
                 })
             .disposed(by: bag)
     }
     
-    func getWarmmerClosets(closetId: Int, page: Int) {
-        closetDetailDataSource.getWarmmerCloset(closetId: closetId, page: page)
+    public func getWarmmerClosets(closetId: Int, page: Int) {
+        closetDetailDataSource.getWarmmerCloset(closetId: testClosetId, page: 1)
             .subscribe(
                 with: self,
                 onNext: { owner, response in
@@ -66,14 +131,17 @@ final class ClosetDetailViewModel: RxBaseViewModel {
                        let secondRow = dataList.secondRow {
                         
                         owner.warmFirstRowInfo.accept(firstRow)
+                        
+                        
+                        
                         owner.warmSecondRowInfo.accept(secondRow)
                     }
                 }).disposed(by: bag)
     }
     
     
-    func getCoolerClosets(closetId: Int, page: Int) {
-        closetDetailDataSource.getCoolerCloset(closetId: closetId, page: page)
+    public func getCoolerClosets(closetId: Int, page: Int) {
+        closetDetailDataSource.getCoolerCloset(closetId: testClosetId, page: 1)
             .subscribe(
                 with: self,
                 onNext: { owner, response in

@@ -17,8 +17,8 @@ enum DetailViewSectionModel {
 enum DetailSectionItem {
     case mainDetail(SelectedClosetInfo)
     case withItem(WithItemsInfo)
-    case warmmer(DiffTempClosetList)
-    case cooler(DiffTempClosetList)
+    case warmmer(RowInfo)
+    case cooler(RowInfo)
 }
 
 extension DetailViewSectionModel: SectionModelType {
@@ -31,9 +31,9 @@ extension DetailViewSectionModel: SectionModelType {
         case .withItem(items: let items):
             return items.map { $0 }
         case .warmmer(items: let items):
-            return items
+            return items.map { $0 }
         case .cooler(items: let items):
-            return items
+            return items.map { $0 }
         }
     }
     

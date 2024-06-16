@@ -17,6 +17,7 @@ final class WithItemCell: UICollectionViewCell {
         $0.layer.cornerRadius = 12
         $0.clipsToBounds = true
         $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.backgroundColor = .red
     }
     private var itemImage = UIImageView().then {
         $0.image = UIImage.image_indicator
@@ -56,6 +57,7 @@ final class WithItemCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        layout()
         contentView.pin.all()
         contentView.flex.layout()
     }
@@ -80,6 +82,8 @@ final class WithItemCell: UICollectionViewCell {
            let brandName = info.brandName,
            let status = info.status {
                itemImage.setKF(urlString: imageUrl, placeHolder: imagePlaceHolder) { [weak self] result in
+                   
+                print(result)
                    switch result {
                    case.success:
                        self?.itemImage.pin.all()

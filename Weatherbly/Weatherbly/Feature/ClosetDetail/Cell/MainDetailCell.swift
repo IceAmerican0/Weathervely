@@ -15,8 +15,11 @@ final class MainDetailCell: UICollectionViewCell {
         font: UIFont.title_3_B,
         fontColor: UIColor.black,
         alignment: .left
-    ).make(text: "shopName")
+    ).make(text: "shopName").then {
+        $0.backgroundColor = .white
+    }
     
+    public var imageWrapper = UIView()
     public var detailImageView = UIImageView().then {
         $0.image = UIImage.image_indicator
         $0.contentMode = .scaleAspectFit
@@ -32,14 +35,17 @@ final class MainDetailCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        layout()
         contentView.pin.all()
         contentView.flex.layout()
     }
     
     func layout() {
-        contentView.flex.define {
+        contentView.flex.direction(.column).define {
             $0.addItem(shopLabel).height(44)
-            $0.addItem(detailImageView).width(100%).height(562.5)
+            $0.addItem(imageWrapper).width(100%).backgroundColor(UIColor.gray10).define { wrapper in
+                wrapper.addItem(detailImageView).height(562.6)
+            }
         }
     }
     
@@ -47,8 +53,25 @@ final class MainDetailCell: UICollectionViewCell {
         guard let info = info else { return }
         if let imageUrl = info.imageUrl,
            let shopName = info.shopName {
-            detailImageView.setKF(urlString: imageUrl)
+            
+            self.detailImageView.setKF(urlString: imageUrl, placeHolder: UIImage.image_indicator) { [weak self] result in
+                switch result {
+                case .success:
+                    self?.detailImageView.flex.layout(mode: .adjustWidth)
+                case .failure(let error):
+                    self?.detailImageView.pin.all()
+                    self?.detailImageView.contentMode = .center
+                }
+                self?.detailImageView.flex.markDirty()
+                self?.detailImageView.layoutIfNeeded()
+                self?.detailImageView.setNeedsLayout()
+            }
             shopLabel.text = shopName
         }
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.detailImageView.removeFromSuperview()
     }
 }

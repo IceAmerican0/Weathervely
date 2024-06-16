@@ -39,26 +39,27 @@ final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
         // "#비즈니스 캐주얼", "#캐주얼", "#시크", "#걸리시", "#레트로","#로맨틱", "#스트릿"
         let mockBannerList: [StyleTabItem] = [.banner(StyleBanner())]
         let mockHeaderList: [ClosetTypeInfo] = [
-                                              ClosetTypeInfo(id: 7, name: "#비즈니스 캐주얼"),
-                                              ClosetTypeInfo(id: 1, name: "#캐주얼"),
-                                              ClosetTypeInfo(id: 14, name: "#시크"),
-                                              ClosetTypeInfo(id: 12, name: "#걸리시"),
-                                              ClosetTypeInfo(id: 15, name: "#레트로"),
-                                              ClosetTypeInfo(id: 12, name: "#로맨틱"),
-                                              ClosetTypeInfo(id: 11, name: "#스트릿")]
+            ClosetTypeInfo(id: 7, name: "#비즈니스 캐주얼"),
+            ClosetTypeInfo(id: 1, name: "#캐주얼"),
+            ClosetTypeInfo(id: 14, name: "#시크"),
+            ClosetTypeInfo(id: 12, name: "#걸리시"),
+            ClosetTypeInfo(id: 15, name: "#레트로"),
+            ClosetTypeInfo(id: 12, name: "#로맨틱"),
+            ClosetTypeInfo(id: 11, name: "#스트릿")]
         
         let mockCellList: [StyleTabItem] = [.styles(ClosetTypeInfo(id: 7, name: "#비즈니스 캐주얼")),
-                                              .styles(ClosetTypeInfo(id: 1, name: "#캐주얼")),
-                                              .styles(ClosetTypeInfo(id: 14, name: "#시크")),
-                                              .styles(ClosetTypeInfo(id: 12, name: "#걸리시")),
-                                              .styles(ClosetTypeInfo(id: 15, name: "#레트로")),
-                                              .styles(ClosetTypeInfo(id: 12, name: "#로맨틱")),
-                                              .styles(ClosetTypeInfo(id: 11, name: "#스트릿"))]
+                                            .styles(ClosetTypeInfo(id: 1, name: "#캐주얼")),
+                                            .styles(ClosetTypeInfo(id: 14, name: "#시크")),
+                                            .styles(ClosetTypeInfo(id: 12, name: "#걸리시")),
+                                            .styles(ClosetTypeInfo(id: 15, name: "#레트로")),
+                                            .styles(ClosetTypeInfo(id: 12, name: "#로맨틱")),
+                                            .styles(ClosetTypeInfo(id: 11, name: "#스트릿")),
+        ]
         
         let mockBannerSection = StyleTabSectionModel.banner(item: mockBannerList)
         
         let mockClosetSection = StyleTabSectionModel.styles(header: mockHeaderList, items: mockCellList)
-//        let mockStyleSection = StyleTabSectionModel.styles(items: mockHeaderList)
+        //        let mockStyleSection = StyleTabSectionModel.styles(items: mockHeaderList)
         // TODO: - 이미지 캐싱
         styleSections.accept([mockBannerSection, mockClosetSection])
     }
@@ -77,11 +78,11 @@ final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
                 },
                 onError: { owner, error in
                     owner.alertState.accept(.init(title: error.localizedDescription,
-                                                         alertType: .popup,
-                                                         closeAction: {
+                                                  alertType: .popup,
+                                                  closeAction: {
                         owner.navigationPopToSelfRelay.accept(Void())
                     }))
-            })
+                })
             .disposed(by: bag)
     }
     

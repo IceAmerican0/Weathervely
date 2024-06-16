@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct FirstRow: Codable {
+struct Rows: Codable {
     var counts: Int
-    var closets: [FirstRowInfo]
+    var closets: [RowInfo]
 }
 
-struct FirstRowInfo: Codable {
+struct RowInfo: Codable {
     var closetId: Int
     var closetName: String
     var closetImageUrl: String

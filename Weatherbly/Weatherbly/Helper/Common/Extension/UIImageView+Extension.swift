@@ -42,15 +42,13 @@ extension UIImageView {
                 .cacheOriginalImage,
             ]
         ) { result in
-            completionHandler?(result)
             switch result {
             case .success(let value):
                 break
             case .failure(let error):
-                print("imageDownLoad 실패!!!")
                 self.image = placeHolder
-                completionHandler?(.failure(error))
             }
+            completionHandler?(result)
         }
     }
 }

@@ -7,16 +7,16 @@
 
 import Foundation
 
-struct ClosetTypeEntity {
+struct ClosetTypeEntity: Decodable {
     let status: Int
     let data: ClosetTypeData
 }
 
-struct ClosetTypeData {
+struct ClosetTypeData: Decodable {
     let types: [ClosetTypeInfo]
 }
 
-struct ClosetTypeInfo {
+struct ClosetTypeInfo: Decodable {
     let id: Int
     let name: String
 }

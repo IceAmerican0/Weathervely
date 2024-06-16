@@ -17,8 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        
-        
+
         switch AppSetting.shared.environmentType {
         case .production:
             /// Firebase
@@ -28,6 +27,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
             checkForceUpdate()
         case .develop:
+            
             getToken()
         }
     }
@@ -80,11 +80,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 onNext: { owner, response in
                     let data = response.data
                     userDefault.set(data.user.nickname, forKey: UserDefaultKey.nickname.rawValue)
+
                     
                     if let address = data.address {
                         userDefault.set(address.dong, forKey: UserDefaultKey.dong.rawValue)
-                        owner.window?.rootViewController = HomeTabBarController()
-                        owner.window?.makeKeyAndVisible()
+//                        owner.window?.rootViewController = HomeTabBarController()
+//                        owner.window?.makeKeyAndVisible()
+                        self.setWindow(ClosetDetailViewController(ClosetDetailViewModel()))
                     } else {
                         owner.setWindow(SettingRegionViewController(SettingRegionViewModel(.onboard)))
                     }

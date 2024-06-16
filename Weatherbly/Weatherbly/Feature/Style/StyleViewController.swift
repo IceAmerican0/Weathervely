@@ -43,6 +43,7 @@ final class StyleViewController: RxBaseViewController<StyleViewModel> {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        container.flex.layout()
     }
     
     override func layout() {
