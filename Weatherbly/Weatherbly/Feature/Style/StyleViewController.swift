@@ -87,7 +87,7 @@ extension StyleViewController: UICollectionViewDelegateFlowLayout {
             return CGSize(width: collectionView.frame.width, height: 80)
         case 1:
             return CGSize(width: collectionView.frame.width, height: 572)
-        default:
+        default:collectionView
             return CGSize()
         }
     }
@@ -135,7 +135,7 @@ extension StyleViewController: UICollectionViewDelegate {
                     return header
                 }
             default:
-                fatalError("Cannot Generate SupplemetaryView")
+                fatalError("Cannot Generate SupplementaryView")
             }
             return UICollectionReusableView()
         })

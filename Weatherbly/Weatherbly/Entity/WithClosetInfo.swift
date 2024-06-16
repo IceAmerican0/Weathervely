@@ -21,7 +21,7 @@ struct WithItemsInfo: Codable {
         case id = "clotheId"
         case name = "clotheName"
         case status = "clotheStatus"
-        case shopUrl = "clothesStieUrl"
+        case shopUrl = "clothesSiteUrl"
         case imageUrl = "clothesImageUrl"
         case brandName = "clothesBrandName"
     }

@@ -8,17 +8,18 @@
 import UIKit
 import FlexLayout
 import PinLayout
+import RxCocoa
 
 final class WithItemCell: UICollectionViewCell {
     
     let imagePlaceHolder = UIImage.image_indicator
-    
     private var imageViewWrapper = UIView().then {
         $0.layer.cornerRadius = 12
         $0.clipsToBounds = true
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = .red
+        $0.backgroundColor = .white
     }
+    
     private var itemImage = UIImageView().then {
         $0.image = UIImage.image_indicator
         $0.contentMode = .scaleAspectFit
@@ -47,8 +48,28 @@ final class WithItemCell: UICollectionViewCell {
         $0.numberOfLines = 1
     }
     
+    private var isSoldOut = BehaviorRelay<Bool>(value: false)
+    private var soldOutView = LabelMaker.init(
+        font: UIFont.body_3_B,
+        fontColor: .black,
+        alignment: .center
+    ).make(text: "SOLD OUT").then {
+        $0.layer.opacity = 0.3
+        $0.layer.backgroundColor = UIColor.white.cgColor
+        $0.isHidden = true
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
+        contentView.backgroundColor = .white
+        
+        //
+//        contentView.addSubview(imageViewWrapper)
+//        imageViewWrapper.addSubview(itemImage)
+//        imageViewWrapper.addSubview(soldOutView)
+//        contentView.addSubview(itemNameLabel)
+//        contentView.addSubview(shopNameLabel)
+//        contentView.addSubview(categoryLabel)
     }
     
     required init?(coder: NSCoder) {
@@ -59,50 +80,77 @@ final class WithItemCell: UICollectionViewCell {
         super.layoutSubviews()
         layout()
         contentView.pin.all()
-        contentView.flex.layout()
+//        contentView.flex.layout()
+        
+        // PinLayout을 사용하여 이미지와 상태 뷰를 같은 크기로 설정
+//        itemImage.pin.all()
+//        soldOutView.pin.all()
+        
     }
     
     func layout() {
-        contentView.flex.direction(.column).define {
-            $0.addItem(imageViewWrapper).backgroundColor(UIColor.gray10).define {
-                $0.addItem(itemImage).height(180).alignSelf(.center)
-            }
-            $0.addItem(itemNameLabel).height(itemNameLabel.font.setLineHeight()).marginTop(4) // 19
-            $0.addItem(shopNameLabel).height(shopNameLabel.font.setLineHeight()).marginTop(4) // 17
-            $0.addItem(categoryLabel).height(categoryLabel.font.setLineHeight()) // 17
-        }
+        
+        contentView.addSubviews(imageViewWrapper
+                                ,itemNameLabel
+                                ,shopNameLabel
+                                ,categoryLabel)
+        imageViewWrapper.addSubviews(itemImage, soldOutView)
+        
+        imageViewWrapper.pin.top().horizontally().height(180)
+        itemImage.pin.top(to: imageViewWrapper.edge.top).horizontally().height(180)
+        soldOutView.pin.top(to: imageViewWrapper.edge.top).horizontally().height(180)
+        
+        itemNameLabel.pin.below(of: imageViewWrapper).horizontally().height(itemNameLabel.font.setLineHeight()).top().marginTop(12)
+        shopNameLabel.pin.below(of: itemNameLabel).horizontally().height(shopNameLabel.font.setLineHeight()).top().marginVertical(4)
+        categoryLabel.pin.below(of: shopNameLabel).horizontally().height(categoryLabel.font.setLineHeight()).top()
     }
     
     func configure(info: WithItemsInfo?) {
+        
         guard let info = info else { return }
+        
         if let category = info.category?.categoryName,
-            let imageUrl = info.imageUrl,
+           let imageUrl = info.imageUrl,
            let shopUrl = info.shopUrl,
            let itemName = info.name,
            let brandName = info.brandName,
            let status = info.status {
-               itemImage.setKF(urlString: imageUrl, placeHolder: imagePlaceHolder) { [weak self] result in
-                   
-                print(result)
-                   switch result {
-                   case.success:
-                       self?.itemImage.pin.all()
-                       self?.itemImage.contentMode = .scaleAspectFit
-                   case .failure:
-                       self?.itemImage.pin.all()
-                       self?.itemImage.contentMode = .center
-                       self?.flex.alignSelf(.center)
-                       self?.itemImage.flex.layout()
-                   }
-                   // FlexLayout 레이아웃 업데이트
-                   self?.itemImage.flex.markDirty()
-                   self?.itemImage.setNeedsLayout()
-                   self?.itemImage.layoutIfNeeded()
-               }
+            itemImage.setKF(urlString: imageUrl, placeHolder: imagePlaceHolder) { [weak self] result in
+                switch result {
+                case.success:
+                    self?.itemImage.pin.all()
+                    self?.itemImage.contentMode = .scaleAspectFit
+                case .failure:
+                    self?.itemImage.pin.all()
+                    self?.itemImage.contentMode = .center
+                    self?.flex.alignSelf(.center)
+                    self?.itemImage.flex.layout()
+                }
+                // 이미지 로드 완료 후 soldOutView 레이아웃 업데이트 및 표시
+                self?.soldOutView.pin.all()
+                // FlexLayout 레이아웃 업데이트
+                
+                self?.layoutUpdate(view: self?.itemImage)
+                self?.layoutUpdate(view: self?.soldOutView)
+                
+            }
             itemNameLabel.text = itemName
             shopNameLabel.text = brandName
             categoryLabel.text = category
+            
         }
+        
+    }
+    
+    func layoutUpdate(view: UIView?) {
+        view!.flex.markDirty()
+        view!.setNeedsLayout()
+        view!.layoutIfNeeded()
+    }
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.itemImage.image = nil
+        self.soldOutView.isHidden = true
     }
 }
 

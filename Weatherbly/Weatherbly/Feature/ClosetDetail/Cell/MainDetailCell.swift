@@ -42,7 +42,7 @@ final class MainDetailCell: UICollectionViewCell {
     
     func layout() {
         contentView.flex.direction(.column).define {
-            $0.addItem(shopLabel).height(44)
+            $0.addItem(shopLabel).height(44).marginLeft(20)
             $0.addItem(imageWrapper).width(100%).backgroundColor(UIColor.gray10).define { wrapper in
                 wrapper.addItem(detailImageView).height(562.6)
             }

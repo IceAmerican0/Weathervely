@@ -203,6 +203,7 @@
 		BD5107232C17313700D8AFBE /* DiffTempCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5107222C17313700D8AFBE /* DiffTempCell.swift */; };
 		BD5107262C1893AE00D8AFBE /* ClosetDetailDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5107252C1893AE00D8AFBE /* ClosetDetailDataSource.swift */; };
 		BD5107282C18942600D8AFBE /* ClosetDetailTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5107272C18942600D8AFBE /* ClosetDetailTarget.swift */; };
+		BD51072C2C1EE05C00D8AFBE /* TitleLabelReusableHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD51072B2C1EE05C00D8AFBE /* TitleLabelReusableHeader.swift */; };
 		BD5169452A5A9BD600582BA9 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5169442A5A9BD600582BA9 /* SettingViewModel.swift */; };
 		BD5169472A5AA39000582BA9 /* EditNicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5169462A5AA39000582BA9 /* EditNicknameViewController.swift */; };
 		BD5169492A5D6FEA00582BA9 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5169482A5D6FEA00582BA9 /* UITextField+Extension.swift */; };
@@ -427,6 +428,7 @@
 		BD5107222C17313700D8AFBE /* DiffTempCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffTempCell.swift; sourceTree = "<group>"; };
 		BD5107252C1893AE00D8AFBE /* ClosetDetailDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetDetailDataSource.swift; sourceTree = "<group>"; };
 		BD5107272C18942600D8AFBE /* ClosetDetailTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetDetailTarget.swift; sourceTree = "<group>"; };
+		BD51072B2C1EE05C00D8AFBE /* TitleLabelReusableHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleLabelReusableHeader.swift; sourceTree = "<group>"; };
 		BD5169442A5A9BD600582BA9 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		BD5169462A5AA39000582BA9 /* EditNicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditNicknameViewController.swift; sourceTree = "<group>"; };
 		BD5169482A5D6FEA00582BA9 /* UITextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
@@ -1000,6 +1002,7 @@
 		BD51070A2C0F755400D8AFBE /* ClosetDetail */ = {
 			isa = PBXGroup;
 			children = (
+				BD51072A2C1EE04900D8AFBE /* Header */,
 				BD51071D2C132C8400D8AFBE /* Cell */,
 				BD51070B2C0F756700D8AFBE /* ClosetDetailViewController.swift */,
 				BD51070D2C0F75B300D8AFBE /* ClosetDetailViewModel.swift */,
@@ -1034,6 +1037,14 @@
 				BD5107152C11E14800D8AFBE /* WithClosetInfo.swift */,
 			);
 			name = Detail;
+			sourceTree = "<group>";
+		};
+		BD51072A2C1EE04900D8AFBE /* Header */ = {
+			isa = PBXGroup;
+			children = (
+				BD51072B2C1EE05C00D8AFBE /* TitleLabelReusableHeader.swift */,
+			);
+			path = Header;
 			sourceTree = "<group>";
 		};
 		BD6135D12A7E3C6700DB3DF9 /* Entity */ = {
@@ -1337,6 +1348,7 @@
 				5C8416A02B68D9FC003AE726 /* TenDaysForecastTableViewCell.swift in Sources */,
 				690B6EF12AAA0F2D00D54ABC /* ForceUpdateViewController.swift in Sources */,
 				BD0A68592C00F244005460B1 /* MediumCategoryEntity.swift in Sources */,
+				BD51072C2C1EE05C00D8AFBE /* TitleLabelReusableHeader.swift in Sources */,
 				5CDCD7CA2B54E7C8008465B9 /* ClosetFilterViewModel.swift in Sources */,
 				69D25C982AD04F6300C17FB1 /* EmptyEntity.swift in Sources */,
 				5C9D02D92A71F27B00AF2DA3 /* AuthDataSource.swift in Sources */,

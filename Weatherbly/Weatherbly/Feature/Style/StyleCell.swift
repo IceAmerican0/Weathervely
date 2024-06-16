@@ -182,7 +182,7 @@ extension StyleCell: UICollectionViewDelegate {
     // ClosetLayout
     func setClosetLayout() -> NSCollectionLayoutSection {
         let cellSize = NSCollectionLayoutSize(
-            widthDimension: .absolute(((UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen.bounds.size.width ?? 120) / 3 - 20),
+            widthDimension: .absolute(((UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen.bounds.size.width ?? 360) / 3 - 20),
             heightDimension: .absolute(430)
         )
         let item = NSCollectionLayoutItem(layoutSize: cellSize)

@@ -38,7 +38,7 @@ extension UIImageView {
             placeholder: placeHolder,
             options: [
                 .retryStrategy(retryStrategy),
-                .transition(.fade(1)),
+                .transition(.fade(0.2)),
                 .cacheOriginalImage,
             ]
         ) { result in

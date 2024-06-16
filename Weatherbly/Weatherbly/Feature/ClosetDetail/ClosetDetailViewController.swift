@@ -27,6 +27,7 @@ final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewMod
         $0.register(withType: MainDetailCell.self)
         $0.register(withType: WithItemCell.self)
         $0.register(withType: DiffTempCell.self)
+        $0.registerHeader(withType: TitleLabelReusableHeader.self)
     }
     
     override func viewDidLoad() {
@@ -80,7 +81,6 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
             case .withItem(let withItemInfo):
                 return collectionView.dequeueCell(withType: WithItemCell.self, for: indexPath).then {
                     $0.configure(info: withItemInfo)
-                    $0.backgroundColor = .orange100
                 }
             case .warmmer(let warmmerInfo):
                 return collectionView.dequeueCell(withType: DiffTempCell.self, for: indexPath).then {
@@ -91,19 +91,36 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
                     $0.backgroundColor = .blue100
                 }
             }
+        }, configureSupplementaryView: { [weak self] dataSource, collectionView, kind, indexPath in
+            guard self != nil else { return UICollectionReusableView() }
+            switch kind {
+            case UICollectionView.elementKindSectionHeader:
+                switch dataSource[indexPath.section] {
+                case .mainDetail: return UICollectionReusableView()
+                case .withItem:
+                    return collectionView.dequeueReusableHeaderView(withType: TitleLabelReusableHeader.self, for: indexPath)
+                case .warmmer:
+                    return UICollectionReusableView()
+                case .cooler:
+                    return UICollectionReusableView()
+                }
+            default:
+                fatalError("Cannot Generate SupplementaryView")
+            }
+            return UICollectionReusableView()
         })
     }
     
-    
+
     func setSectionLayout() -> UICollectionViewCompositionalLayout {
         UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ -> NSCollectionLayoutSection? in
-
+            
             guard let self = self else { return nil }
             guard sectionIndex < self.viewModel.detailViewSections.value.count else {
                 print("Section index \(sectionIndex) out of range.")
                 return nil
             }
-
+            
             let section = self.viewModel.detailViewSections.value[sectionIndex]
             switch section {
             case .mainDetail:
@@ -117,68 +134,67 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
             }
         }
     }
-
+    
     func mainDetailLayout() -> NSCollectionLayoutSection {
         
         let cellSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
             heightDimension: .estimated(606.5)
         )
-
+        
         let item = NSCollectionLayoutItem(layoutSize: cellSize)
         let group = NSCollectionLayoutGroup.vertical(
             layoutSize: cellSize,
             subitems: [item]
         )
-
+        
         let section = NSCollectionLayoutSection(group: group)
         return section
     }
-
+    
     // StyleLayout
     func withItemLayout() -> NSCollectionLayoutSection {
+        let itemWidth = (Constants.screenWidth - 20 ) / 3
+        let groupWidth = itemWidth * 3 + 32
         let itemSize = NSCollectionLayoutSize(
-            widthDimension: .absolute(120),
-            heightDimension: .absolute(236)
+            widthDimension: .absolute(itemWidth),
+            heightDimension: .absolute(254)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
+        
         /// Group = 한 화면에 들어가는 item을 묶은 단위
         /// https://ios-development.tistory.com/945
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .absolute(236)
+            widthDimension: .absolute(groupWidth),
+            heightDimension: .absolute(254)
         )
-
+        
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: groupSize,
             subitems: [item]
         )
-        
+        group.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 0, bottom: 0, trailing: 0)
         group.interItemSpacing = .fixed(16)
-
-//        // Header
-//        let headerSize = NSCollectionLayoutSize(
-//            widthDimension: .fractionalWidth(1),
-//            heightDimension: .absolute(56)
-//        )
-
-//        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
-//            layoutSize: headerSize,
-//            elementKind: UICollectionView.elementKindSectionHeader,
-//            alignment: .top
-//        )
-//        sectionHeader.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0)
-//        sectionHeader.pinToVisibleBounds = true
-
-        let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .continuous
-        section.contentInsets = NSDirectionalEdgeInsets(top: 7, leading: 10, bottom: 0, trailing: 0)
-
-        section.interGroupSpacing = 12
         
-//        section.boundarySupplementaryItems = [sectionHeader]
-
+        // Header
+        let headerSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .absolute(53)
+        )
+        
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .topLeading
+        )
+        
+        let section = NSCollectionLayoutSection(group: group)
+        
+        section.orthogonalScrollingBehavior = .continuous
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 0)
+        section.interGroupSpacing = 16
+        section.boundarySupplementaryItems = [sectionHeader]
+        
         return section
     }
     
