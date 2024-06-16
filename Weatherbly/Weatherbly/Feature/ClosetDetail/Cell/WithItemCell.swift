@@ -48,7 +48,6 @@ final class WithItemCell: UICollectionViewCell {
         $0.numberOfLines = 1
     }
     
-    private var isSoldOut = BehaviorRelay<Bool>(value: false)
     private var soldOutView = LabelMaker.init(
         font: UIFont.body_3_B,
         fontColor: .black,
@@ -63,13 +62,6 @@ final class WithItemCell: UICollectionViewCell {
         super.init(frame: frame)
         contentView.backgroundColor = .white
         
-        //
-//        contentView.addSubview(imageViewWrapper)
-//        imageViewWrapper.addSubview(itemImage)
-//        imageViewWrapper.addSubview(soldOutView)
-//        contentView.addSubview(itemNameLabel)
-//        contentView.addSubview(shopNameLabel)
-//        contentView.addSubview(categoryLabel)
     }
     
     required init?(coder: NSCoder) {
@@ -80,12 +72,6 @@ final class WithItemCell: UICollectionViewCell {
         super.layoutSubviews()
         layout()
         contentView.pin.all()
-//        contentView.flex.layout()
-        
-        // PinLayout을 사용하여 이미지와 상태 뷰를 같은 크기로 설정
-//        itemImage.pin.all()
-//        soldOutView.pin.all()
-        
     }
     
     func layout() {
@@ -97,18 +83,18 @@ final class WithItemCell: UICollectionViewCell {
         imageViewWrapper.addSubviews(itemImage, soldOutView)
         
         imageViewWrapper.pin.top().horizontally().height(180)
-        itemImage.pin.top(to: imageViewWrapper.edge.top).horizontally().height(180)
-        soldOutView.pin.top(to: imageViewWrapper.edge.top).horizontally().height(180)
+        itemImage.pin.all()
+        soldOutView.pin.all()
         
-        itemNameLabel.pin.below(of: imageViewWrapper).horizontally().height(itemNameLabel.font.setLineHeight()).top().marginTop(12)
-        shopNameLabel.pin.below(of: itemNameLabel).horizontally().height(shopNameLabel.font.setLineHeight()).top().marginVertical(4)
-        categoryLabel.pin.below(of: shopNameLabel).horizontally().height(categoryLabel.font.setLineHeight()).top()
+        itemNameLabel.pin.below(of: imageViewWrapper).horizontally().height(itemNameLabel.font.setLineHeight()).marginTop(12)
+        shopNameLabel.pin.below(of: itemNameLabel).horizontally().height(shopNameLabel.font.setLineHeight()).marginVertical(4)
+        categoryLabel.pin.below(of: shopNameLabel).horizontally().height(categoryLabel.font.setLineHeight())
     }
     
     func configure(info: WithItemsInfo?) {
         
         guard let info = info else { return }
-        
+        let id = info.id
         if let category = info.category?.categoryName,
            let imageUrl = info.imageUrl,
            let shopUrl = info.shopUrl,
@@ -126,20 +112,25 @@ final class WithItemCell: UICollectionViewCell {
                     self?.flex.alignSelf(.center)
                     self?.itemImage.flex.layout()
                 }
-                // 이미지 로드 완료 후 soldOutView 레이아웃 업데이트 및 표시
-                self?.soldOutView.pin.all()
-                // FlexLayout 레이아웃 업데이트
-                
                 self?.layoutUpdate(view: self?.itemImage)
-                self?.layoutUpdate(view: self?.soldOutView)
-                
             }
+            
             itemNameLabel.text = itemName
             shopNameLabel.text = brandName
             categoryLabel.text = category
-            
+            if isSoldOut(status) { isHiddenToggle() }
         }
         
+    }
+    
+    func isSoldOut(_ status: String) -> Bool {
+        (status == "sold_out") ? true : false
+    }
+    
+    func isHiddenToggle() {
+        soldOutView.isHidden.toggle()
+        // FIXME: - 인터렉션 막던지 alert 띄우기 의논해보기
+        self.isUserInteractionEnabled = false
     }
     
     func layoutUpdate(view: UIView?) {

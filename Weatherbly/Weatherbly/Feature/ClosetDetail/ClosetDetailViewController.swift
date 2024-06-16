@@ -98,7 +98,9 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
                 switch dataSource[indexPath.section] {
                 case .mainDetail: return UICollectionReusableView()
                 case .withItem:
-                    return collectionView.dequeueReusableHeaderView(withType: TitleLabelReusableHeader.self, for: indexPath)
+                    return collectionView.dequeueReusableHeaderView(withType: TitleLabelReusableHeader.self, for: indexPath).then {
+                        $0.configure(nil, text: "함께 착용한 아이템")
+                    }
                 case .warmmer:
                     return UICollectionReusableView()
                 case .cooler:
@@ -152,7 +154,7 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
         return section
     }
     
-    // StyleLayout
+    // MARK: - StyleLayout
     func withItemLayout() -> NSCollectionLayoutSection {
         let itemWidth = (Constants.screenWidth - 20 ) / 3
         let groupWidth = itemWidth * 3 + 32
@@ -166,7 +168,7 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
         /// https://ios-development.tistory.com/945
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .absolute(groupWidth),
-            heightDimension: .absolute(254)
+            heightDimension: .absolute(266)
         )
         
         let group = NSCollectionLayoutGroup.horizontal(
@@ -187,11 +189,11 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .topLeading
         )
-        
+
         let section = NSCollectionLayoutSection(group: group)
         
         section.orthogonalScrollingBehavior = .continuous
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 0)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0 , leading: 20, bottom: 30, trailing: 0)
         section.interGroupSpacing = 16
         section.boundarySupplementaryItems = [sectionHeader]
         
