@@ -18,6 +18,10 @@ final class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastV
         $0.setTitleColor(color: .white)
     }
     
+    private let shimmerView = TendaysForecastShimmerView()
+    
+    private let contentView = UIView()
+    
     private let todayLabel = LabelMaker(
         font: .body_5_B,
         fontColor: .white
@@ -58,8 +62,7 @@ final class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastV
         style: .plain
     ).then {
         $0.delegate = self
-        $0.isScrollEnabled = false
-        $0.isUserInteractionEnabled = false
+        $0.bounces = false
         $0.backgroundColor = .clear10
         $0.setCornerRadius(12)
         $0.contentInset.top = 12
@@ -78,20 +81,23 @@ final class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastV
         
         container.flex.define {
             $0.addItem(navigationView).width(100%)
-            $0.addItem().direction(.row).alignItems(.center).marginTop(25).define { date in
-                date.addItem(todayLabel).marginLeft(20)
-                date.addItem(divider).marginLeft(12).width(1).height(10)
-                date.addItem(dateLabel).marginLeft(12)
-            }
-            $0.addItem().direction(.row).justifyContent(.spaceBetween).alignItems(.center).marginTop(12).define { weather in
-                weather.addItem(mainTempLabel).marginLeft(20).shrink(1)
-                weather.addItem().marginHorizontal(18).grow(1).define { middle in
-                    middle.addItem(sensoryTempLabel)
-                    middle.addItem(dailyTempLabel).marginTop(7)
+            $0.addItem(shimmerView).marginTop(30).grow(1)
+            $0.addItem(contentView).grow(1).define {
+                $0.addItem().direction(.row).alignItems(.center).marginTop(25).define { date in
+                    date.addItem(todayLabel).marginLeft(20)
+                    date.addItem(divider).marginLeft(12).width(1).height(10)
+                    date.addItem(dateLabel).marginLeft(12)
                 }
-                weather.addItem(weatherImage).marginRight(20).width(110).height(74)
-            }
-            $0.addItem(tableView).marginTop(16).marginHorizontal(20).marginBottom(20).grow(1)
+                $0.addItem().direction(.row).justifyContent(.spaceBetween).alignItems(.center).marginTop(12).define { weather in
+                    weather.addItem(mainTempLabel).marginLeft(20).shrink(1)
+                    weather.addItem().marginHorizontal(18).grow(1).define { middle in
+                        middle.addItem(sensoryTempLabel)
+                        middle.addItem(dailyTempLabel).marginTop(7)
+                    }
+                    weather.addItem(weatherImage).marginRight(20).width(110).height(74)
+                }
+                $0.addItem(tableView).marginTop(16).marginHorizontal(20).marginBottom(20).grow(1)
+            }.display(.none)
         }
     }
     
@@ -102,6 +108,15 @@ final class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastV
             .drive(with: self, onNext: { owner, _ in
                 owner.viewModel.navigationPopViewControllerRelay.accept(Void())
             }).disposed(by: bag)
+        
+        viewModel.shimmerStatus
+            .take(1)
+            .observe(on: MainScheduler.instance)
+            .subscribe(with: self) { owner, _ in
+                owner.shimmerView.removeFromSuperview()
+                owner.contentView.flex.display(.flex)
+                owner.container.flex.layout()
+            }.disposed(by: bag)
         
         viewModel.currentTemp
             .bind(with: self) { owner, data in
@@ -128,6 +143,7 @@ final class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastV
                 cellIdentifier: TenDaysForecastTableViewCell.identifier,
                 cellType: TenDaysForecastTableViewCell.self
             )) { _, data, cell in
+                cell.selectionStyle = .none
                 cell.configureCellState(state: data)
             }.disposed(by: bag)
         

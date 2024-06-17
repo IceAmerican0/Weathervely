@@ -27,6 +27,7 @@ public protocol NewHomeViewModelLogic: ViewModelBusinessLogic {
     func toNotificationListView()
     func toTendaysForecastView()
     
+    var shimmerStatus: PublishRelay<Bool> { get }
     var refreshStatus: PublishRelay<Bool> { get }
     var homeSections: BehaviorRelay<[HomeSection]> { get }
     var forecastInfo: [HomeForecastInfo] { get }
@@ -39,8 +40,10 @@ public protocol NewHomeViewModelLogic: ViewModelBusinessLogic {
 public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     private let closetDataSource: NewClosetDataSourceProtocol = NewClosetDataSource()
     
+    /// 첫 실행 shimmer 여부
+    public var shimmerStatus: PublishRelay<Bool> = .init()
     /// 새로고침 상태
-    public var refreshStatus: PublishRelay<Bool>
+    public var refreshStatus: PublishRelay<Bool> = .init()
     /// 홈 전체 정보
     public var homeSections = BehaviorRelay<[HomeSection]>(value: [])
     /// 날씨 정보
@@ -60,11 +63,6 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     /// pagination용 이미 로드된 페이지
     private var loadedPage = 0
     
-    override init() {
-        self.refreshStatus = .init()
-        super.init()
-    }
-    
     /// 홈 전체 정보 취합 후 DataSource Reload
     public func loadHome() {
         /// 예보 Section 정보
@@ -81,6 +79,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
             .closet(items: banner.map { .closet($0) })
         ]
         let combinedData = homeForecast + closet
+        shimmerStatus.accept(true)
         homeSections.accept(combinedData)
         refreshStatus.accept(false)
     }
@@ -105,6 +104,8 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
                     owner.styleFilterList.count == 0 ? owner.getStyleFilterList() : owner.getClosetInfo()
                 },
                 onError: { owner, error in
+                    owner.shimmerStatus.accept(true)
+                    owner.refreshStatus.accept(false)
                     owner.alertState.accept(
                         .init(
                             title: error.localizedDescription,
@@ -126,6 +127,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
                     owner.getClosetInfo()
                 },
                 onError: { owner, error in
+                    owner.shimmerStatus.accept(true)
                     owner.refreshStatus.accept(false)
                     owner.alertState.accept(
                         .init(
@@ -150,6 +152,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
                     owner.loadHome()
                 },
                 onError: { owner, error in
+                    owner.shimmerStatus.accept(true)
                     owner.refreshStatus.accept(false)
                     owner.alertState.accept(
                         .init(

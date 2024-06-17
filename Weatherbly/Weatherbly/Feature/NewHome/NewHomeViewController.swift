@@ -22,6 +22,10 @@ public enum ButtonTapAction {
 }
 
 final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
+    private let shimmerView = HomeShimmerView()
+    
+    private let contentView = UIView()
+    
     private let locationButton = UIButton().then {
         $0.setImage(.home_place, for: .normal)
     }
@@ -95,18 +99,21 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
         super.layout()
         
         container.flex.define {
-            $0.addItem().direction(.row).alignItems(.center).justifyContent(.spaceBetween).width(100%).height(44).define { header in
-                header.addItem(locationButton).marginLeft(20).size(20)
-                header.addItem(regionLabel).marginHorizontal(8).grow(1).shrink(1)
-                header.addItem(notificationButton).marginRight(20).size(20)
-            }
-            $0.addItem().direction(.row).alignItems(.center).justifyContent(.center).height(30).define { date in
-                date.addItem(prevButton).size(28)
-                date.addItem(dayLabel).marginLeft(16).width(41).height(29)
-                date.addItem(timeLabel).marginLeft(12).width(66).height(23)
-                date.addItem(nextButton).marginLeft(16).size(28)
-            }
-            $0.addItem(homeCollectionView).marginTop(14).width(100%).grow(1)
+            $0.addItem(shimmerView).grow(1)
+            $0.addItem(contentView).grow(1).define {
+                $0.addItem().direction(.row).alignItems(.center).justifyContent(.spaceBetween).width(100%).height(44).define { header in
+                    header.addItem(locationButton).marginLeft(20).size(20)
+                    header.addItem(regionLabel).marginHorizontal(8).grow(1).shrink(1)
+                    header.addItem(notificationButton).marginRight(20).size(20)
+                }
+                $0.addItem().direction(.row).alignItems(.center).justifyContent(.center).height(30).define { date in
+                    date.addItem(prevButton).size(28)
+                    date.addItem(dayLabel).marginLeft(16).width(41).height(29)
+                    date.addItem(timeLabel).marginLeft(12).width(66).height(23)
+                    date.addItem(nextButton).marginLeft(16).size(28)
+                }
+                $0.addItem(homeCollectionView).marginTop(14).width(100%).grow(1)
+            }.display(.none)
         }
     }
     
@@ -150,18 +157,13 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
     override func viewModelBinding() {
         super.viewModelBinding()
         
-        viewModel.homeSections
-            .bind(to: homeCollectionView.rx.items(dataSource: dataSource))
-            .disposed(by: bag)
-        
-        viewModel.refreshStatus
-            .bind(with: self) { owner, refreshing in
-                switch refreshing {
-                case true:
-                    owner.homeCollectionView.refreshControl?.beginRefreshing()
-                case false:
-                    owner.homeCollectionView.refreshControl?.endRefreshing()
-                }
+        viewModel.shimmerStatus
+            .observe(on: MainScheduler.instance)
+            .take(1)
+            .subscribe(with: self) { owner, _ in
+                owner.shimmerView.removeFromSuperview()
+                owner.contentView.flex.display(.flex)
+                owner.container.flex.layout()
             }.disposed(by: bag)
         
         viewModel.selectedIndex
@@ -190,6 +192,20 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
                 owner.dayLabel.flex.markDirty()
                 owner.timeLabel.text = info.time ?? Date().currentTime()
                 owner.timeLabel.flex.markDirty()
+            }.disposed(by: bag)
+        
+        viewModel.homeSections
+            .bind(to: homeCollectionView.rx.items(dataSource: dataSource))
+            .disposed(by: bag)
+        
+        viewModel.refreshStatus
+            .bind(with: self) { owner, refreshing in
+                switch refreshing {
+                case true:
+                    owner.homeCollectionView.refreshControl?.beginRefreshing()
+                case false:
+                    owner.homeCollectionView.refreshControl?.endRefreshing()
+                }
             }.disposed(by: bag)
         
         homeCollectionView.rx.prefetchItems
