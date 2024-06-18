@@ -100,6 +100,9 @@
 		5CE8CD5A2B83275000AB6EBD /* NewClosetTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE8CD592B83275000AB6EBD /* NewClosetTarget.swift */; };
 		5CE8CD5C2B832ED700AB6EBD /* NewClosetDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE8CD5B2B832ED700AB6EBD /* NewClosetDataSource.swift */; };
 		5CE8CD602B83363700AB6EBD /* NewClosetEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE8CD5F2B83363700AB6EBD /* NewClosetEntity.swift */; };
+		5CEC8FDC2C21014D003F0CF4 /* NotificationListShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEC8FDB2C21014D003F0CF4 /* NotificationListShimmerView.swift */; };
+		5CEC8FDE2C215C86003F0CF4 /* StyleShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEC8FDD2C215C86003F0CF4 /* StyleShimmerView.swift */; };
+		5CEC8FE02C215E1A003F0CF4 /* DetailShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEC8FDF2C215E1A003F0CF4 /* DetailShimmerView.swift */; };
 		5CF0A49E2B5A32EA00D2AB4C /* HomeForecastEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF0A49D2B5A32EA00D2AB4C /* HomeForecastEntity.swift */; };
 		690B6EE92AA9EF9000D54ABC /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 690B6EE82AA9EF9000D54ABC /* FirebaseAnalytics */; };
 		690B6EEB2AA9EF9000D54ABC /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 690B6EEA2AA9EF9000D54ABC /* FirebaseCrashlytics */; };
@@ -265,6 +268,9 @@
 		5CE8CD592B83275000AB6EBD /* NewClosetTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewClosetTarget.swift; sourceTree = "<group>"; };
 		5CE8CD5B2B832ED700AB6EBD /* NewClosetDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewClosetDataSource.swift; sourceTree = "<group>"; };
 		5CE8CD5F2B83363700AB6EBD /* NewClosetEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewClosetEntity.swift; sourceTree = "<group>"; };
+		5CEC8FDB2C21014D003F0CF4 /* NotificationListShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationListShimmerView.swift; sourceTree = "<group>"; };
+		5CEC8FDD2C215C86003F0CF4 /* StyleShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleShimmerView.swift; sourceTree = "<group>"; };
+		5CEC8FDF2C215E1A003F0CF4 /* DetailShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailShimmerView.swift; sourceTree = "<group>"; };
 		5CF0A49D2B5A32EA00D2AB4C /* HomeForecastEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeForecastEntity.swift; sourceTree = "<group>"; };
 		690B6EF02AAA0F2D00D54ABC /* ForceUpdateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForceUpdateViewController.swift; sourceTree = "<group>"; };
 		693231632B4A80FE00816B7B /* HomeSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSection.swift; sourceTree = "<group>"; };
@@ -410,6 +416,7 @@
 				5C8F2D3C2B6B30F0002DF94E /* NotificationListViewModel.swift */,
 				5C8F2D402B6B6836002DF94E /* NotificationListTableViewCell.swift */,
 				5C6F0E262BFC89D800AB0C90 /* NotificationListTableFooterView.swift */,
+				5CEC8FDB2C21014D003F0CF4 /* NotificationListShimmerView.swift */,
 			);
 			path = Notification;
 			sourceTree = "<group>";
@@ -546,6 +553,8 @@
 				698F6CAC2ADD6EDB00C2B33A /* StyleViewModel.swift */,
 				BD3714342B8126A700527577 /* StyleSection.swift */,
 				BD37143A2B864DC000527577 /* StyleClosetFilterHeader.swift */,
+				5CEC8FDD2C215C86003F0CF4 /* StyleShimmerView.swift */,
+				5CEC8FDF2C215E1A003F0CF4 /* DetailShimmerView.swift */,
 			);
 			path = Style;
 			sourceTree = "<group>";
@@ -996,6 +1005,7 @@
 				5C8833742BFF1FBF00769743 /* PushNotification.swift in Sources */,
 				5CC61E262A5BC223001435E6 /* SettingRegionViewController.swift in Sources */,
 				5CDCD7DE2B564A89008465B9 /* FilterListHeaderView.swift in Sources */,
+				5CEC8FE02C215E1A003F0CF4 /* DetailShimmerView.swift in Sources */,
 				6987EBBD2B41409E00CF1E74 /* NewHomeViewModel.swift in Sources */,
 				BD69B8F92A553A0C00DDCD7A /* CSNavigationView.swift in Sources */,
 				5CAB60CF2A53F61700CD431A /* TenDaysForecastViewController.swift in Sources */,
@@ -1077,6 +1087,7 @@
 				5CDCD7E02B566C04008465B9 /* FilterSection.swift in Sources */,
 				5C7CAE362BE08280007760DD /* FilterButton.swift in Sources */,
 				5C501F942BCE5A8000533F68 /* UserNotification.swift in Sources */,
+				5CEC8FDE2C215C86003F0CF4 /* StyleShimmerView.swift in Sources */,
 				5C4D17C12C0D7BCC00542434 /* FilteredStyleDataSource.swift in Sources */,
 				BD05E0722B380C9400A48E61 /* NewCSLabel.swift in Sources */,
 				5C4D17BF2C0D7B2800542434 /* FilteredStyleTarget.swift in Sources */,
@@ -1125,6 +1136,7 @@
 				5C7CAE3A2BE0AFFE007760DD /* StyleListView.swift in Sources */,
 				BD5169452A5A9BD600582BA9 /* SettingViewModel.swift in Sources */,
 				5C9D02E12A72405100AF2DA3 /* TypeTarget.swift in Sources */,
+				5CEC8FDC2C21014D003F0CF4 /* NotificationListShimmerView.swift in Sources */,
 				698F6CAE2ADD6EDB00C2B33A /* StyleViewModel.swift in Sources */,
 				69683A582A9BAAEE00A2BD5A /* KeychainManager.swift in Sources */,
 				5C9D02DF2A72304800AF2DA3 /* UserDataSource.swift in Sources */,

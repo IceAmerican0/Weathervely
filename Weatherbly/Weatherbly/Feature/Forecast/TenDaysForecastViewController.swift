@@ -81,7 +81,7 @@ final class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastV
         
         container.flex.define {
             $0.addItem(navigationView).width(100%)
-            $0.addItem(shimmerView).marginTop(30).grow(1)
+            $0.addItem(shimmerView).grow(1)
             $0.addItem(contentView).grow(1).define {
                 $0.addItem().direction(.row).alignItems(.center).marginTop(25).define { date in
                     date.addItem(todayLabel).marginLeft(20)
@@ -110,8 +110,8 @@ final class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastV
             }).disposed(by: bag)
         
         viewModel.shimmerStatus
-            .take(1)
             .observe(on: MainScheduler.instance)
+            .take(1)
             .subscribe(with: self) { owner, _ in
                 owner.shimmerView.removeFromSuperview()
                 owner.contentView.flex.display(.flex)

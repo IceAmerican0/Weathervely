@@ -35,10 +35,10 @@ public final class TenDaysForecastViewModel: RxBaseViewModel, TenDaysForecastVie
                 with: self,
                 onNext: { owner, response in
                     owner.shimmerStatus.accept(true)
-//                    let data = response.data
-//                    owner.currentTemp.accept("\(data.currentTemp)")
-//                    owner.currentWeather.accept(data.currentWeather)
-//                    owner.forecastInfo.accept(data.forecast)
+                    let data = response.data
+                    owner.currentTemp.accept("\(data.currentTemp)")
+                    owner.currentWeather.accept(data.currentWeather)
+                    owner.forecastInfo.accept(data.forecast)
                 },
                 onError: { owner, error in
                     owner.shimmerStatus.accept(true)

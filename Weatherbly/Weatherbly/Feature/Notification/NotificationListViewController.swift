@@ -17,6 +17,8 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
         $0.addBorder(.bottom, 1, .gray30)
     }
     
+    private let shimmerView = NotificationListShimmerView()
+    
     private var zeroNotiView = UIView()
     
     private var zeroNotiImageView = UIImageView().then {
@@ -60,6 +62,7 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        viewModel.getNotiInfo()
         
         Task {
             let isAuthorized = await checkAuthorization()
@@ -87,17 +90,26 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
         
         container.flex.define {
             $0.addItem(navigationView).width(100%)
+            $0.addItem(shimmerView).grow(1)
             $0.addItem(zeroNotiView).alignItems(.center).justifyContent(.center).grow(1).define {
                 $0.addItem(zeroNotiImageView).size(48)
                 $0.addItem(zeroNotiLabel).marginTop(10)
                 $0.addItem(notiButton).alignSelf(.stretch).marginTop(40).marginHorizontal(52).height(48).display(.none)
             }.display(.none)
-            $0.addItem(tableView).marginTop(16).grow(1)
+            $0.addItem(tableView).marginTop(16).grow(1).display(.none)
         }
     }
     
     override func viewBinding() {
         super.viewBinding()
+        
+        viewModel.shimmerStatus
+            .observe(on: MainScheduler.instance)
+            .take(1)
+            .subscribe(with: self) { owner, _ in
+                owner.shimmerView.removeFromSuperview()
+                owner.container.flex.layout()
+            }.disposed(by: bag)
         
         navigationView.leftButtonDidTapRelay
             .drive(with: self) { owner, _ in

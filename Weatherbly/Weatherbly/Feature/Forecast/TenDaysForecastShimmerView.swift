@@ -21,16 +21,15 @@ public final class TendaysForecastShimmerView: UIView {
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-        pin.all()
         flex.layout()
     }
 }
 
 private extension TendaysForecastShimmerView {
     func layout() {
-        flex.define { flex in
+        flex.paddingHorizontal(20).define {
             for _ in 0..<10 {
-                flex.addItem(ShimmerView().setCornerRadius(20)).marginTop(21).marginHorizontal(20).height(40).grow(1)
+                $0.addItem(shimmer(20)).marginTop(21).alignSelf(.stretch).height(40)
             }
         }
     }

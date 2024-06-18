@@ -138,6 +138,10 @@ extension UIView {
     func setBackgroundColor(_ color: UIColor) {
         self.backgroundColor = color
     }
+    
+    func shimmer(_ radius: CGFloat) -> UIView {
+        ShimmerView().setCornerRadius(radius)
+    }
 }
 
 public struct Positions: OptionSet {

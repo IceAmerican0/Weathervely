@@ -14,6 +14,7 @@ public protocol NotificationListViewModelLogic: ViewModelBusinessLogic {
     func getNotiInfo()
     func deleteNoti(row: Int) -> Bool
     
+    var shimmerStatus: PublishRelay<Bool> { get }
     var refreshStatus: PublishRelay<Bool> { get }
     var notificationInfo: BehaviorRelay<[PushNotification]> { get }
 }
@@ -21,16 +22,12 @@ public protocol NotificationListViewModelLogic: ViewModelBusinessLogic {
 final class NotificationListViewModel: RxBaseViewModel, NotificationListViewModelLogic {
     /// 알림 DB
     private let DBManager = PushNotificationDBManager.shared
+    /// 첫 실행 shimmer 여부
+    public var shimmerStatus: PublishRelay<Bool> = .init()
     /// 새로고침 상태
-    public var refreshStatus: PublishRelay<Bool>
+    public var refreshStatus: PublishRelay<Bool> = .init()
     /// 알림 정보
     public var notificationInfo = BehaviorRelay<[PushNotification]>(value: [])
-    
-    override init() {
-        self.refreshStatus = .init()
-        super.init()
-        self.getNotiInfo()
-    }
     
     /// 새로고침
     public func pullToRefresh() {
@@ -40,9 +37,11 @@ final class NotificationListViewModel: RxBaseViewModel, NotificationListViewMode
     
     /// 리스트 불러오기
     public func getNotiInfo() {
-        refreshStatus.accept(false)
         DBManager.deleteOldNotification()
-        notificationInfo.accept(DBManager.readAllNotifications())
+        let list = DBManager.readAllNotifications()
+        shimmerStatus.accept(true)
+        refreshStatus.accept(false)
+        notificationInfo.accept(list)
     }
     
     /// 알림 삭제
