@@ -32,7 +32,10 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
     
     private let regionLabel = LabelMaker(
         font: .body_1_M
-    ).make()
+    ).make().then {
+        $0.numberOfLines = 1
+        $0.lineBreakMode = .byTruncatingTail
+    }
     
     private let notificationButton = UIButton().then {
         $0.setImage(.home_alarm, for: .normal)
@@ -103,7 +106,8 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
             $0.addItem(contentView).grow(1).define {
                 $0.addItem().direction(.row).alignItems(.center).justifyContent(.spaceBetween).width(100%).height(44).define { header in
                     header.addItem(locationButton).marginLeft(20).size(20)
-                    header.addItem(regionLabel).marginHorizontal(8).grow(1).shrink(1)
+                    header.addItem(regionLabel).marginHorizontal(8).shrink(1)
+                    header.addItem().grow(1)
                     header.addItem(notificationButton).marginRight(20).size(20)
                 }
                 $0.addItem().direction(.row).alignItems(.center).justifyContent(.center).height(30).define { date in

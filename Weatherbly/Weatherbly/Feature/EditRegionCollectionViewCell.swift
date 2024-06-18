@@ -31,6 +31,7 @@ public final class EditRegionCollectionViewCell: UICollectionViewCell {
     public var regionLabel = LabelMaker(
         font: .body_1_M
     ).make().then {
+        $0.numberOfLines = 1
         $0.lineBreakMode = .byTruncatingTail
     }
     

@@ -14,7 +14,10 @@ import Then
 public final class RegionTableViewCell: UITableViewCell {
     public var regionLabel = LabelMaker(
         font: .body_3_M
-    ).make()
+    ).make().then {
+        $0.numberOfLines = 1
+        $0.lineBreakMode = .byTruncatingTail
+    }
     
     var arrow = UIImageView().then {
         $0.image = .rightArrow_gray

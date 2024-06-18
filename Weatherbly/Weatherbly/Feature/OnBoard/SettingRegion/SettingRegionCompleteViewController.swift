@@ -22,7 +22,10 @@ public final class SettingRegionCompleteViewController: RxBaseViewController<Set
     
     private lazy var region = LabelMaker(
         font: .body_3_M
-    ).make(text: "\(viewModel.regionDataRelay.value.address_name ?? "")")
+    ).make(text: "\(viewModel.regionDataRelay.value.address_name ?? "")").then {
+        $0.numberOfLines = 1
+        $0.lineBreakMode = .byTruncatingTail
+    }
     
     private let negativeButton = NewCSButton(.standard, style: .violet100).then {
         $0.setTitle("아니오", for: .normal)

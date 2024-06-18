@@ -52,6 +52,8 @@ public final class HomeForecastCell: UICollectionViewCell {
         fontColor: .white,
         alignment: .center
     ).make().then {
+        $0.numberOfLines = 1
+        $0.adjustsFontSizeToFitWidth = true
         $0.backgroundColor = .black10
         $0.setCornerRadius(10.5)
         $0.layer.masksToBounds = true
