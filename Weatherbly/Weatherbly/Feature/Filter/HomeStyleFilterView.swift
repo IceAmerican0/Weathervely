@@ -28,7 +28,6 @@ public final class HomeStyleFilterView: UICollectionReusableView {
     public override init(frame: CGRect) {
         super.init(frame: frame)
         setLayout()
-        layout()
     }
     
     required init?(coder: NSCoder) {
@@ -58,7 +57,7 @@ extension HomeStyleFilterView {
     }
     
     private func layout() {
-        styleListView.pin.before(of: filterIcon, aligned: .center).left().marginRight(20).height(29)
         filterIcon.pin.vCenter().right().size(24)
+        styleListView.pin.before(of: filterIcon, aligned: .center).left().marginRight(20).height(29)
     }
 }

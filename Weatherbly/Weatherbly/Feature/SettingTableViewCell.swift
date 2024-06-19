@@ -53,11 +53,6 @@ public final class SettingTableViewCell: UITableViewCell {
         setLayout()
     }
     
-    public override func sizeThatFits(_ size: CGSize) -> CGSize {
-        setLayout()
-        return CGSize(width: contentView.frame.width, height: 51)
-    }
-    
     public func configureCellState(state: SettingMenuTitle) {
         self.selectionStyle = .none
         titleLabel.text = state.rawValue

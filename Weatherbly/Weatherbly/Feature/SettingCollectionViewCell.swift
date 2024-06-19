@@ -53,12 +53,6 @@ public final class SettingCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public override func sizeThatFits(_ size: CGSize) -> CGSize {
-        contentView.pin.width(size.width)
-        contentView.flex.layout()
-        return contentView.frame.size
-    }
-    
     override public func layoutSubviews() {
         super.layoutSubviews()
         contentView.flex.layout()

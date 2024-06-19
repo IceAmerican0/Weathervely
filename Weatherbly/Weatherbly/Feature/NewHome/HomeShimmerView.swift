@@ -40,16 +40,18 @@ public final class HomeShimmerView: UIView {
 
 private extension HomeShimmerView {
     func setLayout() {
-        addSubview(topShimmer)
-        addSubview(timeShimmer)
-        addSubview(forecastShimmer)
-        addSubview(firstFilterShimmer)
-        addSubview(secondFilterShimmer)
-        addSubview(filterButtonShimmer)
-        addSubview(itemShimmer1)
-        addSubview(itemShimmer2)
-        addSubview(itemShimmer3)
-        addSubview(itemShimmer4)
+        addSubviews(
+            topShimmer,
+            timeShimmer,
+            forecastShimmer,
+            firstFilterShimmer,
+            secondFilterShimmer,
+            filterButtonShimmer,
+            itemShimmer1,
+            itemShimmer2,
+            itemShimmer3,
+            itemShimmer4
+        )
     }
     
     func layout() {

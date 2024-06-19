@@ -41,18 +41,21 @@ public final class OnBoardViewController: RxBaseViewController<OnBoardViewModel>
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        
+        view.addSubviews(
+            logo,
+            topLabel,
+            middleLabel,
+            bottomLabel,
+            startButton,
+            backgroundLogo
+        )
+        
         userDefault.set(true, forKey: UserDefaultKey.isOnboard.rawValue)
     }
     
-    override func layout() {
-        super.layout()
-        
-        view.addSubview(logo)
-        view.addSubview(topLabel)
-        view.addSubview(middleLabel)
-        view.addSubview(bottomLabel)
-        view.addSubview(startButton)
-        view.addSubview(backgroundLogo)
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         
         middleLabel.pin.hCenter().vCenter().sizeToFit()
         topLabel.pin.above(of: middleLabel).marginBottom(8).hCenter().sizeToFit()
@@ -71,5 +74,4 @@ public final class OnBoardViewController: RxBaseViewController<OnBoardViewModel>
             }
             .disposed(by: bag)
     }
-
 }

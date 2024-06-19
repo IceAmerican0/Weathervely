@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import FlexLayout
 import PinLayout
 import Then
 import RxSwift
@@ -53,10 +52,13 @@ final class FilterListViewController: RxBaseViewController<FilterListViewModel> 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        container.addSubview(exitButton)
-        container.addSubview(filterList)
-        container.addSubview(resetButton)
-        container.addSubview(confirmButton)
+        
+        container.addSubviews(
+            exitButton,
+            filterList,
+            resetButton,
+            confirmButton
+        )
         
         viewModel.getCategoryList()
     }

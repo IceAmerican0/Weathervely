@@ -77,6 +77,7 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
             top: 0, left: 20, bottom: 0, right: 20
         )
         $0.contentInset.top = 8
+        $0.rowHeight = 51
         $0.register(withType: SettingTableViewCell.self)
     }
     
