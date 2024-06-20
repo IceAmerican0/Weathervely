@@ -12,6 +12,8 @@ public let userDefault = UserDefaults.standard
 public enum UserDefaultKey: String {
     /// 서버
     case appEnvironment
+    /// 서버 변경여부
+    case isServerChanged
     /// 온보딩 진행여부
     case isOnboard
     /// 닉네임

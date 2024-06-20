@@ -18,18 +18,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         /// Firebase
         FirebaseApp.configure()
+        Messaging.messaging().delegate = self
+        
         registerRemoteNotification()
-        checkFCMToken()
         
         return true
     }
     
-    /// 백그라운드 알림 처리
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        PushNotificationDBManager.shared.saveNotiToDatabase(info: userInfo)
-        completionHandler(.newData)
-    }
-
     // MARK: UISceneSession Lifecycle
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
@@ -57,6 +52,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
         }
     }
     
+    /// 알림 권한 체크
     func checkNotification() {
         Task {
             let isAuthorized = await checkAuthorization()
@@ -70,16 +66,24 @@ extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
     /// 해당 메서드를 통해서 토큰을 저장하지 않고 언제든지 토큰에 액세스 가능
     /// token 클로저를 통하여 토큰을 직접 가져올 수 있다. 실패일 경우 nil이 아닌 오류를 내보낸다.
     func checkFCMToken() {
-        let messaging = Messaging.messaging()
-        messaging.delegate = self
-        // 자동 초기화 방지
-        messaging.isAutoInitEnabled = true
-        
-        messaging.token { token, error in
-            if let error = error {
+        Messaging.messaging().token { token, error in
+            if let error {
                 print("Error fetching FCM registration token: \(error)")
-            } else if let token = token {
+            } else if let token {
+                #if DEBUG
                 print("FCM registration token: \(token)")
+                #endif
+            }
+        }
+    }
+    
+    func deleteFCMToken() {
+        Messaging.messaging().deleteToken { error in
+            if let error {
+                print("Error Deleting FCM token: \(error)")
+            } else {
+                print("FCM token deleted")
+                self.checkFCMToken()
             }
         }
     }
@@ -87,22 +91,28 @@ extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
     /// 토큰 갱신 모니터링
     /// -> 토큰 업데이트 시 알림을 받기위함
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        let dataDict: [String: String] = ["token": fcmToken ?? ""]
-        NotificationCenter.default.post(
-            name: Notification.Name("FCMToken"),
-            object: nil,
-            userInfo: dataDict
-        )
+        print("didrecieve: \(fcmToken)")
+        
+        if UserDefaultManager.shared.isServerChanged {
+            userDefault.removeObject(forKey: UserDefaultKey.isServerChanged.rawValue)
+            deleteFCMToken()
+        }
         
         if UserDefaultManager.shared.pushToken != fcmToken {
-            userDefault.set(fcmToken, forKey: UserDefaultKey.pushToken.rawValue)
+            let token = UserDefaultKey.pushToken.rawValue
+            
+            if let fcmToken {
+                userDefault.set(fcmToken, forKey: token)
+            } else {
+                userDefault.removeObject(forKey: token)
+            }
         }
     }
     
-    /// FCM Token 등록
-    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        Messaging.messaging().apnsToken = deviceToken
-        Messaging.messaging().setAPNSToken(deviceToken, type: .unknown)
+    /// 백그라운드 알림 처리
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        PushNotificationDBManager.shared.saveNotiToDatabase(info: userInfo)
+        completionHandler(.newData)
     }
     
     /// 알림 받을시(Foreground)

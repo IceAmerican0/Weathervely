@@ -175,6 +175,7 @@ final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
                     environment.rawValue,
                     forKey: UserDefaultKey.appEnvironment.rawValue
                 )
+                userDefault.set(true, forKey: UserDefaultKey.isServerChanged.rawValue)
                 self?.close()
             }
         )

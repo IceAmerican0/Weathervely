@@ -90,6 +90,14 @@ public final class UserDefaultManager {
         }
     }
     
+    public var isServerChanged: Bool {
+        if let isServerChanged = userDefault.object(forKey: UserDefaultKey.isServerChanged.rawValue) as? Bool {
+            true
+        } else {
+            false
+        }
+    }
+    
     public var homeStyleFilterList: [Int] {
         if let list = userDefault.object(forKey: UserDefaultKey.homeStyleFilterList.rawValue) as? [Int] {
             return list
