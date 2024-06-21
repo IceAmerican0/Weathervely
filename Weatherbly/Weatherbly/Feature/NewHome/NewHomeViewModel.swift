@@ -38,7 +38,9 @@ public protocol NewHomeViewModelLogic: ViewModelBusinessLogic {
 }
 
 public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
+    private let forecastDataSource: ForecastDataSourceProtocol = ForecastDataSource()
     private let closetDataSource: NewClosetDataSourceProtocol = NewClosetDataSource()
+    private let typeDataSource: TypeDataSourceProtocol = TypeDataSource()
     
     /// 첫 실행 shimmer 여부
     public var shimmerStatus: PublishRelay<Bool> = .init()
@@ -92,8 +94,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     
     /// 날씨 정보 받아오기
     public func getForecastInfo() {
-        let dataSource: ForecastDataSourceProtocol = ForecastDataSource()
-        dataSource.getVillageForcast()
+        forecastDataSource.getVillageForcast()
             .subscribe(
                 with: self,
                 onNext: { owner, response in
@@ -118,8 +119,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     
     /// 스타일 필터 리스트 받아오기
     public func getStyleFilterList() {
-        let dataSource = TypeDataSource(provider: WVProvider<TypeTarget>())
-        dataSource.getTypeList()
+        typeDataSource.getTypeList()
             .subscribe(
                 with: self,
                 onNext: { owner, response in
@@ -280,8 +280,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     
     /// 스타일 선택 히스토리 저장
     public func stylePicked(closetID: Int) {
-        let dataSource: ClosetDataSourceProtocol = ClosetDataSource()
-        dataSource.stylePicked(closetID)
+        closetDataSource.stylePicked(closetID)
             .subscribe(
                 with: self,
                 onError: { _, error in

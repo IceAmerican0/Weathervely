@@ -12,12 +12,28 @@ public enum NewClosetTarget {
     case getHomeCloset(page: Int)
     /// 스타일탭 코디 가져오기
     case getStyleCloset(style: Int, item: [Int], page: Int)
+    /// 메인 > 메인 카드 클릭시 히스토리 저장
+    case stylePicked(_ closetID: Int)
 }
 
 extension NewClosetTarget: WVTargetType {
-    public var path: String { "/closet" }
+    public var path: String {
+        switch self {
+        case .getHomeCloset,
+             .getStyleCloset:            "/closet"
+        case .stylePicked(let closetID): "/closet/\(closetID)"
+        }
+    }
     
-    public var method: Moya.Method { .get }
+    public var method: Moya.Method {
+        switch self {
+        case .getHomeCloset,
+             .getStyleCloset:
+            return .get
+        case .stylePicked:
+            return .post
+        }
+    }
     
     public var task: Moya.Task {
         switch self {
@@ -32,15 +48,17 @@ extension NewClosetTarget: WVTargetType {
                 encoding: URLEncoding.queryString
             )
         case .getStyleCloset(let style, let item, let page):
-                .requestParameters(
-                    parameters: [
-                        "page": page,
-                        "tab": "style",
-                        "style_ids": style,
-                        "medium_category_ids": item
-                    ],
-                    encoding: URLEncoding.queryString
-                )
+            .requestParameters(
+                parameters: [
+                    "page": page,
+                    "tab": "style",
+                    "style_ids": style,
+                    "medium_category_ids": item
+                ],
+                encoding: URLEncoding.queryString
+            )
+        case .stylePicked:
+            .requestPlain
         }
     }
 }

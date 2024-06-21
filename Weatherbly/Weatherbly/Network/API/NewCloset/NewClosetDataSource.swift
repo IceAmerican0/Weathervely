@@ -12,6 +12,7 @@ import RxMoya
 protocol NewClosetDataSourceProtocol {
     func getHomeCloset(page: Int) -> Observable<NewClosetEntity>
     func getStyleCloset(style: Int, item: [Int], page: Int) -> Observable<NewClosetEntity>
+    func stylePicked(_ closetID: Int) -> Observable<EmptyEntity>
 }
 
 final class NewClosetDataSource: NewClosetDataSourceProtocol {
@@ -31,5 +32,11 @@ final class NewClosetDataSource: NewClosetDataSourceProtocol {
         provider.rx
             .request(.getStyleCloset(style: style, item: item, page: page))
             .mapTo(NewClosetEntity.self)
+    }
+    
+    func stylePicked(_ closetID: Int) -> Observable<EmptyEntity> {
+        provider.rx
+            .request(.stylePicked(closetID))
+            .mapTo(EmptyEntity.self)
     }
 }

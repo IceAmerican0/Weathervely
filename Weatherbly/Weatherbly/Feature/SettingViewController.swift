@@ -81,10 +81,29 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
         $0.register(withType: SettingTableViewCell.self)
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil
+        )
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // 알림권한 설정 후 화면 복귀 확인용
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(refresh),
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil
+        )
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         nameLabel.text = UserDefaultManager.shared.nickname
-        collectionView.reloadData()
+        refresh()
     }
     
     override func layout() {
@@ -123,6 +142,12 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
                 cellType: SettingTableViewCell.self
             )) { _, data, cell in
                 cell.configureCellState(state: data)
+                
+                cell.toggleTap
+                    .drive(with: self) { owner, selected in
+                        owner.viewModel.pushSetting(selected: selected)
+                        owner.collectionView.reloadData()
+                    }.disposed(by: cell.bag)
             }.disposed(by: bag)
         
         collectionView.rx.itemSelected
@@ -140,6 +165,11 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
             .bind(with: self) { owner, _ in
                 owner.viewModel.didTapSecretReset()
             }.disposed(by: bag)
+    }
+    
+    @objc func refresh() {
+        tableView.reloadData()
+        collectionView.reloadData()
     }
 }
 

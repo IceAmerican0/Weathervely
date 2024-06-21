@@ -18,10 +18,11 @@ public protocol UserDataSourceProtocol {
     func setMainAddress(_ addressID: Int) -> Observable<EmptyEntity>
     func fetchAddress(_ addressID: Int, _ addressInfo: AddressRequest) -> Observable<EmptyEntity>
     func deleteAddress(_ addressID: Int) -> Observable<EmptyEntity>
+    func fetchFCMToken(_ token: String) -> Observable<EmptyEntity>
+    func fetchPushAgreement(_ agreement: Bool) -> Observable<EmptyEntity>
 }
 
 public final class UserDataSource: UserDataSourceProtocol {
-    
     private let provider: WVProvider<UserTarget>
     
     public init(provider: WVProvider<UserTarget> = WVProvider<UserTarget>()) {
@@ -73,6 +74,18 @@ public final class UserDataSource: UserDataSourceProtocol {
     public func deleteAddress(_ addressID: Int) -> Observable<EmptyEntity> {
         provider.rx
             .request(.deleteAddress(addressID))
+            .mapTo(EmptyEntity.self)
+    }
+    
+    public func fetchFCMToken(_ token: String) -> Observable<EmptyEntity> {
+        provider.rx
+            .request(.fetchFCMToken(token))
+            .mapTo(EmptyEntity.self)
+    }
+    
+    public func fetchPushAgreement(_ agreement: Bool) -> Observable<EmptyEntity> {
+        provider.rx
+            .request(.fetchPushAgreement(agreement))
             .mapTo(EmptyEntity.self)
     }
 }

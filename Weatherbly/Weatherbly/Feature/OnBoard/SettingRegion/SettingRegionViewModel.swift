@@ -37,7 +37,7 @@ public final class SettingRegionViewModel: RxBaseViewModel, SettingRegionViewMod
     }
     
     public func searchRegion(_ region: String) {
-        let datasource = RegionDataSource()
+        let datasource: RegionDataSourceProtocol = RegionDataSource()
         datasource.searchRegion(region)
             .subscribe(
                 with: self,

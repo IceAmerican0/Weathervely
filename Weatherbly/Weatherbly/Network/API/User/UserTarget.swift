@@ -25,6 +25,10 @@ public enum UserTarget {
     case fetchAddress(_ addressID: Int, _ addressInfo: AddressRequest)
     /// 설정된 주소 삭제
     case deleteAddress(_ addressID: Int)
+    /// FCM Token 변경
+    case fetchFCMToken(_ token: String)
+    /// 푸시 동의여부 변경
+    case fetchPushAgreement(_ agreement: Bool)
 }
 
 extension UserTarget: WVTargetType {
@@ -38,6 +42,8 @@ extension UserTarget: WVTargetType {
         case .fetchAddress(let addressID, _),
              .deleteAddress(let addressID):     "/user/address/\(addressID)"
         case .setMainAddress(let addressID):    "/user/address/setMain/\(addressID)"
+        case .fetchFCMToken:                    "/user/fcmPhoneToken"
+        case .fetchPushAgreement:                "/user/isNotification"
         }
     }
     
@@ -52,7 +58,9 @@ extension UserTarget: WVTargetType {
              .deleteAddress:
             return .post
         case .fetchUserInfo,
-             .fetchAddress:
+             .fetchAddress,
+             .fetchFCMToken,
+             .fetchPushAgreement:
             return .patch
         }
     }
@@ -82,6 +90,16 @@ extension UserTarget: WVTargetType {
              .deleteAddress(let addressID):
             .requestParameters(
                 parameters: ["addressId": addressID],
+                encoding: JSONEncoding.default
+            )
+        case .fetchFCMToken(let token):
+            .requestParameters(
+                parameters: ["fcm_phone_token": token],
+                encoding: JSONEncoding.default
+            )
+        case .fetchPushAgreement(let agreement):
+            .requestParameters(
+                parameters: ["is_notification": agreement],
                 encoding: JSONEncoding.default
             )
         }

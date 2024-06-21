@@ -16,6 +16,8 @@ public enum UserDefaultKey: String {
     case isServerChanged
     /// 온보딩 진행여부
     case isOnboard
+    /// 알림 수신여부
+    case pushAgreement
     /// 닉네임
     case nickname
     /// 푸시토큰

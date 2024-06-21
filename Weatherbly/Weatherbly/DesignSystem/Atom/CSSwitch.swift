@@ -11,7 +11,7 @@ import Then
 import RxRelay
 
 public final class CSSwitch: UIControl {
-    public lazy var isSelectedRelay = BehaviorRelay(value: isSelected)
+    public lazy var isSelectedRelay = PublishRelay<Bool>()
     
     private lazy var thumb = UIView().then {
         $0.clipsToBounds = true

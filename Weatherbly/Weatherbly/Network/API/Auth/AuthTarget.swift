@@ -10,7 +10,7 @@ import Moya
 
 public enum AuthTarget {
     /// 임시 토큰 발행
-    case login
+    case login(_ agreement: Bool)
     /// 닉네임 중복 검증
     case nicknameValidation(_ nickname: String)
     /// 닉네임 설정
@@ -36,12 +36,12 @@ extension AuthTarget: WVTargetType {
     
     public var task: Moya.Task {
         switch self {
-        case .login:
+        case .login(let agreement):
             .requestParameters(
                 parameters: [
                     "phone_id": UserDefaultManager.shared.uuid,
-//                    "pushAgree": checkAuthorization(),
-//                    "pushToken": UserDefaultManager.shared.pushToken
+                    "fcm_phone_token": UserDefaultManager.shared.pushToken,
+                    "is_notification": agreement
                 ],
                 encoding: JSONEncoding.default
             )
@@ -54,9 +54,7 @@ extension AuthTarget: WVTargetType {
             .requestParameters(
                 parameters: [
                     "nickname": nickname,
-                    "phone_id": uuid,
-//                    "pushAgree": checkAuthorization(),
-//                    "pushToken": UserDefaultManager.shared.pushToken
+                    "phone_id": uuid
                 ],
                 encoding: JSONEncoding.default
             )

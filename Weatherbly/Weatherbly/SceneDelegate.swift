@@ -27,26 +27,29 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     /// 로그인 토큰
     func getToken() {
-        let loginDataSource = AuthDataSource()
-        loginDataSource.getToken()
-            .subscribe(
-                with: self,
-                onNext: { owner, response in
-                    let data = response.data
-                    userDefault.set(data.user.nickname, forKey: UserDefaultKey.nickname.rawValue)
-                    
-                    if let address = data.address {
-                        userDefault.set(address.dong, forKey: UserDefaultKey.dong.rawValue)
-                        owner.window?.rootViewController = HomeTabBarController()
-                        owner.window?.makeKeyAndVisible()
-                    } else {
-                        owner.setWindow(SettingRegionViewController(SettingRegionViewModel(.onboard)))
+        Task {
+            let loginDataSource: AuthDataSourceProtocol = AuthDataSource()
+            loginDataSource.getToken(await configurePushState())
+                .subscribe(
+                    with: self,
+                    onNext: { owner, response in
+                        let data = response.data
+                        userDefault.set(data.user.nickname, forKey: UserDefaultKey.nickname.rawValue)
+                        
+                        if let address = data.address {
+                            userDefault.set(address.dong, forKey: UserDefaultKey.dong.rawValue)
+                            owner.window?.rootViewController = HomeTabBarController()
+                            owner.window?.makeKeyAndVisible()
+                        } else {
+                            owner.setWindow(SettingRegionViewController(SettingRegionViewModel(.onboard)))
+                        }
+                    },
+                    onError: { owner, _ in
+                        owner.setWindow(OnBoardViewController(OnBoardViewModel()))
                     }
-                },
-                onError: { owner, _ in
-                    owner.setWindow(OnBoardViewController(OnBoardViewModel()))
-                }
-            ).disposed(by: bag)
+                ).disposed(by: bag)
+        }
+        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {}

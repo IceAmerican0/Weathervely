@@ -30,7 +30,7 @@ public protocol EditRegionViewModelLogic: ViewModelBusinessLogic {
 public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogic {
     public var loadedListRelay = BehaviorRelay<[AddressListInfo]>(value: [])
     
-    private let dataSource = UserDataSource()
+    private let dataSource: UserDataSourceProtocol = UserDataSource()
     
     public var editRegionState: EditRegionState
     

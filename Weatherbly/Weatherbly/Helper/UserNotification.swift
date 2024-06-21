@@ -25,6 +25,15 @@ public func checkAuthorization() async -> Bool {
     }
 }
 
+/// 알림 권한 + 수신여부 체크
+public func configurePushState() async -> Bool {
+    if await checkAuthorization() && UserDefaultManager.shared.pushAgreement {
+        return true
+    } else {
+        return false
+    }
+}
+
 /// 알림 설정창 이동
 public func toPushSetting() {
     guard let url = URL(string: UIApplication.openSettingsURLString) else { return }

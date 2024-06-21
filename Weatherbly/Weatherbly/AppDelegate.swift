@@ -8,10 +8,12 @@
 import Foundation
 import Firebase
 import FirebaseRemoteConfig
+import RxSwift
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     private var notificationCenter = UNUserNotificationCenter.current()
+    var bag = DisposeBag()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         sleep(1)
@@ -52,16 +54,6 @@ extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
         }
     }
     
-    /// 알림 권한 체크
-    func checkNotification() {
-        Task {
-            let isAuthorized = await checkAuthorization()
-            if isAuthorized {
-                registerRemoteNotification()
-            }
-        }
-    }
-    
     /// FCM Token 확인용
     /// 해당 메서드를 통해서 토큰을 저장하지 않고 언제든지 토큰에 액세스 가능
     /// token 클로저를 통하여 토큰을 직접 가져올 수 있다. 실패일 경우 nil이 아닌 오류를 내보낸다.
@@ -88,11 +80,23 @@ extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
         }
     }
     
+    func sendFCMToken(token: String) {
+        let dataSource: UserDataSourceProtocol = UserDataSource()
+        dataSource.fetchFCMToken(token)
+            .subscribe (
+                with: self,
+                onNext: { owner, _ in
+                    print("FCMToken Edit Success")
+                },
+                onError: { owner, error in
+                    print("FCMToken Edit Failed: \(error)")
+                }
+            ).disposed(by: bag)
+    }
+    
     /// 토큰 갱신 모니터링
     /// -> 토큰 업데이트 시 알림을 받기위함
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        print("didrecieve: \(fcmToken)")
-        
         if UserDefaultManager.shared.isServerChanged {
             userDefault.removeObject(forKey: UserDefaultKey.isServerChanged.rawValue)
             deleteFCMToken()
@@ -103,6 +107,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
             
             if let fcmToken {
                 userDefault.set(fcmToken, forKey: token)
+                sendFCMToken(token: fcmToken)
             } else {
                 userDefault.removeObject(forKey: token)
             }

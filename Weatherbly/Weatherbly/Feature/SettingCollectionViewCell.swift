@@ -20,7 +20,7 @@ public enum ProfileMenuTitle: CaseIterable {
     var title: String {
         switch self {
         case .region:       "동네 설정"
-        case .notification: "알림 설정"
+        case .notification: "알림 내역"
         }
     }
     
@@ -29,8 +29,7 @@ public enum ProfileMenuTitle: CaseIterable {
         case .region:
             return UIImage.icon_plusL
         case .notification:
-            let isAuthorized = await checkAuthorization()
-            return isAuthorized ? UIImage.icon_alarm_on : UIImage.icon_alarm_off
+            return await configurePushState() ? UIImage.icon_alarm_on : UIImage.icon_alarm_off
         }
     }
 }

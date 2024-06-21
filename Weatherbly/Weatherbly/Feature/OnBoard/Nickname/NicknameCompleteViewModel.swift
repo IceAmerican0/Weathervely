@@ -34,7 +34,7 @@ public final class NicknameCompleteViewModel: RxBaseViewModel, NicknameCompleteV
     /// 닉네임 설정(온보딩)
     private func setNickname() {
         let uuid = UUID().uuidString
-        let dataSource = AuthDataSource()
+        let dataSource: AuthDataSourceProtocol = AuthDataSource()
         dataSource.setNickname(nickname, uuid)
             .subscribe(
                 with: self,
@@ -57,7 +57,7 @@ public final class NicknameCompleteViewModel: RxBaseViewModel, NicknameCompleteV
     /// 닉네임 수정
     private func editNickname() {
         let userInfo = UserInfoRequest(nickname: nickname)
-        let dataSource = UserDataSource()
+        let dataSource: UserDataSourceProtocol = UserDataSource()
         dataSource.fetchUserInfo(userInfo)
             .subscribe(
                 with: self,

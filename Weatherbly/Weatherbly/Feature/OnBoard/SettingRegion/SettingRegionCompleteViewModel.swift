@@ -19,8 +19,8 @@ public protocol SettingRegionCompleteViewModelLogic: ViewModelBusinessLogic {
 public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegionCompleteViewModelLogic {
     public let regionDataRelay: BehaviorRelay<AddressRequest>
     public let settingRegionState: SettingRegionState
-    private let authDataSource = AuthDataSource()
-    private let userDataSource = UserDataSource()
+    private let authDataSource: AuthDataSourceProtocol = AuthDataSource()
+    private let userDataSource: UserDataSourceProtocol = UserDataSource()
     
     public init(_ item: AddressRequest, _ settingRegionState: SettingRegionState) {
         self.regionDataRelay = BehaviorRelay<AddressRequest>(value: item)

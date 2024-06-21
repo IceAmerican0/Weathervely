@@ -13,13 +13,16 @@ public protocol SettingViewModelLogic: ViewModelBusinessLogic {
     func toEditNicknameView()
     func didTapCollectionViewCell(at index: Int)
     func didTapTableViewCell(at index: Int)
+    func pushSetting(selected: Bool)
     func didTapSecretReset()
     
     var profileMenuTitle: BehaviorRelay<[ProfileMenuTitle]> { get }
     var menuTitle: BehaviorRelay<[SettingMenuTitle]> { get }
 }
 
-final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
+public final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
+    private let userDataSource: UserDataSourceProtocol = UserDataSource()
+    
     /// 내 정보 설정 리스트
     public var profileMenuTitle = BehaviorRelay<[ProfileMenuTitle]>(
         value: ProfileMenuTitle.allCases.map { $0 }
@@ -31,7 +34,7 @@ final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
     /// Gimmick 탭 횟수
     private var secretResetTapCount = 0
     
-    func didTapCollectionViewCell(at index: Int) {
+    public func didTapCollectionViewCell(at index: Int) {
         let data = profileMenuTitle.value
         switch data[index] {
         case .region:
@@ -41,9 +44,11 @@ final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
         }
     }
     
-    func didTapTableViewCell(at index: Int) {
+    public func didTapTableViewCell(at index: Int) {
         let data = menuTitle.value
         switch data[index] {
+        case .notification:
+            break
         case .inquiry:
             sendMail()
         case .policy:
@@ -53,8 +58,36 @@ final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
         }
     }
     
+    /// 푸시 알림 여부
+    public func pushSetting(selected: Bool) {
+        userDefault.set(selected, forKey: UserDefaultKey.pushAgreement.rawValue)
+        userDataSource.fetchPushAgreement(selected)
+            .subscribe(
+                with: self,
+                onNext: { owner, _ in
+                    var message = ""
+                    
+                    if selected {
+                        message = "알림 수신이 허용되었어요"
+                    } else {
+                        message = "알림 수신이 거부되었어요"
+                    }
+                    
+                    owner.alertState.accept(
+                        .init(
+                            title: message,
+                            alertType: .toast
+                        )
+                    )
+                },
+                onError: { owner, error in
+                    print("error fetching push agreement: \(error)")
+                }
+            ).disposed(by: bag)
+    }
+    
     /// 닉네임 설정
-    func toEditNicknameView() {
+    public func toEditNicknameView() {
         let vc = NicknameViewController(NicknameViewModel())
         navigationPushViewControllerRelay.accept(vc)
     }
@@ -87,7 +120,7 @@ final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
     }
     
     // MARK: Gimmick Logic
-    func didTapSecretReset() {
+    public func didTapSecretReset() {
         if secretResetTapCount < 5 {
             secretResetTapCount += 1
             stopTask()
@@ -123,8 +156,7 @@ final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
     
     /// 계정초기화용 ID 가져오기
     private func getUserID() {
-        let dataSource = UserDataSource()
-        dataSource.getUserInfo()
+        userDataSource.getUserInfo()
             .subscribe(
                 with: self,
                 onNext: { owner, data in
@@ -136,8 +168,7 @@ final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
     
     /// 계정초기화
     private func resetAccount(userID: Int) {
-        let dataSource = UserDataSource()
-        dataSource.resetUserInfo(userID)
+        userDataSource.resetUserInfo(userID)
             .subscribe(
                 with: self,
                 onNext: { owner, _ in

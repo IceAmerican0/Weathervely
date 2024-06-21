@@ -34,6 +34,14 @@ public final class UserDefaultManager {
         }
     }
     
+    public var pushAgreement: Bool {
+        if let agreement = userDefault.object(forKey: UserDefaultKey.pushAgreement.rawValue) as? Bool {
+            agreement
+        } else {
+            false
+        }
+    }
+    
     public var pushToken: String {
         if let pushToken = userDefault.object(forKey: UserDefaultKey.pushToken.rawValue) {
             return "\(pushToken)"
@@ -47,8 +55,8 @@ public final class UserDefaultManager {
     }
     
     public var isFemale: Bool {
-        if let gender = userDefault.object(forKey: UserDefaultKey.gender.rawValue) {
-            return gender as! String == "female" ? true : false
+        if let gender = userDefault.object(forKey: UserDefaultKey.gender.rawValue) as? String {
+            return gender == "female" ? true : false
         } else {
             return false
         }
@@ -63,8 +71,8 @@ public final class UserDefaultManager {
     }
     
     public var closetID: Int {
-        if let closetID = userDefault.object(forKey: UserDefaultKey.closetID.rawValue) {
-            return closetID as! Int
+        if let closetID = userDefault.object(forKey: UserDefaultKey.closetID.rawValue) as? Int {
+            return closetID
         } else {
             return 0
         }

@@ -20,7 +20,7 @@ final class NicknameViewModel: RxBaseViewModel, NicknameViewModelLogic {
     
     /// 확인 버튼
     func didTapConfirmButton(_ text: String) {
-        let dataSource = AuthDataSource()
+        let dataSource: AuthDataSourceProtocol = AuthDataSource()
         dataSource.nicknameValidation(text)
             .subscribe(
                 with: self,
