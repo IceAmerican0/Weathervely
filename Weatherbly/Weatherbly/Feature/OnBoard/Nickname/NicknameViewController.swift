@@ -56,7 +56,7 @@ final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
         super.layout()
         
         container.flex.define {
-            $0.addItem(navigationView).width(100%)
+            $0.addItem(navigationView)
             $0.addItem(explanationLabel).marginTop(50).marginLeft(20)
             $0.addItem(guideLabel).marginTop(8).marginLeft(20)
             $0.addItem(inputNickname).alignSelf(.stretch).marginTop(32).marginHorizontal(20).height(40)

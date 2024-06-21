@@ -89,7 +89,7 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
         super.layout()
         
         container.flex.define {
-            $0.addItem(navigationView).width(100%)
+            $0.addItem(navigationView)
             $0.addItem(shimmerView).grow(1)
             $0.addItem(zeroNotiView).alignItems(.center).justifyContent(.center).grow(1).define {
                 $0.addItem(zeroNotiImageView).size(48)

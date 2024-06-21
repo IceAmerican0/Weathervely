@@ -83,7 +83,7 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
         super.layout()
         
         container.flex.define {
-            $0.addItem(navigationView).width(100%)
+            $0.addItem(navigationView)
             $0.addItem(comment).marginTop(50).marginLeft(20)
             $0.addItem(inputRegion).alignSelf(.stretch).marginTop(32).marginHorizontal(20).height(40)
             $0.addItem(middleView).marginTop(32).marginHorizontal(20).marginBottom(20).grow(1).define {

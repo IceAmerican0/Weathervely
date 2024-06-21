@@ -39,7 +39,7 @@ public final class SettingRegionCompleteViewController: RxBaseViewController<Set
         super.layout()
         
         container.flex.define {
-            $0.addItem(navigationView).width(100%)
+            $0.addItem(navigationView)
             $0.addItem(comment).marginTop(50).marginLeft(20)
             $0.addItem().alignSelf(.stretch).alignItems(.center).justifyContent(.center)
                 .marginTop(32).marginHorizontal(20).height(51).backgroundColor(.violet10)

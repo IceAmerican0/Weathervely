@@ -23,7 +23,10 @@ public final class CSNavigationView: UIView {
     private var titleLabel = LabelMaker(
         font: .title_3_B,
         alignment: .center
-    ).make()
+    ).make().then {
+        $0.numberOfLines = 1
+        $0.adjustsFontSizeToFitWidth = true
+    }
     
     private var rightButton = UIButton().then {
         $0.isHidden = true
@@ -93,9 +96,9 @@ private extension CSNavigationView {
         backgroundColor = .white
         self.addSubview(wrapperView)
         
-        wrapperView.flex.direction(.row).alignItems(.center).justifyContent(.spaceBetween).height(44).define {
+        wrapperView.flex.direction(.row).alignItems(.center).justifyContent(.spaceBetween).alignSelf(.stretch).height(44).define {
             $0.addItem(leftButton).marginLeft(20).size(24)
-            $0.addItem(titleLabel).backgroundColor(.clear).grow(1)
+            $0.addItem(titleLabel).backgroundColor(.clear).shrink(1)
             $0.addItem(rightButton).marginRight(20).size(24)
         }
     }

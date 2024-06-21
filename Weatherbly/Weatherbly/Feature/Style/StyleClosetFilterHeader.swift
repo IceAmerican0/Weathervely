@@ -70,6 +70,11 @@ public class StyleClosetFilterHeader: UICollectionReusableView {
         setContainerLayout()
     }
     
+    public override func prepareForReuse() {
+        super.prepareForReuse()
+        bag = DisposeBag()
+    }
+    
     func setContainerLayout() {
         self.addSubviews(container)
         container.pin.all()

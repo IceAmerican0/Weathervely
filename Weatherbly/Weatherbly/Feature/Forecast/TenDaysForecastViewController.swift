@@ -80,7 +80,7 @@ final class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastV
         super.layout()
         
         container.flex.define {
-            $0.addItem(navigationView).width(100%)
+            $0.addItem(navigationView)
             $0.addItem(shimmerView).grow(1)
             $0.addItem(contentView).grow(1).define {
                 $0.addItem().direction(.row).alignItems(.center).marginTop(25).define { date in

@@ -39,6 +39,11 @@ public final class HomeStyleFilterView: UICollectionReusableView {
         layout()
     }
     
+    public override func prepareForReuse() {
+        super.prepareForReuse()
+        bag = DisposeBag()
+    }
+    
     public func configureCellState(state: [StyleTypeInfo]) {
         styleListView.reloadView(state: state)
     }

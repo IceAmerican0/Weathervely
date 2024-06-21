@@ -51,7 +51,7 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
         super.layout()
         
         container.flex.backgroundColor(.violet10).define {
-            $0.addItem(navigationView).width(UIScreen.main.bounds.width)
+            $0.addItem(navigationView)
             $0.addItem(header).marginTop(22).marginLeft(20)
             $0.addItem(collectionView).marginTop(13).marginHorizontal(20).grow(1)
             $0.addItem(confirmButton).alignSelf(.stretch).marginHorizontal(20).bottom(20).height(48)

@@ -46,7 +46,7 @@ final class NicknameCompleteViewController: RxBaseViewController<NicknameComplet
         super.layout()
         
         container.flex.define {
-            $0.addItem(navigationView).width(100%)
+            $0.addItem(navigationView)
             $0.addItem(explanationLabel).marginTop(50).marginLeft(20)
             $0.addItem(guideLabel).marginTop(8).marginLeft(20)
             $0.addItem().alignSelf(.stretch).justifyContent(.center).alignItems(.center)
