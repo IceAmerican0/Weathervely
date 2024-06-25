@@ -88,7 +88,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //                        owner.window?.rootViewController = HomeTabBarController()
 //                        owner.window?.makeKeyAndVisible()
                         
-                        self.setWindow(ClosetDetailViewController(ClosetDetailViewModel()))
+                        self.setWindow(ClosetDetailViewController(ClosetDetailViewModel(closetId: 967)))
 //                        self.setWindow((TwoRowInOneSectionTest()))
                     } else {
                         owner.setWindow(SettingRegionViewController(SettingRegionViewModel(.onboard)))

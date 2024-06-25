@@ -9,7 +9,7 @@ import UIKit
 
 final class WarmDecorationView: UICollectionReusableView {
     
-    private let decoWrapper = UIView().then { $0.backgroundColor = .red100 }
+    private let decoWrapper = UIView()
     private let bgImage = UIImageView().then {
         $0.contentMode = .scaleAspectFill
         $0.image = UIImage.moreHot_banner

@@ -57,11 +57,13 @@ final class MainDetailCell: UICollectionViewCell {
             self.detailImageView.setKF(urlString: imageUrl, placeHolder: UIImage.image_indicator) { [weak self] result in
                 switch result {
                 case .success:
-                    self?.detailImageView.pin.all()
                     self?.detailImageView.contentMode = .scaleAspectFit
-                case .failure(let error):
                     self?.detailImageView.pin.all()
+                    
+                case .failure(let error):
                     self?.detailImageView.contentMode = .center
+                    self?.detailImageView.pin.all()
+                    
                 }
                 self?.detailImageView.flex.markDirty()
                 self?.detailImageView.layoutIfNeeded()

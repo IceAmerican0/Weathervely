@@ -14,7 +14,7 @@ import RxDataSources
 final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewModel> {
     
     let navigationBar = CSNavigationView(.leftButton(UIImage.leftArrow_black)).then {
-        $0.setTitle("코디보기")
+        $0.setTitle(CSString.detailTitle.string)
     }
     
     lazy var flowLayout = UICollectionViewFlowLayout().then {
@@ -31,12 +31,10 @@ final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewMod
         $0.registerHeader(withType: TitleLabelReusableHeader.self)
         
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.fetchData() {
-            self.viewModel.bindDiffTemSection()
-        }
+        viewModel.fetchData()
     }
     
     override func viewDidLayoutSubviews() {
@@ -84,14 +82,10 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
                 return collectionView.dequeueCell(withType: WithItemCell.self, for: indexPath).then {
                     $0.configure(info: withItemInfo)
                 }
-            case .firstRow(let rowInfo):
+            case .firstRow(let rowInfo),
+                    .secondRow(let rowInfo):
                 return collectionView.dequeueCell(withType: DiffTempCell.self, for: indexPath).then {
                     $0.configure(info: rowInfo)
-                    $0.backgroundColor = .yellow500
-                }
-            case .secondRow(let rowInfo):
-                return collectionView.dequeueCell(withType: DiffTempCell.self, for: indexPath).then {
-                    $0.backgroundColor = .blue100
                 }
             }
         }, configureSupplementaryView: { [weak self] dataSource, collectionView, kind, indexPath in
@@ -151,7 +145,7 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
                 let decoItem = NSCollectionLayoutDecorationItem.background(elementKind: "CoolDecorationView")
                 layoutSection = self.firstRowLayout(decoItem)
             case .warmSecond, .coolSecond:
-                layoutSection = self.withItemLayout()
+                layoutSection = self.secondRowLayout()
             }
             return layoutSection
         }
@@ -202,7 +196,7 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
 
         section.decorationItems = [decoItem]
         section.boundarySupplementaryItems = [sectionHeader]
-        section.contentInsets = NSDirectionalEdgeInsets(top: 19.5, leading: 20, bottom: 50, trailing: 0)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 19.5, leading: 20, bottom: 20, trailing: 0)
         return section
     }
     
@@ -226,9 +220,23 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
         )
         group.interItemSpacing = .fixed(16)
         
+        // Header
+        let headerSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .absolute(23)
+        )
+        
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .topLeading
+        )
+        
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
         section.interGroupSpacing = 16
+        section.boundarySupplementaryItems = [sectionHeader]
+        section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 20, bottom: 50, trailing: 0)
         return section
     }
     
@@ -247,6 +255,7 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
         )
         
         let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 30, trailing: 0)
         return section
     }
     
@@ -256,7 +265,8 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
         let groupWidth = itemWidth * 3 + 32
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .absolute(itemWidth),
-            heightDimension: .absolute(254)
+            heightDimension: .absolute(233)
+//            heightDimension: .absolute(254) // FIXME: - 카테고리 영역 높이 = 21
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
@@ -264,20 +274,19 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
         /// https://ios-development.tistory.com/945
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .absolute(groupWidth),
-            heightDimension: .absolute(266)
+            heightDimension: .absolute(233)
         )
         
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: groupSize,
             subitems: [item]
         )
-        group.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 0, bottom: 0, trailing: 0)
         group.interItemSpacing = .fixed(16)
         
         // Header
         let headerSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
-            heightDimension: .absolute(53)
+            heightDimension: .absolute(23)
         )
         
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
@@ -285,11 +294,10 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .topLeading
         )
-        
         let section = NSCollectionLayoutSection(group: group)
         
         section.orthogonalScrollingBehavior = .continuous
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0 , leading: 20, bottom: 30, trailing: 0)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 12 , leading: 20, bottom: 30, trailing: 0)
         section.interGroupSpacing = 16
         section.boundarySupplementaryItems = [sectionHeader]
         

@@ -17,7 +17,7 @@ final class WithItemCell: UICollectionViewCell {
         $0.layer.cornerRadius = 12
         $0.clipsToBounds = true
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = .white
+        $0.backgroundColor = UIColor.gray10
     }
     
     private var itemImage = UIImageView().then {
@@ -60,8 +60,6 @@ final class WithItemCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = .white
-        
     }
     
     required init?(coder: NSCoder) {
@@ -87,8 +85,8 @@ final class WithItemCell: UICollectionViewCell {
         soldOutView.pin.all()
         
         itemNameLabel.pin.below(of: imageViewWrapper).horizontally().height(itemNameLabel.font.setLineHeight()).marginTop(12)
-        shopNameLabel.pin.below(of: itemNameLabel).horizontally().height(shopNameLabel.font.setLineHeight()).marginVertical(4)
-        categoryLabel.pin.below(of: shopNameLabel).horizontally().height(categoryLabel.font.setLineHeight())
+        shopNameLabel.pin.below(of: itemNameLabel).horizontally().height(shopNameLabel.font.setLineHeight())/*.marginVertical(4)*/
+//        categoryLabel.pin.below(of: shopNameLabel).horizontally().height(categoryLabel.font.setLineHeight())
     }
     
     func configure(info: WithItemsInfo?) {
@@ -117,7 +115,7 @@ final class WithItemCell: UICollectionViewCell {
             
             itemNameLabel.text = itemName
             shopNameLabel.text = brandName
-            categoryLabel.text = category
+//            categoryLabel.text = category
             if isSoldOut(status) { isHiddenToggle() }
         }
         

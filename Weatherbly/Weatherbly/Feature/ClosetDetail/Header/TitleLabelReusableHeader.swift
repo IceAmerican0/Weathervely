@@ -35,7 +35,7 @@ class TitleLabelReusableHeader: UICollectionReusableView {
     private func layout() {
         self.addSubview(labelWrapper)
         labelWrapper.addSubview(reusableLabel)
-        labelWrapper.pin.height(53).all() // height = 라벨 높이 + 윗 섹션거리 + item Top과의 거리
+        labelWrapper.pin.height(reusableLabel.font.setLineHeight()).all()
         reusableLabel.pin.height(reusableLabel.font.setLineHeight()).left().right().bottom()
     }
     

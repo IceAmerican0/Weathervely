@@ -18,7 +18,8 @@ final class DiffTempCell: UICollectionViewCell {
         $0.clipsToBounds = true
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
-    private var closetImageView = UIImageView().then {
+    
+    private var imageView = UIImageView().then {
         $0.image = UIImage.image_indicator
         $0.contentMode = .scaleAspectFit
     }
@@ -46,13 +47,40 @@ final class DiffTempCell: UICollectionViewCell {
     func layout() {
         contentView.flex.direction(.column).define {
             $0.addItem(imageViewWrapper).define {
-                $0.addItem(closetImageView).width(120).height(180).alignSelf(.center)
+                $0.addItem(imageView).width(120).height(180).alignSelf(.center)
             }
         }
     }
     
-    func configure(info : RowInfo) {
-        print("infoinfoinfo : \n", info , "\n\n\n\n\n")
+    func configure(info : RowInfo?) {
+        guard let info = info else { return }
+        let id = info.closetId
+        let imageUrl = info.closetImageUrl
+        let name = info.closetName
+        let status = info.closetStatus
+        
+        imageView.setKF(urlString: imageUrl, placeHolder: UIImage.image_indicator) { [weak self] result in
+            switch result {
+            case .success:
+                self?.imageView.pin.all()
+                self?.imageView.contentMode = .scaleAspectFit
+            case .failure:
+                self?.imageView.pin.all()
+                self?.imageView.contentMode = .center
+            }
+            self?.updateLayout(self?.imageView)
+        }
+    }
+    
+    private func updateLayout(_ view: UIView?) {
+        view!.flex.markDirty()
+        view!.layoutIfNeeded()
+        view!.setNeedsLayout()
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.imageView.image = nil
     }
 }
 

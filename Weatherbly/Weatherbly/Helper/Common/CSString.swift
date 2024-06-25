@@ -11,6 +11,7 @@ import UIKit
 enum CSString: String {
     
     // MARK: - DetailView
+    case detailTitle
     case warmDiffTitle = "더 따뜻한 코디"
     case warmDiffDescription = "현재 코디에서 더 따뜻한 코디를 추천드려요"
     case coolDiffTitle = "더 시원한 코디"
