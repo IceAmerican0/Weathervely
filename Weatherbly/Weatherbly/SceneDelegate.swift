@@ -27,7 +27,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
             checkForceUpdate()
         case .develop:
-            
+//            self.setWindow(ClosetDetailViewController(ClosetDetailViewModel()))
             getToken()
         }
     }
@@ -73,6 +73,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     /// 로그인 토큰
     func getToken() {
+        print("uuid: \(UserDefaultManager.shared.uuid))")
         let loginDataSource = AuthDataSource()
         loginDataSource.getToken()
             .subscribe(
@@ -86,7 +87,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         userDefault.set(address.dong, forKey: UserDefaultKey.dong.rawValue)
 //                        owner.window?.rootViewController = HomeTabBarController()
 //                        owner.window?.makeKeyAndVisible()
+                        
                         self.setWindow(ClosetDetailViewController(ClosetDetailViewModel()))
+//                        self.setWindow((TwoRowInOneSectionTest()))
                     } else {
                         owner.setWindow(SettingRegionViewController(SettingRegionViewModel(.onboard)))
                     }

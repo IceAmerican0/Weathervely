@@ -204,6 +204,8 @@
 		BD5107262C1893AE00D8AFBE /* ClosetDetailDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5107252C1893AE00D8AFBE /* ClosetDetailDataSource.swift */; };
 		BD5107282C18942600D8AFBE /* ClosetDetailTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5107272C18942600D8AFBE /* ClosetDetailTarget.swift */; };
 		BD51072C2C1EE05C00D8AFBE /* TitleLabelReusableHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD51072B2C1EE05C00D8AFBE /* TitleLabelReusableHeader.swift */; };
+		BD51072F2C21F61600D8AFBE /* TwoRowInOneSectionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD51072E2C21F61600D8AFBE /* TwoRowInOneSectionTest.swift */; };
+		BD5107322C2859A300D8AFBE /* WarmDecorationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5107312C2859A300D8AFBE /* WarmDecorationView.swift */; };
 		BD5169452A5A9BD600582BA9 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5169442A5A9BD600582BA9 /* SettingViewModel.swift */; };
 		BD5169472A5AA39000582BA9 /* EditNicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5169462A5AA39000582BA9 /* EditNicknameViewController.swift */; };
 		BD5169492A5D6FEA00582BA9 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5169482A5D6FEA00582BA9 /* UITextField+Extension.swift */; };
@@ -232,6 +234,9 @@
 		BDAEBC9F2A8F5EE4002E10F2 /* WeatherMessageEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDAEBC9E2A8F5EE4002E10F2 /* WeatherMessageEnum.swift */; };
 		BDB2DDAA2B64F167009741E0 /* RxBaseScrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB2DDA92B64F167009741E0 /* RxBaseScrollViewController.swift */; };
 		BDB2DDAC2B666C1B009741E0 /* HeritageTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB2DDAB2B666C1B009741E0 /* HeritageTest.swift */; };
+		BDE912C82C28743000330673 /* CoolDecorationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE912C72C28743000330673 /* CoolDecorationView.swift */; };
+		BDE912CA2C2AB8D600330673 /* DiffTempDecoHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE912C92C2AB8D600330673 /* DiffTempDecoHeader.swift */; };
+		BDE912CC2C2ABC7800330673 /* CSString.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE912CB2C2ABC7800330673 /* CSString.swift */; };
 		BDF208FF2A4EAEF2001177B2 /* CGFloat+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF208FE2A4EAEF2001177B2 /* CGFloat+Extension.swift */; };
 /* End PBXBuildFile section */
 
@@ -429,6 +434,8 @@
 		BD5107252C1893AE00D8AFBE /* ClosetDetailDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetDetailDataSource.swift; sourceTree = "<group>"; };
 		BD5107272C18942600D8AFBE /* ClosetDetailTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetDetailTarget.swift; sourceTree = "<group>"; };
 		BD51072B2C1EE05C00D8AFBE /* TitleLabelReusableHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleLabelReusableHeader.swift; sourceTree = "<group>"; };
+		BD51072E2C21F61600D8AFBE /* TwoRowInOneSectionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoRowInOneSectionTest.swift; sourceTree = "<group>"; };
+		BD5107312C2859A300D8AFBE /* WarmDecorationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarmDecorationView.swift; sourceTree = "<group>"; };
 		BD5169442A5A9BD600582BA9 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		BD5169462A5AA39000582BA9 /* EditNicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditNicknameViewController.swift; sourceTree = "<group>"; };
 		BD5169482A5D6FEA00582BA9 /* UITextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
@@ -457,6 +464,9 @@
 		BDAEBC9E2A8F5EE4002E10F2 /* WeatherMessageEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherMessageEnum.swift; sourceTree = "<group>"; };
 		BDB2DDA92B64F167009741E0 /* RxBaseScrollViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxBaseScrollViewController.swift; sourceTree = "<group>"; };
 		BDB2DDAB2B666C1B009741E0 /* HeritageTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeritageTest.swift; sourceTree = "<group>"; };
+		BDE912C72C28743000330673 /* CoolDecorationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoolDecorationView.swift; sourceTree = "<group>"; };
+		BDE912C92C2AB8D600330673 /* DiffTempDecoHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffTempDecoHeader.swift; sourceTree = "<group>"; };
+		BDE912CB2C2ABC7800330673 /* CSString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSString.swift; sourceTree = "<group>"; };
 		BDF208FE2A4EAEF2001177B2 /* CGFloat+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -898,6 +908,7 @@
 				BD2D01B12A38889E003A25D5 /* CSButton.swift */,
 				5C1D5A102A3C500A00E66788 /* CSLabel.swift */,
 				69FDD4CB2A407FA400830927 /* CSProgressView.swift */,
+				BDE912CB2C2ABC7800330673 /* CSString.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1002,6 +1013,7 @@
 		BD51070A2C0F755400D8AFBE /* ClosetDetail */ = {
 			isa = PBXGroup;
 			children = (
+				BD5107302C28597F00D8AFBE /* DecorationView */,
 				BD51072A2C1EE04900D8AFBE /* Header */,
 				BD51071D2C132C8400D8AFBE /* Cell */,
 				BD51070B2C0F756700D8AFBE /* ClosetDetailViewController.swift */,
@@ -1043,8 +1055,26 @@
 			isa = PBXGroup;
 			children = (
 				BD51072B2C1EE05C00D8AFBE /* TitleLabelReusableHeader.swift */,
+				BDE912C92C2AB8D600330673 /* DiffTempDecoHeader.swift */,
 			);
 			path = Header;
+			sourceTree = "<group>";
+		};
+		BD51072D2C21F60300D8AFBE /* DetailViewTest */ = {
+			isa = PBXGroup;
+			children = (
+				BD51072E2C21F61600D8AFBE /* TwoRowInOneSectionTest.swift */,
+			);
+			path = DetailViewTest;
+			sourceTree = "<group>";
+		};
+		BD5107302C28597F00D8AFBE /* DecorationView */ = {
+			isa = PBXGroup;
+			children = (
+				BD5107312C2859A300D8AFBE /* WarmDecorationView.swift */,
+				BDE912C72C28743000330673 /* CoolDecorationView.swift */,
+			);
+			path = DecorationView;
 			sourceTree = "<group>";
 		};
 		BD6135D12A7E3C6700DB3DF9 /* Entity */ = {
@@ -1122,6 +1152,7 @@
 		BD8668E22B45607200B0B16A /* Test */ = {
 			isa = PBXGroup;
 			children = (
+				BD51072D2C21F60300D8AFBE /* DetailViewTest */,
 				BD5106FF2C0F66F000D8AFBE /* StyleTabTest */,
 				BD8668E32B45607B00B0B16A /* CSButtonTests.swift */,
 				BD3BA9E92B63948400BD3BFF /* LifeCycleTest.swift */,
@@ -1323,6 +1354,7 @@
 				5CDE81CE2A89F4780099FF87 /* MainToolTipViewController.swift in Sources */,
 				BD0A68572C00EE46005460B1 /* ClosetSectionModel.swift in Sources */,
 				5C5C1C2E2B8738D500294BFF /* NicknameCompleteViewModel.swift in Sources */,
+				BD51072F2C21F61600D8AFBE /* TwoRowInOneSectionTest.swift in Sources */,
 				696176B22A63E37F00B83B4C /* RxBaseViewModel.swift in Sources */,
 				69D25C962AD04F6300C17FB1 /* WVProvider.swift in Sources */,
 				BD7DAB2D2A70DEE100422D25 /* ForecastDataSource.swift in Sources */,
@@ -1368,6 +1400,7 @@
 				5CAB60C52A528C9700CD431A /* UICollectionViewCell+Extension.swift in Sources */,
 				BD49072F2A80DEED0027DEE8 /* HomeSensoryTempViewModel.swift in Sources */,
 				5C9D02C22A6E45D600AF2DA3 /* SettingRegionCompleteViewController.swift in Sources */,
+				BDE912CA2C2AB8D600330673 /* DiffTempDecoHeader.swift in Sources */,
 				BD5107182C12B2EE00D8AFBE /* DiffTempEntity.swift in Sources */,
 				5C8F2D3D2B6B30F0002DF94E /* NotificationListViewController.swift in Sources */,
 				5C4A0AC72B46832D006BE52A /* HomeClosetCell.swift in Sources */,
@@ -1375,10 +1408,12 @@
 				5CE0FEAD2A8DDE9200A0E655 /* AddressListEntity.swift in Sources */,
 				BD3714392B8629FD00527577 /* StyleTagHeaderView.swift in Sources */,
 				BD4907332A84D42F0027DEE8 /* String+Extension.swift in Sources */,
+				BD5107322C2859A300D8AFBE /* WarmDecorationView.swift in Sources */,
 				BD4316382A3CA20900E86271 /* UIView+Extension.swift in Sources */,
 				698F6CAD2ADD6EDB00C2B33A /* StyleViewController.swift in Sources */,
 				BD2D01AE2A38886C003A25D5 /* RxBaseViewController.swift in Sources */,
 				BDB2DDAC2B666C1B009741E0 /* HeritageTest.swift in Sources */,
+				BDE912CC2C2ABC7800330673 /* CSString.swift in Sources */,
 				69683A562A9B81BC00A2BD5A /* LoadErrorViewModel.swift in Sources */,
 				BD5107122C11DE4000D8AFBE /* ClosetDetailEntity.swift in Sources */,
 				BD4316362A3C9DB700E86271 /* AssetsImage.swift in Sources */,
@@ -1393,6 +1428,7 @@
 				BD4AC38F2A6671B500537583 /* OnBoardSensoryTempViewModel.swift in Sources */,
 				5C4BE89B2A5E2D1200FD2CEF /* EditRegionViewController.swift in Sources */,
 				698F6CB02ADFF8A600C2B33A /* HorizonClosetCell.swift in Sources */,
+				BDE912C82C28743000330673 /* CoolDecorationView.swift in Sources */,
 				5C84169E2B68CAA5003AE726 /* TenDayForecastEntity.swift in Sources */,
 				BD50FCBA2B82F76400C06FDD /* HorizonCollectionViewMolecule.swift in Sources */,
 				69A7F0E42A8208DB00834974 /* UserInfoRequest.swift in Sources */,

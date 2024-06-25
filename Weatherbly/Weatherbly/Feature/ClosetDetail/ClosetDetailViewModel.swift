@@ -42,33 +42,41 @@ final class ClosetDetailViewModel: RxBaseViewModel {
         completion()
     }
     
-    public func bindSection() {
+    public func bindDiffTemSection() {
+        
+////        let warmSection = transformToSectionModel(warmListInfo: warmListInfo.value!)
+//        var sections: [DetailViewSectionModel] = [
+//            .mainDetail(items: [.mainDetail(self.selectedClosetInfo.value!)]),
+//            .withItem(items: self.withItemSectionItem.value!),
+////            .warmmer(items: warmSection)
+//        ]
+//
+//        self.detailViewSections.accept(sections)
         
         Observable.combineLatest(warmFirstRowInfo, warmSecondRowInfo)
             .map { firstRow, secondRow -> [DetailViewSectionModel] in
                 var items: [DetailSectionItem] = []
                 if let firstRow = firstRow?.closets {
-                    items.append(contentsOf: firstRow.map { .warmmer($0) })
+                    items.append(contentsOf: firstRow.map { .firstRow($0) })
                 }
                 if let secondRow = secondRow?.closets {
-                    items.append(contentsOf: secondRow.map { .warmmer($0) })
+                    items.append(contentsOf: secondRow.map { .firstRow($0)})
                 }
-                return [.warmmer(items: items)]
+                return [.warmFirst(items: items)]
             }
             .bind(to: warmmerSection)
             .disposed(by: bag)
-        
-        
+//        
         Observable.combineLatest(coolFirstRowInfo, coolSecondRowInfo)
             .map { firstRow, secondRow -> [DetailViewSectionModel] in
                 var items: [DetailSectionItem] = []
                 if let firstRow = firstRow?.closets {
-                    items.append(contentsOf: firstRow.map { .cooler($0) })
+                    items.append(contentsOf: firstRow.map { .secondRow($0) })
                 }
                 if let secondRow = secondRow?.closets {
-                    items.append(contentsOf: secondRow.map { .cooler($0) })
+                    items.append(contentsOf: secondRow.map { .secondRow($0) })
                 }
-                return [.cooler(items: items)]
+                return [.coolFirst(items: items)]
             }
             .bind(to: coolerSection)
             .disposed(by: bag)
@@ -80,15 +88,11 @@ final class ClosetDetailViewModel: RxBaseViewModel {
                     .mainDetail(items: [.mainDetail(self.selectedClosetInfo.value!)]),
                     .withItem(items: self.withItemSectionItem.value!)
                 ]
+                print("warSections : \n", warmSections)
                 sections.append(contentsOf: warmSections)
                 sections.append(contentsOf: coolSections)
                 return sections
-            }
-            .subscribe(onNext: { sections in
-                self.detailViewSections.accept(sections)
-                
-                print("\n\n detailViewSections Value: " , self.detailViewSections.value[0])
-            })
+            }.bind(to: detailViewSections)
             .disposed(by: bag)
 
     }
@@ -114,7 +118,6 @@ final class ClosetDetailViewModel: RxBaseViewModel {
                         }
 
                         owner.withItemSectionItem.accept(itemArray)
-                        print("sectioItem \n", owner.withItemSectionItem.value!)
                         owner.withItemInfo.accept(withItemInfo)
                     }
                 })
@@ -129,16 +132,12 @@ final class ClosetDetailViewModel: RxBaseViewModel {
                     guard let dataList = response.data?.list else { return }
                     if let firstRow  = dataList.firstRow,
                        let secondRow = dataList.secondRow {
-                        
+                        owner.warmListInfo.accept(dataList)
                         owner.warmFirstRowInfo.accept(firstRow)
-                        
-                        
-                        
                         owner.warmSecondRowInfo.accept(secondRow)
                     }
                 }).disposed(by: bag)
     }
-    
     
     public func getCoolerClosets(closetId: Int, page: Int) {
         closetDetailDataSource.getCoolerCloset(closetId: testClosetId, page: 1)
@@ -152,5 +151,37 @@ final class ClosetDetailViewModel: RxBaseViewModel {
                         owner.coolSecondRowInfo.accept(secondRow)
                     }
                 }).disposed(by: bag)
+    }
+    
+    public func transformToSectionModel(warmListInfo: DiffTempClosetList) -> [DetailViewSectionModel] {
+//        var items: [DetailSectionItem] = []
+//
+//        if let firstRow = warmListInfo.firstRow?.closets {
+//            items.append(contentsOf: firstRow.map { DetailSectionItem.warmmer($0, rowType: .firstRow) })
+//        }
+//
+//        if let secondRow = warmListInfo.secondRow?.closets {
+//            items.append(contentsOf: secondRow.map { DetailSectionItem.warmmer($0, rowType: .secondRow) })
+//        }
+//
+//        return [.warmmer(items: firstRowItems)]
+        
+        //
+        // FIXME: - TestCode
+        var firstRowItems: [DetailSectionItem] = []
+           var secondRowItems: [DetailSectionItem] = []
+           
+           if let firstRow = warmListInfo.firstRow?.closets {
+               firstRowItems.append(contentsOf: firstRow.map { DetailSectionItem.firstRow($0) })
+           }
+           
+           if let secondRow = warmListInfo.secondRow?.closets {
+               secondRowItems.append(contentsOf: secondRow.map { DetailSectionItem.firstRow($0) })
+           }
+           
+           return [
+               .warmFirst(items: firstRowItems),
+               .warmFirst(items: secondRowItems)
+           ]
     }
 }

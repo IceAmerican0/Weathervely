@@ -38,16 +38,21 @@ final class DiffTempCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        layout()
         contentView.pin.all()
         contentView.flex.layout()
     }
     
     func layout() {
         contentView.flex.direction(.column).define {
-            $0.addItem(imageViewWrapper).backgroundColor(UIColor.gray10).define {
-                $0.addItem(closetImageView).height(180).alignSelf(.center)
+            $0.addItem(imageViewWrapper).define {
+                $0.addItem(closetImageView).width(120).height(180).alignSelf(.center)
             }
         }
+    }
+    
+    func configure(info : RowInfo) {
+        print("infoinfoinfo : \n", info , "\n\n\n\n\n")
     }
 }
 

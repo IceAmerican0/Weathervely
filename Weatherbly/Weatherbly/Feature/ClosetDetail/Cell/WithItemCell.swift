@@ -138,6 +138,7 @@ final class WithItemCell: UICollectionViewCell {
         view!.setNeedsLayout()
         view!.layoutIfNeeded()
     }
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         self.itemImage.image = nil

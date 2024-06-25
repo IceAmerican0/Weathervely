@@ -27,13 +27,15 @@ final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewMod
         $0.register(withType: MainDetailCell.self)
         $0.register(withType: WithItemCell.self)
         $0.register(withType: DiffTempCell.self)
+        $0.registerHeader(withType: DiffTempDecoHeader.self)
         $0.registerHeader(withType: TitleLabelReusableHeader.self)
+        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.fetchData() {
-            self.viewModel.bindSection()
+            self.viewModel.bindDiffTemSection()
         }
     }
     
@@ -82,11 +84,12 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
                 return collectionView.dequeueCell(withType: WithItemCell.self, for: indexPath).then {
                     $0.configure(info: withItemInfo)
                 }
-            case .warmmer(let warmmerInfo):
+            case .firstRow(let rowInfo):
                 return collectionView.dequeueCell(withType: DiffTempCell.self, for: indexPath).then {
+                    $0.configure(info: rowInfo)
                     $0.backgroundColor = .yellow500
                 }
-            case .cooler(let coolerInfo):
+            case .secondRow(let rowInfo):
                 return collectionView.dequeueCell(withType: DiffTempCell.self, for: indexPath).then {
                     $0.backgroundColor = .blue100
                 }
@@ -101,10 +104,22 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
                     return collectionView.dequeueReusableHeaderView(withType: TitleLabelReusableHeader.self, for: indexPath).then {
                         $0.configure(nil, text: "함께 착용한 아이템")
                     }
-                case .warmmer:
-                    return UICollectionReusableView()
-                case .cooler:
-                    return UICollectionReusableView()
+                case .warmFirst:
+                    return collectionView.dequeueReusableHeaderView(withType: DiffTempDecoHeader.self, for: indexPath).then {
+                        $0.configure(CSString.warmDiffTitle.string, CSString.warmDiffDescription.string)
+                    }
+                case .warmSecond:
+                    return collectionView.dequeueReusableHeaderView(withType: TitleLabelReusableHeader.self, for: indexPath).then {
+                        $0.configure(nil, text: "조금 더 따뜻한 옷")
+                    }
+                case .coolFirst:
+                    return collectionView.dequeueReusableHeaderView(withType: DiffTempDecoHeader.self, for: indexPath).then {
+                        $0.configure(CSString.coolDiffTitle.string, CSString.coolDiffDescription.string)
+                    }
+                case .coolSecond:
+                    return collectionView.dequeueReusableHeaderView(withType: TitleLabelReusableHeader.self, for: indexPath).then {
+                        $0.configure(nil, text: "조금 더 시원한 옷")
+                    }
                 }
             default:
                 fatalError("Cannot Generate SupplementaryView")
@@ -113,9 +128,8 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
         })
     }
     
-
     func setSectionLayout() -> UICollectionViewCompositionalLayout {
-        UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ -> NSCollectionLayoutSection? in
+        let layout = UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ -> NSCollectionLayoutSection? in
             
             guard let self = self else { return nil }
             guard sectionIndex < self.viewModel.detailViewSections.value.count else {
@@ -124,29 +138,111 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
             }
             
             let section = self.viewModel.detailViewSections.value[sectionIndex]
+            var layoutSection: NSCollectionLayoutSection?
             switch section {
             case .mainDetail:
-                return self.mainDetailLayout()
+                layoutSection = self.mainDetailLayout()
             case .withItem:
-                return self.withItemLayout()
-            case .warmmer:
-                return self.mainDetailLayout()
-            case .cooler:
-                return self.mainDetailLayout()
+                layoutSection = self.withItemLayout()
+            case .warmFirst:
+                let decoItem = NSCollectionLayoutDecorationItem.background(elementKind: "WarmDecorationView")
+                layoutSection = self.firstRowLayout(decoItem)
+            case .coolFirst:
+                let decoItem = NSCollectionLayoutDecorationItem.background(elementKind: "CoolDecorationView")
+                layoutSection = self.firstRowLayout(decoItem)
+            case .warmSecond, .coolSecond:
+                layoutSection = self.withItemLayout()
             }
+            return layoutSection
         }
+        layout.register(WarmDecorationView.self, forDecorationViewOfKind: "WarmDecorationView")
+        layout.register(CoolDecorationView.self, forDecorationViewOfKind: "CoolDecorationView")
+        
+        return layout
     }
     
+    // MARK: - DiffTempSection Layout
+    func firstRowLayout(_ decoItem: NSCollectionLayoutDecorationItem) -> NSCollectionLayoutSection {
+        let itemWidth = (Constants.screenWidth - 20 ) / 3
+        let groupWidth = itemWidth * 3 + 32
+        
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .absolute(itemWidth),
+            heightDimension: .absolute(180)
+        )
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .absolute(groupWidth),
+            heightDimension: .absolute(180)
+        )
+        
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: groupSize,
+            subitems: [item]
+        )
+        
+        group.interItemSpacing = .fixed(16)
+        
+        // Header
+        let headerSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .absolute(80)
+        )
+        
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .topLeading
+        )
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .continuous
+        section.interGroupSpacing = 16
+
+        section.decorationItems = [decoItem]
+        section.boundarySupplementaryItems = [sectionHeader]
+        section.contentInsets = NSDirectionalEdgeInsets(top: 19.5, leading: 20, bottom: 50, trailing: 0)
+        return section
+    }
+    
+    func secondRowLayout() -> NSCollectionLayoutSection {
+        let itemWidth = (Constants.screenWidth - 20 ) / 3
+        let groupWidth = itemWidth * 3 + 32
+        
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .absolute(itemWidth),
+            heightDimension: .absolute(180)
+        )
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .absolute(groupWidth),
+            heightDimension: .absolute(180)
+        )
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: groupSize,
+            subitems: [item]
+        )
+        group.interItemSpacing = .fixed(16)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .continuous
+        section.interGroupSpacing = 16
+        return section
+    }
+    
+    // MARK: - MainDetailSection Layout
     func mainDetailLayout() -> NSCollectionLayoutSection {
         
-        let cellSize = NSCollectionLayoutSize(
+        let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
             heightDimension: .estimated(606.5)
         )
         
-        let item = NSCollectionLayoutItem(layoutSize: cellSize)
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
         let group = NSCollectionLayoutGroup.vertical(
-            layoutSize: cellSize,
+            layoutSize: itemSize,
             subitems: [item]
         )
         
@@ -154,7 +250,7 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
         return section
     }
     
-    // MARK: - StyleLayout
+    // MARK: - withItemScction Layout
     func withItemLayout() -> NSCollectionLayoutSection {
         let itemWidth = (Constants.screenWidth - 20 ) / 3
         let groupWidth = itemWidth * 3 + 32
@@ -189,7 +285,7 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .topLeading
         )
-
+        
         let section = NSCollectionLayoutSection(group: group)
         
         section.orthogonalScrollingBehavior = .continuous
