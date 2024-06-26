@@ -96,7 +96,7 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
                 case .mainDetail: return UICollectionReusableView()
                 case .withItem:
                     return collectionView.dequeueReusableHeaderView(withType: TitleLabelReusableHeader.self, for: indexPath).then {
-                        $0.configure(nil, text: "함께 착용한 아이템")
+                        $0.configure(nil, CSString.withItemTitle.string)
                     }
                 case .warmFirst:
                     return collectionView.dequeueReusableHeaderView(withType: DiffTempDecoHeader.self, for: indexPath).then {
@@ -104,7 +104,7 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
                     }
                 case .warmSecond:
                     return collectionView.dequeueReusableHeaderView(withType: TitleLabelReusableHeader.self, for: indexPath).then {
-                        $0.configure(nil, text: "조금 더 따뜻한 옷")
+                        $0.configure(UIFont.body_2_B, CSString.secondWarmTitle.string)
                     }
                 case .coolFirst:
                     return collectionView.dequeueReusableHeaderView(withType: DiffTempDecoHeader.self, for: indexPath).then {
@@ -112,7 +112,7 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
                     }
                 case .coolSecond:
                     return collectionView.dequeueReusableHeaderView(withType: TitleLabelReusableHeader.self, for: indexPath).then {
-                        $0.configure(nil, text: "조금 더 시원한 옷")
+                        $0.configure(UIFont.body_2_B, CSString.secondCoolTitle.string)
                     }
                 }
             default:

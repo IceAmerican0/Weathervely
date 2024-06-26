@@ -39,11 +39,13 @@ class TitleLabelReusableHeader: UICollectionReusableView {
         reusableLabel.pin.height(reusableLabel.font.setLineHeight()).left().right().bottom()
     }
     
-    public func configure(_ font: UIFont?, text: String) {
+    public func configure(_ font: UIFont? = nil, _ text: String? = nil) {
         if let font = font {
             reusableLabel.font = font
         }
-        reusableLabel.text = text
+        if let text = text {
+            reusableLabel.text = text
+        }
     }
     
 }
