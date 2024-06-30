@@ -197,7 +197,7 @@
 		BD5107122C11DE4000D8AFBE /* ClosetDetailEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5107112C11DE4000D8AFBE /* ClosetDetailEntity.swift */; };
 		BD5107162C11E14800D8AFBE /* WithClosetInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5107152C11E14800D8AFBE /* WithClosetInfo.swift */; };
 		BD5107182C12B2EE00D8AFBE /* DiffTempEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5107172C12B2EE00D8AFBE /* DiffTempEntity.swift */; };
-		BD51071A2C12B89C00D8AFBE /* FirstWrammerRowEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5107192C12B89C00D8AFBE /* FirstWrammerRowEntity.swift */; };
+		BD51071A2C12B89C00D8AFBE /* DiffTempRows.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5107192C12B89C00D8AFBE /* DiffTempRows.swift */; };
 		BD51071F2C132D5500D8AFBE /* MainDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD51071E2C132D5500D8AFBE /* MainDetailCell.swift */; };
 		BD5107212C17270200D8AFBE /* WithItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5107202C17270200D8AFBE /* WithItemCell.swift */; };
 		BD5107232C17313700D8AFBE /* DiffTempCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5107222C17313700D8AFBE /* DiffTempCell.swift */; };
@@ -237,6 +237,9 @@
 		BDE912C82C28743000330673 /* CoolDecorationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE912C72C28743000330673 /* CoolDecorationView.swift */; };
 		BDE912CA2C2AB8D600330673 /* DiffTempDecoHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE912C92C2AB8D600330673 /* DiffTempDecoHeader.swift */; };
 		BDE912CC2C2ABC7800330673 /* CSString.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE912CB2C2ABC7800330673 /* CSString.swift */; };
+		BDE912CE2C2C4F4600330673 /* Collection+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE912CD2C2C4F4600330673 /* Collection+Extension.swift */; };
+		BDE912D02C2FE70600330673 /* EachRowEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE912CF2C2FE70600330673 /* EachRowEntity.swift */; };
+		BDE912D22C2FE87300330673 /* TemperatureEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE912D12C2FE87300330673 /* TemperatureEntity.swift */; };
 		BDF208FF2A4EAEF2001177B2 /* CGFloat+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF208FE2A4EAEF2001177B2 /* CGFloat+Extension.swift */; };
 /* End PBXBuildFile section */
 
@@ -426,8 +429,8 @@
 		BD51070F2C1152AD00D8AFBE /* DetailViewSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewSectionModel.swift; sourceTree = "<group>"; };
 		BD5107112C11DE4000D8AFBE /* ClosetDetailEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetDetailEntity.swift; sourceTree = "<group>"; };
 		BD5107152C11E14800D8AFBE /* WithClosetInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithClosetInfo.swift; sourceTree = "<group>"; };
-		BD5107172C12B2EE00D8AFBE /* DiffTempEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DiffTempEntity.swift; path = Weatherbly/Entity/DiffTempEntity.swift; sourceTree = "<group>"; };
-		BD5107192C12B89C00D8AFBE /* FirstWrammerRowEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstWrammerRowEntity.swift; sourceTree = "<group>"; };
+		BD5107172C12B2EE00D8AFBE /* DiffTempEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffTempEntity.swift; sourceTree = "<group>"; };
+		BD5107192C12B89C00D8AFBE /* DiffTempRows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DiffTempRows.swift; path = ../../DiffTempRows.swift; sourceTree = "<group>"; };
 		BD51071E2C132D5500D8AFBE /* MainDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainDetailCell.swift; sourceTree = "<group>"; };
 		BD5107202C17270200D8AFBE /* WithItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithItemCell.swift; sourceTree = "<group>"; };
 		BD5107222C17313700D8AFBE /* DiffTempCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffTempCell.swift; sourceTree = "<group>"; };
@@ -467,6 +470,9 @@
 		BDE912C72C28743000330673 /* CoolDecorationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoolDecorationView.swift; sourceTree = "<group>"; };
 		BDE912C92C2AB8D600330673 /* DiffTempDecoHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffTempDecoHeader.swift; sourceTree = "<group>"; };
 		BDE912CB2C2ABC7800330673 /* CSString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSString.swift; sourceTree = "<group>"; };
+		BDE912CD2C2C4F4600330673 /* Collection+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Extension.swift"; sourceTree = "<group>"; };
+		BDE912CF2C2FE70600330673 /* EachRowEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EachRowEntity.swift; sourceTree = "<group>"; };
+		BDE912D12C2FE87300330673 /* TemperatureEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureEntity.swift; sourceTree = "<group>"; };
 		BDF208FE2A4EAEF2001177B2 /* CGFloat+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -765,8 +771,6 @@
 		BD2D017C2A388753003A25D5 = {
 			isa = PBXGroup;
 			children = (
-				BD5107172C12B2EE00D8AFBE /* DiffTempEntity.swift */,
-				BD5107192C12B89C00D8AFBE /* FirstWrammerRowEntity.swift */,
 				69A7F0DF2A80CDD800834974 /* LaunchScreen.storyboard */,
 				BD2D01872A388753003A25D5 /* Weatherbly */,
 				BD2D01862A388753003A25D5 /* Products */,
@@ -896,6 +900,7 @@
 				BD4316372A3CA20900E86271 /* UIView+Extension.swift */,
 				5CC61E272A5BDCCC001435E6 /* UIViewController+Extension.swift */,
 				698F6CB12AE00FCC00C2B33A /* UIImage+Extension.swift */,
+				BDE912CD2C2C4F4600330673 /* Collection+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1046,7 +1051,11 @@
 			isa = PBXGroup;
 			children = (
 				BD5107112C11DE4000D8AFBE /* ClosetDetailEntity.swift */,
+				BD5107172C12B2EE00D8AFBE /* DiffTempEntity.swift */,
+				BD5107192C12B89C00D8AFBE /* DiffTempRows.swift */,
+				BDE912D12C2FE87300330673 /* TemperatureEntity.swift */,
 				BD5107152C11E14800D8AFBE /* WithClosetInfo.swift */,
+				BDE912CF2C2FE70600330673 /* EachRowEntity.swift */,
 			);
 			name = Detail;
 			sourceTree = "<group>";
@@ -1364,6 +1373,7 @@
 				5CAB60D32A54FC6A00CD431A /* UITableViewCell+Extension.swift in Sources */,
 				5C9D02C82A6FC45300AF2DA3 /* EditRegionTableViewCell.swift in Sources */,
 				BDAEBC9F2A8F5EE4002E10F2 /* WeatherMessageEnum.swift in Sources */,
+				BDE912D02C2FE70600330673 /* EachRowEntity.swift in Sources */,
 				5C4A0ACB2B47D34A006BE52A /* ClosetFilterHeader.swift in Sources */,
 				5CDCD7E42B56782F008465B9 /* FilterStyleListEntity.swift in Sources */,
 				BD5107232C17313700D8AFBE /* DiffTempCell.swift in Sources */,
@@ -1388,7 +1398,7 @@
 				5CE0FEBA2A93529100A0E655 /* AuthLoginEntity.swift in Sources */,
 				5CE8CD5A2B83275000AB6EBD /* NewClosetTarget.swift in Sources */,
 				5C8F2D432B6B6A71002DF94E /* NotificationEntity.swift in Sources */,
-				BD51071A2C12B89C00D8AFBE /* FirstWrammerRowEntity.swift in Sources */,
+				BD51071A2C12B89C00D8AFBE /* DiffTempRows.swift in Sources */,
 				69A7F0D92A80B42A00834974 /* UserDefaultKey.swift in Sources */,
 				BD5169492A5D6FEA00582BA9 /* UITextField+Extension.swift in Sources */,
 				BD77B82C2A388D2000E7D57A /* OnBoardViewModel.swift in Sources */,
@@ -1529,6 +1539,8 @@
 				5C9D02E12A72405100AF2DA3 /* TypeTarget.swift in Sources */,
 				BD3BDE6D2BEBD2EE002E9E0C /* StyleTagCell.swift in Sources */,
 				698F6CAE2ADD6EDB00C2B33A /* StyleViewModel.swift in Sources */,
+				BDE912CE2C2C4F4600330673 /* Collection+Extension.swift in Sources */,
+				BDE912D22C2FE87300330673 /* TemperatureEntity.swift in Sources */,
 				BD2D11BE2A9AEDCE008CBF0D /* SevenDayForecastInfoEntity.swift in Sources */,
 				69683A582A9BAAEE00A2BD5A /* KeychainManager.swift in Sources */,
 				BD5106F32C0AFCF100D8AFBE /* MyTagsView.swift in Sources */,

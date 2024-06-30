@@ -85,10 +85,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     
                     if let address = data.address {
                         userDefault.set(address.dong, forKey: UserDefaultKey.dong.rawValue)
-//                        owner.window?.rootViewController = HomeTabBarController()
-//                        owner.window?.makeKeyAndVisible()
+                        owner.window?.rootViewController = HomeTabBarController()
+                        owner.window?.makeKeyAndVisible()
                         
-                        self.setWindow(ClosetDetailViewController(ClosetDetailViewModel(closetId: 967)))
+//                        self.setWindow(ClosetDetailViewController(ClosetDetailViewModel(closetId: 967, tempId: 9)))
 //                        self.setWindow((TwoRowInOneSectionTest()))
                     } else {
                         owner.setWindow(SettingRegionViewController(SettingRegionViewModel(.onboard)))

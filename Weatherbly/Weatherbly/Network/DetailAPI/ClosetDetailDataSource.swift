@@ -17,27 +17,27 @@ final class ClosetDetailDataSource {
             .mapTo(ClosetDetailEntity.self)
     }
     
-    public func getWarmmerCloset(closetId: Int, page: Int) -> Observable<DiffTempEntity> {
+    public func getWarmmerCloset(closetId: Int, page: Int, tempId: Int) -> Observable<DiffTempEntity> {
         provider.rx
-            .request(.warmerTemp(closetId, page: page))
+            .request(.warmerTemp(closetId, page: page, tempId: tempId))
             .mapTo(DiffTempEntity.self)
     }
     
-    public func getWarmRowItems(closetId: Int, page: Int, row: Int) -> Observable<DiffTempEntity> {
+    public func getWarmRowItems(closetId: Int, page: Int, tempId: Int, row: Int) -> Observable<EachRowEntity> {
         provider.rx
-            .request(.warmerRows(closetId, page: page, row: row))
-            .mapTo(DiffTempEntity.self)
+            .request(.warmerRows(closetId, page: page, tempId: tempId, row: row))
+            .mapTo(EachRowEntity.self)
     }
     
-    public func getCoolerCloset(closetId: Int, page: Int) -> Observable<DiffTempEntity> {
+    public func getCoolerCloset(closetId: Int, page: Int, tempId: Int) -> Observable<DiffTempEntity> {
         provider.rx
-            .request(.coolerTemp(closetId, page: page))
+            .request(.coolerTemp(closetId, page: page, tempId: tempId))
             .mapTo(DiffTempEntity.self)
     }
      
-    public func getCoolRowItems(closetId: Int, page: Int, row: Int) -> Observable<DiffTempEntity> {
+    public func getCoolRowItems(closetId: Int, page: Int, tempId: Int, row: Int) -> Observable<EachRowEntity> {
         provider.rx
-            .request(.coolerRows(closetId, page: page, row: row))
-            .mapTo(DiffTempEntity.self)
+            .request(.coolerRows(closetId, page: page, tempId: tempId, row: row))
+            .mapTo(EachRowEntity.self)
     }
 }

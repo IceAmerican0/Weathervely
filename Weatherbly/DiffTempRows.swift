@@ -1,5 +1,5 @@
 //
-//  FirstWrammerRowEntity.swift
+//  DiffTempRows.swift
 //  Weatherbly
 //
 //  Created by 최수훈 on 6/7/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Rows: Codable {
+struct DiffTempRows: Codable {
     var counts: Int
     var closets: [RowInfo]
 }
@@ -17,4 +17,5 @@ struct RowInfo: Codable {
     var closetName: String
     var closetImageUrl: String
     var closetStatus: String
+    var temperature: TemperatureEntity
 }

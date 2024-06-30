@@ -26,6 +26,7 @@ struct SelectedClosetInfo: Codable {
     var imageUrl: String?
     var shopName: String?
     var style: SelectedClosetTypeInfo
+    var temp: TemperatureEntity
     var withItems: [WithItemsInfo]?
     
     enum CodingKeys: String, CodingKey {
@@ -34,6 +35,7 @@ struct SelectedClosetInfo: Codable {
         case imageUrl = "closetImageUrl"
         case shopName = "closetSiteName"
         case style = "style"
+        case temp = "temperature"
         case withItems = "clothes"
     }
 }
@@ -43,5 +45,3 @@ struct SelectedClosetTypeInfo: Codable {
     var typeName: String
 
 }
-
-

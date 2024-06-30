@@ -9,10 +9,10 @@ import Moya
 
 public enum ClosetDetailTarget {
     case closetDetail(_ closetID: Int)
-    case warmerTemp(_ closetID: Int, page: Int)
-    case warmerRows(_ closetID: Int, page: Int, row: Int)
-    case coolerTemp(_ closetID: Int, page: Int)
-    case coolerRows(_ closetID: Int, page: Int, row: Int)
+    case warmerTemp(_ closetID: Int, page: Int, tempId: Int)
+    case warmerRows(_ closetID: Int, page: Int, tempId:Int, row: Int)
+    case coolerTemp(_ closetID: Int, page: Int, tempId: Int)
+    case coolerRows(_ closetID: Int, page: Int, tempId: Int, row: Int)
 }
 
 extension ClosetDetailTarget: WVTargetType {
@@ -20,11 +20,11 @@ extension ClosetDetailTarget: WVTargetType {
         switch self {
         case .closetDetail(let closetId):
             return "/closet/\(closetId)"
-        case .warmerTemp(let closetId, _),
-                .warmerRows(let closetId, _, _):
+        case .warmerTemp(let closetId, _, _),
+                .warmerRows(let closetId, _, _, _):
             return "/closet/\(closetId)/higherTemperature"
-        case .coolerTemp(let closetId, _),
-                .coolerRows(let closetId, _, _):
+        case .coolerTemp(let closetId, _, _),
+                .coolerRows(let closetId, _, _, _):
             return "/closet/\(closetId)/lowerTemperature"
         }
     }
@@ -41,17 +41,17 @@ extension ClosetDetailTarget: WVTargetType {
         switch self {
         case .closetDetail(let id):
             return .requestPlain
-        case .warmerTemp(_, let page):
-            return .requestParameters(parameters: ["page" : page], encoding: URLEncoding.queryString)
+        case .warmerTemp(_, let page, let tempId):
+            return .requestParameters(parameters: ["page" : page, "tempId" : tempId], encoding: URLEncoding.queryString)
             
-        case .warmerRows(_, let page, let row):
-            return .requestParameters(parameters: ["page" : page, "row" : row], encoding: URLEncoding.queryString)
+        case .warmerRows(_, let page, let tempId, let row):
+            return .requestParameters(parameters: ["page" : page, "tempId" : tempId, "rowId" : row], encoding: URLEncoding.queryString)
             
-        case .coolerTemp(_, let page):
-            return .requestParameters(parameters: ["page" : page], encoding: URLEncoding.queryString)
+        case .coolerTemp(_, let page, let tempId):
+            return .requestParameters(parameters: ["page" : page, "tempId" : tempId], encoding: URLEncoding.queryString)
             
-        case .coolerRows(_, let page, let row):
-            return .requestParameters(parameters: ["page" : page, "row" : row], encoding: URLEncoding.queryString)
+        case .coolerRows(_, let page, let tempId, let row):
+            return .requestParameters(parameters: ["page" : page, "tempId" : tempId, "rowId" : row], encoding: URLEncoding.queryString)
         }
     }
     
