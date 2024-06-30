@@ -30,10 +30,10 @@ public struct HomeForecastInfo: Codable {
     let currentTemp: String
     let minTemp: String
     let maxTemp: String
-    let weather: String
+//    let weather: String
     let comment: String
     
     enum CodingKeys: String, CodingKey {
-        case date, time, currentTemp, minTemp, maxTemp, weather, comment
+        case date, time, currentTemp, minTemp, maxTemp, /*weather,*/ comment
     }
 }

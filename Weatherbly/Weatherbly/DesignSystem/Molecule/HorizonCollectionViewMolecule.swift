@@ -19,11 +19,9 @@ public class HorizonCollectionViewMolecule: UIView, CodeBaseInitializerProtocol 
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout).then {
         $0.showsHorizontalScrollIndicator = false
         $0.contentInset = PEdgeInsets(top: 0, left: 0, bottom: 0, right: 20)
-        
-        $0.register(withType: HorizontalCollectionViewCell.self)
+        $0.register(withType: HorizonClosetCell.self)
     }
 
-    
     // MARK: - Initialize
     public override init(frame: CGRect) {
         super.init(frame: frame)

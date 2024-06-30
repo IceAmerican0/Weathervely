@@ -14,136 +14,210 @@ import RxDataSources
 import RxGesture
 import Kingfisher
 
-
-final class StyleViewController: RxBaseScrollViewController<StyleViewModel> {
+final class StyleViewController: RxBaseViewController<StyleViewModel> {
     
     private var titleLabel = LabelMaker(font: UIFont.title_3_B).make(text: "스타일").then {
-        $0.backgroundColor = .red
-    }
-    
-    private lazy var bannerView = UIImageView().then {
-        $0.image = UIImage.style_banner
-        $0.contentMode = .scaleAspectFill
-        $0.layer.cornerRadius = 12
-        $0.clipsToBounds = true
-        $0.translatesAutoresizingMaskIntoConstraints = true
+        $0.sizeToFit()
     }
     
     var flowLayout = UICollectionViewFlowLayout().then {
-        $0.scrollDirection = .horizontal
+        $0.scrollDirection = .vertical
         $0.minimumLineSpacing = 16
+        $0.sectionHeadersPinToVisibleBounds = true
     }
     
-    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout).then {
-        $0.showsHorizontalScrollIndicator = false
-        $0.contentInset = PEdgeInsets(top: 0, left: 0, bottom: 0, right: 20)
-        $0.registerHeader(withType: ThemeTitleHeaderView.self)
-        $0.register(withType: HorizontalCollectionViewCell.self)
-//        $0.registerHeader(withType: <#T##T.Type#>)
+    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout
+    ).then {
+        $0.showsVerticalScrollIndicator = false
+        $0.registerHeader(withType: StyleTagHeaderView.self)
+        $0.register(withType: BannerCell.self)
+        $0.register(withType: StyleCell.self)
     }
     
-//    private lazy var firstThemeView = HorizonCollectionViewMolecule().then { [weak self] in
-//        $0.collectionView.dataSource = self
-//        $0.collectionView.delegate = self
-//    }
-//
-//    private lazy var secoundThemeView = HorizonCollectionViewMolecule().then { [weak self] in
-//        $0.collectionView.dataSource = self
-//        $0.collectionView.delegate = self
-//    }
-//    
-    private var screenDevider = UIImageView().then {
-        $0.image = UIImage.style_screen_devider
+    private lazy var rxDataSources = setRxDataSources()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        viewModel.setMockDataSetup()
     }
-    var testData = ["look1", "look2", "look1", "look1", "look2", "look1", "look1", "look2", "look1", "look1", "look2"]
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
+        container.flex.layout()
     }
+    
     override func layout() {
         super.layout()
-
-        contentView.flex.define { flex in
-            flex.addItem(titleLabel).height(titleLabel.font.setLineHeight()).margin(11.5, 20, 17.5)
-            flex.addItem(bannerView).height(80).marginHorizontal(20).marginBottom(30)
-//            flex.addItem(firstThemeView).height(244).paddingLeft(20).marginBottom(30)
-//            flex.addItem(secoundThemeView).height(244).paddingLeft(20).marginBottom(30)
-            flex.addItem(screenDevider).width(100%).height(16).marginBottom(30)
+        
+        container.flex.define { container in
+            container.addItem(titleLabel).marginHorizontal(20).marginTop(11).marginBottom(17.5).height(23)
+            container.addItem(collectionView).margin(0, 20, 0, 0).grow(1)
         }
     }
     
     override func viewBinding() {
         super.viewBinding()
+        
+        collectionView.rx
+            .setDelegate(self)
+            .disposed(by: bag)
     }
     
     override func viewModelBinding() {
         super.viewModelBinding()
         
-        viewModel.recommendClosetEntityRelay
-            .asDriver()
-            .drive(
-                with: self,
-                onNext: { owner, _ in
-//                    owner.collectionView.reloadData()
-                }
-            )
+        viewModel.styleSections
+            .bind(to: collectionView.rx.items(dataSource: setRxDataSources()))
             .disposed(by: bag)
-    }
-    
-    override func bind() {
-        super.bind()
     }
     
 }
 
-extension StyleViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension StyleViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.testData.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueCell(withType: HorizontalCollectionViewCell.self, for: indexPath)
-      
-        let image = UIImage(named: testData[indexPath.item])
-        cell.imageView.image = image
-      
-        return cell
+        let count = viewModel.styleSections.value.count
+        return count
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 120, height: collectionView.frame.height)
+        
+        switch indexPath.section {
+        case 0:
+            return CGSize(width: collectionView.frame.width, height: 80)
+        case 1:
+            return CGSize(width: collectionView.frame.width, height: 572)
+        default:collectionView
+            return CGSize()
+        }
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        if section == 1 {
+            return CGSize(width: collectionView.frame.width, height: 56)
+        } else {
+            return .zero
+        }
+    }
 }
 
 extension StyleViewController: UICollectionViewDelegate {
     
     // MARK: - DataSource
-    func setDataSource() -> RxCollectionViewSectionedReloadDataSource<StyleSection> {
-        RxCollectionViewSectionedReloadDataSource<StyleSection> (configureCell: { [ weak self ] dataSource, collectionView, indexPath, _ in
+    func setRxDataSources() -> RxCollectionViewSectionedReloadDataSource<StyleTabSectionModel> {
+        RxCollectionViewSectionedReloadDataSource<StyleTabSectionModel> (configureCell: { [ weak self ] dataSource, collectionView, indexPath, item in
             guard self != nil else { return UICollectionViewCell() }
             
-            switch dataSource[indexPath] {
-            case .normal(let cellState):
-                return collectionView.dequeueCell(withType: HorizontalCollectionViewCell.self, for: indexPath)
-            }
-        },configureSupplementaryView: { [ weak self ] dataSource, collectionView, kind, indexPath in
-            guard let self else { return UICollectionReusableView() }
-            
-            if case UICollectionView.elementKindSectionHeader = kind {
-                if case .normal = dataSource[indexPath.section] {
-                    return collectionView.dequeueReusableHeaderView(
-                        withType: HomeStyleFilterView.self,
-                        for: indexPath
-                    ).then {
-                        let styleList: [StyleTypeInfo] = []
-                        $0.configureCellState(state: styleList)
-                    }
+            switch item {
+            case .banner(let banner):
+                return collectionView.dequeueCell(withType: BannerCell.self, for: indexPath).then {
+                    $0.bannerImageView.image = banner.styleBanner
                 }
+            case .styles(let styleInfo):
+                return collectionView.dequeueCell(withType: StyleCell.self, for: indexPath).then {
+                    $0.configure(styleInfo)
+                }
+            }
+        }, configureSupplementaryView: { [ weak self ] dataSource, collectionView, kind, indexPath in
+            guard self != nil else { return UICollectionReusableView() }
+            switch kind {
+            case UICollectionView.elementKindSectionHeader:
+                switch dataSource[indexPath.section] {
+                case .banner:
+                    return UICollectionReusableView()
+                case .styles(let styleTagInfo, _):
+                    
+                    let header = collectionView.dequeueReusableHeaderView(withType: StyleTagHeaderView.self, for: indexPath)
+                    
+                    header.configureTag(styleTagInfo)
+                    // TODO: - /type API 데이터 붙이기
+                    return header
+                }
+            default:
+                fatalError("Cannot Generate SupplementaryView")
             }
             return UICollectionReusableView()
         })
     }
+    
+//    func setSectionLayout() -> UICollectionViewCompositionalLayout {
+//        UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ -> NSCollectionLayoutSection? in
+//            
+//            guard let self = self else { return nil }
+//            guard sectionIndex < self.viewModel.styleSections.value.count else {
+//                print("Section index \(sectionIndex) out of range.")
+//                return nil
+//            }
+//            
+//            let section = self.viewModel.styleSections.value[sectionIndex]
+//            switch section {
+//            case .banner:
+//                return self.setBannerLayout()
+//            case .styles:
+//                return self.setStyleLayout()
+//            }
+//        }
+//    }
+//    
+//    func setBannerLayout() -> NSCollectionLayoutSection {
+//        let cellSize = NSCollectionLayoutSize(
+//            widthDimension: .fractionalWidth(1),
+//            heightDimension: .absolute(80)
+//        )
+//        
+//        let item = NSCollectionLayoutItem(layoutSize: cellSize)
+//        let group = NSCollectionLayoutGroup.horizontal(
+//            layoutSize: cellSize,
+//            subitems: [item]
+//        )
+//        
+//        let section = NSCollectionLayoutSection(group: group)
+//        return section
+//    }
+//    
+//    // StyleLayout
+//    func setStyleLayout() -> NSCollectionLayoutSection {
+//        let cellSize = NSCollectionLayoutSize(
+//            widthDimension: .absolute(120),
+//            heightDimension: .absolute(572)
+//        )
+//        let item = NSCollectionLayoutItem(layoutSize: cellSize)
+//        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 12, trailing: 0)
+//        
+//        /// Group = 한 화면에 들어가는 item을 묶은 단위
+//        /// https://ios-development.tistory.com/945
+//        let groupSize = NSCollectionLayoutSize(
+//            widthDimension: .fractionalWidth(1),
+//            heightDimension: .absolute(209)
+//        )
+//        
+//        let group = NSCollectionLayoutGroup.vertical(
+//            layoutSize: groupSize,
+//            subitems: [item]
+//        )
+//        group.interItemSpacing = .fixed(16)
+//
+//        // Header
+//        let headerSize = NSCollectionLayoutSize(
+//            widthDimension: .fractionalWidth(1),
+//            heightDimension: .absolute(56)
+//        )
+//        
+//        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+//            layoutSize: headerSize,
+//            elementKind: UICollectionView.elementKindSectionHeader,
+//            alignment: .top
+//        )
+//        sectionHeader.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0)
+//        sectionHeader.pinToVisibleBounds = true
+//        
+//        let section = NSCollectionLayoutSection(group: group)
+//        section.contentInsets = NSDirectionalEdgeInsets(top: 7, leading: 10, bottom: 0, trailing: 0)
+//        
+//        section.interGroupSpacing = 12
+//        section.boundarySupplementaryItems = [sectionHeader]
+//        
+//        return section
+//    }
 }
+

@@ -53,7 +53,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     /// 선택돼있는 인덱스
     public var selectedIndex = BehaviorRelay<Int>(value: 0)
     /// 선택돼있는 날씨 정보
-    public var selectedForecastState = BehaviorRelay<HomeForecastInfo>(value: .init(date: "", time: "", currentTemp: "", minTemp: "", maxTemp: "", weather: "", comment: ""))
+    public var selectedForecastState = BehaviorRelay<HomeForecastInfo>(value: .init(date: "", time: "", currentTemp: "", minTemp: "", maxTemp: "", /*weather: "",*/ comment: ""))
     /// 스타일 필터 리스트
     public var styleFilterList: [StyleTypeInfo] = []
     /// 스타일 추천 리스트
@@ -291,7 +291,8 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     
     /// 상세보기 이동
     public func toDetailView(state: NewClosetInfo) {
-        
+        let vc = ClosetDetailViewController(ClosetDetailViewModel(closetId: state.closetId, tempId: state.closetId))
+        navigationPushViewControllerRelay.accept(vc)
     }
     
     /// 알림페이지 이동

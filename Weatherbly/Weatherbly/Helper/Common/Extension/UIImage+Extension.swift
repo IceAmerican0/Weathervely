@@ -99,7 +99,6 @@ extension UIImage {
     
     // Style
     static let style_banner = UIImage(named: "style_banner")!
-    static let style_screen_devider = UIImage(named: "style_screen_devider")!
     
     // Common
     static let logo_color = UIImage(named: "logo_color")!
@@ -109,6 +108,7 @@ extension UIImage {
     static let search_empty = UIImage(named: "search_empty")!
     static let loadError = UIImage(named: "popup_illust_loadError")!
     static let serverError = UIImage(named: "serverError_illust")!
+    static let image_indicator = UIImage(named: "image_indicator")!
     
     // Detail
     static let detail_empty = UIImage(named: "detail_empty")!
