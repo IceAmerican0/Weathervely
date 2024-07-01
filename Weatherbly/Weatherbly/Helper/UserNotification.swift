@@ -52,3 +52,7 @@ public func toPushSetting() {
         }
     }
 }
+
+extension Notification.Name {
+    static let pushReceived = Notification.Name("pushReceived")
+}

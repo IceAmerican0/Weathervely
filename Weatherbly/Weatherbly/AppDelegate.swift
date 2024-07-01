@@ -122,8 +122,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
     
     /// 알림 받을시(Foreground)
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        let info = notification.request.content.userInfo
-        PushNotificationDBManager.shared.saveNotiToDatabase(info: info)
+        NotificationCenter.default.post(name: .pushReceived, object: nil)
         completionHandler([.banner, .sound])
     }
     

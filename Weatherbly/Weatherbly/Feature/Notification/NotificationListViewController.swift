@@ -60,29 +60,26 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
         $0.registerHeaderFooterView(withType: NotificationListTableFooterView.self)
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .pushReceived, object: nil)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(settingListView),
+            name: .pushReceived,
+            object: nil
+        )
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.getNotiInfo()
         
-        Task {
-            let isAuthorized = await checkAuthorization()
-            if isAuthorized {
-                if viewModel.notificationInfo.value.count > 0 {
-                    zeroNotiView.flex.display(.none)
-                    tableView.flex.display(.flex)
-                } else {
-                    zeroNotiView.flex.display(.flex)
-                    tableView.flex.display(.none)
-                }
-            } else {
-                zeroNotiView.flex.display(.flex)
-                notiButton.flex.display(.flex)
-                tableView.flex.display(.none)
-            }
-            zeroNotiView.flex.markDirty()
-            tableView.flex.markDirty()
-            container.flex.layout()
-        }
+        settingListView()
     }
 
     override func layout() {
@@ -149,13 +146,42 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
                 cellIdentifier: NotificationListTableViewCell.identifier,
                 cellType: NotificationListTableViewCell.self
             )) { row, data, cell in
-                if row == self.viewModel.notificationInfo.value.count - 1 {
+                let count = self.viewModel.notificationInfo.value.count
+                
+                if count == 0 {
+                    self.settingListView()
+                }
+                
+                if row == count - 1 {
                     cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
                 }
                 
                 cell.selectionStyle = .none
                 cell.configureCellState(state: data)
             }.disposed(by: bag)
+    }
+    
+    @objc
+    private func settingListView() {
+        Task {
+            let isAuthorized = await checkAuthorization()
+            if viewModel.notificationInfo.value.count > 0 {
+                zeroNotiView.flex.display(.none)
+                tableView.flex.display(.flex)
+            } else {
+                if isAuthorized {
+                    zeroNotiView.flex.display(.flex)
+                    tableView.flex.display(.none)
+                } else {
+                    zeroNotiView.flex.display(.flex)
+                    notiButton.flex.display(.flex)
+                    tableView.flex.display(.none)
+                }
+            }
+            zeroNotiView.flex.markDirty()
+            tableView.flex.markDirty()
+            container.flex.layout()
+        }
     }
     
     @objc

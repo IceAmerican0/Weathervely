@@ -47,7 +47,11 @@ extension AuthTarget: WVTargetType {
             )
         case .nicknameValidation(let nickname):
             .requestParameters(
-                parameters: ["nickname": nickname],
+                parameters: [
+                    "nickname": nickname,
+                    "fcm_phone_token": UserDefaultManager.shared.pushToken,
+                    "is_notification": UserDefaultManager.shared.pushAgreement,
+                ],
                 encoding: JSONEncoding.default
             )
         case .nickname(let nickname, let uuid):

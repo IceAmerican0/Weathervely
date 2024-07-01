@@ -43,7 +43,7 @@ extension UserTarget: WVTargetType {
              .deleteAddress(let addressID):     "/user/address/\(addressID)"
         case .setMainAddress(let addressID):    "/user/address/setMain/\(addressID)"
         case .fetchFCMToken:                    "/user/fcmPhoneToken"
-        case .fetchPushAgreement:                "/user/isNotification"
+        case .fetchPushAgreement:               "/user/isNotification"
         }
     }
     

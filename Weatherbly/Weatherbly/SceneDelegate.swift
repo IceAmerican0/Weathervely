@@ -44,8 +44,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                             owner.setWindow(SettingRegionViewController(SettingRegionViewModel(.onboard)))
                         }
                     },
-                    onError: { owner, _ in
-                        owner.setWindow(OnBoardViewController(OnBoardViewModel()))
+                    onError: { owner, error in
+                        if error.localizedDescription == "FCM 기기 토큰" {
+                            owner.getToken()
+                        } else {
+                            owner.setWindow(OnBoardViewController(OnBoardViewModel()))
+                        }
                     }
                 ).disposed(by: bag)
         }
