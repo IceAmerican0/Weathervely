@@ -11,12 +11,12 @@ import RxCocoa
 
 protocol FilterListViewModelLogic: ViewModelBusinessLogic {
     func getCategoryList()
-    func getFilterCount(id: Int?)
+    func getFilterCount(id: String?)
     func reset()
     func filterCompleted()
     
     var isLoading: BehaviorRelay<Bool> { get }
-    var selectedList: BehaviorRelay<[Int]> { get }
+    var selectedList: BehaviorRelay<[String]> { get }
     var filterSection: PublishRelay<[FilterSection]> { get }
     var filterCount: PublishRelay<Int> { get }
 }
@@ -25,7 +25,7 @@ final class FilterListViewModel: RxBaseViewModel, FilterListViewModelLogic {
     /// 로딩 상태
     var isLoading = BehaviorRelay<Bool>(value: false)
     /// 선택된 아이템 리스트
-    var selectedList = BehaviorRelay<[Int]>(value: [])
+    var selectedList = BehaviorRelay<[String]>(value: [])
     /// 필터 정보
     var filterSection = PublishRelay<[FilterSection]>()
     /// 코디 카운트
@@ -97,7 +97,7 @@ final class FilterListViewModel: RxBaseViewModel, FilterListViewModelLogic {
     }
     
     /// 아이템 필터 구성
-    public func getFilterCount(id: Int? = nil) {
+    public func getFilterCount(id: String? = nil) {
         isLoading.accept(true)
         
         var list = selectedList.value

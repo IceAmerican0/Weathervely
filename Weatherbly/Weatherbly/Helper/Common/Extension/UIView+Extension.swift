@@ -215,7 +215,9 @@ extension UIView {
         case "구름많음": isAM ?
             (.gradient40, UIImage.clouds_am) :
             (.gradient50, UIImage.clouds_pm)
-        case "비": (.gradient60, UIImage.rainy)
+        case "비",
+             "구름많고 비",
+             "흐리고 비": (.gradient60, UIImage.rainy)
         case "눈비": (.gradient70, UIImage.snowyRainy)
         case "눈": (.gradient80, UIImage.snowy)
         case "바람": (.gradient90, UIImage.windy)
@@ -228,7 +230,9 @@ extension UIView {
         case "맑음": (.gradient10, UIImage.ten_sunny_am)
         case "흐림": (.gradient30, UIImage.ten_cloudy)
         case "구름많음": (.gradient40, UIImage.ten_clouds_am)
-        case "비": (.gradient60, UIImage.ten_rainy)
+        case "비",
+             "구름많고 비",
+             "흐리고 비": (.gradient60, UIImage.rainy)
         case "눈비": (.gradient70, UIImage.snowyRainy)
         case "눈": (.gradient80, UIImage.ten_snowy)
         case "바람": (.gradient90, UIImage.ten_windy)

@@ -41,9 +41,9 @@ extension NewClosetTarget: WVTargetType {
             .requestParameters(
                 parameters: [
                     "page": page,
-                    "tab": "style",
-                    "style_ids": /*UserDefaultManager.shared.homeStyleFilterList*/14,
-                    "medium_category_ids": /*UserDefaultManager.shared.homeItemFilterList*/[]
+                    "tab": "main",
+                    "style_ids": /*UserDefaultManager.shared.homeStyleFilterList.joined(separator: ",")*/"7",
+                    "medium_category_ids": /*UserDefaultManager.shared.homeItemFilterList.joined(separator: ",")*/""
                 ],
                 encoding: URLEncoding.queryString
             )

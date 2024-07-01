@@ -50,10 +50,10 @@ public final class HomeItemFilterCell: UICollectionViewCell {
         listButton.isSelected = false
     }
     
-    public func configureCellState(state: MediumCategoryInfo, selectedList: [Int]) {
+    public func configureCellState(state: MediumCategoryInfo, selectedList: [String]) {
         listButton.titleAttribute(title: state.name)
         
-        if selectedList.contains(state.id) {
+        if selectedList.contains("\(state.id)") {
             listButton.isSelected = true
         }
         /// 셀 크기 재정의

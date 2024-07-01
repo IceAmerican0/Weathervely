@@ -99,22 +99,22 @@ public final class UserDefaultManager {
     }
     
     public var isServerChanged: Bool {
-        if let isServerChanged = userDefault.object(forKey: UserDefaultKey.isServerChanged.rawValue) as? Bool {
+        if userDefault.object(forKey: UserDefaultKey.isServerChanged.rawValue) is Bool {
             true
         } else {
             false
         }
     }
     
-    public var homeStyleFilterList: [Int] {
-        if let list = userDefault.object(forKey: UserDefaultKey.homeStyleFilterList.rawValue) as? [Int] {
+    public var homeStyleFilterList: [String] {
+        if let list = userDefault.object(forKey: UserDefaultKey.homeStyleFilterList.rawValue) as? [String] {
             return list
         } else {
             return []
         }
     }
     
-    public func filteringStyle(id: Int) {
+    public func filteringStyle(id: String) {
         var filteredList = UserDefaultManager.shared.homeStyleFilterList
         if let index = filteredList.firstIndex(of: id) {
             filteredList.remove(at: index)
@@ -124,8 +124,8 @@ public final class UserDefaultManager {
         userDefault.set(filteredList, forKey: UserDefaultKey.homeStyleFilterList.rawValue)
     }
     
-    public var homeItemFilterList: [Int] {
-        if let list = userDefault.object(forKey: UserDefaultKey.homeItemFilterList.rawValue) as? [Int] {
+    public var homeItemFilterList: [String] {
+        if let list = userDefault.object(forKey: UserDefaultKey.homeItemFilterList.rawValue) as? [String] {
             return list
         } else {
             return []

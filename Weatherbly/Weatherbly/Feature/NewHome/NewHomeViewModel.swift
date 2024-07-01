@@ -53,7 +53,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     /// 선택돼있는 인덱스
     public var selectedIndex = BehaviorRelay<Int>(value: 0)
     /// 선택돼있는 날씨 정보
-    public var selectedForecastState = BehaviorRelay<HomeForecastInfo>(value: .init(date: "", time: "", currentTemp: "", minTemp: "", maxTemp: "", /*weather: "",*/ comment: ""))
+    public var selectedForecastState = BehaviorRelay<HomeForecastInfo>(value: .init(date: "", time: "", currentTemp: "", minTemp: "", maxTemp: "", weather: "", comment: ""))
     /// 스타일 필터 리스트
     public var styleFilterList: [StyleTypeInfo] = []
     /// 스타일 추천 리스트
@@ -73,7 +73,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
         ]
         
         /// 첫 Cell Banner 처리를 위한 Dummy Data 넣어줌(Banner + List)
-        var banner: [NewClosetInfo] = [.init(closetId: -1, closetName: "", closetImageUrl: "", closetStatus: "")]
+        var banner: [NewClosetInfo] = [.init(closetId: -1, closetName: "", closetImageUrl: "", closetStatus: "", closetSiteName: "", temperature: NewClosetTemp.init(tempId: 0, maxTemp: 0, minTemp: 0))]
         banner += closetList
         
         /// 추천 Section 정보
@@ -154,6 +154,8 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
                 onError: { owner, error in
                     owner.shimmerStatus.accept(true)
                     owner.refreshStatus.accept(false)
+                    owner.closetList = []
+                    owner.loadHome()
                     owner.alertState.accept(
                         .init(
                             title: error.localizedDescription,
@@ -221,8 +223,6 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     
     /// 시간대 이동 전 시간 판별
     public func configureTime(direction: UISwipeGestureRecognizer.Direction) {
-        let info = selectedForecastState.value
-        
         if direction == .right {
             if selectedIndex.value == 0 {
                 alertState.accept(
@@ -259,9 +259,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     
     /// 현재/내일 이동
     public func didTapTimeLabel() {
-        let info = selectedForecastState.value
-        
-        if info.date == "현재" {
+        if selectedIndex.value == 0 {
             selectedIndex.accept(forecastInfo.count - 3)
         } else {
             selectedIndex.accept(0)

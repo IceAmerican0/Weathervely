@@ -129,7 +129,7 @@ final class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastV
             .drive(
                 with: self,
                 onNext: { owner, data in
-                    let (gradient, image) = owner.view.setWeatherUI(weather: data, time: Date().currentTime())
+                    let (gradient, image) = owner.view.setTenDaysWeatherUI(weather: data, time: Date().currentTime())
                     owner.weatherImage.image = image
                     owner.view.addGradient(colors: gradient)
                     

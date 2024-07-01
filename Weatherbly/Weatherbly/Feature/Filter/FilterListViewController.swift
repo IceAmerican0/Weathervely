@@ -148,7 +148,7 @@ extension FilterListViewController {
                 cell.buttonTap
                     .drive(with: self) { owner, _ in
                         if owner.viewModel.isLoading.value { return }
-                        owner.viewModel.getFilterCount(id: cellState.id)
+                        owner.viewModel.getFilterCount(id: "\(cellState.id)")
                         cell.listButton.isSelected.toggle()
                     }.disposed(by: cell.bag)
                 
