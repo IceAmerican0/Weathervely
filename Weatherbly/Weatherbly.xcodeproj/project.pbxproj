@@ -47,6 +47,7 @@
 		5C7CAE362BE08280007760DD /* FilterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7CAE352BE08280007760DD /* FilterButton.swift */; };
 		5C7CAE382BE08CCF007760DD /* StyleTypeEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7CAE372BE08CCF007760DD /* StyleTypeEntity.swift */; };
 		5C7CAE3A2BE0AFFE007760DD /* StyleListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7CAE392BE0AFFE007760DD /* StyleListView.swift */; };
+		5C7F674C2C33CDBF0035DC8A /* MainMediumCategoryEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7F674B2C33CDBF0035DC8A /* MainMediumCategoryEntity.swift */; };
 		5C7F674E2C33D9450035DC8A /* Dictionary+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7F674D2C33D9450035DC8A /* Dictionary+Extension.swift */; };
 		5C84169E2B68CAA5003AE726 /* TenDayForecastEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C84169D2B68CAA5003AE726 /* TenDayForecastEntity.swift */; };
 		5C8416A02B68D9FC003AE726 /* TenDaysForecastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C84169F2B68D9FC003AE726 /* TenDaysForecastTableViewCell.swift */; };
@@ -151,7 +152,7 @@
 		BD05E0722B380C9400A48E61 /* NewCSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD05E0712B380C9400A48E61 /* NewCSLabel.swift */; };
 		BD05E07A2B38114B00A48E61 /* NewCSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD05E0792B38114B00A48E61 /* NewCSButton.swift */; };
 		BD0A68572C00EE46005460B1 /* ClosetSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD0A68562C00EE46005460B1 /* ClosetSectionModel.swift */; };
-		BD0A68592C00F244005460B1 /* MediumCategoryEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD0A68582C00F244005460B1 /* MediumCategoryEntity.swift */; };
+		BD0A68592C00F244005460B1 /* StyleMediumCategoryEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD0A68582C00F244005460B1 /* StyleMediumCategoryEntity.swift */; };
 		BD1F3AF12A7BA08100E528DC /* RxGesture in Frameworks */ = {isa = PBXBuildFile; productRef = BD1F3AF02A7BA08100E528DC /* RxGesture */; };
 		BD2D01892A388753003A25D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D01882A388753003A25D5 /* AppDelegate.swift */; };
 		BD2D018B2A388753003A25D5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D018A2A388753003A25D5 /* SceneDelegate.swift */; };
@@ -254,6 +255,7 @@
 		5C7CAE352BE08280007760DD /* FilterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterButton.swift; sourceTree = "<group>"; };
 		5C7CAE372BE08CCF007760DD /* StyleTypeEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleTypeEntity.swift; sourceTree = "<group>"; };
 		5C7CAE392BE0AFFE007760DD /* StyleListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleListView.swift; sourceTree = "<group>"; };
+		5C7F674B2C33CDBF0035DC8A /* MainMediumCategoryEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMediumCategoryEntity.swift; sourceTree = "<group>"; };
 		5C7F674D2C33D9450035DC8A /* Dictionary+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extension.swift"; sourceTree = "<group>"; };
 		5C84169D2B68CAA5003AE726 /* TenDayForecastEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TenDayForecastEntity.swift; sourceTree = "<group>"; };
 		5C84169F2B68D9FC003AE726 /* TenDaysForecastTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TenDaysForecastTableViewCell.swift; sourceTree = "<group>"; };
@@ -350,7 +352,7 @@
 		BD05E0712B380C9400A48E61 /* NewCSLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCSLabel.swift; sourceTree = "<group>"; };
 		BD05E0792B38114B00A48E61 /* NewCSButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCSButton.swift; sourceTree = "<group>"; };
 		BD0A68562C00EE46005460B1 /* ClosetSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetSectionModel.swift; sourceTree = "<group>"; };
-		BD0A68582C00F244005460B1 /* MediumCategoryEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumCategoryEntity.swift; sourceTree = "<group>"; };
+		BD0A68582C00F244005460B1 /* StyleMediumCategoryEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleMediumCategoryEntity.swift; sourceTree = "<group>"; };
 		BD2D01852A388753003A25D5 /* Weatherbly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Weatherbly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD2D01882A388753003A25D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BD2D018A2A388753003A25D5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -1008,7 +1010,8 @@
 				5CF0A49D2B5A32EA00D2AB4C /* HomeForecastEntity.swift */,
 				5C84169D2B68CAA5003AE726 /* TenDayForecastEntity.swift */,
 				5C8F2D422B6B6A71002DF94E /* NotificationEntity.swift */,
-				BD0A68582C00F244005460B1 /* MediumCategoryEntity.swift */,
+				5C7F674B2C33CDBF0035DC8A /* MainMediumCategoryEntity.swift */,
+				BD0A68582C00F244005460B1 /* StyleMediumCategoryEntity.swift */,
 				BD3714362B81279D00527577 /* StyleClosetEntity.swift */,
 				5C7CAE372BE08CCF007760DD /* StyleTypeEntity.swift */,
 				5C4D17BC2C0D7A7100542434 /* HomeFilterCountEntity.swift */,
@@ -1263,7 +1266,7 @@
 				5C8416A02B68D9FC003AE726 /* TenDaysForecastTableViewCell.swift in Sources */,
 				5C7F674E2C33D9450035DC8A /* Dictionary+Extension.swift in Sources */,
 				690B6EF12AAA0F2D00D54ABC /* ForceUpdateViewController.swift in Sources */,
-				BD0A68592C00F244005460B1 /* MediumCategoryEntity.swift in Sources */,
+				BD0A68592C00F244005460B1 /* StyleMediumCategoryEntity.swift in Sources */,
 				BD51072C2C1EE05C00D8AFBE /* TitleLabelReusableHeader.swift in Sources */,
 				69D25C982AD04F6300C17FB1 /* EmptyEntity.swift in Sources */,
 				5C9D02D92A71F27B00AF2DA3 /* AuthDataSource.swift in Sources */,
@@ -1382,6 +1385,7 @@
 				5C8F2D412B6B6836002DF94E /* NotificationListTableViewCell.swift in Sources */,
 				5C637AF92C070FB000E5F028 /* MediumCategoryDataSource.swift in Sources */,
 				693231642B4A80FE00816B7B /* HomeSection.swift in Sources */,
+				5C7F674C2C33CDBF0035DC8A /* MainMediumCategoryEntity.swift in Sources */,
 				69CCF1CB2A63CA5000756127 /* RegionDataSource.swift in Sources */,
 				5CDFB8C22B733AA600A1C21F /* CSSwitch.swift in Sources */,
 				696176B42A63E3C000B83B4C /* BaseDisposeBag.swift in Sources */,

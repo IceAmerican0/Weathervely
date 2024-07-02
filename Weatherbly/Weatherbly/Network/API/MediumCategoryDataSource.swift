@@ -9,7 +9,8 @@ import RxMoya
 import RxSwift
 
 protocol MediumCategoryDataSourceProtocol {
-    func getMediumCategoryList(id: [Int]) -> Observable<MediumCategoryEntity>
+    func getMainMediumCategoryList() -> Observable<MainMediumCategoryEntity>
+    func getStyleMediumCategoryList(id: String) -> Observable<StyleMediumCategoryEntity>
 }
 
 final class MediumCategoryDataSource: MediumCategoryDataSourceProtocol {
@@ -19,9 +20,15 @@ final class MediumCategoryDataSource: MediumCategoryDataSourceProtocol {
         self.provider = provider
     }
     
-    func getMediumCategoryList(id: [Int] = []) -> Observable<MediumCategoryEntity> {
-        provider.rx
-            .request(.getMediumCategoryList(id: id))
-            .mapTo(MediumCategoryEntity.self)
+    func getMainMediumCategoryList() -> Observable<MainMediumCategoryEntity> {
+        provider
+            .request(.getMainMediumCategoryList)
+            .mapTo(MainMediumCategoryEntity.self)
+    }
+    
+    func getStyleMediumCategoryList(id: String) -> Observable<StyleMediumCategoryEntity> {
+        provider
+            .request(.getStyleMediumCategoryList(id: id))
+            .mapTo(StyleMediumCategoryEntity.self)
     }
 }

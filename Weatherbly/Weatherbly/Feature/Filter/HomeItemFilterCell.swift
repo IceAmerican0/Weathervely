@@ -50,7 +50,7 @@ public final class HomeItemFilterCell: UICollectionViewCell {
         listButton.isSelected = false
     }
     
-    public func configureCellState(state: MediumCategoryInfo, selectedList: [String]) {
+    public func configureCellState(state: MainMediumCategoryInfoSorted, selectedList: [String]) {
         listButton.titleAttribute(title: state.name)
         
         if selectedList.contains("\(state.id)") {

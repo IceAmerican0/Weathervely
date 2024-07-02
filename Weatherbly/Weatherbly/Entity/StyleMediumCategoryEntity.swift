@@ -1,5 +1,5 @@
 //
-//  MediumCategoryEntity.swift
+//  StyleMediumCategoryEntity.swift
 //  Weatherbly
 //
 //  Created by 최수훈 on 5/25/24.
@@ -7,33 +7,33 @@
 
 import Foundation
 
-public struct MediumCategoryEntity: Codable {
+public struct StyleMediumCategoryEntity: Codable {
     var status: Int
-    var data: MediumCategoryData
+    var data: StyleMediumCategoryData
     
     enum CodingKeys: String, CodingKey {
         case status, data
     }
 }
 
-public struct MediumCategoryData: Codable {
-    var mediumCategories: [MediumCategoryList]
+public struct StyleMediumCategoryData: Codable {
+    var mediumCategories: [StyleMediumCategoryList]
     
     enum CodingKeys: String, CodingKey {
         case mediumCategories
     }
 }
 
-public struct MediumCategoryList: Codable {
+public struct StyleMediumCategoryList: Codable {
     var category: String
-    var items: [MediumCategoryInfo]
+    var items: [StyleMediumCategoryInfo]
     
     enum CodingKeys: String, CodingKey {
         case category, items
     }
 }
 
-public struct MediumCategoryInfo: Codable {
+public struct StyleMediumCategoryInfo: Codable {
     var id: Int
     var name: String
     

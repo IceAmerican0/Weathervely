@@ -130,7 +130,7 @@ final class StyleCell: UICollectionViewCell, ItemTagsHeaderDelegate {
         typeTitleRelay.accept(type)
         
         // TODO: - Test Code
-        let mockItemData: [ClosetSectionModel] = [ClosetSectionModel(header: MediumCategoryInfo(id: 1, name: "name 1"), items: [
+        let mockItemData: [ClosetSectionModel] = [ClosetSectionModel(header: StyleMediumCategoryInfo(id: 1, name: "name 1"), items: [
             StyleClosetInfo(id: 889, name: "아메리칸 캐주얼", imageUrl: "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_casual_detail_31111_500.jpg", closetStatus: "Active"),
             StyleClosetInfo(id: 889, name: "아메리칸 캐주얼", imageUrl: "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_casual_detail_31110_500.jpg", closetStatus: "Active"),
             StyleClosetInfo(id: 890, name: "개성 더하기", imageUrl: "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_casual_detail_31104_500.jpg", closetStatus: "Active"),

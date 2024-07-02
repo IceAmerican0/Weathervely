@@ -9,7 +9,8 @@ import Moya
 
 public enum MediumCategoryTarget {
     /// 타입 리스트 가져오기
-    case getMediumCategoryList(id: [Int])
+    case getMainMediumCategoryList
+    case getStyleMediumCategoryList(id: String)
 }
 
 extension MediumCategoryTarget: WVTargetType {
@@ -19,10 +20,19 @@ extension MediumCategoryTarget: WVTargetType {
     
     public var task: Moya.Task {
         switch self {
-        case .getMediumCategoryList(let id):
+        case .getMainMediumCategoryList:
             .requestParameters(
                 parameters: [
-                    "style_id": id
+                    "tab": "main",
+                    "style_ids": UserDefaultManager.shared.homeStyleFilterList.joined(separator: ",")
+                ],
+                encoding: URLEncoding.queryString
+            )
+        case .getStyleMediumCategoryList(let id):
+            .requestParameters(
+                parameters: [
+                    "tab": "style",
+                    "style_ids": id
                 ],
                 encoding: URLEncoding.queryString
             )
