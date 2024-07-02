@@ -23,19 +23,19 @@ final class ClosetDataSource: ClosetDataSourceProtocol {
     }
     
     public func getStyleList() -> Observable<EmptyEntity> {
-        provider.rx
+        provider
             .request(.getStyleList)
             .mapTo(EmptyEntity.self)
     }
     
     func getRecommendCloset(_ dateTime: String) -> Observable<RecommendClosetEntity> {
-        provider.rx
+        provider
             .request(.getRecommendStyleList(dateTime))
             .mapTo(RecommendClosetEntity.self)
     }
     
     func stylePicked(_ closetID: Int) -> Observable<EmptyEntity> {
-        provider.rx
+        provider
             .request(.stylePicked(closetID))
             .mapTo(EmptyEntity.self)
     }

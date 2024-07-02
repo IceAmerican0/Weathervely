@@ -23,19 +23,19 @@ final class NewClosetDataSource: NewClosetDataSourceProtocol {
     }
     
     func getHomeCloset(page: Int) -> Observable<NewClosetEntity> {
-        provider.rx
+        provider
             .request(.getHomeCloset(page: page))
             .mapTo(NewClosetEntity.self)
     }
     
     func getStyleCloset(style: Int, item: [Int], page: Int) -> Observable<NewClosetEntity> {
-        provider.rx
+        provider
             .request(.getStyleCloset(style: style, item: item, page: page))
             .mapTo(NewClosetEntity.self)
     }
     
     func stylePicked(_ closetID: Int) -> Observable<EmptyEntity> {
-        provider.rx
+        provider
             .request(.stylePicked(closetID))
             .mapTo(EmptyEntity.self)
     }

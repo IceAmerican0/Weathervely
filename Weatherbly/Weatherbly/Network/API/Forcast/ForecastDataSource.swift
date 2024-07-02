@@ -22,13 +22,13 @@ public final class ForecastDataSource: ForecastDataSourceProtocol {
     }
     
     public func getVillageForcast() -> Observable<HomeForecastEntity> {
-        provider.rx
+        provider
             .request(.getVillageForcastInfo)
             .mapTo(HomeForecastEntity.self)
     }
     
     public func getTenDayForeCast() -> Observable<TenDayForecastEntity> {
-        provider.rx
+        provider
             .request(.getTenDayForecastInfo)
             .mapTo(TenDayForecastEntity.self)
     }

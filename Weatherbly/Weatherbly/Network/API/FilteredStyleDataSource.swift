@@ -20,7 +20,7 @@ final class FilteredStyleDataSource: FilteredStyleDataSourceProtocol {
     }
     
     func getFilteredStyleCount(id: [Int] = []) -> Observable<HomeFilterCountEntity> {
-        provider.rx
+        provider
             .request(.getFilteredStyleCount(id: id))
             .mapTo(HomeFilterCountEntity.self)
     }

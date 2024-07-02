@@ -47,6 +47,7 @@
 		5C7CAE362BE08280007760DD /* FilterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7CAE352BE08280007760DD /* FilterButton.swift */; };
 		5C7CAE382BE08CCF007760DD /* StyleTypeEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7CAE372BE08CCF007760DD /* StyleTypeEntity.swift */; };
 		5C7CAE3A2BE0AFFE007760DD /* StyleListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7CAE392BE0AFFE007760DD /* StyleListView.swift */; };
+		5C7F674E2C33D9450035DC8A /* Dictionary+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7F674D2C33D9450035DC8A /* Dictionary+Extension.swift */; };
 		5C84169E2B68CAA5003AE726 /* TenDayForecastEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C84169D2B68CAA5003AE726 /* TenDayForecastEntity.swift */; };
 		5C8416A02B68D9FC003AE726 /* TenDaysForecastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C84169F2B68D9FC003AE726 /* TenDaysForecastTableViewCell.swift */; };
 		5C84F1FE2AA0238000CF614E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5C84F1FD2AA0238000CF614E /* GoogleService-Info.plist */; };
@@ -253,6 +254,7 @@
 		5C7CAE352BE08280007760DD /* FilterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterButton.swift; sourceTree = "<group>"; };
 		5C7CAE372BE08CCF007760DD /* StyleTypeEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleTypeEntity.swift; sourceTree = "<group>"; };
 		5C7CAE392BE0AFFE007760DD /* StyleListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleListView.swift; sourceTree = "<group>"; };
+		5C7F674D2C33D9450035DC8A /* Dictionary+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extension.swift"; sourceTree = "<group>"; };
 		5C84169D2B68CAA5003AE726 /* TenDayForecastEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TenDayForecastEntity.swift; sourceTree = "<group>"; };
 		5C84169F2B68D9FC003AE726 /* TenDaysForecastTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TenDaysForecastTableViewCell.swift; sourceTree = "<group>"; };
 		5C84F1FD2AA0238000CF614E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -805,6 +807,7 @@
 				BD9191A52A973EBE00CBD595 /* Calendar+Extension.swift */,
 				BD4AC3892A655AEC00537583 /* Date+Extension.swift */,
 				5CC61E1E2A56850F001435E6 /* DateFormatter+Extension.swift */,
+				5C7F674D2C33D9450035DC8A /* Dictionary+Extension.swift */,
 				5C9D02EB2A725BA200AF2DA3 /* Encodable+Extension.swift */,
 				BD7DAB242A6E757C00422D25 /* PrimitiveSequence+Extension.swift */,
 				BD4907322A84D42F0027DEE8 /* String+Extension.swift */,
@@ -1258,6 +1261,7 @@
 				5CCC91522A61197B0025B522 /* SearchRegionEntity.swift in Sources */,
 				5CC61E282A5BDCCC001435E6 /* UIViewController+Extension.swift in Sources */,
 				5C8416A02B68D9FC003AE726 /* TenDaysForecastTableViewCell.swift in Sources */,
+				5C7F674E2C33D9450035DC8A /* Dictionary+Extension.swift in Sources */,
 				690B6EF12AAA0F2D00D54ABC /* ForceUpdateViewController.swift in Sources */,
 				BD0A68592C00F244005460B1 /* MediumCategoryEntity.swift in Sources */,
 				BD51072C2C1EE05C00D8AFBE /* TitleLabelReusableHeader.swift in Sources */,

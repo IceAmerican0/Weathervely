@@ -25,31 +25,31 @@ public final class AuthDataSource: AuthDataSourceProtocol {
     }
     
     public func getToken(_ agreement: Bool) -> Observable<AuthLoginEntity> {
-        provider.rx
+        provider
             .request(.login(agreement))
             .mapTo(AuthLoginEntity.self)
     }
     
     public func nicknameValidation(_ nickname: String) -> Observable<EmptyEntity> {
-        provider.rx
+        provider
             .request(.nicknameValidation(nickname))
             .mapTo(EmptyEntity.self)
     }
     
     public func setNickname(_ nickname: String, _ uuid: String) -> Observable<EmptyEntity> {
-        provider.rx
+        provider
             .request(.nickname(nickname, uuid))
             .mapTo(EmptyEntity.self)
     }
     
     public func setAddress(_ addressInfo: AddressRequest) -> Observable<EmptyEntity> {
-        provider.rx
+        provider
             .request(.address(addressInfo))
             .mapTo(EmptyEntity.self)
     }
     
     public func setGender(_ gender: String) -> Observable<EmptyEntity> {
-        provider.rx
+        provider
             .request(.gender(gender))
             .mapTo(EmptyEntity.self)
     }

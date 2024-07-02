@@ -21,7 +21,7 @@ public final class RegionDataSource: RegionDataSourceProtocol {
     }
     
     public func searchRegion(_ request: String) -> Observable<SearchRegionEntity> {
-        provider.rx
+        provider
             .request(.searchRegion(request))
             .mapTo(SearchRegionEntity.self)
     }

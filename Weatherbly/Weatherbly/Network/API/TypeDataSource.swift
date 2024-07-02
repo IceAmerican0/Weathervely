@@ -20,7 +20,7 @@ public final class TypeDataSource: TypeDataSourceProtocol {
     }
     
     public func getTypeList() -> Observable<StyleTypeEntity> {
-        provider.rx
+        provider
             .request(.getTypeList)
             .mapTo(StyleTypeEntity.self)
     }

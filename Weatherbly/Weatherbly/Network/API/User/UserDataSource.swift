@@ -30,61 +30,61 @@ public final class UserDataSource: UserDataSourceProtocol {
     }
     
     public func getUserInfo() -> Observable<UserInfoEntity> {
-        provider.rx
+        provider
             .request(.getUserInfo)
             .mapTo(UserInfoEntity.self)
     }
     
     public func fetchUserInfo(_ userInfo: UserInfoRequest) -> Observable<EmptyEntity> {
-        provider.rx
+        provider
             .request(.fetchUserInfo(userInfo))
             .mapTo(EmptyEntity.self)
     }
     
     public func resetUserInfo(_ userID: Int) -> Observable<EmptyEntity> {
-        provider.rx
+        provider
             .request(.resetUserInfo(userID))
             .mapTo(EmptyEntity.self)
     }
     
     public func getAddressList() -> Observable<AddressListEntity> {
-        provider.rx
+        provider
             .request(.getAddressList)
             .mapTo(AddressListEntity.self)
     }
     
     public func addAddress(_ addressInfo: AddressRequest) -> Observable<EmptyEntity> {
-        provider.rx
+        provider
             .request(.addAddress(addressInfo))
             .mapTo(EmptyEntity.self)
     }
     
     public func setMainAddress(_ addressID: Int) -> Observable<EmptyEntity> {
-        provider.rx
+        provider
             .request(.setMainAddress(addressID))
             .mapTo(EmptyEntity.self)
     }
     
     public func fetchAddress(_ addressID: Int, _ addressInfo: AddressRequest) -> Observable<EmptyEntity> {
-        provider.rx
+        provider
             .request(.fetchAddress(addressID, addressInfo))
             .mapTo(EmptyEntity.self)
     }
     
     public func deleteAddress(_ addressID: Int) -> Observable<EmptyEntity> {
-        provider.rx
+        provider
             .request(.deleteAddress(addressID))
             .mapTo(EmptyEntity.self)
     }
     
     public func fetchFCMToken(_ token: String) -> Observable<EmptyEntity> {
-        provider.rx
+        provider
             .request(.fetchFCMToken(token))
             .mapTo(EmptyEntity.self)
     }
     
     public func fetchPushAgreement(_ agreement: Bool) -> Observable<EmptyEntity> {
-        provider.rx
+        provider
             .request(.fetchPushAgreement(agreement))
             .mapTo(EmptyEntity.self)
     }
