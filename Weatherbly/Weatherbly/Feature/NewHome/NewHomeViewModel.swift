@@ -53,7 +53,17 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     /// 선택돼있는 인덱스
     public var selectedIndex = BehaviorRelay<Int>(value: 0)
     /// 선택돼있는 날씨 정보
-    public var selectedForecastState = BehaviorRelay<HomeForecastInfo>(value: .init(date: "", time: "", currentTemp: "", minTemp: "", maxTemp: "", weather: "", comment: ""))
+    public var selectedForecastState = BehaviorRelay<HomeForecastInfo>(
+        value: .init(
+            date: "",
+            time: "",
+            currentTemp: "",
+            minTemp: "",
+            maxTemp: "",
+            weather: "",
+            comment: ""
+        )
+    )
     /// 스타일 필터 리스트
     public var styleFilterList: [StyleTypeInfo] = []
     /// 스타일 추천 리스트
@@ -64,6 +74,8 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     private var closetListMaxCount = 0
     /// pagination용 이미 로드된 페이지
     private var loadedPage = 0
+    /// 현재 보고 있는 시간
+    private var selectedTime = "2024-07-03 20:00"
     
     /// 홈 전체 정보 취합 후 DataSource Reload
     public func loadHome() {
@@ -73,7 +85,25 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
         ]
         
         /// 첫 Cell Banner 처리를 위한 Dummy Data 넣어줌(Banner + List)
-        var banner: [NewClosetInfo] = [.init(closetId: -1, closetName: "", closetImageUrl: "", closetStatus: "", closetSiteName: "", temperature: NewClosetTemp.init(tempId: 0, maxTemp: 0, minTemp: 0))]
+        var banner: [NewClosetInfo] = [
+            .init(
+                closetId: -1, 
+                closetName: "",
+                closetImageUrl: "",
+                closetStatus: "",
+                closetSiteName: "",
+                temperature: NewClosetTemp.init(
+                    tempId: 0,
+                    maxTemp: 0,
+                    minTemp: 0
+                )
+            )
+        ]
+        
+        if closetList.isEmpty {
+            settingEmptySection()
+        }
+        
         banner += closetList
         
         /// 추천 Section 정보
@@ -142,7 +172,9 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     
     /// 메인 코디 추천 받아오기 (첫페이지)
     public func getClosetInfo() {
-        closetDataSource.getHomeCloset(page: 1)
+        let info = forecastInfo[selectedIndex.value]
+        selectedTime = String().toTimeString(day: info.date, time: info.time)
+        closetDataSource.getHomeCloset(page: 1, time: selectedTime)
             .subscribe(
                 with: self,
                 onNext: { owner, response in
@@ -154,7 +186,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
                 onError: { owner, error in
                     owner.shimmerStatus.accept(true)
                     owner.refreshStatus.accept(false)
-                    owner.closetList = []
+                    owner.settingEmptySection()
                     owner.loadHome()
                     owner.alertState.accept(
                         .init(
@@ -181,7 +213,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
         
         loadedPage += 1
         
-        closetDataSource.getHomeCloset(page: loadedPage)
+        closetDataSource.getHomeCloset(page: loadedPage, time: selectedTime)
             .subscribe(
                 with: self,
                 onNext: { owner, response in
@@ -287,9 +319,28 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
             ).disposed(by: bag)
     }
     
+    /// 코디리스트 비었을시 빈 cell 생성
+    private func settingEmptySection() {
+        closetList = []
+        for _ in 0..<5 {
+            closetList.append(
+                .init(
+                    closetId: -2, 
+                    closetName: "",
+                    closetImageUrl: "",
+                    closetStatus: "", 
+                    closetSiteName: "",
+                    temperature: .init(
+                        tempId: 0, maxTemp: 0, minTemp: 0
+                    )
+                )
+            )
+        }
+    }
+    
     /// 상세보기 이동
     public func toDetailView(state: NewClosetInfo) {
-        let vc = ClosetDetailViewController(ClosetDetailViewModel(closetId: state.closetId, tempId: state.closetId))
+        let vc = ClosetDetailViewController(ClosetDetailViewModel(closetId: state.closetId, tempId: state.temperature.tempId))
         navigationPushViewControllerRelay.accept(vc)
     }
     

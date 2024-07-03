@@ -87,7 +87,7 @@ extension StyleViewController: UICollectionViewDelegateFlowLayout {
             return CGSize(width: collectionView.frame.width, height: 80)
         case 1:
             return CGSize(width: collectionView.frame.width, height: 572)
-        default:collectionView
+        default:
             return CGSize()
         }
     }

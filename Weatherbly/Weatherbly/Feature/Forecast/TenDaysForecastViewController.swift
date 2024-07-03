@@ -63,6 +63,7 @@ final class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastV
     ).then {
         $0.delegate = self
         $0.bounces = false
+        $0.showsVerticalScrollIndicator = false
         $0.backgroundColor = .clear10
         $0.setCornerRadius(12)
         $0.contentInset.top = 12

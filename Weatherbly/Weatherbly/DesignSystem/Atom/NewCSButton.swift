@@ -51,6 +51,11 @@ public final class NewCSButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        indicator.pin.center()
+    }
+    
     public override var isEnabled: Bool {
         didSet {
             buttonConfigure()
@@ -67,7 +72,6 @@ public final class NewCSButton: UIButton {
     public func startAnimation() {
         titleLabel?.isHidden = true
         isUserInteractionEnabled = false
-        indicator.pin.center()
         indicator.flex.display(.flex)
         indicator.startAnimating()
     }

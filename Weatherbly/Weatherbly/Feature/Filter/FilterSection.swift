@@ -12,7 +12,7 @@ public enum FilterSection {
 }
 
 public enum FilterSectionItem {
-    case item(MainMediumCategoryInfoSorted)
+    case item(MainMediumCategoryInfo)
 }
 
 extension FilterSection: SectionModelType {

@@ -10,9 +10,10 @@ import RxSwift
 import RxMoya
 
 protocol NewClosetDataSourceProtocol {
-    func getHomeCloset(page: Int) -> Observable<NewClosetEntity>
+    func getHomeCloset(page: Int, time: String) -> Observable<NewClosetEntity>
     func getStyleCloset(style: Int, item: [Int], page: Int) -> Observable<NewClosetEntity>
     func stylePicked(_ closetID: Int) -> Observable<EmptyEntity>
+    func getFilterCount(list: [String], time: String) -> Observable<NewClosetEntity>
 }
 
 final class NewClosetDataSource: NewClosetDataSourceProtocol {
@@ -22,9 +23,9 @@ final class NewClosetDataSource: NewClosetDataSourceProtocol {
         self.provider = provider
     }
     
-    func getHomeCloset(page: Int) -> Observable<NewClosetEntity> {
+    func getHomeCloset(page: Int, time: String) -> Observable<NewClosetEntity> {
         provider
-            .request(.getHomeCloset(page: page))
+            .request(.getHomeCloset(page: page, time: time))
             .mapTo(NewClosetEntity.self)
     }
     
@@ -38,5 +39,11 @@ final class NewClosetDataSource: NewClosetDataSourceProtocol {
         provider
             .request(.stylePicked(closetID))
             .mapTo(EmptyEntity.self)
+    }
+    
+    func getFilterCount(list: [String], time: String) -> Observable<NewClosetEntity> {
+        provider
+            .request(.getFilterCount(list: list, time: time))
+            .mapTo(NewClosetEntity.self)
     }
 }

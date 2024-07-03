@@ -26,7 +26,7 @@ public struct HomeForecastData: Codable {
 
 public struct HomeForecastInfo: Codable {
     let date: String
-    let time: String?
+    let time: String
     let currentTemp: String
     let minTemp: String
     let maxTemp: String

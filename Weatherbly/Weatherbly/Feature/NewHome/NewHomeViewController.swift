@@ -181,7 +181,7 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
                     owner.prevButton.isUserInteractionEnabled = true
                 }
                 
-                if index + 1 == 0 {
+                if index + 1 == owner.viewModel.forecastInfo.count {
                     owner.nextButton.setImage(.home_date_right_dis, for: .normal)
                     owner.nextButton.isUserInteractionEnabled = false
                 } else {
@@ -231,6 +231,7 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
                 case .forecast:
                     owner.viewModel.toTendaysForecastView()
                 case .closet(let cellState):
+                    guard cellState.closetId >= 0 else { return }
                     owner.viewModel.stylePicked(closetID: cellState.closetId)
                     owner.viewModel.toDetailView(state: cellState)
                 }

@@ -18,7 +18,7 @@ public struct NewClosetEntity: Codable {
 
 public struct NewClosetData: Codable {
     let counts: Int
-    let style: NewClosetTypes
+    let style: [NewClosetTypes]?
     let closets: [NewClosetInfo]
     
     enum CodingKeys: String, CodingKey {

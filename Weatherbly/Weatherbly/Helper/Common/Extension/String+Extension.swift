@@ -55,6 +55,42 @@ extension String {
         return DateFormatter.shared.date(from: self) ?? Date()
     }
     
+    func toTimeString(day: String, time: String) -> String {
+        DateFormatter.shared.dateFormat = "a h시"
+        
+        var dateComponent = Calendar.shared.dateComponents([.year, .month, .day], from: Date())
+        dateComponent.minute = 0
+        dateComponent.second = 0
+        
+        switch day {
+        case "현재":
+            return Date().now
+        case "오늘":
+            break
+        case "내일":
+            dateComponent.day! += 1
+        default:
+            return Date().now
+        }
+        
+        let period = time.prefix(2)
+        let time = Int(time.dropFirst(3).dropLast()) ?? 0
+        
+        if period == "오후" && time != 12 {
+            dateComponent.hour = time + 12
+        }
+        
+        if period == "오전" && time == 12 {
+            dateComponent.hour = 0
+        } else {
+            dateComponent.hour = time
+        }
+        
+        guard let target = Calendar.shared.date(from: dateComponent) else { return Date().now }
+        
+        return target.now
+    }
+    
     /// "오전/오후 00시" 입력 > 오전일시 true
     func isAM() -> Bool {
         let dateFormatter = DateFormatter.shared

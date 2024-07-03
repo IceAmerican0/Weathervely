@@ -39,66 +39,43 @@ final class FilterListViewModel: RxBaseViewModel, FilterListViewModelLogic {
     
     /// 아이템 리스트 가져오기
     public func getCategoryList() {
-        isLoading.accept(true)
-        let dummy: [MediumCategoryList] = [
-            .init(
-                category: "아우터",
-                items: [
-                    .init(id: 1, name: "자켓"),
-                    .init(id: 2, name: "가디건"),
-                    .init(id: 3, name: "집업")
-                ]
-            ),
-            .init(
-                category: "상의",
-                items: [
-                    .init(id: 4, name: "티셔츠"),
-                    .init(id: 5, name: "셔츠"),
-                    .init(id: 6, name: "블라우스"),
-                    .init(id: 7, name: "맨투맨"),
-                    .init(id: 8, name: "니트")
-                ]
-            ),
-            .init(
-                category: "하의",
-                items: [
-                    .init(id: 9, name: "청바지"),
-                    .init(id: 10, name: "슬랙스"),
-                    .init(id: 11, name: "치마")
-                ]
-            )
-        ]
-        
-        let itemSection: [FilterSection] = dummy.map {
-            .item(
-                category: $0.category,
-                items: $0.items.map { .item($0) }
-            )
+        if !isLoading.value {
+            isLoading.accept(true)
         }
-        filterSection.accept(itemSection)
-        filterCount.accept(selectedList.value.count)
-        isLoading.accept(false)
-//        let dataSource: MediumCategoryDataSourceProtocol = MediumCategoryDataSource()
-//        dataSource.getMediumCategoryList(id: UserDefaultManager.shared.homeStyleFilterList)
-//            .subscribe(
-//                with: self,
-//                onNext: { owner, response in
-//                    owner.isLoading.accept(false)
-//                    let list = response.data.mediumCategories
-//                    let section: [FilterSection] = list.map {
-//                        .item(category: $0.category, items: $0.items.map { .item($0) } )
-//                    }
-//                    owner.filterSection.accept(section)
-//                },
-//                onError: { owner, error in
-//                    owner.isLoading.accept(false)
-//                }
-//            ).disposed(by: bag)
+        
+        let dataSource: MediumCategoryDataSourceProtocol = MediumCategoryDataSource()
+        dataSource.getMainMediumCategoryList()
+            .subscribe(
+                with: self,
+                onNext: { owner, response in
+                    let data = response.data.mediumCategories
+                    
+                    let section: [FilterSection] = data.map {
+                        .item(category: $0.category, items: $0.items.map { .item($0) } )
+                    }
+                    owner.filterSection.accept(section)
+                    owner.getFilterCount()
+                },
+                onError: { owner, error in
+                    owner.isLoading.accept(false)
+                    owner.alertState.accept(
+                        .init(
+                            title: "리스트를 불러오지 못했어요",
+                            alertType: .popup,
+                            closeAction: {
+                                self.dismissSelfWithAnimationRelay.accept(Void())
+                            }
+                        )
+                    )
+                }
+            ).disposed(by: bag)
     }
     
     /// 아이템 필터 구성
     public func getFilterCount(id: String? = nil) {
-        isLoading.accept(true)
+        if !isLoading.value {
+            isLoading.accept(true)
+        }
         
         var list = selectedList.value
         
@@ -110,27 +87,23 @@ final class FilterListViewModel: RxBaseViewModel, FilterListViewModelLogic {
             }
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-            guard let self else { return }
-            self.isLoading.accept(false)
-            self.selectedList.accept(list)
-            self.filterCount.accept(list.count)
+        if list != selectedList.value {
+            selectedList.accept(list)
         }
         
-//        let dataSource: FilteredStyleDataSourceProtocol = FilteredStyleDataSource()
-//        dataSource.getFilteredStyleCount(id: list)
-//            .subscribe(
-//                with: self,
-//                onNext: { owner, response in
-//                    owner.isLoading.accept(false)
-//                    owner.selectedList.accept(list)
-//                    owner.filterCount.accept(response.data.count)
-//                },
-//                onError: { owner, error in
-//                    owner.isLoading.accept(false)
-//                    owner.filterCount.accept(-1)
-//                }
-//            ).disposed(by: bag)
+        let dataSource: NewClosetDataSourceProtocol = NewClosetDataSource()
+        dataSource.getFilterCount(list: list, time: "")
+            .subscribe(
+                with: self,
+                onNext: { owner, response in
+                    owner.isLoading.accept(false)
+                    owner.filterCount.accept(response.data.counts)
+                },
+                onError: { owner, error in
+                    owner.isLoading.accept(false)
+                    owner.filterCount.accept(-1)
+                }
+            ).disposed(by: bag)
     }
     
     public func reset() {

@@ -39,7 +39,7 @@ final class FilterListViewController: RxBaseViewController<FilterListViewModel> 
     
     private let confirmButton = NewCSButton(.standard, style: .violet600).then {
         $0.titleLabel?.font = .title_3_B
-        $0.setTitle("n개 코디 보기", for: .normal)
+        $0.isEnabled = false
     }
     
     override func viewDidLayoutSubviews() {
@@ -83,6 +83,7 @@ final class FilterListViewController: RxBaseViewController<FilterListViewModel> 
                         owner.confirmButton.setTitle("조건에 맞는 코디가 없어요", for: .normal)
                     } else {
                         owner.confirmButton.setTitle("다시 시도해주세요", for: .normal)
+                        owner.resetButton.isEnabled = true
                     }
                 }
             }.disposed(by: bag)
@@ -99,8 +100,8 @@ final class FilterListViewController: RxBaseViewController<FilterListViewModel> 
             }).disposed(by: bag)
         
         viewModel.isLoading
-            .asDriver(onErrorJustReturn: false)
-            .drive(with: self) { owner, isLoading in
+            .observe(on: MainScheduler.instance)
+            .bind(with: self) { owner, isLoading in
                 switch isLoading {
                 case true:
                     owner.confirmButton.startAnimation()
@@ -122,10 +123,8 @@ final class FilterListViewController: RxBaseViewController<FilterListViewModel> 
         
         confirmButton.rx.tap
             .bind(with: self) { owner, _ in
-                if owner.confirmButton.titleLabel?.text != "다시 시도해주세요" {
-                    owner.viewModel.filterCompleted()
-                    owner.delegate?.didTap()
-                }
+                owner.viewModel.filterCompleted()
+                owner.delegate?.didTap()
                 owner.dismiss(animated: true)
             }.disposed(by: bag)
     }

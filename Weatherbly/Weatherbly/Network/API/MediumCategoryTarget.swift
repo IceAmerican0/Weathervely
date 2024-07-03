@@ -25,7 +25,7 @@ extension MediumCategoryTarget: WVTargetType {
                 parameters: [
                     "tab": "main",
                     "style_ids": UserDefaultManager.shared.homeStyleFilterList.joined(separator: ",")
-                ],
+                ].removeEmptyParameters(),
                 encoding: URLEncoding.queryString
             )
         case .getStyleMediumCategoryList(let id):
