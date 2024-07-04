@@ -14,6 +14,7 @@ import Kingfisher
 public final class HomeClosetCell: UICollectionViewCell {
     let cloth = UIImageView().then {
         $0.backgroundColor = .clear
+        $0.contentMode = .center
     }
     
     public override init(frame: CGRect) {
@@ -28,21 +29,17 @@ public final class HomeClosetCell: UICollectionViewCell {
     public override func prepareForReuse() {
         super.prepareForReuse()
         cloth.image = nil
+        cloth.contentMode = .center
     }
     
     public override func sizeThatFits(_ size: CGSize) -> CGSize {
-        setLayout()
+        contentView.flex.layout()
         return contentView.frame.size
     }
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-        setLayout()
-    }
-    
-    func setLayout() {
         contentView.flex.layout()
-        cloth.pin.all()
     }
     
     func layout() {
@@ -59,11 +56,14 @@ public final class HomeClosetCell: UICollectionViewCell {
     func configureCellState(state: NewClosetInfo) {
         if state.closetId == -1 {
             cloth.image = .home_banner_01
+            cloth.contentMode = .scaleAspectFill
         } else {
-            cloth.setKF(urlString: state.closetImageUrl, placeHolder: .home_nodata)
+            cloth.setKF(urlString: state.closetImageUrl, placeHolder: .image_indicator) { [weak self] _ in
+                guard let self else { return }
+                self.setNeedsLayout()
+            }
         }
         
-        cloth.flex.markDirty()
         setNeedsLayout()
     }
 }

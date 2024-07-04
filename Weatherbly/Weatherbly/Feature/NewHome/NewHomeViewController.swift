@@ -194,7 +194,7 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
             .bind(with: self) { owner, info in
                 owner.dayLabel.text = info.date
                 owner.dayLabel.flex.markDirty()
-                owner.timeLabel.text = info.time ?? Date().currentTime()
+                owner.timeLabel.text = info.time
                 owner.timeLabel.flex.markDirty()
             }.disposed(by: bag)
         

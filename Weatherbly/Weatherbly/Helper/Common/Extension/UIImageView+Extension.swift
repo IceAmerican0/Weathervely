@@ -15,7 +15,20 @@ extension UIImageView {
         placeHolder: UIImage? = nil,
         completionHandler: ((Result<RetrieveImageResult, KingfisherError>) -> Void)? = nil
     ) {
-        guard !urlString.isEmpty else { return }
+        guard !urlString.isEmpty else {
+            self.image = placeHolder
+            self.contentMode = .center
+            return
+        }
+        
+        let emptyView = ShimmerView()
+        emptyView.backgroundColor = .gray10
+        emptyView.center = CGPoint(x: bounds.midX, y: bounds.midY)
+        emptyView.bounds = CGRect(x: 0, y: 0, width: bounds.size.width, height: bounds.size.height)
+        
+        DispatchQueue.main.async {
+            self.addSubview(emptyView)
+        }
         
         let url = URL(string: urlString)
         
@@ -30,13 +43,20 @@ extension UIImageView {
             options: [
                 .retryStrategy(retryStrategy),
                 .transition(.fade(0.2)),
-                .cacheOriginalImage,
+                .cacheOriginalImage
             ]
-        ) { result in
+        ) { [weak self] result in
+            guard let self else { return }
+            
+            DispatchQueue.main.async {
+                emptyView.removeFromSuperview()
+            }
+            
             switch result {
-            case .success(let value):
-                break
-            case .failure(let error):
+            case .success:
+                self.contentMode = .scaleAspectFill
+            case .failure:
+                self.contentMode = .center
                 self.image = placeHolder
             }
             completionHandler?(result)

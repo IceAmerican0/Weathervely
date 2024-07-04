@@ -75,7 +75,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     /// pagination용 이미 로드된 페이지
     private var loadedPage = 0
     /// 현재 보고 있는 시간
-    private var selectedTime = "2024-07-03 20:00"
+    private var selectedTime = ""
     
     /// 홈 전체 정보 취합 후 DataSource Reload
     public func loadHome() {
@@ -302,7 +302,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     
     /// 필터링
     public func filterCloset(delegate: StyleListViewDelegate) {
-        let vc = FilterListViewController(FilterListViewModel())
+        let vc = FilterListViewController(FilterListViewModel(selectedTime: selectedTime))
         vc.delegate = delegate
         vc.setBottomSheet()
         presentViewControllerWithAnimationRelay.accept(vc)

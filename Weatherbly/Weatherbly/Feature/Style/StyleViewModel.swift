@@ -85,12 +85,6 @@ final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
                 })
             .disposed(by: bag)
     }
-    
-    /// 필터링
-    public func filterCloset() {
-        let vc = FilterListViewController(FilterListViewModel())
-        presentViewControllerWithAnimationRelay.accept(vc)
-    }
 }
 
 

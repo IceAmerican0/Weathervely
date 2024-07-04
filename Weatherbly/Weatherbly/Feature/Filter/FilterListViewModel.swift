@@ -22,6 +22,7 @@ protocol FilterListViewModelLogic: ViewModelBusinessLogic {
 }
 
 final class FilterListViewModel: RxBaseViewModel, FilterListViewModelLogic {
+    var selectedTime: String
     /// 로딩 상태
     var isLoading = BehaviorRelay<Bool>(value: false)
     /// 선택된 아이템 리스트
@@ -31,7 +32,8 @@ final class FilterListViewModel: RxBaseViewModel, FilterListViewModelLogic {
     /// 코디 카운트
     var filterCount: PublishRelay<Int>
     
-    override init() {
+    public init(selectedTime: String) {
+        self.selectedTime = selectedTime
         self.filterCount = .init()
         super.init()
         self.selectedList.accept(UserDefaultManager.shared.homeItemFilterList)
@@ -92,7 +94,7 @@ final class FilterListViewModel: RxBaseViewModel, FilterListViewModelLogic {
         }
         
         let dataSource: NewClosetDataSourceProtocol = NewClosetDataSource()
-        dataSource.getFilterCount(list: list, time: "")
+        dataSource.getFilterCount(list: list, time: selectedTime)
             .subscribe(
                 with: self,
                 onNext: { owner, response in

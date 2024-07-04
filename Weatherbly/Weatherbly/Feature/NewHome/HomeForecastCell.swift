@@ -89,7 +89,7 @@ public final class HomeForecastCell: UICollectionViewCell {
         dailyTempLabel.flex.markDirty()
         commentLabel.text = state.comment
         
-        let (gradient, image) = setWeatherUI(weather: state.weather, time: state.time ?? Date().currentTime())
+        let (gradient, image) = setWeatherUI(weather: state.weather, time: state.time)
         weatherImage.image = image
         addGradient(colors: gradient)
     }
