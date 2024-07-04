@@ -1,0 +1,22 @@
+//
+//  Common.xcconfig
+//  Weatherbly
+//
+//  Created by Khai on 7/4/24.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+// 버전
+MARKETING_VERSION = 1.9.9
+CURRENT_PROJECT_VERSION = 0.0.0
+
+// 번들
+PRODUCT_BUNDLE_IDENTIFIER = com.redthree.weathervely
+
+// Signing
+CODE_SIGN_STYLE = Manual
+
+// 카카오
+KAKAO_APP_KEY = 94e9855982bd4da35238debd0d23a313

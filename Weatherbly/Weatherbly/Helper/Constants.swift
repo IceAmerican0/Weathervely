@@ -27,6 +27,10 @@ public enum Constants {
     public static var appStoreLink: String {
         "https://apps.apple.com/app/%EC%9B%A8%EB%8D%94%EB%B8%94%EB%A6%AC/id6462055767"
     }
+    /// KAKAO_APP_KEY
+    public static var kakaoAppKey: String {
+        fetchValue(for: "KAKAO_APP_KEY") as? String ?? ""
+    }
     /// Screen Width
     static let screenWidth = (UIApplication.shared.connectedScenes.first as? UIWindowScene)!.screen.bounds.size.width
     /// Screen Height
