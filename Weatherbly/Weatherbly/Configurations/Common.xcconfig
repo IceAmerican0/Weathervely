@@ -9,7 +9,7 @@
 // https://help.apple.com/xcode/#/dev745c5c974
 
 // 버전
-MARKETING_VERSION = 1.9.9
+MARKETING_VERSION = 2.0.0
 CURRENT_PROJECT_VERSION = 0.0.0
 
 // 번들
@@ -20,3 +20,6 @@ CODE_SIGN_STYLE = Manual
 
 // 카카오
 KAKAO_APP_KEY = 94e9855982bd4da35238debd0d23a313
+
+// Info.plist
+INFOPLIST_FILE = Weatherbly/Resources/Info.plist

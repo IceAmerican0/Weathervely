@@ -17,19 +17,10 @@ public struct StyleMediumCategoryEntity: Codable {
 }
 
 public struct StyleMediumCategoryData: Codable {
-    var mediumCategories: [StyleMediumCategoryList]
+    var mediumCategories: [StyleMediumCategoryInfo]
     
     enum CodingKeys: String, CodingKey {
         case mediumCategories
-    }
-}
-
-public struct StyleMediumCategoryList: Codable {
-    var category: String
-    var items: [StyleMediumCategoryInfo]
-    
-    enum CodingKeys: String, CodingKey {
-        case category, items
     }
 }
 
