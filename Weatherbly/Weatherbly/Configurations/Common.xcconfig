@@ -17,6 +17,7 @@ PRODUCT_BUNDLE_IDENTIFIER = com.redthree.weathervely
 
 // Signing
 CODE_SIGN_STYLE = Manual
+DEVELOPMENT_TEAM = M9YVZ9AJMM
 
 // 카카오
 KAKAO_APP_KEY = 94e9855982bd4da35238debd0d23a313
