@@ -11,7 +11,7 @@ import RxCocoa
 
 final class ClosetDetailViewModel: RxBaseViewModel {
     
-    private let detailDataSource = ClosetDetailDataSource()
+    private let detailDataSource = DetailDataSource()
     
     /// 전체 CollectionView
     public var detailViewSections = BehaviorRelay<[DetailViewSectionModel]>(value: [.mainDetail(items: [])])
@@ -66,7 +66,7 @@ final class ClosetDetailViewModel: RxBaseViewModel {
     public func bindDiffTemSection() {
            
         Observable.combineLatest(mainDetailSection, withItemSection, warmFirstSection, warmSecondSection, coolFirstSection, coolSecondSection).map { mainDetail, withItem, warmFirst, warmSecond, coolFirst, coolSecond -> [DetailViewSectionModel] in
-            var sections: [DetailViewSectionModel] = [mainDetail!,
+            let sections: [DetailViewSectionModel] = [mainDetail!,
                                                       withItem!,
                                                       warmFirst!,
                                                       warmSecond!,
@@ -97,7 +97,7 @@ final class ClosetDetailViewModel: RxBaseViewModel {
                         
                         // withItemSectio accept
                         var itemArray: [DetailSectionItem] = []
-                        withItemInfo.map {
+                        let _ = withItemInfo.map {
                             itemArray.append(DetailSectionItem.withItem($0))
                         }
                 

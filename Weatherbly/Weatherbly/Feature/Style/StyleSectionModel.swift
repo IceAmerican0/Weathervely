@@ -9,12 +9,13 @@ import RxDataSources
 
 enum StyleTabSectionModel {
     case banner(item: [Item])
-    case styles(header: [ClosetTypeInfo], items: [Item])
+    case types(header: [ClosetTypeInfo])
+    case styles(header: ClosetTypeInfo, items: [Item])
 }
 
 enum StyleTabItem {
     case banner(StyleBanner)
-    case styles(ClosetTypeInfo)
+    case styles(NewClosetInfo)
 }
 
 extension StyleTabSectionModel: SectionModelType {
@@ -22,10 +23,9 @@ extension StyleTabSectionModel: SectionModelType {
     
     var items: [Item] {
         switch self {
-        case .banner(item: let item):
-            return item
-        case .styles(_, items: let items):
-            return items.map { $0 }
+        case .banner(item: let item): item
+        case .types: []
+        case .styles(_, items: let items): items.map { $0 }
         }
     }
     
@@ -33,6 +33,8 @@ extension StyleTabSectionModel: SectionModelType {
         switch original {
         case .banner:
             self = .banner(item: items)
+        case .types(let header):
+            self = .types(header: header)
         case .styles(let header, _):
             self = .styles(header: header, items: items)
         }

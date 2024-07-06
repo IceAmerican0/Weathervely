@@ -11,6 +11,7 @@ import PinLayout
 import RxSwift
 import RxDataSources
 
+// FIXME: - Select Event 처리 필요
 final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewModel> {
     
     let navigationBar = CSNavigationView(.leftButton(UIImage.leftArrow_black)).then {
@@ -57,13 +58,8 @@ final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewMod
             .setDelegate(self)
             .disposed(by: bag)
         
-//        parentCollectionView.rx
-//            .setPrefetchDataSource(self)
-//            .disposed(by: bag)
-        
         parentCollectionView.rx.prefetchItems
-            .withUnretained(self)
-            .subscribe(onNext: { owner, indexPaths  in
+            .subscribe(with: self, onNext: { owner, indexPaths  in
                 owner.handlePrefetching(for: indexPaths)
                 
             }).disposed(by: bag)

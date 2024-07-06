@@ -9,7 +9,7 @@ import UIKit
 import FlexLayout
 import PinLayout
 
-final class StyleTagCell: UICollectionViewCell {
+final class TypeTagCell: UICollectionViewCell {
     
     public var tagLabel = LabelMaker(
         font: UIFont.body_5_B,

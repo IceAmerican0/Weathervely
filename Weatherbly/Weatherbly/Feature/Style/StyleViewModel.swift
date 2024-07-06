@@ -10,86 +10,121 @@ import RxSwift
 import RxCocoa
 
 protocol StyleViewModelLogic: ViewModelBusinessLogic {
-    func getRecommendCloset()
-    var filteredStyle: Bool { get set }
-    var filteredItem: Bool { get set }
+    func getTypes()
 }
 
 final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
-    private let closetDataSource: ClosetDataSourceProtocol
+    private let closetDataSource: NewClosetDataSource
     /// 스타일 콜렉션 뷰 정보
-    public var styleSections = BehaviorRelay<[StyleTabSectionModel]>(value: [])
-    public var styleTags =  BehaviorRelay<[ClosetTypeInfo]>(value: [])
-    /// 스타일 필터 여부
-    public var filteredStyle: Bool
-    /// 아이템 필터 여부
-    public var filteredItem: Bool
+    public var bindSectionsRelay = BehaviorRelay<[StyleTabSectionModel]>(value: [])
+    /// banner
+    public let bannserSection = BehaviorRelay<StyleTabSectionModel?>(value: .banner(item: [.banner(StyleBanner())]))
+    /// Types
+    public var types = BehaviorRelay<[ClosetTypeInfo]?>(value: [])
+    public var typesSection = BehaviorRelay<StyleTabSectionModel?>(value: .types(header: []))
+    /// Categories
+    public var categories = BehaviorRelay<[MCategoryInfo]?>(value: [])
     
-    let recommendClosetEntityRelay = BehaviorRelay<[RecommendClosetInfo]>(value: [])
+    /// Closets
+    public var styleSection = BehaviorRelay<[StyleTabSectionModel]?>(value: [])
     
+    /*
+     // TODO: 필요한 데이터
+     - 처음 들어왔을 때
+     1. TypeSection Header에 들어갈 데이터 가지고 오기 -> [ClosetTypeInfo]
+     2. 카테고리 API 호출 -> type 별 카테고리 데이터를 위한 데이터 가지고 있기
+     [
+     [MediumcategoryList for type 1],
+     [MediumcategoryList for type 2],
+     [MediumcategoryList for type 3], ...
+     ]
+     3. Closet API 호출 -> [StyleClosetInfo]
+     
+     - 바인딩 할 때
+     1. [bannerSection,
+     typeSection,
+     StypeSection1 [ header: [MediumCategory for type1]
+     */
     
-    
-    init(closetDataSource: ClosetDataSourceProtocol) {
+    init(closetDataSource: NewClosetDataSource) {
         self.closetDataSource = closetDataSource
-        self.filteredStyle = .init()
-        self.filteredItem = .init()
     }
     
+    public func fetchData() {
+        getTypes()
+        bindSections()
+    }
+    public func bindSections() {
+        
+        let combineBannerAndType = Observable.combineLatest(bannserSection, typesSection).map { banner, types -> [StyleTabSectionModel] in
+            var sections: [StyleTabSectionModel] = []
+            if let banner, let types {
+                sections.append(banner)
+                sections.append(types)
+            }
+            return sections
+        }
+        
+        Observable.combineLatest(combineBannerAndType, styleSection).map { bannerAndTypes, styles -> [StyleTabSectionModel] in
+            var sections = bannerAndTypes
+            guard let styles = styles  else { return sections }
+            sections.append(contentsOf: styles)
+            return sections
+        }
+        .bind(to: bindSectionsRelay)
+        .disposed(by: bag)
+        
+        //        let bannerSection = StyleTabSectionModel.banner(item: [.banner(StyleBanner())])
+        //        print("typesSections", typesSection.value)
+        //        self.bindSectionsRelay.accept([bannerSection, typesSection.value!])
+    }
     public func setMockDataSetup() {
         // "#비즈니스 캐주얼", "#캐주얼", "#시크", "#걸리시", "#레트로","#로맨틱", "#스트릿"
         let mockBannerList: [StyleTabItem] = [.banner(StyleBanner())]
-        let mockHeaderList: [ClosetTypeInfo] = [
-            ClosetTypeInfo(id: 7, name: "#비즈니스 캐주얼"),
-            ClosetTypeInfo(id: 1, name: "#캐주얼"),
-            ClosetTypeInfo(id: 14, name: "#시크"),
-            ClosetTypeInfo(id: 12, name: "#걸리시"),
-            ClosetTypeInfo(id: 15, name: "#레트로"),
-            ClosetTypeInfo(id: 12, name: "#로맨틱"),
-            ClosetTypeInfo(id: 11, name: "#스트릿")]
-        
-        let mockCellList: [StyleTabItem] = [.styles(ClosetTypeInfo(id: 7, name: "#비즈니스 캐주얼")),
-                                            .styles(ClosetTypeInfo(id: 1, name: "#캐주얼")),
-                                            .styles(ClosetTypeInfo(id: 14, name: "#시크")),
-                                            .styles(ClosetTypeInfo(id: 12, name: "#걸리시")),
-                                            .styles(ClosetTypeInfo(id: 15, name: "#레트로")),
-                                            .styles(ClosetTypeInfo(id: 12, name: "#로맨틱")),
-                                            .styles(ClosetTypeInfo(id: 11, name: "#스트릿")),
-        ]
-        
-        let mockBannerSection = StyleTabSectionModel.banner(item: mockBannerList)
-        
-        let mockClosetSection = StyleTabSectionModel.styles(header: mockHeaderList, items: mockCellList)
-        //        let mockStyleSection = StyleTabSectionModel.styles(items: mockHeaderList)
-        // TODO: - 이미지 캐싱
-        styleSections.accept([mockBannerSection, mockClosetSection])
     }
     
-    public func getRecommendCloset() {
-        closetDataSource.getRecommendCloset(Date().todayHourFormat)
-            .subscribe(
-                with: self,
-                onNext: { owner, response in
-                    guard let closets = response.data?.list.closets else { return }
-                    var temp: [RecommendClosetInfo] = []
-                    for _ in 0..<5 {
-                        temp += closets
-                    }
-                    owner.recommendClosetEntityRelay.accept(temp)
-                },
-                onError: { owner, error in
-                    owner.alertState.accept(.init(title: error.localizedDescription,
-                                                  alertType: .popup,
-                                                  closeAction: {
-                        owner.navigationPopToSelfRelay.accept(Void())
-                    }))
-                })
+    public func getTypes() {
+        closetDataSource.getTypes()
+            .subscribe(with: self, onNext: { owner, response in
+                let typeInfo = response.data.types
+                owner.types.accept(typeInfo)
+                let typeSection = StyleTabSectionModel.types(header: typeInfo)
+                owner.typesSection.accept(typeSection)
+                
+                // StyleSection에 들어갈 데이터 바인딩
+                let _ = typeInfo.map {
+                    owner.getClosets(typeInfo: $0, page: 1)
+                }
+            })
             .disposed(by: bag)
     }
     
-    /// 필터링
-    public func filterCloset() {
-        let vc = FilterListViewController(FilterListViewModel())
-        presentViewControllerWithAnimationRelay.accept(vc)
+    public func getCategories(typeID: Int, _ completion: @escaping (([MCategoryInfo]) -> Void)) {
+        closetDataSource.getCategories(typeID: typeID)
+            .subscribe(with: self, onNext: { owner, response in
+                let categories = response.data.mediumCategories
+//                var categoriArr: [MCategoryInfo] = owner.categories.value ?? []
+                owner.categories.accept(categories)
+                completion(owner.categories.value ?? [])
+            }).disposed(by: bag)
+        
+    }
+    
+    public func getClosets(typeInfo: ClosetTypeInfo, page: Int) {
+        closetDataSource.getClosetWithType(typeID: typeInfo.id, page: 1)
+            .subscribe(with: self, onNext: { owner, response in
+                let closetsInfo = response.data.closets
+                var styleSection = owner.styleSection.value ?? []
+                
+                var styleItemArr: [StyleTabItem] = []
+                let _ = closetsInfo.map {
+                    styleItemArr.append(StyleTabItem.styles($0))
+                }
+                styleSection.append(                    StyleTabSectionModel.styles(header: typeInfo, items: styleItemArr))
+                owner.styleSection.accept(styleSection)
+                
+            })
+            .disposed(by: bag)
     }
 }
 

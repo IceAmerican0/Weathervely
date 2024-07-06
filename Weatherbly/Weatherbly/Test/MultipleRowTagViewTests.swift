@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class MyTagsVC: UIViewController, MyTagsViewDelegate, ItemTagsHeaderDelegate {
+class MyTagsVC: UIViewController, MyTagsViewDelegate, CategoryTagsViewDelegate {
     
     let theTags: [String] = [
         "#니트/스웨터", "#후드 티셔츠", "#맨투맨/스웨트셔츠", "#긴소매 티셔츠", "#셔츠/블라우스","#피케/카라 티셔츠", "#반소매 티셔츠",
@@ -35,7 +35,7 @@ class MyTagsVC: UIViewController, MyTagsViewDelegate, ItemTagsHeaderDelegate {
             // let the view determine its own height
         ])
         
-            let tv = ItemTagsHeaderView()
+            let tv = CategoryTagsView()
             tv.backgroundColor = .white
             tv.numRows = 2
             tv.tags = self.theTags
@@ -46,12 +46,12 @@ class MyTagsVC: UIViewController, MyTagsViewDelegate, ItemTagsHeaderDelegate {
     
     // MARK: - ItemTagHeaderView 사용
     
-    func itemTagView(_ itemTagView: ItemTagsHeaderView, didSelectItemAt index: Int) {
+    func itemTagView(_ itemTagView: CategoryTagsView, didSelectItemAt index: Int) {
         guard let tvIDX = stack.arrangedSubviews.firstIndex(of: itemTagView) else { return }
         print("Selected: \(index) / \"\(theTags[index])\" in tags view \(tvIDX)")
     }
     
-    func itemTagView(_ itemTagView: ItemTagsHeaderView, didDeSelectItemAt index: Int) {
+    func itemTagView(_ itemTagView: CategoryTagsView, didDeSelectItemAt index: Int) {
         guard let tvIDX = stack.arrangedSubviews.firstIndex(of: itemTagView) else { return }
         print("Deselected: \(index) / \"\(theTags[index])\" in tags view \(tvIDX)")
         

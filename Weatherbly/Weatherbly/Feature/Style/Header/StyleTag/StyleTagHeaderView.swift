@@ -28,7 +28,7 @@ public class StyleTagHeaderView: UICollectionReusableView {
     
     public lazy var tagCollectionView = UICollectionView(frame: .zero, collectionViewLayout: tagCollectionFlowLayout).then {
         $0.showsHorizontalScrollIndicator = false
-        $0.register(withType: StyleTagCell.self)
+        $0.register(withType: TypeTagCell.self)
         $0.dataSource = self
         $0.delegate = self
     }
@@ -51,13 +51,17 @@ public class StyleTagHeaderView: UICollectionReusableView {
         self.flex.addItem(tagCollectionView).width(100%).height(56).direction(.row)
     }
     
+    func binding() {}
+    
     func configureTag(_ tagItem: [ClosetTypeInfo]?) {
         guard let tagItem = tagItem else { return }
-        tagsRelay.accept(tagItem)   
+        print("here" , tagItem)
+        tagsRelay.accept(tagItem)
+        tagCollectionView.reloadData()
+        
     }
     
 }
-
 
 extension StyleTagHeaderView: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -65,8 +69,8 @@ extension StyleTagHeaderView: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueCell(withType: StyleTagCell.self, for: indexPath)
-        cell.tagLabel.text = self.tagsRelay.value[indexPath.row].name
+        let cell = collectionView.dequeueCell(withType: TypeTagCell.self, for: indexPath)
+        cell.tagLabel.text = "#\(self.tagsRelay.value[indexPath.row].name)"
         cell.layoutIfNeeded()
         
         return cell
@@ -85,6 +89,9 @@ extension StyleTagHeaderView: UICollectionViewDataSource, UICollectionViewDelega
         return CGSize(width: size.width + 28, height: size.height + 12)
     }
     
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("didTap : \(indexPath)")
+    }
     
 
 }

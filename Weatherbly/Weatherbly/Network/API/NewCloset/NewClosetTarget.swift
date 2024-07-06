@@ -11,7 +11,10 @@ public enum NewClosetTarget {
     /// 메인탭 코디 가져오기
     case getHomeCloset(page: Int)
     /// 스타일탭 코디 가져오기
-    case getStyleCloset(style: Int, item: [Int], page: Int)
+    case getClosetWithType(typeID: Int, page: Int)
+    case getTypes
+    case getCategories(typeID: Int)
+    case closetWithCategory(typeID: Int, page: Int, items: [Int]?)
     /// 메인 > 메인 카드 클릭시 히스토리 저장
     case stylePicked(_ closetID: Int)
 }
@@ -20,7 +23,11 @@ extension NewClosetTarget: WVTargetType {
     public var path: String {
         switch self {
         case .getHomeCloset,
-             .getStyleCloset:            "/closet"
+                .getClosetWithType,
+                .closetWithCategory:
+            "/closet"
+        case .getTypes: "/type"
+        case .getCategories: "/mediumCategory"
         case .stylePicked(let closetID): "/closet/\(closetID)"
         }
     }
@@ -28,17 +35,21 @@ extension NewClosetTarget: WVTargetType {
     public var method: Moya.Method {
         switch self {
         case .getHomeCloset,
-             .getStyleCloset:
+                .getClosetWithType,
+                .getTypes,
+                .getCategories,
+                .closetWithCategory:
             return .get
         case .stylePicked:
             return .post
         }
     }
     
+    // return 값이 한줄 이상 단순텍스트가 아니라서 return 넣어주는 게 확인하기 용이 한 것 같아서 수정 함
     public var task: Moya.Task {
         switch self {
         case .getHomeCloset(let page):
-            .requestParameters(
+            return .requestParameters(
                 parameters: [
                     "page": page,
                     "tab": "main",
@@ -47,18 +58,42 @@ extension NewClosetTarget: WVTargetType {
                 ],
                 encoding: URLEncoding.queryString
             )
-        case .getStyleCloset(let style, let item, let page):
-            .requestParameters(
+            
+        case .getClosetWithType(let typeID, let page):
+            return .requestParameters(
                 parameters: [
-                    "page": page,
-                    "tab": "style",
-                    "style_ids": style,
-                    "medium_category_ids": item
+                    "page" : page,
+                    "tab" : "style",
+                    "style_ids" : typeID
                 ],
                 encoding: URLEncoding.queryString
             )
+            
+        case .getTypes:
+            return .requestPlain
+            
+        case .getCategories(let typeID):
+            return .requestParameters(
+                parameters: [
+                    "tab" : "style",
+                    "style_ids": typeID
+                ],
+                encoding: URLEncoding.queryString
+            )
+            
+        case .closetWithCategory(let typeID, let page, let items):
+            return .requestParameters(
+                parameters: [
+                    "page": page,
+                    "tab": "style",
+                    "style_ids": typeID,
+                    "medium_category_ids": items ?? []
+                ],
+                encoding: URLEncoding.queryString
+            )
+            
         case .stylePicked:
-            .requestPlain
+            return .requestPlain
         }
     }
 }

@@ -40,12 +40,12 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
                 }
                 
                 #if DEBUG
-                print(
-                    """
-                    Request : \(type)
-                    Response : \(prettyString)
-                    """
-                )
+//                print(
+//                    """
+//                    Request : \(type)
+//                    Response : \(prettyString)
+//                    """
+//                )
                 #endif
                 
                 // status : 200
