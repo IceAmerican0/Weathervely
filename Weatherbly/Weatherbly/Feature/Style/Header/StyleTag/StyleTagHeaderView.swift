@@ -55,7 +55,6 @@ public class StyleTagHeaderView: UICollectionReusableView {
     
     func configureTag(_ tagItem: [ClosetTypeInfo]?) {
         guard let tagItem = tagItem else { return }
-        print("here" , tagItem)
         tagsRelay.accept(tagItem)
         tagCollectionView.reloadData()
         

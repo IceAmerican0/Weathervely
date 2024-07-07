@@ -85,11 +85,6 @@ import RxCocoa
         commonInit()
     }
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-    }
-
     func commonInit() {
         // Pin 또는 Flex 사용할 경우 Layout 정상적으로 작동하지 않는다.
         // UIView의 라이프싸이클 문제로 추측 된다.
@@ -97,7 +92,7 @@ import RxCocoa
         scrollView.addSubview(vStack)
         
         
-        let g = self
+//        let g = self
         let cg = scrollView.contentLayoutGuide
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0.0),

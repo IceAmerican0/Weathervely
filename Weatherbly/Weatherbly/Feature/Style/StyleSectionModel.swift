@@ -10,7 +10,7 @@ import RxDataSources
 enum StyleTabSectionModel {
     case banner(item: [Item])
     case types(header: [ClosetTypeInfo])
-    case styles(header: ClosetTypeInfo, items: [Item])
+    case styles(header: (typeInfo: ClosetTypeInfo, categories: [MCategoryInfo]), items: [Item])
 }
 
 enum StyleTabItem {

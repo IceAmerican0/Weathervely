@@ -90,42 +90,96 @@ final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
                 owner.types.accept(typeInfo)
                 let typeSection = StyleTabSectionModel.types(header: typeInfo)
                 owner.typesSection.accept(typeSection)
-                
-                // StyleSection에 들어갈 데이터 바인딩
-                let _ = typeInfo.map {
-                    owner.getClosets(typeInfo: $0, page: 1)
-                }
+
+                Observable.from(typeInfo)
+                    .concatMap { typeInfo in
+                        owner.getCategories(typeID: typeInfo.id)
+                            .map { categories in (typeInfo, categories) }
+                    }
+                    .subscribe(onNext: { (typeInfo, categories) in
+                        debugPrint("Categories for typeID \(typeInfo.id) : ", categories)
+                        owner.getClosets(typeInfo: typeInfo, categories: categories, page: 1)
+                    })
+                    .disposed(by: owner.bag)
             })
             .disposed(by: bag)
     }
-    
-    public func getCategories(typeID: Int, _ completion: @escaping (([MCategoryInfo]) -> Void)) {
-        closetDataSource.getCategories(typeID: typeID)
-            .subscribe(with: self, onNext: { owner, response in
+
+    public func getCategories(typeID: Int) -> Observable<[MCategoryInfo]> {
+        return closetDataSource.getCategories(typeID: typeID)
+            .map { response in
                 let categories = response.data.mediumCategories
-//                var categoriArr: [MCategoryInfo] = owner.categories.value ?? []
-                owner.categories.accept(categories)
-                completion(owner.categories.value ?? [])
-            }).disposed(by: bag)
-        
+                debugPrint("getCategories TYPEINFO : ", typeID, " Categories: ", categories)
+                return categories
+            }
     }
-    
-    public func getClosets(typeInfo: ClosetTypeInfo, page: Int) {
+
+    public func getClosets(typeInfo: ClosetTypeInfo, categories: [MCategoryInfo], page: Int) {
         closetDataSource.getClosetWithType(typeID: typeInfo.id, page: 1)
             .subscribe(with: self, onNext: { owner, response in
                 let closetsInfo = response.data.closets
                 var styleSection = owner.styleSection.value ?? []
-                
+
                 var styleItemArr: [StyleTabItem] = []
-                let _ = closetsInfo.map {
+                closetsInfo.forEach {
                     styleItemArr.append(StyleTabItem.styles($0))
                 }
-                styleSection.append(                    StyleTabSectionModel.styles(header: typeInfo, items: styleItemArr))
+                debugPrint("getClosets TYPEINFO : \(typeInfo.id), Categories: \(categories), Closets: \(closetsInfo)")
+                styleSection.append(StyleTabSectionModel.styles(header: (typeInfo: typeInfo, categories: categories), items: styleItemArr))
                 owner.styleSection.accept(styleSection)
-                
             })
             .disposed(by: bag)
     }
+    
+//    public func getTypes() {
+//        closetDataSource.getTypes()
+//            .subscribe(with: self, onNext: { owner, response in
+//                let typeInfo = response.data.types
+//                owner.types.accept(typeInfo)
+//                let typeSection = StyleTabSectionModel.types(header: typeInfo)
+//                owner.typesSection.accept(typeSection)
+//                
+////                debugPrint("typeInfo : ", typeInfo)
+//                // StyleSection에 들어갈 데이터 바인딩
+//                typeInfo.forEach { typeInfo in
+//                    debugPrint("\ngetTypes : ", typeInfo)
+//                    owner.getCategories(typeID: typeInfo.id) { categories in
+//                        owner.getClosets(typeInfo: typeInfo, categories: categories, page: 1)
+//                    }
+//                    
+//                }
+//            })
+//            .disposed(by: bag)
+//    }
+//    
+//    public func getCategories(typeID: Int, _ completion: @escaping (([MCategoryInfo]) -> Void)) {
+//        closetDataSource.getCategories(typeID: typeID)
+//            .subscribe(with: self, onNext: { owner, response in
+//                let categories = response.data.mediumCategories
+////                var categoriArr: [MCategoryInfo] = owner.categories.value ?? []
+//                debugPrint("getCategories TYPEINFO : ", typeID)
+//                owner.categories.accept(categories)
+//                completion(owner.categories.value ?? [])
+//            }).disposed(by: bag)
+//        
+//    }
+//    
+//    public func getClosets(typeInfo: ClosetTypeInfo, categories: [MCategoryInfo], page: Int) {
+//        closetDataSource.getClosetWithType(typeID: typeInfo.id, page: 1)
+//            .subscribe(with: self, onNext: { owner, response in
+//                let closetsInfo = response.data.closets
+//                var styleSection = owner.styleSection.value ?? []
+//                
+//                var styleItemArr: [StyleTabItem] = []
+//                let _ = closetsInfo.map {
+//                    styleItemArr.append(StyleTabItem.styles($0))
+//                }
+//                debugPrint("getClosets TYPEINFO : \(typeInfo.id)")
+//                styleSection.append(StyleTabSectionModel.styles(header: (typeInfo: typeInfo, categories: categories), items: styleItemArr))
+//                owner.styleSection.accept(styleSection)
+//            })
+//            .disposed(by: bag)
+//    }
 }
 
 

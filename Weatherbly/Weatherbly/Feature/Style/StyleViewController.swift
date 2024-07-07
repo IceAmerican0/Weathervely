@@ -131,14 +131,12 @@ extension StyleViewController: UICollectionViewDelegate {
                     return UICollectionReusableView()
                 case .types(let types):
                     return collectionView.dequeueReusableHeaderView(withType: StyleTagHeaderView.self, for: indexPath).then {
-                        print("@@@@@@", types)
                         $0.configureTag(types)
                     }
-                case .styles(let typeInfo, _):
-                    let header = collectionView.dequeueReusableHeaderView(withType: CategoryHeaderView.self, for: indexPath).then { header in
-                        self?.viewModel.getCategories(typeID: typeInfo.id) { categories in
-                            header.configure(info: typeInfo, categories: categories)
-                        }
+                case .styles(let headerInfo, _):
+                    let header = collectionView.dequeueReusableHeaderView(withType: CategoryHeaderView.self, for: indexPath).then {
+                        
+                        $0.configure(info: headerInfo.typeInfo, categories: headerInfo.categories)
                     }
                     print(indexPath)
                     return header
@@ -223,7 +221,7 @@ extension StyleViewController: UICollectionViewDelegate {
     
     func styleSectionLayout() -> NSCollectionLayoutSection {
         let itemWidth = (Constants.screenWidth - 20 ) / 3
-        let groupWidth = itemWidth * 3 + 32
+        _ = itemWidth * 3 + 32
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .absolute(itemWidth),
             heightDimension: .absolute(210)
@@ -256,7 +254,6 @@ extension StyleViewController: UICollectionViewDelegate {
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .topLeading
         )
-        
         section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 0)
         section.boundarySupplementaryItems = [sectionHeader]
         return section
