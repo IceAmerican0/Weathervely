@@ -20,12 +20,6 @@ final class StyleViewController: RxBaseViewController<StyleViewModel> {
         $0.sizeToFit()
     }
     
-    var flowLayout = UICollectionViewFlowLayout().then {
-        $0.scrollDirection = .vertical
-        $0.minimumLineSpacing = 16
-        $0.sectionHeadersPinToVisibleBounds = true
-    }
-    
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: setSectinoLayout()
     ).then {
         $0.showsVerticalScrollIndicator = false
@@ -74,34 +68,6 @@ final class StyleViewController: RxBaseViewController<StyleViewModel> {
             .disposed(by: bag)
     }
     
-}
-
-extension StyleViewController: UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let count = viewModel.bindSectionsRelay.value.count
-        return count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        switch indexPath.section {
-        case 0:
-            return CGSize(width: collectionView.frame.width, height: 80)
-        case 1:
-            return CGSize(width: collectionView.frame.width, height: 572)
-        default:
-            return CGSize()
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        if section == 1 {
-            return CGSize(width: collectionView.frame.width, height: 56)
-        } else {
-            return .zero
-        }
-    }
 }
 
 extension StyleViewController: UICollectionViewDelegate {
@@ -159,7 +125,7 @@ extension StyleViewController: UICollectionViewDelegate {
                 print("Section index \(sectionIndex) out of range.")
                 return nil
             }
-            
+    
             let section = self.viewModel.bindSectionsRelay.value[sectionIndex]
             var layoutSection: NSCollectionLayoutSection?
             switch section {
@@ -172,6 +138,7 @@ extension StyleViewController: UICollectionViewDelegate {
             }
             return layoutSection
         }
+        
         return layout
     }
     
