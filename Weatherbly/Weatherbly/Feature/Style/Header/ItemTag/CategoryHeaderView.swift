@@ -57,7 +57,8 @@ final class CategoryHeaderView : UICollectionReusableView {
     func snapKitLayout() {
         sectionTitleLabel.snp.makeConstraints {
             $0.top.equalToSuperview()
-            $0.leading.trailing.equalToSuperview()
+            $0.leading.equalToSuperview().offset(20)
+            $0.trailing.equalToSuperview()
             $0.height.equalTo(56)
         }
         

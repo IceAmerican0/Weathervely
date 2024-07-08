@@ -25,6 +25,8 @@ import RxCocoa
     var scrollView = UIScrollView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.showsHorizontalScrollIndicator = false
+        $0.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        $0.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
     }
     public var numRows: Int = 2
     // vertical stack view to hold the rows
@@ -94,6 +96,7 @@ import RxCocoa
         
 //        let g = self
         let cg = scrollView.contentLayoutGuide
+        
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0.0),
             scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0.0),

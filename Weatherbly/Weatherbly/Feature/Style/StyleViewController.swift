@@ -181,14 +181,14 @@ extension StyleViewController: UICollectionViewDelegate {
         
         sectionHeader.pinToVisibleBounds = true
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 0)
+
         section.boundarySupplementaryItems = [sectionHeader]
         return section
     }
     
     func styleSectionLayout() -> NSCollectionLayoutSection {
         let itemWidth = (Constants.screenWidth - 20 ) / 3
-        _ = itemWidth * 3 + 32
+        let groupWidth = itemWidth * 3 + 32
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .absolute(itemWidth),
             heightDimension: .absolute(210)
@@ -206,11 +206,21 @@ extension StyleViewController: UICollectionViewDelegate {
             subitems: [item, item]
         )
         group.interItemSpacing = .flexible(12)
+        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 0)
         
+//        let combinedGroupSize = NSCollectionLayoutSize(
+//            widthDimension: .absolute(groupWidth),
+//            heightDimension: .absolute(432)
+//        )
+//        let combinedGroup = NSCollectionLayoutGroup.horizontal(
+//            layoutSize: combinedGroupSize,
+//            subitems: [group, group, group]
+//        )
+//        combinedGroup.interItemSpacing = .fixed(16)
+//        
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
         section.interGroupSpacing = 16
-        
         
         let headerSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
@@ -221,7 +231,7 @@ extension StyleViewController: UICollectionViewDelegate {
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .topLeading
         )
-        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 0)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 0, bottom: 20, trailing: 0)
         section.boundarySupplementaryItems = [sectionHeader]
         return section
     }
