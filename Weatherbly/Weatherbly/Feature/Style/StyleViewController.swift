@@ -208,16 +208,6 @@ extension StyleViewController: UICollectionViewDelegate {
         group.interItemSpacing = .flexible(12)
         group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 0)
         
-//        let combinedGroupSize = NSCollectionLayoutSize(
-//            widthDimension: .absolute(groupWidth),
-//            heightDimension: .absolute(432)
-//        )
-//        let combinedGroup = NSCollectionLayoutGroup.horizontal(
-//            layoutSize: combinedGroupSize,
-//            subitems: [group, group, group]
-//        )
-//        combinedGroup.interItemSpacing = .fixed(16)
-//        
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
         section.interGroupSpacing = 16
