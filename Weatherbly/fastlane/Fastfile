@@ -14,7 +14,7 @@ error do |lane, exception, options|
 	discord_notifier(
 	    webhook_url: webhook_url_test,
 	    title: "에러 발생",
-	    description: "${exception}",
+	    description: "#{exception}",
 	    success: false,
 	    thumbnail_url:"",
 	    image_url:""

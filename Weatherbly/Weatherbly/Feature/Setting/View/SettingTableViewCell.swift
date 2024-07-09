@@ -32,10 +32,10 @@ public final class SettingTableViewCell: UITableViewCell {
     }
     
     private let pushSetting = LabelMaker(
-        font: .body_3_M,
-        fontColor: .blue,
+        font: .body_3_B,
+        fontColor: .violet900,
         alignment: .right
-    ).make(text: "켜기")
+    ).make(text: "권한 설정하기")
     
     private let naviButton = UIImageView().then {
         $0.image = .commontab

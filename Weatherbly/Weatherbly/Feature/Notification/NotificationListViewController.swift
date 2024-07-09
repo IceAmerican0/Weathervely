@@ -169,13 +169,16 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
                 zeroNotiView.flex.display(.none)
                 tableView.flex.display(.flex)
             } else {
-                if isAuthorized {
-                    zeroNotiView.flex.display(.flex)
-                    tableView.flex.display(.none)
-                } else {
-                    zeroNotiView.flex.display(.flex)
+                zeroNotiView.flex.display(.flex)
+                tableView.flex.display(.none)
+                
+                if !isAuthorized {
                     notiButton.flex.display(.flex)
-                    tableView.flex.display(.none)
+                    notiButton.setTitle("알림 권한 설정하기", for: .normal)
+                }
+                
+                if !UserDefaultManager.shared.pushAgreement {
+                    notiButton.setTitle("알림 받기", for: .normal)
                 }
             }
             zeroNotiView.flex.markDirty()

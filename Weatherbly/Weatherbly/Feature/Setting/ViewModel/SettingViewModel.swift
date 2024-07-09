@@ -68,9 +68,9 @@ public final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
                     var message = ""
                     
                     if selected {
-                        message = "알림 수신이 허용되었어요"
+                        message = "알림 설정이 완료되었어요"
                     } else {
-                        message = "알림 수신이 거부되었어요"
+                        message = "알림 설정이 꺼졌어요 알림 받기를 눌러 웨더블리의 날씨 꿀팁을 받아보세요"
                     }
                     
                     owner.alertState.accept(
