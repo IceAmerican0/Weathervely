@@ -20,7 +20,7 @@ final class StyleViewController: RxBaseViewController<StyleViewModel> {
         $0.sizeToFit()
     }
     
-    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: setSectinoLayout()
+    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: setSectionLayout()
     ).then {
         $0.showsVerticalScrollIndicator = false
         $0.registerHeader(withType: StyleTagHeaderView.self)
@@ -33,7 +33,6 @@ final class StyleViewController: RxBaseViewController<StyleViewModel> {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        viewModel.setMockDataSetup()
         viewModel.fetchData()
         
     }
@@ -50,6 +49,7 @@ final class StyleViewController: RxBaseViewController<StyleViewModel> {
             container.addItem(titleLabel).marginHorizontal(20).marginTop(11).marginBottom(17.5).height(23)
             container.addItem(collectionView).grow(1)
         }
+        
     }
     
     override func viewBinding() {
@@ -58,6 +58,18 @@ final class StyleViewController: RxBaseViewController<StyleViewModel> {
         collectionView.rx
             .setDelegate(self)
             .disposed(by: bag)
+        
+//        collectionView.rx.contentOffset
+//            .subscribe(onNext: { [weak self] contentOffset in
+//                guard let self = self else { return }
+//                
+//                if let headerView = self.collectionView.supplementaryView(forElementKind: UICollectionView.elementKindSectionHeader, at: IndexPath(item: 0, section: 1)) {
+//                    var headerFrame = headerView.frame
+//                    headerFrame.origin.y = max(contentOffset.y, self.collectionView.layoutAttributesForSupplementaryElement(ofKind: UICollectionView.elementKindSectionHeader, at: IndexPath(item: 0, section: 1))?.frame.origin.y ?? 0)
+//                    headerView.frame = headerFrame
+//                }
+//            })
+//            .disposed(by: bag)
     }
     
     override func viewModelBinding() {
@@ -93,8 +105,7 @@ extension StyleViewController: UICollectionViewDelegate {
             switch kind {
             case UICollectionView.elementKindSectionHeader:
                 switch dataSource[indexPath.section] {
-                case .banner:
-                    return UICollectionReusableView()
+                    
                 case .types(let types):
                     return collectionView.dequeueReusableHeaderView(withType: StyleTagHeaderView.self, for: indexPath).then {
                         $0.configureTag(types)
@@ -109,6 +120,9 @@ extension StyleViewController: UICollectionViewDelegate {
                     // TODO: - /type API 데이터 붙이기
                     // TODO: - header 수정 -> ItemTagHeaderView + titleLabel 포함하게
                     // TODO: - ItemTagHeaderView 이벤트 반드시 받아올 수 있어야 함.
+                    
+                default:
+                    return UICollectionReusableView()
                 }
             default:
                 fatalError("Fail to Generate SupplementaryView")
@@ -117,7 +131,7 @@ extension StyleViewController: UICollectionViewDelegate {
         })
     }
     
-    func setSectinoLayout() -> UICollectionViewCompositionalLayout {
+    func setSectionLayout() -> UICollectionViewCompositionalLayout {
         let layout = UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ -> NSCollectionLayoutSection? in
             
             guard let self = self else { return nil }
@@ -136,9 +150,10 @@ extension StyleViewController: UICollectionViewDelegate {
             case .styles:
                 layoutSection = self.styleSectionLayout()
             }
+             
             return layoutSection
         }
-        
+    
         return layout
     }
     
@@ -183,6 +198,7 @@ extension StyleViewController: UICollectionViewDelegate {
         let section = NSCollectionLayoutSection(group: group)
 
         section.boundarySupplementaryItems = [sectionHeader]
+
         return section
     }
     
@@ -206,7 +222,7 @@ extension StyleViewController: UICollectionViewDelegate {
             subitems: [item, item]
         )
         group.interItemSpacing = .flexible(12)
-        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 0)
+//        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 0)
         
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
@@ -221,10 +237,25 @@ extension StyleViewController: UICollectionViewDelegate {
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .topLeading
         )
+//        
         section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 0, bottom: 20, trailing: 0)
-        section.boundarySupplementaryItems = [sectionHeader]
+          section.boundarySupplementaryItems = [sectionHeader]
+
+//          section.visibleItemsInvalidationHandler = { (items, offset, environment) in
+//              debugPrint("\n\nitems: \(items)\n offset: \(offset)\n enviroment : \(environment)")
+//              for item in items {
+//                  if item.representedElementCategory == .supplementaryView, item.indexPath.section == 1 {
+//                      item.zIndex = 1000
+//                      item.transform = CGAffineTransform(translationX: 0, y: max(offset.y, item.frame.origin.y))
+//                  }
+//              }
+//          }
+
         return section
     }
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+     
+    }
 }
 

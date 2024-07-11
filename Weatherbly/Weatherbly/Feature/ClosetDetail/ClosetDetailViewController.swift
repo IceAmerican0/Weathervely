@@ -109,7 +109,6 @@ final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewMod
                     let maxPage = viewModel.WFMaxPage
                     
                     if (indexPath.item / 20) + 1 >= currentPage && currentPage < maxPage {
-                        print("@@@@@@@@@@@@@@")
                         if  indexPath.item % 20 == 17 {
                             currentPage += 1
                             viewModel.WFCurrentPage = currentPage
