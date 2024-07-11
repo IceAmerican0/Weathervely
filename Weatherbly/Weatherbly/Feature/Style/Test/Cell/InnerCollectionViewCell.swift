@@ -1,0 +1,145 @@
+//
+//  InnerCollectionViewCell.swift
+//  Weatherbly
+//
+//  Created by 최수훈 on 7/11/24.
+//
+
+import UIKit
+import RxDataSources
+import RxSwift
+import RxCocoa
+
+final public class InnerCollectionViewCell: UICollectionViewCell {
+    
+    private var bag = DisposeBag()
+    private var bindSectionsRelay = BehaviorRelay<[NewStyleTabSectionModel]>(value: [.banner(item: [.banner(StyleBanner())])])
+    
+    public var innerCollectionView = UICollectionView().then {
+        $0.register(withType: StyleCell.self)
+        $0.registerHeader(withType: StyleTagHeaderView.self)
+        $0.registerHeader(withType: CategoryHeaderView.self)
+    }
+    
+    public override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configure(_ secrtionsInfo: [NewStyleTabSectionModel]?) { }
+    
+    func binding() {
+        bindSectionsRelay
+            .bind(to: innerCollectionView.rx.items(dataSource: setInnerCollectionViewDataSource()))
+            .disposed(by: bag)
+    }
+    
+}
+
+extension InnerCollectionViewCell: UICollectionViewDelegate {
+    func setInnerCollectionViewDataSource() -> RxCollectionViewSectionedReloadDataSource<NewStyleTabSectionModel> {
+        RxCollectionViewSectionedReloadDataSource<NewStyleTabSectionModel> (configureCell: { [ weak self ] dataSource, collectionView, indexPath, item in
+            guard self != nil else { return UICollectionViewCell() }
+            
+            switch item {
+            case .styles(let styleInfo):
+                return collectionView.dequeueCell(withType: StyleCell.self, for: indexPath).then {
+                    $0.configure(info: styleInfo)
+                }
+            default:
+                return UICollectionViewCell()
+            }
+            
+        }, configureSupplementaryView: { [ weak self ] dataSource, collectionView, kind, indexPath in
+            guard self != nil else { return UICollectionReusableView() }
+            switch kind {
+            case UICollectionView.elementKindSectionHeader:
+                switch dataSource[indexPath.section] {
+                case .styles(let headerInfo, _):
+                    let header = collectionView.dequeueReusableHeaderView(withType: CategoryHeaderView.self, for: indexPath).then {
+                        
+                        $0.configure(info: headerInfo.typeInfo, categories: headerInfo.categories)
+                    }
+                    return header
+                    // TODO: - ItemTagHeaderView 이벤트 반드시 받아올 수 있어야 함.
+                    
+                default:
+                    return UICollectionReusableView()
+                }
+            default:
+                fatalError("Fail to Generate SupplementaryView")
+            }
+            return UICollectionReusableView()
+        })
+    }
+    
+    func setInnerLayout() -> UICollectionViewCompositionalLayout {
+        let layout = UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ -> NSCollectionLayoutSection? in
+            
+            guard let self = self else { return nil }
+            guard sectionIndex < self.bindSectionsRelay.value.count else {
+                print("Section index \(sectionIndex) out of range.")
+                return nil
+            }
+    
+            let section = self.bindSectionsRelay.value[sectionIndex]
+            var layoutSection: NSCollectionLayoutSection?
+            switch section {
+            case .styles:
+                layoutSection = self.styleSectionLayout()
+                
+            default:
+                layoutSection =  .init(group: .init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(1))))
+            }
+             
+            return layoutSection
+        }
+    
+        return layout
+    }
+    
+    func styleSectionLayout() -> NSCollectionLayoutSection {
+        let itemWidth = (Constants.screenWidth - 20 ) / 3
+        let groupWidth = itemWidth * 3 + 32
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .absolute(itemWidth),
+            heightDimension: .absolute(210)
+        )
+        
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .absolute(itemWidth),
+            heightDimension: .absolute(432)
+        )
+        
+        let group = NSCollectionLayoutGroup.vertical(
+            layoutSize: groupSize,
+            subitems: [item, item]
+        )
+        group.interItemSpacing = .flexible(12)
+
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .continuous
+        section.interGroupSpacing = 16
+        
+        let headerSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .absolute(122)
+        )
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .topLeading
+        )
+
+        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 0, bottom: 20, trailing: 0)
+          section.boundarySupplementaryItems = [sectionHeader]
+
+        return section
+    }
+}
