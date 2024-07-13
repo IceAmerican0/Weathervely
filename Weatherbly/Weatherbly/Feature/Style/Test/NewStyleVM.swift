@@ -11,6 +11,8 @@ import RxCocoa
 
 fileprivate protocol StyleViewModelLogic: ViewModelBusinessLogic {
     func getTypes()
+    func getAPISerial(with typeInfo: [ClosetTypeInfo], _ completion: (([NewStyleTabSectionModel]) -> Void)? )
+    func bindInnerCollectionViewSection()
 }
 
 final class NewStyleViewModel: RxBaseViewModel, StyleViewModelLogic {
@@ -22,6 +24,7 @@ final class NewStyleViewModel: RxBaseViewModel, StyleViewModelLogic {
     /// Types
     public var types = BehaviorRelay<[ClosetTypeInfo]?>(value: [])
     public var typesSection = BehaviorRelay<NewStyleTabSectionModel?>(value: .types(header: [.init(id: 0, name: "")], items: [.banner(StyleBanner())]))
+//    public var typesSection = BehaviorRelay<[NewStyleTabSectionModel]?>(value: [])
     /// Categories
     public var categories = BehaviorRelay<[MCategoryInfo]?>(value: [])
     
@@ -51,8 +54,10 @@ final class NewStyleViewModel: RxBaseViewModel, StyleViewModelLogic {
     }
     
     public func fetchData() {
+        
         getTypes()
         bindSections()
+        
     }
     public func bindSections() {
             // TODO: - bindine 되는지 체크하기
@@ -73,34 +78,16 @@ final class NewStyleViewModel: RxBaseViewModel, StyleViewModelLogic {
          
          */
         
-        
-        let combineBannerAndType = Observable.combineLatest(bannserSection, typesSection).map { banner, types -> [NewStyleTabSectionModel] in
+        let _  = Observable.combineLatest(bannserSection, typesSection).map { banner, types -> [NewStyleTabSectionModel] in
             var sections: [NewStyleTabSectionModel] = []
             if let banner, let types {
                 sections.append(banner)
-                //                sections.append(types)
+                sections.append(types)
             }
             debugPrint("bindingSection : \(sections) ")
             return sections
         }.bind(to: bindSectionsRelay)
             .disposed(by: bag)
-        
-        //        Observable.combineLatest(combineBannerAndType, styleSection).map { bannerAndTypes, styles -> [NewStyleTabSectionModel] in
-        //            var sections = bannerAndTypes
-        //            guard let styles = styles  else { return sections }
-        //            sections.append(contentsOf: styles)
-        //            return sections
-        //        }
-        //        .bind(to: bindSectionsRelay)
-        //        .disposed(by: bag)
-        //
-        //        let bannerSection = StyleTabSectionModel.banner(item: [.banner(StyleBanner())])
-        //        print("typesSections", typesSection.value)
-        //        self.bindSectionsRelay.accept([bannerSection, typesSection.value!])
-    }
-    public func setMockDataSetup() {
-        // "#비즈니스 캐주얼", "#캐주얼", "#시크", "#걸리시", "#레트로","#로맨틱", "#스트릿"
-        let mockBannerList: [StyleTabItem] = [.banner(StyleBanner())]
     }
     
     public func getTypes() {
@@ -108,38 +95,11 @@ final class NewStyleViewModel: RxBaseViewModel, StyleViewModelLogic {
             .subscribe(with: self, onNext: { owner, response in
                 let typeInfo = response.data.types
                 owner.types.accept(typeInfo)
-                //                let typeSection = NewStyleTabSectionModel.types(header: typeInfo, items: [])
-                //                owner.typesSection.accept(typeSection)
-                owner.getAPISerial(with: typeInfo)
-            })
-            .disposed(by: bag)
-    }
-    
-    private func getAPISerial(with typeInfo: [ClosetTypeInfo]) {
-        debugPrint("1️⃣1️⃣1️⃣ getCategories TYPEINFO : ", typeInfo)
-        Observable.from(typeInfo)
-            .concatMap { typeInfo in
-                self.getCategories(typeID: typeInfo.id)
-                    .map { categories in (typeInfo, categories) }
-            }
-            .concatMap { (typeInfo, categories) in
-                self.getClosets(typeInfo: typeInfo, categories: categories, page: 1)
-                    .map { closetsInfo in (typeInfo, categories, closetsInfo) }
-            }
-            .subscribe(onNext: { (typeInfo, categories, closetsInfo) in
-                var styleSection = self.styleSection.value ?? []
-                var styleItemArr: [NewStyleTabItem] = []
-                closetsInfo.forEach {
-                    styleItemArr.append(NewStyleTabItem.styles($0))
+                let typeSection = NewStyleTabSectionModel.types(header: typeInfo, items: [])
+                
+                owner.getAPISerial(with: typeInfo) { styleSections in
+                    owner.typesSection.accept(.types(header: typeInfo, items: [.type(styleSections)]))
                 }
-                
-                styleSection.append(
-                    NewStyleTabSectionModel.styles(
-                        header: (typeInfo: typeInfo, categories: categories),
-                        items: styleItemArr)
-                )
-                
-                self.styleSection.accept(styleSection)
             })
             .disposed(by: bag)
     }
@@ -160,24 +120,43 @@ final class NewStyleViewModel: RxBaseViewModel, StyleViewModelLogic {
                 debugPrint("🔥🔥🔥 getClosets TYPEINFO : \(typeInfo.id) : \(typeInfo.name)")
                 return closetInfo
             }
-        //            .subscribe(with: self, onNext: { owner, response in
-        //                let closetsInfo = response.data.closets
-        //                var styleSection = owner.styleSection.value ?? []
-        //
-        //                var styleItemArr: [NewStyleTabItem] = []
-        //                closetsInfo.forEach {
-        //                    styleItemArr.append(NewStyleTabItem.styles($0))
-        //                }
-        //
-        ////                styleSection.append(
-        ////                    NewStyleTabSectionModel.styles(
-        ////                        header: (typeInfo: typeInfo, categories: categories),
-        ////                        items: styleItemArr)
-        ////                )
-        ////
-        ////                owner.styleSection.accept(styleSection)
-        //            })
-        //            .disposed(by: bag)
     }
     
+    fileprivate func getAPISerial(with typeInfo: [ClosetTypeInfo], _ completion: (([NewStyleTabSectionModel]) -> Void)?) {
+        debugPrint("1️⃣1️⃣1️⃣ getCategories TYPEINFO : ", typeInfo)
+        Observable.from(typeInfo)
+            .concatMap { typeInfo in
+                self.getCategories(typeID: typeInfo.id)
+                    .map { categories in (typeInfo, categories) }
+            }
+            .concatMap { (typeInfo, categories) in
+                self.getClosets(typeInfo: typeInfo, categories: categories, page: 1)
+                    .map { closetsInfo in (typeInfo, categories, closetsInfo) }
+            }
+            .subscribe(onNext: { (typeInfo, categories, closetsInfo) in
+                var styleSection = self.styleSection.value ?? []
+                var styleItemArr: [NewStyleTabItem] = []
+                closetsInfo.forEach {
+                    styleItemArr.append(NewStyleTabItem.styles($0))
+                }
+                debugPrint("🚀🚀🚀 styleSection.value: \(self.styleSection.value?.last)")
+                styleSection.append(
+                    NewStyleTabSectionModel.styles(
+                        header: (typeInfo: typeInfo, categories: categories),
+                        items: styleItemArr)
+                )
+                
+                self.styleSection.accept(styleSection)
+                
+            }, onCompleted: {
+                
+                completion?(self.styleSection.value ?? [])
+            })
+            .disposed(by: bag)
+    }
+    
+    func bindInnerCollectionViewSection() {
+        
+    }
+   
 }

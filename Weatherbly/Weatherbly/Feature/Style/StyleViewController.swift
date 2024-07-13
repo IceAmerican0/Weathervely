@@ -7,12 +7,9 @@
 
 import UIKit
 import FlexLayout
-import PinLayout
-import Then
 import RxSwift
 import RxDataSources
 import RxGesture
-import Kingfisher
 
 final class StyleViewController: RxBaseViewController<StyleViewModel> {
     
@@ -20,7 +17,7 @@ final class StyleViewController: RxBaseViewController<StyleViewModel> {
         $0.sizeToFit()
     }
     
-    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: setSectionLayout()
+    lazy private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: setSectionLayout()
     ).then {
         $0.showsVerticalScrollIndicator = false
         $0.registerHeader(withType: StyleTagHeaderView.self)

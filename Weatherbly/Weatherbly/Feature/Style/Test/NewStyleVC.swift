@@ -16,13 +16,14 @@ final class NewStyleVC: RxBaseViewController<NewStyleViewModel> {
         $0.sizeToFit()
     }
     
-    lazy private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout()
+    lazy private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: setSectionLayout()
     ).then {
         $0.showsVerticalScrollIndicator = false
         $0.registerHeader(withType: StyleTagHeaderView.self)
         $0.registerHeader(withType: CategoryHeaderView.self)
         $0.register(withType: BannerCell.self)
         $0.register(withType: StyleCell.self)
+        $0.register(withType: InnerCollectionViewCell.self)
     }
     
     private lazy var rxDataSources = setRxDataSources()
@@ -65,8 +66,30 @@ final class NewStyleVC: RxBaseViewController<NewStyleViewModel> {
     }
 }
 
+extension NewStyleVC: InnerCollectionViewCellDelegate {
+    // MARK: - 이중 스크롤 방지
+    func innerCollectionViewDidScroll(_ innerCollectionView: UICollectionView, contentOffset: CGPoint) {
+        let offsetY = contentOffset.y
+        let titleLabelAreaHeight = titleLabel.lineHeight + 28.5
+        let bannerSectionHeight = CGFloat(80)
+        let parentScrollOffsetY = titleLabelAreaHeight + bannerSectionHeight
+        // InnerCollectionView의 스크롤을 상위 UICollectionView에 반영
+                if offsetY <= 0 {
+                    collectionView.contentOffset.y += offsetY
+                    innerCollectionView.contentOffset.y = 0
+                } else if collectionView.contentOffset.y < parentScrollOffsetY {
+                    collectionView.contentOffset.y += offsetY
+                    innerCollectionView.contentOffset.y = 0
+                }
+    }
+
+}
 extension NewStyleVC: UICollectionViewDelegate {
-    
+    // MARK: - 이중 스크롤 방지
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+    }
+
     // MARK: - DataSource
     
     func setRxDataSources() ->  RxCollectionViewSectionedReloadDataSource<NewStyleTabSectionModel> {
@@ -81,6 +104,7 @@ extension NewStyleVC: UICollectionViewDelegate {
                 
             case .type(let innerSectionsArr):
                 return collectionView.dequeueCell(withType: InnerCollectionViewCell.self, for: indexPath).then {
+                    $0.delegate = self
                     $0.configure(innerSectionsArr)
                 }
                 
@@ -121,5 +145,129 @@ extension NewStyleVC: UICollectionViewDelegate {
             }
             return UICollectionReusableView()
         })
+    }
+    
+    func setSectionLayout() -> UICollectionViewCompositionalLayout {
+        let layout = UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ -> NSCollectionLayoutSection? in
+            
+            guard let self = self else { return nil }
+            guard sectionIndex < self.viewModel.bindSectionsRelay.value.count else {
+                print("Section index \(sectionIndex) out of range.")
+                return nil
+            }
+    
+            let section = self.viewModel.bindSectionsRelay.value[sectionIndex]
+            var layoutSection: NSCollectionLayoutSection?
+            switch section {
+            case .banner:
+                layoutSection = self.bannerSectionLayout()
+            case .types:
+                layoutSection = self.typesSectionLayout()
+            case .styles:
+                layoutSection = self.styleSectionLayout()
+            }
+             
+            return layoutSection
+        }
+    
+        return layout
+    }
+    
+    func bannerSectionLayout() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .absolute(Constants.screenWidth - 20),
+            heightDimension: .absolute(80)
+        )
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let group = NSCollectionLayoutGroup.vertical(
+            layoutSize: itemSize,
+            subitems: [item]
+        )
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 0)
+        return section
+    }
+    
+    func typesSectionLayout() -> NSCollectionLayoutSection {
+        
+        // item
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .fractionalHeight(1)
+        )
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+ 
+        // group
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .fractionalHeight(1)
+        )
+        let group = NSCollectionLayoutGroup.vertical(
+            layoutSize: groupSize,
+            subitems: [item]
+        )
+        
+        // Header
+        let headerSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .absolute(60)
+        )
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .topLeading
+        )
+        
+        // Section
+        sectionHeader.pinToVisibleBounds = true
+        let section = NSCollectionLayoutSection(group: group)
+
+        section.boundarySupplementaryItems = [sectionHeader]
+
+        return section
+    }
+    
+    func styleSectionLayout() -> NSCollectionLayoutSection {
+        let itemWidth = (Constants.screenWidth - 20 ) / 3
+        let groupWidth = itemWidth * 3 + 32
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .absolute(itemWidth),
+            heightDimension: .absolute(210)
+        )
+        
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .absolute(itemWidth),
+            heightDimension: .absolute(432)
+        )
+        
+        let group = NSCollectionLayoutGroup.vertical(
+            layoutSize: groupSize,
+            subitems: [item, item]
+        )
+        group.interItemSpacing = .flexible(12)
+
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .continuous
+        section.interGroupSpacing = 16
+        
+        let headerSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .absolute(122)
+        )
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .topLeading
+        )
+
+        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 0, bottom: 20, trailing: 0)
+          section.boundarySupplementaryItems = [sectionHeader]
+
+        return section
     }
 }

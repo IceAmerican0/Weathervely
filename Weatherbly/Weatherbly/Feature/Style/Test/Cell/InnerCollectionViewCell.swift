@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import PinLayout
 import RxDataSources
 import RxSwift
 import RxCocoa
@@ -13,9 +14,10 @@ import RxCocoa
 final public class InnerCollectionViewCell: UICollectionViewCell {
     
     private var bag = DisposeBag()
-    private var bindSectionsRelay = BehaviorRelay<[NewStyleTabSectionModel]>(value: [.banner(item: [.banner(StyleBanner())])])
+    weak var delegate: InnerCollectionViewCellDelegate?
+    private var bindSectionsRelay = BehaviorRelay<[NewStyleTabSectionModel]>(value: [])
     
-    public var innerCollectionView = UICollectionView().then {
+    private lazy var innerCollectionView = UICollectionView(frame: .zero, collectionViewLayout: setInnerLayout()).then {
         $0.register(withType: StyleCell.self)
         $0.registerHeader(withType: StyleTagHeaderView.self)
         $0.registerHeader(withType: CategoryHeaderView.self)
@@ -23,18 +25,38 @@ final public class InnerCollectionViewCell: UICollectionViewCell {
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
+        binding()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(_ secrtionsInfo: [NewStyleTabSectionModel]?) { }
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        layout()
+    }
+
+    private func layout() {
+        contentView.pin.all()
+        contentView.addSubview(innerCollectionView)
+        innerCollectionView.pin.all()
+    }
     
     func binding() {
+        
+        innerCollectionView.rx
+            .setDelegate(self)
+            .disposed(by: bag)
+        
         bindSectionsRelay
             .bind(to: innerCollectionView.rx.items(dataSource: setInnerCollectionViewDataSource()))
             .disposed(by: bag)
+    }
+    
+    func configure(_ sectionsInfo: [NewStyleTabSectionModel]?) {
+        guard let sectionsInfo = sectionsInfo else { return }
+        bindSectionsRelay.accept(sectionsInfo)
     }
     
 }
@@ -60,8 +82,8 @@ extension InnerCollectionViewCell: UICollectionViewDelegate {
                 switch dataSource[indexPath.section] {
                 case .styles(let headerInfo, _):
                     let header = collectionView.dequeueReusableHeaderView(withType: CategoryHeaderView.self, for: indexPath).then {
-                        
                         $0.configure(info: headerInfo.typeInfo, categories: headerInfo.categories)
+                        
                     }
                     return header
                     // TODO: - ItemTagHeaderView 이벤트 반드시 받아올 수 있어야 함.
@@ -142,4 +164,11 @@ extension InnerCollectionViewCell: UICollectionViewDelegate {
 
         return section
     }
+    
+    // MARK: - 이중 스크롤 방지
+    
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        delegate?.innerCollectionViewDidScroll(innerCollectionView, contentOffset: scrollView.contentOffset)
+    }
+
 }

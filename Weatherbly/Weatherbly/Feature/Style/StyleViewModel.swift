@@ -5,11 +5,10 @@
 //  Created by Khai on 10/16/23.
 //
 
-import UIKit
 import RxSwift
 import RxCocoa
 
-protocol StyleViewModelLogic: ViewModelBusinessLogic {
+fileprivate protocol StyleViewModelLogic: ViewModelBusinessLogic {
     func getTypes()
 }
 

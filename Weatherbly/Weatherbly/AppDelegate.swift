@@ -10,6 +10,7 @@ import Firebase
 import FirebaseRemoteConfig
 import RxSwift
 import Then
+import UIKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
