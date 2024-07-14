@@ -15,7 +15,7 @@ final public class InnerCollectionViewCell: UICollectionViewCell {
     
     private var bag = DisposeBag()
     weak var delegate: InnerCollectionViewCellDelegate?
-    private var bindSectionsRelay = BehaviorRelay<[NewStyleTabSectionModel]>(value: [])
+    private var bindSectionsRelay = BehaviorRelay<[StyleTabSectionModel]>(value: [])
     
     private lazy var innerCollectionView = UICollectionView(frame: .zero, collectionViewLayout: setInnerLayout()).then {
         $0.showsVerticalScrollIndicator = false
@@ -55,7 +55,7 @@ final public class InnerCollectionViewCell: UICollectionViewCell {
             .disposed(by: bag)
     }
     
-    func configure(_ sectionsInfo: [NewStyleTabSectionModel]?) {
+    func configure(_ sectionsInfo: [StyleTabSectionModel]?) {
         guard let sectionsInfo = sectionsInfo else { return }
         bindSectionsRelay.accept(sectionsInfo)
     }
@@ -63,8 +63,8 @@ final public class InnerCollectionViewCell: UICollectionViewCell {
 }
 
 extension InnerCollectionViewCell: UICollectionViewDelegate {
-    func setInnerCollectionViewDataSource() -> RxCollectionViewSectionedReloadDataSource<NewStyleTabSectionModel> {
-        RxCollectionViewSectionedReloadDataSource<NewStyleTabSectionModel> (configureCell: { [ weak self ] dataSource, collectionView, indexPath, item in
+    func setInnerCollectionViewDataSource() -> RxCollectionViewSectionedReloadDataSource<StyleTabSectionModel> {
+        RxCollectionViewSectionedReloadDataSource<StyleTabSectionModel> (configureCell: { [ weak self ] dataSource, collectionView, indexPath, item in
             guard self != nil else { return UICollectionViewCell() }
             
             switch item {

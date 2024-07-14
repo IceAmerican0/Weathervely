@@ -1,40 +1,41 @@
 //
-//  StyleSection.swift
+//  StyleSectionModel.swift
 //  Weatherbly
 //
-//  Created by 최수훈 on 2/18/24.
+//  Created by 최수훈 on 7/11/24.
 //
 
 import RxDataSources
 
 enum StyleTabSectionModel {
     case banner(item: [Item])
-    case types(header: [ClosetTypeInfo])
+    case types(header: [ClosetTypeInfo], items: [Item])
     case styles(header: (typeInfo: ClosetTypeInfo, categories: [MCategoryInfo]), items: [Item])
 }
 
-enum StyleTabItem {
+enum NewStyleTabItem {
     case banner(StyleBanner)
+    case type([StyleTabSectionModel])
     case styles(NewClosetInfo)
 }
 
 extension StyleTabSectionModel: SectionModelType {
-    public typealias Item = StyleTabItem
+    public typealias Item = NewStyleTabItem
     
     var items: [Item] {
         switch self {
         case .banner(item: let item): item
-        case .types: []
+        case .types(_, items: let item): item.map { $0 }
         case .styles(_, items: let items): items.map { $0 }
         }
     }
     
-    init(original: StyleTabSectionModel, items: [StyleTabItem]) {
+    init(original: StyleTabSectionModel, items: [NewStyleTabItem]) {
         switch original {
         case .banner:
             self = .banner(item: items)
-        case .types(let header):
-            self = .types(header: header)
+        case .types(let header, _):
+            self = .types(header: header, items: items)
         case .styles(let header, _):
             self = .styles(header: header, items: items)
         }
@@ -42,4 +43,5 @@ extension StyleTabSectionModel: SectionModelType {
         
     
 }
+
 
