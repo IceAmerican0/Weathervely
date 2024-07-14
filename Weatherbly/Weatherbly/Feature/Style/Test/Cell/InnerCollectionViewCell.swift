@@ -18,6 +18,7 @@ final public class InnerCollectionViewCell: UICollectionViewCell {
     private var bindSectionsRelay = BehaviorRelay<[NewStyleTabSectionModel]>(value: [])
     
     private lazy var innerCollectionView = UICollectionView(frame: .zero, collectionViewLayout: setInnerLayout()).then {
+        $0.showsVerticalScrollIndicator = false
         $0.register(withType: StyleCell.self)
         $0.registerHeader(withType: StyleTagHeaderView.self)
         $0.registerHeader(withType: CategoryHeaderView.self)
@@ -124,31 +125,31 @@ extension InnerCollectionViewCell: UICollectionViewDelegate {
     }
     
     func styleSectionLayout() -> NSCollectionLayoutSection {
+        
+        // Size Property
         let itemWidth = (Constants.screenWidth - 20 ) / 3
-        let groupWidth = itemWidth * 3 + 32
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .absolute(itemWidth),
             heightDimension: .absolute(210)
         )
         
+        // Item
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .absolute(itemWidth),
+            widthDimension: .absolute(itemWidth + 16),
             heightDimension: .absolute(432)
         )
         
+        // Group
         let group = NSCollectionLayoutGroup.vertical(
             layoutSize: groupSize,
             subitems: [item, item]
         )
+        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0)
         group.interItemSpacing = .flexible(12)
-
         
-        let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .continuous
-        section.interGroupSpacing = 16
-        
+        // Header
         let headerSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
             heightDimension: .absolute(122)
@@ -158,10 +159,13 @@ extension InnerCollectionViewCell: UICollectionViewDelegate {
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .topLeading
         )
-
-        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 0, bottom: 20, trailing: 0)
-          section.boundarySupplementaryItems = [sectionHeader]
-
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .continuous
+        section.boundarySupplementaryItems = [sectionHeader]
+//        section.interGroupSpacing = 16
+        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 0, bottom: 20, trailing: 5)
+        
         return section
     }
     

@@ -31,7 +31,6 @@ final class NewStyleVC: RxBaseViewController<NewStyleViewModel> {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.fetchData()
-        
     }
     
     override func viewDidLayoutSubviews() {
@@ -43,7 +42,7 @@ final class NewStyleVC: RxBaseViewController<NewStyleViewModel> {
         super.layout()
         
         container.flex.define { container in
-            container.addItem(titleLabel).marginHorizontal(20).marginTop(11).marginBottom(17.5).height(23)
+            container.addItem(titleLabel).marginHorizontal(20).marginTop(11.5).marginBottom(17.5).height(23)
             container.addItem(collectionView).grow(1)
         }
         
@@ -69,27 +68,90 @@ final class NewStyleVC: RxBaseViewController<NewStyleViewModel> {
 extension NewStyleVC: InnerCollectionViewCellDelegate {
     // MARK: - 이중 스크롤 방지
     func innerCollectionViewDidScroll(_ innerCollectionView: UICollectionView, contentOffset: CGPoint) {
-        let offsetY = contentOffset.y
+        var offsetY = contentOffset.y
         let titleLabelAreaHeight = titleLabel.lineHeight + 28.5
         let bannerSectionHeight = CGFloat(80)
         let parentScrollOffsetY = titleLabelAreaHeight + bannerSectionHeight
+        
+        
+        debugPrint("\n\n\nparentCV ContetnSize Height: \(self.collectionView.contentSize.height)")
+        debugPrint("parentCV frameHeight : \(self.collectionView.frame.height)")
+        debugPrint("innerCV : COntentSizeHeight: \(innerCollectionView.contentSize.height)")
+        debugPrint("innerCV : COntentSizeHeight: \(innerCollectionView.frame.height)")
+        debugPrint("innerCV offsetY : \(offsetY)")
+        debugPrint("parentCV offsetY : \(self.collectionView.contentOffset.y)")
         // InnerCollectionView의 스크롤을 상위 UICollectionView에 반영
-                if offsetY <= 0 {
-                    collectionView.contentOffset.y += offsetY
-                    innerCollectionView.contentOffset.y = 0
-                } else if collectionView.contentOffset.y < parentScrollOffsetY {
-                    collectionView.contentOffset.y += offsetY
-                    innerCollectionView.contentOffset.y = 0
+        
+        if offsetY <= 0 { // innerCV 최상단
+            collectionView.becomeFirstResponder()
+            
+            /// collectionView의 스크롤 높이가 가장 최상단일때
+            if collectionView.contentOffset.y <= 0 {
+                collectionView.contentOffset.y = 0
+                innerCollectionView.contentOffset.y = 0
+            } else {
+                /// collectionVie의 스크롤의 높이가 0보다 크면서 parentScrollOffsetY 보다 작을 때
+                /// 즉, 배너섹션의 끝 영역까지
+                collectionView.contentOffset.y += offsetY
+                innerCollectionView.contentOffset.y = 0
+            }
+        } else {
+            
+        
+            if collectionView.contentOffset.y <= parentScrollOffsetY {
+                collectionView.becomeFirstResponder()
+                collectionView.contentOffset.y += offsetY
+                
+                // ISSUE: 빠르게 스크롤 시 parentOffsetY를 넘어가 버리는 케이스 존재 -> 재 고정
+                if collectionView.contentOffset.y > parentScrollOffsetY {
+                    collectionView.contentOffset.y = parentScrollOffsetY
                 }
+                innerCollectionView.contentOffset.y = 0
+            } else { // 부모CV가 무시 기준을 도달했을 때 이후 // 근데 innserCV 스크롤하는 시점
+                
+                // ISSUE: 빠르게 스크롤 시 parentOffsetY를 넘어가 버리는 케이스 존재 -> 재 고정
+                if collectionView.contentOffset.y > parentScrollOffsetY {
+                    collectionView.contentOffset.y = parentScrollOffsetY
+                }
+                
+                innerCollectionView.becomeFirstResponder()
+                
+                // innerCV가 끝에 도달했을 때
+                let innerCVContentHeight = innerCollectionView.contentSize.height
+                let innerCVFrameHeight = innerCollectionView.frame.height
+                if offsetY >= innerCVContentHeight - innerCVFrameHeight {
+                    offsetY = innerCVContentHeight - innerCVFrameHeight
+                }
+            }
+        }
     }
-
+    
 }
 extension NewStyleVC: UICollectionViewDelegate {
+
     // MARK: - 이중 스크롤 방지
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let titleLabelAreaHeight = titleLabel.lineHeight + 28.5
+        let bannerSectionHeight = CGFloat(80)
+        //
+        let shouldFixedY = titleLabelAreaHeight + bannerSectionHeight
+        
+        let parentCV = self.collectionView
+        var parentOffsetY = parentCV.contentOffset.y
+        
+        //
+        if parentOffsetY < shouldFixedY { // 기준선 도달 전
+            parentOffsetY = 0
+            parentCV.isScrollEnabled = true
+        } else { // 기준선 도달 이후
+            parentOffsetY = shouldFixedY
+            parentCV.isScrollEnabled = false
+            
+        }
+        debugPrint("parentOffsetY : \(parentOffsetY)")
+        debugPrint("scrollY : \(scrollView.contentOffset.y )")
         
     }
-
     // MARK: - DataSource
     
     func setRxDataSources() ->  RxCollectionViewSectionedReloadDataSource<NewStyleTabSectionModel> {
@@ -104,7 +166,7 @@ extension NewStyleVC: UICollectionViewDelegate {
                 
             case .type(let innerSectionsArr):
                 return collectionView.dequeueCell(withType: InnerCollectionViewCell.self, for: indexPath).then {
-                    $0.delegate = self
+                    $0.delegate = self // 스크롤 중첩이슈 해결을 위한 delegate
                     $0.configure(innerSectionsArr)
                 }
                 
@@ -131,7 +193,6 @@ extension NewStyleVC: UICollectionViewDelegate {
                         
                         $0.configure(info: headerInfo.typeInfo, categories: headerInfo.categories)
                     }
-                    print(indexPath)
                     return header
                     // TODO: - /type API 데이터 붙이기
                     // TODO: - header 수정 -> ItemTagHeaderView + titleLabel 포함하게
@@ -155,7 +216,7 @@ extension NewStyleVC: UICollectionViewDelegate {
                 print("Section index \(sectionIndex) out of range.")
                 return nil
             }
-    
+            
             let section = self.viewModel.bindSectionsRelay.value[sectionIndex]
             var layoutSection: NSCollectionLayoutSection?
             switch section {
@@ -163,13 +224,14 @@ extension NewStyleVC: UICollectionViewDelegate {
                 layoutSection = self.bannerSectionLayout()
             case .types:
                 layoutSection = self.typesSectionLayout()
-            case .styles:
-                layoutSection = self.styleSectionLayout()
+                
+            default:
+                break
             }
-             
+            
             return layoutSection
         }
-    
+        
         return layout
     }
     
@@ -198,7 +260,7 @@ extension NewStyleVC: UICollectionViewDelegate {
             heightDimension: .fractionalHeight(1)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
- 
+        
         // group
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
@@ -212,7 +274,7 @@ extension NewStyleVC: UICollectionViewDelegate {
         // Header
         let headerSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
-            heightDimension: .absolute(60)
+            heightDimension: .absolute(56)
         )
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: headerSize,
@@ -223,51 +285,9 @@ extension NewStyleVC: UICollectionViewDelegate {
         // Section
         sectionHeader.pinToVisibleBounds = true
         let section = NSCollectionLayoutSection(group: group)
-
+        
         section.boundarySupplementaryItems = [sectionHeader]
-
-        return section
-    }
-    
-    func styleSectionLayout() -> NSCollectionLayoutSection {
-        let itemWidth = (Constants.screenWidth - 20 ) / 3
-        let groupWidth = itemWidth * 3 + 32
-        let itemSize = NSCollectionLayoutSize(
-            widthDimension: .absolute(itemWidth),
-            heightDimension: .absolute(210)
-        )
         
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .absolute(itemWidth),
-            heightDimension: .absolute(432)
-        )
-        
-        let group = NSCollectionLayoutGroup.vertical(
-            layoutSize: groupSize,
-            subitems: [item, item]
-        )
-        group.interItemSpacing = .flexible(12)
-
-        
-        let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .continuous
-        section.interGroupSpacing = 16
-        
-        let headerSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .absolute(122)
-        )
-        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: headerSize,
-            elementKind: UICollectionView.elementKindSectionHeader,
-            alignment: .topLeading
-        )
-
-        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 0, bottom: 20, trailing: 0)
-          section.boundarySupplementaryItems = [sectionHeader]
-
         return section
     }
 }
