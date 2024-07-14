@@ -11,15 +11,9 @@ import PinLayout
 import RxSwift
 import RxCocoa
 
-    // protocol so we can tell the controller about selections
-    protocol CategoryTagsViewDelegate {
-    func itemTagView(_ itemTagView: CategoryTagsView, didSelectItemAt index: Int)
-    func itemTagView(_ itemTagView: CategoryTagsView, didDeSelectItemAt index: Int)
-    }
-
-    final class CategoryTagsView: UIView {
-
-    public var delegate: CategoryTagsViewDelegate?
+final class CategoryTagsView: UIView {
+    
+    public var delegate: TagsViewTouchDelegate?
     var bag = DisposeBag()
     public var tagsRelay = BehaviorRelay<[String]>(value: [])
     var scrollView = UIScrollView().then {
@@ -36,9 +30,9 @@ import RxCocoa
         $0.alignment = .leading
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
-
+    
     public var tagViews: [ItemTagView] = []
-
+    
     var tags: [String] = [] {
         didSet {
             // clear existing (in case we're setting the tags multiple times)
@@ -55,7 +49,7 @@ import RxCocoa
                 totalWidth += sz.width + 28
                 tagViews.append(t)
             }
-
+            
             let rowWidth: CGFloat = totalWidth / CGFloat(numRows)
             var iTag: Int = 0
             while iTag < tagViews.count {
@@ -75,9 +69,9 @@ import RxCocoa
             }
         }
     }
-
-
-
+    
+    
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
@@ -86,7 +80,7 @@ import RxCocoa
         super.init(coder: coder)
         commonInit()
     }
-
+    
     func commonInit() {
         // Pin 또는 Flex 사용할 경우 Layout 정상적으로 작동하지 않는다.
         // UIView의 라이프싸이클 문제로 추측 된다.
@@ -94,7 +88,7 @@ import RxCocoa
         scrollView.addSubview(vStack)
         
         
-//        let g = self
+        //        let g = self
         let cg = scrollView.contentLayoutGuide
         
         NSLayoutConstraint.activate([
@@ -111,18 +105,26 @@ import RxCocoa
             scrollView.heightAnchor.constraint(equalTo: vStack.heightAnchor, constant: 0),
         ])
     }
+    
+}
 
+extension CategoryTagsView: TagsViewTouchDelegate {
+    func itemTagView(_ itemTagView: UIView, didSelectItemAt index: Int) {
+        
     }
-
-    extension CategoryTagsView: CategoryTagsViewDelegate {
-    func itemTagView(_ itemTagView: CategoryTagsView, didSelectItemAt index: Int) {
-        print("did SelectItemAt : \(index)")
+    
+    func itemTagView(_ itemTagView: UIView, didDeSelectItemAt index: Int) {
+        
     }
-
-    func itemTagView(_ itemTagView: CategoryTagsView, didDeSelectItemAt index: Int) {
-        print("did DeSelectItemAt : \(index)")
-    }
-
-
-    }
+    
+//    func itemTagView(_ itemTagView: CategoryTagsView, didSelectItemAt index: Int) {
+//        print("did SelectItemAt : \(index)")
+//    }
+//    
+//    func itemTagView(_ itemTagView: CategoryTagsView, didDeSelectItemAt index: Int) {
+//        print("did DeSelectItemAt : \(index)")
+//    }
+    
+    
+}
 

@@ -23,6 +23,7 @@ final public class InnerCollectionViewCell: UICollectionViewCell {
         $0.registerHeader(withType: StyleTagHeaderView.self)
         $0.registerHeader(withType: CategoryHeaderView.self)
     }
+    lazy var dataSource = self.setInnerCollectionViewDataSource()
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -53,6 +54,12 @@ final public class InnerCollectionViewCell: UICollectionViewCell {
         bindSectionsRelay
             .bind(to: innerCollectionView.rx.items(dataSource: setInnerCollectionViewDataSource()))
             .disposed(by: bag)
+        
+        innerCollectionView.rx.prefetchItems
+            .asDriver()
+            .drive(with: self) { owner, indexPaths in
+//                owner.handlePrefetching(for: indexPaths)
+            }.disposed(by: bag)
     }
     
     func configure(_ sectionsInfo: [StyleTabSectionModel]?) {
@@ -60,9 +67,83 @@ final public class InnerCollectionViewCell: UICollectionViewCell {
         bindSectionsRelay.accept(sectionsInfo)
     }
     
+//    private func handlePrefetching(for indexPaths: [IndexPath]) {
+//        let indexPathsToPrefetch = indexPaths.filter { indexPath in
+//            switch self.dataSource.sectionModels[indexPath.section] {
+//            case .styles: true
+//            default: false
+//            }
+//        }
+//        
+//        guard !indexPathsToPrefetch.isEmpty else { return }
+//        
+//        for indexPath in indexPathsToPrefetch {
+//            let sectionIndex = self.dataSource.sectionModels[indexPath.section]
+//            switch sectionIndex {
+//            case .styles(let header, let items):
+//                debugPrint("innserScroll : \(indexPath)")
+//            default: break
+//            }
+//        }
+//    }
+//    
 }
 
+// MARK: - 탭 이벤트 처리
+extension InnerCollectionViewCell: TagsViewTouchDelegate {
+    public func itemTagView(_ itemTagView: UIView, didSelectItemAt index: Int) {
+        // TypeTag 탭했을 때 이벤트
+        /*
+            1. TypeTag 탭
+            2. innerCollectionViewCell 의 어떤 섹션인지 전달
+            3. setContentOffset 으로 이동
+                -> 여기서 inner에서 처리할 지 parent 에서 처리할 지 알아야함.
+         */
+        
+        
+    }
+    
+    public func itemTagView(_ itemTagView: UIView, didDeSelectItemAt index: Int) {
+        // TypeTag 탭했을 때 이벤트
+    }
+    
+    
+}
+
+//extension InnerCollectionViewCell: UICollectionViewDataSourcePrefetching {
+//    public func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+//        for indexPath in indexPaths {
+//            let model = bindSectionsRelay.value[indexPath.section]
+//        }
+//        let page: Int = 1
+//        let typeId: Int
+//        let mCategories: [Int]
+//    }
+//    
+// 
+//    
+//}
 extension InnerCollectionViewCell: UICollectionViewDelegate {
+    
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        debugPrint("indexPath : \(indexPath.section)")
+        debugPrint("indexPath : \(indexPath.item)")
+        var closetInfo: NewClosetInfo?
+
+        let selectedItem = bindSectionsRelay.value[indexPath.section].items[indexPath.item]
+        switch selectedItem {
+        case .styles(let selectedInfo):
+            debugPrint("selectedInfo : \(selectedInfo)")
+            debugPrint("selectedInfo : \(closetInfo)")
+            closetInfo = selectedInfo
+        default: break
+        }
+        if closetInfo != nil {
+            delegate?.innerCollectionViewCellDidTap(closetInfo)
+        }
+        
+    }
+ 
     func setInnerCollectionViewDataSource() -> RxCollectionViewSectionedReloadDataSource<StyleTabSectionModel> {
         RxCollectionViewSectionedReloadDataSource<StyleTabSectionModel> (configureCell: { [ weak self ] dataSource, collectionView, indexPath, item in
             guard self != nil else { return UICollectionViewCell() }
@@ -170,7 +251,6 @@ extension InnerCollectionViewCell: UICollectionViewDelegate {
     }
     
     // MARK: - 이중 스크롤 방지
-    
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         delegate?.innerCollectionViewDidScroll(innerCollectionView, contentOffset: scrollView.contentOffset)
     }

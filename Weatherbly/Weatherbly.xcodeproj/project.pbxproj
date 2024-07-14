@@ -213,6 +213,7 @@
 		BDCA1E882C401C6500376911 /* StyleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCA1E872C401C6500376911 /* StyleViewModel.swift */; };
 		BDCA1E8A2C401DDE00376911 /* StyleSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCA1E892C401DDE00376911 /* StyleSectionModel.swift */; };
 		BDCA1E8D2C401F2600376911 /* InnerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCA1E8C2C401F2600376911 /* InnerCollectionViewCell.swift */; };
+		BDCEE0B62C43E52600C54AF6 /* TagsViewTouchDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCEE0B52C43E52600C54AF6 /* TagsViewTouchDelegate.swift */; };
 		BDE912C82C28743000330673 /* CoolDecorationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE912C72C28743000330673 /* CoolDecorationView.swift */; };
 		BDE912CA2C2AB8D600330673 /* DiffTempDecoHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE912C92C2AB8D600330673 /* DiffTempDecoHeader.swift */; };
 		BDE912CC2C2ABC7800330673 /* CSString.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE912CB2C2ABC7800330673 /* CSString.swift */; };
@@ -411,6 +412,7 @@
 		BDCA1E872C401C6500376911 /* StyleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleViewModel.swift; sourceTree = "<group>"; };
 		BDCA1E892C401DDE00376911 /* StyleSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleSectionModel.swift; sourceTree = "<group>"; };
 		BDCA1E8C2C401F2600376911 /* InnerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InnerCollectionViewCell.swift; sourceTree = "<group>"; };
+		BDCEE0B52C43E52600C54AF6 /* TagsViewTouchDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsViewTouchDelegate.swift; sourceTree = "<group>"; };
 		BDE912C72C28743000330673 /* CoolDecorationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoolDecorationView.swift; sourceTree = "<group>"; };
 		BDE912C92C2AB8D600330673 /* DiffTempDecoHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffTempDecoHeader.swift; sourceTree = "<group>"; };
 		BDE912CB2C2ABC7800330673 /* CSString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSString.swift; sourceTree = "<group>"; };
@@ -726,6 +728,7 @@
 			isa = PBXGroup;
 			children = (
 				BD0836EF2C42DB420039B446 /* InnerCollectionViewCellDelegate.swift */,
+				BDCEE0B52C43E52600C54AF6 /* TagsViewTouchDelegate.swift */,
 			);
 			path = StyleTab;
 			sourceTree = "<group>";
@@ -1249,6 +1252,7 @@
 				BDE912D02C2FE70600330673 /* EachRowEntity.swift in Sources */,
 				BD5107232C17313700D8AFBE /* DiffTempCell.swift in Sources */,
 				BD2D01B42A3888AA003A25D5 /* UIColor+Extension.swift in Sources */,
+				BDCEE0B62C43E52600C54AF6 /* TagsViewTouchDelegate.swift in Sources */,
 				BD05E07A2B38114B00A48E61 /* NewCSButton.swift in Sources */,
 				5C9D02D72A71EEC900AF2DA3 /* AuthTarget.swift in Sources */,
 				5CCC914B2A6114880025B522 /* RegionTarget.swift in Sources */,

@@ -13,14 +13,14 @@ enum StyleTabSectionModel {
     case styles(header: (typeInfo: ClosetTypeInfo, categories: [MCategoryInfo]), items: [Item])
 }
 
-enum NewStyleTabItem {
+enum StyleTabItem {
     case banner(StyleBanner)
     case type([StyleTabSectionModel])
     case styles(NewClosetInfo)
 }
 
 extension StyleTabSectionModel: SectionModelType {
-    public typealias Item = NewStyleTabItem
+    public typealias Item = StyleTabItem
     
     var items: [Item] {
         switch self {
@@ -30,7 +30,7 @@ extension StyleTabSectionModel: SectionModelType {
         }
     }
     
-    init(original: StyleTabSectionModel, items: [NewStyleTabItem]) {
+    init(original: StyleTabSectionModel, items: [StyleTabItem]) {
         switch original {
         case .banner:
             self = .banner(item: items)

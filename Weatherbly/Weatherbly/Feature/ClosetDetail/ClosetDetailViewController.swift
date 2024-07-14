@@ -63,6 +63,12 @@ final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewMod
                 owner.handlePrefetching(for: indexPaths)
                 
             }).disposed(by: bag)
+        
+        navigationBar.leftButtonDidTapRelay
+            .drive(with: self) { owner, _ in
+                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
+            }
+            .disposed(by: bag)
             
     }
     
@@ -90,7 +96,6 @@ final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewMod
             for indexPath in indexPathsToPrefetch {
                 let sectionModel = self.dataSource.sectionModels[indexPath.section]
                 switch sectionModel {
-                case .warmFirst:
                     /*
                      [2, 17]
                      [2, 18]
@@ -105,6 +110,8 @@ final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewMod
                      
                      ** 추가로 왼쪽 스크롤시에 prefetch 방지하기 위해서 currentPage 저장 필ㅇ
                      */
+                    
+                case .warmFirst:
                     var currentPage = viewModel.WFCurrentPage
                     let maxPage = viewModel.WFMaxPage
                     
@@ -214,7 +221,7 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
                     return collectionView.dequeueReusableHeaderView(withType: TitleLabelReusableHeader.self, for: indexPath).then {
                         $0.configure(UIFont.body_2_B, CSString.secondWarmTitle.string)
                     }
-                case .coolFirst(let items):
+                case .coolFirst:
                     return collectionView.dequeueReusableHeaderView(withType: DiffTempDecoHeader.self, for: indexPath).then {
                         $0.configure(CSString.coolDiffTitle.string, CSString.coolDiffDescription.string)
                     }

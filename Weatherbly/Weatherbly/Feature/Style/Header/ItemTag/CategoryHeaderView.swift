@@ -94,14 +94,22 @@ final class CategoryHeaderView : UICollectionReusableView {
     }
 }
 
-extension CategoryHeaderView: CategoryTagsViewDelegate {
-    func itemTagView(_ itemTagView: CategoryTagsView, didSelectItemAt index: Int) {
-        // TODO: - ViewControlelr 에 선택한 카테고리 아이디 알리기
+extension CategoryHeaderView: TagsViewTouchDelegate {
+    func itemTagView(_ itemTagView: UIView, didSelectItemAt index: Int) {
+        
     }
     
-    func itemTagView(_ itemTagView: CategoryTagsView, didDeSelectItemAt index: Int) {
-        // TODO: = ViewController 에 선택 해제 된 카테고리 아이디 알리기
+    func itemTagView(_ itemTagView: UIView, didDeSelectItemAt index: Int) {
+        
     }
+    
+//    func itemTagView(_ itemTagView: CategoryTagsView, didSelectItemAt index: Int) {
+//        // TODO: - ViewControlelr 에 선택한 카테고리 아이디 알리기
+//    }
+//    
+//    func itemTagView(_ itemTagView: CategoryTagsView, didDeSelectItemAt index: Int) {
+//        // TODO: = ViewController 에 선택 해제 된 카테고리 아이디 알리기
+//    }
     
     
 }

@@ -61,6 +61,7 @@ final class ClosetDetailViewModel: RxBaseViewModel {
         getClosetDetail(closetId: closetId)
         getWarmmerClosets(closetId: closetId, page: 1, tempId: tempId)
         getCoolerClosets(closetId: closetId, page: 1, tempId: tempId)
+        
     }
     
     public func bindDiffTemSection() {
@@ -85,9 +86,7 @@ final class ClosetDetailViewModel: RxBaseViewModel {
             .subscribe(
                 with: self,
                 onNext: { owner, response in
-                    print("response : \(response)")
                     guard let data = response.data else { return }
-                    print("data : \(data)")
                     if let detailInfo = data.selectedCloset,
                        let withItemInfo = detailInfo.withItems {
                         
@@ -109,7 +108,7 @@ final class ClosetDetailViewModel: RxBaseViewModel {
     }
     
     public func getWarmmerClosets(closetId: Int, page: Int, tempId: Int) {
-        detailDataSource.getWarmmerCloset(closetId: closetId, page: 1, tempId: tempId)
+        detailDataSource.getWarmmerCloset(closetId: closetId, page: page, tempId: tempId)
             .subscribe(
                 with: self,
                 onNext: { owner, response in
@@ -119,22 +118,22 @@ final class ClosetDetailViewModel: RxBaseViewModel {
                         
                         var firstItems: [DetailSectionItem] = []
                         
-                        let _ = firstRow.closets.map { firstItems.append(DetailSectionItem.firstRow($0))}
+                        let _ = firstRow.closets?.map { firstItems.append(DetailSectionItem.firstRow($0))}
                         owner.warmFirstRowInfo.accept(firstItems)
                         owner.warmFirstSection.accept(.warmFirst(items: firstItems))
-                        owner.WFMaxPage = owner.calculateShare(firstRow.counts)
+                        owner.WFMaxPage = owner.calculateShare(firstRow.counts ?? 0)
                     }
                     
                     if let secondRow = dataList.secondRow {
                         
                         var secondItems: [DetailSectionItem] = []
                         
-                        let _ = secondRow.closets.map {
+                        let _ = secondRow.closets?.map {
                             secondItems.append(DetailSectionItem.secondRow($0))
                         }
                         owner.warmSecondRowInfo.accept(secondItems)
                         owner.warmSecondSection.accept(.warmSecond(items: secondItems))
-                        owner.WSMaxPage = owner.calculateShare(secondRow.counts)
+                        owner.WSMaxPage = owner.calculateShare(secondRow.counts ?? 0)
                     }
                 }).disposed(by: bag)
     }
@@ -165,7 +164,7 @@ final class ClosetDetailViewModel: RxBaseViewModel {
     
     
     public func getCoolerClosets(closetId: Int, page: Int, tempId: Int) {
-        detailDataSource.getCoolerCloset(closetId: closetId, page: 1, tempId: tempId)
+        detailDataSource.getCoolerCloset(closetId: closetId, page: page, tempId: tempId)
             .subscribe(
                 with: self,
                 onNext: { owner, response in
@@ -174,20 +173,20 @@ final class ClosetDetailViewModel: RxBaseViewModel {
                     if let firstRow  = dataList.firstRow {
                         
                         var firstItems: [DetailSectionItem] = []
-                        let _ = firstRow.closets.map { firstItems.append(DetailSectionItem.firstRow($0))}
+                        let _ = firstRow.closets?.map { firstItems.append(DetailSectionItem.firstRow($0))}
                         owner.coolFirstRowInfo.accept(firstItems)
                         owner.coolFirstSection.accept(.coolFirst(items: firstItems))
-                        owner.CFMaxPage = owner.calculateShare(firstRow.counts)
+                        owner.CFMaxPage = owner.calculateShare(firstRow.counts ?? 0)
                     }
                     
                     if let secondRow = dataList.secondRow {
                         var secondItems: [DetailSectionItem] = []
-                        let _ = secondRow.closets.map {
+                        let _ = secondRow.closets?.map {
                             secondItems.append(DetailSectionItem.secondRow($0))
                         }
                         owner.coolSecondRowInfo.accept(secondItems)
                         owner.coolSecondSection.accept(.coolSecond(items: secondItems))
-                        owner.CSMaxPage = owner.calculateShare(secondRow.counts)
+                        owner.CSMaxPage = owner.calculateShare(secondRow.counts ?? 0)
                     }
                 }).disposed(by: bag)
     }
@@ -218,8 +217,8 @@ final class ClosetDetailViewModel: RxBaseViewModel {
 }
 
 extension ClosetDetailViewModel {
+    // page 계산
     func calculateShare(_ count: Int) -> Int {
-        
         // 10 20 30 73
         var share = 1
         if count / 20 == 0 {

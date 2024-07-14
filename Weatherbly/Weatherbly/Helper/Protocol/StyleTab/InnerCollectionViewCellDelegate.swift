@@ -10,4 +10,5 @@ import UIKit
 
 protocol InnerCollectionViewCellDelegate: AnyObject {
     func innerCollectionViewDidScroll(_ innerCollectionView: UICollectionView, contentOffset: CGPoint)
+    func innerCollectionViewCellDidTap(_ selectedInfo: NewClosetInfo?)
 }

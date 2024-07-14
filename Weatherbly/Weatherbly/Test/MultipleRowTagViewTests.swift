@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class MyTagsVC: UIViewController, MyTagsViewDelegate, CategoryTagsViewDelegate {
+class MyTagsVC: UIViewController, MyTagsViewDelegate, TagsViewTouchDelegate {
     
     let theTags: [String] = [
         "#니트/스웨터", "#후드 티셔츠", "#맨투맨/스웨트셔츠", "#긴소매 티셔츠", "#셔츠/블라우스","#피케/카라 티셔츠", "#반소매 티셔츠",
@@ -57,7 +57,13 @@ class MyTagsVC: UIViewController, MyTagsViewDelegate, CategoryTagsViewDelegate {
         
     }
     
+    func itemTagView(_ itemTagView: UIView, didSelectItemAt index: Int) {
+//        print("Selected: \(index) / \"\(theTags[index])\" in tags view \(tvIDX)")
+    }
     
+    func itemTagView(_ itemTagView: UIView, didDeSelectItemAt index: Int) {
+//        print("Deselected: \(index) / \"\(theTags[index])\" in tags view \(tvIDX)")
+    }
     
     
     // MARK: - Test용 MyTagView

@@ -23,7 +23,7 @@ final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
     public let bannserSection = BehaviorRelay<StyleTabSectionModel?>(value: .banner(item: [.banner(StyleBanner())]))
     /// Types
     public var types = BehaviorRelay<[ClosetTypeInfo]?>(value: [])
-    public var typesSection = BehaviorRelay<StyleTabSectionModel?>(value: .types(header: [.init(id: 0, name: "")], items: [.banner(StyleBanner())]))
+    public var typesSection = BehaviorRelay<StyleTabSectionModel?>(value: .types(header: [], items: []))
 //    public var typesSection = BehaviorRelay<[StyleTabSectionModel]?>(value: [])
     /// Categories
     public var categories = BehaviorRelay<[MCategoryInfo]?>(value: [])
@@ -60,7 +60,6 @@ final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
         
     }
     public func bindSections() {
-            // TODO: - bindine 되는지 체크하기
         /*
             // TODO: - bindSectionsRelay 의 모습은
             [
@@ -68,7 +67,7 @@ final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
                 .types( header: self.types.value, ( [ClosetTypeInfo] )
                         items: self.styleSectinos.value
                             ** 예시
-                                [ .style(header: [MCategories], items: [NewClosetInfo,
+                                [   .style(header: [MCategories], items: [NewClosetInfo,
                                     .style(header: [MCategories], items: [NewClosetInfo,
                                     .style(header: [MCategories], items: [NewClosetInfo,
                                     .style(header: [MCategories], items: [NewClosetInfo
@@ -108,7 +107,7 @@ final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
         return closetDataSource.getCategories(typeID: typeID)
             .map { response in
                 let categories = response.data.mediumCategories
-                debugPrint("⚪️⚪️⚪️ getCategories TYPEINFO : ", typeID)
+//                debugPrint("⚪️⚪️⚪️ getCategories TYPEINFO : ", typeID)
                 return categories
             }
     }
@@ -117,7 +116,7 @@ final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
         return closetDataSource.getClosetWithType(typeID: typeInfo.id, page: 1)
             .map { response in
                 let closetInfo = response.data.closets
-                debugPrint("🔥🔥🔥 getClosets TYPEINFO : \(typeInfo.id) : \(typeInfo.name)")
+//                debugPrint("🔥🔥🔥 getClosets TYPEINFO : \(typeInfo.id) : \(typeInfo.name)")
                 return closetInfo
             }
     }
@@ -135,11 +134,11 @@ final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
             }
             .subscribe(onNext: { (typeInfo, categories, closetsInfo) in
                 var styleSection = self.styleSection.value ?? []
-                var styleItemArr: [NewStyleTabItem] = []
+                var styleItemArr: [StyleTabItem] = []
                 closetsInfo.forEach {
-                    styleItemArr.append(NewStyleTabItem.styles($0))
+                    styleItemArr.append(StyleTabItem.styles($0))
                 }
-                debugPrint("🚀🚀🚀 styleSection.value: \(self.styleSection.value?.last)")
+//                debugPrint("🚀🚀🚀 styleSection.value: \(self.styleSection.value?.last)")
                 styleSection.append(
                     StyleTabSectionModel.styles(
                         header: (typeInfo: typeInfo, categories: categories),

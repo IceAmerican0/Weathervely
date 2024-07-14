@@ -12,10 +12,10 @@ import RxDataSources
 import RxGesture
 
 final class StyleViewController: RxBaseViewController<StyleViewModel> {
+    
     private var titleLabel = LabelMaker(font: UIFont.title_3_B).make(text: "스타일").then {
         $0.sizeToFit()
     }
-    
     lazy private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: setSectionLayout()
     ).then {
         $0.showsVerticalScrollIndicator = false
@@ -66,6 +66,15 @@ final class StyleViewController: RxBaseViewController<StyleViewModel> {
 }
 
 extension StyleViewController: InnerCollectionViewCellDelegate {
+    
+    // MARK: - InnerCV Cell Tap Event
+    func innerCollectionViewCellDidTap(_ selectedInfo: NewClosetInfo?) {
+        guard let info = selectedInfo else { return }
+        let detailVM = ClosetDetailViewModel(closetId: info.closetId, tempId: info.temperature.tempId)
+        let detailVC = ClosetDetailViewController(detailVM)
+        self.viewModel.navigationPushViewControllerRelay.accept(detailVC)
+    }
+
     // MARK: - 이중 스크롤 방지
     func innerCollectionViewDidScroll(_ innerCollectionView: UICollectionView, contentOffset: CGPoint) {
         var offsetY = contentOffset.y
@@ -152,8 +161,8 @@ extension StyleViewController: UICollectionViewDelegate {
         debugPrint("scrollY : \(scrollView.contentOffset.y )")
         
     }
-    // MARK: - DataSource
     
+    // MARK: - DataSource
     func setRxDataSources() ->  RxCollectionViewSectionedReloadDataSource<StyleTabSectionModel> {
         RxCollectionViewSectionedReloadDataSource<StyleTabSectionModel> (configureCell: { [ weak self ] dataSource, collectionView, indexPath, item in
             guard self != nil else { return UICollectionViewCell() }
@@ -170,10 +179,7 @@ extension StyleViewController: UICollectionViewDelegate {
                     $0.configure(innerSectionsArr)
                 }
                 
-            case .styles(let styleInfo):
-                return collectionView.dequeueCell(withType: StyleCell.self, for: indexPath).then {
-                    $0.configure(info: styleInfo)
-                }
+            default: return UICollectionViewCell()
             }
             
         }, configureSupplementaryView: { [ weak self] dataSource, collectionView, kind, indexPath in
@@ -194,8 +200,6 @@ extension StyleViewController: UICollectionViewDelegate {
                         $0.configure(info: headerInfo.typeInfo, categories: headerInfo.categories)
                     }
                     return header
-                    // TODO: - /type API 데이터 붙이기
-                    // TODO: - header 수정 -> ItemTagHeaderView + titleLabel 포함하게
                     // TODO: - ItemTagHeaderView 이벤트 반드시 받아올 수 있어야 함.
                     
                 default:

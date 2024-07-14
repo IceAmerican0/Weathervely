@@ -67,9 +67,9 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
                 #if DEBUG
                 print(
                     """
-                    Request : \(type)
-                    Response : \(String(decoding: response.data, as: UTF8.self))
-                    Error : \(error)
+                    Request : \(type)\n
+                    ResponseResponse : \(String(decoding: response.data, as: UTF8.self))\n
+                    ErrorError : \(error)
                     """
                 )
                 #endif

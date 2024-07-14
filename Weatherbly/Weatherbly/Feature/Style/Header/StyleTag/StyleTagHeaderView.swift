@@ -14,9 +14,9 @@ import RxCocoa
 
 
 public class StyleTagHeaderView: UICollectionReusableView {
-    var bag = DisposeBag()
     
-    //    public let tags = ["#비즈니스 캐주얼", "#캐주얼", "#시크", "#걸리시", "#레트로","#로맨틱", "#스트릿"]
+    weak var touchEventDelegate: TagsViewTouchDelegate?
+    var bag = DisposeBag()
     var tags: [ClosetTypeInfo] = []
     var tagsRelay = BehaviorRelay<[ClosetTypeInfo]>(value: [])
     
@@ -54,13 +54,16 @@ public class StyleTagHeaderView: UICollectionReusableView {
         self.flex.addItem(tagCollectionView).width(100%).height(56).direction(.row)
     }
     
-    func binding() {}
+    func binding() {
+        
+        
+        
+    }
     
     func configureTag(_ tagItem: [ClosetTypeInfo]?) {
         guard let tagItem = tagItem else { return }
         tagsRelay.accept(tagItem)
         tagCollectionView.reloadData()
-        
     }
     
 }
@@ -93,9 +96,6 @@ extension StyleTagHeaderView: UICollectionViewDataSource, UICollectionViewDelega
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("didTap : \(indexPath)")
+        self.touchEventDelegate?.itemTagView(self, didSelectItemAt: indexPath.item)
     }
-    
-
 }
-
-

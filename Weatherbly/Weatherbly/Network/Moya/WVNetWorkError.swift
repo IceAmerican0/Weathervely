@@ -35,7 +35,7 @@ extension WVNetworkError: LocalizedError {
         case .encodeError:
             return "WBNetworkError : Encoding Error"
         case .networkError(let msg):
-            return "\(msg.localizedDescription)"
+            return "NetWorkError : \(msg.localizedDescription)"
         case .unknownError:
             return "unknownError"
         }
