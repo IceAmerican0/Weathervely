@@ -58,7 +58,7 @@ final class ClosetDetailViewModel: RxBaseViewModel {
     
     public func fetchData() {
         bindDiffTemSection()
-        getClosetDetail(closetId: closetId)
+        getClosetDetail(closetId: closetId, tempId: tempId)
         getWarmmerClosets(closetId: closetId, page: 1, tempId: tempId)
         getCoolerClosets(closetId: closetId, page: 1, tempId: tempId)
         
@@ -81,8 +81,8 @@ final class ClosetDetailViewModel: RxBaseViewModel {
 
     }
 
-    public func getClosetDetail(closetId: Int) {
-        detailDataSource.getClosetDetail(closetId: closetId)
+    public func getClosetDetail(closetId: Int, tempId: Int) {
+        detailDataSource.getClosetDetail(closetId: closetId, tempId: tempId)
             .subscribe(
                 with: self,
                 onNext: { owner, response in
