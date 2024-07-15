@@ -77,10 +77,10 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
     ).then {
         $0.showsVerticalScrollIndicator = false
         $0.showsHorizontalScrollIndicator = false
-        $0.contentInset = .init(top: 0, left: 20, bottom: 0, right: 20)
+        $0.contentInset = .init(top: 0, left: 0, bottom: 0, right: 0)
         $0.backgroundColor = .clear
         $0.refreshControl = refresh
-        $0.register(withType: HomeForecastCell.self)
+        $0.register(withType: HomeForecastSectionCell.self)
         $0.registerHeader(withType: HomeStyleFilterView.self)
         $0.register(withType: HomeClosetCell.self)
     }
@@ -212,16 +212,16 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
                 }
             }.disposed(by: bag)
         
-        homeCollectionView.rx.prefetchItems
-            .filter { indexPath in
-                indexPath.contains { $0.section == 1 }
-            }
-            .compactMap { $0.last?.row }
-            .distinctUntilChanged()
-            .bind(with: self) { owner, row in
-                guard row != 0 else { return }
-                owner.viewModel.getNextCloset(of: row)
-            }.disposed(by: bag)
+//        homeCollectionView.rx.prefetchItems
+//            .filter { indexPath in
+//                indexPath.contains { $0.section == 1 }
+//            }
+//            .compactMap { $0.last?.row }
+//            .distinctUntilChanged()
+//            .bind(with: self) { owner, row in
+//                guard row != 0 else { return }
+//                owner.viewModel.getNextCloset(of: row)
+//            }.disposed(by: bag)
         
         homeCollectionView.rx
             .itemSelected
@@ -235,6 +235,22 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
                     owner.viewModel.stylePicked(closetID: cellState.closetId)
                     owner.viewModel.toDetailView(state: cellState)
                 }
+            }.disposed(by: bag)
+        
+        homeCollectionView.rx.contentOffset
+            .debounce(.milliseconds(200), scheduler: MainScheduler.instance)
+            .distinctUntilChanged()
+            .flatMap { [weak self] offset -> Observable<Void> in
+                guard let self else { return Observable.empty() }
+                let contentHeight = self.homeCollectionView.contentSize.height
+                let height = self.homeCollectionView.frame.size.height
+                if offset.y > contentHeight - height - 100 {
+                    return Observable.just(())
+                }
+                return Observable.empty()
+            }
+            .bind(with: self) { owner, _ in
+                owner.viewModel.getNextCloset(of: 0)
             }.disposed(by: bag)
     }
     
@@ -253,16 +269,16 @@ extension NewHomeViewController {
             switch dataSource[indexPath] {
             case .forecast(let cellState):
                 return collectionView.dequeueCell(
-                    withType: HomeForecastCell.self,
+                    withType: HomeForecastSectionCell.self,
                     for: indexPath
                 ).then {
-                    $0.configureCellState(state: cellState)
+                    $0.configureCellState(state: self?.viewModel.forecastInfo ?? [])
                     
-                    $0.swipeGesture
-                        .when(.ended)
-                        .bind(onNext: { [weak self] direction in
-                            self?.viewModel.configureTime(direction: direction.direction)
-                        }).disposed(by: $0.bag)
+//                    $0.swipeGesture
+//                        .when(.ended)
+//                        .bind(onNext: { [weak self] direction in
+//                            self?.viewModel.configureTime(direction: direction.direction)
+//                        }).disposed(by: $0.bag)
                 }
             case .closet(let cellState):
                 return collectionView.dequeueCell(

@@ -34,7 +34,6 @@ public protocol NewHomeViewModelLogic: ViewModelBusinessLogic {
     var selectedIndex: BehaviorRelay<Int> { get }
     var selectedForecastState: BehaviorRelay<HomeForecastInfo> { get }
     var styleFilterList: [StyleTypeInfo] { get }
-    var isLoading: Bool { get }
 }
 
 public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
@@ -68,8 +67,6 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     public var styleFilterList: [StyleTypeInfo] = []
     /// 스타일 추천 리스트
     private var closetList: [NewClosetInfo] = []
-    /// pagination 로딩 여부
-    public var isLoading = false
     /// pagination용 리스트 총 개수
     private var closetListMaxCount = 0
     /// pagination용 이미 로드된 페이지
@@ -132,7 +129,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
                     owner.forecastInfo = data.forecast
                     owner.selectedIndex.accept(0)
                     owner.selectedForecastState.accept(owner.forecastInfo[owner.selectedIndex.value])
-                    owner.styleFilterList.count == 0 ? owner.getStyleFilterList() : owner.getClosetInfo()
+                    owner.styleFilterList.isEmpty ? owner.getStyleFilterList() : owner.getClosetInfo()
                 },
                 onError: { owner, error in
                     owner.shimmerStatus.accept(true)
@@ -178,7 +175,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
             .subscribe(
                 with: self,
                 onNext: { owner, response in
-                    owner.closetList = response.data.closets
+                    owner.closetList = response.data.closets.shuffled()
                     owner.closetListMaxCount = response.data.counts
                     owner.loadedPage = 1
                     owner.loadHome()
@@ -205,12 +202,9 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
          마지막 페이지 or 일정 이상 스크롤되지 않았을시 return
          페이지당 row 10 / 80퍼 이상 스크롤
          */
-        if loadedPage >= (closetListMaxCount / 20) || 
-           (row >= Int(Double(loadedPage * 10) * 0.8)) == false { return }
-        
-        guard !isLoading else { return }
-        isLoading = true
-        
+//        if loadedPage >= (closetListMaxCount / 20) || 
+//           (row >= Int(Double(loadedPage * 10) * 0.8)) == false { return }
+        if loadedPage >= (closetListMaxCount / 20) { return }
         loadedPage += 1
         
         closetDataSource.getHomeCloset(page: loadedPage, time: selectedTime)
@@ -231,7 +225,6 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
                     owner.homeSections.accept(closetSectionList)
                     
                     owner.closetListMaxCount = response.data.counts
-                    owner.isLoading = false
                 },
                 onError: { owner, error in
                     owner.refreshStatus.accept(false)

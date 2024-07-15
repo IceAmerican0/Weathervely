@@ -25,6 +25,8 @@
 		5C23DBA22A65048200F41574 /* RxMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 5C23DBA12A65048200F41574 /* RxMoya */; };
 		5C2AD7362AC2B5A3006BFF81 /* PinLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 5C2AD7352AC2B5A3006BFF81 /* PinLayout */; };
 		5C2AD7392AC2B5BD006BFF81 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 5C2AD7382AC2B5BD006BFF81 /* Then */; };
+		5C2BB2A62C45076400D9305E /* HomeForecastSectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2BB2A52C45076400D9305E /* HomeForecastSectionCell.swift */; };
+		5C2BB2A82C45137C00D9305E /* HomeForecastSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2BB2A72C45137C00D9305E /* HomeForecastSectionView.swift */; };
 		5C4691762A789DBE00E2CC70 /* AlertViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4691752A789DBE00E2CC70 /* AlertViewState.swift */; };
 		5C4691782A78A02100E2CC70 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4691772A78A02100E2CC70 /* AlertView.swift */; };
 		5C4A0ABB2B3ABA56006BE52A /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5C4A0ABA2B3ABA56006BE52A /* Colors.xcassets */; };
@@ -229,6 +231,8 @@
 		5C08096A2C37AFD500A902DE /* TypeTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeTarget.swift; sourceTree = "<group>"; };
 		5C0C57A72BF6EC7700B1102E /* HomeBannerLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBannerLayout.swift; sourceTree = "<group>"; };
 		5C1BCA162A67D2FF00D02D84 /* NicknameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewModel.swift; sourceTree = "<group>"; };
+		5C2BB2A52C45076400D9305E /* HomeForecastSectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeForecastSectionCell.swift; sourceTree = "<group>"; };
+		5C2BB2A72C45137C00D9305E /* HomeForecastSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeForecastSectionView.swift; sourceTree = "<group>"; };
 		5C4691752A789DBE00E2CC70 /* AlertViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewState.swift; sourceTree = "<group>"; };
 		5C4691772A78A02100E2CC70 /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
 		5C4A0ABA2B3ABA56006BE52A /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
@@ -676,6 +680,8 @@
 			children = (
 				6987EBBA2B41409E00CF1E74 /* NewHomeViewController.swift */,
 				6987EBBB2B41409E00CF1E74 /* NewHomeViewModel.swift */,
+				5C2BB2A52C45076400D9305E /* HomeForecastSectionCell.swift */,
+				5C2BB2A72C45137C00D9305E /* HomeForecastSectionView.swift */,
 				5C4A0ABC2B43ED8F006BE52A /* HomeForecastCell.swift */,
 				5C4A0AC62B46832D006BE52A /* HomeClosetCell.swift */,
 				693231632B4A80FE00816B7B /* HomeSection.swift */,
@@ -1337,6 +1343,7 @@
 				BD05E0722B380C9400A48E61 /* NewCSLabel.swift in Sources */,
 				5CAB60C32A528C7A00CD431A /* UICollectionView+Extension.swift in Sources */,
 				698F6CA92ADD624C00C2B33A /* Tab.swift in Sources */,
+				5C2BB2A82C45137C00D9305E /* HomeForecastSectionView.swift in Sources */,
 				5C6F0E272BFC89D800AB0C90 /* NotificationListTableFooterView.swift in Sources */,
 				5C9F45692C37AB2E00DBB9B1 /* SettingViewModel.swift in Sources */,
 				69C714D22ADD611400748CF6 /* HomeTabBarController.swift in Sources */,
@@ -1347,6 +1354,7 @@
 				BD3BDE662BDD456E002E9E0C /* BannerCell.swift in Sources */,
 				5C5C1C2D2B8738D500294BFF /* NicknameCompleteViewController.swift in Sources */,
 				5C6F0E292BFC8D4500AB0C90 /* UITableViewHeaderFooterView+Extension.swift in Sources */,
+				5C2BB2A62C45076400D9305E /* HomeForecastSectionCell.swift in Sources */,
 				BD7DAB272A6E786E00422D25 /* StatusOnlyEntity.swift in Sources */,
 				BDA66FEA2A4075270061A1F0 /* UIImageView+Extension.swift in Sources */,
 				BD5D16932A63B3AD00435816 /* CALayer+Extension.swift in Sources */,

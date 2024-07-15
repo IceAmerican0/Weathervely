@@ -50,6 +50,10 @@ extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
                 if granted {
                     UIApplication.shared.registerForRemoteNotifications()
                     userDefault.set(true, forKey: UserDefaultKey.pushAgreement.rawValue)
+                } else {
+                    if UserDefaultManager.shared.pushAgreement {
+                        userDefault.removeObject(forKey: UserDefaultKey.pushAgreement.rawValue)
+                    }
                 }
             }
         }

@@ -36,7 +36,7 @@ public final class HomeBannerLayout: UICollectionViewLayout {
             
             if section == 0 {
                 let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
-                attributes.frame = CGRect(x: 0, y: 0, width: Constants.screenWidth - 40, height: 150)
+                attributes.frame = CGRect(x: 0, y: 0, width: Constants.screenWidth, height: 150)
                 cache.append(attributes)
             } else {
                 // 헤더 부분
@@ -44,20 +44,20 @@ public final class HomeBannerLayout: UICollectionViewLayout {
                     forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                     with: indexPath
                 )
-                attributes.frame = CGRect(x: 0, y: 164, width: Constants.screenWidth - 40, height: 56)
+                attributes.frame = CGRect(x: 20, y: 164, width: Constants.screenWidth - 40, height: 56)
                 cache.append(attributes)
                 
                 // 셀 부분
-                let columnWidth = (contentWidth - itemSpacing) / CGFloat(numberOfColumns)
+                let columnWidth = (contentWidth - itemSpacing - 40) / CGFloat(numberOfColumns)
                 
                 var column = 0
-                var xOffset: [CGFloat] = [0]
+                var xOffset: [CGFloat] = [20]
                 var yOffset = [CGFloat](repeating: 220, count: numberOfColumns)
                 
                 // 각 열의 x좌표
                 for column in 1..<numberOfColumns {
                     let column = CGFloat(column)
-                    let offset = (column * columnWidth) + (column * 19)
+                    let offset = (column * columnWidth) + (column * 19) + 20
                     xOffset.append(offset)
                 }
                 
