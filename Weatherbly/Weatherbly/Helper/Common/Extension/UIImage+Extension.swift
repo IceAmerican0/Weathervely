@@ -74,6 +74,7 @@ extension UIImage {
     static let home_drop_on = UIImage(named: "home_drop_on")!
     static let home_nodata = UIImage(named: "home_nodata")!
     static let home_option = UIImage(named: "home_option")!
+    static let home_option_set = UIImage(named: "home_option_set")!
     static let home_place = UIImage(named: "home_place")!
     static let home_weather_empty = UIImage(named: "home_weather_empty")!
 

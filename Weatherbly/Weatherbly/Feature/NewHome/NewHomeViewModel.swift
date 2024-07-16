@@ -17,7 +17,6 @@ public protocol NewHomeViewModelLogic: ViewModelBusinessLogic {
     func getStyleFilterList()
     func getClosetInfo()
     func buttonTapAction(action: ButtonTapAction)
-    func configureTime(direction: UISwipeGestureRecognizer.Direction)
     func getSelectedTimeInfo(direction: UISwipeGestureRecognizer.Direction)
     func didTapTimeLabel()
     func filterCloset(delegate: StyleListViewDelegate)
@@ -32,7 +31,6 @@ public protocol NewHomeViewModelLogic: ViewModelBusinessLogic {
     var homeSections: BehaviorRelay<[HomeSection]> { get }
     var forecastInfo: [HomeForecastInfo] { get }
     var selectedIndex: BehaviorRelay<Int> { get }
-    var selectedForecastState: BehaviorRelay<HomeForecastInfo> { get }
     var styleFilterList: [StyleTypeInfo] { get }
 }
 
@@ -51,18 +49,6 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     public var forecastInfo: [HomeForecastInfo] = []
     /// 선택돼있는 인덱스
     public var selectedIndex = BehaviorRelay<Int>(value: 0)
-    /// 선택돼있는 날씨 정보
-    public var selectedForecastState = BehaviorRelay<HomeForecastInfo>(
-        value: .init(
-            date: "",
-            time: "",
-            currentTemp: "",
-            minTemp: "",
-            maxTemp: "",
-            weather: "",
-            comment: ""
-        )
-    )
     /// 스타일 필터 리스트
     public var styleFilterList: [StyleTypeInfo] = []
     /// 스타일 추천 리스트
@@ -78,7 +64,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     public func loadHome() {
         /// 예보 Section 정보
         let homeForecast: [HomeSection] = [
-            .forecast(items: [.forecast(selectedForecastState.value)])
+            .forecast(items: [.forecast(forecastInfo)])
         ]
         
         /// 첫 Cell Banner 처리를 위한 Dummy Data 넣어줌(Banner + List)
@@ -128,7 +114,6 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
                     let data = response.data
                     owner.forecastInfo = data.forecast
                     owner.selectedIndex.accept(0)
-                    owner.selectedForecastState.accept(owner.forecastInfo[owner.selectedIndex.value])
                     owner.styleFilterList.isEmpty ? owner.getStyleFilterList() : owner.getClosetInfo()
                 },
                 onError: { owner, error in
@@ -241,33 +226,9 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     /// 버튼 액션 케이스
     public func buttonTapAction(action: ButtonTapAction) {
         switch action {
-        case .didTapPrev: configureTime(direction: .right)
-        case .didTapNext: configureTime(direction: .left)
+        case .didTapPrev: getSelectedTimeInfo(direction: .right)
+        case .didTapNext: getSelectedTimeInfo(direction: .left)
         }
-    }
-    
-    /// 시간대 이동 전 시간 판별
-    public func configureTime(direction: UISwipeGestureRecognizer.Direction) {
-        if direction == .right {
-            if selectedIndex.value == 0 {
-                alertState.accept(
-                    .init(
-                        title: "현재보다 이전 시간은 확인할 수 없어요",
-                        alertType: .toast
-                ))
-                return
-            }
-        } else {
-            if selectedIndex.value + 1 == forecastInfo.count {
-                alertState.accept(
-                    .init(
-                        title: "내일 날씨까지만 볼 수 있어요",
-                        alertType: .toast
-                    ))
-                return
-            }
-        }
-        getSelectedTimeInfo(direction: direction)
     }
     
     /// 시간대 이동
@@ -278,8 +239,6 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
         } else {
             selectedIndex.accept(index + 1)
         }
-        selectedForecastState.accept(forecastInfo[selectedIndex.value])
-        getClosetInfo()
     }
     
     /// 현재/내일 이동
@@ -289,8 +248,6 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
         } else {
             selectedIndex.accept(0)
         }
-        selectedForecastState.accept((forecastInfo[selectedIndex.value]))
-        getClosetInfo()
     }
     
     /// 필터링

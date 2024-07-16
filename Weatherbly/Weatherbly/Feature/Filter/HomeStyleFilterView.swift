@@ -17,9 +17,7 @@ public final class HomeStyleFilterView: UICollectionReusableView {
     
     public var styleListView = StyleListView()
     
-    private let filterIcon = UIButton().then {
-        $0.setImage(.home_option, for: .normal)
-    }
+    public var filterIcon = UIButton()
     
     var buttonTap: Driver<Void> {
         self.filterIcon.rx.tap.asDriver()

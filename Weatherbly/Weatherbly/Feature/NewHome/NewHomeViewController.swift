@@ -173,29 +173,7 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
         viewModel.selectedIndex
             .asDriver()
             .drive(with: self) { owner, index in
-                if index == 0 {
-                    owner.prevButton.setImage(.home_date_left_dis, for: .normal)
-                    owner.prevButton.isUserInteractionEnabled = false
-                } else {
-                    owner.prevButton.setImage(.home_date_left_nor, for: .normal)
-                    owner.prevButton.isUserInteractionEnabled = true
-                }
-                
-                if index + 1 == owner.viewModel.forecastInfo.count {
-                    owner.nextButton.setImage(.home_date_right_dis, for: .normal)
-                    owner.nextButton.isUserInteractionEnabled = false
-                } else {
-                    owner.nextButton.setImage(.home_date_right_nor, for: .normal)
-                    owner.nextButton.isUserInteractionEnabled = true
-                }
-            }.disposed(by: bag)
-        
-        viewModel.selectedForecastState
-            .bind(with: self) { owner, info in
-                owner.dayLabel.text = info.date
-                owner.dayLabel.flex.markDirty()
-                owner.timeLabel.text = info.time
-                owner.timeLabel.flex.markDirty()
+                owner.configureViewState(index: index)
             }.disposed(by: bag)
         
         viewModel.homeSections
@@ -227,10 +205,7 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
             .itemSelected
             .withUnretained(self)
             .subscribe { owner, indexPath in
-                switch owner.dataSource[indexPath] {
-                case .forecast:
-                    owner.viewModel.toTendaysForecastView()
-                case .closet(let cellState):
+                if case let .closet(cellState) = owner.dataSource[indexPath] {
                     guard cellState.closetId >= 0 else { return }
                     owner.viewModel.stylePicked(closetID: cellState.closetId)
                     owner.viewModel.toDetailView(state: cellState)
@@ -258,9 +233,37 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
     private func pullToRefresh() {
         viewModel.pullToRefresh()
     }
+    
+    private func configureViewState(index: Int) {
+        let info = viewModel.forecastInfo
+        if info.isEmpty { return }
+        
+        if index == 0 {
+            prevButton.setImage(.home_date_left_dis, for: .normal)
+            prevButton.isUserInteractionEnabled = false
+        } else {
+            prevButton.setImage(.home_date_left_nor, for: .normal)
+            prevButton.isUserInteractionEnabled = true
+        }
+        
+        if index + 1 == info.count {
+            nextButton.setImage(.home_date_right_dis, for: .normal)
+            nextButton.isUserInteractionEnabled = false
+        } else {
+            nextButton.setImage(.home_date_right_nor, for: .normal)
+            nextButton.isUserInteractionEnabled = true
+        }
+        
+        dayLabel.text = info[index].date
+        dayLabel.flex.markDirty()
+        timeLabel.text = info[index].time
+        timeLabel.flex.markDirty()
+        
+        viewModel.getClosetInfo()
+    }
 }
 
-// MARK: UICollectionview DataSource
+// MARK: RxCollectionview DataSource
 extension NewHomeViewController {
     func setDataSource() -> RxCollectionViewSectionedReloadDataSource<HomeSection> {
         RxCollectionViewSectionedReloadDataSource<HomeSection> (configureCell: { [weak self] dataSource, collectionView, indexPath, _ in
@@ -268,18 +271,38 @@ extension NewHomeViewController {
             
             switch dataSource[indexPath] {
             case .forecast(let cellState):
-                return collectionView.dequeueCell(
+                guard let self else { return UICollectionViewCell() }
+                
+                let cell = collectionView.dequeueCell(
                     withType: HomeForecastSectionCell.self,
                     for: indexPath
-                ).then {
-                    $0.configureCellState(state: self?.viewModel.forecastInfo ?? [])
-                    
-//                    $0.swipeGesture
-//                        .when(.ended)
-//                        .bind(onNext: { [weak self] direction in
-//                            self?.viewModel.configureTime(direction: direction.direction)
-//                        }).disposed(by: $0.bag)
-                }
+                )
+                cell.configureCellState(state: cellState)
+                
+                viewModel.selectedIndex
+                    .asDriver()
+                    .drive(with: self) { owner, index in
+                        if cellState.isEmpty { return }
+                        
+                        cell.swipePage(to: index)
+                    }.disposed(by: cell.bag)
+                
+                cell.selectedIndex
+                    .asDriver()
+                    .drive(with: self) { owner, index in
+                        if owner.viewModel.selectedIndex.value == index { return }
+                        
+                        if cell.currentIndex == index {
+                            owner.viewModel.selectedIndex.accept(index)
+                        }
+                    }.disposed(by: cell.bag)
+                
+                cell.collectionView.rx.itemSelected
+                    .bind(with: self) { owner, _ in
+                        owner.viewModel.toTendaysForecastView()
+                    }.disposed(by: cell.bag)
+                
+                return cell
             case .closet(let cellState):
                 return collectionView.dequeueCell(
                     withType: HomeClosetCell.self,
@@ -297,6 +320,11 @@ extension NewHomeViewController {
                         withType: HomeStyleFilterView.self,
                         for: indexPath
                     ).then {
+                        $0.filterIcon.setImage(
+                            UserDefaultManager.shared.homeItemFilterList.isEmpty ? .home_option : .home_option_set,
+                            for: .normal
+                        )
+                        
                         $0.configureCellState(state: self.viewModel.styleFilterList)
                         
                         $0.buttonTap
@@ -313,10 +341,11 @@ extension NewHomeViewController {
     }
 }
 
+// MARK: StyleListViewDelegate
 extension NewHomeViewController: StyleListViewDelegate {
     /// 스타일필터 선택시
     func didTap() {
         homeCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
-        viewModel.pullToRefresh()
+        pullToRefresh()
     }
 }
