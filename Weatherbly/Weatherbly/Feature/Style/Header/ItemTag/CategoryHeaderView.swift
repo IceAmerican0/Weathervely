@@ -11,18 +11,28 @@ import RxSwift
 
 final class CategoryHeaderView : UICollectionReusableView {
     
-    var bag = DisposeBag()
-    var sectionTitleLabel = LabelMaker(
+    private var bag = DisposeBag()
+    public var headerDelegate: CategoryHeaderViewDelegate?
+    public var typeInfo = ClosetTypeInfo.init(id: 0, name: "")
+    private var sectionTitleLabel = LabelMaker(
         font: UIFont.title_3_B,
         fontColor: UIColor.black,
         alignment: .left
     ).make(text: "#Type1")
     
-    var typeTitleRelay = BehaviorRelay<MCategoryInfo?>(value: MCategoryInfo(id: 1, name: "initial value"))
-    private var tagsRelay = BehaviorRelay<[String]>(value: ["겨울 기타 코트", "숏패딩/숏헤비 아우터", "패딩 베스트", "베스트", "사파리/헌팅 재킷", "나일론/코치 재킷"])
-    var itemTagHeaderWrapper = UIStackView()
-    var tagsView: CategoryTagsView? // 태그 뷰를 캐싱
-
+//    var typeTitleRelay = BehaviorRelay<MCategoryInfo?>(value: MCategoryInfo(id: 1, name: "initial value"))
+    private var categoriesRelay = BehaviorRelay<[MCategoryInfo]>(value: [
+        MCategoryInfo(id: 28, name: "니트/스웨터"),
+        MCategoryInfo(id: 31, name: "긴소매 티셔츠"),
+        MCategoryInfo(id: 32, name: "셔츠/블라우스"),
+        MCategoryInfo(id: 33, name: "피케/카라티셔츠"),
+        MCategoryInfo(id: 34, name: "반소매 티셔츠"),
+        MCategoryInfo(id: 35, name: "민소매 티셔츠"),
+        MCategoryInfo(id: 37, name: "기타 상의")
+    ])
+    private var itemTagHeaderWrapper = UIStackView()
+    private var tagsView: CategoryTagsView? // 태그 뷰를 캐싱
+    
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setupView()
@@ -37,8 +47,8 @@ final class CategoryHeaderView : UICollectionReusableView {
     override func prepareForReuse() {
         super.prepareForReuse()
         sectionTitleLabel.text = ""
-        tagsRelay.accept([])
-        tagsView?.tags = [] // 태그 뷰 초기화
+        categoriesRelay.accept([])
+        tagsView?.tags = []  // 태그 뷰 초기화
     }
     
     private func setupView() {
@@ -48,7 +58,7 @@ final class CategoryHeaderView : UICollectionReusableView {
         tagsView = CategoryTagsView()
         tagsView?.backgroundColor = .white
         tagsView?.numRows = 2
-        tagsView?.delegate = self
+        tagsView?.tagsDelegate = self
         if let tagsView = tagsView {
             itemTagHeaderWrapper.addSubview(tagsView)
         }
@@ -73,12 +83,12 @@ final class CategoryHeaderView : UICollectionReusableView {
         }
     }
     
-    private func updateTags(_ tags: [String]) {
+    private func updateTags(_ tags: [MCategoryInfo]) {
         tagsView?.tags = tags
     }
     
     func binding() {
-        tagsRelay
+        categoriesRelay
             .asDriver()
             .drive(with: self, onNext: { owner, tags in
                 owner.updateTags(tags)
@@ -86,30 +96,23 @@ final class CategoryHeaderView : UICollectionReusableView {
     }
     
     func configure(info: ClosetTypeInfo?, categories: [MCategoryInfo]?) {
-        guard let info = info else { return }
-        sectionTitleLabel.text = "#\(info.name)"
+        guard let typeInfo = info else { return }
+        self.typeInfo = typeInfo
+        sectionTitleLabel.text = "#\(typeInfo.name)"
         
         guard let categories = categories else { return }
-        tagsRelay.accept(categories.map { $0.name })
+        categoriesRelay.accept(categories.map { $0 })
     }
 }
 
-extension CategoryHeaderView: TagsViewTouchDelegate {
-    func itemTagView(_ itemTagView: UIView, didSelectItemAt index: Int) {
-        
+extension CategoryHeaderView: CategoryTagsViewDelegate {
+    func selectItemTags(_ view: CategoryTagsView?, with tags: [Int]) {
+        if view != nil {
+            debugPrint("아니 씨발 이거 뭔데? \(tags)")
+//            headerDelegate?.sendCategoryWithType(self, tags: tags, typeInfo: self.typeInfo)
+        } else {
+            view
+        }
     }
-    
-    func itemTagView(_ itemTagView: UIView, didDeSelectItemAt index: Int) {
-        
-    }
-    
-//    func itemTagView(_ itemTagView: CategoryTagsView, didSelectItemAt index: Int) {
-//        // TODO: - ViewControlelr 에 선택한 카테고리 아이디 알리기
-//    }
-//    
-//    func itemTagView(_ itemTagView: CategoryTagsView, didDeSelectItemAt index: Int) {
-//        // TODO: = ViewController 에 선택 해제 된 카테고리 아이디 알리기
-//    }
-    
     
 }

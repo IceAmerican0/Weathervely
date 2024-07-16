@@ -14,7 +14,7 @@ public enum NewClosetTarget {
     case getClosetWithType(typeID: Int, page: Int)
     case getTypes
     case getCategories(typeID: Int)
-    case closetWithCategory(typeID: Int, page: Int, items: [Int]?)
+    case closetWithCategory(typeID: Int, page: Int, items: String?)
     /// 메인 > 메인 카드 클릭시 히스토리 저장
     case stylePicked(_ closetID: Int)
 }
@@ -87,7 +87,7 @@ extension NewClosetTarget: WVTargetType {
                     "page": page,
                     "tab": "style",
                     "style_ids": typeID,
-                    "medium_category_ids": items ?? []
+                    "medium_category_ids": items ?? ""
                 ],
                 encoding: URLEncoding.queryString
             )

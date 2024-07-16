@@ -13,9 +13,9 @@ import RxCocoa
 
 final class CategoryTagsView: UIView {
     
-    public var delegate: TagsViewTouchDelegate?
+    public var tagsDelegate: CategoryTagsViewDelegate?
     var bag = DisposeBag()
-    public var tagsRelay = BehaviorRelay<[String]>(value: [])
+    public var selectedTags = BehaviorRelay<[Int]>(value: [])
     var scrollView = UIScrollView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.showsHorizontalScrollIndicator = false
@@ -33,7 +33,7 @@ final class CategoryTagsView: UIView {
     
     public var tagViews: [ItemTagView] = []
     
-    var tags: [String] = [] {
+    var tags: [MCategoryInfo] = [] {
         didSet {
             // clear existing (in case we're setting the tags multiple times)
             vStack.arrangedSubviews.forEach { v in
@@ -42,9 +42,11 @@ final class CategoryTagsView: UIView {
             tagViews = []
             var totalWidth: CGFloat = 0
             // create individual tag views and get the total width
-            tags.forEach { str in
+            tags.forEach { category in
                 let t = ItemTagView()
-                t.tagLabel.text = str
+                t.configure(with: category)
+                t.itemTagDelegate = self
+
                 let sz = t.labelWrapper.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
                 totalWidth += sz.width + 28
                 tagViews.append(t)
@@ -108,14 +110,28 @@ final class CategoryTagsView: UIView {
     
 }
 
-extension CategoryTagsView: TagsViewTouchDelegate {
-    func itemTagView(_ itemTagView: UIView, didSelectItemAt index: Int) {
-        
+extension CategoryTagsView: ItemTagDelegate {
+    func itemTagDidTap(tagView: ItemTagView, categoryInfo: MCategoryInfo?) {
+        guard let category = categoryInfo else { return }
+        let id = category.id
+        let name = category.name
+        debugPrint("HereHEre: \(String(category.id))")
+        debugPrint("HereHEre: \(category.name)")
+        // 태그뷰 모으기
+        var tags = selectedTags.value
+        debugPrint("⭐️⭐️⭐️ tags Array : \(tags)")
+        // 중복제거
+        if !tags.contains(id) {
+            tags.append(id)
+        } else {
+            tags = tags.filter { $0 != id }
+        }
+        debugPrint("tags Array : \(tags)")
+        selectedTags.accept(tags)
+        debugPrint("selectedTags : \(selectedTags.value)")
+        tagsDelegate?.selectItemTags(self, with: tags)
     }
-    
-    func itemTagView(_ itemTagView: UIView, didDeSelectItemAt index: Int) {
-        
-    }
+}
     
 //    func itemTagView(_ itemTagView: CategoryTagsView, didSelectItemAt index: Int) {
 //        print("did SelectItemAt : \(index)")
@@ -125,6 +141,4 @@ extension CategoryTagsView: TagsViewTouchDelegate {
 //        print("did DeSelectItemAt : \(index)")
 //    }
     
-    
-}
 

@@ -15,7 +15,7 @@ import RxCocoa
 
 public class StyleTagHeaderView: UICollectionReusableView {
     
-    weak var touchEventDelegate: TagsViewTouchDelegate?
+//    weak var touchEventDelegate: CategoryTagsViewDelegate?
     var bag = DisposeBag()
     var tags: [ClosetTypeInfo] = []
     var tagsRelay = BehaviorRelay<[ClosetTypeInfo]>(value: [])
@@ -95,7 +95,7 @@ extension StyleTagHeaderView: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("didTap : \(indexPath)")
-        self.touchEventDelegate?.itemTagView(self, didSelectItemAt: indexPath.item)
+        debugPrint("didTap : \(indexPath)")
+//        self.touchEventDelegate?.selectItemTags(self, didSelectItemAt: indexPath.item)
     }
 }

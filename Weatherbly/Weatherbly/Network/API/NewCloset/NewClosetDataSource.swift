@@ -14,7 +14,7 @@ protocol NewClosetDataSourceProtocol {
     func getClosetWithType(typeID: Int, page: Int) -> Observable<NewClosetEntity>
     func getTypes() -> Observable<ClosetTypeEntity>
     func getCategories(typeID: Int) -> Observable<CategoryEntity>
-    func closetWithCategory(typeID: Int, page: Int, items: [Int]?) -> Observable<EmptyEntity>
+    func closetWithCategory(typeID: Int, page: Int, items: String?) -> Observable<NewClosetEntity>
     func stylePicked(_ closetID: Int) -> Observable<EmptyEntity>
 }
 
@@ -49,10 +49,10 @@ final class NewClosetDataSource: NewClosetDataSourceProtocol {
             .mapTo(CategoryEntity.self)
     }
     
-    func closetWithCategory(typeID: Int, page: Int, items: [Int]?) -> Observable<EmptyEntity> {
+    func closetWithCategory(typeID: Int, page: Int, items: String?) -> Observable<NewClosetEntity> {
         provider.rx
-            .request(.closetWithCategory(typeID: typeID, page: page, items: items ?? []))
-            .mapTo(EmptyEntity.self)
+            .request(.closetWithCategory(typeID: typeID, page: page, items: items ?? ""))
+            .mapTo(NewClosetEntity.self)
     }
     
     func stylePicked(_ closetID: Int) -> Observable<EmptyEntity> {
@@ -60,5 +60,6 @@ final class NewClosetDataSource: NewClosetDataSourceProtocol {
             .request(.stylePicked(closetID))
             .mapTo(EmptyEntity.self)
     }
+    
     
 }

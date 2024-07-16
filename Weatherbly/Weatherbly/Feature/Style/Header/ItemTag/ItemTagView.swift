@@ -26,9 +26,10 @@ enum SelectedChageState {
 class ItemTagView: UIView {
     
     var bag = DisposeBag()
-    
+    public var itemTagDelegate: ItemTagDelegate?
     var stateChangeRealy = PublishRelay<ItemTagView>()
     var selectedState: SelectedChageState = .deSelected
+    var categoryInfo: MCategoryInfo = .init(id: 0, name: "")
     
     var labelWrapper = UIView()
     public var tagLabel = LabelMaker(
@@ -41,17 +42,42 @@ class ItemTagView: UIView {
         super.init(frame: frame)
         configureAttribute()
         layout()
+        binding()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func selectedToggle() {
+        switch selectedState {
+        case .selected:
+            labelWrapper.layer.borderColor = UIColor.gray20.cgColor
+            labelWrapper.backgroundColor = .white
+            tagLabel.do {
+                $0.textColor = .black
+                $0.backgroundColor = .white
+            }
+            selectedState = .deSelected
+        case .deSelected:
+            labelWrapper.layer.borderColor = UIColor.violet500.cgColor
+            labelWrapper.backgroundColor = UIColor.violet10
+            tagLabel.do {
+                $0.textColor = UIColor.violet500
+                $0.backgroundColor = UIColor.violet10
+            }
+            selectedState = .selected
+        }
     }
 
     func binding() {
         tagLabel.rx.tapGesture()
+            .when(.recognized)
             .bind(with: self) { owner, event in
-                print("tap ItemTagView")
-//                owner.stateChangeRealy.accept(self)
+                owner.selectedToggle()
+                owner.itemTagDelegate?.itemTagDidTap(tagView: self, categoryInfo: self.categoryInfo)
+                
+                
             }.disposed(by: bag)
     }
     
@@ -94,13 +120,20 @@ class ItemTagView: UIView {
         ])
     }
     
-
-    
-//    func configure(with text: String) {
-//        tagLabel.text = text
-//        tagLabel.sizeToFit()
-//           setNeedsLayout()
-//       }
+    func configure(with tagInfo: MCategoryInfo?) {
+        self.selectedState = .deSelected
+        guard let tagInfo = tagInfo else {
+            tagLabel.text = "카테고리"
+            tagLabel.sizeToFit()
+            setNeedsLayout()
+            return
+        }
+        categoryInfo = tagInfo
+        tagLabel.text = tagInfo.name
+        tagLabel.sizeToFit()
+        setNeedsLayout()
+    }
+        
     
 }
 

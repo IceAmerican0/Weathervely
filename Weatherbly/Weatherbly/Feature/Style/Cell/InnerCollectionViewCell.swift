@@ -15,8 +15,8 @@ final public class InnerCollectionViewCell: UICollectionViewCell {
     
     private var bag = DisposeBag()
     weak var delegate: InnerCollectionViewCellDelegate?
+
     private var bindSectionsRelay = BehaviorRelay<[StyleTabSectionModel]>(value: [])
-    
     private lazy var innerCollectionView = UICollectionView(frame: .zero, collectionViewLayout: setInnerLayout()).then {
         $0.showsVerticalScrollIndicator = false
         $0.register(withType: StyleCell.self)
@@ -28,6 +28,7 @@ final public class InnerCollectionViewCell: UICollectionViewCell {
     public override init(frame: CGRect) {
         super.init(frame: frame)
         binding()
+//        NotificationCenter.default.addObserver(self, selector: #selector(filterTag(_:)), name: .categoryTag, object: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -38,6 +39,12 @@ final public class InnerCollectionViewCell: UICollectionViewCell {
         super.layoutSubviews()
         layout()
     }
+    
+//    @objc func filterTag(_ notification: Notification) {
+//        if let categoryInfo = notification.object as? MCategoryInfo {
+//            debugPrint("categoryInfo Reciedved : \(categoryInfo.name)")
+//        }
+//    }
 
     private func layout() {
         contentView.pin.all()
@@ -90,23 +97,92 @@ final public class InnerCollectionViewCell: UICollectionViewCell {
 }
 
 // MARK: - 탭 이벤트 처리
-extension InnerCollectionViewCell: TagsViewTouchDelegate {
-    public func itemTagView(_ itemTagView: UIView, didSelectItemAt index: Int) {
-        // TypeTag 탭했을 때 이벤트
-        /*
-            1. TypeTag 탭
-            2. innerCollectionViewCell 의 어떤 섹션인지 전달
-            3. setContentOffset 으로 이동
-                -> 여기서 inner에서 처리할 지 parent 에서 처리할 지 알아야함.
-         */
-        
-        
+extension InnerCollectionViewCell: CategoryHeaderViewDelegate {
+    
+    func getCategoryParam(with tags: [Int]) -> String {
+        var itemsString = ""
+        for item in tags {
+            if item == tags.last {
+                itemsString += String(item) + ","
+            } else {
+                itemsString += String(item)
+            }
+        }
+        return itemsString
     }
     
-    public func itemTagView(_ itemTagView: UIView, didDeSelectItemAt index: Int) {
-        // TypeTag 탭했을 때 이벤트
+    func sendCategoryWithType(_ view: CategoryHeaderView?, tags: [Int], typeInfo: ClosetTypeInfo) {
+        
+        
+        // API 재호출
+        let dataSource = NewClosetDataSource()
+        
+        switch tags.isEmpty {
+        case true:
+            dataSource.getClosetWithType(typeID: typeInfo.id, page: 1)
+                .subscribe(with: self) { owner, response in
+                    let newClosets = response.data.closets
+                    var updatedSections = owner.bindSectionsRelay.value
+                    if let sectionIndex = updatedSections.firstIndex(where: { section in
+                        if case .styles(let header, _) = section, header.typeInfo.id == typeInfo.id {
+                            return true
+                        }
+                        return false
+                    }) {
+                        if case .styles(let header, _) = updatedSections[sectionIndex] {
+                            let newSection = StyleTabSectionModel.styles(header: header, items: newClosets.map { StyleTabItem.styles($0) }
+                            )
+                            
+                            updatedSections[sectionIndex] = newSection
+                            owner.bindSectionsRelay.accept(updatedSections)
+                        }
+                    }
+                }
+                .disposed(by: bag)
+        case  false:
+            var cgParam = getCategoryParam(with: tags)
+            dataSource.closetWithCategory(typeID: typeInfo.id, page: 1, items: cgParam)
+                .subscribe(with: self) { owner, response in
+                    let newClosets = response.data.closets
+                    var updatedSections = owner.bindSectionsRelay.value
+                    if let sectionIndex = updatedSections.firstIndex(where: { section in
+                        if case .styles(let header, _) = section, header.typeInfo.id == typeInfo.id {
+                            return true
+                        }
+                        return false
+                    }) {
+                        if case .styles(let header, _) = updatedSections[sectionIndex] {
+                            let newSection = StyleTabSectionModel.styles(header: header, items: newClosets.map { StyleTabItem.styles($0) }
+                            )
+                            
+                            updatedSections[sectionIndex] = newSection
+                            owner.bindSectionsRelay.accept(updatedSections)
+                        }
+                    }
+                }
+                .disposed(by: bag)
+        }
+        
+       
+            
     }
     
+//    public func selectItemTags(_ itemTagView: UIView?, didSelectItemAt index: Int) {
+//        // TypeTag 탭했을 때 이벤트
+//        /*
+//            1. TypeTag 탭
+//            2. innerCollectionViewCell 의 어떤 섹션인지 전달
+//            3. setContentOffset 으로 이동
+//                -> 여기서 inner에서 처리할 지 parent 에서 처리할 지 알아야함.
+//         */
+//        
+//        
+//    }
+//    
+//    public func deSelectedItemTags(_ itemTagView: UIView?, didDeSelectItemAt index: Int) {
+//        // TypeTag 탭했을 때 이벤트
+//    }
+//    
     
 }
 
@@ -164,6 +240,7 @@ extension InnerCollectionViewCell: UICollectionViewDelegate {
                 switch dataSource[indexPath.section] {
                 case .styles(let headerInfo, _):
                     let header = collectionView.dequeueReusableHeaderView(withType: CategoryHeaderView.self, for: indexPath).then {
+                        $0.headerDelegate = self
                         $0.configure(info: headerInfo.typeInfo, categories: headerInfo.categories)
                         
                     }

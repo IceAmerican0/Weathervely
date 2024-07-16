@@ -192,6 +192,7 @@ extension StyleViewController: UICollectionViewDelegate {
                     
                 case .types(let types, _):
                     return collectionView.dequeueReusableHeaderView(withType: StyleTagHeaderView.self, for: indexPath).then {
+                        
                         $0.configureTag(types)
                     }
                 case .styles(let headerInfo, _):
