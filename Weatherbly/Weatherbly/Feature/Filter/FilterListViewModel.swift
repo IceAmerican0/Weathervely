@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-protocol FilterListViewModelLogic: ViewModelBusinessLogic {
+public protocol FilterListViewModelLogic: ViewModelBusinessLogic {
     func getCategoryList()
     func getFilterCount(id: String?)
     func reset()
@@ -21,16 +21,16 @@ protocol FilterListViewModelLogic: ViewModelBusinessLogic {
     var filterCount: PublishRelay<Int> { get }
 }
 
-final class FilterListViewModel: RxBaseViewModel, FilterListViewModelLogic {
-    var selectedTime: String
+public final class FilterListViewModel: RxBaseViewModel, FilterListViewModelLogic {
+    public var selectedTime: String
     /// 로딩 상태
-    var isLoading = BehaviorRelay<Bool>(value: false)
+    public var isLoading = BehaviorRelay<Bool>(value: false)
     /// 선택된 아이템 리스트
-    var selectedList = BehaviorRelay<[String]>(value: [])
+    public var selectedList = BehaviorRelay<[String]>(value: [])
     /// 필터 정보
-    var filterSection = PublishRelay<[FilterSection]>()
+    public var filterSection = PublishRelay<[FilterSection]>()
     /// 코디 카운트
-    var filterCount: PublishRelay<Int>
+    public var filterCount: PublishRelay<Int>
     
     public init(selectedTime: String) {
         self.selectedTime = selectedTime

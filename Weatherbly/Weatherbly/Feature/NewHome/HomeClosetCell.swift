@@ -29,6 +29,7 @@ public final class HomeClosetCell: UICollectionViewCell {
     public override func prepareForReuse() {
         super.prepareForReuse()
         cloth.image = nil
+        cloth.kf.cancelDownloadTask()
         cloth.contentMode = .center
     }
     

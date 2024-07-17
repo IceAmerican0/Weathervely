@@ -19,7 +19,7 @@ public protocol NewHomeViewModelLogic: ViewModelBusinessLogic {
     func buttonTapAction(action: ButtonTapAction)
     func getSelectedTimeInfo(direction: UISwipeGestureRecognizer.Direction)
     func didTapTimeLabel()
-    func filterCloset(delegate: StyleListViewDelegate)
+    func filterCloset(delegate: HomeStyleFilterViewDelegate)
     func stylePicked(closetID: Int)
     func toDetailView(state: NewClosetInfo)
     func toEditRegionView()
@@ -189,7 +189,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
          */
 //        if loadedPage >= (closetListMaxCount / 20) || 
 //           (row >= Int(Double(loadedPage * 10) * 0.8)) == false { return }
-        if loadedPage >= (closetListMaxCount / 20) { return }
+        if Double(loadedPage) >= Double(closetListMaxCount) / 20.0 { return }
         loadedPage += 1
         
         closetDataSource.getHomeCloset(page: loadedPage, time: selectedTime)
@@ -251,7 +251,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     }
     
     /// 필터링
-    public func filterCloset(delegate: StyleListViewDelegate) {
+    public func filterCloset(delegate: HomeStyleFilterViewDelegate) {
         let vc = FilterListViewController(FilterListViewModel(selectedTime: selectedTime))
         vc.delegate = delegate
         vc.setBottomSheet()

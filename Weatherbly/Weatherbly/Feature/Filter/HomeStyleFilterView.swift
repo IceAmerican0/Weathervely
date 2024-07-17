@@ -12,10 +12,28 @@ import Then
 import RxSwift
 import RxCocoa
 
+public protocol HomeStyleFilterViewDelegate: AnyObject {
+    func didTap()
+}
+
 public final class HomeStyleFilterView: UICollectionReusableView {
     var bag = DisposeBag()
     
-    public var styleListView = StyleListView()
+    weak var delegate: HomeStyleFilterViewDelegate?
+    
+    private var viewState: [StyleTypeInfo] = []
+    
+    public lazy var filterList = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: setCollectionLayout()
+    ).then {
+        $0.dataSource = self
+        $0.delegate = self
+        $0.showsHorizontalScrollIndicator = false
+        $0.showsVerticalScrollIndicator = false
+        $0.backgroundColor = .clear
+        $0.register(withType: HomeStyleFilterCell.self)
+    }
     
     public var filterIcon = UIButton()
     
@@ -43,11 +61,16 @@ public final class HomeStyleFilterView: UICollectionReusableView {
     }
     
     public func configureCellState(state: [StyleTypeInfo]) {
-        styleListView.reloadView(state: state)
-    }
-    
-    public func setDelegate(delegate: StyleListViewDelegate) {
-        styleListView.delegate = delegate
+        viewState = state
+        filterList.reloadData()
+        
+        DispatchQueue.main.async {
+            let selectedList = UserDefaultManager.shared.homeStyleFilterList
+            guard let index = self.viewState.firstIndex(where: { String($0.id) == selectedList.first }) else { return }
+            
+            let indexPath = IndexPath(item: index, section: 0)
+            self.filterList.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+        }
     }
 }
 
@@ -55,12 +78,64 @@ extension HomeStyleFilterView {
     private func setLayout() {
         backgroundColor = .white
         
-        addSubview(styleListView)
+        addSubview(filterList)
         addSubview(filterIcon)
     }
     
     private func layout() {
         filterIcon.pin.vCenter().right().size(24)
-        styleListView.pin.before(of: filterIcon, aligned: .center).left().marginRight(20).height(29)
+        filterList.pin.before(of: filterIcon, aligned: .center).left().marginRight(20).height(29)
+    }
+}
+
+// MARK: UICollectionView Layout & DataSource
+extension HomeStyleFilterView: UICollectionViewDelegate, UICollectionViewDataSource {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        viewState.count
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueCell(
+            withType: HomeStyleFilterCell.self,
+            for: indexPath
+        ).then {
+            $0.configureCellState(state: viewState[indexPath.row])
+        }
+        
+        cell.buttonTap
+            .drive(with: self, onNext: { owner, _ in
+                UserDefaultManager.shared.filteringStyle(id: "\(owner.viewState[indexPath.row].id)")
+                owner.delegate?.didTap()
+                cell.listButton.isSelected.toggle()
+            }).disposed(by: cell.bag)
+        
+        return cell
+    }
+    
+    func setCollectionLayout() -> UICollectionViewCompositionalLayout {
+        UICollectionViewCompositionalLayout { [weak self] _, _ -> NSCollectionLayoutSection? in
+            guard self != nil else { return nil }
+            
+            let itemSize = NSCollectionLayoutSize(
+                widthDimension: .estimated(70),
+                heightDimension: .estimated(29)
+            )
+            
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            let layoutGroup = NSCollectionLayoutGroup.horizontal(
+                layoutSize: itemSize,
+                subitems: [item]
+            )
+            layoutGroup.interItemSpacing = .fixed(10)
+            
+            let section = NSCollectionLayoutSection(group: layoutGroup)
+            section.contentInsets = NSDirectionalEdgeInsets(
+                top: 0, leading: 0, bottom: 0, trailing: 0
+            )
+            section.interGroupSpacing = 10
+            section.orthogonalScrollingBehavior = .continuous
+            
+            return section
+        }
     }
 }

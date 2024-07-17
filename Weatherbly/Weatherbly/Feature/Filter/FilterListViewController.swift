@@ -11,8 +11,8 @@ import Then
 import RxSwift
 import RxDataSources
 
-final class FilterListViewController: RxBaseViewController<FilterListViewModel> {
-    weak var delegate: StyleListViewDelegate?
+public final class FilterListViewController: RxBaseViewController<FilterListViewModel> {
+    weak var delegate: HomeStyleFilterViewDelegate?
     
     private var exitButton = UIButton().then {
         $0.setImage(.filter_exit, for: .normal)
@@ -22,7 +22,7 @@ final class FilterListViewController: RxBaseViewController<FilterListViewModel> 
         frame: .zero,
         collectionViewLayout: setLayout()
     ).then {
-        $0.showsVerticalScrollIndicator = false
+//        $0.showsVerticalScrollIndicator = false
         $0.backgroundColor = .clear
         $0.registerHeader(withType: FilterListHeaderView.self)
         $0.register(withType: HomeItemFilterCell.self)
@@ -42,7 +42,7 @@ final class FilterListViewController: RxBaseViewController<FilterListViewModel> 
         $0.isEnabled = false
     }
     
-    override func viewDidLayoutSubviews() {
+    public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         exitButton.pin.top(16).right(20).size(24)
         filterList.pin.below(of: exitButton).horizontally().bottom(88)
@@ -50,7 +50,7 @@ final class FilterListViewController: RxBaseViewController<FilterListViewModel> 
         confirmButton.pin.after(of: resetButton).bottomRight(20).marginLeft(8).height(48)
     }
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         
         container.addSubviews(

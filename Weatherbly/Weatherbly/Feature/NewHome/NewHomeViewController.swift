@@ -21,7 +21,7 @@ public enum ButtonTapAction {
     case didTapNext
 }
 
-final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
+public final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
     private let shimmerView = HomeShimmerView()
     
     private let contentView = UIView()
@@ -87,12 +87,12 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
     
     private lazy var dataSource = setDataSource()
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.getForecastInfo()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         regionLabel.text = UserDefaultManager.shared.dong
         regionLabel.flex.markDirty()
@@ -187,19 +187,9 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
                     owner.homeCollectionView.refreshControl?.beginRefreshing()
                 case false:
                     owner.homeCollectionView.refreshControl?.endRefreshing()
+                    owner.scrollToTop()
                 }
             }.disposed(by: bag)
-        
-//        homeCollectionView.rx.prefetchItems
-//            .filter { indexPath in
-//                indexPath.contains { $0.section == 1 }
-//            }
-//            .compactMap { $0.last?.row }
-//            .distinctUntilChanged()
-//            .bind(with: self) { owner, row in
-//                guard row != 0 else { return }
-//                owner.viewModel.getNextCloset(of: row)
-//            }.disposed(by: bag)
         
         homeCollectionView.rx
             .itemSelected
@@ -227,11 +217,28 @@ final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
             .bind(with: self) { owner, _ in
                 owner.viewModel.getNextCloset(of: 0)
             }.disposed(by: bag)
+        
+//        homeCollectionView.rx.prefetchItems
+//            .filter { indexPath in
+//                indexPath.contains { $0.section == 1 }
+//            }
+//            .compactMap { $0.last?.row }
+//            .distinctUntilChanged()
+//            .bind(with: self) { owner, row in
+//                guard row != 0 else { return }
+//                owner.viewModel.getNextCloset(of: row)
+//            }.disposed(by: bag)
     }
     
     @objc
     private func pullToRefresh() {
         viewModel.pullToRefresh()
+    }
+    
+    private func scrollToTop() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+            self?.homeCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
+        }
     }
     
     private func configureViewState(index: Int) {
@@ -320,19 +327,21 @@ extension NewHomeViewController {
                         withType: HomeStyleFilterView.self,
                         for: indexPath
                     ).then {
-                        $0.filterIcon.setImage(
-                            UserDefaultManager.shared.homeItemFilterList.isEmpty ? .home_option : .home_option_set,
-                            for: .normal
-                        )
+                        let state = self.viewModel.styleFilterList
                         
-                        $0.configureCellState(state: self.viewModel.styleFilterList)
+                        $0.configureCellState(state: state)
                         
                         $0.buttonTap
                             .drive(with: self) { owner, _ in
                                 owner.viewModel.filterCloset(delegate: self)
                             }.disposed(by: $0.bag)
                         
-                        $0.setDelegate(delegate: self)
+                        $0.delegate = self
+                        
+                        $0.filterIcon.setImage(
+                            UserDefaultManager.shared.homeItemFilterList.isEmpty ? .home_option : .home_option_set,
+                            for: .normal
+                        )
                     }
                 }
             }
@@ -342,10 +351,10 @@ extension NewHomeViewController {
 }
 
 // MARK: StyleListViewDelegate
-extension NewHomeViewController: StyleListViewDelegate {
+extension NewHomeViewController: HomeStyleFilterViewDelegate {
     /// 스타일필터 선택시
-    func didTap() {
-        homeCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
-        pullToRefresh()
+    public func didTap() {
+        scrollToTop()
+        viewModel.getClosetInfo()
     }
 }
