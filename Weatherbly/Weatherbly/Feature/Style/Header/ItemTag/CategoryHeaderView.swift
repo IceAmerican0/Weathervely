@@ -61,7 +61,6 @@ final class CategoryHeaderView : UICollectionReusableView {
         tagsView = CategoryTagsView()
         tagsView?.backgroundColor = .white
         tagsView?.numRows = 2
-//        tagsView.configure()
         tagsView?.tagsDelegate = self
         if let tagsView = tagsView {
             itemTagHeaderWrapper.addSubview(tagsView)
@@ -116,8 +115,8 @@ final class CategoryHeaderView : UICollectionReusableView {
     }
 }
 
-extension CategoryHeaderView: CategoryTagsViewDelegate {
-    func selectItemTags(_ view: CategoryTagsView?, with tags: [Int]) {
+extension CategoryHeaderView: ItemTagViewDelegate {
+    func selectItemTags(with tags: [Int]) {
             debugPrint("아니 씨발 이거 뭔데? \(tags)")
             selectedTags.accept(tags)  // selectedTags를 업데이트
             headerDelegate?.sendCategoryWithType(self, tags: selectedTags.value, typeInfo: self.typeInfo)

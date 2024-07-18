@@ -13,7 +13,7 @@ import RxCocoa
 
 final class CategoryTagsView: UIView {
     
-    public var tagsDelegate: CategoryTagsViewDelegate?
+    public var tagsDelegate: ItemTagViewDelegate?
     var bag = DisposeBag()
     
     var scrollView = UIScrollView().then {
@@ -116,7 +116,7 @@ final class CategoryTagsView: UIView {
 }
 
 extension CategoryTagsView: ItemTagDelegate {
-    func itemTagDidTap(tagView: ItemTagView, categoryInfo: MCategoryInfo?, isSelected: SelectedChageState) {
+    func itemTagDidTap(categoryInfo: MCategoryInfo?) {
         guard let category = categoryInfo else { return }
         let id = category.id
         debugPrint("\n\nHereHEre: \(id)")
@@ -131,7 +131,7 @@ extension CategoryTagsView: ItemTagDelegate {
         }
         debugPrint("after accepted : \(tags)")
         selectedTags.accept(tags)
-        tagsDelegate?.selectItemTags(self, with: tags)
+        tagsDelegate?.selectItemTags(with: tags)
     }
 }
 

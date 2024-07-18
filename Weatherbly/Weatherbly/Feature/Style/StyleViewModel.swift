@@ -138,7 +138,8 @@ final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
                 var styleItemArr: [StyleTabItem] = []
 
                 // FIXED : StyleSectionModel 수정하면서 이미지 하나가 아니라 배열 자체를 넘길 예정
-                styleItemArr.append(StyleTabItem.styles(closetsInfo))
+                let csStyleItem = CSStyleSectionItem(typeInfo: typeInfo, categories: categories, closets: closetsInfo)
+                styleItemArr.append(StyleTabItem.styles(csStyleItem))
 //                debugPrint("🚀🚀🚀 styleSection.value: \(self.styleSection.value?.last)")
                 styleSection.append(
                     StyleTabSectionModel.styles(

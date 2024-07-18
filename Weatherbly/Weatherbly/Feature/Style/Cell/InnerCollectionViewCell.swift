@@ -66,7 +66,6 @@ final public class InnerCollectionViewCell: UICollectionViewCell {
     func configure(_ sectionsInfo: [StyleTabSectionModel]?) {
         guard let sectionsInfo = sectionsInfo else { return }
         bindSectionsRelay.accept(sectionsInfo)
-      
     }
 
     public override func prepareForReuse() {
@@ -117,15 +116,18 @@ extension InnerCollectionViewCell: CategoryHeaderViewDelegate {
                     let updatedSections = owner.bindSectionsRelay.value
                     if let sectionIndex = updatedSections.firstIndex(where: { section in
                         if case .styles(let header, _) = section, header.typeInfo.id == typeInfo.id {
+                         
                             return true
                         }
                         return false
                     }) {
+                        debugPrint("sectionIndex: \(sectionIndex)")
                         let cell = owner.innerCollectionView.cellForItem(at: IndexPath(item: 0, section: sectionIndex)) as? HorizonCollectionViewCell
-                        cell?.configure(newClosets)
+                        cell?.configureCollectionView(newClosets)
                     }
                 }
                 .disposed(by: bag)
+            
         case  false:
             let cgParam = getCategoryParam(with: tags)
             dataSource.closetWithCategory(typeID: typeInfo.id, page: 1, items: cgParam)
@@ -134,13 +136,15 @@ extension InnerCollectionViewCell: CategoryHeaderViewDelegate {
                     let sections = owner.bindSectionsRelay.value
                     if let sectionIndex = sections.firstIndex(where: { section in
                         if case .styles(let header, _) = section, header.typeInfo.id == typeInfo.id {
+                            
                             return true
                         }
                         return false
                     }) {
+                        debugPrint("sectionIndex: \(sectionIndex)")
                         // 각 섹션의 item은 한개이므로 item의 index = 0
                         let cell = owner.innerCollectionView.cellForItem(at: IndexPath(item: 0, section: sectionIndex)) as? HorizonCollectionViewCell
-                        cell?.configure(newClosets)
+                        cell?.configureCollectionView(newClosets)
                     }
                 }
                 .disposed(by: bag)
@@ -192,7 +196,9 @@ extension InnerCollectionViewCell: UICollectionViewDelegate {
             switch item {
             case .styles(let styleInfo):
                 return collectionView.dequeueCell(withType: HorizonCollectionViewCell.self, for: indexPath).then {
-                    $0.configure(styleInfo)
+                    $0.configureTagsView(info: styleInfo.typeInfo, categories: styleInfo.categories)
+                    $0.configureCollectionView(styleInfo.closets)
+                    
                 }
             default:
                 return UICollectionViewCell()
@@ -245,14 +251,14 @@ extension InnerCollectionViewCell: UICollectionViewDelegate {
         return layout
     }
     
-    // TODO: - // Item 레이아웃 사이즈 변경
+    // FIXME: - 아이템에 헤더까지 포함한 레이아웃
     func styleSectionLayout() -> NSCollectionLayoutSection {
-        
+         // header + item => 572
         // Size Property
         let itemWidth = (Constants.screenWidth - 20 ) / 3
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
-            heightDimension: .absolute(432)
+            heightDimension: .absolute(572)
         )
         
         // Item
@@ -260,7 +266,7 @@ extension InnerCollectionViewCell: UICollectionViewDelegate {
         
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
-            heightDimension: .absolute(432)
+            heightDimension: .absolute(572)
         )
         
         // Group
@@ -269,25 +275,56 @@ extension InnerCollectionViewCell: UICollectionViewDelegate {
             subitems: [item]
         )
         
-        // Header
-        let headerSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .absolute(122)
-        )
-        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: headerSize,
-            elementKind: UICollectionView.elementKindSectionHeader,
-            alignment: .topLeading
-        )
-        
         let section = NSCollectionLayoutSection(group: group)
-//        section.orthogonalScrollingBehavior = .continuous
-        section.boundarySupplementaryItems = [sectionHeader]
         section.interGroupSpacing = 36
-        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 0, bottom: 20, trailing: 5)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 5)
         
         return section
     }
+    
+    // TODO: - // Item 레이아웃 사이즈 변경
+//    func styleSectionLayout() -> NSCollectionLayoutSection {
+//         // header + item => 572
+//        // Size Property
+//        let itemWidth = (Constants.screenWidth - 20 ) / 3
+//        let itemSize = NSCollectionLayoutSize(
+//            widthDimension: .fractionalWidth(1),
+//            heightDimension: .absolute(432)
+//        )
+//        
+//        // Item
+//        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+//        
+//        let groupSize = NSCollectionLayoutSize(
+//            widthDimension: .fractionalWidth(1),
+//            heightDimension: .absolute(432)
+//        )
+//        
+//        // Group
+//        let group = NSCollectionLayoutGroup.vertical(
+//            layoutSize: groupSize,
+//            subitems: [item]
+//        )
+//        
+//        // Header
+//        let headerSize = NSCollectionLayoutSize(
+//            widthDimension: .fractionalWidth(1),
+//            heightDimension: .absolute(122)
+//        )
+//        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+//            layoutSize: headerSize,
+//            elementKind: UICollectionView.elementKindSectionHeader,
+//            alignment: .topLeading
+//        )
+//        
+//        let section = NSCollectionLayoutSection(group: group)
+////        section.orthogonalScrollingBehavior = .continuous
+//        section.boundarySupplementaryItems = [sectionHeader]
+//        section.interGroupSpacing = 36
+//        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 0, bottom: 20, trailing: 5)
+//        
+//        return section
+//    }
     
     // MARK: - 이중 스크롤 방지
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {

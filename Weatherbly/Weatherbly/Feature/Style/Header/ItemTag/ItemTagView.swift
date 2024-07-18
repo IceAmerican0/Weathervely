@@ -10,6 +10,7 @@ import PinLayout
 import RxGesture
 import RxSwift
 import RxCocoa
+import SnapKit
 
 struct TagState {
     var identfier: MCategoryInfo?
@@ -78,13 +79,12 @@ class ItemTagView: UIView {
             .when(.recognized)
             .bind(with: self) { owner, event in
                 owner.selectedToggle()
-                owner.itemTagDelegate?.itemTagDidTap(tagView: owner, categoryInfo: owner.categoryInfo, isSelected: owner.selectedState)
+                owner.itemTagDelegate?.itemTagDidTap(categoryInfo: owner.categoryInfo)
             }.disposed(by: bag)
     }
     
     func configureAttribute() {
-        addSubview(labelWrapper)
-        labelWrapper.addSubview(tagLabel)
+        
         labelWrapper.do {
             $0.layer.cornerRadius = 14
             $0.layer.borderWidth = 1
@@ -102,23 +102,22 @@ class ItemTagView: UIView {
     
     func layout() {
         
-        // Pin 또는 Flex 사용할 경우 Layout 정상적으로 작동하지 않는다.
+        // ISSUE: - Pin 또는 Flex 사용할 경우 Layout 정상적으로 작동하지 않는다.
         // UIView의 라이프싸이클 문제로 추측 된다.
-        NSLayoutConstraint.activate([
-            labelWrapper.topAnchor.constraint(equalTo: self.topAnchor, constant: 0),
-            labelWrapper.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
-            labelWrapper.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
-            labelWrapper.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0),
-            labelWrapper.widthAnchor.constraint(greaterThanOrEqualToConstant: 30),
-            labelWrapper.heightAnchor.constraint(equalToConstant: 29)
-        ])
-        NSLayoutConstraint.activate([
-            tagLabel.topAnchor.constraint(equalTo: labelWrapper.topAnchor, constant: 0),
-            tagLabel.leadingAnchor.constraint(equalTo: labelWrapper.leadingAnchor, constant: 14),
-            tagLabel.trailingAnchor.constraint(equalTo: labelWrapper.trailingAnchor, constant: -14),
-            tagLabel.bottomAnchor.constraint(equalTo: labelWrapper.bottomAnchor, constant: 0),
-            tagLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 30.0),
-        ])
+        addSubview(labelWrapper)
+        labelWrapper.addSubview(tagLabel)
+        labelWrapper.snp.makeConstraints {
+            $0.top.leading.trailing.bottom.equalToSuperview()
+            $0.width.greaterThanOrEqualTo(30)
+            $0.height.equalTo(29)
+        }
+        tagLabel.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.equalToSuperview().offset(14)
+            $0.trailing.equalToSuperview().inset(14)
+            $0.bottom.equalToSuperview()
+            $0.width.greaterThanOrEqualTo(30)
+        }
     }
     
     func configure(with tagInfo: MCategoryInfo?, selectedTags: [Int]) {

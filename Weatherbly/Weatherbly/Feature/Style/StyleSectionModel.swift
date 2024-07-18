@@ -17,8 +17,14 @@ enum StyleTabSectionModel {
 enum StyleTabItem {
     case banner(StyleBanner)
     case type([StyleTabSectionModel])
-    case styles([NewClosetInfo])
+    case styles(CSStyleSectionItem)
     case cloets(NewClosetInfo)
+}
+
+struct CSStyleSectionItem {
+    var typeInfo: ClosetTypeInfo?
+    var categories: [MCategoryInfo]?
+    var closets: [NewClosetInfo]?
 }
 
 extension StyleTabSectionModel: SectionModelType {

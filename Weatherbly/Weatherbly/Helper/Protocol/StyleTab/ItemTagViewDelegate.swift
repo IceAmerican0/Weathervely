@@ -9,6 +9,6 @@ import Foundation
 import UIKit
 
 // protocol so we can tell the controller about selections
-protocol CategoryTagsViewDelegate: AnyObject {
-    func selectItemTags(_ view: CategoryTagsView?, with tags: [Int])
+protocol ItemTagViewDelegate: AnyObject {
+    func selectItemTags(with tags: [Int])
 }
