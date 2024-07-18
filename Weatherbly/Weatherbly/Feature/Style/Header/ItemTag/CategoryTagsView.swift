@@ -15,12 +15,11 @@ final class CategoryTagsView: UIView {
     
     public var tagsDelegate: CategoryTagsViewDelegate?
     var bag = DisposeBag()
-    public var selectedTags = BehaviorRelay<[Int]>(value: [])
+    
     var scrollView = UIScrollView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.showsHorizontalScrollIndicator = false
         $0.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 5)
-        $0.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 5)
     }
     public var numRows: Int = 2
     // vertical stack view to hold the rows
@@ -30,7 +29,7 @@ final class CategoryTagsView: UIView {
         $0.alignment = .leading
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
-    
+    public var selectedTags = BehaviorRelay<[Int]>(value: [])
     public var tagViews: [ItemTagView] = []
     
     var tags: [MCategoryInfo] = [] {
@@ -44,7 +43,7 @@ final class CategoryTagsView: UIView {
             // create individual tag views and get the total width
             tags.forEach { category in
                 let t = ItemTagView()
-                t.configure(with: category)
+                t.configure(with: category, selectedTags: selectedTags.value)
                 t.itemTagDelegate = self
 
                 let sz = t.labelWrapper.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
@@ -72,7 +71,13 @@ final class CategoryTagsView: UIView {
         }
     }
     
-    
+    func binding() {
+        // FIXME: - 필요없으면 지우기
+        selectedTags.asDriver()
+            .drive(with: self) { owner, tags in
+                
+            }.disposed(by: bag)
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -80,7 +85,7 @@ final class CategoryTagsView: UIView {
     }
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        commonInit()
+        
     }
     
     func commonInit() {
@@ -90,7 +95,7 @@ final class CategoryTagsView: UIView {
         scrollView.addSubview(vStack)
         
         
-        //        let g = self
+//        let g = self
         let cg = scrollView.contentLayoutGuide
         
         NSLayoutConstraint.activate([
@@ -111,34 +116,22 @@ final class CategoryTagsView: UIView {
 }
 
 extension CategoryTagsView: ItemTagDelegate {
-    func itemTagDidTap(tagView: ItemTagView, categoryInfo: MCategoryInfo?) {
+    func itemTagDidTap(tagView: ItemTagView, categoryInfo: MCategoryInfo?, isSelected: SelectedChageState) {
         guard let category = categoryInfo else { return }
         let id = category.id
-        let name = category.name
-        debugPrint("HereHEre: \(String(category.id))")
-        debugPrint("HereHEre: \(category.name)")
+        debugPrint("\n\nHereHEre: \(id)")
+        
         // 태그뷰 모으기
         var tags = selectedTags.value
-        debugPrint("⭐️⭐️⭐️ tags Array : \(tags)")
         // 중복제거
         if !tags.contains(id) {
             tags.append(id)
         } else {
             tags = tags.filter { $0 != id }
         }
-        debugPrint("tags Array : \(tags)")
+        debugPrint("after accepted : \(tags)")
         selectedTags.accept(tags)
-        debugPrint("selectedTags : \(selectedTags.value)")
         tagsDelegate?.selectItemTags(self, with: tags)
     }
 }
-    
-//    func itemTagView(_ itemTagView: CategoryTagsView, didSelectItemAt index: Int) {
-//        print("did SelectItemAt : \(index)")
-//    }
-//    
-//    func itemTagView(_ itemTagView: CategoryTagsView, didDeSelectItemAt index: Int) {
-//        print("did DeSelectItemAt : \(index)")
-//    }
-    
 

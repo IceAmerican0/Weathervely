@@ -11,23 +11,15 @@ import RxGesture
 import RxSwift
 import RxCocoa
 
-enum SelectedChageState {
-    case selected
-    case deSelected
-    
-    init(value: Bool) {
-        switch value {
-        case true: self = .selected
-        case false: self = .deSelected
-        }
-    }
+struct TagState {
+    var identfier: MCategoryInfo?
+    var isSelected: SelectedChageState = .deSelected
 }
 
 class ItemTagView: UIView {
     
     var bag = DisposeBag()
-    public var itemTagDelegate: ItemTagDelegate?
-    var stateChangeRealy = PublishRelay<ItemTagView>()
+    var itemTagDelegate: ItemTagDelegate?
     var selectedState: SelectedChageState = .deSelected
     var categoryInfo: MCategoryInfo = .init(id: 0, name: "")
     
@@ -38,6 +30,17 @@ class ItemTagView: UIView {
         alignment: .center
     ).make(text: "#Item1")
     
+//    var tagState: TagState? {
+//        didSet {
+//            updateTag()
+//        }
+//    }
+    
+//    func updateTag() {
+//        guard let tagState = tagState else { return }
+//        tagLabel.text = tagState.identfier?.name
+//        configureAttribute
+//    }
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureAttribute()
@@ -71,13 +74,11 @@ class ItemTagView: UIView {
     }
 
     func binding() {
-        tagLabel.rx.tapGesture()
+        labelWrapper.rx.tapGesture()
             .when(.recognized)
             .bind(with: self) { owner, event in
                 owner.selectedToggle()
-                owner.itemTagDelegate?.itemTagDidTap(tagView: self, categoryInfo: self.categoryInfo)
-                
-                
+                owner.itemTagDelegate?.itemTagDidTap(tagView: owner, categoryInfo: owner.categoryInfo, isSelected: owner.selectedState)
             }.disposed(by: bag)
     }
     
@@ -120,13 +121,18 @@ class ItemTagView: UIView {
         ])
     }
     
-    func configure(with tagInfo: MCategoryInfo?) {
-        self.selectedState = .deSelected
+    func configure(with tagInfo: MCategoryInfo?, selectedTags: [Int]) {
+        
         guard let tagInfo = tagInfo else {
             tagLabel.text = "카테고리"
             tagLabel.sizeToFit()
             setNeedsLayout()
             return
+        }
+        if selectedTags.contains(tagInfo.id) {
+            self.selectedState = .selected
+        } else {
+            self.selectedState = .deSelected
         }
         categoryInfo = tagInfo
         tagLabel.text = tagInfo.name

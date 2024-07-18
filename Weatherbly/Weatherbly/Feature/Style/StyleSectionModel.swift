@@ -11,12 +11,14 @@ enum StyleTabSectionModel {
     case banner(item: [Item])
     case types(header: [ClosetTypeInfo], items: [Item])
     case styles(header: (typeInfo: ClosetTypeInfo, categories: [MCategoryInfo]), items: [Item])
+    case closets(item: [Item])
 }
 
 enum StyleTabItem {
     case banner(StyleBanner)
     case type([StyleTabSectionModel])
-    case styles(NewClosetInfo)
+    case styles([NewClosetInfo])
+    case cloets(NewClosetInfo)
 }
 
 extension StyleTabSectionModel: SectionModelType {
@@ -26,7 +28,8 @@ extension StyleTabSectionModel: SectionModelType {
         switch self {
         case .banner(item: let item): item
         case .types(_, items: let item): item.map { $0 }
-        case .styles(_, items: let items): items.map { $0 }
+        case .styles(_, items: let items): items
+        case .closets(item: let items): items.map { $0 }
         }
     }
     
@@ -38,6 +41,8 @@ extension StyleTabSectionModel: SectionModelType {
             self = .types(header: header, items: items)
         case .styles(let header, _):
             self = .styles(header: header, items: items)
+        case .closets(_):
+            self = .closets(item: items)
         }
     }
         

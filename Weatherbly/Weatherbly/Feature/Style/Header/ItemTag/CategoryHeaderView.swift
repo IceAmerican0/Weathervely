@@ -33,6 +33,9 @@ final class CategoryHeaderView : UICollectionReusableView {
     private var itemTagHeaderWrapper = UIStackView()
     private var tagsView: CategoryTagsView? // 태그 뷰를 캐싱
     
+    // selectedTags 상태를 관리
+    public var selectedTags = BehaviorRelay<[Int]>(value: [])
+    
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setupView()
@@ -58,6 +61,7 @@ final class CategoryHeaderView : UICollectionReusableView {
         tagsView = CategoryTagsView()
         tagsView?.backgroundColor = .white
         tagsView?.numRows = 2
+//        tagsView.configure()
         tagsView?.tagsDelegate = self
         if let tagsView = tagsView {
             itemTagHeaderWrapper.addSubview(tagsView)
@@ -93,9 +97,16 @@ final class CategoryHeaderView : UICollectionReusableView {
             .drive(with: self, onNext: { owner, tags in
                 owner.updateTags(tags)
             }).disposed(by: bag)
+        
+        selectedTags
+            .asDriver()
+            .drive(with: self, onNext: { owner, tags in
+                owner.tagsView?.selectedTags.accept(tags)
+            }).disposed(by: bag)
     }
     
     func configure(info: ClosetTypeInfo?, categories: [MCategoryInfo]?) {
+        print("Header view Configure")
         guard let typeInfo = info else { return }
         self.typeInfo = typeInfo
         sectionTitleLabel.text = "#\(typeInfo.name)"
@@ -107,12 +118,9 @@ final class CategoryHeaderView : UICollectionReusableView {
 
 extension CategoryHeaderView: CategoryTagsViewDelegate {
     func selectItemTags(_ view: CategoryTagsView?, with tags: [Int]) {
-        if view != nil {
             debugPrint("아니 씨발 이거 뭔데? \(tags)")
-//            headerDelegate?.sendCategoryWithType(self, tags: tags, typeInfo: self.typeInfo)
-        } else {
-            view
-        }
+            selectedTags.accept(tags)  // selectedTags를 업데이트
+            headerDelegate?.sendCategoryWithType(self, tags: selectedTags.value, typeInfo: self.typeInfo)
     }
     
 }

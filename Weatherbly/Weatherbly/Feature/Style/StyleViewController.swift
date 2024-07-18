@@ -83,12 +83,12 @@ extension StyleViewController: InnerCollectionViewCellDelegate {
         let parentScrollOffsetY = titleLabelAreaHeight + bannerSectionHeight
         
         
-        debugPrint("\n\n\nparentCV ContetnSize Height: \(self.collectionView.contentSize.height)")
-        debugPrint("parentCV frameHeight : \(self.collectionView.frame.height)")
-        debugPrint("innerCV : COntentSizeHeight: \(innerCollectionView.contentSize.height)")
-        debugPrint("innerCV : COntentSizeHeight: \(innerCollectionView.frame.height)")
-        debugPrint("innerCV offsetY : \(offsetY)")
-        debugPrint("parentCV offsetY : \(self.collectionView.contentOffset.y)")
+//        debugPrint("\n\n\nparentCV ContetnSize Height: \(self.collectionView.contentSize.height)")
+//        debugPrint("parentCV frameHeight : \(self.collectionView.frame.height)")
+//        debugPrint("innerCV : COntentSizeHeight: \(innerCollectionView.contentSize.height)")
+//        debugPrint("innerCV : COntentSizeHeight: \(innerCollectionView.frame.height)")
+//        debugPrint("innerCV offsetY : \(offsetY)")
+//        debugPrint("parentCV offsetY : \(self.collectionView.contentOffset.y)")
         // InnerCollectionView의 스크롤을 상위 UICollectionView에 반영
         
         if offsetY <= 0 { // innerCV 최상단
@@ -157,8 +157,8 @@ extension StyleViewController: UICollectionViewDelegate {
             parentCV.isScrollEnabled = false
             
         }
-        debugPrint("parentOffsetY : \(parentOffsetY)")
-        debugPrint("scrollY : \(scrollView.contentOffset.y )")
+//        debugPrint("parentOffsetY : \(parentOffsetY)")
+//        debugPrint("scrollY : \(scrollView.contentOffset.y )")
         
     }
     

@@ -66,13 +66,14 @@ final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
                 .banner(bannerImage),
                 .types( header: self.types.value, ( [ClosetTypeInfo] )
                         items: self.styleSectinos.value
-                            ** 예시
-                                [   .style(header: [MCategories], items: [NewClosetInfo,
-                                    .style(header: [MCategories], items: [NewClosetInfo,
-                                    .style(header: [MCategories], items: [NewClosetInfo,
-                                    .style(header: [MCategories], items: [NewClosetInfo
          
-                                    ]
+        ** types의 item 예시
+        [   .style(header: (typeInfo: ClosetTypeInfo(id:1, name: "타입이름"), categories: [MCategories]), items: [NewClosetInfo,
+            .style(header: (typeInfo: ClosetTypeInfo(id:2, name: "타입이름"), categories: [MCategories]), items: [NewClosetInfo],
+            .style(header: (typeInfo: ClosetTypeInfo(id:3, name: "타입이름"), categories: [MCategories]), items: [NewClosetInfo],
+            .style(header: (typeInfo: ClosetTypeInfo(id:4, name: "타입이름"), categories: [MCategories]), items: [NewClosetInfo]
+
+            ]
             ]
          
          */
@@ -83,7 +84,7 @@ final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
                 sections.append(banner)
                 sections.append(types)
             }
-            debugPrint("bindingSection : \(sections) ")
+//            debugPrint("bindingSection : \(sections) ")
             return sections
         }.bind(to: bindSectionsRelay)
             .disposed(by: bag)
@@ -135,9 +136,9 @@ final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
             .subscribe(onNext: { (typeInfo, categories, closetsInfo) in
                 var styleSection = self.styleSection.value ?? []
                 var styleItemArr: [StyleTabItem] = []
-                closetsInfo.forEach {
-                    styleItemArr.append(StyleTabItem.styles($0))
-                }
+
+                // FIXED : StyleSectionModel 수정하면서 이미지 하나가 아니라 배열 자체를 넘길 예정
+                styleItemArr.append(StyleTabItem.styles(closetsInfo))
 //                debugPrint("🚀🚀🚀 styleSection.value: \(self.styleSection.value?.last)")
                 styleSection.append(
                     StyleTabSectionModel.styles(

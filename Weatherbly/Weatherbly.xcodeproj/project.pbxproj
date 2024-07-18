@@ -119,7 +119,6 @@
 		6987EBBC2B41409E00CF1E74 /* NewHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6987EBBA2B41409E00CF1E74 /* NewHomeViewController.swift */; };
 		6987EBBD2B41409E00CF1E74 /* NewHomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6987EBBB2B41409E00CF1E74 /* NewHomeViewModel.swift */; };
 		698F6CA92ADD624C00C2B33A /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698F6CA82ADD624B00C2B33A /* Tab.swift */; };
-		698F6CB02ADFF8A600C2B33A /* HorizonClosetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698F6CAF2ADFF8A600C2B33A /* HorizonClosetCell.swift */; };
 		698F6CB22AE00FCC00C2B33A /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698F6CB12AE00FCC00C2B33A /* UIImage+Extension.swift */; };
 		69A3D9EB2B484D2A00CA1FD5 /* UICollectionReusableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A3D9EA2B484D2A00CA1FD5 /* UICollectionReusableView+Extension.swift */; };
 		69A7F0D92A80B42A00834974 /* UserDefaultKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A7F0D82A80B42A00834974 /* UserDefaultKey.swift */; };
@@ -160,6 +159,8 @@
 		BD2D01B42A3888AA003A25D5 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D01B32A3888AA003A25D5 /* UIColor+Extension.swift */; };
 		BD2D01B62A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D01B52A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift */; };
 		BD2D11BC2A9AEB0D008CBF0D /* TenDaysForecastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D11BB2A9AEB0D008CBF0D /* TenDaysForecastViewModel.swift */; };
+		BD351C3C2C4810E500DE96D9 /* SelectedChageState.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD351C3B2C4810E500DE96D9 /* SelectedChageState.swift */; };
+		BD351C3E2C483E7200DE96D9 /* HorizonCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD351C3D2C483E7200DE96D9 /* HorizonCollectionViewCell.swift */; };
 		BD3714372B81279D00527577 /* StyleClosetEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3714362B81279D00527577 /* StyleClosetEntity.swift */; };
 		BD3714392B8629FD00527577 /* StyleTagHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3714382B8629FD00527577 /* StyleTagHeaderView.swift */; };
 		BD3BDE662BDD456E002E9E0C /* BannerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3BDE652BDD456E002E9E0C /* BannerCell.swift */; };
@@ -174,7 +175,6 @@
 		BD4907332A84D42F0027DEE8 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4907322A84D42F0027DEE8 /* String+Extension.swift */; };
 		BD4AC38A2A655AEC00537583 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4AC3892A655AEC00537583 /* Date+Extension.swift */; };
 		BD4AC3912A66899500537583 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4AC3902A66899500537583 /* UILabel+Extension.swift */; };
-		BD50FCBA2B82F76400C06FDD /* HorizonCollectionViewMolecule.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD50FCB92B82F76400C06FDD /* HorizonCollectionViewMolecule.swift */; };
 		BD5106F12C0AFCCE00D8AFBE /* MyTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5106F02C0AFCCE00D8AFBE /* MyTagView.swift */; };
 		BD5106F32C0AFCF100D8AFBE /* MyTagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD5106F22C0AFCF100D8AFBE /* MyTagsView.swift */; };
 		BD5106F82C0E248700D8AFBE /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BD5106F72C0E248700D8AFBE /* SnapKit */; };
@@ -319,7 +319,6 @@
 		6987EBBA2B41409E00CF1E74 /* NewHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHomeViewController.swift; sourceTree = "<group>"; };
 		6987EBBB2B41409E00CF1E74 /* NewHomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHomeViewModel.swift; sourceTree = "<group>"; };
 		698F6CA82ADD624B00C2B33A /* Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
-		698F6CAF2ADFF8A600C2B33A /* HorizonClosetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizonClosetCell.swift; sourceTree = "<group>"; };
 		698F6CB12AE00FCC00C2B33A /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		69A3D9EA2B484D2A00CA1FD5 /* UICollectionReusableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionReusableView+Extension.swift"; sourceTree = "<group>"; };
 		69A7F0D82A80B42A00834974 /* UserDefaultKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultKey.swift; sourceTree = "<group>"; };
@@ -361,6 +360,8 @@
 		BD2D01B32A3888AA003A25D5 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		BD2D01B52A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeBaseInitialzerProtocol.swift; sourceTree = "<group>"; };
 		BD2D11BB2A9AEB0D008CBF0D /* TenDaysForecastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TenDaysForecastViewModel.swift; sourceTree = "<group>"; };
+		BD351C3B2C4810E500DE96D9 /* SelectedChageState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedChageState.swift; sourceTree = "<group>"; };
+		BD351C3D2C483E7200DE96D9 /* HorizonCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizonCollectionViewCell.swift; sourceTree = "<group>"; };
 		BD3714362B81279D00527577 /* StyleClosetEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleClosetEntity.swift; sourceTree = "<group>"; };
 		BD3714382B8629FD00527577 /* StyleTagHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleTagHeaderView.swift; sourceTree = "<group>"; };
 		BD3BDE652BDD456E002E9E0C /* BannerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerCell.swift; sourceTree = "<group>"; };
@@ -375,7 +376,6 @@
 		BD4907322A84D42F0027DEE8 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		BD4AC3892A655AEC00537583 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		BD4AC3902A66899500537583 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
-		BD50FCB92B82F76400C06FDD /* HorizonCollectionViewMolecule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizonCollectionViewMolecule.swift; sourceTree = "<group>"; };
 		BD5106F02C0AFCCE00D8AFBE /* MyTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTagView.swift; sourceTree = "<group>"; };
 		BD5106F22C0AFCF100D8AFBE /* MyTagsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTagsView.swift; sourceTree = "<group>"; };
 		BD51070B2C0F756700D8AFBE /* ClosetDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetDetailViewController.swift; sourceTree = "<group>"; };
@@ -595,8 +595,6 @@
 			children = (
 				5C4691702A7893E000E2CC70 /* Alert */,
 				BD69B8F82A553A0C00DDCD7A /* CSNavigationView.swift */,
-				BD50FCB92B82F76400C06FDD /* HorizonCollectionViewMolecule.swift */,
-				698F6CAF2ADFF8A600C2B33A /* HorizonClosetCell.swift */,
 			);
 			path = Molecule;
 			sourceTree = "<group>";
@@ -713,6 +711,7 @@
 				BD3BDE652BDD456E002E9E0C /* BannerCell.swift */,
 				BDCA1E8C2C401F2600376911 /* InnerCollectionViewCell.swift */,
 				BD3BDE6F2BFA03EF002E9E0C /* StyleCell.swift */,
+				BD351C3D2C483E7200DE96D9 /* HorizonCollectionViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -755,6 +754,7 @@
 		BD2D01872A388753003A25D5 /* Weatherbly */ = {
 			isa = PBXGroup;
 			children = (
+				BD351C3A2C4810D300DE96D9 /* Enum */,
 				BD2D01882A388753003A25D5 /* AppDelegate.swift */,
 				BD2D018A2A388753003A25D5 /* SceneDelegate.swift */,
 				5C4A0ABA2B3ABA56006BE52A /* Colors.xcassets */,
@@ -887,6 +887,14 @@
 				BDB2DDA92B64F167009741E0 /* RxBaseScrollViewController.swift */,
 			);
 			path = Base;
+			sourceTree = "<group>";
+		};
+		BD351C3A2C4810D300DE96D9 /* Enum */ = {
+			isa = PBXGroup;
+			children = (
+				BD351C3B2C4810E500DE96D9 /* SelectedChageState.swift */,
+			);
+			path = Enum;
 			sourceTree = "<group>";
 		};
 		BD3BDE692BEBD023002E9E0C /* Header */ = {
@@ -1322,16 +1330,15 @@
 				BD5107122C11DE4000D8AFBE /* ClosetDetailEntity.swift in Sources */,
 				BDCEE0BD2C4579C800C54AF6 /* Notification+Extension.swift in Sources */,
 				BD5107162C11E14800D8AFBE /* WithClosetInfo.swift in Sources */,
+				BD351C3C2C4810E500DE96D9 /* SelectedChageState.swift in Sources */,
 				5CF0A49E2B5A32EA00D2AB4C /* HomeForecastEntity.swift in Sources */,
 				5C6CE79A2C1C38B600D64F22 /* ShimmerView.swift in Sources */,
 				5C637AF72C070FA600E5F028 /* MediumCategoryTarget.swift in Sources */,
 				69D25C972AD04F6300C17FB1 /* WVNetWorkError.swift in Sources */,
 				BD6135D32A7E3C9C00DB3DF9 /* RecommendClosetEntity.swift in Sources */,
 				5C4BE89B2A5E2D1200FD2CEF /* EditRegionViewController.swift in Sources */,
-				698F6CB02ADFF8A600C2B33A /* HorizonClosetCell.swift in Sources */,
 				BDE912C82C28743000330673 /* CoolDecorationView.swift in Sources */,
 				5C84169E2B68CAA5003AE726 /* TenDayForecastEntity.swift in Sources */,
-				BD50FCBA2B82F76400C06FDD /* HorizonCollectionViewMolecule.swift in Sources */,
 				69A7F0E42A8208DB00834974 /* UserInfoRequest.swift in Sources */,
 				BD4AC3912A66899500537583 /* UILabel+Extension.swift in Sources */,
 				5CDCD7CC2B54EAC6008465B9 /* HomeItemFilterCell.swift in Sources */,
@@ -1380,6 +1387,7 @@
 				5C9CED842B71B6A80041801C /* SettingTableViewCell.swift in Sources */,
 				BD5D16932A63B3AD00435816 /* CALayer+Extension.swift in Sources */,
 				5C9D02E32A72408C00AF2DA3 /* TypeDataSource.swift in Sources */,
+				BD351C3E2C483E7200DE96D9 /* HorizonCollectionViewCell.swift in Sources */,
 				BD4AC38A2A655AEC00537583 /* Date+Extension.swift in Sources */,
 				BD7DAB252A6E757C00422D25 /* PrimitiveSequence+Extension.swift in Sources */,
 				BD3BDE702BFA03EF002E9E0C /* StyleCell.swift in Sources */,

@@ -8,5 +8,5 @@
 import UIKit
 
 protocol ItemTagDelegate: AnyObject {
-    func itemTagDidTap(tagView: ItemTagView, categoryInfo: MCategoryInfo?)
+    func itemTagDidTap(tagView: ItemTagView, categoryInfo: MCategoryInfo?, isSelected: SelectedChageState)
 }
