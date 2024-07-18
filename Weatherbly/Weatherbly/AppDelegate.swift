@@ -121,7 +121,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
     
     /// 백그라운드 알림 처리
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        PushNotificationDBManager.shared.saveNotiToDatabase(info: userInfo)
+        NotificationCenter.default.post(name: .pushReceived, object: nil)
         completionHandler(.newData)
     }
     
@@ -129,13 +129,6 @@ extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         NotificationCenter.default.post(name: .pushReceived, object: nil)
         completionHandler([.banner, .sound])
-    }
-    
-    /// 알림 선택시
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        let info = response.notification.request.content.userInfo
-        PushNotificationDBManager.shared.saveNotiToDatabase(info: info)
-        completionHandler()
     }
 }
 

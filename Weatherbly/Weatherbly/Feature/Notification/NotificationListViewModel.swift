@@ -16,18 +16,17 @@ public protocol NotificationListViewModelLogic: ViewModelBusinessLogic {
     
     var shimmerStatus: PublishRelay<Bool> { get }
     var refreshStatus: PublishRelay<Bool> { get }
-    var notificationInfo: BehaviorRelay<[PushNotification]> { get }
+    var notificationInfo: BehaviorRelay<[NotificationEntity]> { get }
 }
 
 final class NotificationListViewModel: RxBaseViewModel, NotificationListViewModelLogic {
-    /// 알림 DB
-    private let DBManager = PushNotificationDBManager.shared
+    private let dataSource: NotificationDataSourceProtocol = NotificationDataSource()
     /// 첫 실행 shimmer 여부
     public var shimmerStatus: PublishRelay<Bool> = .init()
     /// 새로고침 상태
     public var refreshStatus: PublishRelay<Bool> = .init()
     /// 알림 정보
-    public var notificationInfo = BehaviorRelay<[PushNotification]>(value: [])
+    public var notificationInfo = BehaviorRelay<[NotificationEntity]>(value: [])
     
     /// 새로고침
     public func pullToRefresh() {
@@ -37,28 +36,53 @@ final class NotificationListViewModel: RxBaseViewModel, NotificationListViewMode
     
     /// 리스트 불러오기
     public func getNotiInfo() {
-        DBManager.deleteOldNotification()
-        let list = DBManager.readAllNotifications()
-        shimmerStatus.accept(true)
-        refreshStatus.accept(false)
-        notificationInfo.accept(list)
+        dataSource.getNotificationList()
+            .subscribe(
+                with: self,
+                onNext: { owner, response in
+                    owner.shimmerStatus.accept(true)
+                    owner.refreshStatus.accept(false)
+                    owner.notificationInfo.accept(response)
+                },
+                onError: { owner, error in
+                    owner.shimmerStatus.accept(true)
+                    owner.refreshStatus.accept(false)
+                    owner.notificationInfo.accept([])
+                    owner.alertState.accept(
+                        .init(
+                            title: error.localizedDescription,
+                            alertType: .popup
+                        )
+                    )
+                }
+            ).disposed(by: bag)
     }
     
     /// 알림 삭제
     public func deleteNoti(row: Int) -> Bool {
-        let id = notificationInfo.value[row].id
-        let state = DBManager.deleteNotification(id: id)
-        
-        if state {
-            alertState.accept(
-                .init(
-                    title: "알림이 삭제됐어요",
-                    alertType: .toast
-                )
-            )
-        }
-        
-        getNotiInfo()
+        var state = false
+        dataSource.deleteNotification(id: notificationInfo.value[row].id)
+            .subscribe(
+                with: self,
+                onNext: { owner, _ in
+                    owner.alertState.accept(
+                        .init(
+                            title: "알림이 삭제됐어요",
+                            alertType: .toast
+                        )
+                    )
+                    state = true
+                },
+                onError: { owner, error in
+                    owner.alertState.accept(
+                        .init(
+                            title: error.localizedDescription,
+                            alertType: .popup
+                        )
+                    )
+                    state = false
+                }
+            ).disposed(by: bag)
         
         return state
     }

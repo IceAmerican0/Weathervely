@@ -55,6 +55,12 @@ extension String {
         return DateFormatter.shared.date(from: self) ?? Date()
     }
     
+    /// ISO 형식 설정 후 변경
+    var isoToDate: Date {
+        DateFormatter.shared.dateFormat = "yyyy.MM.dd'T'HH:mm:ss.SSSZ"
+        return DateFormatter.shared.date(from: self) ?? Date()
+    }
+    
     func toTimeString(day: String, time: String) -> String {
         DateFormatter.shared.dateFormat = "a h시"
         

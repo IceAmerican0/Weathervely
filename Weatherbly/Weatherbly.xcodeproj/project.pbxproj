@@ -40,7 +40,6 @@
 		5C5C1C2A2B86CAE500294BFF /* CSTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C1C292B86CAE500294BFF /* CSTextField.swift */; };
 		5C5C1C2D2B8738D500294BFF /* NicknameCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C1C2B2B8738D500294BFF /* NicknameCompleteViewController.swift */; };
 		5C5C1C2E2B8738D500294BFF /* NicknameCompleteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C1C2C2B8738D500294BFF /* NicknameCompleteViewModel.swift */; };
-		5C60387E2C005E8E008F3C3C /* PushNotificationDBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C60387D2C005E8E008F3C3C /* PushNotificationDBManager.swift */; };
 		5C61B97F2BB52E67002EA200 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C61B97E2BB52E67002EA200 /* AppEnvironment.swift */; };
 		5C6AC7022A84A4D000CE5D34 /* UserInfoEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6AC7012A84A4D000CE5D34 /* UserInfoEntity.swift */; };
 		5C6CE79A2C1C38B600D64F22 /* ShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6CE7992C1C38B600D64F22 /* ShimmerView.swift */; };
@@ -52,7 +51,6 @@
 		5C84169E2B68CAA5003AE726 /* TenDayForecastEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C84169D2B68CAA5003AE726 /* TenDayForecastEntity.swift */; };
 		5C8416A02B68D9FC003AE726 /* TenDaysForecastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C84169F2B68D9FC003AE726 /* TenDaysForecastTableViewCell.swift */; };
 		5C84F1FE2AA0238000CF614E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5C84F1FD2AA0238000CF614E /* GoogleService-Info.plist */; };
-		5C8833742BFF1FBF00769743 /* PushNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8833732BFF1FBF00769743 /* PushNotification.swift */; };
 		5C8F2D3D2B6B30F0002DF94E /* NotificationListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8F2D3B2B6B30F0002DF94E /* NotificationListViewController.swift */; };
 		5C8F2D3E2B6B30F0002DF94E /* NotificationListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8F2D3C2B6B30F0002DF94E /* NotificationListViewModel.swift */; };
 		5C8F2D412B6B6836002DF94E /* NotificationListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8F2D402B6B6836002DF94E /* NotificationListTableViewCell.swift */; };
@@ -84,6 +82,8 @@
 		5CADDD282A9DDF9900EAB678 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CADDD272A9DDF9900EAB678 /* Constants.swift */; };
 		5CAED17F2BBB97CE00287EF7 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 5CAED17E2BBB97CE00287EF7 /* PrivacyInfo.xcprivacy */; };
 		5CBD391E2B5F3EFE00B0A85F /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBD391D2B5F3EFE00B0A85F /* ToastView.swift */; };
+		5CC2DB9C2C488F6B0098CB68 /* NotificationTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC2DB9B2C488F6B0098CB68 /* NotificationTarget.swift */; };
+		5CC2DB9E2C488F710098CB68 /* NotificationDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC2DB9D2C488F710098CB68 /* NotificationDataSource.swift */; };
 		5CC61E1F2A56850F001435E6 /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC61E1E2A56850F001435E6 /* DateFormatter+Extension.swift */; };
 		5CC61E262A5BC223001435E6 /* SettingRegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC61E252A5BC223001435E6 /* SettingRegionViewController.swift */; };
 		5CC61E282A5BDCCC001435E6 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC61E272A5BDCCC001435E6 /* UIViewController+Extension.swift */; };
@@ -244,7 +244,6 @@
 		5C5C1C292B86CAE500294BFF /* CSTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSTextField.swift; sourceTree = "<group>"; };
 		5C5C1C2B2B8738D500294BFF /* NicknameCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameCompleteViewController.swift; sourceTree = "<group>"; };
 		5C5C1C2C2B8738D500294BFF /* NicknameCompleteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameCompleteViewModel.swift; sourceTree = "<group>"; };
-		5C60387D2C005E8E008F3C3C /* PushNotificationDBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationDBManager.swift; sourceTree = "<group>"; };
 		5C61B97E2BB52E67002EA200 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
 		5C6AC7012A84A4D000CE5D34 /* UserInfoEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoEntity.swift; sourceTree = "<group>"; };
 		5C6CE7992C1C38B600D64F22 /* ShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerView.swift; sourceTree = "<group>"; };
@@ -256,7 +255,6 @@
 		5C84169D2B68CAA5003AE726 /* TenDayForecastEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TenDayForecastEntity.swift; sourceTree = "<group>"; };
 		5C84169F2B68D9FC003AE726 /* TenDaysForecastTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TenDaysForecastTableViewCell.swift; sourceTree = "<group>"; };
 		5C84F1FD2AA0238000CF614E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		5C8833732BFF1FBF00769743 /* PushNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotification.swift; sourceTree = "<group>"; };
 		5C8F2D3B2B6B30F0002DF94E /* NotificationListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationListViewController.swift; sourceTree = "<group>"; };
 		5C8F2D3C2B6B30F0002DF94E /* NotificationListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationListViewModel.swift; sourceTree = "<group>"; };
 		5C8F2D402B6B6836002DF94E /* NotificationListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationListTableViewCell.swift; sourceTree = "<group>"; };
@@ -287,6 +285,8 @@
 		5CADDD272A9DDF9900EAB678 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		5CAED17E2BBB97CE00287EF7 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		5CBD391D2B5F3EFE00B0A85F /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
+		5CC2DB9B2C488F6B0098CB68 /* NotificationTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTarget.swift; sourceTree = "<group>"; };
+		5CC2DB9D2C488F710098CB68 /* NotificationDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationDataSource.swift; sourceTree = "<group>"; };
 		5CC61E1E2A56850F001435E6 /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
 		5CC61E252A5BC223001435E6 /* SettingRegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingRegionViewController.swift; sourceTree = "<group>"; };
 		5CC61E272A5BDCCC001435E6 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
@@ -587,6 +587,16 @@
 			path = Setting;
 			sourceTree = "<group>";
 		};
+		5CC2DB9A2C488F4C0098CB68 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				5CC2DB9B2C488F6B0098CB68 /* NotificationTarget.swift */,
+				5CC2DB9D2C488F710098CB68 /* NotificationDataSource.swift */,
+				5C8F2D422B6B6A71002DF94E /* NotificationEntity.swift */,
+			);
+			path = Notification;
+			sourceTree = "<group>";
+		};
 		5CC61E242A5BC1D0001435E6 /* Region */ = {
 			isa = PBXGroup;
 			children = (
@@ -608,6 +618,7 @@
 				5C08096B2C37AFD500A902DE /* Filter */,
 				BD7DAB1C2A6E62F600422D25 /* Forcast */,
 				5CE8CD582B83255900AB6EBD /* NewCloset */,
+				5CC2DB9A2C488F4C0098CB68 /* Notification */,
 				5CCC914E2A61195D0025B522 /* Region */,
 				5C9D02D52A71EE9300AF2DA3 /* User */,
 			);
@@ -834,8 +845,6 @@
 				69A7F0E12A811EC000834974 /* UserDefaultManager.swift */,
 				5C61B97E2BB52E67002EA200 /* AppEnvironment.swift */,
 				5C501F932BCE5A8000533F68 /* UserNotification.swift */,
-				5C8833732BFF1FBF00769743 /* PushNotification.swift */,
-				5C60387D2C005E8E008F3C3C /* PushNotificationDBManager.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -1048,7 +1057,6 @@
 				BD3BDE762BFB758D002E9E0C /* Style */,
 				BD7DAB262A6E786E00422D25 /* StatusOnlyEntity.swift */,
 				BD6135D22A7E3C9C00DB3DF9 /* RecommendClosetEntity.swift */,
-				5C8F2D422B6B6A71002DF94E /* NotificationEntity.swift */,
 				BD3714362B81279D00527577 /* StyleClosetEntity.swift */,
 			);
 			path = Entity;
@@ -1223,7 +1231,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5C8833742BFF1FBF00769743 /* PushNotification.swift in Sources */,
 				5CC61E262A5BC223001435E6 /* SettingRegionViewController.swift in Sources */,
 				5CDCD7DE2B564A89008465B9 /* FilterListHeaderView.swift in Sources */,
 				5CEC8FE02C215E1A003F0CF4 /* DetailShimmerView.swift in Sources */,
@@ -1254,7 +1261,6 @@
 				5C08096D2C37AFD500A902DE /* MediumCategoryDataSource.swift in Sources */,
 				BD2D11BC2A9AEB0D008CBF0D /* TenDaysForecastViewModel.swift in Sources */,
 				5CDCD7DC2B564144008465B9 /* FilterListViewModel.swift in Sources */,
-				5C60387E2C005E8E008F3C3C /* PushNotificationDBManager.swift in Sources */,
 				5CCC91522A61197B0025B522 /* SearchRegionEntity.swift in Sources */,
 				5CC61E282A5BDCCC001435E6 /* UIViewController+Extension.swift in Sources */,
 				5C8416A02B68D9FC003AE726 /* TenDaysForecastTableViewCell.swift in Sources */,
@@ -1332,6 +1338,7 @@
 				BD51070E2C0F75B300D8AFBE /* ClosetDetailViewModel.swift in Sources */,
 				5CDCD7E02B566C04008465B9 /* FilterSection.swift in Sources */,
 				5C7CAE362BE08280007760DD /* FilterButton.swift in Sources */,
+				5CC2DB9E2C488F710098CB68 /* NotificationDataSource.swift in Sources */,
 				5C501F942BCE5A8000533F68 /* UserNotification.swift in Sources */,
 				5CEC8FDE2C215C86003F0CF4 /* StyleShimmerView.swift in Sources */,
 				BD05E0722B380C9400A48E61 /* NewCSLabel.swift in Sources */,
@@ -1354,6 +1361,7 @@
 				BD4AC38A2A655AEC00537583 /* Date+Extension.swift in Sources */,
 				BD7DAB252A6E757C00422D25 /* PrimitiveSequence+Extension.swift in Sources */,
 				BD3BDE702BFA03EF002E9E0C /* StyleCell.swift in Sources */,
+				5CC2DB9C2C488F6B0098CB68 /* NotificationTarget.swift in Sources */,
 				5CAB60D12A54FC5F00CD431A /* UITableView+Extension.swift in Sources */,
 				BD3BDE732BFA1692002E9E0C /* ItemTagHeaderView.swift in Sources */,
 				BD5107262C1893AE00D8AFBE /* ClosetDetailDataSource.swift in Sources */,

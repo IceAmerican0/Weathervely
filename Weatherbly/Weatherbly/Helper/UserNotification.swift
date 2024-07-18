@@ -46,7 +46,9 @@ public func toPushSetting() {
                 queue: nil
             ) { _ in
                 UNUserNotificationCenter.current().getNotificationSettings { setting in
-                    
+                    DispatchQueue.main.async {
+                        NotificationCenter.default.post(name: .returnFromSetting, object: setting)
+                    }
                 }
             }
         }
@@ -55,4 +57,5 @@ public func toPushSetting() {
 
 extension Notification.Name {
     static let pushReceived = Notification.Name("pushReceived")
+    static let returnFromSetting = Notification.Name("returnFromSetting")
 }

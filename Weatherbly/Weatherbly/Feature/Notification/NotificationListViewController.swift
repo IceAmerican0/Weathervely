@@ -62,6 +62,7 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
     
     deinit {
         NotificationCenter.default.removeObserver(self, name: .pushReceived, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .returnFromSetting, object: nil)
     }
     
     override func viewDidLoad() {
@@ -73,13 +74,15 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
             name: .pushReceived,
             object: nil
         )
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        viewModel.getNotiInfo()
         
-        settingListView()
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(settingListView(_:)),
+            name: .returnFromSetting,
+            object: nil
+        )
+        
+        viewModel.getNotiInfo()
     }
 
     override func layout() {
@@ -105,6 +108,7 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
             .take(1)
             .subscribe(with: self) { owner, _ in
                 owner.shimmerView.removeFromSuperview()
+                owner.settingListView()
                 owner.container.flex.layout()
             }.disposed(by: bag)
         
@@ -142,6 +146,7 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
             }.disposed(by: bag)
         
         viewModel.notificationInfo
+            .observe(on: MainScheduler.instance)
             .bind(to: tableView.rx.items(
                 cellIdentifier: NotificationListTableViewCell.identifier,
                 cellType: NotificationListTableViewCell.self
@@ -162,29 +167,45 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
     }
     
     @objc
-    private func settingListView() {
-        Task {
-            let isAuthorized = await checkAuthorization()
-            if viewModel.notificationInfo.value.count > 0 {
-                zeroNotiView.flex.display(.none)
-                tableView.flex.display(.flex)
+    private func settingListView(_ notification: Notification? = nil) {
+        if let setting = notification?.object as? UNNotificationSettings {
+            let status = setting.authorizationStatus
+            if status == .notDetermined || status == .denied {
+                updateView(status: false)
             } else {
-                zeroNotiView.flex.display(.flex)
-                tableView.flex.display(.none)
-                
-                if !isAuthorized {
-                    notiButton.flex.display(.flex)
-                    notiButton.setTitle("알림 권한 설정하기", for: .normal)
-                }
-                
-                if !UserDefaultManager.shared.pushAgreement {
-                    notiButton.setTitle("알림 받기", for: .normal)
+                updateView(status: true)
+            }
+        } else {
+            Task {
+                let isAuthorized = await checkAuthorization()
+                DispatchQueue.main.async {
+                    self.updateView(status: isAuthorized)
                 }
             }
-            zeroNotiView.flex.markDirty()
-            tableView.flex.markDirty()
-            container.flex.layout()
         }
+    }
+    
+    private func updateView(status: Bool) {
+        if viewModel.notificationInfo.value.count > 0 {
+            zeroNotiView.flex.display(.none)
+            tableView.flex.display(.flex)
+        } else {
+            zeroNotiView.flex.display(.flex)
+            tableView.flex.display(.none)
+            
+            if !UserDefaultManager.shared.pushAgreement {
+                notiButton.setTitle("알림 받기", for: .normal)
+            }
+            
+            if !status {
+                notiButton.flex.display(.flex)
+                notiButton.setTitle("알림 권한 설정하기", for: .normal)
+            }
+        }
+        
+        zeroNotiView.flex.markDirty()
+        tableView.flex.markDirty()
+        container.flex.layout()
     }
     
     @objc
