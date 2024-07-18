@@ -23,12 +23,24 @@ extension UIImage {
         color: UIColor,
         radius: CGFloat,
         text: String? = nil,
+        image: UIImage? = nil,
         textColor: UIColor = .white
     ) -> UIImage {
         UIGraphicsImageRenderer(size: size).image { _ in
             let path = UIBezierPath(roundedRect: CGRect(origin: .zero, size: size), cornerRadius: radius)
             color.setFill()
             path.fill()
+            
+            if let image {
+                let imageSize = CGSize(width: 24, height: 24)
+                let rect = CGRect(
+                    x: (size.width - imageSize.width) / 2,
+                    y: (size.height - imageSize.height) / 2,
+                    width: imageSize.width,
+                    height: imageSize.height
+                )
+                return image.draw(in: rect)
+            }
             
             guard let text else { return }
             
@@ -126,6 +138,8 @@ extension UIImage {
     static let icon_set = UIImage(named: "icon_set")!
     static let icon_alarm_on = UIImage(named: "icon_alarm_on")!
     static let icon_alarm_off = UIImage(named: "icon_alarm_off")!
+    static let icon_delete_list = UIImage(named: "icon_delete_list")!
+    static let icon_edit_list = UIImage(named: "icon_edite_list")!
     
     // Navigation
     static let leftArrow_black = UIImage(named: "leftArrow_black")!

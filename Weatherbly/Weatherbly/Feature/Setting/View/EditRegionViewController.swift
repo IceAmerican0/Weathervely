@@ -114,8 +114,8 @@ extension EditRegionViewController: UICollectionViewDataSource {
                 })
                 
                 let size = CGSize(width: 68, height: 68)
-                deleteAction.image = UIImage().setSwipeActionView(size: size, color: .gray20, radius: 12, text: "삭제", textColor: .gray300)
-                editAction.image = UIImage().setSwipeActionView(size: size, color: .violet100, radius: 12, text: "편집", textColor: .violet800)
+                deleteAction.image = UIImage().setSwipeActionView(size: size, color: .gray40, radius: 16, image: UIImage.icon_delete_list)
+                editAction.image = UIImage().setSwipeActionView(size: size, color: .violet200, radius: 16, image: UIImage.icon_edit_list)
                 
                 deleteAction.backgroundColor = .violet10
                 editAction.backgroundColor = .violet10
