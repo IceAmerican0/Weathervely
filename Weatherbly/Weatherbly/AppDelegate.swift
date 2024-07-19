@@ -67,9 +67,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
             if let error {
                 print("Error fetching FCM registration token: \(error)")
             } else if let token {
-                #if DEBUG
-                print("FCM registration token: \(token)")
-                #endif
+                debugPrint("FCM registration token: \(token)")
             }
         }
     }

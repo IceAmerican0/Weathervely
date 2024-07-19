@@ -8,12 +8,20 @@
 import Foundation
 import RxSwift
 
-final class ClosetDetailDataSource {
-    private let provider = WVProvider<ClosetDetailTarget>()
+protocol DetailDataSourceProtocol {
+    func getClosetDetail(closetId: Int, tempId: Int) -> Observable<ClosetDetailEntity>
+    func getWarmmerCloset(closetId: Int, page: Int, tempId: Int) -> Observable<DiffTempEntity>
+    func getWarmRowItems(closetId: Int, page: Int, tempId: Int, row: Int) -> Observable<EachRowEntity>
+    func getCoolerCloset(closetId: Int, page: Int, tempId: Int) -> Observable<DiffTempEntity>
+    func getCoolRowItems(closetId: Int, page: Int, tempId: Int, row: Int) -> Observable<EachRowEntity>
+}
+
+final class DetailDataSource: DetailDataSourceProtocol {
+    let provider = WVProvider<ClosetDetailTarget>()
     
-    public func getClosetDetail(closetId: Int) -> Observable<ClosetDetailEntity> {
+    public func getClosetDetail(closetId: Int, tempId: Int) -> Observable<ClosetDetailEntity> {
         provider
-            .request(.closetDetail(closetId))
+            .request(.closetDetail(closetId, tempId))
             .mapTo(ClosetDetailEntity.self)
     }
     

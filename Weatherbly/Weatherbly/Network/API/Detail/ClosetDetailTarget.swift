@@ -8,7 +8,7 @@
 import Moya
 
 public enum ClosetDetailTarget {
-    case closetDetail(_ closetID: Int)
+    case closetDetail(_ closetID: Int, _ tempId: Int)
     case warmerTemp(_ closetID: Int, page: Int, tempId: Int)
     case warmerRows(_ closetID: Int, page: Int, tempId:Int, row: Int)
     case coolerTemp(_ closetID: Int, page: Int, tempId: Int)
@@ -18,7 +18,7 @@ public enum ClosetDetailTarget {
 extension ClosetDetailTarget: WVTargetType {
     public var path: String {
         switch self {
-        case .closetDetail(let closetId):
+        case .closetDetail(let closetId, _):
             return "/closet/\(closetId)"
         case .warmerTemp(let closetId, _, _),
                 .warmerRows(let closetId, _, _, _):
@@ -39,8 +39,9 @@ extension ClosetDetailTarget: WVTargetType {
     
     public var task: Moya.Task {
         switch self {
-        case .closetDetail(let id):
-            return .requestPlain
+        case .closetDetail(let clsetId, let tempId):
+            return .requestParameters(parameters: ["tempId" : tempId], encoding: URLEncoding.queryString)
+            
         case .warmerTemp(_, let page, let tempId):
             return .requestParameters(parameters: ["page" : page, "tempId" : tempId], encoding: URLEncoding.queryString)
             

@@ -8,7 +8,7 @@
 import Foundation
 
 struct WithItemsInfo: Codable {
-    var category: CategoryInfo?
+    var category: ItemCategoryInfo?
     var id: Int
     var name: String?
     var status: String?
@@ -25,9 +25,20 @@ struct WithItemsInfo: Codable {
         case imageUrl = "clothesImageUrl"
         case brandName = "clothesBrandName"
     }
+    
+    func encode(to encoder: any Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(self.category, forKey: .category)
+        try container.encode(self.id, forKey: .id)
+        try container.encodeIfPresent(self.name, forKey: .name)
+        try container.encodeIfPresent(self.status, forKey: .status)
+        try container.encodeIfPresent(self.shopUrl, forKey: .shopUrl)
+        try container.encodeIfPresent(self.imageUrl, forKey: .imageUrl)
+        try container.encodeIfPresent(self.brandName, forKey: .brandName)
+    }
 }
 
-struct CategoryInfo: Codable {
+struct ItemCategoryInfo: Codable {
     var categoryName: String?
     
     enum CodingKeys: String, CodingKey {

@@ -33,9 +33,9 @@ extension WVNetworkError: LocalizedError {
         case .decodeError:
             return "서버가 불안정 합니다"
         case .encodeError:
-            return "WBNetworkError : Encoding Error"
+            return "NetworkError : Encoding Error"
         case .networkError(let msg):
-            return "\(msg.localizedDescription)"
+            return "NetworkError : \(msg.localizedDescription)"
         case .unknownError:
             return "unknownError"
         }

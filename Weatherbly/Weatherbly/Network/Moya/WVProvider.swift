@@ -19,7 +19,12 @@ public final class WVProvider<T: TargetType>: MoyaProvider<T> {
     
     func checkRequest(_ request: T) {
         if case let .requestParameters(parameters, _) = request.task {
-            debugPrint("Request: \(parameters.prettyPrinted())")
+            debugPrint(
+                """
+                🚀🚀🚀 Network Request 🚀🚀🚀
+                Parameters: \(parameters.prettyPrinted())
+                """
+            )
         }
     }
 }

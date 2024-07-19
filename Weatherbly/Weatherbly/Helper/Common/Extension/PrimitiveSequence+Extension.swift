@@ -32,21 +32,18 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
     func mapTo<D: Decodable>(_ type: D.Type) -> Observable<D> {
         flatMap { response in
             do {
-                guard let object = try? JSONSerialization.jsonObject(with: response.data, options: []) as? [String:Any],
-                      let prettyData = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted),
-                      let prettyString = String(data: prettyData, encoding: .utf8)
+                guard let object = try? JSONSerialization.jsonObject(with: response.data, options: []) as? [String:Any]
                 else {
                     return .error(WVNetworkError.decodeError)
                 }
                 
-                #if DEBUG
-                print(
+                debugPrint(
                     """
+                    ✅✅✅ Network Success ✅✅✅
                     ResponseType : \(type)
-                    Response : \(prettyString)
+                    Response : \(object.prettyPrinted())
                     """
                 )
-                #endif
                 
                 // status : 200
                 if (200..<300 ~= response.statusCode) {
@@ -64,15 +61,22 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
                     )
                 }
             } catch(let error) {
-                #if DEBUG
-                print(
+                var responseString = ""
+                
+                if let object = try? JSONSerialization.jsonObject(with: response.data, options: []) as? [String:Any] {
+                    responseString = object.prettyPrinted()
+                } else {
+                    responseString = String(decoding: response.data, as: UTF8.self)
+                }
+                
+                debugPrint(
                     """
+                    🔥🔥🔥 Network Failed 🔥🔥🔥
                     ResponseType : \(type)
-                    Response : \(String(decoding: response.data, as: UTF8.self))
+                    Response : \(responseString)
                     Error : \(error)
                     """
                 )
-                #endif
                 
                 if let error = error as? MoyaError {
                     return .error(WVNetworkError.networkError(error))

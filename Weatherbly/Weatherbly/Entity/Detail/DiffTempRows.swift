@@ -8,8 +8,8 @@
 import Foundation
 
 struct DiffTempRows: Codable {
-    var counts: Int
-    var closets: [RowInfo]
+    var counts: Int?
+    var closets: [RowInfo]?
 }
 
 struct RowInfo: Codable {

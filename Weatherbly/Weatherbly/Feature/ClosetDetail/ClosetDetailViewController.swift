@@ -11,6 +11,7 @@ import PinLayout
 import RxSwift
 import RxDataSources
 
+// FIXME: - Select Event 처리 필요
 final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewModel> {
     
     let navigationBar = CSNavigationView(.leftButton(UIImage.leftArrow_black)).then {
@@ -57,16 +58,17 @@ final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewMod
             .setDelegate(self)
             .disposed(by: bag)
         
-//        parentCollectionView.rx
-//            .setPrefetchDataSource(self)
-//            .disposed(by: bag)
-        
         parentCollectionView.rx.prefetchItems
-            .withUnretained(self)
-            .subscribe(onNext: { owner, indexPaths  in
+            .subscribe(with: self, onNext: { owner, indexPaths  in
                 owner.handlePrefetching(for: indexPaths)
                 
             }).disposed(by: bag)
+        
+        navigationBar.leftButtonDidTapRelay
+            .drive(with: self) { owner, _ in
+                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
+            }
+            .disposed(by: bag)
             
     }
     
@@ -94,7 +96,6 @@ final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewMod
             for indexPath in indexPathsToPrefetch {
                 let sectionModel = self.dataSource.sectionModels[indexPath.section]
                 switch sectionModel {
-                case .warmFirst:
                     /*
                      [2, 17]
                      [2, 18]
@@ -109,11 +110,12 @@ final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewMod
                      
                      ** 추가로 왼쪽 스크롤시에 prefetch 방지하기 위해서 currentPage 저장 필ㅇ
                      */
+                    
+                case .warmFirst:
                     var currentPage = viewModel.WFCurrentPage
                     let maxPage = viewModel.WFMaxPage
                     
                     if (indexPath.item / 20) + 1 >= currentPage && currentPage < maxPage {
-                        print("@@@@@@@@@@@@@@")
                         if  indexPath.item % 20 == 17 {
                             currentPage += 1
                             viewModel.WFCurrentPage = currentPage
@@ -219,7 +221,7 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
                     return collectionView.dequeueReusableHeaderView(withType: TitleLabelReusableHeader.self, for: indexPath).then {
                         $0.configure(UIFont.body_2_B, CSString.secondWarmTitle.string)
                     }
-                case .coolFirst(let items):
+                case .coolFirst:
                     return collectionView.dequeueReusableHeaderView(withType: DiffTempDecoHeader.self, for: indexPath).then {
                         $0.configure(CSString.coolDiffTitle.string, CSString.coolDiffDescription.string)
                     }

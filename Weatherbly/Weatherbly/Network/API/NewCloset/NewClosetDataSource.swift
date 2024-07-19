@@ -11,7 +11,10 @@ import RxMoya
 
 protocol NewClosetDataSourceProtocol {
     func getHomeCloset(page: Int, time: String) -> Observable<NewClosetEntity>
-    func getStyleCloset(style: Int, item: [Int], page: Int) -> Observable<NewClosetEntity>
+    func getClosetWithType(typeID: Int, page: Int) -> Observable<NewClosetEntity>
+    func getTypes() -> Observable<ClosetTypeEntity>
+    func getCategories(typeID: Int) -> Observable<CategoryEntity>
+    func closetWithCategory(typeID: Int, page: Int, items: String?) -> Observable<NewClosetEntity>
     func stylePicked(_ closetID: Int) -> Observable<EmptyEntity>
     func getFilterCount(list: [String], time: String) -> Observable<NewClosetEntity>
 }
@@ -29,9 +32,27 @@ final class NewClosetDataSource: NewClosetDataSourceProtocol {
             .mapTo(NewClosetEntity.self)
     }
     
-    func getStyleCloset(style: Int, item: [Int], page: Int) -> Observable<NewClosetEntity> {
+    func getClosetWithType(typeID: Int, page: Int) -> Observable<NewClosetEntity> {
         provider
-            .request(.getStyleCloset(style: style, item: item, page: page))
+            .request(.getClosetWithType(typeID: typeID, page: page))
+            .mapTo(NewClosetEntity.self)
+    }
+    
+    func getTypes() -> Observable<ClosetTypeEntity> {
+        provider
+            .request(.getTypes)
+            .mapTo(ClosetTypeEntity.self)
+    }
+    
+    func getCategories(typeID: Int) -> Observable<CategoryEntity> {
+        provider
+            .request(.getCategories(typeID: typeID))
+            .mapTo(CategoryEntity.self)
+    }
+    
+    func closetWithCategory(typeID: Int, page: Int, items: String?) -> Observable<NewClosetEntity> {
+        provider
+            .request(.closetWithCategory(typeID: typeID, page: page, items: items ?? ""))
             .mapTo(NewClosetEntity.self)
     }
     

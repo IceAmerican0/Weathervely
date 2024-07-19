@@ -21,8 +21,6 @@ enum DetailSectionItem {
     case withItem(WithItemsInfo)
     case firstRow(RowInfo)
     case secondRow(RowInfo)
-//    case firstRow(RowInfo, rowType: RowType)
-//    case secondRow(RowInfo)
 }
 
 extension DetailViewSectionModel: SectionModelType {

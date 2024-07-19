@@ -1,108 +1,162 @@
 //
-//  StyleViewModel.swift
+//  NewStyleVM.swift
 //  Weatherbly
 //
-//  Created by Khai on 10/16/23.
+//  Created by 최수훈 on 7/11/24.
 //
 
 import UIKit
 import RxSwift
 import RxCocoa
 
-protocol StyleViewModelLogic: ViewModelBusinessLogic {
-    func getRecommendCloset()
-    var filteredStyle: Bool { get set }
-    var filteredItem: Bool { get set }
+fileprivate protocol StyleViewModelLogic: ViewModelBusinessLogic {
+    func getTypes()
+    func getAPISerial(with typeInfo: [ClosetTypeInfo], _ completion: (([StyleTabSectionModel]) -> Void)? )
+    func bindInnerCollectionViewSection()
 }
 
 final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
-    private let closetDataSource: ClosetDataSourceProtocol
+    private let closetDataSource: NewClosetDataSource
     /// 스타일 콜렉션 뷰 정보
-    public var styleSections = BehaviorRelay<[StyleTabSectionModel]>(value: [])
-    public var styleTags =  BehaviorRelay<[ClosetTypeInfo]>(value: [])
-    /// 스타일 필터 여부
-    public var filteredStyle: Bool
-    /// 아이템 필터 여부
-    public var filteredItem: Bool
+    public var bindSectionsRelay = BehaviorRelay<[StyleTabSectionModel]>(value: [])
+    /// banner
+    public let bannserSection = BehaviorRelay<StyleTabSectionModel?>(value: .banner(item: [.banner(StyleBanner())]))
+    /// Types
+    public var types = BehaviorRelay<[ClosetTypeInfo]?>(value: [])
+    public var typesSection = BehaviorRelay<StyleTabSectionModel?>(value: .types(header: [], items: []))
+//    public var typesSection = BehaviorRelay<[StyleTabSectionModel]?>(value: [])
+    /// Categories
+    public var categories = BehaviorRelay<[MCategoryInfo]?>(value: [])
     
-    let recommendClosetEntityRelay = BehaviorRelay<[RecommendClosetInfo]>(value: [])
+    /// Closets
+    public var styleSection = BehaviorRelay<[StyleTabSectionModel]?>(value: [])
     
+    /*
+     // TODO: 필요한 데이터
+     - 처음 들어왔을 때
+     1. TypeSection Header에 들어갈 데이터 가지고 오기 -> [ClosetTypeInfo]
+     2. 카테고리 API 호출 -> type 별 카테고리 데이터를 위한 데이터 가지고 있기
+     [
+     [MediumcategoryList for type 1],
+     [MediumcategoryList for type 2],
+     [MediumcategoryList for type 3], ...
+     ]
+     3. Closet API 호출 -> [StyleClosetInfo]
+     
+     - 바인딩 할 때
+     1. [bannerSection,
+     typeSection,
+     StypeSection1 [ header: [MediumCategory for type1]
+     */
     
-    
-    init(closetDataSource: ClosetDataSourceProtocol) {
+    init(closetDataSource: NewClosetDataSource) {
         self.closetDataSource = closetDataSource
-        self.filteredStyle = .init()
-        self.filteredItem = .init()
     }
     
-    public func setMockDataSetup() {
-        // "#비즈니스 캐주얼", "#캐주얼", "#시크", "#걸리시", "#레트로","#로맨틱", "#스트릿"
-        let mockBannerList: [StyleTabItem] = [.banner(StyleBanner())]
-        let mockHeaderList: [ClosetTypeInfo] = [
-            ClosetTypeInfo(id: 7, name: "#비즈니스 캐주얼"),
-            ClosetTypeInfo(id: 1, name: "#캐주얼"),
-            ClosetTypeInfo(id: 14, name: "#시크"),
-            ClosetTypeInfo(id: 12, name: "#걸리시"),
-            ClosetTypeInfo(id: 15, name: "#레트로"),
-            ClosetTypeInfo(id: 12, name: "#로맨틱"),
-            ClosetTypeInfo(id: 11, name: "#스트릿")]
+    public func fetchData() {
         
-        let mockCellList: [StyleTabItem] = [.styles(ClosetTypeInfo(id: 7, name: "#비즈니스 캐주얼")),
-                                            .styles(ClosetTypeInfo(id: 1, name: "#캐주얼")),
-                                            .styles(ClosetTypeInfo(id: 14, name: "#시크")),
-                                            .styles(ClosetTypeInfo(id: 12, name: "#걸리시")),
-                                            .styles(ClosetTypeInfo(id: 15, name: "#레트로")),
-                                            .styles(ClosetTypeInfo(id: 12, name: "#로맨틱")),
-                                            .styles(ClosetTypeInfo(id: 11, name: "#스트릿")),
-        ]
+        getTypes()
+        bindSections()
         
-        let mockBannerSection = StyleTabSectionModel.banner(item: mockBannerList)
-        
-        let mockClosetSection = StyleTabSectionModel.styles(header: mockHeaderList, items: mockCellList)
-        //        let mockStyleSection = StyleTabSectionModel.styles(items: mockHeaderList)
-        // TODO: - 이미지 캐싱
-        styleSections.accept([mockBannerSection, mockClosetSection])
     }
-    
-    public func getRecommendCloset() {
-        closetDataSource.getRecommendCloset(Date().todayHourFormat)
-            .subscribe(
-                with: self,
-                onNext: { owner, response in
-                    guard let closets = response.data?.list.closets else { return }
-                    var temp: [RecommendClosetInfo] = []
-                    for _ in 0..<5 {
-                        temp += closets
-                    }
-                    owner.recommendClosetEntityRelay.accept(temp)
-                },
-                onError: { owner, error in
-                    owner.alertState.accept(.init(title: error.localizedDescription,
-                                                  alertType: .popup,
-                                                  closeAction: {
-                        owner.navigationPopToSelfRelay.accept(Void())
-                    }))
-                })
+    public func bindSections() {
+        /*
+            // TODO: - bindSectionsRelay 의 모습은
+            [
+                .banner(bannerImage),
+                .types( header: self.types.value, ( [ClosetTypeInfo] )
+                        items: self.styleSectinos.value
+         
+        ** types의 item 예시
+        [   .style(header: (typeInfo: ClosetTypeInfo(id:1, name: "타입이름"), categories: [MCategories]), items: [NewClosetInfo,
+            .style(header: (typeInfo: ClosetTypeInfo(id:2, name: "타입이름"), categories: [MCategories]), items: [NewClosetInfo],
+            .style(header: (typeInfo: ClosetTypeInfo(id:3, name: "타입이름"), categories: [MCategories]), items: [NewClosetInfo],
+            .style(header: (typeInfo: ClosetTypeInfo(id:4, name: "타입이름"), categories: [MCategories]), items: [NewClosetInfo]
+
+            ]
+            ]
+         
+         */
+        
+        let _  = Observable.combineLatest(bannserSection, typesSection).map { banner, types -> [StyleTabSectionModel] in
+            var sections: [StyleTabSectionModel] = []
+            if let banner, let types {
+                sections.append(banner)
+                sections.append(types)
+            }
+//            debugPrint("bindingSection : \(sections) ")
+            return sections
+        }.bind(to: bindSectionsRelay)
             .disposed(by: bag)
     }
+    
+    public func getTypes() {
+        closetDataSource.getTypes()
+            .subscribe(with: self, onNext: { owner, response in
+                let typeInfo = response.data.types
+                owner.types.accept(typeInfo)
+                let typeSection = StyleTabSectionModel.types(header: typeInfo, items: [])
+                
+                owner.getAPISerial(with: typeInfo) { styleSections in
+                    owner.typesSection.accept(.types(header: typeInfo, items: [.type(styleSections)]))
+                }
+            })
+            .disposed(by: bag)
+    }
+    
+    public func getCategories(typeID: Int) -> Observable<[MCategoryInfo]> {
+        return closetDataSource.getCategories(typeID: typeID)
+            .map { response in
+                let categories = response.data.mediumCategories
+//                debugPrint("⚪️⚪️⚪️ getCategories TYPEINFO : ", typeID)
+                return categories
+            }
+    }
+    
+    public func getClosets(typeInfo: ClosetTypeInfo, categories: [MCategoryInfo], page: Int) -> Observable<[NewClosetInfo]>  {
+        return closetDataSource.getClosetWithType(typeID: typeInfo.id, page: 1)
+            .map { response in
+                let closetInfo = response.data.closets
+//                debugPrint("🔥🔥🔥 getClosets TYPEINFO : \(typeInfo.id) : \(typeInfo.name)")
+                return closetInfo
+            }
+    }
+    
+    fileprivate func getAPISerial(with typeInfo: [ClosetTypeInfo], _ completion: (([StyleTabSectionModel]) -> Void)?) {
+        debugPrint("1️⃣1️⃣1️⃣ getCategories TYPEINFO : ", typeInfo)
+        Observable.from(typeInfo)
+            .concatMap { typeInfo in
+                self.getCategories(typeID: typeInfo.id)
+                    .map { categories in (typeInfo, categories) }
+            }
+            .concatMap { (typeInfo, categories) in
+                self.getClosets(typeInfo: typeInfo, categories: categories, page: 1)
+                    .map { closetsInfo in (typeInfo, categories, closetsInfo) }
+            }
+            .subscribe(onNext: { (typeInfo, categories, closetsInfo) in
+                var styleSection = self.styleSection.value ?? []
+                var styleItemArr: [StyleTabItem] = []
+
+                // FIXED : StyleSectionModel 수정하면서 이미지 하나가 아니라 배열 자체를 넘길 예정
+                let csStyleItem = CSStyleSectionItem(typeInfo: typeInfo, categories: categories, closets: closetsInfo)
+                styleItemArr.append(StyleTabItem.styles(csStyleItem))
+//                debugPrint("🚀🚀🚀 styleSection.value: \(self.styleSection.value?.last)")
+                styleSection.append(
+                    StyleTabSectionModel.styles(
+                        header: (typeInfo: typeInfo, categories: categories),
+                        items: styleItemArr)
+                )
+                
+                self.styleSection.accept(styleSection)
+                
+            }, onCompleted: {
+                
+                completion?(self.styleSection.value ?? [])
+            })
+            .disposed(by: bag)
+    }
+    
+    func bindInnerCollectionViewSection() {
+        
+    }
 }
-
-
-
-//        let mockClosetList: [StyleTabItem] = [.styles(StyleClosetInfo(id: 889, name: "아메리칸 캐주얼", imageUrl: "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_casual_detail_37045_500.jpg", closetStatus: "Active")),
-//                        .styles(StyleClosetInfo(id: 889, name: "아메리칸 캐주얼", imageUrl: "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_casual_detail_37045_500.jpg", closetStatus: "Active")),
-//                        .styles(StyleClosetInfo(id: 890, name: "개성 더하기", imageUrl: "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_casual_detail_36771_500.jpg", closetStatus: "Active")),
-//                        .styles(StyleClosetInfo(id: 891, name: "아메카지 감성", imageUrl: "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_casual_detail_36502_500.jpg", closetStatus: "Active")),
-//                        .styles(StyleClosetInfo(id: 892, name: "아메리칸 캐주얼", imageUrl: "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_casual_detail_36501_500.jpg", closetStatus: "Active")),
-//                        .styles(StyleClosetInfo(id: 893, name: "아메리칸 캐주얼", imageUrl: "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_casual_detail_36493_500.jpg", closetStatus: "Active")),
-//                        .styles(StyleClosetInfo(id: 894, name: "아메리칸 캐주얼", imageUrl: "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_casual_detail_35815_500.jpg", closetStatus: "Active")),
-//                        .styles(StyleClosetInfo(id: 895, name: "아메리칸 캐주얼", imageUrl: "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_casual_detail_36082_500.jpg", closetStatus: "Active")),
-//                        .styles(StyleClosetInfo(id: 896, name: "아메리칸 캐주얼", imageUrl:  "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_casual_detail_36081_500.jpg", closetStatus: "Active")),
-//                        .styles(StyleClosetInfo(id: 897, name: "아메리칸 캐주얼", imageUrl: "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_casual_detail_32212_500.jpg", closetStatus: "Active")),
-//                        .styles(StyleClosetInfo(id: 898, name: "아메리칸 캐주얼", imageUrl: "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_casual_detail_37134_500.jpg", closetStatus: "Active")),
-//                        .styles(StyleClosetInfo(id: 899, name: "아메리칸 캐주얼", imageUrl: "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_casual_detail_37133_500.jpg", closetStatus: "Active")),
-//                        .styles(StyleClosetInfo(id: 899, name: "아메리칸 캐주얼", imageUrl: "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_casual_detail_37133_500.jpg", closetStatus: "Active")),
-//                        .styles(StyleClosetInfo(id: 899, name: "아메리칸 캐주얼", imageUrl: "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_casual_detail_37133_500.jpg", closetStatus: "Active")),
-//                        .styles(StyleClosetInfo(id: 899, name: "아메리칸 캐주얼", imageUrl: "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_casual_detail_37133_500.jpg", closetStatus: "Active")),
-//                        .styles(StyleClosetInfo(id: 899, name: "아메리칸 캐주얼", imageUrl: "https://weathervely.s3.ap-northeast-2.amazonaws.com/image/musinsa_casual_detail_37133_500.jpg", closetStatus: "Active"))]
-//
