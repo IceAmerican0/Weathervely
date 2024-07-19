@@ -18,7 +18,7 @@ enum StyleTabItem {
     case banner(StyleBanner)
     case type([StyleTabSectionModel])
     case styles(CSStyleSectionItem)
-    case cloets(NewClosetInfo)
+    case closets(NewClosetInfo)
 }
 
 struct CSStyleSectionItem {

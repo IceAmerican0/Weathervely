@@ -14,28 +14,21 @@ import RxSwift
 final public class HorizonCollectionViewCell: UICollectionViewCell {
     
     private var bag = DisposeBag()
-    private var bindClosets = BehaviorRelay<[StyleTabSectionModel]>(value: [])
+    private var cellViewModel = HorizonCellViewModel()
     
+    // MARK: - Delegate
+    weak var itemTouchDelegate: StyleTabClosetTouchDelegate?
     // MARK: - UI Property
     // 헤더뷰
-    var typeInfo = ClosetTypeInfo.init(id: 0, name: "")
     private var sectionTitleLabel = LabelMaker(
         font: UIFont.title_3_B,
         fontColor: UIColor.black,
         alignment: .left
     ).make(text: "#Type1")
-    private var categoriesRelay = BehaviorRelay<[MCategoryInfo]>(value: [
-        MCategoryInfo(id: 28, name: "니트/스웨터"),
-        MCategoryInfo(id: 31, name: "긴소매 티셔츠"),
-        MCategoryInfo(id: 32, name: "셔츠/블라우스"),
-        MCategoryInfo(id: 33, name: "피케/카라티셔츠"),
-        MCategoryInfo(id: 34, name: "반소매 티셔츠"),
-        MCategoryInfo(id: 35, name: "민소매 티셔츠"),
-        MCategoryInfo(id: 37, name: "기타 상의")
-    ])
+    
     private var itemTagHeaderWrapper = UIStackView()
     private var tagsView: CategoryTagsView? // 태그 뷰를 캐싱
-    public var selectedTags = BehaviorRelay<[Int]>(value: [])
+    
     // 콜렉션뷰
     private lazy var collectionView =  UICollectionView(frame: .zero, collectionViewLayout: setSectionLayout()).then {
         $0.showsHorizontalScrollIndicator = false
@@ -44,10 +37,7 @@ final public class HorizonCollectionViewCell: UICollectionViewCell {
     }
     lazy var dataSource = self.horizonCollectionViewDataSource()
     
-    
-    
-    
-    // MARK: - Method
+    // MARK: - LifeCycle
     public override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
@@ -71,6 +61,8 @@ final public class HorizonCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    
+    // MARK: - Layout
     func snapKitLayout() {
         sectionTitleLabel.snp.makeConstraints {
             $0.top.equalToSuperview()
@@ -97,65 +89,153 @@ final public class HorizonCollectionViewCell: UICollectionViewCell {
         
     }
     
+    // MARK: - Binding
     private func binding() {
-        
+        viewModelBinding()
+        viewBinding()
+    }
+    private func viewBinding() {
+
         collectionView.rx
             .setDelegate(self)
             .disposed(by: bag)
+
+        collectionView.rx.prefetchItems
+            .asDriver()
+            .drive(with: self) { owner, indexPaths in
+                owner.handlePrefetching(for: indexPaths)
+            }.disposed(by: bag)
+    }
+    private func viewModelBinding() {
         
-        bindClosets
+        cellViewModel.bindClosets
             .bind(to: collectionView.rx.items(dataSource: dataSource))
             .disposed(by: bag)
         
-        categoriesRelay
+        cellViewModel.categoriesRelay
             .asDriver()
             .drive(with: self, onNext: { owner, tags in
                 owner.updateTags(tags)
             }).disposed(by: bag)
-        
-        selectedTags
-            .asDriver()
-            .drive(with: self, onNext: { owner, tags in
-                owner.tagsView?.selectedTags.accept(tags)
-            }).disposed(by: bag)
     }
     
+    // MARK: - Method
     private func updateTags(_ tags: [MCategoryInfo]) {
         tagsView?.tags = tags
     }
     
-    
     func configureCollectionView(_ closets: [NewClosetInfo]?) {
         guard let closets = closets else { return }
-        let models: [StyleTabItem] = closets.map { StyleTabItem.cloets($0) }
-        bindClosets.accept([StyleTabSectionModel.closets(item: models)])
+        let closetInfoes: [StyleTabItem] = closets.map { StyleTabItem.closets($0) }
+        cellViewModel.sectionItems.accept(closetInfoes)
+        cellViewModel.getMaxPage()
+        cellViewModel.bindClosets.accept([StyleTabSectionModel.closets(item: closetInfoes)])
     }
     
     func configureTagsView(info: ClosetTypeInfo?, categories: [MCategoryInfo]?) {
         print("Header view Configure")
         guard let typeInfo = info else { return }
-        self.typeInfo = typeInfo
+        cellViewModel.typeInfo = typeInfo
         sectionTitleLabel.text = "#\(typeInfo.name)"
         
         guard let categories = categories else { return }
-        categoriesRelay.accept(categories.map { $0 })
+        cellViewModel.categoriesRelay.accept(categories.map { $0 })
     }
     
+    private func handlePrefetching(for indexPaths: [IndexPath]) {
+        let indexPathsToPrefetch = indexPaths.filter { indexPath in
+            switch self.dataSource.sectionModels[indexPath.section] {
+            case .closets: true
+            default: false
+            }
+        }
+        guard !indexPathsToPrefetch.isEmpty else { return }
+        for indexPath in indexPathsToPrefetch {
+            let sectionModel = self.dataSource.sectionModels[indexPath.section]
+            switch sectionModel {
+            case .closets:
+                var currentPage = cellViewModel.currentPage
+                let maxPage = cellViewModel.maxPage
+                debugPrint("\n\ncurPage: \(currentPage)")
+                debugPrint("curIndex: \(indexPath.item)")
+                
+                if (indexPath.item / 20) + 1 >= currentPage && currentPage < maxPage {
+                    if  indexPath.item % 20 == 17 {
+                        currentPage += 1
+                        cellViewModel.currentPage = currentPage
+                        prefetchData(page: currentPage)
+                    }
+                    
+                }
+                break
+            default: break
+            }
+        }
+    }
+    
+    private func prefetchData(page: Int) {
+        cellViewModel.prefetchClosets(page)
+    }
 }
 
+// MARK: - 테그 탭 이벤트
 extension HorizonCollectionViewCell: ItemTagViewDelegate {
+    
+    func getCategoryParam(with tags: [Int]) -> String {
+        var itemsString = ""
+        for item in tags {
+            if item == tags.last {
+                itemsString += String(item) + ","
+            } else {
+                itemsString += String(item)
+            }
+        }
+        return itemsString
+    }
+    
     func selectItemTags(with tags: [Int]) {
-        debugPrint("in HorizonCell : \(tags)")
+        
+        cellViewModel.getFilteredByCategories(with: tags, { newClosets in
+            self.configureCollectionView(newClosets)
+        })
+//        cellViewModel.selectedTags.accept(tags)
+//        let typeInfo = cellViewModel.typeInfo
+//        let dataSource = NewClosetDataSource()
+//        switch tags.isEmpty {
+//        case true:
+//            dataSource.getClosetWithType(typeID: typeInfo.id, page: 1)
+//                .subscribe(with: self) { owner, response in
+//                    let newClosets = response.data.closets
+//                    owner.configureCollectionView(newClosets)
+//                }
+//                .disposed(by: bag)
+//            
+//        case  false:
+//            let cgParam = getCategoryParam(with: tags)
+//            dataSource.closetWithCategory(typeID: typeInfo.id, page: 1, items: cgParam)
+//                .subscribe(with: self) { owner, response in
+//                    let newClosets = response.data.closets
+//                    owner.configureCollectionView(newClosets)
+//                }
+//                .disposed(by: bag)
+//        }
     }
 }
 extension HorizonCollectionViewCell: UICollectionViewDelegate {
     
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let cell = collectionView.cellForItem(at: indexPath) as? StyleCell {
+            let selectedInfo = cell.closetInfo
+            NotificationCenter.default.post(name: .styleClosetTap, object: nil, userInfo: ["selectedCloset" : selectedInfo])
+        }
+    }
+    // MARK: - DataSource
     func horizonCollectionViewDataSource() -> RxCollectionViewSectionedReloadDataSource<StyleTabSectionModel> {
         RxCollectionViewSectionedReloadDataSource<StyleTabSectionModel> (configureCell:  { [ weak self] dataSource, collectionView, indexPath, item in
             guard self != nil else { return UICollectionViewCell() }
             
             switch item {
-            case .cloets(let styleInfo):
+            case .closets(let styleInfo):
                 return collectionView.dequeueCell(withType: StyleCell.self, for: indexPath).then {
                     $0.configure(info: styleInfo)
                 }
@@ -170,12 +250,12 @@ extension HorizonCollectionViewCell: UICollectionViewDelegate {
         let layout = UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ -> NSCollectionLayoutSection? in
             
             guard let self = self else { return nil }
-            guard sectionIndex < self.bindClosets.value.count else {
+            guard sectionIndex < cellViewModel.bindClosets.value.count else {
                 print("Section index \(sectionIndex) out of range.")
                 return nil
             }
             
-            let section = self.bindClosets.value[sectionIndex]
+            let section = cellViewModel.bindClosets.value[sectionIndex]
             var layoutSection: NSCollectionLayoutSection?
             switch section {
             case .closets:
@@ -189,6 +269,7 @@ extension HorizonCollectionViewCell: UICollectionViewDelegate {
         return layout
     }
     
+    // MARK: - collectionView Layout
     func closetsSectionLayout() -> NSCollectionLayoutSection {
         
         // Size Property

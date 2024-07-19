@@ -13,7 +13,7 @@ import RxCocoa
 
 final class CategoryTagsView: UIView {
     
-    public var tagsDelegate: ItemTagViewDelegate?
+    public weak var tagsDelegate: ItemTagViewDelegate?
     var bag = DisposeBag()
     
     var scrollView = UIScrollView().then {

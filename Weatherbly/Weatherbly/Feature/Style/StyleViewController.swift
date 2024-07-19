@@ -54,6 +54,9 @@ final class StyleViewController: RxBaseViewController<StyleViewModel> {
         collectionView.rx
             .setDelegate(self)
             .disposed(by: bag)
+        
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(pushDetailView(_:)), name: .styleClosetTap, object: nil)
     }
     
     override func viewModelBinding() {
@@ -65,15 +68,17 @@ final class StyleViewController: RxBaseViewController<StyleViewModel> {
     }
 }
 
-extension StyleViewController: InnerCollectionViewCellDelegate {
+extension StyleViewController {
     
     // MARK: - InnerCV Cell Tap Event
-    func innerCollectionViewCellDidTap(_ selectedInfo: NewClosetInfo?) {
-        guard let info = selectedInfo else { return }
-        let detailVM = ClosetDetailViewModel(closetId: info.closetId, tempId: info.temperature.tempId)
-        let detailVC = ClosetDetailViewController(detailVM)
-        self.viewModel.navigationPushViewControllerRelay.accept(detailVC)
-    }
+    @objc func pushDetailView(_ notification: Notification) {
+        if let data = notification.userInfo as? [String: Any],
+            let selectedCloset = data["selectedCloset"] as? NewClosetInfo {
+            let detailVM = ClosetDetailViewModel(closetId: selectedCloset.closetId, tempId: selectedCloset.temperature.tempId)
+            let detailVC = ClosetDetailViewController(detailVM)
+            self.viewModel.navigationPushViewControllerRelay.accept(detailVC)
+            }
+        }
 
     // MARK: - 이중 스크롤 방지
     func innerCollectionViewDidScroll(_ innerCollectionView: UICollectionView, contentOffset: CGPoint) {
@@ -175,7 +180,6 @@ extension StyleViewController: UICollectionViewDelegate {
                 
             case .type(let innerSectionsArr):
                 return collectionView.dequeueCell(withType: InnerCollectionViewCell.self, for: indexPath).then {
-                    $0.delegate = self // 스크롤 중첩이슈 해결을 위한 delegate
                     $0.configure(innerSectionsArr)
                 }
                 

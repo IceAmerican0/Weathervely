@@ -14,7 +14,7 @@ import RxCocoa
 final public class InnerCollectionViewCell: UICollectionViewCell {
     
     private var bag = DisposeBag()
-    weak var delegate: InnerCollectionViewCellDelegate?
+    weak var delegate: StyleTabClosetTouchDelegate?
 
     private var bindSectionsRelay = BehaviorRelay<[StyleTabSectionModel]>(value: [])
     private lazy var innerCollectionView = UICollectionView(frame: .zero, collectionViewLayout: setInnerLayout()).then {
@@ -74,7 +74,7 @@ final public class InnerCollectionViewCell: UICollectionViewCell {
     }
 }
 
-// MARK: - 탭 이벤트 처리
+// MARK: - 테그 탭 이벤트 처리
 extension InnerCollectionViewCell: CategoryHeaderViewDelegate {
     
     func getCategoryParam(with tags: [Int]) -> String {
@@ -255,7 +255,6 @@ extension InnerCollectionViewCell: UICollectionViewDelegate {
     func styleSectionLayout() -> NSCollectionLayoutSection {
          // header + item => 572
         // Size Property
-        let itemWidth = (Constants.screenWidth - 20 ) / 3
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
             heightDimension: .absolute(572)

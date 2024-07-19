@@ -8,5 +8,6 @@
 import Foundation
 
 extension Notification.Name {
-    static let categoryTag = Notification.Name("CategoryTagDidTap")
+    static let categoryTagTap = Notification.Name("CategoryTagDidTap")
+    static let styleClosetTap = Notification.Name("StyleTabClosetDidTap")
 }

@@ -117,6 +117,7 @@ final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
         return closetDataSource.getClosetWithType(typeID: typeInfo.id, page: 1)
             .map { response in
                 let closetInfo = response.data.closets
+                let count = response.data.counts
 //                debugPrint("🔥🔥🔥 getClosets TYPEINFO : \(typeInfo.id) : \(typeInfo.name)")
                 return closetInfo
             }

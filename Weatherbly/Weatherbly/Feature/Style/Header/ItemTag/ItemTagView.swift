@@ -19,10 +19,10 @@ struct TagState {
 
 class ItemTagView: UIView {
     
-    var bag = DisposeBag()
-    var itemTagDelegate: ItemTagDelegate?
-    var selectedState: SelectedChageState = .deSelected
-    var categoryInfo: MCategoryInfo = .init(id: 0, name: "")
+    private var bag = DisposeBag()
+    weak var itemTagDelegate: ItemTagDelegate?
+    public var selectedState: SelectedChageState = .deSelected
+    public var categoryInfo: MCategoryInfo = .init(id: 0, name: "")
     
     var labelWrapper = UIView()
     public var tagLabel = LabelMaker(
