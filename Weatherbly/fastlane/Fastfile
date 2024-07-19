@@ -28,8 +28,6 @@ lane :release do
 		target: "WeatherVely", 
 		configuration: "Release"
 	)
-  	get_certificates
-	get_provisioning_profile
 	build_app(
 		project: "Weatherbly.xcodeproj", 
 		scheme: "WeatherVely",
@@ -52,8 +50,6 @@ end
 
 desc "Push a new beta build to TestFlight"
 lane :beta do
-  	get_certificates
-  	get_provisioning_profile
   	build_app(
 		project: "Weatherbly.xcodeproj", 
 		scheme: "WeatherVely_Test",

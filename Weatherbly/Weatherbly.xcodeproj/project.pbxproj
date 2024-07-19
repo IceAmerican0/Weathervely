@@ -1102,6 +1102,7 @@
 				BD2D01822A388753003A25D5 /* Frameworks */,
 				BD2D01832A388753003A25D5 /* Resources */,
 				69F46FD02AACA0D100853774 /* Firebase Crashlytics */,
+				5C7DE1672C49F3C20009F021 /* Run Script - Build Number */,
 			);
 			buildRules = (
 			);
@@ -1204,6 +1205,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		5C7DE1672C49F3C20009F021 /* Run Script - Build Number */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script - Build Number";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "BUILD_NUMBER_WITH_CURRENT_DATE=$(date \"+%Y.%m.%d.%H%M\")\n\n/user/libexec/PlistBuddy -c \"Set :CFBundleVersion ${BUILD_NUMBER_WITH_CURRENT_DATE}\" \"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}\"\n";
+		};
 		69F46FD02AACA0D100853774 /* Firebase Crashlytics */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
