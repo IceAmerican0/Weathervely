@@ -754,7 +754,6 @@
 		BD2D01872A388753003A25D5 /* Weatherbly */ = {
 			isa = PBXGroup;
 			children = (
-				BD351C3A2C4810D300DE96D9 /* Enum */,
 				BD2D01882A388753003A25D5 /* AppDelegate.swift */,
 				BD2D018A2A388753003A25D5 /* SceneDelegate.swift */,
 				5C4A0ABA2B3ABA56006BE52A /* Colors.xcassets */,
@@ -793,7 +792,9 @@
 			children = (
 				BD05E05E2B38042600A48E61 /* Font */,
 				BD2D01A92A388825003A25D5 /* Common */,
-				BD2D01AB2A38885B003A25D5 /* Protocol */,
+				BD351C3A2C4810D300DE96D9 /* Enum */,
+				BD0836EE2C42DB2F0039B446 /* StyleTab */,
+				BD2D01B52A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift */,
 				5CADDD272A9DDF9900EAB678 /* Constants.swift */,
 				69683A572A9BAAEE00A2BD5A /* KeychainManager.swift */,
 				69A7F0D82A80B42A00834974 /* UserDefaultKey.swift */,
@@ -865,15 +866,6 @@
 				BD3BDE672BE8E522002E9E0C /* StyleBanner.swift */,
 			);
 			path = Common;
-			sourceTree = "<group>";
-		};
-		BD2D01AB2A38885B003A25D5 /* Protocol */ = {
-			isa = PBXGroup;
-			children = (
-				BD0836EE2C42DB2F0039B446 /* StyleTab */,
-				BD2D01B52A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift */,
-			);
-			path = Protocol;
 			sourceTree = "<group>";
 		};
 		BD2D01AC2A388860003A25D5 /* Base */ = {
