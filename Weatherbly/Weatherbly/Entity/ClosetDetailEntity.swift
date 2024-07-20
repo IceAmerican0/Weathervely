@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RxDataSources
 
 struct ClosetDetailEntity: Codable{
     var status: Int
@@ -20,7 +21,12 @@ struct ClosetDetailData: Codable {
     }
 }
 
-struct SelectedClosetInfo: Codable {
+struct SelectedClosetInfo: Codable, Equatable, IdentifiableType {
+    static func == (lhs: SelectedClosetInfo, rhs: SelectedClosetInfo) -> Bool {
+        return lhs.identity == rhs.identity
+    }
+    
+    let identity = UUID()
     var id: Int
     var name: String
     var imageUrl: String?

@@ -20,7 +20,7 @@ final class DiffTempCell: UICollectionViewCell {
     }
     
     private var imageView = UIImageView().then {
-        $0.image = UIImage.image_indicator
+        $0.image = UIImage.image_indicator.resized(to: CGSize(width: 56, height: 56))
         $0.contentMode = .scaleAspectFit
     }
     
@@ -65,7 +65,7 @@ final class DiffTempCell: UICollectionViewCell {
                 self?.imageView.pin.all()
                 self?.imageView.contentMode = .scaleAspectFit
             case .failure:
-                self?.imageView.pin.all()
+                self?.imageView.pin.center().size(56)
                 self?.imageView.contentMode = .center
             }
             self?.updateLayout(self?.imageView)
@@ -73,7 +73,7 @@ final class DiffTempCell: UICollectionViewCell {
     }
     
     private func updateLayout(_ view: UIView?) {
-        view!.flex.markDirty()
+//        view!.flex.markDirty()
         view!.layoutIfNeeded()
         view!.setNeedsLayout()
     }

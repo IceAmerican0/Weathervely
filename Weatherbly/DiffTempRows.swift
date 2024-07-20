@@ -6,16 +6,27 @@
 //
 
 import Foundation
+import RxDataSources
 
 struct DiffTempRows: Codable {
     var counts: Int?
     var closets: [RowInfo]?
 }
 
-struct RowInfo: Codable {
+struct RowInfo: Codable, Equatable, IdentifiableType {
+    let identity = UUID()
+    
     var closetId: Int
     var closetName: String
     var closetImageUrl: String
     var closetStatus: String
     var temperature: TemperatureEntity
+    
+    enum CodingKeys: String, CodingKey {
+        case closetId = "closetId"
+        case closetName = "closetName"
+        case closetImageUrl = "closetImageUrl"
+        case closetStatus = "closetStatus"
+        case temperature = "temperature"
+    }
 }

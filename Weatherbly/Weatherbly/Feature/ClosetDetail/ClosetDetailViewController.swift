@@ -30,7 +30,7 @@ final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewMod
         $0.register(withType: DiffTempCell.self)
         $0.registerHeader(withType: DiffTempDecoHeader.self)
         $0.registerHeader(withType: TitleLabelReusableHeader.self)
-//        $0.prefetchDataSource = self
+        //        $0.prefetchDataSource = self
     }
     lazy var dataSource = self.setParentCollectionView()
     
@@ -69,7 +69,7 @@ final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewMod
                 owner.viewModel.navigationPopViewControllerRelay.accept(Void())
             }
             .disposed(by: bag)
-            
+        
     }
     
     override func viewModelBinding() {
@@ -81,91 +81,92 @@ final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewMod
     }
     
     private func handlePrefetching(for indexPaths: [IndexPath]) {
-            let indexPathsToPrefetch = indexPaths.filter { indexPath in
-                switch self.dataSource.sectionModels[indexPath.section] {
-                case .warmFirst, .warmSecond, .coolFirst, .coolSecond:
-                    return true
-                default:
-                    return false
-                }
-            }
-            
-            guard !indexPathsToPrefetch.isEmpty else { return }
-            
-        
-            for indexPath in indexPathsToPrefetch {
-                let sectionModel = self.dataSource.sectionModels[indexPath.section]
-                switch sectionModel {
-                    /*
-                     [2, 17]
-                     [2, 18]
-                     [2, 19]
-                     [2, 15]
-                     [2, 15]
-                     이런식으로 나온다.
-                     20까지는 안나오고 prefetch할 item의 indexPath가 나온다
-                     -> 60개 들어왔다고하면
-                     -> 53,54,55...58,59 이렇게 들어온다.
-                     -> 20으로 나눈 나머지가 18, 19 일때 prefetch
-                     
-                     ** 추가로 왼쪽 스크롤시에 prefetch 방지하기 위해서 currentPage 저장 필ㅇ
-                     */
-                    
-                case .warmFirst:
-                    var currentPage = viewModel.WFCurrentPage
-                    let maxPage = viewModel.WFMaxPage
-                    
-                    if (indexPath.item / 20) + 1 >= currentPage && currentPage < maxPage {
-                        if  indexPath.item % 20 == 17 {
-                            currentPage += 1
-                            viewModel.WFCurrentPage = currentPage
-                            prefetchData(section: sectionModel, page: currentPage)
-                        }
-                        
-                    }
-                    
-                case .warmSecond:
-                    var currentPage = viewModel.WSCurrentPage
-                    let maxPage = viewModel.WSMaxPage
-                    if (indexPath.item / 20) + 1 >= currentPage && currentPage < maxPage {
-                        if  indexPath.item % 20 == 17 {
-                            currentPage += 1
-                            viewModel.WSCurrentPage = currentPage
-                            prefetchData(section: sectionModel, page: currentPage)
-                        }
-                        
-                    }
-                    
-                case .coolFirst:
-                    var currentPage = viewModel.CFCurrentPage
-                    let maxPage = viewModel.CFMaxPage
-                    if (indexPath.item / 20) + 1 >= currentPage && currentPage < maxPage {
-                        if  indexPath.item % 20 == 17 {
-                            currentPage += 1
-                            viewModel.CFCurrentPage = currentPage
-                            prefetchData(section: sectionModel, page: currentPage)
-                        }
-                        
-                    }
-                    
-                case .coolSecond:
-                    var currentPage = viewModel.CSCurrentPage
-                    let maxPage = viewModel.CSMaxPage
-                    if (indexPath.item / 20) + 1 >= currentPage && currentPage < maxPage {
-                        if  indexPath.item % 20 == 17 {
-                            currentPage += 1
-                            viewModel.CSCurrentPage = currentPage
-                            prefetchData(section: sectionModel, page: currentPage)
-                        }
-                        
-                    }
-                default:
-                    break
-                }
+        let indexPathsToPrefetch = indexPaths.filter { indexPath in
+            switch self.dataSource.sectionModels[indexPath.section] {
+            case .warmFirst, .warmSecond, .coolFirst, .coolSecond:
+                return true
+            default:
+                return false
             }
         }
-    
         
+        guard !indexPathsToPrefetch.isEmpty else { return }
+        
+        
+        for indexPath in indexPathsToPrefetch {
+            let sectionModel = self.dataSource.sectionModels[indexPath.section]
+            switch sectionModel {
+                /*
+                 [2, 17]
+                 [2, 18]
+                 [2, 19]
+                 [2, 15]
+                 [2, 15]
+                 이런식으로 나온다.
+                 20까지는 안나오고 prefetch할 item의 indexPath가 나온다
+                 -> 60개 들어왔다고하면
+                 -> 53,54,55...58,59 이렇게 들어온다.
+                 -> 20으로 나눈 나머지가 18, 19 일때 prefetch
+                 
+                 ** 추가로 왼쪽 스크롤시에 prefetch 방지하기 위해서 currentPage 저장 필ㅇ
+                 */
+                
+            case .warmFirst:
+                var currentPage = viewModel.WFCurrentPage
+                let maxPage = viewModel.WFMaxPage
+                
+                if (indexPath.item / 20) + 1 >= currentPage && currentPage < maxPage {
+                    if  indexPath.item % 20 == 17 {
+                        currentPage += 1
+                        viewModel.WFCurrentPage = currentPage
+                        prefetchData(section: sectionModel, page: currentPage)
+                    }
+                    
+                }
+                
+            case .warmSecond:
+                var currentPage = viewModel.WSCurrentPage
+                let maxPage = viewModel.WSMaxPage
+                if (indexPath.item / 20) + 1 >= currentPage && currentPage < maxPage {
+                    if  indexPath.item % 20 == 17 {
+                        currentPage += 1
+                        viewModel.WSCurrentPage = currentPage
+                        prefetchData(section: sectionModel, page: currentPage)
+                    }
+                    
+                }
+                
+            case .coolFirst:
+                var currentPage = viewModel.CFCurrentPage
+                let maxPage = viewModel.CFMaxPage
+                if (indexPath.item / 20) + 1 >= currentPage && currentPage < maxPage {
+                    if  indexPath.item % 20 == 17 {
+                        currentPage += 1
+                        viewModel.CFCurrentPage = currentPage
+                        prefetchData(section: sectionModel, page: currentPage)
+                    }
+                    
+                }
+                
+            case .coolSecond:
+                var currentPage = viewModel.CSCurrentPage
+                let maxPage = viewModel.CSMaxPage
+                if (indexPath.item / 20) + 1 >= currentPage && currentPage < maxPage {
+                    if  indexPath.item % 20 == 17 {
+                        currentPage += 1
+                        viewModel.CSCurrentPage = currentPage
+                        prefetchData(section: sectionModel, page: currentPage)
+                    }
+                    
+                }
+            default:
+                
+                break
+            }
+        }
+    }
+    
+    
     func prefetchData(section: DetailViewSectionModel, page: Int) {
         switch section {
         case .warmFirst:
@@ -183,59 +184,70 @@ final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewMod
 
 extension ClosetDetailViewController: UICollectionViewDelegate {
     
-    func setParentCollectionView() -> RxCollectionViewSectionedReloadDataSource<DetailViewSectionModel> {
-        RxCollectionViewSectionedReloadDataSource<DetailViewSectionModel> (configureCell: {
-            [weak self] dataSource, collectionView, indexPath, item in
-            guard self != nil else { return UICollectionViewCell() }
-            
-            switch item {
-            case .mainDetail(let selectedInfo):
-                return collectionView.dequeueCell(withType: MainDetailCell.self, for: indexPath).then {
-                    $0.configure(info: selectedInfo)
-                }
-            case .withItem(let withItemInfo):
-                return collectionView.dequeueCell(withType: WithItemCell.self, for: indexPath).then {
-                    $0.configure(info: withItemInfo)
-                }
-            case .firstRow(let rowInfo),
-                    .secondRow(let rowInfo):
-                return collectionView.dequeueCell(withType: DiffTempCell.self, for: indexPath).then {
-                    $0.configure(info: rowInfo)
-                }
-            }
-        }, configureSupplementaryView: { [weak self] dataSource, collectionView, kind, indexPath in
-            guard self != nil else { return UICollectionReusableView() }
-            switch kind {
-            case UICollectionView.elementKindSectionHeader:
-                switch dataSource[indexPath.section] {
-                case .mainDetail: return UICollectionReusableView()
-                case .withItem:
-                    return collectionView.dequeueReusableHeaderView(withType: TitleLabelReusableHeader.self, for: indexPath).then {
-                        $0.configure(nil, CSString.withItemTitle.string)
+    func setParentCollectionView() -> RxCollectionViewSectionedAnimatedDataSource<DetailViewSectionModel> {
+        return RxCollectionViewSectionedAnimatedDataSource<DetailViewSectionModel>(
+            animationConfiguration: AnimationConfiguration(insertAnimation: .fade, reloadAnimation: .none, deleteAnimation: .fade),
+            configureCell: { [weak self] dataSource, collectionView, indexPath, item in
+                guard self != nil else { return UICollectionViewCell() }
+                switch item {
+                case .mainDetail(let selectedInfo):
+                    return collectionView.dequeueCell(withType: MainDetailCell.self, for: indexPath).then {
+                        $0.configure(info: selectedInfo)
                     }
-                case .warmFirst:
-                    return collectionView.dequeueReusableHeaderView(withType: DiffTempDecoHeader.self, for: indexPath).then {
-                        $0.configure(CSString.warmDiffTitle.string, CSString.warmDiffDescription.string)
+                case .withItem(let withItemInfo):
+                    return collectionView.dequeueCell(withType: WithItemCell.self, for: indexPath).then {
+                        $0.configure(info: withItemInfo)
                     }
-                case .warmSecond:
-                    return collectionView.dequeueReusableHeaderView(withType: TitleLabelReusableHeader.self, for: indexPath).then {
-                        $0.configure(UIFont.body_2_B, CSString.secondWarmTitle.string)
+                case .firstRow(let rowInfo):
+                    print("first: \(rowInfo.identity)")
+                    return collectionView.dequeueCell(withType: DiffTempCell.self, for: indexPath).then {
+                        $0.configure(info: rowInfo)
                     }
-                case .coolFirst:
-                    return collectionView.dequeueReusableHeaderView(withType: DiffTempDecoHeader.self, for: indexPath).then {
-                        $0.configure(CSString.coolDiffTitle.string, CSString.coolDiffDescription.string)
-                    }
-                case .coolSecond:
-                    return collectionView.dequeueReusableHeaderView(withType: TitleLabelReusableHeader.self, for: indexPath).then {
-                        $0.configure(UIFont.body_2_B, CSString.secondCoolTitle.string)
+                case .secondRow(let rowInfo):
+                    print("second: \(rowInfo.identity)")
+                    return collectionView.dequeueCell(withType: DiffTempCell.self, for: indexPath).then {
+                        $0.configure(info: rowInfo)
                     }
                 }
-            default:
-                fatalError("Cannot Generate SupplementaryView")
-            }
-            return UICollectionReusableView()
-        })
+            }, configureSupplementaryView: { [weak self] dataSource, collectionView, kind, indexPath in
+                guard self != nil else { return UICollectionReusableView() }
+                switch kind {
+                case UICollectionView.elementKindSectionHeader:
+                    switch dataSource[indexPath.section] {
+                    case .mainDetail: return UICollectionReusableView()
+                    case .withItem:
+                        return collectionView.dequeueReusableHeaderView(withType: TitleLabelReusableHeader.self, for: indexPath).then {
+                            $0.configure(nil, CSString.withItemTitle.string)
+                        }
+                    case .warmFirst:
+                        return collectionView.dequeueReusableHeaderView(withType: DiffTempDecoHeader.self, for: indexPath).then {
+                            $0.configure(CSString.warmDiffTitle.string, CSString.warmDiffDescription.string)
+                        }
+                    case .warmSecond:
+                        return collectionView.dequeueReusableHeaderView(withType: TitleLabelReusableHeader.self, for: indexPath).then {
+                            $0.configure(UIFont.body_2_B, CSString.secondWarmTitle.string)
+                        }
+                    case .coolFirst:
+                        return collectionView.dequeueReusableHeaderView(withType: DiffTempDecoHeader.self, for: indexPath).then {
+                            $0.configure(CSString.coolDiffTitle.string, CSString.coolDiffDescription.string)
+                        }
+                    case .coolSecond:
+                        return collectionView.dequeueReusableHeaderView(withType: TitleLabelReusableHeader.self, for: indexPath).then {
+                            $0.configure(UIFont.body_2_B, CSString.secondCoolTitle.string)
+                        }
+                    }
+                default:
+                    fatalError("Cannot Generate SupplementaryView")
+                }
+                return UICollectionReusableView()
+            })
     }
+    
+//    func setParentCollectionView() -> RxCollectionViewSectionedAnimatedDataSource<DetailViewSectionModel> {
+//        RxCollectionViewSectionedAnimatedDataSource<DetailViewSectionModel> (configureCell: {
+//            [weak self] dataSource, collectionView, indexPath, item in
+//
+//    }
     
     func setSectionLayout() -> UICollectionViewCompositionalLayout {
         let layout = UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ -> NSCollectionLayoutSection? in

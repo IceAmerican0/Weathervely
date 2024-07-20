@@ -6,58 +6,76 @@
 //
 
 import RxDataSources
+import Foundation
 
-enum DetailViewSectionModel {
+typealias Item = DetailSectionItem
+
+enum DetailSectionItem: Equatable, IdentifiableType {
+    case mainDetail(SelectedClosetInfo)
+    case withItem(WithItemsInfo)
+    case firstRow(RowInfo)
+    case secondRow(RowInfo)
+    
+    var identity: String {
+        switch self {
+        case .mainDetail(let item):
+            return "mainDetail-\(item.identity)"
+        case .withItem(let item):
+            return "withItem-\(item.identity)"
+        case .firstRow(let item):
+            return "firstRow-\(item.identity)"
+        case .secondRow(let item):
+            return "secondRow-\(item.identity)"
+        }
+    }
+}
+
+enum DetailViewSectionModel: AnimatableSectionModelType {
     case mainDetail(items: [Item])
     case withItem(items: [Item])
     case warmFirst(items: [Item])
     case warmSecond(items: [Item])
     case coolFirst(items: [Item])
     case coolSecond(items: [Item])
-}
-
-enum DetailSectionItem {
-    case mainDetail(SelectedClosetInfo)
-    case withItem(WithItemsInfo)
-    case firstRow(RowInfo)
-    case secondRow(RowInfo)
-}
-
-extension DetailViewSectionModel: SectionModelType {
-    public typealias Item = DetailSectionItem
+    
+    var identity: String {
+        switch self {
+        case .mainDetail: return "mainDetail"
+        case .withItem: return "withItem"
+        case .warmFirst: return "warmFirst"
+        case .warmSecond: return "warmSecond"
+        case .coolFirst: return "coolFirst"
+        case .coolSecond: return "coolSecond"
+        }
+    }
     
     var items: [Item] {
         switch self {
-        case .mainDetail(items: let items):
-            return items.map { $0 }
-        case .withItem(items: let items):
-            return items.map { $0 }
-        case .warmFirst(items: let items):
-            return items.map { $0 }
-        case .warmSecond(items: let items):
-            return items.map { $0 }
-        case .coolFirst(items: let items):
-            return items.map { $0 }
-        case .coolSecond(items: let items):
-            return items.map { $0 }
+        case .mainDetail(let items): return items
+        case .withItem(let items): return items
+        case .warmFirst(let items): return items
+        case .warmSecond(let items): return items
+        case .coolFirst(let items): return items
+        case .coolSecond(let items): return items
         }
     }
-    
-    init(original: DetailViewSectionModel, items: [DetailSectionItem]) {
-        switch original  {
+}
+
+extension DetailViewSectionModel: SectionModelType, Equatable {    
+    init(original: DetailViewSectionModel, items: [Item]) {
+        switch original {
         case .mainDetail:
-            self = .mainDetail(items: items)
+            self = .mainDetail(items: items.filter { if case .mainDetail = $0 { return true } else { return false } })
         case .withItem:
-            self = .withItem(items: items)
+            self = .withItem(items: items.filter { if case .withItem = $0 { return true } else { return false } })
         case .warmFirst:
-            self = .warmFirst(items: items)
+            self = .warmFirst(items: items.filter { if case .firstRow = $0 { return true } else { return false } })
         case .warmSecond:
-            self = .warmSecond(items: items)
+            self = .warmSecond(items: items.filter { if case .secondRow = $0 { return true } else { return false } })
         case .coolFirst:
-            self = .coolFirst(items: items)
+            self = .coolFirst(items: items.filter { if case .firstRow = $0 { return true } else { return false } })
         case .coolSecond:
-            self = .coolSecond(items: items)
+            self = .coolSecond(items: items.filter { if case .secondRow = $0 { return true } else { return false } })
         }
     }
-    
 }

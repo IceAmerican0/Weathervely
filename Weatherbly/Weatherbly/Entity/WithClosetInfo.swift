@@ -6,10 +6,15 @@
 //
 
 import Foundation
+import RxDataSources
 
-struct WithItemsInfo: Codable {
-    var category: ItemCategoryInfo?
+struct WithItemsInfo: Codable, Equatable, IdentifiableType {
+    static func == (lhs: WithItemsInfo, rhs: WithItemsInfo) -> Bool {
+        return lhs.identity == rhs.identity
+    }
+    let identity = UUID()
     var id: Int
+    var category: ItemCategoryInfo?
     var name: String?
     var status: String?
     var shopUrl: String?
