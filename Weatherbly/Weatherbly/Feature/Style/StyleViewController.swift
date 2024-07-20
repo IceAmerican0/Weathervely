@@ -68,7 +68,7 @@ final class StyleViewController: RxBaseViewController<StyleViewModel> {
     }
 }
 
-extension StyleViewController {
+extension StyleViewController: StyleTabClosetTouchDelegate {
     
     // MARK: - InnerCV Cell Tap Event
     @objc func pushDetailView(_ notification: Notification) {
@@ -79,6 +79,12 @@ extension StyleViewController {
             self.viewModel.navigationPushViewControllerRelay.accept(detailVC)
             }
         }
+//    func innerCollectionViewCellDidTap(_ selectedInfo: NewClosetInfo?) {
+//        guard let info = selectedInfo else { return }
+//        let detailVM = ClosetDetailViewModel(closetId: info.closetId, tempId: info.temperature.tempId)
+//        let detailVC = ClosetDetailViewController(detailVM)
+//        self.viewModel.navigationPushViewControllerRelay.accept(detailVC)
+//    }
 
     // MARK: - 이중 스크롤 방지
     func innerCollectionViewDidScroll(_ innerCollectionView: UICollectionView, contentOffset: CGPoint) {
@@ -87,15 +93,6 @@ extension StyleViewController {
         let bannerSectionHeight = CGFloat(80)
         let parentScrollOffsetY = titleLabelAreaHeight + bannerSectionHeight
         
-        
-//        debugPrint("\n\n\nparentCV ContetnSize Height: \(self.collectionView.contentSize.height)")
-//        debugPrint("parentCV frameHeight : \(self.collectionView.frame.height)")
-//        debugPrint("innerCV : COntentSizeHeight: \(innerCollectionView.contentSize.height)")
-//        debugPrint("innerCV : COntentSizeHeight: \(innerCollectionView.frame.height)")
-//        debugPrint("innerCV offsetY : \(offsetY)")
-//        debugPrint("parentCV offsetY : \(self.collectionView.contentOffset.y)")
-        // InnerCollectionView의 스크롤을 상위 UICollectionView에 반영
-        
         if offsetY <= 0 { // innerCV 최상단
             collectionView.becomeFirstResponder()
             
@@ -103,6 +100,7 @@ extension StyleViewController {
             if collectionView.contentOffset.y <= 0 {
                 collectionView.contentOffset.y = 0
                 innerCollectionView.contentOffset.y = 0
+                innerCollectionView.setContentOffset(CGPoint(x: innerCollectionView.contentOffset.x, y: 0), animated: true)
             } else {
                 /// collectionVie의 스크롤의 높이가 0보다 크면서 parentScrollOffsetY 보다 작을 때
                 /// 즉, 배너섹션의 끝 영역까지
@@ -110,20 +108,17 @@ extension StyleViewController {
                 innerCollectionView.contentOffset.y = 0
             }
         } else {
-            
         
             if collectionView.contentOffset.y <= parentScrollOffsetY {
                 collectionView.becomeFirstResponder()
                 collectionView.contentOffset.y += offsetY
                 
-                // ISSUE: 빠르게 스크롤 시 parentOffsetY를 넘어가 버리는 케이스 존재 -> 재 고정
                 if collectionView.contentOffset.y > parentScrollOffsetY {
                     collectionView.contentOffset.y = parentScrollOffsetY
                 }
                 innerCollectionView.contentOffset.y = 0
             } else { // 부모CV가 무시 기준을 도달했을 때 이후 // 근데 innserCV 스크롤하는 시점
                 
-                // ISSUE: 빠르게 스크롤 시 parentOffsetY를 넘어가 버리는 케이스 존재 -> 재 고정
                 if collectionView.contentOffset.y > parentScrollOffsetY {
                     collectionView.contentOffset.y = parentScrollOffsetY
                 }
@@ -180,6 +175,7 @@ extension StyleViewController: UICollectionViewDelegate {
                 
             case .type(let innerSectionsArr):
                 return collectionView.dequeueCell(withType: InnerCollectionViewCell.self, for: indexPath).then {
+                    $0.delegate = self // 스크롤 중첩이슈 해결을 위한 delegate
                     $0.configure(innerSectionsArr)
                 }
                 
@@ -196,7 +192,6 @@ extension StyleViewController: UICollectionViewDelegate {
                     
                 case .types(let types, _):
                     return collectionView.dequeueReusableHeaderView(withType: StyleTagHeaderView.self, for: indexPath).then {
-                        
                         $0.configureTag(types)
                     }
                 case .styles(let headerInfo, _):

@@ -37,7 +37,7 @@ extension UIImageView {
             case .success(let value):
                 break
             case .failure(let error):
-                self.image = placeHolder
+                self.image = placeHolder?.resized(to: CGSize(width: 56, height: 56))
             }
             completionHandler?(result)
         }

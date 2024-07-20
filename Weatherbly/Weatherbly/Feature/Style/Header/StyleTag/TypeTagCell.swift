@@ -8,18 +8,24 @@
 import UIKit
 import FlexLayout
 import PinLayout
+import RxGesture
+import RxSwift
 
 final class TypeTagCell: UICollectionViewCell {
     
+    private var bag = DisposeBag()
+    public weak var delegate: TypeTagDelegate?
     public var tagLabel = LabelMaker(
         font: UIFont.body_5_B,
         fontColor: .black,
         alignment: .center
-    ).make(text: "#tag1")
+    ).make(text: "#tag")
     
+    var typeTagInfo = ClosetTypeInfo(id: 0, name: "tag")
     override init(frame: CGRect) {
         super.init(frame: frame)
         attribute()
+        binding()
     }
     
     required init?(coder: NSCoder) {
@@ -46,12 +52,28 @@ final class TypeTagCell: UICollectionViewCell {
         }
     }
 
-    func cellLayout() {
-        
+    private func cellLayout() {
         contentView.addSubview(tagLabel)
         tagLabel.pin.all()
     }
     
+    private func binding() {
+        tagLabel.rx.tapGesture()
+            .when(.recognized)
+            .bind(with: self) { owner, _  in
+                NotificationCenter.default.post(name: .styleTagTap, object: nil, userInfo: ["typeTagInfo" : owner.typeTagInfo])
+            }.disposed(by: bag)
+    }
+    
+    public func configure(typeInfo: ClosetTypeInfo?) {
+        if let info = typeInfo {
+            self.typeTagInfo = info
+            tagLabel.text = "#\(info.name)"
+            layoutIfNeeded()
+        }
+        
+        
+    }
 }
 
 //func setBannerLayout() -> NSCollectionLayoutSection {

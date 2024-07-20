@@ -13,9 +13,11 @@ import RxCocoa
 
 final public class InnerCollectionViewCell: UICollectionViewCell {
     
+    // MARK: - 전역변수 & delegate
     private var bag = DisposeBag()
     weak var delegate: StyleTabClosetTouchDelegate?
 
+    // MARK: - UI Property
     private var bindSectionsRelay = BehaviorRelay<[StyleTabSectionModel]>(value: [])
     private lazy var innerCollectionView = UICollectionView(frame: .zero, collectionViewLayout: setInnerLayout()).then {
         $0.showsVerticalScrollIndicator = false
@@ -25,6 +27,8 @@ final public class InnerCollectionViewCell: UICollectionViewCell {
     }
     lazy var dataSource = self.setInnerCollectionViewDataSource()
     var selectedTags: [Int] = []
+    
+    // MARK: - lifeCycle
     public override init(frame: CGRect) {
         super.init(frame: frame)
         binding()
@@ -39,12 +43,15 @@ final public class InnerCollectionViewCell: UICollectionViewCell {
         layout()
     }
     
+    
+    // MARK: - Layout
     private func layout() {
         contentView.pin.all()
         contentView.addSubview(innerCollectionView)
         innerCollectionView.pin.all()
     }
     
+    // MARK: - Binding
     func binding() {
         
         innerCollectionView.rx
@@ -61,8 +68,49 @@ final public class InnerCollectionViewCell: UICollectionViewCell {
             .drive(with: self) { owner, indexPaths in
 //                owner.handlePrefetching(for: indexPaths)
             }.disposed(by: bag)
+        
+        NotificationCenter.default.rx.notification(.styleTagTap)
+            .compactMap { $0.userInfo }
+            .compactMap { $0["typeTagInfo"] as? ClosetTypeInfo }
+            .bind(with: self) { owner, tagInfo in
+                
+                if var offset = owner.offsetYForSection(with: tagInfo) {
+                    let curOffsetY = owner.innerCollectionView.contentOffset.y
+                    /// 현재 innerCV의 위치가 배너+VC타이틀+섹션인셋 높이(157 +-1) 보다 작으면 차이만큼 더 스크롤 해야한다.
+                    debugPrint("curOfssetY No 1: \(curOffsetY)")
+                    if 0...132 ~= curOffsetY {
+                        offset.y += (148 - curOffsetY)
+                    }
+                    owner.innerCollectionView.setContentOffset(offset, animated: true)
+                    debugPrint("curOfssetY No 2: \(curOffsetY)")
+                }
+               
+            }
+            .disposed(by: bag)
     }
     
+    // MARK: - Method
+    private func offsetYForSection(with tagInfo: ClosetTypeInfo) -> CGPoint? {
+        if let sectionIndex = self.bindSectionsRelay.value.firstIndex(where: { section  in
+            if case .styles(let header, _) = section,
+            header.typeInfo.id == tagInfo.id {
+                return true
+            }
+            return false
+        }) {
+            let scrollView = self.innerCollectionView
+            guard var layoutAttributes = scrollView.layoutAttributesForItem(at: IndexPath(item: 0, section: sectionIndex)) else { return nil }
+            if sectionIndex == 0 {
+                scrollView.contentOffset.y = 0
+                scrollView.setContentOffset(CGPoint(x: scrollView.contentOffset.x, y: 0), animated: true)
+            }
+            layoutAttributes.frame.origin.y -= 56 // ection의 titleLabel 높이
+            return layoutAttributes.frame.origin
+        }
+        return .zero
+    }
+
+    // MARK: - Configure
     func configure(_ sectionsInfo: [StyleTabSectionModel]?) {
         guard let sectionsInfo = sectionsInfo else { return }
         bindSectionsRelay.accept(sectionsInfo)
@@ -170,6 +218,7 @@ extension InnerCollectionViewCell: CategoryHeaderViewDelegate {
 //}
 extension InnerCollectionViewCell: UICollectionViewDelegate {
     
+    // MARK: - 탭처리
 //    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 //        debugPrint("indexPath : \(indexPath.section)")
 //        debugPrint("indexPath : \(indexPath.item)")
@@ -276,7 +325,7 @@ extension InnerCollectionViewCell: UICollectionViewDelegate {
         
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = 36
-        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 5)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 5)
         
         return section
     }

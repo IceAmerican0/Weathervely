@@ -58,7 +58,7 @@ final class CategoryHeaderView : UICollectionReusableView {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.addSubviews(sectionTitleLabel, itemTagHeaderWrapper)
         
-        tagsView = CategoryTagsView()
+        tagsView = CategoryTagsView(mockType: .a)
         tagsView?.backgroundColor = .white
         tagsView?.numRows = 2
         tagsView?.tagsDelegate = self
@@ -116,6 +116,17 @@ final class CategoryHeaderView : UICollectionReusableView {
 }
 
 extension CategoryHeaderView: ItemTagViewDelegate {
+    func selectItemTags(view: CategoryTagsView, with tags: [Int]) {
+        guard let mockType = view.mockType else { return }
+        switch mockType {
+        case .a:
+            print()
+        case .b:
+            print()
+        
+        }
+    }
+    
     func selectItemTags(with tags: [Int]) {
             debugPrint("아니 씨발 이거 뭔데? \(tags)")
             selectedTags.accept(tags)  // selectedTags를 업데이트

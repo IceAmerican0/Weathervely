@@ -10,5 +10,5 @@ import UIKit
 
 protocol StyleTabClosetTouchDelegate: AnyObject {
     func innerCollectionViewDidScroll(_ innerCollectionView: UICollectionView, contentOffset: CGPoint)
-    func innerCollectionViewCellDidTap(_ selectedInfo: NewClosetInfo?)
+//    func innerCollectionViewCellDidTap(_ selectedInfo: NewClosetInfo?)
 }

@@ -52,7 +52,7 @@ final public class HorizonCollectionViewCell: UICollectionViewCell {
         self.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubviews(sectionTitleLabel, itemTagHeaderWrapper, collectionView)
         
-        tagsView = CategoryTagsView()
+        tagsView = CategoryTagsView(mockType: .a)
         tagsView?.backgroundColor = .white
         tagsView?.numRows = 2
         tagsView?.tagsDelegate = self
@@ -119,7 +119,7 @@ final public class HorizonCollectionViewCell: UICollectionViewCell {
             }).disposed(by: bag)
     }
     
-    // MARK: - Method
+    // MARK: - Configure
     private func updateTags(_ tags: [MCategoryInfo]) {
         tagsView?.tags = tags
     }
@@ -142,6 +142,7 @@ final public class HorizonCollectionViewCell: UICollectionViewCell {
         cellViewModel.categoriesRelay.accept(categories.map { $0 })
     }
     
+    // MARK: - Prefetch
     private func handlePrefetching(for indexPaths: [IndexPath]) {
         let indexPathsToPrefetch = indexPaths.filter { indexPath in
             switch self.dataSource.sectionModels[indexPath.section] {
@@ -193,7 +194,7 @@ extension HorizonCollectionViewCell: ItemTagViewDelegate {
         return itemsString
     }
     
-    func selectItemTags(with tags: [Int]) {
+    func selectItemTags(view: CategoryTagsView, with tags: [Int]) {
         
         cellViewModel.getFilteredByCategories(with: tags, { newClosets in
             self.configureCollectionView(newClosets)
