@@ -22,6 +22,7 @@ final public class InnerCollectionViewCell: UICollectionViewCell {
     private lazy var innerCollectionView = UICollectionView(frame: .zero, collectionViewLayout: setInnerLayout()).then {
         $0.showsVerticalScrollIndicator = false
         $0.register(withType: StyleCell.self)
+        $0.register(withType: NoItemCell.self)
         $0.registerHeader(withType: StyleTagHeaderView.self)
         $0.registerReusableView(withType: CategoryHeaderView.self, kind: .sectionHeader)
     }
@@ -159,14 +160,24 @@ extension InnerCollectionViewCell: UICollectionViewDelegate {
         RxCollectionViewSectionedAnimatedDataSource<StyleTabSectionModel> (animationConfiguration: AnimationConfiguration(insertAnimation: .fade, reloadAnimation: .none, deleteAnimation: .automatic),configureCell: { [ weak self ] dataSource, collectionView, indexPath, item in
             guard self != nil else { return UICollectionViewCell() }
             
-            switch item {
-            case .styles(let styleInfo):
-                return collectionView.dequeueCell(withType: StyleCell.self, for: indexPath).then {
-                    $0.configure(info: styleInfo)
+       
+                switch item {
+                case .styles(let styleInfo):
+                    let sectionItem = dataSource[indexPath.section].items
+                    if sectionItem.count <= 0 || sectionItem.isEmpty {
+                        
+                        // ISSUE: - 일단 되지는 않는데, 추후에 테스트 필요.
+                        // animatable 에서는 값이 없으면 자동으로 레이아웃 지워버리는 이슈 해결필요.
+                        return collectionView.dequeueCell(withType: NoItemCell.self, for: indexPath)
+                    } else {
+                        return collectionView.dequeueCell(withType: StyleCell.self, for: indexPath).then {
+                            $0.configure(info: styleInfo)
+                        }
+                    }
+                default:
+                    return UICollectionViewCell()
                 }
-            default:
-                return UICollectionViewCell()
-            }
+            
             
         }, configureSupplementaryView: { [ weak self ] dataSource, collectionView, kind, indexPath in
             guard self != nil else { return UICollectionReusableView() }
@@ -206,8 +217,8 @@ extension InnerCollectionViewCell: UICollectionViewDelegate {
             let section = self.cellViewModel.bindSectionsRelay.value[sectionIndex]
             var layoutSection: NSCollectionLayoutSection?
             switch section {
-            case .styles:
-                layoutSection = self.styleSectionLayout()
+            case .styles(_, let items):
+                layoutSection = self.styleSectionLayout(items: items)
                 
             default:
                 layoutSection =  .init(group: .init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(1))))
@@ -218,48 +229,93 @@ extension InnerCollectionViewCell: UICollectionViewDelegate {
     }
     
     // TODO: - // Item 레이아웃 사이즈 변경
-    func styleSectionLayout() -> NSCollectionLayoutSection {
+    func styleSectionLayout(items: [StyleTabItem]) -> NSCollectionLayoutSection {
          // header + item => 572
         // Size Property
-        let itemWidth = (Constants.screenWidth - 20 ) / 3
-        let itemSize = NSCollectionLayoutSize(
-            widthDimension: .absolute(itemWidth),
-            heightDimension: .absolute(210)
-        )
+        switch items.count > 0 {
+        case true:
+            let itemWidth = (Constants.screenWidth - 20 ) / 3
+            let itemSize = NSCollectionLayoutSize(
+                widthDimension: .absolute(itemWidth),
+                heightDimension: .absolute(210)
+            )
+            
+            // Item
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            
+            let groupSize = NSCollectionLayoutSize(
+                widthDimension: .absolute(itemWidth + 16),
+                heightDimension: .absolute(432)
+            )
+            
+            // Group
+            let group = NSCollectionLayoutGroup.vertical(
+                layoutSize: groupSize,
+                subitems: [item, item]
+            )
+            group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0)
+            group.interItemSpacing = .fixed(12)
+            
+            // Header
+            let headerSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .absolute(122)
+            )
+            let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize: headerSize,
+                elementKind: UICollectionView.elementKindSectionHeader,
+                alignment: .topLeading
+            )
+            
+            let section = NSCollectionLayoutSection(group: group)
+            section.orthogonalScrollingBehavior = .continuous
+            section.boundarySupplementaryItems = [sectionHeader]
+            section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 0, bottom: 20, trailing: 5)
+            
+            return section
+            
+        case false:
+            
+            let itemWidth = (Constants.screenWidth - 20 ) / 3
+            let itemSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .absolute(432)
+            )
+            
+            // Item
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            
+            let groupSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .absolute(432)
+            )
+            
+            // Group
+            let group = NSCollectionLayoutGroup.horizontal(
+                layoutSize: groupSize,
+                subitems: [item]
+            )
+            
+            group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
+            
+            // Header
+            let headerSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .absolute(122)
+            )
+            let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize: headerSize,
+                elementKind: UICollectionView.elementKindSectionHeader,
+                alignment: .topLeading
+            )
+            
+            let section = NSCollectionLayoutSection(group: group)
+            section.boundarySupplementaryItems = [sectionHeader]
+            section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 0, bottom: 20, trailing: 5)
+            
+            return section
+        }
         
-        // Item
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .absolute(itemWidth + 16),
-            heightDimension: .absolute(432)
-        )
-        
-        // Group
-        let group = NSCollectionLayoutGroup.vertical(
-            layoutSize: groupSize,
-            subitems: [item, item]
-        )
-        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0)
-        group.interItemSpacing = .fixed(12)
-        
-        // Header
-        let headerSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .absolute(122)
-        )
-        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: headerSize,
-            elementKind: UICollectionView.elementKindSectionHeader,
-            alignment: .topLeading
-        )
-        
-        let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .continuous
-        section.boundarySupplementaryItems = [sectionHeader]
-        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 0, bottom: 20, trailing: 5)
-        
-        return section
     }
     
     // MARK: - 이중 스크롤 방지

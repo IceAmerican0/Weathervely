@@ -221,6 +221,7 @@
 		BDE912D22C2FE87300330673 /* TemperatureEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE912D12C2FE87300330673 /* TemperatureEntity.swift */; };
 		BDEAE06A2C497D9800E5EA0B /* HorizonCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDEAE0692C497D9800E5EA0B /* HorizonCellViewModel.swift */; };
 		BDFC0B752C4C2DC300991E98 /* InnerCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDFC0B742C4C2DC300991E98 /* InnerCellViewModel.swift */; };
+		BDFC0B772C4D1E6C00991E98 /* NoItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDFC0B762C4D1E6C00991E98 /* NoItemCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -421,6 +422,7 @@
 		BDE912D12C2FE87300330673 /* TemperatureEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureEntity.swift; sourceTree = "<group>"; };
 		BDEAE0692C497D9800E5EA0B /* HorizonCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizonCellViewModel.swift; sourceTree = "<group>"; };
 		BDFC0B742C4C2DC300991E98 /* InnerCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InnerCellViewModel.swift; sourceTree = "<group>"; };
+		BDFC0B762C4D1E6C00991E98 /* NoItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoItemCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -723,6 +725,7 @@
 			children = (
 				5CEC8FDD2C215C86003F0CF4 /* StyleShimmerView.swift */,
 				5CEC8FDF2C215E1A003F0CF4 /* DetailShimmerView.swift */,
+				BDFC0B762C4D1E6C00991E98 /* NoItemCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1257,6 +1260,7 @@
 				5CC61E262A5BC223001435E6 /* SettingRegionViewController.swift in Sources */,
 				5CDCD7DE2B564A89008465B9 /* FilterListHeaderView.swift in Sources */,
 				5CEC8FE02C215E1A003F0CF4 /* DetailShimmerView.swift in Sources */,
+				BDFC0B772C4D1E6C00991E98 /* NoItemCell.swift in Sources */,
 				6987EBBD2B41409E00CF1E74 /* NewHomeViewModel.swift in Sources */,
 				BD69B8F92A553A0C00DDCD7A /* CSNavigationView.swift in Sources */,
 				5CAB60CF2A53F61700CD431A /* TenDaysForecastViewController.swift in Sources */,

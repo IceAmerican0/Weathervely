@@ -83,7 +83,7 @@ final class HorizonCellViewModel {
     func getCategoryParam(with tags: [Int]) -> String {
         var itemsString = ""
         for item in tags {
-            if item == tags.last {
+            if item != tags.last {
                 itemsString += String(item) + ","
             } else {
                 itemsString += String(item)

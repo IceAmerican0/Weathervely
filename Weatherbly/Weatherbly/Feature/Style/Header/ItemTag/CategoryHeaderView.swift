@@ -105,13 +105,12 @@ final class CategoryHeaderView : UICollectionReusableView {
         
         selectedTags
             .asDriver()
-            .skip(1)
             .drive(with: self, onNext: { owner, tags in
 //                guard let tags = tags else { return }
-                debugPrint("seletedTags: \(tags)")
-                userDefault.set(tags, forKey: String(owner.typeInfo.id))
-                debugPrint("set UserDefulats: \(String(describing: userDefault.object(forKey: String(owner.typeInfo.id))))")
-                owner.headerDelegate?.sendCategoryWithType(self, tags: owner.selectedTags.value, typeInfo: self.typeInfo)
+//                debugPrint("seletedTags: \(tags)")
+//                userDefault.set(tags, forKey: String(owner.typeInfo.id))
+//                debugPrint("set UserDefulats: \(String(describing: userDefault.object(forKey: String(owner.typeInfo.id))))")
+//                owner.headerDelegate?.sendCategoryWithType(self, tags: owner.selectedTags.value, typeInfo: self.typeInfo)
             }).disposed(by: bag)
     }
     
@@ -120,6 +119,7 @@ final class CategoryHeaderView : UICollectionReusableView {
         self.typeInfo = typeInfo
         sectionTitleLabel.text = "#\(typeInfo.name)"
         
+        debugPrint("state: \(state)")
         if let state = state {
             self.state = state
         } else {
@@ -148,9 +148,10 @@ extension CategoryHeaderView: ItemTagsViewDelegate {
         }
         selectedTags.accept(tags)
         debugPrint("태그 모으기 : \(tags)")
-        debugPrint("태그 모으기 : \(selectedTags.value)")
-        
-        
+        debugPrint("태그 모으기 : \(self.selectedTags.value)")
+        userDefault.set(tags, forKey: String(typeInfo.id))
+        debugPrint("set UserDefulats: \(String(describing: userDefault.object(forKey: String(self.typeInfo.id))))")
+        self.headerDelegate?.sendCategoryWithType(self, tags: self.selectedTags.value, typeInfo: self.typeInfo)
         
     }
 }
