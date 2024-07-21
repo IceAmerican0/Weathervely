@@ -187,9 +187,9 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
          마지막 페이지 or 일정 이상 스크롤되지 않았을시 return
          페이지당 row 10 / 80퍼 이상 스크롤
          */
-//        if loadedPage >= (closetListMaxCount / 20) || 
-//           (row >= Int(Double(loadedPage * 10) * 0.8)) == false { return }
-        if Double(loadedPage) >= Double(closetListMaxCount) / 20.0 { return }
+        if loadedPage >= (closetListMaxCount / 20) || 
+           (row >= Int(Double(loadedPage * 10) * 0.8)) == false { return }
+//        if Double(loadedPage) >= Double(closetListMaxCount) / 20.0 { return }
         loadedPage += 1
         
         closetDataSource.getHomeCloset(page: loadedPage, time: selectedTime)

@@ -202,32 +202,32 @@ public final class NewHomeViewController: RxBaseViewController<NewHomeViewModel>
                 }
             }.disposed(by: bag)
         
-        homeCollectionView.rx.contentOffset
-            .debounce(.milliseconds(200), scheduler: MainScheduler.instance)
-            .distinctUntilChanged()
-            .flatMap { [weak self] offset -> Observable<Void> in
-                guard let self else { return Observable.empty() }
-                let contentHeight = self.homeCollectionView.contentSize.height
-                let height = self.homeCollectionView.frame.size.height
-                if offset.y > contentHeight - height - 100 {
-                    return Observable.just(())
-                }
-                return Observable.empty()
-            }
-            .bind(with: self) { owner, _ in
-                owner.viewModel.getNextCloset(of: 0)
-            }.disposed(by: bag)
-        
-//        homeCollectionView.rx.prefetchItems
-//            .filter { indexPath in
-//                indexPath.contains { $0.section == 1 }
-//            }
-//            .compactMap { $0.last?.row }
+//        homeCollectionView.rx.contentOffset
+//            .debounce(.milliseconds(200), scheduler: MainScheduler.instance)
 //            .distinctUntilChanged()
-//            .bind(with: self) { owner, row in
-//                guard row != 0 else { return }
-//                owner.viewModel.getNextCloset(of: row)
+//            .flatMap { [weak self] offset -> Observable<Void> in
+//                guard let self else { return Observable.empty() }
+//                let contentHeight = self.homeCollectionView.contentSize.height
+//                let height = self.homeCollectionView.frame.size.height
+//                if offset.y > contentHeight - height - 100 {
+//                    return Observable.just(())
+//                }
+//                return Observable.empty()
+//            }
+//            .bind(with: self) { owner, _ in
+//                owner.viewModel.getNextCloset(of: 0)
 //            }.disposed(by: bag)
+        
+        homeCollectionView.rx.prefetchItems
+            .filter { indexPath in
+                indexPath.contains { $0.section == 1 }
+            }
+            .compactMap { $0.last?.row }
+            .distinctUntilChanged()
+            .bind(with: self) { owner, row in
+                guard row != 0 else { return }
+                owner.viewModel.getNextCloset(of: row)
+            }.disposed(by: bag)
     }
     
     @objc
