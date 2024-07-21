@@ -48,7 +48,7 @@ final class CategoryTagsView: UIView {
         $0.alignment = .leading
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
-    public var selectedTags = BehaviorRelay<[Int]>(value: [])
+    public var selectedTags: [Int] = []
     public var tagViews: [ItemTagView] = []
     
     var tags: [MCategoryInfo] = [] {
@@ -62,9 +62,13 @@ final class CategoryTagsView: UIView {
             // create individual tag views and get the total width
             tags.forEach { category in
                 let t = ItemTagView()
-                t.configure(with: category, selectedTags: selectedTags.value)
+                t.configure(with: category, selectedTags: selectedTags)
                 t.tagDidTap.bind(with: self) { owner, event in
+                    if t.selectedState.value == .selected { t.selectedState.accept(.deSelected) } else {
+                        t.selectedState.accept(.selected)
+                    }
                     owner.tagsViewDelegate?.selectItemTags(view: owner, categoryInfo: t.categoryInfo)
+                    
                 }.disposed(by: t.bag)
                 let sz = t.labelWrapper.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
                 totalWidth += sz.width + 28
@@ -93,19 +97,18 @@ final class CategoryTagsView: UIView {
     
     func binding() {
         // FIXME: - 필요없으면 지우기
-        selectedTags.asDriver()
-            .drive(with: self) { owner, tags in
-                
-            }.disposed(by: bag)
-        
+//        selectedTags.asDriver()
+//            .drive(with: self) { owner, tags in
+//                
+//            }.disposed(by: bag)
+//        
     }
     
-    init(identifier: String, typeInfo: ClosetTypeInfo) {
+    init(_ selectedTags: [Int]) {
         super.init(frame: .zero)
-        print("TagsView identifier : \(identifier)")
-        print("TagsView typeInfo : \(typeInfo)")
-        self.identifer = identifier
-        self.typeInfo = typeInfo
+        
+        debugPrint("🔥🔥🔥 \(selectedTags)")
+//        self.selectedTags.accept(selectedTags)
         commonInit(typeInfo: typeInfo)
     }
 //
@@ -125,8 +128,6 @@ final class CategoryTagsView: UIView {
         addSubview(scrollView)
         scrollView.addSubview(vStack)
         
-        
-//        let g = self
         let cg = scrollView.contentLayoutGuide
         
         NSLayoutConstraint.activate([
@@ -144,29 +145,8 @@ final class CategoryTagsView: UIView {
         ])
     }
     
-    public func configure(info: ClosetTypeInfo?, categories: [MCategoryInfo]?) {
-        guard let typeInfo = info else { return }
-        sectionTitleLabel.text = "#\(typeInfo.name)"
+    public func configure(_ selectedTags: [Int]) {
+        self.selectedTags = selectedTags
     }
     
-}
-
-extension CategoryTagsView: ItemTagDelegate {
-    func itemTagDidTap(categoryInfo: MCategoryInfo?) {
-        guard let category = categoryInfo else { return }
-        let id = category.id
-        debugPrint("\n\nin CategoryTagsView: \(id)")
-        
-        // 태그뷰 모으기
-        var tags = selectedTags.value
-        // 중복제거
-        if !tags.contains(id) {
-            tags.append(id)
-        } else {
-            tags = tags.filter { $0 != id }
-        }
-        debugPrint("after accepted : \(tags)")
-        selectedTags.accept(tags)
-//        tagsViewDelegate?.selectItemTags(view: self, with: tags)
-    }
 }

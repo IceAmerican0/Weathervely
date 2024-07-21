@@ -17,8 +17,6 @@ final class InnerCellViewModel {
     private let dataSource = NewClosetDataSource()
     
     public func getFilteredByCategories(with tags: [Int] ,in sectionIndex: Int, typeInfo: ClosetTypeInfo) {
-        
-        debugPrint("sectionIndex: \(sectionIndex)")
         switch tags.isEmpty {
         case true:
             dataSource.getClosetWithType(typeID: typeInfo.id, page: 1)
@@ -49,7 +47,6 @@ final class InnerCellViewModel {
                             self.bindSectionsRelay.accept(updatedSections)
                         }
                     }
-                    debugPrint("sectionIndex: \(sectionIndex)")
                 }
                 .disposed(by: bag)
         }
@@ -59,7 +56,7 @@ final class InnerCellViewModel {
     func getCategoryParam(with tags: [Int]) -> String {
         var itemsString = ""
         for item in tags {
-            if item == tags.last {
+            if item != tags.last {
                 itemsString += String(item) + ","
             } else {
                 itemsString += String(item)

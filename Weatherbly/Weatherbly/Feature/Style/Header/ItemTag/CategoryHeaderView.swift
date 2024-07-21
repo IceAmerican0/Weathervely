@@ -14,14 +14,13 @@ final class CategoryHeaderView : UICollectionReusableView {
     private var bag = DisposeBag()
     public weak var headerDelegate: CategoryHeaderViewDelegate?
     public var typeInfo = ClosetTypeInfo.init(id: 0, name: "")
-    var uniqueIdentifer: String?
     private var sectionTitleLabel = LabelMaker(
         font: UIFont.title_3_B,
         fontColor: UIColor.black,
         alignment: .left
     ).make(text: "#Type1")
     
-//    var typeTitleRelay = BehaviorRelay<MCategoryInfo?>(value: MCategoryInfo(id: 1, name: "initial value"))
+    var state: [Int] = []
     private var categoriesRelay = BehaviorRelay<[MCategoryInfo]>(value: [
         MCategoryInfo(id: 28, name: "니트/스웨터"),
         MCategoryInfo(id: 31, name: "긴소매 티셔츠"),
@@ -37,11 +36,6 @@ final class CategoryHeaderView : UICollectionReusableView {
     // selectedTags 상태를 관리
     public var selectedTags = BehaviorRelay<[Int]>(value: [])
     
-    init(typeInfo: ClosetTypeInfo, identifier: String) {
-        super.init(frame: .zero)
-        self.uniqueIdentifer = identifier
-        
-    }
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setupView()
@@ -56,9 +50,10 @@ final class CategoryHeaderView : UICollectionReusableView {
     override func prepareForReuse() {
         super.prepareForReuse()
         sectionTitleLabel.text = ""
-        selectedTags.accept([])
-//        categoriesRelay.accept([])
-//        tagsView?.tags = []  // 태그 뷰 초기화
+        selectedTags = BehaviorRelay<[Int]>(value: [])
+//        selectedTags.accept([])
+//        categoriesRelay = BehaviorRelay<[MCategoryInfo]>(value: [])
+        tagsView?.tags = []  // 태그 뷰 초기화
     }
     
     private func setupView() {
@@ -66,9 +61,10 @@ final class CategoryHeaderView : UICollectionReusableView {
         self.sectionTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         self.addSubviews(sectionTitleLabel, itemTagHeaderWrapper)
         
-        tagsView = CategoryTagsView(identifier: self.uniqueIdentifer ?? "", typeInfo: typeInfo)
+        tagsView = CategoryTagsView(state)
         tagsView?.backgroundColor = .white
         tagsView?.numRows = 2
+        tagsView?.configure(selectedTags.value)
         tagsView?.tagsViewDelegate = self
         if let tagsView = tagsView {
             itemTagHeaderWrapper.addSubview(tagsView)
@@ -95,12 +91,14 @@ final class CategoryHeaderView : UICollectionReusableView {
     }
     
     private func updateTags(_ tags: [MCategoryInfo]) {
+        tagsView?.selectedTags = self.state
         tagsView?.tags = tags
     }
     
     func binding() {
         categoriesRelay
             .asDriver()
+            .skip(1)
             .drive(with: self, onNext: { owner, tags in
                 owner.updateTags(tags)
             }).disposed(by: bag)
@@ -108,27 +106,37 @@ final class CategoryHeaderView : UICollectionReusableView {
         selectedTags
             .asDriver()
             .drive(with: self, onNext: { owner, tags in
-                owner.headerDelegate?.sendCategoryWithType(self, tags: owner.selectedTags.value, typeInfo: self.typeInfo)
+//                guard let tags = tags else { return }
+//                debugPrint("seletedTags: \(tags)")
+//                userDefault.set(tags, forKey: String(owner.typeInfo.id))
+//                debugPrint("set UserDefulats: \(String(describing: userDefault.object(forKey: String(owner.typeInfo.id))))")
+//                owner.headerDelegate?.sendCategoryWithType(self, tags: owner.selectedTags.value, typeInfo: self.typeInfo)
             }).disposed(by: bag)
     }
     
-    func configure(info: ClosetTypeInfo?, categories: [MCategoryInfo]?) {
-        print("Header identifier:  \(self.uniqueIdentifer)")
+    func configure(info: ClosetTypeInfo?, categories: [MCategoryInfo]?, state: [Int]?) {
         guard let typeInfo = info else { return }
         self.typeInfo = typeInfo
         sectionTitleLabel.text = "#\(typeInfo.name)"
         
+        debugPrint("state: \(state)")
+        if let state = state {
+            self.state = state
+        } else {
+            self.state = []
+        }
+        
+        debugPrint("HeaderView self State: \(self.state)")
+        debugPrint("HeaderView configure State: \(state)")
         guard let categories = categories else { return }
         categoriesRelay.accept(categories.map { $0 })
+        
     }
 }
 
 extension CategoryHeaderView: ItemTagsViewDelegate {
     func  selectItemTags(view: CategoryTagsView, categoryInfo: MCategoryInfo) {
-        debugPrint("아니 씨발 이거 뭔데? \(categoryInfo)")
-        //
         let id = categoryInfo.id
-        debugPrint("\n\nin CategoryTagsView: \(id)")
         
         // 태그뷰 모으기
         var tags = selectedTags.value
@@ -138,8 +146,12 @@ extension CategoryHeaderView: ItemTagsViewDelegate {
         } else {
             tags = tags.filter { $0 != id }
         }
-        debugPrint("after accepted : \(tags)")
         selectedTags.accept(tags)
-        //
+        debugPrint("태그 모으기 : \(tags)")
+        debugPrint("태그 모으기 : \(self.selectedTags.value)")
+        userDefault.set(tags, forKey: String(typeInfo.id))
+        debugPrint("set UserDefulats: \(String(describing: userDefault.object(forKey: String(self.typeInfo.id))))")
+        self.headerDelegate?.sendCategoryWithType(self, tags: self.selectedTags.value, typeInfo: self.typeInfo)
+        
     }
 }

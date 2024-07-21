@@ -206,7 +206,6 @@
 		BDCA1E882C401C6500376911 /* StyleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCA1E872C401C6500376911 /* StyleViewModel.swift */; };
 		BDCA1E8A2C401DDE00376911 /* StyleSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCA1E892C401DDE00376911 /* StyleSectionModel.swift */; };
 		BDCA1E8D2C401F2600376911 /* InnerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCA1E8C2C401F2600376911 /* InnerCollectionViewCell.swift */; };
-		BDCEE0B62C43E52600C54AF6 /* ItemTagViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCEE0B52C43E52600C54AF6 /* ItemTagViewDelegate.swift */; };
 		BDCEE0BB2C455AAA00C54AF6 /* ItemTagDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCEE0BA2C455AAA00C54AF6 /* ItemTagDelegate.swift */; };
 		BDCEE0BD2C4579C800C54AF6 /* Notification+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCEE0BC2C4579C800C54AF6 /* Notification+Extension.swift */; };
 		BDCEE0BF2C46A45600C54AF6 /* CategoryHeaderViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCEE0BE2C46A45600C54AF6 /* CategoryHeaderViewDelegate.swift */; };
@@ -218,6 +217,7 @@
 		BDE912D22C2FE87300330673 /* TemperatureEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE912D12C2FE87300330673 /* TemperatureEntity.swift */; };
 		BDEAE06A2C497D9800E5EA0B /* HorizonCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDEAE0692C497D9800E5EA0B /* HorizonCellViewModel.swift */; };
 		BDFC0B752C4C2DC300991E98 /* InnerCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDFC0B742C4C2DC300991E98 /* InnerCellViewModel.swift */; };
+		BDFC0B772C4D1E6C00991E98 /* NoItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDFC0B762C4D1E6C00991E98 /* NoItemCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -406,7 +406,6 @@
 		BDCA1E872C401C6500376911 /* StyleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleViewModel.swift; sourceTree = "<group>"; };
 		BDCA1E892C401DDE00376911 /* StyleSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleSectionModel.swift; sourceTree = "<group>"; };
 		BDCA1E8C2C401F2600376911 /* InnerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InnerCollectionViewCell.swift; sourceTree = "<group>"; };
-		BDCEE0B52C43E52600C54AF6 /* ItemTagViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemTagViewDelegate.swift; sourceTree = "<group>"; };
 		BDCEE0BA2C455AAA00C54AF6 /* ItemTagDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemTagDelegate.swift; sourceTree = "<group>"; };
 		BDCEE0BC2C4579C800C54AF6 /* Notification+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Extension.swift"; sourceTree = "<group>"; };
 		BDCEE0BE2C46A45600C54AF6 /* CategoryHeaderViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryHeaderViewDelegate.swift; sourceTree = "<group>"; };
@@ -418,6 +417,7 @@
 		BDE912D12C2FE87300330673 /* TemperatureEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureEntity.swift; sourceTree = "<group>"; };
 		BDEAE0692C497D9800E5EA0B /* HorizonCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizonCellViewModel.swift; sourceTree = "<group>"; };
 		BDFC0B742C4C2DC300991E98 /* InnerCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InnerCellViewModel.swift; sourceTree = "<group>"; };
+		BDFC0B762C4D1E6C00991E98 /* NoItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoItemCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -797,6 +797,7 @@
 			children = (
 				5CEC8FDD2C215C86003F0CF4 /* StyleShimmerView.swift */,
 				5CEC8FDF2C215E1A003F0CF4 /* DetailShimmerView.swift */,
+				BDFC0B762C4D1E6C00991E98 /* NoItemCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -804,7 +805,6 @@
 		BD0836EE2C42DB2F0039B446 /* StyleTab */ = {
 			isa = PBXGroup;
 			children = (
-				BDCEE0B52C43E52600C54AF6 /* ItemTagViewDelegate.swift */,
 			);
 			path = StyleTab;
 			sourceTree = "<group>";
@@ -1280,6 +1280,7 @@
 				5CC61E262A5BC223001435E6 /* SettingRegionViewController.swift in Sources */,
 				5CDCD7DE2B564A89008465B9 /* FilterListHeaderView.swift in Sources */,
 				5CEC8FE02C215E1A003F0CF4 /* DetailShimmerView.swift in Sources */,
+				BDFC0B772C4D1E6C00991E98 /* NoItemCell.swift in Sources */,
 				6987EBBD2B41409E00CF1E74 /* NewHomeViewModel.swift in Sources */,
 				BD69B8F92A553A0C00DDCD7A /* CSNavigationView.swift in Sources */,
 				5CAB60CF2A53F61700CD431A /* TenDaysForecastViewController.swift in Sources */,
@@ -1301,7 +1302,6 @@
 				BDE912D02C2FE70600330673 /* EachRowEntity.swift in Sources */,
 				BD5107232C17313700D8AFBE /* DiffTempCell.swift in Sources */,
 				BD2D01B42A3888AA003A25D5 /* UIColor+Extension.swift in Sources */,
-				BDCEE0B62C43E52600C54AF6 /* ItemTagViewDelegate.swift in Sources */,
 				BD05E07A2B38114B00A48E61 /* NewCSButton.swift in Sources */,
 				5C9D02D72A71EEC900AF2DA3 /* AuthTarget.swift in Sources */,
 				5CCC914B2A6114880025B522 /* RegionTarget.swift in Sources */,

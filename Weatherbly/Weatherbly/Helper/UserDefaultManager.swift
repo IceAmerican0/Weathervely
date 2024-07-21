@@ -10,6 +10,7 @@ import Foundation
 public final class UserDefaultManager {
     public static let shared = UserDefaultManager()
     
+  
     public var isOnBoard: Bool {
         if userDefault.object(forKey: UserDefaultKey.isOnboard.rawValue) != nil {
             return true

@@ -29,35 +29,29 @@ public enum SelectedChageState {
     }
 }
 
-
-protocol ItemTagDelegate: AnyObject {
-    func itemTagDidTap(categoryInfo: MCategoryInfo?)
-}
-
 class ItemTagView: UIView {
     
     public var bag = DisposeBag()
-    public var selectedState: SelectedChageState = .deSelected
+    public var selectedState = BehaviorRelay<SelectedChageState>(value: .deSelected)
     public var categoryInfo: MCategoryInfo = .init(id: 0, name: "")
-    
-    var labelWrapper = UIView()
+    public var labelWrapper = UIView().then {
+        $0.layer.cornerRadius = 14
+        $0.layer.borderWidth = 1
+        $0.layer.borderColor = UIColor.gray20.cgColor
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.clipsToBounds = true
+    }
     public var tagLabel = LabelMaker(
         font: UIFont.body_5_B,
         fontColor: .black,
         alignment: .center
-    ).make(text: "#Item1")
+    ).make(text: "#Item1").then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.numberOfLines = 1
+        $0.clipsToBounds = true
+        $0.textAlignment = .center
+    }
     
-//    var tagState: TagState? {
-//        didSet {
-//            updateTag()
-//        }
-//    }
-    
-//    func updateTag() {
-//        guard let tagState = tagState else { return }
-//        tagLabel.text = tagState.identfier?.name
-//        configureAttribute
-//    }
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureAttribute()
@@ -69,38 +63,31 @@ class ItemTagView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     var tagDidTap: Observable<UITapGestureRecognizer> {
         self.labelWrapper.rx.tapGesture().when(.recognized)
     }
     
-    func selectedToggle() {
-        switch selectedState {
-        case .selected:
-            labelWrapper.layer.borderColor = UIColor.gray20.cgColor
-            labelWrapper.backgroundColor = .white
-            tagLabel.do {
-                $0.textColor = .black
-                $0.backgroundColor = .white
-            }
-            selectedState = .deSelected
-        case .deSelected:
-            labelWrapper.layer.borderColor = UIColor.violet500.cgColor
-            labelWrapper.backgroundColor = UIColor.violet10
-            tagLabel.do {
-                $0.textColor = UIColor.violet500
-                $0.backgroundColor = UIColor.violet10
-            }
-            selectedState = .selected
-        }
-    }
+    private func binding() {
+        selectedState.asDriver()
+            .drive(with: self ) { owner, isSelected in
 
-    func binding() -> Void {
-        return labelWrapper.rx.tapGesture()
-            .when(.recognized)
-            .bind(with: self) { owner, event in
-                owner.selectedToggle()
-//                owner.itemTagDelegate?.itemTagDidTap(categoryInfo: owner.categoryInfo)
+            switch isSelected {
+            case .selected:
+                    owner.labelWrapper.layer.borderColor = UIColor.violet500.cgColor
+                    owner.labelWrapper.backgroundColor = UIColor.violet10
+                    owner.tagLabel.do {
+                    $0.textColor = UIColor.violet500
+                    $0.backgroundColor = UIColor.violet10
+                }
+            case .deSelected:
+                    owner.labelWrapper.layer.borderColor = UIColor.gray20.cgColor
+                    owner.labelWrapper.backgroundColor = .white
+                    owner.tagLabel.do {
+                    $0.textColor = .black
+                    $0.backgroundColor = .white
+                }
+                 
+            }
             }.disposed(by: bag)
     }
     
@@ -144,15 +131,15 @@ class ItemTagView: UIView {
     func configure(with tagInfo: MCategoryInfo?, selectedTags: [Int]) {
         
         guard let tagInfo = tagInfo else {
-            tagLabel.text = "카테고리"
+            tagLabel.text = "#카테고리"
             tagLabel.sizeToFit()
             setNeedsLayout()
             return
         }
         if selectedTags.contains(tagInfo.id) {
-            self.selectedState = .selected
+            self.selectedState.accept(.selected)
         } else {
-            self.selectedState = .deSelected
+            self.selectedState.accept(.deSelected)
         }
         categoryInfo = tagInfo
         tagLabel.text = tagInfo.name
