@@ -56,7 +56,16 @@ final class StyleViewController: RxBaseViewController<StyleViewModel> {
             .disposed(by: bag)
         
         
-        NotificationCenter.default.addObserver(self, selector: #selector(pushDetailView(_:)), name: .styleClosetTap, object: nil)
+        NotificationCenter.default.rx.notification(.styleClosetTap)
+            .compactMap { $0.userInfo }
+            .compactMap { $0["selectedCloset"] as? NewClosetInfo }
+            .bind(with: self) { owner, closetInfo in
+                    let detailVM = ClosetDetailViewModel(closetId: closetInfo.closetId, tempId: closetInfo.temperature.tempId)
+                    let detailVC = ClosetDetailViewController(detailVM)
+                    owner.viewModel.navigationPushViewControllerRelay.accept(detailVC)
+                    
+            }.disposed(by: bag)
+//        addObserver(self, selector: #selector(pushDetailView(_:)), name: .styleClosetTap, object: nil)
     }
     
     override func viewModelBinding() {
@@ -100,7 +109,7 @@ extension StyleViewController: StyleTabClosetTouchDelegate {
             if collectionView.contentOffset.y <= 0 {
                 collectionView.contentOffset.y = 0
                 innerCollectionView.contentOffset.y = 0
-                innerCollectionView.setContentOffset(CGPoint(x: innerCollectionView.contentOffset.x, y: 0), animated: true)
+//                innerCollectionView.setContentOffset(CGPoint(x: innerCollectionView.contentOffset.x, y: 0), animated: true)
             } else {
                 /// collectionVie의 스크롤의 높이가 0보다 크면서 parentScrollOffsetY 보다 작을 때
                 /// 즉, 배너섹션의 끝 영역까지
@@ -163,8 +172,8 @@ extension StyleViewController: UICollectionViewDelegate {
     }
     
     // MARK: - DataSource
-    func setRxDataSources() ->  RxCollectionViewSectionedReloadDataSource<StyleTabSectionModel> {
-        RxCollectionViewSectionedReloadDataSource<StyleTabSectionModel> (configureCell: { [ weak self ] dataSource, collectionView, indexPath, item in
+    func setRxDataSources() ->  RxCollectionViewSectionedAnimatedDataSource<StyleTabSectionModel> {
+        RxCollectionViewSectionedAnimatedDataSource<StyleTabSectionModel> (configureCell: { [ weak self ] dataSource, collectionView, indexPath, item in
             guard self != nil else { return UICollectionViewCell() }
             
             switch item {
@@ -192,16 +201,9 @@ extension StyleViewController: UICollectionViewDelegate {
                     
                 case .types(let types, _):
                     return collectionView.dequeueReusableHeaderView(withType: StyleTagHeaderView.self, for: indexPath).then {
+                        debugPrint("header 생성 \(types)")
                         $0.configureTag(types)
                     }
-                case .styles(let headerInfo, _):
-                    let header = collectionView.dequeueReusableHeaderView(withType: CategoryHeaderView.self, for: indexPath).then {
-                        
-                        $0.configure(info: headerInfo.typeInfo, categories: headerInfo.categories)
-                    }
-                    return header
-                    // TODO: - ItemTagHeaderView 이벤트 반드시 받아올 수 있어야 함.
-                    
                 default:
                     return UICollectionReusableView()
                 }

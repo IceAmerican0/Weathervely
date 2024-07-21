@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RxDataSources
 
 public struct NewClosetEntity: Codable {
     let status: Int
@@ -35,7 +36,13 @@ public struct NewClosetTypes: Codable {
     }
 }
 
-public struct NewClosetInfo: Codable {
+public struct NewClosetInfo: Codable, Equatable, IdentifiableType {
+    public static func == (lhs: NewClosetInfo, rhs: NewClosetInfo) -> Bool {
+        return lhs.identity == rhs.identity
+    }
+    
+    public let identity = UUID().uuidString
+    
     let closetId: Int
     let closetName: String
     let closetImageUrl: String
@@ -48,7 +55,10 @@ public struct NewClosetInfo: Codable {
     }
 }
 
-public struct NewClosetTemp: Codable {
+public struct NewClosetTemp: Codable, Equatable, IdentifiableType {
+    
+    public let identity = UUID()
+    
     let tempId: Int
     let maxTemp: Int
     let minTemp: Int

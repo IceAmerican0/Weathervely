@@ -6,9 +6,8 @@
 //
 
 import UIKit
-import PinLayout
-import RxDataSources
 import RxCocoa
+import RxDataSources
 import RxSwift
 
 final public class HorizonCollectionViewCell: UICollectionViewCell {
@@ -16,6 +15,8 @@ final public class HorizonCollectionViewCell: UICollectionViewCell {
     private var bag = DisposeBag()
     private var cellViewModel = HorizonCellViewModel()
     
+    // FIXME: - mock
+    var typeInfo = ClosetTypeInfo(id: 0, name: "")
     // MARK: - Delegate
     weak var itemTouchDelegate: StyleTabClosetTouchDelegate?
     // MARK: - UI Property
@@ -52,10 +53,10 @@ final public class HorizonCollectionViewCell: UICollectionViewCell {
         self.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubviews(sectionTitleLabel, itemTagHeaderWrapper, collectionView)
         
-        tagsView = CategoryTagsView(mockType: .a)
+        tagsView = CategoryTagsView(identifier: UUID().uuidString,typeInfo: typeInfo)
         tagsView?.backgroundColor = .white
         tagsView?.numRows = 2
-        tagsView?.tagsDelegate = self
+        tagsView?.tagsViewDelegate = self
         if let tagsView = tagsView {
             itemTagHeaderWrapper.addSubview(tagsView)
         }
@@ -177,10 +178,16 @@ final public class HorizonCollectionViewCell: UICollectionViewCell {
     private func prefetchData(page: Int) {
         cellViewModel.prefetchClosets(page)
     }
+    
+    
 }
 
 // MARK: - 테그 탭 이벤트
-extension HorizonCollectionViewCell: ItemTagViewDelegate {
+extension HorizonCollectionViewCell: ItemTagsViewDelegate {
+    func selectItemTags(view: CategoryTagsView, categoryInfo: MCategoryInfo) {
+        
+    }
+
     
     func getCategoryParam(with tags: [Int]) -> String {
         var itemsString = ""
@@ -224,10 +231,11 @@ extension HorizonCollectionViewCell: ItemTagViewDelegate {
 }
 extension HorizonCollectionViewCell: UICollectionViewDelegate {
     
+    // MARK: - detailView 띄우는 로직
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let cell = collectionView.cellForItem(at: indexPath) as? StyleCell {
             let selectedInfo = cell.closetInfo
-            NotificationCenter.default.post(name: .styleClosetTap, object: nil, userInfo: ["selectedCloset" : selectedInfo])
+//            NotificationCenter.default.post(name: .styleClosetTap, object: nil, userInfo: ["selectedCloset" : selectedInfo])
         }
     }
     // MARK: - DataSource

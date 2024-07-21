@@ -8,5 +8,5 @@
 import Foundation
 
 protocol CategoryHeaderViewDelegate: AnyObject {
-    func sendCategoryWithType(_ view: CategoryHeaderView?, tags: [Int], typeInfo: ClosetTypeInfo)
+    func sendCategoryWithType(_ view: CategoryHeaderView, tags: [Int], typeInfo: ClosetTypeInfo)
 }

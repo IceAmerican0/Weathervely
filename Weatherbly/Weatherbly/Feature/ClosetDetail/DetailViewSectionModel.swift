@@ -5,8 +5,8 @@
 //  Created by 최수훈 on 6/6/24.
 //
 
-import RxDataSources
 import Foundation
+import RxDataSources
 
 typealias Item = DetailSectionItem
 

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RxDataSources
 
 struct ClosetTypeEntity: Decodable {
     let status: Int
@@ -16,7 +17,9 @@ struct ClosetTypeData: Decodable {
     let types: [ClosetTypeInfo]
 }
 
-struct ClosetTypeInfo: Decodable {
+struct ClosetTypeInfo: Decodable, Equatable, IdentifiableType {
+    let identity: String = UUID().uuidString
+    
     let id: Int
     let name: String
 }

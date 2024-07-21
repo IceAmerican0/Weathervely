@@ -12,8 +12,9 @@ import RxSwift
 final class CategoryHeaderView : UICollectionReusableView {
     
     private var bag = DisposeBag()
-    public var headerDelegate: CategoryHeaderViewDelegate?
+    public weak var headerDelegate: CategoryHeaderViewDelegate?
     public var typeInfo = ClosetTypeInfo.init(id: 0, name: "")
+    var uniqueIdentifer: String?
     private var sectionTitleLabel = LabelMaker(
         font: UIFont.title_3_B,
         fontColor: UIColor.black,
@@ -36,6 +37,11 @@ final class CategoryHeaderView : UICollectionReusableView {
     // selectedTags 상태를 관리
     public var selectedTags = BehaviorRelay<[Int]>(value: [])
     
+    init(typeInfo: ClosetTypeInfo, identifier: String) {
+        super.init(frame: .zero)
+        self.uniqueIdentifer = identifier
+        
+    }
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setupView()
@@ -50,18 +56,20 @@ final class CategoryHeaderView : UICollectionReusableView {
     override func prepareForReuse() {
         super.prepareForReuse()
         sectionTitleLabel.text = ""
-        categoriesRelay.accept([])
-        tagsView?.tags = []  // 태그 뷰 초기화
+        selectedTags.accept([])
+//        categoriesRelay.accept([])
+//        tagsView?.tags = []  // 태그 뷰 초기화
     }
     
     private func setupView() {
         self.translatesAutoresizingMaskIntoConstraints = false
+        self.sectionTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         self.addSubviews(sectionTitleLabel, itemTagHeaderWrapper)
         
-        tagsView = CategoryTagsView(mockType: .a)
+        tagsView = CategoryTagsView(identifier: self.uniqueIdentifer ?? "", typeInfo: typeInfo)
         tagsView?.backgroundColor = .white
         tagsView?.numRows = 2
-        tagsView?.tagsDelegate = self
+        tagsView?.tagsViewDelegate = self
         if let tagsView = tagsView {
             itemTagHeaderWrapper.addSubview(tagsView)
         }
@@ -100,12 +108,12 @@ final class CategoryHeaderView : UICollectionReusableView {
         selectedTags
             .asDriver()
             .drive(with: self, onNext: { owner, tags in
-                owner.tagsView?.selectedTags.accept(tags)
+                owner.headerDelegate?.sendCategoryWithType(self, tags: owner.selectedTags.value, typeInfo: self.typeInfo)
             }).disposed(by: bag)
     }
     
     func configure(info: ClosetTypeInfo?, categories: [MCategoryInfo]?) {
-        print("Header view Configure")
+        print("Header identifier:  \(self.uniqueIdentifer)")
         guard let typeInfo = info else { return }
         self.typeInfo = typeInfo
         sectionTitleLabel.text = "#\(typeInfo.name)"
@@ -115,22 +123,23 @@ final class CategoryHeaderView : UICollectionReusableView {
     }
 }
 
-extension CategoryHeaderView: ItemTagViewDelegate {
-    func selectItemTags(view: CategoryTagsView, with tags: [Int]) {
-        guard let mockType = view.mockType else { return }
-        switch mockType {
-        case .a:
-            print()
-        case .b:
-            print()
+extension CategoryHeaderView: ItemTagsViewDelegate {
+    func  selectItemTags(view: CategoryTagsView, categoryInfo: MCategoryInfo) {
+        debugPrint("아니 씨발 이거 뭔데? \(categoryInfo)")
+        //
+        let id = categoryInfo.id
+        debugPrint("\n\nin CategoryTagsView: \(id)")
         
+        // 태그뷰 모으기
+        var tags = selectedTags.value
+        // 중복제거
+        if !tags.contains(id) {
+            tags.append(id)
+        } else {
+            tags = tags.filter { $0 != id }
         }
+        debugPrint("after accepted : \(tags)")
+        selectedTags.accept(tags)
+        //
     }
-    
-    func selectItemTags(with tags: [Int]) {
-            debugPrint("아니 씨발 이거 뭔데? \(tags)")
-            selectedTags.accept(tags)  // selectedTags를 업데이트
-            headerDelegate?.sendCategoryWithType(self, tags: selectedTags.value, typeInfo: self.typeInfo)
-    }
-    
 }

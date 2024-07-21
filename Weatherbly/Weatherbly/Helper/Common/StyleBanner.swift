@@ -6,7 +6,10 @@
 //
 
 import UIKit
+import RxDataSources
 
-struct StyleBanner {
+struct StyleBanner: Equatable, IdentifiableType {
+    let identity = UUID()
+    
     let styleBanner = UIImage.style_banner
 }

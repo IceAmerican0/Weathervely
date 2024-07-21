@@ -17,10 +17,26 @@ struct TagState {
     var isSelected: SelectedChageState = .deSelected
 }
 
+public enum SelectedChageState {
+    case selected
+    case deSelected
+    
+    init(value: Bool) {
+        switch value {
+        case true: self = .selected
+        case false: self = .deSelected
+        }
+    }
+}
+
+
+protocol ItemTagDelegate: AnyObject {
+    func itemTagDidTap(categoryInfo: MCategoryInfo?)
+}
+
 class ItemTagView: UIView {
     
-    private var bag = DisposeBag()
-    weak var itemTagDelegate: ItemTagDelegate?
+    public var bag = DisposeBag()
     public var selectedState: SelectedChageState = .deSelected
     public var categoryInfo: MCategoryInfo = .init(id: 0, name: "")
     
@@ -53,6 +69,11 @@ class ItemTagView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
+    var tagDidTap: Observable<UITapGestureRecognizer> {
+        self.labelWrapper.rx.tapGesture().when(.recognized)
+    }
+    
     func selectedToggle() {
         switch selectedState {
         case .selected:
@@ -74,12 +95,12 @@ class ItemTagView: UIView {
         }
     }
 
-    func binding() {
-        labelWrapper.rx.tapGesture()
+    func binding() -> Void {
+        return labelWrapper.rx.tapGesture()
             .when(.recognized)
             .bind(with: self) { owner, event in
                 owner.selectedToggle()
-                owner.itemTagDelegate?.itemTagDidTap(categoryInfo: owner.categoryInfo)
+//                owner.itemTagDelegate?.itemTagDidTap(categoryInfo: owner.categoryInfo)
             }.disposed(by: bag)
     }
     
