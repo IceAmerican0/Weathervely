@@ -97,7 +97,7 @@ extension StyleViewController: StyleTabClosetTouchDelegate {
         let parentScrollOffsetY = titleLabelAreaHeight + bannerSectionHeight
         
         if offsetY <= 0 { // innerCV 최상단
-            collectionView.becomeFirstResponder()
+//            collectionView.becomeFirstResponder()
             
             /// collectionView의 스크롤 높이가 가장 최상단일때
             if collectionView.contentOffset.y <= 0 {
@@ -161,7 +161,7 @@ extension StyleViewController: UICollectionViewDelegate {
             
         }
 //        debugPrint("parentOffsetY : \(parentOffsetY)")
-//        debugPrint("scrollY : \(scrollView.contentOffset.y )")
+        debugPrint("scrollY : \(scrollView.contentOffset.y )")
         
     }
     

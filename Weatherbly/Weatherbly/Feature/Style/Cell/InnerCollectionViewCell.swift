@@ -74,23 +74,14 @@ final public class InnerCollectionViewCell: UICollectionViewCell {
             .compactMap { $0["typeTagInfo"] as? ClosetTypeInfo }
             .bind(with: self) { owner, tagInfo in
                 
-                if var offset = owner.offsetYForSection(with: tagInfo) {
-                    let curOffsetY = owner.innerCollectionView.contentOffset.y
-                    /// 현재 innerCV의 위치가 배너+VC타이틀+섹션인셋 높이(157 +-1) 보다 작으면 차이만큼 더 스크롤 해야한다.
-                    debugPrint("curOfssetY No 1: \(curOffsetY)")
-                    if 0...132 ~= curOffsetY {
-                        offset.y += (148 - curOffsetY)
-                    }
-                    owner.innerCollectionView.setContentOffset(offset, animated: true)
-                    debugPrint("curOfssetY No 2: \(curOffsetY)")
-                }
+                 owner.offsetYForSection(with: tagInfo)
                
             }
             .disposed(by: bag)
     }
     
     // MARK: - Method
-    private func offsetYForSection(with tagInfo: ClosetTypeInfo) -> CGPoint? {
+    private func offsetYForSection(with tagInfo: ClosetTypeInfo) {
         if let sectionIndex = self.cellViewModel.bindSectionsRelay.value.firstIndex(where: { section  in
             if case .styles(let header, _) = section,
             header.typeInfo.id == tagInfo.id {
@@ -99,16 +90,28 @@ final public class InnerCollectionViewCell: UICollectionViewCell {
             return false
         }) {
             let scrollView = self.innerCollectionView
-            guard let layoutAttributes = scrollView.layoutAttributesForItem(at: IndexPath(item: 0, section: sectionIndex)) else { return nil }
-            if sectionIndex == 0 {
-                scrollView.contentOffset.y = 0
-                scrollView.setContentOffset(CGPoint(x: scrollView.contentOffset.x, y: 0), animated: true)
+            guard let layoutAttributes = scrollView.layoutAttributesForSupplementaryElement(ofKind: UICollectionView.elementKindSectionHeader, at: IndexPath(item: 0, section: sectionIndex)) else { return }
+            
+            var offset = CGPoint(x: layoutAttributes.frame.origin.x, y: layoutAttributes.frame.origin.y)
+            let curOffsetY = self.innerCollectionView.contentOffset.y
+            /// 현재 innerCV의 위치가 배너+VC타이틀+섹션인셋 높이(157 +-1) 보다 작으면 차이만큼 더 스크롤 해야한다.
+            if curOffsetY == 0 {
+                if sectionIndex != 0 {
+                    offset.y += 148
+                    scrollView.setContentOffset(offset, animated: true)
+                } else {
+                    scrollView.setContentOffset(CGPoint(x: offset.x, y: 10), animated: true)
+                }
+            } else {
+                if (1...129 ~= curOffsetY) {
+                    offset.y -= 129 - curOffsetY
+                }
+                print("@@@@@@", offset.y)
+                offset.y -= 56
+                print("@@@@@@", offset.y)
+                scrollView.setContentOffset(offset, animated: true)
             }
-            layoutAttributes.frame.origin.y -= 56 // ection의 titleLabel 높이
-            layoutAttributes.frame.origin.x -= 16 // section ContentInset
-            return layoutAttributes.frame.origin
         }
-        return .zero
     }
 
     // MARK: - Configure
@@ -215,11 +218,12 @@ extension InnerCollectionViewCell: UICollectionViewDelegate {
             }
     
             let section = self.cellViewModel.bindSectionsRelay.value[sectionIndex]
+            let items = self.cellViewModel.bindSectionsRelay.value[sectionIndex]
+            let a = self.cellViewModel.bindSectionsRelay.value.firstIndex(of: section)
             var layoutSection: NSCollectionLayoutSection?
             switch section {
             case .styles(_, let items):
-                layoutSection = self.styleSectionLayout(items: items)
-                
+                layoutSection = self.styleSectionLayout(items: items, madeSection: section)
             default:
                 layoutSection =  .init(group: .init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(1))))
             }
@@ -229,7 +233,7 @@ extension InnerCollectionViewCell: UICollectionViewDelegate {
     }
     
     // TODO: - // Item 레이아웃 사이즈 변경
-    func styleSectionLayout(items: [StyleTabItem]) -> NSCollectionLayoutSection {
+    func styleSectionLayout(items: [StyleTabItem], madeSection: StyleTabSectionModel) -> NSCollectionLayoutSection {
          // header + item => 572
         // Size Property
         switch items.count > 0 {
@@ -242,7 +246,6 @@ extension InnerCollectionViewCell: UICollectionViewDelegate {
             
             // Item
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            
             let groupSize = NSCollectionLayoutSize(
                 widthDimension: .absolute(itemWidth + 16),
                 heightDimension: .absolute(432)
@@ -270,7 +273,13 @@ extension InnerCollectionViewCell: UICollectionViewDelegate {
             let section = NSCollectionLayoutSection(group: group)
             section.orthogonalScrollingBehavior = .continuous
             section.boundarySupplementaryItems = [sectionHeader]
-            section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 0, bottom: 20, trailing: 5)
+            
+            if self.cellViewModel.bindSectionsRelay.value.firstIndex(of: madeSection) == cellViewModel.bindSectionsRelay.value.count - 1 {
+                section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 0, bottom: 30, trailing: 5)
+            } else {
+                section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 0, bottom: 20, trailing: 5)
+            }
+            
             
             return section
             
@@ -320,6 +329,9 @@ extension InnerCollectionViewCell: UICollectionViewDelegate {
     
     // MARK: - 이중 스크롤 방지
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        debugPrint("⚪️⚪️⚪️\(scrollView.contentOffset.y)")
+        debugPrint("🔵🔵🔵\(innerCollectionView.contentOffset.y)")
+        
         delegate?.innerCollectionViewDidScroll(innerCollectionView, contentOffset: scrollView.contentOffset)
     }
 
