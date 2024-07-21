@@ -98,7 +98,7 @@ final public class InnerCollectionViewCell: UICollectionViewCell {
             return false
         }) {
             let scrollView = self.innerCollectionView
-            guard var layoutAttributes = scrollView.layoutAttributesForItem(at: IndexPath(item: 0, section: sectionIndex)) else { return nil }
+            guard let layoutAttributes = scrollView.layoutAttributesForItem(at: IndexPath(item: 0, section: sectionIndex)) else { return nil }
             if sectionIndex == 0 {
                 scrollView.contentOffset.y = 0
                 scrollView.setContentOffset(CGPoint(x: scrollView.contentOffset.x, y: 0), animated: true)
@@ -119,7 +119,7 @@ final public class InnerCollectionViewCell: UICollectionViewCell {
     public override func prepareForReuse() {
         super.prepareForReuse()
         
-        cellViewModel.bindSectionsRelay.accept(cellViewModel.bindSectionsRelay.value)
+//        cellViewModel.bindSectionsRelay.accept([])
     }
 }
 
@@ -148,19 +148,6 @@ extension InnerCollectionViewCell: UICollectionViewDelegate {
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         debugPrint("indexPath : \(indexPath.section)")
         debugPrint("indexPath : \(indexPath.item)")
-//        var closetInfo: NewClosetInfo?
-//
-//        let selectedItem = cellViewModel.bindSectionsRelay.value[indexPath.section].items[indexPath.item]
-//        switch selectedItem {
-//        case .styles(let selectedInfo):
-//            debugPrint("selectedInfo : \(selectedInfo)")
-//            debugPrint("selectedInfo : \(closetInfo)")
-//            closetInfo = selectedInfo
-//        default: break
-//        }
-//        if closetInfo != nil {
-//            delegate?.innerCollectionViewCellDidTap(closetInfo)
-//        }
         if let cell = collectionView.cellForItem(at: indexPath) as? StyleCell {
             let selectedInfo = cell.closetInfo
             NotificationCenter.default.post(name: .styleClosetTap, object: nil, userInfo: ["selectedCloset" : selectedInfo])
@@ -176,9 +163,6 @@ extension InnerCollectionViewCell: UICollectionViewDelegate {
             case .styles(let styleInfo):
                 return collectionView.dequeueCell(withType: StyleCell.self, for: indexPath).then {
                     $0.configure(info: styleInfo)
-//                    $0.configureTagsView(info: styleInfo.typeInfo, categories: styleInfo.categories)
-//                    $0.configureCollectionView(styleInfo.closets)
-                    
                 }
             default:
                 return UICollectionViewCell()
@@ -191,9 +175,11 @@ extension InnerCollectionViewCell: UICollectionViewDelegate {
                 switch dataSource[indexPath.section] {
                 case .styles(let headerInfo, _):
                     let header = collectionView.dequeueReusableHeaderView(withType: CategoryHeaderView.self, for: indexPath).then {
+                        userDefault.synchronize()
                         $0.headerDelegate = self
-//                        $0.selectedTags.accept(self!.selectedTags)
-                        $0.configure(info: headerInfo.typeInfo, categories: headerInfo.categories)
+                        let state: [Int] = (userDefault.object(forKey: String(headerInfo.typeInfo.id)) ?? []) as! [Int]
+                        debugPrint("📌📌 \(headerInfo.typeInfo.name): \(headerInfo.typeInfo.id)   \(state)")
+                        $0.configure(info: headerInfo.typeInfo, categories: headerInfo.categories, state: state)
                     }
                     return header
                     // TODO: - ItemTagHeaderView 이벤트 반드시 받아올 수 있어야 함.

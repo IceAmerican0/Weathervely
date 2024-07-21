@@ -10,6 +10,7 @@ import Foundation
 public let userDefault = UserDefaults.standard
 
 public enum UserDefaultKey: String {
+    
     /// 서버
     case appEnvironment
     /// 서버 변경여부
@@ -36,4 +37,5 @@ public enum UserDefaultKey: String {
     case homeStyleFilterList
     /// 홈 아이템 필터 리스트
     case homeItemFilterList
+
 }

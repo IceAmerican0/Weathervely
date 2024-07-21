@@ -95,6 +95,13 @@ final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
             .subscribe(with: self, onNext: { owner, response in
                 let typeInfo = response.data.types
                 owner.types.accept(typeInfo)
+                // 섹션에서 선택값 들고 있는 것 초기화하기
+                let  _ = typeInfo.map {
+                    userDefault.set([],forKey: String($0.id)) }
+//                userDefault.object(forKey: )
+//                if let selectedTags = userDefault.object(forKey: String(typeInfo.id)) as? [Int] {
+//                    userDefault.set([], forKey: String(typeInfo.id))
+//                }
                 let typeSection = StyleTabSectionModel.types(header: typeInfo, items: [])
                 
                 owner.getAPISerial(with: typeInfo) { styleSections in

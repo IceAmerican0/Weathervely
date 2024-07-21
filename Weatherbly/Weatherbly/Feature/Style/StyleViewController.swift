@@ -88,12 +88,6 @@ extension StyleViewController: StyleTabClosetTouchDelegate {
             self.viewModel.navigationPushViewControllerRelay.accept(detailVC)
             }
         }
-//    func innerCollectionViewCellDidTap(_ selectedInfo: NewClosetInfo?) {
-//        guard let info = selectedInfo else { return }
-//        let detailVM = ClosetDetailViewModel(closetId: info.closetId, tempId: info.temperature.tempId)
-//        let detailVC = ClosetDetailViewController(detailVM)
-//        self.viewModel.navigationPushViewControllerRelay.accept(detailVC)
-//    }
 
     // MARK: - 이중 스크롤 방지
     func innerCollectionViewDidScroll(_ innerCollectionView: UICollectionView, contentOffset: CGPoint) {
