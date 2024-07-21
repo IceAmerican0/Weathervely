@@ -1240,7 +1240,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "BUILD_NUMBER_WITH_CURRENT_DATE=$(date \"+%Y.%m.%d.%H%M\")\n\n/user/libexec/PlistBuddy -c \"Set :CFBundleVersion ${BUILD_NUMBER_WITH_CURRENT_DATE}\" \"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}\"\n";
+			shellScript = "BUILD_NUMBER_WITH_CURRENT_DATE=$(date \"+%Y.%m.%d.%H%M\")\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion ${BUILD_NUMBER_WITH_CURRENT_DATE}\" \"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}\"\n";
 		};
 		69F46FD02AACA0D100853774 /* Firebase Crashlytics */ = {
 			isa = PBXShellScriptBuildPhase;
