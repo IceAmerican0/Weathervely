@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TemperatureEntity: Codable {
+struct TemperatureEntity: Codable, Equatable {
     var tempId: Int
     
     enum CodingKeys: String, CodingKey {

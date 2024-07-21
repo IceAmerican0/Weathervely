@@ -11,11 +11,30 @@ import PinLayout
 import RxSwift
 import RxCocoa
 
+enum MockType {
+    case a
+    case b
+}
+
+protocol ItemTagsViewDelegate: AnyObject {
+    func selectItemTags(view: CategoryTagsView, categoryInfo: MCategoryInfo)
+}
+
 final class CategoryTagsView: UIView {
     
-    public var tagsDelegate: ItemTagViewDelegate?
+    // MARK: - State
+    public var typeInfo = ClosetTypeInfo.init(id: 0, name: "")
+    public weak var tagsViewDelegate: ItemTagsViewDelegate?
+    public var identifer: String?
     var bag = DisposeBag()
     
+    private var sectionTitleLabel = LabelMaker(
+        font: UIFont.title_3_B,
+        fontColor: UIColor.black,
+        alignment: .left
+    ).make(text: "#Type1")
+    
+
     var scrollView = UIScrollView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.showsHorizontalScrollIndicator = false
@@ -44,8 +63,9 @@ final class CategoryTagsView: UIView {
             tags.forEach { category in
                 let t = ItemTagView()
                 t.configure(with: category, selectedTags: selectedTags.value)
-                t.itemTagDelegate = self
-
+                t.tagDidTap.bind(with: self) { owner, event in
+                    owner.tagsViewDelegate?.selectItemTags(view: owner, categoryInfo: t.categoryInfo)
+                }.disposed(by: t.bag)
                 let sz = t.labelWrapper.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
                 totalWidth += sz.width + 28
                 tagViews.append(t)
@@ -77,18 +97,29 @@ final class CategoryTagsView: UIView {
             .drive(with: self) { owner, tags in
                 
             }.disposed(by: bag)
+        
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        commonInit()
+    init(identifier: String, typeInfo: ClosetTypeInfo) {
+        super.init(frame: .zero)
+        print("TagsView identifier : \(identifier)")
+        print("TagsView typeInfo : \(typeInfo)")
+        self.identifer = identifier
+        self.typeInfo = typeInfo
+        commonInit(typeInfo: typeInfo)
     }
+//
+//    override init(frame: CGRect) {
+//        super.init(frame: frame)
+//        commonInit()
+//    }
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         
     }
     
-    func commonInit() {
+    
+    func commonInit(typeInfo: ClosetTypeInfo) {
         // Pin 또는 Flex 사용할 경우 Layout 정상적으로 작동하지 않는다.
         // UIView의 라이프싸이클 문제로 추측 된다.
         addSubview(scrollView)
@@ -113,13 +144,18 @@ final class CategoryTagsView: UIView {
         ])
     }
     
+    public func configure(info: ClosetTypeInfo?, categories: [MCategoryInfo]?) {
+        guard let typeInfo = info else { return }
+        sectionTitleLabel.text = "#\(typeInfo.name)"
+    }
+    
 }
 
 extension CategoryTagsView: ItemTagDelegate {
     func itemTagDidTap(categoryInfo: MCategoryInfo?) {
         guard let category = categoryInfo else { return }
         let id = category.id
-        debugPrint("\n\nHereHEre: \(id)")
+        debugPrint("\n\nin CategoryTagsView: \(id)")
         
         // 태그뷰 모으기
         var tags = selectedTags.value
@@ -131,7 +167,6 @@ extension CategoryTagsView: ItemTagDelegate {
         }
         debugPrint("after accepted : \(tags)")
         selectedTags.accept(tags)
-        tagsDelegate?.selectItemTags(with: tags)
+//        tagsViewDelegate?.selectItemTags(view: self, with: tags)
     }
 }
-

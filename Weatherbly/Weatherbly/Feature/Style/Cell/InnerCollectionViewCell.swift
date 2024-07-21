@@ -13,18 +13,22 @@ import RxCocoa
 
 final public class InnerCollectionViewCell: UICollectionViewCell {
     
+    // MARK: - 전역변수 & delegate
     private var bag = DisposeBag()
-    weak var delegate: InnerCollectionViewCellDelegate?
-
-    private var bindSectionsRelay = BehaviorRelay<[StyleTabSectionModel]>(value: [])
+    weak var delegate: StyleTabClosetTouchDelegate?
+    private var cellViewModel = InnerCellViewModel()
+    // MARK: - UI Property
+//    private var bindSectionsRelay = BehaviorRelay<[StyleTabSectionModel]>(value: [])
     private lazy var innerCollectionView = UICollectionView(frame: .zero, collectionViewLayout: setInnerLayout()).then {
         $0.showsVerticalScrollIndicator = false
-        $0.register(withType: HorizonCollectionViewCell.self)
+        $0.register(withType: StyleCell.self)
         $0.registerHeader(withType: StyleTagHeaderView.self)
-        $0.registerHeader(withType: CategoryHeaderView.self)
+        $0.registerReusableView(withType: CategoryHeaderView.self, kind: .sectionHeader)
     }
     lazy var dataSource = self.setInnerCollectionViewDataSource()
     var selectedTags: [Int] = []
+    
+    // MARK: - lifeCycle
     public override init(frame: CGRect) {
         super.init(frame: frame)
         binding()
@@ -39,20 +43,22 @@ final public class InnerCollectionViewCell: UICollectionViewCell {
         layout()
     }
     
+    
+    // MARK: - Layout
     private func layout() {
         contentView.pin.all()
         contentView.addSubview(innerCollectionView)
         innerCollectionView.pin.all()
     }
     
+    // MARK: - Binding
     func binding() {
         
         innerCollectionView.rx
             .setDelegate(self)
             .disposed(by: bag)
 
-        bindSectionsRelay
-            .take(2)
+        cellViewModel.bindSectionsRelay
             .bind(to: innerCollectionView.rx.items(dataSource: dataSource))
             .disposed(by: bag)
         
@@ -61,121 +67,90 @@ final public class InnerCollectionViewCell: UICollectionViewCell {
             .drive(with: self) { owner, indexPaths in
 //                owner.handlePrefetching(for: indexPaths)
             }.disposed(by: bag)
+        
+        NotificationCenter.default.rx.notification(.styleTagTap)
+            .compactMap { $0.userInfo }
+            .compactMap { $0["typeTagInfo"] as? ClosetTypeInfo }
+            .bind(with: self) { owner, tagInfo in
+                
+                if var offset = owner.offsetYForSection(with: tagInfo) {
+                    let curOffsetY = owner.innerCollectionView.contentOffset.y
+                    /// 현재 innerCV의 위치가 배너+VC타이틀+섹션인셋 높이(157 +-1) 보다 작으면 차이만큼 더 스크롤 해야한다.
+                    debugPrint("curOfssetY No 1: \(curOffsetY)")
+                    if 0...132 ~= curOffsetY {
+                        offset.y += (148 - curOffsetY)
+                    }
+                    owner.innerCollectionView.setContentOffset(offset, animated: true)
+                    debugPrint("curOfssetY No 2: \(curOffsetY)")
+                }
+               
+            }
+            .disposed(by: bag)
     }
     
+    // MARK: - Method
+    private func offsetYForSection(with tagInfo: ClosetTypeInfo) -> CGPoint? {
+        if let sectionIndex = self.cellViewModel.bindSectionsRelay.value.firstIndex(where: { section  in
+            if case .styles(let header, _) = section,
+            header.typeInfo.id == tagInfo.id {
+                return true
+            }
+            return false
+        }) {
+            let scrollView = self.innerCollectionView
+            guard var layoutAttributes = scrollView.layoutAttributesForItem(at: IndexPath(item: 0, section: sectionIndex)) else { return nil }
+            if sectionIndex == 0 {
+                scrollView.contentOffset.y = 0
+                scrollView.setContentOffset(CGPoint(x: scrollView.contentOffset.x, y: 0), animated: true)
+            }
+            layoutAttributes.frame.origin.y -= 56 // ection의 titleLabel 높이
+            layoutAttributes.frame.origin.x -= 16 // section ContentInset
+            return layoutAttributes.frame.origin
+        }
+        return .zero
+    }
+
+    // MARK: - Configure
     func configure(_ sectionsInfo: [StyleTabSectionModel]?) {
         guard let sectionsInfo = sectionsInfo else { return }
-        bindSectionsRelay.accept(sectionsInfo)
+        cellViewModel.bindSectionsRelay.accept(sectionsInfo)
     }
 
     public override func prepareForReuse() {
         super.prepareForReuse()
         
+        cellViewModel.bindSectionsRelay.accept(cellViewModel.bindSectionsRelay.value)
     }
 }
 
-// MARK: - 탭 이벤트 처리
+// MARK: - 테그 탭 이벤트 처리
 extension InnerCollectionViewCell: CategoryHeaderViewDelegate {
-    
-    func getCategoryParam(with tags: [Int]) -> String {
-        var itemsString = ""
-        for item in tags {
-            if item == tags.last {
-                itemsString += String(item) + ","
-            } else {
-                itemsString += String(item)
-            }
-        }
-        return itemsString
-    }
-    
-    private func updateItemsForSection(sectionIndex: Int, newItems: [StyleTabItem]) {
-        var updatedSections = bindSectionsRelay.value
-            if sectionIndex < updatedSections.count {
-                if case .styles(let header, _) = updatedSections[sectionIndex] {
-                    updatedSections[sectionIndex] = .styles(header: header, items: newItems)
-                    bindSectionsRelay.accept(updatedSections)
 
-                    let indexPaths = (0..<newItems.count).map { IndexPath(item: $0, section: sectionIndex) }
-                                    innerCollectionView.reloadItems(at: indexPaths)
-                    
-                }
-            }
-      }
-    
-    func sendCategoryWithType(_ view: CategoryHeaderView?, tags: [Int], typeInfo: ClosetTypeInfo) {
+    func sendCategoryWithType(_ view: CategoryHeaderView, tags: [Int], typeInfo: ClosetTypeInfo) {
         
         self.selectedTags = tags
-        // API 재호출
-        let dataSource = NewClosetDataSource()
-        switch tags.isEmpty {
-        case true:
-            dataSource.getClosetWithType(typeID: typeInfo.id, page: 1)
-                .subscribe(with: self) { owner, response in
-                    let newClosets = response.data.closets
-                    let updatedSections = owner.bindSectionsRelay.value
-                    if let sectionIndex = updatedSections.firstIndex(where: { section in
-                        if case .styles(let header, _) = section, header.typeInfo.id == typeInfo.id {
-                         
-                            return true
-                        }
-                        return false
-                    }) {
-                        debugPrint("sectionIndex: \(sectionIndex)")
-                        let cell = owner.innerCollectionView.cellForItem(at: IndexPath(item: 0, section: sectionIndex)) as? HorizonCollectionViewCell
-                        cell?.configureCollectionView(newClosets)
-                    }
-                }
-                .disposed(by: bag)
-            
-        case  false:
-            let cgParam = getCategoryParam(with: tags)
-            dataSource.closetWithCategory(typeID: typeInfo.id, page: 1, items: cgParam)
-                .subscribe(with: self) { owner, response in
-                    let newClosets = response.data.closets
-                    let sections = owner.bindSectionsRelay.value
-                    if let sectionIndex = sections.firstIndex(where: { section in
-                        if case .styles(let header, _) = section, header.typeInfo.id == typeInfo.id {
-                            
-                            return true
-                        }
-                        return false
-                    }) {
-                        debugPrint("sectionIndex: \(sectionIndex)")
-                        // 각 섹션의 item은 한개이므로 item의 index = 0
-                        let cell = owner.innerCollectionView.cellForItem(at: IndexPath(item: 0, section: sectionIndex)) as? HorizonCollectionViewCell
-                        cell?.configureCollectionView(newClosets)
-                    }
-                }
-                .disposed(by: bag)
+        let updatedSections = self.cellViewModel.bindSectionsRelay.value
+        if let sectionIndex = updatedSections.firstIndex(where: { section in
+            if case .styles(let header, _) = section, header.typeInfo.id == typeInfo.id {
+                
+                return true
+            }
+            return false
+        }) {
+            cellViewModel.getFilteredByCategories(with: tags, in: sectionIndex, typeInfo : typeInfo)
         }
-        
-       
-            
     }
 }
 
-//extension InnerCollectionViewCell: UICollectionViewDataSourcePrefetching {
-//    public func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-//        for indexPath in indexPaths {
-//            let model = bindSectionsRelay.value[indexPath.section]
-//        }
-//        let page: Int = 1
-//        let typeId: Int
-//        let mCategories: [Int]
-//    }
-//    
-// 
-//    
-//}
 extension InnerCollectionViewCell: UICollectionViewDelegate {
     
-//    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        debugPrint("indexPath : \(indexPath.section)")
-//        debugPrint("indexPath : \(indexPath.item)")
+    // MARK: - 탭처리
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        debugPrint("indexPath : \(indexPath.section)")
+        debugPrint("indexPath : \(indexPath.item)")
 //        var closetInfo: NewClosetInfo?
 //
-//        let selectedItem = bindSectionsRelay.value[indexPath.section].items[indexPath.item]
+//        let selectedItem = cellViewModel.bindSectionsRelay.value[indexPath.section].items[indexPath.item]
 //        switch selectedItem {
 //        case .styles(let selectedInfo):
 //            debugPrint("selectedInfo : \(selectedInfo)")
@@ -186,18 +161,23 @@ extension InnerCollectionViewCell: UICollectionViewDelegate {
 //        if closetInfo != nil {
 //            delegate?.innerCollectionViewCellDidTap(closetInfo)
 //        }
-//        
-//    }
+        if let cell = collectionView.cellForItem(at: indexPath) as? StyleCell {
+            let selectedInfo = cell.closetInfo
+            NotificationCenter.default.post(name: .styleClosetTap, object: nil, userInfo: ["selectedCloset" : selectedInfo])
+        }
+        
+    }
  
-    func setInnerCollectionViewDataSource() -> RxCollectionViewSectionedReloadDataSource<StyleTabSectionModel> {
-        RxCollectionViewSectionedReloadDataSource<StyleTabSectionModel> (configureCell: { [ weak self ] dataSource, collectionView, indexPath, item in
+    func setInnerCollectionViewDataSource() -> RxCollectionViewSectionedAnimatedDataSource<StyleTabSectionModel> {
+        RxCollectionViewSectionedAnimatedDataSource<StyleTabSectionModel> (animationConfiguration: AnimationConfiguration(insertAnimation: .fade, reloadAnimation: .none, deleteAnimation: .automatic),configureCell: { [ weak self ] dataSource, collectionView, indexPath, item in
             guard self != nil else { return UICollectionViewCell() }
             
             switch item {
             case .styles(let styleInfo):
-                return collectionView.dequeueCell(withType: HorizonCollectionViewCell.self, for: indexPath).then {
-                    $0.configureTagsView(info: styleInfo.typeInfo, categories: styleInfo.categories)
-                    $0.configureCollectionView(styleInfo.closets)
+                return collectionView.dequeueCell(withType: StyleCell.self, for: indexPath).then {
+                    $0.configure(info: styleInfo)
+//                    $0.configureTagsView(info: styleInfo.typeInfo, categories: styleInfo.categories)
+//                    $0.configureCollectionView(styleInfo.closets)
                     
                 }
             default:
@@ -212,7 +192,7 @@ extension InnerCollectionViewCell: UICollectionViewDelegate {
                 case .styles(let headerInfo, _):
                     let header = collectionView.dequeueReusableHeaderView(withType: CategoryHeaderView.self, for: indexPath).then {
                         $0.headerDelegate = self
-                        $0.selectedTags.accept(self!.selectedTags)
+//                        $0.selectedTags.accept(self!.selectedTags)
                         $0.configure(info: headerInfo.typeInfo, categories: headerInfo.categories)
                     }
                     return header
@@ -232,12 +212,12 @@ extension InnerCollectionViewCell: UICollectionViewDelegate {
         let layout = UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ -> NSCollectionLayoutSection? in
             
             guard let self = self else { return nil }
-            guard sectionIndex < self.bindSectionsRelay.value.count else {
+            guard sectionIndex < self.cellViewModel.bindSectionsRelay.value.count else {
                 print("Section index \(sectionIndex) out of range.")
                 return nil
             }
     
-            let section = self.bindSectionsRelay.value[sectionIndex]
+            let section = self.cellViewModel.bindSectionsRelay.value[sectionIndex]
             var layoutSection: NSCollectionLayoutSection?
             switch section {
             case .styles:
@@ -251,80 +231,50 @@ extension InnerCollectionViewCell: UICollectionViewDelegate {
         return layout
     }
     
-    // FIXME: - 아이템에 헤더까지 포함한 레이아웃
+    // TODO: - // Item 레이아웃 사이즈 변경
     func styleSectionLayout() -> NSCollectionLayoutSection {
          // header + item => 572
         // Size Property
         let itemWidth = (Constants.screenWidth - 20 ) / 3
         let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .absolute(572)
+            widthDimension: .absolute(itemWidth),
+            heightDimension: .absolute(210)
         )
         
         // Item
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .absolute(572)
+            widthDimension: .absolute(itemWidth + 16),
+            heightDimension: .absolute(432)
         )
         
         // Group
         let group = NSCollectionLayoutGroup.vertical(
             layoutSize: groupSize,
-            subitems: [item]
+            subitems: [item, item]
+        )
+        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0)
+        group.interItemSpacing = .fixed(12)
+        
+        // Header
+        let headerSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .absolute(122)
+        )
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .topLeading
         )
         
         let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = 36
-        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 5)
+        section.orthogonalScrollingBehavior = .continuous
+        section.boundarySupplementaryItems = [sectionHeader]
+        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 0, bottom: 20, trailing: 5)
         
         return section
     }
-    
-    // TODO: - // Item 레이아웃 사이즈 변경
-//    func styleSectionLayout() -> NSCollectionLayoutSection {
-//         // header + item => 572
-//        // Size Property
-//        let itemWidth = (Constants.screenWidth - 20 ) / 3
-//        let itemSize = NSCollectionLayoutSize(
-//            widthDimension: .fractionalWidth(1),
-//            heightDimension: .absolute(432)
-//        )
-//        
-//        // Item
-//        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-//        
-//        let groupSize = NSCollectionLayoutSize(
-//            widthDimension: .fractionalWidth(1),
-//            heightDimension: .absolute(432)
-//        )
-//        
-//        // Group
-//        let group = NSCollectionLayoutGroup.vertical(
-//            layoutSize: groupSize,
-//            subitems: [item]
-//        )
-//        
-//        // Header
-//        let headerSize = NSCollectionLayoutSize(
-//            widthDimension: .fractionalWidth(1),
-//            heightDimension: .absolute(122)
-//        )
-//        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
-//            layoutSize: headerSize,
-//            elementKind: UICollectionView.elementKindSectionHeader,
-//            alignment: .topLeading
-//        )
-//        
-//        let section = NSCollectionLayoutSection(group: group)
-////        section.orthogonalScrollingBehavior = .continuous
-//        section.boundarySupplementaryItems = [sectionHeader]
-//        section.interGroupSpacing = 36
-//        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 0, bottom: 20, trailing: 5)
-//        
-//        return section
-//    }
     
     // MARK: - 이중 스크롤 방지
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {

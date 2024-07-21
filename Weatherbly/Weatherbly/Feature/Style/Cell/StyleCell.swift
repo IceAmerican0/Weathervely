@@ -26,7 +26,7 @@ final class StyleCell: UICollectionViewCell {
     }
     
     private var imageView = UIImageView().then {
-        $0.image = UIImage.image_indicator
+        $0.image = UIImage.image_indicator.resized(to: CGSizeMake(56, 56))
         $0.contentMode = .scaleAspectFit
     }
     
@@ -34,6 +34,7 @@ final class StyleCell: UICollectionViewCell {
     private var closetName = ""
     private var imageUrl = ""
     private var status = ""
+    public var closetInfo = NewClosetInfo(closetId: 0, closetName: "", closetImageUrl: "", closetStatus: "", closetSiteName: "", temperature: .init(tempId: 0, maxTemp: 0, minTemp: 0))
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -54,7 +55,7 @@ final class StyleCell: UICollectionViewCell {
     func layout() {
         contentView.flex.direction(.column).define {
             $0.addItem(imageViewWrapper).define {
-                $0.addItem(imageView).width(120).height(180).alignSelf(.center)
+                $0.addItem(imageView).height(180).alignSelf(.center)
             }
             $0.addItem(nameLabel).marginTop(12).width(120).height(17)
         }
@@ -69,7 +70,7 @@ final class StyleCell: UICollectionViewCell {
         let shopName = info.closetSiteName
         let temperature = info.temperature
         let tpyeId = temperature.tempId
-        
+        closetInfo = NewClosetInfo(closetId: id, closetName: name, closetImageUrl: imageUrl, closetStatus: status, closetSiteName: shopName, temperature: temperature)
         nameLabel.text = name
         imageView.setKF(urlString: imageUrl, placeHolder: UIImage.image_indicator) { [weak self] result in
             switch result {
@@ -77,7 +78,7 @@ final class StyleCell: UICollectionViewCell {
                 self?.imageView.pin.all()
                 self?.imageView.contentMode = .scaleAspectFit
             case .failure:
-                self?.imageView.pin.all()
+                self?.imageView.pin.size(56)
                 self?.imageView.contentMode = .center
             }
             self?.updateLayout(self?.imageView)

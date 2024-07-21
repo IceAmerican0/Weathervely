@@ -12,13 +12,17 @@ import PinLayout
 import Then
 import RxCocoa
 
+protocol TypeTagDelegate: AnyObject {
+    func typeTagDidTap()
+}
+
 
 public class StyleTagHeaderView: UICollectionReusableView {
     
-//    weak var touchEventDelegate: CategoryTagsViewDelegate?
+    weak var delegate: TypeTagDelegate?
     var bag = DisposeBag()
     var tags: [ClosetTypeInfo] = []
-    var tagsRelay = BehaviorRelay<[ClosetTypeInfo]>(value: [])
+    var tagsRelay = BehaviorRelay<[ClosetTypeInfo]?>(value: [])
     
     lazy var tagCollectionFlowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .horizontal
@@ -68,16 +72,16 @@ public class StyleTagHeaderView: UICollectionReusableView {
 }
 
 extension StyleTagHeaderView: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return tagsRelay.value.count
+        guard let tags = tagsRelay.value, !tags.isEmpty else { return 0 }
+        return tags.count
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueCell(withType: TypeTagCell.self, for: indexPath)
-        cell.tagLabel.text = "#\(self.tagsRelay.value[indexPath.row].name)"
-        cell.layoutIfNeeded()
-        
-        return cell
+        return collectionView.dequeueCell(withType: TypeTagCell.self, for: indexPath).then {
+            $0.configure(typeInfo: tagsRelay.value?[indexPath.item] ?? ClosetTypeInfo(id: 0, name: "tag"))
+        }
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -85,7 +89,7 @@ extension StyleTagHeaderView: UICollectionViewDataSource, UICollectionViewDelega
         let label = UILabel().then {
             $0.font = UIFont.body_5_B
             $0.setLineHeight(UIFont.body_5_B.lineHeight)
-            $0.text = tagsRelay.value[indexPath.item].name
+            $0.text = tagsRelay.value?[indexPath.item].name ?? ""
             $0.sizeToFit()
         }
         

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RxDataSources
 
 struct CategoryEntity: Codable {
     
@@ -25,7 +26,10 @@ public struct MCategoryData: Codable {
     }
 }
 
-public struct MCategoryInfo: Codable {
+public struct MCategoryInfo: Codable, Equatable, IdentifiableType {
+
+    public var identity = UUID().uuidString
+    
     var id: Int
     var name: String
     

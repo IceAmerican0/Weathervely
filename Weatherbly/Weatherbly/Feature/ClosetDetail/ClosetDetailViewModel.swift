@@ -25,13 +25,16 @@ final class ClosetDetailViewModel: RxBaseViewModel {
     public var withItemSectionItem = BehaviorRelay<[DetailSectionItem]?>(value: nil)
     
     /// Warmmer closets
+    /// /// 더 따뜻한 옷 첫번쨰 줄
     public var warmFirstSection = BehaviorRelay<DetailViewSectionModel?>(value: .warmFirst(items: []))
+    /// Section Item
     public var warmFirstRowInfo = BehaviorRelay<[DetailSectionItem]?>(value: nil)
     public var WFMaxPage = 1
     public var WFCurrentPage = 1
 
-    
+    /// 더 따뜻한 옷 두번째 줄
     public var warmSecondSection = BehaviorRelay<DetailViewSectionModel?>(value: .warmSecond(items: []))
+    /// Section Item
     public var warmSecondRowInfo = BehaviorRelay<[DetailSectionItem]?>(value: nil)
     public var WSMaxPage = 1
     public var WSCurrentPage = 1

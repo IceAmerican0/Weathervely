@@ -54,6 +54,18 @@ final class StyleViewController: RxBaseViewController<StyleViewModel> {
         collectionView.rx
             .setDelegate(self)
             .disposed(by: bag)
+        
+        
+        NotificationCenter.default.rx.notification(.styleClosetTap)
+            .compactMap { $0.userInfo }
+            .compactMap { $0["selectedCloset"] as? NewClosetInfo }
+            .bind(with: self) { owner, closetInfo in
+                    let detailVM = ClosetDetailViewModel(closetId: closetInfo.closetId, tempId: closetInfo.temperature.tempId)
+                    let detailVC = ClosetDetailViewController(detailVM)
+                    owner.viewModel.navigationPushViewControllerRelay.accept(detailVC)
+                    
+            }.disposed(by: bag)
+//        addObserver(self, selector: #selector(pushDetailView(_:)), name: .styleClosetTap, object: nil)
     }
     
     override func viewModelBinding() {
@@ -65,15 +77,23 @@ final class StyleViewController: RxBaseViewController<StyleViewModel> {
     }
 }
 
-extension StyleViewController: InnerCollectionViewCellDelegate {
+extension StyleViewController: StyleTabClosetTouchDelegate {
     
     // MARK: - InnerCV Cell Tap Event
-    func innerCollectionViewCellDidTap(_ selectedInfo: NewClosetInfo?) {
-        guard let info = selectedInfo else { return }
-        let detailVM = ClosetDetailViewModel(closetId: info.closetId, tempId: info.temperature.tempId)
-        let detailVC = ClosetDetailViewController(detailVM)
-        self.viewModel.navigationPushViewControllerRelay.accept(detailVC)
-    }
+    @objc func pushDetailView(_ notification: Notification) {
+        if let data = notification.userInfo as? [String: Any],
+            let selectedCloset = data["selectedCloset"] as? NewClosetInfo {
+            let detailVM = ClosetDetailViewModel(closetId: selectedCloset.closetId, tempId: selectedCloset.temperature.tempId)
+            let detailVC = ClosetDetailViewController(detailVM)
+            self.viewModel.navigationPushViewControllerRelay.accept(detailVC)
+            }
+        }
+//    func innerCollectionViewCellDidTap(_ selectedInfo: NewClosetInfo?) {
+//        guard let info = selectedInfo else { return }
+//        let detailVM = ClosetDetailViewModel(closetId: info.closetId, tempId: info.temperature.tempId)
+//        let detailVC = ClosetDetailViewController(detailVM)
+//        self.viewModel.navigationPushViewControllerRelay.accept(detailVC)
+//    }
 
     // MARK: - 이중 스크롤 방지
     func innerCollectionViewDidScroll(_ innerCollectionView: UICollectionView, contentOffset: CGPoint) {
@@ -82,14 +102,6 @@ extension StyleViewController: InnerCollectionViewCellDelegate {
         let bannerSectionHeight = CGFloat(80)
         let parentScrollOffsetY = titleLabelAreaHeight + bannerSectionHeight
         
-//        debugPrint("\n\n\nparentCV ContetnSize Height: \(self.collectionView.contentSize.height)")
-//        debugPrint("parentCV frameHeight : \(self.collectionView.frame.height)")
-//        debugPrint("innerCV : COntentSizeHeight: \(innerCollectionView.contentSize.height)")
-//        debugPrint("innerCV : COntentSizeHeight: \(innerCollectionView.frame.height)")
-//        debugPrint("innerCV offsetY : \(offsetY)")
-//        debugPrint("parentCV offsetY : \(self.collectionView.contentOffset.y)")
-        // InnerCollectionView의 스크롤을 상위 UICollectionView에 반영
-        
         if offsetY <= 0 { // innerCV 최상단
             collectionView.becomeFirstResponder()
             
@@ -97,6 +109,7 @@ extension StyleViewController: InnerCollectionViewCellDelegate {
             if collectionView.contentOffset.y <= 0 {
                 collectionView.contentOffset.y = 0
                 innerCollectionView.contentOffset.y = 0
+//                innerCollectionView.setContentOffset(CGPoint(x: innerCollectionView.contentOffset.x, y: 0), animated: true)
             } else {
                 /// collectionVie의 스크롤의 높이가 0보다 크면서 parentScrollOffsetY 보다 작을 때
                 /// 즉, 배너섹션의 끝 영역까지
@@ -104,20 +117,17 @@ extension StyleViewController: InnerCollectionViewCellDelegate {
                 innerCollectionView.contentOffset.y = 0
             }
         } else {
-            
         
             if collectionView.contentOffset.y <= parentScrollOffsetY {
                 collectionView.becomeFirstResponder()
                 collectionView.contentOffset.y += offsetY
                 
-                // ISSUE: 빠르게 스크롤 시 parentOffsetY를 넘어가 버리는 케이스 존재 -> 재 고정
                 if collectionView.contentOffset.y > parentScrollOffsetY {
                     collectionView.contentOffset.y = parentScrollOffsetY
                 }
                 innerCollectionView.contentOffset.y = 0
             } else { // 부모CV가 무시 기준을 도달했을 때 이후 // 근데 innserCV 스크롤하는 시점
                 
-                // ISSUE: 빠르게 스크롤 시 parentOffsetY를 넘어가 버리는 케이스 존재 -> 재 고정
                 if collectionView.contentOffset.y > parentScrollOffsetY {
                     collectionView.contentOffset.y = parentScrollOffsetY
                 }
@@ -162,8 +172,8 @@ extension StyleViewController: UICollectionViewDelegate {
     }
     
     // MARK: - DataSource
-    func setRxDataSources() ->  RxCollectionViewSectionedReloadDataSource<StyleTabSectionModel> {
-        RxCollectionViewSectionedReloadDataSource<StyleTabSectionModel> (configureCell: { [ weak self ] dataSource, collectionView, indexPath, item in
+    func setRxDataSources() ->  RxCollectionViewSectionedAnimatedDataSource<StyleTabSectionModel> {
+        RxCollectionViewSectionedAnimatedDataSource<StyleTabSectionModel> (configureCell: { [ weak self ] dataSource, collectionView, indexPath, item in
             guard self != nil else { return UICollectionViewCell() }
             
             switch item {
@@ -191,17 +201,9 @@ extension StyleViewController: UICollectionViewDelegate {
                     
                 case .types(let types, _):
                     return collectionView.dequeueReusableHeaderView(withType: StyleTagHeaderView.self, for: indexPath).then {
-                        
+                        debugPrint("header 생성 \(types)")
                         $0.configureTag(types)
                     }
-                case .styles(let headerInfo, _):
-                    let header = collectionView.dequeueReusableHeaderView(withType: CategoryHeaderView.self, for: indexPath).then {
-                        
-                        $0.configure(info: headerInfo.typeInfo, categories: headerInfo.categories)
-                    }
-                    return header
-                    // TODO: - ItemTagHeaderView 이벤트 반드시 받아올 수 있어야 함.
-                    
                 default:
                     return UICollectionReusableView()
                 }

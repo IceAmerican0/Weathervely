@@ -151,7 +151,7 @@
 		BD05E07A2B38114B00A48E61 /* NewCSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD05E0792B38114B00A48E61 /* NewCSButton.swift */; };
 		BD05E3BF2C35AC6600F1484A /* CategoryEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD05E3BE2C35AC6600F1484A /* CategoryEntity.swift */; };
 		BD05E3C22C36F6EA00F1484A /* CategoryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD05E3C12C36F6EA00F1484A /* CategoryHeaderView.swift */; };
-		BD0836F02C42DB420039B446 /* InnerCollectionViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD0836EF2C42DB420039B446 /* InnerCollectionViewCellDelegate.swift */; };
+		BD0836F02C42DB420039B446 /* StyleTabClosetTouchDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD0836EF2C42DB420039B446 /* StyleTabClosetTouchDelegate.swift */; };
 		BD0A68572C00EE46005460B1 /* ClosetSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD0A68562C00EE46005460B1 /* ClosetSectionModel.swift */; };
 		BD1F3AF12A7BA08100E528DC /* RxGesture in Frameworks */ = {isa = PBXBuildFile; productRef = BD1F3AF02A7BA08100E528DC /* RxGesture */; };
 		BD2D01892A388753003A25D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D01882A388753003A25D5 /* AppDelegate.swift */; };
@@ -161,7 +161,6 @@
 		BD2D01B42A3888AA003A25D5 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D01B32A3888AA003A25D5 /* UIColor+Extension.swift */; };
 		BD2D01B62A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D01B52A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift */; };
 		BD2D11BC2A9AEB0D008CBF0D /* TenDaysForecastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D11BB2A9AEB0D008CBF0D /* TenDaysForecastViewModel.swift */; };
-		BD351C3C2C4810E500DE96D9 /* SelectedChageState.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD351C3B2C4810E500DE96D9 /* SelectedChageState.swift */; };
 		BD351C3E2C483E7200DE96D9 /* HorizonCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD351C3D2C483E7200DE96D9 /* HorizonCollectionViewCell.swift */; };
 		BD3714372B81279D00527577 /* StyleClosetEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3714362B81279D00527577 /* StyleClosetEntity.swift */; };
 		BD3714392B8629FD00527577 /* StyleTagHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3714382B8629FD00527577 /* StyleTagHeaderView.swift */; };
@@ -217,6 +216,8 @@
 		BDE912CE2C2C4F4600330673 /* Collection+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE912CD2C2C4F4600330673 /* Collection+Extension.swift */; };
 		BDE912D02C2FE70600330673 /* EachRowEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE912CF2C2FE70600330673 /* EachRowEntity.swift */; };
 		BDE912D22C2FE87300330673 /* TemperatureEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE912D12C2FE87300330673 /* TemperatureEntity.swift */; };
+		BDEAE06A2C497D9800E5EA0B /* HorizonCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDEAE0692C497D9800E5EA0B /* HorizonCellViewModel.swift */; };
+		BDFC0B752C4C2DC300991E98 /* InnerCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDFC0B742C4C2DC300991E98 /* InnerCellViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -350,7 +351,7 @@
 		BD05E0792B38114B00A48E61 /* NewCSButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCSButton.swift; sourceTree = "<group>"; };
 		BD05E3BE2C35AC6600F1484A /* CategoryEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryEntity.swift; sourceTree = "<group>"; };
 		BD05E3C12C36F6EA00F1484A /* CategoryHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryHeaderView.swift; sourceTree = "<group>"; };
-		BD0836EF2C42DB420039B446 /* InnerCollectionViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InnerCollectionViewCellDelegate.swift; sourceTree = "<group>"; };
+		BD0836EF2C42DB420039B446 /* StyleTabClosetTouchDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleTabClosetTouchDelegate.swift; sourceTree = "<group>"; };
 		BD0A68562C00EE46005460B1 /* ClosetSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetSectionModel.swift; sourceTree = "<group>"; };
 		BD2D01852A388753003A25D5 /* Weatherbly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Weatherbly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD2D01882A388753003A25D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -361,7 +362,6 @@
 		BD2D01B32A3888AA003A25D5 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		BD2D01B52A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeBaseInitialzerProtocol.swift; sourceTree = "<group>"; };
 		BD2D11BB2A9AEB0D008CBF0D /* TenDaysForecastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TenDaysForecastViewModel.swift; sourceTree = "<group>"; };
-		BD351C3B2C4810E500DE96D9 /* SelectedChageState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedChageState.swift; sourceTree = "<group>"; };
 		BD351C3D2C483E7200DE96D9 /* HorizonCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizonCollectionViewCell.swift; sourceTree = "<group>"; };
 		BD3714362B81279D00527577 /* StyleClosetEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleClosetEntity.swift; sourceTree = "<group>"; };
 		BD3714382B8629FD00527577 /* StyleTagHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleTagHeaderView.swift; sourceTree = "<group>"; };
@@ -416,6 +416,8 @@
 		BDE912CD2C2C4F4600330673 /* Collection+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Extension.swift"; sourceTree = "<group>"; };
 		BDE912CF2C2FE70600330673 /* EachRowEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EachRowEntity.swift; sourceTree = "<group>"; };
 		BDE912D12C2FE87300330673 /* TemperatureEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureEntity.swift; sourceTree = "<group>"; };
+		BDEAE0692C497D9800E5EA0B /* HorizonCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizonCellViewModel.swift; sourceTree = "<group>"; };
+		BDFC0B742C4C2DC300991E98 /* InnerCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InnerCellViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -782,8 +784,10 @@
 			children = (
 				BD3BDE652BDD456E002E9E0C /* BannerCell.swift */,
 				BDCA1E8C2C401F2600376911 /* InnerCollectionViewCell.swift */,
+				BDFC0B742C4C2DC300991E98 /* InnerCellViewModel.swift */,
 				BD3BDE6F2BFA03EF002E9E0C /* StyleCell.swift */,
 				BD351C3D2C483E7200DE96D9 /* HorizonCollectionViewCell.swift */,
+				BDEAE0692C497D9800E5EA0B /* HorizonCellViewModel.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -952,7 +956,6 @@
 		BD351C3A2C4810D300DE96D9 /* Enum */ = {
 			isa = PBXGroup;
 			children = (
-				BD351C3B2C4810E500DE96D9 /* SelectedChageState.swift */,
 			);
 			path = Enum;
 			sourceTree = "<group>";
@@ -1093,7 +1096,7 @@
 		BDCEE0B82C455A9500C54AF6 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				BD0836EF2C42DB420039B446 /* InnerCollectionViewCellDelegate.swift */,
+				BD0836EF2C42DB420039B446 /* StyleTabClosetTouchDelegate.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1318,6 +1321,7 @@
 				BD05E3BF2C35AC6600F1484A /* CategoryEntity.swift in Sources */,
 				BDCA1E8D2C401F2600376911 /* InnerCollectionViewCell.swift in Sources */,
 				69D25C992AD04F6300C17FB1 /* KakaoErrorResponse.swift in Sources */,
+				BDFC0B752C4C2DC300991E98 /* InnerCellViewModel.swift in Sources */,
 				5CE0FEBA2A93529100A0E655 /* AuthLoginEntity.swift in Sources */,
 				5CE8CD5A2B83275000AB6EBD /* NewClosetTarget.swift in Sources */,
 				5C8F2D432B6B6A71002DF94E /* NotificationEntity.swift in Sources */,
@@ -1329,7 +1333,7 @@
 				5C4DB7B02C202897004B4575 /* TenDaysForecastShimmerView.swift in Sources */,
 				5C0C57A82BF6EC7700B1102E /* HomeBannerLayout.swift in Sources */,
 				BD3BDE782BFB75A5002E9E0C /* ClosetTypeEntity.swift in Sources */,
-				BD0836F02C42DB420039B446 /* InnerCollectionViewCellDelegate.swift in Sources */,
+				BD0836F02C42DB420039B446 /* StyleTabClosetTouchDelegate.swift in Sources */,
 				5C1BCA172A67D2FF00D02D84 /* NicknameViewModel.swift in Sources */,
 				5CAB60C52A528C9700CD431A /* UICollectionViewCell+Extension.swift in Sources */,
 				5C9D02C22A6E45D600AF2DA3 /* SettingRegionCompleteViewController.swift in Sources */,
@@ -1349,7 +1353,6 @@
 				BD5107122C11DE4000D8AFBE /* ClosetDetailEntity.swift in Sources */,
 				BDCEE0BD2C4579C800C54AF6 /* Notification+Extension.swift in Sources */,
 				BD5107162C11E14800D8AFBE /* WithClosetInfo.swift in Sources */,
-				BD351C3C2C4810E500DE96D9 /* SelectedChageState.swift in Sources */,
 				5CF0A49E2B5A32EA00D2AB4C /* HomeForecastEntity.swift in Sources */,
 				5C6CE79A2C1C38B600D64F22 /* ShimmerView.swift in Sources */,
 				69D25C972AD04F6300C17FB1 /* WVNetWorkError.swift in Sources */,
@@ -1447,6 +1450,7 @@
 				69683A582A9BAAEE00A2BD5A /* KeychainManager.swift in Sources */,
 				BD5106F32C0AFCF100D8AFBE /* MyTagsView.swift in Sources */,
 				5C9D02DF2A72304800AF2DA3 /* UserDataSource.swift in Sources */,
+				BDEAE06A2C497D9800E5EA0B /* HorizonCellViewModel.swift in Sources */,
 				BD2D018B2A388753003A25D5 /* SceneDelegate.swift in Sources */,
 				5C4691762A789DBE00E2CC70 /* AlertViewState.swift in Sources */,
 				5C8F2D3E2B6B30F0002DF94E /* NotificationListViewModel.swift in Sources */,

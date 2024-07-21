@@ -117,6 +117,7 @@ final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
         return closetDataSource.getClosetWithType(typeID: typeInfo.id, page: 1)
             .map { response in
                 let closetInfo = response.data.closets
+                let count = response.data.counts
 //                debugPrint("🔥🔥🔥 getClosets TYPEINFO : \(typeInfo.id) : \(typeInfo.name)")
                 return closetInfo
             }
@@ -138,8 +139,9 @@ final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
                 var styleItemArr: [StyleTabItem] = []
 
                 // FIXED : StyleSectionModel 수정하면서 이미지 하나가 아니라 배열 자체를 넘길 예정
-                let csStyleItem = CSStyleSectionItem(typeInfo: typeInfo, categories: categories, closets: closetsInfo)
-                styleItemArr.append(StyleTabItem.styles(csStyleItem))
+                closetsInfo.forEach {
+                    styleItemArr.append(StyleTabItem.styles($0))
+                }
 //                debugPrint("🚀🚀🚀 styleSection.value: \(self.styleSection.value?.last)")
                 styleSection.append(
                     StyleTabSectionModel.styles(
