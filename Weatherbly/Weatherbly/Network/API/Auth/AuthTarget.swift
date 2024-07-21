@@ -41,7 +41,8 @@ extension AuthTarget: WVTargetType {
                 parameters: [
                     "phone_id": UserDefaultManager.shared.uuid,
                     "fcm_phone_token": UserDefaultManager.shared.pushToken,
-                    "is_notification": agreement
+                    "is_notification": agreement,
+                    "version": Constants.bundleShortVersion
                 ],
                 encoding: JSONEncoding.default
             )
@@ -58,7 +59,8 @@ extension AuthTarget: WVTargetType {
                     "nickname": nickname,
                     "phone_id": uuid,
                     "fcm_phone_token": UserDefaultManager.shared.pushToken,
-                    "is_notification": UserDefaultManager.shared.pushAgreement
+                    "is_notification": UserDefaultManager.shared.pushAgreement,
+                    "version": Constants.bundleShortVersion
                 ],
                 encoding: JSONEncoding.default
             )

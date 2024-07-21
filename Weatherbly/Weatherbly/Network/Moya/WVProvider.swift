@@ -22,7 +22,15 @@ public final class WVProvider<T: TargetType>: MoyaProvider<T> {
             debugPrint(
                 """
                 🚀🚀🚀 Network Request 🚀🚀🚀
+                Path: \(request.path)
                 Parameters: \(parameters.prettyPrinted())
+                """
+            )
+        } else {
+            debugPrint(
+                """
+                🚀🚀🚀 Network Request 🚀🚀🚀
+                RequestPath: \(request.path)
                 """
             )
         }

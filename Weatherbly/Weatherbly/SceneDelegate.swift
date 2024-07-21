@@ -45,7 +45,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         }
                     },
                     onError: { owner, error in
-                        if error.localizedDescription == "FCM 기기 토큰" {
+                        let message = error.localizedDescription
+                        if message.contains("업데이트") {
+                            let vc = ForceUpdateViewController(EmptyViewModel())
+                            if message.contains("강제") {
+                                vc.isForceUpdate = true
+                            } else {
+                                vc.isForceUpdate = false
+                            }
+                            owner.setWindow(vc)
+                            return
+                        }
+                        
+                        if message.contains("FCM") {
                             owner.getToken()
                         } else {
                             owner.setWindow(OnBoardViewController(OnBoardViewModel()))

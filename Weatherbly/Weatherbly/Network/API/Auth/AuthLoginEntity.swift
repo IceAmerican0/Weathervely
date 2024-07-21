@@ -19,9 +19,10 @@ public struct AuthLoginEntity: Codable {
 public struct AuthData: Codable {
     var user: UserInfo
     var address: AddressIDInfo?
+    var version: String
     
     enum CodingKeys: String, CodingKey {
-        case user, address
+        case user, address, version
     }
 }
 
