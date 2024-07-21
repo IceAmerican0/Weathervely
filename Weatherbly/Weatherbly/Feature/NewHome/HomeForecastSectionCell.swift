@@ -39,6 +39,7 @@ public final class HomeForecastSectionCell: UICollectionViewCell {
         $0.showsHorizontalScrollIndicator = false
         $0.decelerationRate = .fast
         $0.contentInset = .init(top: 0, left: 32, bottom: 0, right: 32)
+        $0.backgroundColor = .clear
         $0.register(withType: HomeForecastCell.self)
     }
     
@@ -76,7 +77,7 @@ public final class HomeForecastSectionCell: UICollectionViewCell {
 
 private extension HomeForecastSectionCell {
     private func layout() {
-        backgroundColor = .white
+        backgroundColor = .clear
         
         flex.define {
             $0.addItem(collectionView).grow(1)

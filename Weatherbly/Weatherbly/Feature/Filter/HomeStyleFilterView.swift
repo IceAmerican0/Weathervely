@@ -76,7 +76,7 @@ public final class HomeStyleFilterView: UICollectionReusableView {
 
 extension HomeStyleFilterView {
     private func setLayout() {
-        backgroundColor = .white
+        backgroundColor = .clear
         
         addSubview(filterList)
         addSubview(filterIcon)

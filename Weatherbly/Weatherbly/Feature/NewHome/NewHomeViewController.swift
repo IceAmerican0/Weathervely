@@ -263,7 +263,7 @@ public final class NewHomeViewController: RxBaseViewController<NewHomeViewModel>
         
         dayLabel.text = info[index].date
         dayLabel.flex.markDirty()
-        timeLabel.text = info[index].time
+        timeLabel.text = info[index].time ?? "오전 12시"
         timeLabel.flex.markDirty()
         
         viewModel.getClosetInfo()
