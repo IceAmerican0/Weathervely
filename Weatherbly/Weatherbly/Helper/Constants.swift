@@ -17,11 +17,11 @@ public enum Constants {
     }
     /// Bundle Version String (short)
     public static var bundleShortVersion: String {
-        fetchValue(for: "CFBundleShortVersionString") as? String ?? "1.0.0"
+        fetchValue(for: "CFBundleShortVersionString") as? String ?? "2.0.0"
     }
     /// Build Version
     public static var buildVersion: String {
-        fetchValue(for: "CFBundleVersion") as? String ?? "1.0.0.0"
+        fetchValue(for: "CFBundleVersion") as? String ?? "0.0.0"
     }
     /// AppStore Link
     public static var appStoreLink: String {
