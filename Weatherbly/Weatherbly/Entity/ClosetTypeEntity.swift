@@ -18,7 +18,7 @@ struct ClosetTypeData: Decodable {
 }
 
 struct ClosetTypeInfo: Decodable, Equatable, IdentifiableType {
-    let identity: String = UUID().uuidString
+    var identity: String = UUID().uuidString
     
     let id: Int
     let name: String

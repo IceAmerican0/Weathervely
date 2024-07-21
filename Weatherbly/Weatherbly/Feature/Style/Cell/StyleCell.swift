@@ -69,7 +69,6 @@ final class StyleCell: UICollectionViewCell {
         let status = info.closetStatus
         let shopName = info.closetSiteName
         let temperature = info.temperature
-        let tpyeId = temperature.tempId
         closetInfo = NewClosetInfo(closetId: id, closetName: name, closetImageUrl: imageUrl, closetStatus: status, closetSiteName: shopName, temperature: temperature)
         nameLabel.text = name
         imageView.setKF(urlString: imageUrl, placeHolder: UIImage.image_indicator) { [weak self] result in

@@ -54,10 +54,7 @@ final class DiffTempCell: UICollectionViewCell {
     
     func configure(info : RowInfo?) {
         guard let info = info else { return }
-        let id = info.closetId
         let imageUrl = info.closetImageUrl
-        let name = info.closetName
-        let status = info.closetStatus
         
         imageView.setKF(urlString: imageUrl, placeHolder: UIImage.image_indicator) { [weak self] result in
             switch result {

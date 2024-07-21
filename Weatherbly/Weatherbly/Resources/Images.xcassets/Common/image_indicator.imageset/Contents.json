@@ -1,15 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "style_screen_devider.svg",
+      "filename" : "image_indicator.svg",
       "idiom" : "universal"
     }
   ],
   "info" : {
     "author" : "xcode",
     "version" : 1
-  },
-  "properties" : {
-    "preserves-vector-representation" : true
   }
 }

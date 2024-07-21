@@ -39,7 +39,7 @@ extension ClosetDetailTarget: WVTargetType {
     
     public var task: Moya.Task {
         switch self {
-        case .closetDetail(let clsetId, let tempId):
+        case .closetDetail(_, let tempId):
             return .requestParameters(parameters: ["tempId" : tempId], encoding: URLEncoding.queryString)
             
         case .warmerTemp(_, let page, let tempId):

@@ -155,7 +155,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     /// 메인 코디 추천 받아오기 (첫페이지)
     public func getClosetInfo() {
         let info = forecastInfo[selectedIndex.value]
-        selectedTime = String().toTimeString(day: info.date, time: info.time)
+        selectedTime = String().toTimeString(day: info.date, time: info.time ?? "오전 12시")
         closetDataSource.getHomeCloset(page: 1, time: selectedTime)
             .subscribe(
                 with: self,

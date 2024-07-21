@@ -13,6 +13,9 @@ final class ClosetDetailViewModel: RxBaseViewModel {
     
     private let detailDataSource = DetailDataSource()
     
+    /// 첫 실행 shimmer 여부
+    public var shimmerStatus: PublishRelay<Bool> = .init()
+    
     /// 전체 CollectionView
     public var detailViewSections = BehaviorRelay<[DetailViewSectionModel]>(value: [.mainDetail(items: [])])
     
@@ -106,8 +109,10 @@ final class ClosetDetailViewModel: RxBaseViewModel {
                         owner.withItemSectionItem.accept(itemArray)
                         owner.withItemSection.accept(.withItem(items: itemArray))
                     }
-                })
-            .disposed(by: bag)
+                },
+                onError: { owner, error in
+                    owner.shimmerStatus.accept(true)
+                }).disposed(by: bag)
     }
     
     public func getWarmmerClosets(closetId: Int, page: Int, tempId: Int) {
@@ -138,6 +143,9 @@ final class ClosetDetailViewModel: RxBaseViewModel {
                         owner.warmSecondSection.accept(.warmSecond(items: secondItems))
                         owner.WSMaxPage = owner.calculateShare(secondRow.counts ?? 0)
                     }
+                },
+                onError: { owner, error in
+                    owner.shimmerStatus.accept(true)
                 }).disposed(by: bag)
     }
     
@@ -191,6 +199,11 @@ final class ClosetDetailViewModel: RxBaseViewModel {
                         owner.coolSecondSection.accept(.coolSecond(items: secondItems))
                         owner.CSMaxPage = owner.calculateShare(secondRow.counts ?? 0)
                     }
+                    
+                    owner.shimmerStatus.accept(true)
+                },
+                onError: { owner, error in
+                    owner.shimmerStatus.accept(true)
                 }).disposed(by: bag)
     }
     

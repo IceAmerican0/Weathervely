@@ -13,10 +13,14 @@ fileprivate protocol StyleViewModelLogic: ViewModelBusinessLogic {
     func getTypes()
     func getAPISerial(with typeInfo: [ClosetTypeInfo], _ completion: (([StyleTabSectionModel]) -> Void)? )
     func bindInnerCollectionViewSection()
+    
+    var shimmerStatus: PublishRelay<Bool> { get }
 }
 
 final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
     private let closetDataSource: NewClosetDataSource
+    /// 첫 실행 shimmer 여부
+    public var shimmerStatus: PublishRelay<Bool> = .init()
     /// 스타일 콜렉션 뷰 정보
     public var bindSectionsRelay = BehaviorRelay<[StyleTabSectionModel]>(value: [])
     /// banner
@@ -92,22 +96,29 @@ final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
     
     public func getTypes() {
         closetDataSource.getTypes()
-            .subscribe(with: self, onNext: { owner, response in
-                let typeInfo = response.data.types
-                owner.types.accept(typeInfo)
-                // 섹션에서 선택값 들고 있는 것 초기화하기
-                let  _ = typeInfo.map {
-                    userDefault.set([],forKey: String($0.id)) }
-//                userDefault.object(forKey: )
-//                if let selectedTags = userDefault.object(forKey: String(typeInfo.id)) as? [Int] {
-//                    userDefault.set([], forKey: String(typeInfo.id))
-//                }
-                let typeSection = StyleTabSectionModel.types(header: typeInfo, items: [])
-                
-                owner.getAPISerial(with: typeInfo) { styleSections in
-                    owner.typesSection.accept(.types(header: typeInfo, items: [.type(styleSections)]))
+            .subscribe(
+                with: self,
+                onNext: { owner, response in
+                    let typeInfo = response.data.types
+                    owner.types.accept(typeInfo)
+                    // 섹션에서 선택값 들고 있는 것 초기화하기
+                    let  _ = typeInfo.map {
+                        userDefault.set([],forKey: String($0.id)) }
+//                    userDefault.object(forKey: )
+//                    if let selectedTags = userDefault.object(forKey: String(typeInfo.id)) as? [Int] {
+//                        userDefault.set([], forKey: String(typeInfo.id))
+//                    }
+//                    let typeSection = StyleTabSectionModel.types(header: typeInfo, items: [])
+                    
+                    owner.getAPISerial(with: typeInfo) { styleSections in
+                        owner.typesSection.accept(.types(header: typeInfo, items: [.type(styleSections)]))
+                        owner.shimmerStatus.accept(true)
+                    }
+                },
+                onError: { owner, error in
+                    owner.shimmerStatus.accept(true)
                 }
-            })
+            )
             .disposed(by: bag)
     }
     
@@ -124,7 +135,6 @@ final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
         return closetDataSource.getClosetWithType(typeID: typeInfo.id, page: 1)
             .map { response in
                 let closetInfo = response.data.closets
-                let count = response.data.counts
 //                debugPrint("🔥🔥🔥 getClosets TYPEINFO : \(typeInfo.id) : \(typeInfo.name)")
                 return closetInfo
             }
@@ -158,6 +168,8 @@ final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
                 
                 self.styleSection.accept(styleSection)
                 
+            }, onError: { error in
+                self.shimmerStatus.accept(true)
             }, onCompleted: {
                 
                 completion?(self.styleSection.value ?? [])

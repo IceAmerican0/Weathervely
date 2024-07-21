@@ -218,8 +218,6 @@ extension InnerCollectionViewCell: UICollectionViewDelegate {
             }
     
             let section = self.cellViewModel.bindSectionsRelay.value[sectionIndex]
-            let items = self.cellViewModel.bindSectionsRelay.value[sectionIndex]
-            let a = self.cellViewModel.bindSectionsRelay.value.firstIndex(of: section)
             var layoutSection: NSCollectionLayoutSection?
             switch section {
             case .styles(_, let items):
@@ -284,8 +282,6 @@ extension InnerCollectionViewCell: UICollectionViewDelegate {
             return section
             
         case false:
-            
-            let itemWidth = (Constants.screenWidth - 20 ) / 3
             let itemSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1),
                 heightDimension: .absolute(432)

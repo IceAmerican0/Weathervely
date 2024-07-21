@@ -13,6 +13,9 @@ import RxDataSources
 
 // FIXME: - Select Event 처리 필요
 final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewModel> {
+    private let shimmerView = DetailShimmerView()
+    
+    private let contentView = UIView()
     
     let navigationBar = CSNavigationView(.leftButton(UIImage.leftArrow_black)).then {
         $0.setTitle(CSString.detailTitle.string)
@@ -48,7 +51,10 @@ final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewMod
         super.layout()
         container.flex.define {
             $0.addItem(navigationBar)
-            $0.addItem(parentCollectionView).grow(1)
+            $0.addItem(shimmerView).grow(1)
+            $0.addItem(contentView).grow(1).define {
+                $0.addItem(parentCollectionView).grow(1)
+            }.display(.none)
         }
     }
     
@@ -78,6 +84,15 @@ final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewMod
         viewModel.detailViewSections
             .bind(to: parentCollectionView.rx.items(dataSource: dataSource))
             .disposed(by: bag)
+        
+        viewModel.shimmerStatus
+            .observe(on: MainScheduler.instance)
+            .take(1)
+            .subscribe(with: self) { owner, _ in
+                owner.shimmerView.removeFromSuperview()
+                owner.contentView.flex.display(.flex)
+                owner.container.flex.layout()
+            }.disposed(by: bag)
     }
     
     private func handlePrefetching(for indexPaths: [IndexPath]) {

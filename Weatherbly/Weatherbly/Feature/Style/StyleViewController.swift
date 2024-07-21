@@ -12,10 +12,14 @@ import RxDataSources
 import RxGesture
 
 final class StyleViewController: RxBaseViewController<StyleViewModel> {
+    private let shimmerView = StyleShimmerView()
+    
+    private let contentView = UIView()
     
     private var titleLabel = LabelMaker(font: UIFont.title_3_B).make(text: "스타일").then {
         $0.sizeToFit()
     }
+    
     lazy private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: setSectionLayout()
     ).then {
         $0.showsVerticalScrollIndicator = false
@@ -41,9 +45,12 @@ final class StyleViewController: RxBaseViewController<StyleViewModel> {
     override func layout() {
         super.layout()
         
-        container.flex.define { container in
-            container.addItem(titleLabel).marginHorizontal(20).marginTop(11.5).marginBottom(17.5).height(23)
-            container.addItem(collectionView).grow(1)
+        container.flex.define {
+            $0.addItem(shimmerView).grow(1)
+            $0.addItem(contentView).grow(1).define {
+                $0.addItem(titleLabel).marginHorizontal(20).marginTop(11.5).marginBottom(17.5).height(23)
+                $0.addItem(collectionView).grow(1)
+            }.display(.none)
         }
         
     }
@@ -74,6 +81,15 @@ final class StyleViewController: RxBaseViewController<StyleViewModel> {
         viewModel.bindSectionsRelay
             .bind(to: collectionView.rx.items(dataSource: setRxDataSources()))
             .disposed(by: bag)
+        
+        viewModel.shimmerStatus
+            .observe(on: MainScheduler.instance)
+            .take(1)
+            .subscribe(with: self) { owner, _ in
+                owner.shimmerView.removeFromSuperview()
+                owner.contentView.flex.display(.flex)
+                owner.container.flex.layout()
+            }.disposed(by: bag)
     }
 }
 

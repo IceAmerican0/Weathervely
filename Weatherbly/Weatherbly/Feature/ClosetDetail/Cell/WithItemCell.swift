@@ -92,10 +92,7 @@ final class WithItemCell: UICollectionViewCell {
     func configure(info: WithItemsInfo?) {
         
         guard let info = info else { return }
-        let id = info.id
-        if let category = info.category?.categoryName,
-           let imageUrl = info.imageUrl,
-           let shopUrl = info.shopUrl,
+        if let imageUrl = info.imageUrl,
            let itemName = info.name,
            let brandName = info.brandName,
            let status = info.status {
