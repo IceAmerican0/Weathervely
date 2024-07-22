@@ -10,6 +10,7 @@ import FlexLayout
 import PinLayout
 import RxSwift
 import RxDataSources
+import SafariServices
 
 // FIXME: - Select Event 처리 필요
 final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewModel> {
@@ -203,16 +204,20 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
         return RxCollectionViewSectionedAnimatedDataSource<DetailViewSectionModel>(
             animationConfiguration: AnimationConfiguration(insertAnimation: .fade, reloadAnimation: .none, deleteAnimation: .fade),
             configureCell: { [weak self] dataSource, collectionView, indexPath, item in
-                guard self != nil else { return UICollectionViewCell() }
+                guard let self else { return UICollectionViewCell() }
                 switch item {
                 case .mainDetail(let selectedInfo):
                     return collectionView.dequeueCell(withType: MainDetailCell.self, for: indexPath).then {
                         $0.configure(info: selectedInfo)
                     }
                 case .withItem(let withItemInfo):
-                    return collectionView.dequeueCell(withType: WithItemCell.self, for: indexPath).then {
-                        $0.configure(info: withItemInfo)
-                    }
+                    let cell = collectionView.dequeueCell(withType: WithItemCell.self, for: indexPath)
+                    cell.configure(info: withItemInfo)
+                    cell.itemTap
+                        .drive(with: self) { owner, _ in
+//                            owner.viewModel.toDetailView(closetId: withItemInfo, tempId: <#T##Int#>)
+                        }.disposed(by: cell.bag)
+                    return cell
                 case .firstRow(let rowInfo):
                     print("first: \(rowInfo.identity)")
                     return collectionView.dequeueCell(withType: DiffTempCell.self, for: indexPath).then {

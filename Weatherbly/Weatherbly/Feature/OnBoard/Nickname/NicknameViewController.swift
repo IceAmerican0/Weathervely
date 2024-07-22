@@ -131,6 +131,7 @@ extension NicknameViewController {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             confirmButton.flex.bottom(keyboardSize.height)
             container.flex.layout()
+            container.layoutIfNeeded()
         }
     }
 }

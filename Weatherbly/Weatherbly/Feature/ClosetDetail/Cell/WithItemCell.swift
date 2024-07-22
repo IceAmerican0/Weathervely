@@ -8,9 +8,12 @@
 import UIKit
 import FlexLayout
 import PinLayout
+import RxSwift
+import RxGesture
 import RxCocoa
 
 final class WithItemCell: UICollectionViewCell {
+    var bag = DisposeBag()
     
     let imagePlaceHolder = UIImage.image_indicator
     private var imageViewWrapper = UIView().then {
@@ -58,8 +61,13 @@ final class WithItemCell: UICollectionViewCell {
         $0.isHidden = true
     }
     
+    public var itemTap: Driver<Void> {
+        contentView.rx.tapGesture().when(.recognized).map { _ in }.asDriver(onErrorJustReturn: ())
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
+        layout()
     }
     
     required init?(coder: NSCoder) {
@@ -68,7 +76,7 @@ final class WithItemCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        layout()
+//        layout()
         contentView.pin.all()
     }
     
@@ -138,6 +146,7 @@ final class WithItemCell: UICollectionViewCell {
         super.prepareForReuse()
         self.itemImage.image = nil
         self.soldOutView.isHidden = true
+        bag = DisposeBag()
     }
 }
 

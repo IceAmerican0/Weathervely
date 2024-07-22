@@ -128,7 +128,6 @@ extension UIView {
         
         self.layer.cornerRadius = radius
         self.layer.maskedCorners = cornerMask
-        self.layer.masksToBounds = true
     }
     
     func addGradientLayer(_ caGradientLayer: CAGradientLayer) {
