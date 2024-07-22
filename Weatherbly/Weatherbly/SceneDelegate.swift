@@ -15,6 +15,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
+        window?.backgroundColor = .white
 
         getToken()
     }
@@ -29,7 +30,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func getToken() {
         Task {
             let loginDataSource: AuthDataSourceProtocol = AuthDataSource()
-            loginDataSource.getToken(await configurePushState())
+            loginDataSource.getToken(await UserNotificationManager.shared.configurePushState())
                 .subscribe(
                     with: self,
                     onNext: { owner, response in
@@ -45,27 +46,57 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         }
                     },
                     onError: { owner, error in
-                        let message = error.localizedDescription
-                        if message.contains("업데이트") {
-                            let vc = ForceUpdateViewController(EmptyViewModel())
-                            if message.contains("강제") {
-                                vc.isForceUpdate = true
-                            } else {
-                                vc.isForceUpdate = false
-                            }
-                            owner.setWindow(vc)
-                            return
-                        }
-                        
-                        if message.contains("FCM") {
-                            owner.getToken()
-                        } else {
-                            owner.setWindow(OnBoardViewController(OnBoardViewModel()))
-                        }
+                        owner.configureErrorState(message: error.localizedDescription)
                     }
                 ).disposed(by: bag)
         }
+    }
+    
+    /// 토큰 에러 분기
+    func configureErrorState(message: String) {
+        if message.contains("업데이트가 필요") {
+            let state: AlertViewState = .init(
+                title: "새로운 버전이 출시됐어요!\n앱스토어에서 업데이트해주세요",
+                alertType: .popup,
+                closeAction: {
+                    self.sendToAppStore()
+                }
+            )
+            
+            AlertView(state: state).show(on: self.window ?? UIWindow())
+            window?.makeKeyAndVisible()
+            return
+        }
         
+        if message.contains("FCM") || message.contains("토큰이 만료") {
+            getToken()
+            return
+        }
+        
+        if message.contains("유저가 존재") {
+            setWindow(OnBoardViewController(OnBoardViewModel()))
+        } else {
+            let state: AlertViewState = .init(
+                title: message,
+                alertType: .popup,
+                closeAction: {
+                    if message.contains("도메인") {
+                        self.sendToAppStore()
+                    }
+                    self.getToken()
+                }
+            )
+            
+            AlertView(state: state).show(on: self.window ?? UIWindow())
+            window?.makeKeyAndVisible()
+        }
+    }
+    
+    /// 앱스토어 열기 후 앱 종료
+    func sendToAppStore() {
+        guard let appStoreLink = URL(string: Constants.appStoreLink) else { return }
+        UIApplication.shared.open(appStoreLink)
+        UIApplication.shared.close()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {}

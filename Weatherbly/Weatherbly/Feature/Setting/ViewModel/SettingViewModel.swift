@@ -171,8 +171,8 @@ public final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
         userDataSource.resetUserInfo(userID)
             .subscribe(
                 with: self,
-                onNext: { owner, _ in
-                    owner.close()
+                onNext: { _, _ in
+                    UIApplication.shared.close()
                 },
                 onError: { owner, error in
                     owner.alertState.accept(
@@ -201,22 +201,14 @@ public final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
         
         return AlertButtonState(
             title: title,
-            action: { [weak self] in
+            action: {
                 userDefault.set(
                     environment.rawValue,
                     forKey: UserDefaultKey.appEnvironment.rawValue
                 )
                 userDefault.set(true, forKey: UserDefaultKey.isServerChanged.rawValue)
-                self?.close()
+                UIApplication.shared.close()
             }
         )
-    }
-    
-    private func close() {
-        // 부드러운 종료 위한 suspend
-        UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            exit(0)
-        }
     }
 }

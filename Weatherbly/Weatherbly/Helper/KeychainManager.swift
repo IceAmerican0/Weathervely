@@ -7,14 +7,19 @@
 
 import KeychainAccess
 
-class KeychainManager {
+public final class KeychainManager {
     static let shared = KeychainManager()
     
-    #if DEBUG
-    let keychain = Keychain(service: "com.redthree.weathervelytest")
-    #else
-    let keychain = Keychain(service: "com.redthree.weathervely")
-    #endif
+    var keychain: Keychain
+    
+    private init() {
+        switch AppSetting.shared.environmentType {
+        case .production: 
+            keychain = Keychain(service: "com.redthree.weathervely")
+        case .develop:    
+            keychain = Keychain(service: "com.redthree.weathervelytest")
+        }
+    }
     
     let uuidKey = "UUIDKey"
     

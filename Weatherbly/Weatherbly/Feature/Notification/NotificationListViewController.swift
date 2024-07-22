@@ -127,7 +127,7 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
         
         notiButton.rx.tap
             .bind(with: self) { _, _ in
-                toPushSetting()
+                UserNotificationManager.shared.toPushSetting()
             }.disposed(by: bag)
         
         viewModel.refreshStatus
@@ -177,7 +177,7 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
             }
         } else {
             Task {
-                let isAuthorized = await checkAuthorization()
+                let isAuthorized = await UserNotificationManager.shared.checkAuthorization()
                 DispatchQueue.main.async {
                     self.updateView(status: isAuthorized)
                 }

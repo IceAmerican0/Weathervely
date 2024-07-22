@@ -29,7 +29,7 @@ public enum ProfileMenuTitle: CaseIterable {
         case .region:
             return UIImage.icon_plusL
         case .notification:
-            return await configurePushState() ? UIImage.icon_alarm_on : UIImage.icon_alarm_off
+            return await UserNotificationManager.shared.configurePushState() ? UIImage.icon_alarm_on : UIImage.icon_alarm_off
         }
     }
 }

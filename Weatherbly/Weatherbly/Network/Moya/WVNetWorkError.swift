@@ -31,11 +31,19 @@ extension WVNetworkError: LocalizedError {
         case .timeoutError:
             return "요청시간이 초과되었습니다"
         case .decodeError:
-            return "서버가 불안정 합니다"
+            return "서버가 불안정합니다"
         case .encodeError:
             return "NetworkError : Encoding Error"
         case .networkError(let msg):
-            return "NetworkError : \(msg.localizedDescription)"
+            let message = msg.localizedDescription
+            if message.contains("Internet") {
+                return "인터넷 연결을 확인해주세요"
+            }
+            if message.contains("SSL") {
+                return "도메인이 올바르지 않습니다\n앱을 최신버전으로 업데이트해주세요"
+            }
+            
+            return "NetworkError : \(message)"
         case .unknownError:
             return "unknownError"
         }

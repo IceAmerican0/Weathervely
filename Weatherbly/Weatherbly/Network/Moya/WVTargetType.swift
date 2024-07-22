@@ -16,9 +16,13 @@ public protocol WVTargetType: TargetType {}
 
 public extension WVTargetType {
     var baseURL: URL {
-        switch AppSetting.shared.environmentType {
-        case .production: URL(string: "https://prod-server.weathervely.com/v2")!
-        case .develop:    URL(string: "http://54.180.98.1:3000/v2")!
+        // 운영서버 테스트시 주석 해제
+        // userDefault.set(EnvironmentType.production, forKey: UserDefaultKey.appEnvironment.rawValue)
+        guard let version = Constants.bundleShortVersion.first else { return URL(string: "")! }
+        
+        return switch AppSetting.shared.environmentType {
+        case .production: URL(string: "\(Constants.releaseServerURL)/v\(version)")!
+        case .develop:    URL(string: "\(Constants.testServerURL)/v\(version)")!
         }
     }
     

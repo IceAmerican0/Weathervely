@@ -31,6 +31,14 @@ public enum Constants {
     public static var kakaoAppKey: String {
         fetchValue(for: "KAKAO_APP_KEY") as? String ?? ""
     }
+    /// RELEASE_SERVER_URL
+    public static var releaseServerURL: String {
+        fetchValue(for: "RELEASE_SERVER_URL") as? String ?? ""
+    }
+    /// TEST_SERVER_URL
+    public static var testServerURL: String {
+        fetchValue(for: "TEST_SERVER_URL") as? String ?? ""
+    }
     /// Screen Width
     static let screenWidth = (UIApplication.shared.connectedScenes.first as? UIWindowScene)!.screen.bounds.size.width
     /// Screen Height

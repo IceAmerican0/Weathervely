@@ -13,8 +13,8 @@ public final class WVProvider<T: TargetType>: MoyaProvider<T> {
         checkRequest(token)
         
         return rx.request(token)
+                .mapNetworkError()
 //            .filterSuccessfulStatusCodes()
-//            .mapNetworkError()
     }
     
     func checkRequest(_ request: T) {

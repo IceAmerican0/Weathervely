@@ -107,7 +107,7 @@ private extension SettingTableViewCell {
     
     func switchState() {
         Task {
-            let authority = await checkAuthorization()
+            let authority = await UserNotificationManager.shared.checkAuthorization()
             
             if authority {
                 toggleSwitch.flex.display(.flex)
@@ -119,7 +119,7 @@ private extension SettingTableViewCell {
                 pushSetting.rx.tapGesture()
                     .when(.recognized)
                     .bind(with: self) { _, _ in
-                        toPushSetting()
+                        UserNotificationManager.shared.toPushSetting()
                     }.disposed(by: bag)
             }
             contentView.flex.layout()

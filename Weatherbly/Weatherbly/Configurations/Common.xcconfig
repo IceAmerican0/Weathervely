@@ -24,3 +24,7 @@ KAKAO_APP_KEY = 94e9855982bd4da35238debd0d23a313
 
 // Info.plist
 INFOPLIST_FILE = Weatherbly/Resources/Info.plist
+
+// Server
+RELEASE_SERVER_URL = prod-server.weathervely.com
+TEST_SERVER_URL = 54.180.98.1:3000

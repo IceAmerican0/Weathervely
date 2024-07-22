@@ -144,6 +144,10 @@ final class AlertView: UIView {
         }
     }
     
+    public func show(on view: UIView) {
+        view.addSubview(self)
+    }
+    
     public func dismiss() {
         self.removeFromSuperview()
     }

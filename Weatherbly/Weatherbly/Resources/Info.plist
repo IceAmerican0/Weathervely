@@ -57,5 +57,9 @@
 	</array>
 	<key>KAKAO_APP_KEY</key>
 	<string>$(KAKAO_APP_KEY)</string>
+	<key>RELEASE_SERVER_URL</key>
+	<string>https://$(RELEASE_SERVER_URL)</string>
+	<key>TEST_SERVER_URL</key>
+	<string>http://$(TEST_SERVER_URL)</string>
 </dict>
 </plist>
