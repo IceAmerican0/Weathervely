@@ -96,6 +96,12 @@ extension UITextFieldDelegate {
             return "사용 불가 문자가 포함됐어요"
         }
         
+        // 한글, 영어 외 외국어 제한
+        let allowedCharacterSet = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZㄱ-ㅎㅏ-ㅣ가-힣")
+        if string.rangeOfCharacter(from: allowedCharacterSet.inverted) != nil {
+            return "한글 및 영어만 사용 가능해요"
+        }
+        
         return nil
     }
 }

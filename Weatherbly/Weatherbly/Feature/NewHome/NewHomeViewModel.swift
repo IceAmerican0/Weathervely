@@ -16,6 +16,7 @@ public protocol NewHomeViewModelLogic: ViewModelBusinessLogic {
     func getForecastInfo()
     func getStyleFilterList()
     func getClosetInfo()
+    func getNextCloset(of row: Int)
     func buttonTapAction(action: ButtonTapAction)
     func getSelectedTimeInfo(direction: UISwipeGestureRecognizer.Direction)
     func didTapTimeLabel()

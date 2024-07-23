@@ -106,9 +106,7 @@ final public class InnerCollectionViewCell: UICollectionViewCell {
                 if (1...129 ~= curOffsetY) {
                     offset.y -= 129 - curOffsetY
                 }
-                print("@@@@@@", offset.y)
                 offset.y -= 56
-                print("@@@@@@", offset.y)
                 scrollView.setContentOffset(offset, animated: true)
             }
         }

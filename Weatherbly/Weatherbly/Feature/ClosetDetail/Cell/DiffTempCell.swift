@@ -30,7 +30,7 @@ final class DiffTempCell: UICollectionViewCell {
     }
     
     public var itemTap: Driver<Void> {
-        contentView.rx.tapGesture().when(.recognized).map { _ in }.asDriver(onErrorJustReturn: ())
+        imageView.rx.tapGesture().when(.ended).map { _ in }.asDriver(onErrorJustReturn: ())
     }
     
     private var id = ""

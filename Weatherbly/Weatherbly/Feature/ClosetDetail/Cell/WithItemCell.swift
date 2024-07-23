@@ -63,7 +63,7 @@ final class WithItemCell: UICollectionViewCell {
     }
     
     public var itemTap: Driver<Void> {
-        contentView.rx.tapGesture().when(.recognized).map { _ in }.asDriver(onErrorJustReturn: ())
+        itemImage.rx.tapGesture().when(.ended).map { _ in }.asDriver(onErrorJustReturn: ())
     }
     
     override init(frame: CGRect) {
