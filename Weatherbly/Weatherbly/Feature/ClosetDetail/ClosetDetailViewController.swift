@@ -10,7 +10,7 @@ import FlexLayout
 import PinLayout
 import RxSwift
 import RxDataSources
-import SafariServices
+import Then
 
 // FIXME: - Select Event 처리 필요
 final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewModel> {
@@ -18,7 +18,9 @@ final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewMod
     
     private let contentView = UIView()
     
-    let navigationBar = CSNavigationView(.leftButton(UIImage.leftArrow_black)).then {
+    let navigationBar = CSNavigationView(
+        .rightButton(UIImage.leftArrow_black, UIImage.home_top)
+    ).then {
         $0.setTitle(CSString.detailTitle.string)
     }
     
@@ -77,6 +79,10 @@ final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewMod
             }
             .disposed(by: bag)
         
+        navigationBar.rightButtonDidTapRelay
+            .drive(with: self) { owner, _ in
+                owner.viewModel.navigationPoptoRootRelay.accept(Void())
+            }.disposed(by: bag)
     }
     
     override func viewModelBinding() {
@@ -211,22 +217,30 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
                         $0.configure(info: selectedInfo)
                     }
                 case .withItem(let withItemInfo):
-                    let cell = collectionView.dequeueCell(withType: WithItemCell.self, for: indexPath)
-                    cell.configure(info: withItemInfo)
-                    cell.itemTap
-                        .drive(with: self) { owner, _ in
-//                            owner.viewModel.toDetailView(closetId: withItemInfo, tempId: <#T##Int#>)
-                        }.disposed(by: cell.bag)
-                    return cell
+                    return collectionView.dequeueCell(withType: WithItemCell.self, for: indexPath).then {
+                        $0.configure(info: withItemInfo)
+                        $0.itemTap
+                            .drive(with: self) { owner, _ in
+                                owner.viewModel.toMall(url: withItemInfo.shopUrl ?? "")
+                            }.disposed(by: $0.bag)
+                    }
                 case .firstRow(let rowInfo):
-                    print("first: \(rowInfo.identity)")
+                    debugPrint("first: \(rowInfo.identity)")
                     return collectionView.dequeueCell(withType: DiffTempCell.self, for: indexPath).then {
                         $0.configure(info: rowInfo)
+                        $0.itemTap
+                            .drive(with: self) { owner, _ in
+                                owner.viewModel.toDetailView(closetId: rowInfo.closetId, tempId: rowInfo.temperature.tempId)
+                            }.disposed(by: $0.bag)
                     }
                 case .secondRow(let rowInfo):
-                    print("second: \(rowInfo.identity)")
+                    debugPrint("second: \(rowInfo.identity)")
                     return collectionView.dequeueCell(withType: DiffTempCell.self, for: indexPath).then {
                         $0.configure(info: rowInfo)
+                        $0.itemTap
+                            .drive(with: self) { owner, _ in
+                                owner.viewModel.toDetailView(closetId: rowInfo.closetId, tempId: rowInfo.temperature.tempId)
+                            }.disposed(by: $0.bag)
                     }
                 }
             }, configureSupplementaryView: { [weak self] dataSource, collectionView, kind, indexPath in

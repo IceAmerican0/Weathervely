@@ -8,6 +8,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import SafariServices
 
 final class ClosetDetailViewModel: RxBaseViewModel {
     
@@ -228,6 +229,13 @@ final class ClosetDetailViewModel: RxBaseViewModel {
                 }
                 
             }).disposed(by: bag)
+    }
+    
+    /// 쇼핑몰 이동
+    public func toMall(url: String) {
+        guard let url = URL(string: url) else { return }
+        let webView = SFSafariViewController(url: url)
+        presentViewControllerNoAnimationRelay.accept(webView)
     }
     
     /// 상세보기 이동

@@ -8,6 +8,7 @@
 import UIKit
 import FlexLayout
 import PinLayout
+import Then
 import RxSwift
 import RxGesture
 import RxCocoa

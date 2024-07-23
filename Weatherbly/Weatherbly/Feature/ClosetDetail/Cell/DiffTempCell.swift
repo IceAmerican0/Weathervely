@@ -8,8 +8,13 @@
 import UIKit
 import FlexLayout
 import PinLayout
+import Then
+import RxSwift
+import RxGesture
+import RxCocoa
 
 final class DiffTempCell: UICollectionViewCell {
+    var bag = DisposeBag()
     
     let imagePlaceHolder = UIImage.image_indicator
     
@@ -22,6 +27,10 @@ final class DiffTempCell: UICollectionViewCell {
     private var imageView = UIImageView().then {
         $0.image = UIImage.image_indicator.resized(to: CGSize(width: 56, height: 56))
         $0.contentMode = .scaleAspectFit
+    }
+    
+    public var itemTap: Driver<Void> {
+        contentView.rx.tapGesture().when(.recognized).map { _ in }.asDriver(onErrorJustReturn: ())
     }
     
     private var id = ""
@@ -77,6 +86,7 @@ final class DiffTempCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        bag = DisposeBag()
         self.imageView.image = nil
     }
 }

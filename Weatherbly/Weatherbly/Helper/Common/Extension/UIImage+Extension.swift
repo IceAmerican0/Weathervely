@@ -125,6 +125,7 @@ extension UIImage {
     
     // Detail
     static let detail_empty = UIImage(named: "detail_empty")!
+    static let home_top = UIImage(named: "home_top")!
     static let moreCool_banner = UIImage(named: "moreCool_banner")!
     static let moreCool_illust = UIImage(named: "moreCool_illust")!
     static let moreHot_banner = UIImage(named: "moreHot_banner")!
