@@ -83,8 +83,8 @@ extension HomeStyleFilterView {
     }
     
     private func layout() {
-        filterIcon.pin.vCenter().right().size(24)
-        filterList.pin.before(of: filterIcon, aligned: .center).left().marginRight(20).height(29)
+        filterIcon.pin.vCenter().right(20).size(24)
+        filterList.pin.before(of: filterIcon, aligned: .center).left(20).marginRight(20).height(29)
     }
 }
 

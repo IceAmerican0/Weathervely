@@ -44,10 +44,14 @@ public final class NicknameCompleteViewModel: RxBaseViewModel, NicknameCompleteV
                     KeychainManager.shared.saveUUID(uuid)
                 },
                 onError: { owner, error in
+                    debugPrint(error.localizedDescription)
                     owner.alertState.accept(
                         .init(
-                            title: error.localizedDescription,
-                            alertType: .popup
+                            title: "닉네임을 다시 설정해주세요",
+                            alertType: .popup,
+                            closeAction: {
+                                owner.didTapRefuseButton()
+                            }
                         )
                     )
                 }
@@ -66,10 +70,14 @@ public final class NicknameCompleteViewModel: RxBaseViewModel, NicknameCompleteV
                     userDefault.set(owner.nickname, forKey: UserDefaultKey.nickname.rawValue)
                 },
                 onError: { owner, error in
+                    debugPrint(error.localizedDescription)
                     owner.alertState.accept(
                         .init(
-                            title: error.localizedDescription,
-                            alertType: .popup
+                            title: "닉네임을 다시 설정해주세요",
+                            alertType: .popup,
+                            closeAction: {
+                                owner.didTapRefuseButton()
+                            }
                         )
                     )
                 }

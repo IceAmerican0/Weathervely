@@ -97,11 +97,13 @@ extension UITextFieldDelegate {
         }
         
         // 한글, 영어 외 외국어 제한
-        let allowedCharacterSet = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZㄱ-ㅎㅏ-ㅣ가-힣")
-        if string.rangeOfCharacter(from: allowedCharacterSet.inverted) != nil {
+        let pattern = "^([ㄱ-ㅣ가-힣a-zA-Z0-9])$"
+        let regex = try? NSRegularExpression(pattern: pattern)
+        
+        if let _ = regex?.firstMatch(in: string, range: NSRange(location: 0, length: string.count)) {
+            return nil
+        } else {
             return "한글 및 영어만 사용 가능해요"
         }
-        
-        return nil
     }
 }

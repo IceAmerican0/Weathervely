@@ -116,7 +116,7 @@ public final class NewHomeViewController: RxBaseViewController<NewHomeViewModel>
                     date.addItem(timeLabel).marginLeft(12).width(66).height(23)
                     date.addItem(nextButton).marginLeft(16).size(28)
                 }
-                $0.addItem(homeCollectionView).marginTop(14).width(100%).grow(1)
+                $0.addItem(homeCollectionView).width(100%).grow(1)
             }.display(.none)
         }
     }

@@ -12,6 +12,7 @@ import Then
 import RxSwift
 import RxGesture
 import RxCocoa
+import Kingfisher
 
 final class WithItemCell: UICollectionViewCell {
     var bag = DisposeBag()
@@ -77,11 +78,20 @@ final class WithItemCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-//        layout()
         contentView.pin.all()
+        contentView.flex.layout()
     }
     
     func layout() {
+        clipsToBounds = true
+        layer.masksToBounds = false
+        layer.setShadow(
+            CGSize(width: 4, height: 4),
+            UIColor.dark12.cgColor, 1, 4
+        )
+        
+        imageViewWrapper.layer.masksToBounds = true
+        imageViewWrapper.setCornerRadius(12)
         
         contentView.addSubviews(imageViewWrapper
                                 ,itemNameLabel
@@ -146,6 +156,7 @@ final class WithItemCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         self.itemImage.image = nil
+        self.itemImage.kf.cancelDownloadTask()
         self.soldOutView.isHidden = true
         bag = DisposeBag()
     }

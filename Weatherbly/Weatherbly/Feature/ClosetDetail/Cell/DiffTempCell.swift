@@ -12,6 +12,7 @@ import Then
 import RxSwift
 import RxGesture
 import RxCocoa
+import Kingfisher
 
 final class DiffTempCell: UICollectionViewCell {
     var bag = DisposeBag()
@@ -40,6 +41,7 @@ final class DiffTempCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        layout()
     }
     
     required init?(coder: NSCoder) {
@@ -48,12 +50,21 @@ final class DiffTempCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        layout()
         contentView.pin.all()
         contentView.flex.layout()
     }
     
     func layout() {
+        clipsToBounds = true
+        layer.masksToBounds = false
+        layer.setShadow(
+            CGSize(width: 4, height: 4),
+            UIColor.dark12.cgColor, 1, 4
+        )
+        
+        imageView.layer.masksToBounds = true
+        imageView.setCornerRadius(12)
+        
         contentView.flex.direction(.column).define {
             $0.addItem(imageViewWrapper).define {
                 $0.addItem(imageView).width(120).height(180).alignSelf(.center)
@@ -88,6 +99,7 @@ final class DiffTempCell: UICollectionViewCell {
         super.prepareForReuse()
         bag = DisposeBag()
         self.imageView.image = nil
+        self.imageView.kf.cancelDownloadTask()
     }
 }
 

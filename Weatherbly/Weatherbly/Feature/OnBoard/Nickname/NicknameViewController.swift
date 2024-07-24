@@ -26,7 +26,7 @@ final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
     private var guideLabel = LabelMaker(
         font: .body_3_M,
         fontColor: .gray60
-    ).make(text: "10글자 이내 / 띄어쓰기, 쉼표 불가")
+    ).make(text: "10글자 이내 / 띄어쓰기, 특수문자 불가")
     
     private lazy var inputNickname = CSTextField().then {
         $0.delegate = self

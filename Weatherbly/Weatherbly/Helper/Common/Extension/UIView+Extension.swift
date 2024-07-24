@@ -217,6 +217,7 @@ extension UIView {
             (.gradient50, UIImage.clouds_pm)
         case "비",
              "구름많고 비",
+             "소나기",
              "흐리고 비": (.gradient60, UIImage.rainy)
         case "눈비": (.gradient70, UIImage.snowyRainy)
         case "눈": (.gradient80, UIImage.snowy)
@@ -232,6 +233,7 @@ extension UIView {
         case "구름많음": (.gradient40, UIImage.ten_clouds_am)
         case "비",
              "구름많고 비",
+             "소나기",
              "흐리고 비": (.gradient60, UIImage.rainy)
         case "눈비": (.gradient70, UIImage.snowyRainy)
         case "눈": (.gradient80, UIImage.ten_snowy)

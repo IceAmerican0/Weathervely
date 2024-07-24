@@ -12,13 +12,6 @@ import Then
 import Kingfisher
 
 public final class HomeClosetCell: UICollectionViewCell {
-    let container = UIView().then {
-        $0.layer.setShadow(
-            CGSize(width: 4, height: 4),
-            UIColor.dark12.cgColor, 1, 4
-        )
-    }
-    
     let cloth = UIImageView().then {
         $0.backgroundColor = .clear
         $0.contentMode = .center
@@ -51,16 +44,15 @@ public final class HomeClosetCell: UICollectionViewCell {
     }
     
     func layout() {
-        backgroundColor = .gray10
-        setCornerRadius(12)
-//        layer.masksToBounds = false
         clipsToBounds = true
-        
-        contentView.layer.masksToBounds = false
-        contentView.layer.setShadow(
+        layer.masksToBounds = false
+        layer.setShadow(
             CGSize(width: 4, height: 4),
             UIColor.dark12.cgColor, 1, 4
         )
+        
+        contentView.layer.masksToBounds = true
+        contentView.setCornerRadius(12)
         
         contentView.flex.define {
             $0.addItem(cloth).grow(1)

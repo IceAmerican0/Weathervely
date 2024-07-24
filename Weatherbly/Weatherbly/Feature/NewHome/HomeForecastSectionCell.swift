@@ -80,7 +80,7 @@ private extension HomeForecastSectionCell {
         backgroundColor = .clear
         
         flex.define {
-            $0.addItem(collectionView).grow(1)
+            $0.addItem(collectionView).marginTop(14).grow(1)
         }
     }
 }

@@ -8,6 +8,10 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import FlexLayout
+import PinLayout
+import Then
+import Kingfisher
 
 final class StyleCell: UICollectionViewCell {
     
@@ -20,8 +24,8 @@ final class StyleCell: UICollectionViewCell {
     ).make(text: "이 옷은 어느 쇼핑몰에서?")
     
     private var imageViewWrapper = UIView().then {
-        $0.layer.cornerRadius = 12
-        $0.clipsToBounds = true
+//        $0.layer.cornerRadius = 12
+//        $0.clipsToBounds = true
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
@@ -38,6 +42,7 @@ final class StyleCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        layout()
     }
     
     required init?(coder: NSCoder) {
@@ -48,11 +53,20 @@ final class StyleCell: UICollectionViewCell {
         super.layoutSubviews()
         
         contentView.pin.all()
-        layout()
         contentView.flex.layout()
     }
     
     func layout() {
+        clipsToBounds = true
+        layer.masksToBounds = false
+        layer.setShadow(
+            CGSize(width: 4, height: 4),
+            UIColor.dark12.cgColor, 1, 4
+        )
+        
+        imageView.layer.masksToBounds = true
+        imageView.setCornerRadius(12)
+        
         contentView.flex.direction(.column).define {
             $0.addItem(imageViewWrapper).define {
                 $0.addItem(imageView).height(180).alignSelf(.center)
@@ -93,5 +107,6 @@ final class StyleCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         self.imageView.image = nil
+        self.imageView.kf.cancelDownloadTask()
     }
 }
