@@ -29,6 +29,8 @@ public enum UserTarget {
     case fetchFCMToken(_ token: String)
     /// 푸시 동의여부 변경
     case fetchPushAgreement(_ agreement: Bool)
+    /// 유저 버전 수정
+    case fetchUserVersion(_ userID: Int)
 }
 
 extension UserTarget: WVTargetType {
@@ -44,6 +46,7 @@ extension UserTarget: WVTargetType {
         case .setMainAddress(let addressID):    "/user/address/setMain/\(addressID)"
         case .fetchFCMToken:                    "/user/fcmPhoneToken"
         case .fetchPushAgreement:               "/user/isNotification"
+        case .fetchUserVersion(let userID):     "/user/\(userID)/version"
         }
     }
     
@@ -60,7 +63,8 @@ extension UserTarget: WVTargetType {
         case .fetchUserInfo,
              .fetchAddress,
              .fetchFCMToken,
-             .fetchPushAgreement:
+             .fetchPushAgreement,
+             .fetchUserVersion:
             return .patch
         }
     }
@@ -100,6 +104,11 @@ extension UserTarget: WVTargetType {
         case .fetchPushAgreement(let agreement):
             .requestParameters(
                 parameters: ["is_notification": agreement],
+                encoding: JSONEncoding.default
+            )
+        case .fetchUserVersion:
+            .requestParameters(
+                parameters: ["version": Constants.bundleShortVersion],
                 encoding: JSONEncoding.default
             )
         }

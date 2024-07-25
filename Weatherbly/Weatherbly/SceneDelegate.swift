@@ -11,6 +11,8 @@ import RxSwift
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     var bag = DisposeBag()
+    
+    let userDataSource: UserDataSourceProtocol = UserDataSource()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
@@ -52,19 +54,48 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
     }
     
+    func getUserInfo() {
+        userDataSource.getUserInfo()
+            .subscribe(
+                with: self,
+                onNext: { owner, response in
+                    guard let id = response.id else { return }
+                    owner.versionUpdate(id: id)
+                },
+                onError: { owner, error in
+                    owner.showAlert(
+                        title: "서버가 불안정해요\n앱을 재실행 해주세요",
+                        action: { UIApplication.shared.close() }
+                    )
+                }
+            ).disposed(by: bag)
+    }
+    
+    func versionUpdate(id: Int) {
+        userDataSource.fetchUserVersion(id)
+            .subscribe(
+                with: self,
+                onNext: { owner, _ in
+                    owner.getToken()
+                },
+                onError: { owner, error in
+                    owner.configureErrorState(message: error.localizedDescription)
+                }
+            ).disposed(by: bag)
+    }
+    
     /// 토큰 에러 분기
     func configureErrorState(message: String) {
+        if message.contains("유저의 version") {
+            getUserInfo()
+            return
+        }
+        
         if message.contains("업데이트가 필요") {
-            let state: AlertViewState = .init(
+            showAlert(
                 title: "새로운 버전이 출시됐어요!\n앱스토어에서 업데이트해주세요",
-                alertType: .popup,
-                closeAction: {
-                    self.sendToAppStore()
-                }
+                action: { self.sendToAppStore() }
             )
-            
-            AlertView(state: state).show(on: self.window ?? UIWindow())
-            window?.makeKeyAndVisible()
             return
         }
         
@@ -76,20 +107,25 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if message.contains("유저가 존재") {
             setWindow(OnBoardViewController(OnBoardViewModel()))
         } else {
-            let state: AlertViewState = .init(
-                title: message,
-                alertType: .popup,
-                closeAction: {
-                    if message.contains("도메인") {
-                        self.sendToAppStore()
-                    }
-                    self.getToken()
+            showAlert(title: message, action: {
+                if message.contains("도메인") {
+                    self.sendToAppStore()
+                    return
                 }
-            )
-            
-            AlertView(state: state).show(on: self.window ?? UIWindow())
-            window?.makeKeyAndVisible()
+                self.getToken()
+            })
         }
+    }
+    
+    func showAlert(title: String, action: @escaping () -> Void) {
+        let state: AlertViewState = .init(
+            title: title,
+            alertType: .popup,
+            closeAction: action
+        )
+        
+        AlertView(state: state).show(on: self.window ?? UIWindow())
+        window?.makeKeyAndVisible()
     }
     
     /// 앱스토어 열기 후 앱 종료
