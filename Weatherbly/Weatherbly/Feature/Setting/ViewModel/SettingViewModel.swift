@@ -190,7 +190,7 @@ public final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
         var title: String
         var environment: EnvironmentType
         
-        switch AppSetting.shared.environmentType {
+        switch AppEnvironment.shared.environmentType {
         case .develop:
             title = "운영 서버로 변경"
             environment = EnvironmentType.production

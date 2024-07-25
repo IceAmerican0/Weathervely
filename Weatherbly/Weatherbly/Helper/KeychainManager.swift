@@ -13,7 +13,7 @@ public final class KeychainManager {
     var keychain: Keychain
     
     private init() {
-        switch AppSetting.shared.environmentType {
+        switch AppEnvironment.shared.environmentType {
         case .production: 
             keychain = Keychain(service: "com.redthree.weathervely")
         case .develop:    

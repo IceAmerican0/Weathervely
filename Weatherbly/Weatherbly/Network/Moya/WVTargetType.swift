@@ -15,16 +15,7 @@ import Moya
 public protocol WVTargetType: TargetType {}
 
 public extension WVTargetType {
-    var baseURL: URL {
-        // 운영서버 테스트시 주석 해제
-        // userDefault.set(EnvironmentType.production, forKey: UserDefaultKey.appEnvironment.rawValue)
-        guard let version = Constants.bundleShortVersion.first else { return URL(string: "")! }
-        
-        return switch AppSetting.shared.environmentType {
-        case .production: URL(string: "\(Constants.releaseServerURL)/v\(version)")!
-        case .develop:    URL(string: "\(Constants.testServerURL)/v\(version)")!
-        }
-    }
+    var baseURL: URL { AppEnvironment.shared.environmentType.baseURL }
     
     var headers: [String : String]? {
         ["Content-Type": "application/json"]

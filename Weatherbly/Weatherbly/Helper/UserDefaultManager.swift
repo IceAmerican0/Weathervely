@@ -88,8 +88,12 @@ public final class UserDefaultManager {
     }
     
     public var environmentType: EnvironmentType {
-        if let appEnvironment = userDefault.object(forKey: UserDefaultKey.appEnvironment.rawValue) as? EnvironmentType {
-            return appEnvironment
+        if let appEnvironment = userDefault.object(forKey: UserDefaultKey.appEnvironment.rawValue) as? String {
+            if appEnvironment == "production" {
+                return .production
+            }
+            
+            return .develop
         } else {
             #if DEBUG
                 return .develop
