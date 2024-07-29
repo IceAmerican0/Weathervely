@@ -81,7 +81,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     /// 토큰 에러 분기
     func configureErrorState(message: String) {
         switch message {
-        case "유저가 존재하지 않습니다.":
+        case "유저가 존재하지 않습니다.",
+             "기기고유번호":
             setWindow(OnBoardViewController(OnBoardViewModel()))
         case "FCM 기기 토큰",
              "토큰이 만료 되었습니다.":

@@ -31,7 +31,11 @@ public final class UserDefaultManager {
         if let storedUUID = KeychainManager.shared.getUUID() {
             return storedUUID
         } else {
-            return ""
+            if let uuid = userDefault.object(forKey: UserDefaultKey.uuid.rawValue) as? String {
+                return uuid
+            } else {
+                return ""
+            }
         }
     }
     
@@ -91,9 +95,9 @@ public final class UserDefaultManager {
         if let appEnvironment = userDefault.object(forKey: UserDefaultKey.appEnvironment.rawValue) as? String {
             if appEnvironment == "production" {
                 return .production
+            } else {
+                return .develop
             }
-            
-            return .develop
         } else {
             #if DEBUG
                 return .develop

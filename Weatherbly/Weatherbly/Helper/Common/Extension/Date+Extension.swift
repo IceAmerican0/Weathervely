@@ -14,6 +14,11 @@ extension Date {
         return DateFormatter.shared.string(from: self)
     }
     
+    var microCurrent: String {
+        DateFormatter.shared.dateFormat = "yyyy-MM-dd-HH-mm-ss-SSS"
+        return DateFormatter.shared.string(from: self)
+    }
+    
     /// 오전 / 오후 00시
     func currentTime() -> String {
         let dateFormatter = DateFormatter.shared

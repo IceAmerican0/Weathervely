@@ -31,9 +31,21 @@ public final class NicknameCompleteViewModel: RxBaseViewModel, NicknameCompleteV
         UserDefaultManager.shared.isOnBoard ? setNickname() : editNickname()
     }
     
+    private func generateSafeUUID() -> String {
+        // 최대 3번 시도
+        for _ in 0..<3 {
+            let uuid = UUID().uuidString
+            if uuid.count != 0 {
+                return uuid
+            }
+        }
+        
+        return "tempID-" + Date().microCurrent
+    }
+    
     /// 닉네임 설정(온보딩)
     private func setNickname() {
-        let uuid = UUID().uuidString
+        let uuid = generateSafeUUID()
         let dataSource: AuthDataSourceProtocol = AuthDataSource()
         dataSource.setNickname(nickname, uuid)
             .subscribe(
@@ -41,6 +53,7 @@ public final class NicknameCompleteViewModel: RxBaseViewModel, NicknameCompleteV
                 onNext: { owner, _ in
                     owner.toSettingRegionView()
                     userDefault.set(owner.nickname, forKey: UserDefaultKey.nickname.rawValue)
+                    userDefault.set(uuid, forKey: UserDefaultKey.uuid.rawValue)
                     KeychainManager.shared.saveUUID(uuid)
                 },
                 onError: { owner, error in

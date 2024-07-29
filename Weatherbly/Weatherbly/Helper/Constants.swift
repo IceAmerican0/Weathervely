@@ -43,4 +43,11 @@ public enum Constants {
     static let screenWidth = (UIApplication.shared.connectedScenes.first as? UIWindowScene)!.screen.bounds.size.width
     /// Screen Height
     static let screenHeight = UIScreen.main.bounds.height
+    
+    
+    /// KeychainKey
+    struct KeychainKey {
+        static let production = "com.redthree.weathervely"
+        static let develop = "com.redthree.weathervelytest"
+    }
 }

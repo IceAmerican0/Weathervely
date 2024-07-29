@@ -19,6 +19,8 @@ public enum UserDefaultKey: String {
     case isOnboard
     /// 알림 수신여부
     case pushAgreement
+    /// UUID
+    case uuid
     /// 닉네임
     case nickname
     /// 푸시토큰

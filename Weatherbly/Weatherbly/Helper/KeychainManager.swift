@@ -15,9 +15,9 @@ public final class KeychainManager {
     private init() {
         switch AppEnvironment.shared.environmentType {
         case .production: 
-            keychain = Keychain(service: "com.redthree.weathervely")
-        case .develop:    
-            keychain = Keychain(service: "com.redthree.weathervelytest")
+            keychain = Keychain(service: Constants.KeychainKey.production)
+        case .develop:
+            keychain = Keychain(service: Constants.KeychainKey.develop)
         }
     }
     
