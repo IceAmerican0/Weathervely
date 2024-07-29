@@ -11,8 +11,6 @@ import RxSwift
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     var bag = DisposeBag()
-    
-    let userDataSource: UserDataSourceProtocol = UserDataSource()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
@@ -28,7 +26,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window?.makeKeyAndVisible()
     }
     
-    /// 로그인 토큰
+    /// 로그인 토큰(버전 확인 및 업데이트 판별 후 >> 화면분기)
     func getToken() {
         Task {
             let loginDataSource: AuthDataSourceProtocol = AuthDataSource()
@@ -36,16 +34,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 .subscribe(
                     with: self,
                     onNext: { owner, response in
-                        let data = response.data
-                        userDefault.set(data.user.nickname, forKey: UserDefaultKey.nickname.rawValue)
-                        
-                        if let address = data.address {
-                            userDefault.set(address.dong, forKey: UserDefaultKey.dong.rawValue)
-                            owner.window?.rootViewController = HomeTabBarController()
-                            owner.window?.makeKeyAndVisible()
-                        } else {
-                            owner.setWindow(SettingRegionViewController(SettingRegionViewModel(.onboard)))
-                        }
+                        owner.configureVersion(userInfo: response.data)
                     },
                     onError: { owner, error in
                         owner.configureErrorState(message: error.localizedDescription)
@@ -54,44 +43,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
     }
     
-    func getUserInfo() {
-        userDataSource.getUserInfo()
-            .subscribe(
-                with: self,
-                onNext: { owner, response in
-                    guard let id = response.id else { return }
-                    owner.versionUpdate(id: id)
-                },
-                onError: { owner, error in
-                    owner.showAlert(
-                        title: "서버가 불안정해요\n앱을 재실행 해주세요",
-                        action: { UIApplication.shared.close() }
-                    )
-                }
-            ).disposed(by: bag)
-    }
-    
-    func versionUpdate(id: Int) {
-        userDataSource.fetchUserVersion(id)
-            .subscribe(
-                with: self,
-                onNext: { owner, _ in
-                    owner.getToken()
-                },
-                onError: { owner, error in
-                    owner.configureErrorState(message: error.localizedDescription)
-                }
-            ).disposed(by: bag)
-    }
-    
-    /// 토큰 에러 분기
-    func configureErrorState(message: String) {
-        if message.contains("유저의 version") {
-            getUserInfo()
-            return
-        }
-        
-        if message.contains("업데이트가 필요") {
+    func configureVersion(userInfo: AuthData) {
+        if Constants.bundleShortVersion < userInfo.latestVersion {
             showAlert(
                 title: "새로운 버전이 출시됐어요!\n앱스토어에서 업데이트해주세요",
                 action: { self.sendToAppStore() }
@@ -99,20 +52,47 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             return
         }
         
-        if message.contains("FCM") || message.contains("토큰이 만료") {
-            getToken()
-            return
+        if Constants.bundleShortVersion != userInfo.version {
+            let userDataSource: UserDataSourceProtocol = UserDataSource()
+            userDataSource.fetchUserVersion()
+                .subscribe(
+                    with: self,
+                    onError: { _, error in
+                        debugPrint("버전 업데이트 실패: \(error)")
+                    }
+                ).disposed(by: bag)
         }
         
-        if message.contains("유저가 존재") {
-            setWindow(OnBoardViewController(OnBoardViewModel()))
+        loginProcess(userInfo: userInfo)
+    }
+    
+    func loginProcess(userInfo: AuthData) {
+        userDefault.set(userInfo.user.nickname, forKey: UserDefaultKey.nickname.rawValue)
+        
+        if let address = userInfo.address {
+            userDefault.set(address.dong, forKey: UserDefaultKey.dong.rawValue)
+            window?.rootViewController = HomeTabBarController()
+            window?.makeKeyAndVisible()
         } else {
+            setWindow(SettingRegionViewController(SettingRegionViewModel(.onboard)))
+        }
+    }
+    
+    /// 토큰 에러 분기
+    func configureErrorState(message: String) {
+        switch message {
+        case "유저가 존재하지 않습니다.":
+            setWindow(OnBoardViewController(OnBoardViewModel()))
+        case "FCM 기기 토큰",
+             "토큰이 만료 되었습니다.":
+            getToken()
+        default:
             showAlert(title: message, action: {
                 if message.contains("도메인") {
                     self.sendToAppStore()
-                    return
+                } else {
+                    self.getToken()
                 }
-                self.getToken()
             })
         }
     }

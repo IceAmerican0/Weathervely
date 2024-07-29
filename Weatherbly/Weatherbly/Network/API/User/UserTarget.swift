@@ -30,7 +30,7 @@ public enum UserTarget {
     /// 푸시 동의여부 변경
     case fetchPushAgreement(_ agreement: Bool)
     /// 유저 버전 수정
-    case fetchUserVersion(_ userID: Int)
+    case fetchUserVersion
 }
 
 extension UserTarget: WVTargetType {
@@ -46,7 +46,7 @@ extension UserTarget: WVTargetType {
         case .setMainAddress(let addressID):    "/user/address/setMain/\(addressID)"
         case .fetchFCMToken:                    "/user/fcmPhoneToken"
         case .fetchPushAgreement:               "/user/isNotification"
-        case .fetchUserVersion(let userID):     "/user/\(userID)/version"
+        case .fetchUserVersion:                 "/user/version"
         }
     }
     

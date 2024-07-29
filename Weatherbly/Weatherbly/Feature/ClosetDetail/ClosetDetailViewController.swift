@@ -288,7 +288,7 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
             
             guard let self = self else { return nil }
             guard sectionIndex < self.viewModel.detailViewSections.value.count else {
-                print("Section index \(sectionIndex) out of range.")
+                debugPrint("Section index \(sectionIndex) out of range.")
                 return nil
             }
             

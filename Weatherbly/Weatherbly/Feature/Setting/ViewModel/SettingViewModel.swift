@@ -81,7 +81,7 @@ public final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
                     )
                 },
                 onError: { owner, error in
-                    print("error fetching push agreement: \(error)")
+                    debugPrint("error fetching push agreement: \(error)")
                 }
             ).disposed(by: bag)
     }
@@ -202,12 +202,14 @@ public final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
         return AlertButtonState(
             title: title,
             action: {
-                userDefault.set(
-                    environment.rawValue,
-                    forKey: UserDefaultKey.appEnvironment.rawValue
-                )
-                userDefault.set(true, forKey: UserDefaultKey.isServerChanged.rawValue)
-                UIApplication.shared.close()
+                DispatchQueue.main.async {
+                    userDefault.set(
+                        environment.rawValue,
+                        forKey: UserDefaultKey.appEnvironment.rawValue
+                    )
+                    userDefault.set(true, forKey: UserDefaultKey.isServerChanged.rawValue)
+                    UIApplication.shared.close()
+                }
             }
         )
     }

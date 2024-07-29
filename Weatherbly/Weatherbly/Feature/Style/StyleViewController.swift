@@ -229,7 +229,7 @@ extension StyleViewController: UICollectionViewDelegate {
             
             guard let self = self else { return nil }
             guard sectionIndex < self.viewModel.bindSectionsRelay.value.count else {
-                print("Section index \(sectionIndex) out of range.")
+                debugPrint("Section index \(sectionIndex) out of range.")
                 return nil
             }
             

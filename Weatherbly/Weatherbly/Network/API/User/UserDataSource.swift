@@ -20,7 +20,7 @@ public protocol UserDataSourceProtocol {
     func deleteAddress(_ addressID: Int) -> Observable<EmptyEntity>
     func fetchFCMToken(_ token: String) -> Observable<EmptyEntity>
     func fetchPushAgreement(_ agreement: Bool) -> Observable<EmptyEntity>
-    func fetchUserVersion(_ userID: Int) -> Observable<EmptyEntity>
+    func fetchUserVersion() -> Observable<EmptyEntity>
 }
 
 public final class UserDataSource: UserDataSourceProtocol {
@@ -90,9 +90,9 @@ public final class UserDataSource: UserDataSourceProtocol {
             .mapTo(EmptyEntity.self)
     }
     
-    public func fetchUserVersion(_ userID: Int) -> Observable<EmptyEntity> {
+    public func fetchUserVersion() -> Observable<EmptyEntity> {
         provider
-            .request(.fetchUserVersion(userID))
+            .request(.fetchUserVersion)
             .mapTo(EmptyEntity.self)
     }
 }

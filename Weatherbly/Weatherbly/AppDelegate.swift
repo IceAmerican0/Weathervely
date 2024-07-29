@@ -15,6 +15,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private var notificationCenter = UNUserNotificationCenter.current()
     var bag = DisposeBag()
     
+    private let userDataSource: UserDataSourceProtocol = UserDataSource()
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         sleep(1)
         
@@ -65,7 +67,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
     func checkFCMToken() {
         Messaging.messaging().token { token, error in
             if let error {
-                print("Error fetching FCM registration token: \(error)")
+                debugPrint("Error fetching FCM registration token: \(error)")
             } else if let token {
                 debugPrint("FCM registration token: \(token)")
             }
@@ -75,24 +77,36 @@ extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
     func deleteFCMToken() {
         Messaging.messaging().deleteToken { error in
             if let error {
-                print("Error Deleting FCM token: \(error)")
+                debugPrint("Error Deleting FCM token: \(error)")
             } else {
-                print("FCM token deleted")
                 self.checkFCMToken()
             }
         }
     }
     
+    /// FCM 토큰 세팅
     func sendFCMToken(token: String) {
-        let dataSource: UserDataSourceProtocol = UserDataSource()
-        dataSource.fetchFCMToken(token)
+        userDataSource.fetchFCMToken(token)
             .subscribe (
                 with: self,
                 onNext: { owner, _ in
-                    print("FCMToken Edit Success")
+                    owner.setPushAgreement()
                 },
                 onError: { owner, error in
-                    print("FCMToken Edit Failed: \(error)")
+                    userDefault.set(false, forKey: UserDefaultKey.pushAgreement.rawValue)
+                    owner.setPushAgreement()
+                    debugPrint("FCMToken Edit Failed: \(error)")
+                }
+            ).disposed(by: bag)
+    }
+    
+    /// 푸시 수신여부 설정
+    func setPushAgreement() {
+        userDataSource.fetchPushAgreement(UserDefaultManager.shared.pushAgreement)
+            .subscribe(
+                with: self,
+                onError: { _, error in
+                    debugPrint("푸시 수신 설정 실패: \(error)")
                 }
             ).disposed(by: bag)
     }

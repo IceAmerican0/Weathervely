@@ -27,7 +27,7 @@ public final class KeychainManager {
         do {
             try keychain.set(uuid, key: uuidKey)
         } catch {
-            print("Error saving UUID to Keychain: \(error)")
+            debugPrint("Error saving UUID to Keychain: \(error)")
         }
     }
     
@@ -35,7 +35,7 @@ public final class KeychainManager {
         do {
             return try keychain.get(uuidKey)
         } catch {
-            print("Error getting UUID from Keychain: \(error)")
+            debugPrint("Error getting UUID from Keychain: \(error)")
             return nil
         }
     }
