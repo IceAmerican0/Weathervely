@@ -111,9 +111,37 @@ extension String {
 
         return (6...17).contains(hour)
     }
-
-    /// "1.0.0" -> 100
-    func versionToInt() -> Int {
-        Int(self.replacingOccurrences(of: ".", with: "")) ?? 100
+    
+    /// 버전비교 >> "2.44.1".compareVersion(with: "2.4312.54") -> .orderedDescending
+    func compareVersion(with target: String) -> ComparisonResult {
+        let compare1 = self.split(separator: ".").compactMap { Int($0) }
+        let compare2 = target.split(separator: ".").compactMap { Int($0) }
+        
+        for (v1, v2) in zip(compare1, compare2) {
+            var splited1 = v1
+            var splited2 = v2
+            let count1 = String(splited1).count
+            let count2 = String(splited2).count
+            
+            if count1 < count2 {
+                splited1 = Int(String(splited1) + String(repeating: "0", count: count2 - count1)) ?? 0
+            } else if count1 > count2 {
+                splited2 = Int(String(splited2) + String(repeating: "0", count: count1 - count2)) ?? 0
+            }
+            
+            if splited1 < splited2 {
+                return .orderedAscending
+            } else if splited1 > splited2 {
+                return .orderedDescending
+            }
+        }
+        
+        if compare1.count < compare2.count {
+            return .orderedAscending
+        } else if compare1.count > compare2.count {
+            return .orderedDescending
+        }
+        
+        return .orderedSame
     }
 }

@@ -44,7 +44,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func configureVersion(userInfo: AuthData) {
-        if Constants.bundleShortVersion < userInfo.latestVersion {
+        let compareResult = Constants.bundleShortVersion.compareVersion(with: userInfo.latestVersion)
+        if case .orderedAscending = compareResult {
             showAlert(
                 title: "새로운 버전이 출시됐어요!\n앱스토어에서 업데이트해주세요",
                 action: { self.sendToAppStore() }
@@ -112,8 +113,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     /// 앱스토어 열기 후 앱 종료
     func sendToAppStore() {
         guard let appStoreLink = URL(string: Constants.appStoreLink) else { return }
-        UIApplication.shared.open(appStoreLink)
-        UIApplication.shared.close()
+        UIApplication.shared.open(appStoreLink) { _ in
+            UIApplication.shared.close()
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {}
