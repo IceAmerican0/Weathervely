@@ -14,7 +14,7 @@ public enum AuthTarget {
     /// 닉네임 중복 검증
     case nicknameValidation(_ nickname: String)
     /// 닉네임 설정
-    case nickname(_ nickname: String, _ uuid: String)
+    case nickname(_ nickname: String)
     /// 주소 설정
     case address(_ addressInfo: AddressRequest)
     /// 성별 설정
@@ -52,11 +52,11 @@ extension AuthTarget: WVTargetType {
                 ],
                 encoding: JSONEncoding.default
             )
-        case .nickname(let nickname, let uuid):
+        case .nickname(let nickname):
             .requestParameters(
                 parameters: [
                     "nickname": nickname,
-                    "phone_id": uuid,
+                    "phone_id": UserDefaultManager.shared.uuid,
                     "fcm_phone_token": UserDefaultManager.shared.pushToken,
                     "is_notification": UserDefaultManager.shared.pushAgreement,
                     "version": Constants.bundleShortVersion

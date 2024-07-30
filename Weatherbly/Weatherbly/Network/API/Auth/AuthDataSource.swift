@@ -12,7 +12,7 @@ import RxMoya
 public protocol AuthDataSourceProtocol {
     func getToken(_ agreement: Bool) -> Observable<AuthLoginEntity>
     func nicknameValidation(_ nickname: String) -> Observable<EmptyEntity>
-    func setNickname(_ nickname: String, _ uuid: String) -> Observable<EmptyEntity>
+    func setNickname(_ nickname: String) -> Observable<EmptyEntity>
     func setAddress(_ addressInfo: AddressRequest) -> Observable<EmptyEntity>
     func setGender(_ gender: String) -> Observable<EmptyEntity>
 }
@@ -36,9 +36,9 @@ public final class AuthDataSource: AuthDataSourceProtocol {
             .mapTo(EmptyEntity.self)
     }
     
-    public func setNickname(_ nickname: String, _ uuid: String) -> Observable<EmptyEntity> {
+    public func setNickname(_ nickname: String) -> Observable<EmptyEntity> {
         provider
-            .request(.nickname(nickname, uuid))
+            .request(.nickname(nickname))
             .mapTo(EmptyEntity.self)
     }
     

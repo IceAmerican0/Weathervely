@@ -28,45 +28,56 @@ public final class NicknameCompleteViewModel: RxBaseViewModel, NicknameCompleteV
     
     /// 네 버튼
     public func didTapConfirmButton() {
-        UserDefaultManager.shared.isOnBoard ? setNickname() : editNickname()
+        UserDefaultManager.shared.isOnBoard ? generateSafeUUID() : editNickname()
     }
     
-    private func generateSafeUUID() -> String {
-        // 최대 3번 시도
-        for _ in 0..<3 {
-            let uuid = UUID().uuidString
-            if uuid.count != 0 {
-                return uuid
-            }
-        }
+    private func generateSafeUUID() {
+        let uuid: String? = UUID().uuidString
+        let tempID: String = "tempID-" + Date().microCurrent
         
-        return "tempID-" + Date().microCurrent
+        if uuid != nil && uuid?.isEmpty == false {
+            userDefault.set(uuid ?? tempID, forKey: UserDefaultKey.uuid.rawValue)
+            KeychainManager.shared.saveUUID(uuid ?? tempID)
+            setNickname()
+        } else {
+            userDefault.set(tempID, forKey: UserDefaultKey.uuid.rawValue)
+            KeychainManager.shared.saveUUID(tempID)
+            setNickname()
+        }
     }
     
     /// 닉네임 설정(온보딩)
     private func setNickname() {
-        let uuid = generateSafeUUID()
         let dataSource: AuthDataSourceProtocol = AuthDataSource()
-        dataSource.setNickname(nickname, uuid)
+        dataSource.setNickname(nickname)
             .subscribe(
                 with: self,
                 onNext: { owner, _ in
                     owner.toSettingRegionView()
                     userDefault.set(owner.nickname, forKey: UserDefaultKey.nickname.rawValue)
-                    userDefault.set(uuid, forKey: UserDefaultKey.uuid.rawValue)
-                    KeychainManager.shared.saveUUID(uuid)
                 },
                 onError: { owner, error in
                     debugPrint(error.localizedDescription)
-                    owner.alertState.accept(
-                        .init(
-                            title: "닉네임을 다시 설정해주세요",
-                            alertType: .popup,
-                            closeAction: {
-                                owner.didTapRefuseButton()
-                            }
+                    
+                    if error.localizedDescription.contains("유효성") {
+                        KeychainManager.shared.deleteUUID()
+                        
+                        let tempID: String = "tempID-" + Date().microCurrent
+                        userDefault.set(tempID, forKey: UserDefaultKey.uuid.rawValue)
+                        KeychainManager.shared.saveUUID(tempID)
+                        
+                        owner.setNickname()
+                    } else {
+                        owner.alertState.accept(
+                            .init(
+                                title: "닉네임을 다시 설정해주세요",
+                                alertType: .popup,
+                                closeAction: {
+                                    owner.didTapRefuseButton()
+                                }
+                            )
                         )
-                    )
+                    }
                 }
             ).disposed(by: bag)
     }
