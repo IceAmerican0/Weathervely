@@ -28,45 +28,29 @@ public final class NicknameCompleteViewModel: RxBaseViewModel, NicknameCompleteV
     
     /// 네 버튼
     public func didTapConfirmButton() {
-        UserDefaultManager.shared.isOnBoard ? generateSafeUUID() : editNickname()
-    }
-    
-    private func generateSafeUUID() {
-        let uuid: String? = UUID().uuidString
-        let tempID: String = "tempID-" + Date().microCurrent
-        
-        if uuid != nil && uuid?.isEmpty == false {
-            userDefault.set(uuid ?? tempID, forKey: UserDefaultKey.uuid.rawValue)
-            KeychainManager.shared.saveUUID(uuid ?? tempID)
-            setNickname()
-        } else {
-            userDefault.set(tempID, forKey: UserDefaultKey.uuid.rawValue)
-            KeychainManager.shared.saveUUID(tempID)
-            setNickname()
-        }
+        UserDefaultManager.shared.isOnBoard ? setNickname(uuid: String().generateSafeUUID()) : editNickname()
     }
     
     /// 닉네임 설정(온보딩)
-    private func setNickname() {
+    private func setNickname(uuid: String) {
         let dataSource: AuthDataSourceProtocol = AuthDataSource()
-        dataSource.setNickname(nickname)
+        dataSource.setNickname(nickname, uuid)
             .subscribe(
                 with: self,
                 onNext: { owner, _ in
                     owner.toSettingRegionView()
                     userDefault.set(owner.nickname, forKey: UserDefaultKey.nickname.rawValue)
+                    userDefault.set(uuid, forKey: UserDefaultKey.uuid.rawValue)
+                    KeychainManager.shared.saveUUID(uuid)
                 },
                 onError: { owner, error in
-                    debugPrint(error.localizedDescription)
+                    let message = error.localizedDescription
+                    debugPrint(message)
                     
-                    if error.localizedDescription.contains("유효성") {
-                        KeychainManager.shared.deleteUUID()
-                        
+                    // uuid 빈값 or nil or 이미 같은 uuid 존재시
+                    if message.contains("유효성") || message.contains("같은 닉네임") {
                         let tempID: String = "tempID-" + Date().microCurrent
-                        userDefault.set(tempID, forKey: UserDefaultKey.uuid.rawValue)
-                        KeychainManager.shared.saveUUID(tempID)
-                        
-                        owner.setNickname()
+                        owner.setNickname(uuid: tempID)
                     } else {
                         owner.alertState.accept(
                             .init(

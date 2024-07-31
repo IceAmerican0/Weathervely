@@ -42,7 +42,6 @@ public final class KeychainManager {
     
     func deleteUUID() {
         do {
-            userDefault.removeObject(forKey: UserDefaultKey.uuid.rawValue)
             try keychain.remove(keychain.service)
         } catch {
             debugPrint("Error deleting UUID from Keychain: \(error)")

@@ -112,6 +112,18 @@ extension String {
         return (6...17).contains(hour)
     }
     
+    /// UUID 생성
+    func generateSafeUUID() -> String {
+        let uuid: String? = UUID().uuidString
+        let tempID: String = "tempID-" + Date().microCurrent
+        
+        if uuid != nil && uuid?.isEmpty == false {
+            return uuid ?? tempID
+        } else {
+            return tempID
+        }
+    }
+    
     /// 버전비교 >> "2.44.1".compareVersion(with: "2.4312.54") -> .orderedDescending
     func compareVersion(with target: String) -> ComparisonResult {
         let compare1 = self.split(separator: ".").compactMap { Int($0) }
