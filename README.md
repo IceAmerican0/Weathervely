@@ -1,19 +1,23 @@
 
-Released!
+v2.0.0 Updated!
 
-![29](https://github.com/IceAmerican0/IceAmerican0/assets/72787036/99d12403-cc84-48d4-9022-95a77a771139) 
-[웨더블리](https://apps.apple.com/app/%EC%9B%A8%EB%8D%94%EB%B8%94%EB%A6%AC/id6462055767) 
+<img src="https://github.com/user-attachments/assets/7057ba2e-cd94-4b22-a940-3725890e4d02" width=50> [웨더블리](https://apps.apple.com/app/%EC%9B%A8%EB%8D%94%EB%B8%94%EB%A6%AC/id6462055767) 
 
 Outfit Recommendation Based on Temperature(Weather)
 
+<br>
 
 <h2>After Renewal</h2>
 
-<img src="https://github.com/IceAmerican0/Weathervely/assets/72787036/3ae0f6ab-fd96-4f3a-b56f-6441ba74878f" width=200>
-<img src="https://github.com/IceAmerican0/Weathervely/assets/72787036/9573b639-d2e7-410f-b13a-b592188fea05" width=200>
+<img src="https://github.com/user-attachments/assets/b1c3df7e-9178-44cb-9257-3d25de3a0512" width=200>
+<img src="https://github.com/user-attachments/assets/918ae233-8990-401e-8368-405830bec548" width=200>
+<img src="https://github.com/user-attachments/assets/d3d146a5-0ed8-4d69-b93b-698482410e8e" width=200>
+<img src="https://github.com/user-attachments/assets/d1af6723-3637-4489-8789-3dabfa1c0ec0" width=200>
+<img src="https://github.com/user-attachments/assets/1080ab3a-5071-420e-bbaa-d991fc677d8b" width=200>
 <img src="https://github.com/IceAmerican0/Weathervely/assets/72787036/d1680747-57f1-4051-b9b0-f8df4653a328" width=200>
 <img src="https://github.com/IceAmerican0/Weathervely/assets/72787036/2cbf50e5-47aa-4568-8a16-9faf651866b1" width=200>
 
+<br>
 
 <h2>Before Renewal</h2>
 
