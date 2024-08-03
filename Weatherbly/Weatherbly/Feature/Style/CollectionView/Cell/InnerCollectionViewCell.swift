@@ -11,6 +11,10 @@ import RxDataSources
 import RxSwift
 import RxCocoa
 
+protocol StyleTabClosetTouchDelegate: AnyObject {
+    func innerCollectionViewDidScroll(_ innerCollectionView: UICollectionView, contentOffset: CGPoint)
+}
+
 final public class InnerCollectionViewCell: UICollectionViewCell {
     
     // MARK: - 전역변수 & delegate

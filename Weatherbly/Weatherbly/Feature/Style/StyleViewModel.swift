@@ -12,13 +12,12 @@ import RxCocoa
 fileprivate protocol StyleViewModelLogic: ViewModelBusinessLogic {
     func getTypes()
     func getAPISerial(with typeInfo: [ClosetTypeInfo], _ completion: (([StyleTabSectionModel]) -> Void)? )
-    func bindInnerCollectionViewSection()
     
     var shimmerStatus: PublishRelay<Bool> { get }
 }
 
 final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
-    private let closetDataSource: NewClosetDataSource
+    private let closetDataSource: NewClosetDataSourceProtocol
     /// 첫 실행 shimmer 여부
     public var shimmerStatus: PublishRelay<Bool> = .init()
     /// 스타일 콜렉션 뷰 정보
@@ -104,11 +103,6 @@ final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
                     // 섹션에서 선택값 들고 있는 것 초기화하기
                     let  _ = typeInfo.map {
                         userDefault.set([],forKey: String($0.id)) }
-//                    userDefault.object(forKey: )
-//                    if let selectedTags = userDefault.object(forKey: String(typeInfo.id)) as? [Int] {
-//                        userDefault.set([], forKey: String(typeInfo.id))
-//                    }
-//                    let typeSection = StyleTabSectionModel.types(header: typeInfo, items: [])
                     
                     owner.getAPISerial(with: typeInfo) { styleSections in
                         owner.typesSection.accept(.types(header: typeInfo, items: [.type(styleSections)]))
@@ -176,8 +170,5 @@ final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
             })
             .disposed(by: bag)
     }
-    
-    func bindInnerCollectionViewSection() {
-        
-    }
+
 }

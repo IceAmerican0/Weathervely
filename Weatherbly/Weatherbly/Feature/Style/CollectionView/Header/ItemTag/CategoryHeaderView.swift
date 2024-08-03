@@ -9,6 +9,10 @@ import SnapKit
 import RxCocoa
 import RxSwift
 
+protocol CategoryHeaderViewDelegate: AnyObject {
+    func sendCategoryWithType(_ view: CategoryHeaderView, tags: [Int], typeInfo: ClosetTypeInfo)
+}
+
 final class CategoryHeaderView : UICollectionReusableView {
     
     private var bag = DisposeBag()

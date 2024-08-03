@@ -57,12 +57,6 @@ public class StyleTagHeaderView: UICollectionReusableView {
         self.flex.addItem(tagCollectionView).width(100%).height(56).direction(.row)
     }
     
-    func binding() {
-        
-        
-        
-    }
-    
     func configureTag(_ tagItem: [ClosetTypeInfo]?) {
         guard let tagItem = tagItem else { return }
         tagsRelay.accept(tagItem)
