@@ -30,14 +30,14 @@ public final class FilterListViewController: RxBaseViewController<FilterListView
     
     private lazy var dataSource = setDataSource()
     
-    private var resetButton = NewCSButton(.standard, style: .violet100).then {
+    private var resetButton = CSButton(.standard, style: .violet100).then {
         $0.setImage(.filter_reset, for: .normal)
         $0.setImage(.filter_reset_dis, for: .disabled)
         $0.backgroundColor = .gray30
         $0.isEnabled = false
     }
     
-    private let confirmButton = NewCSButton(.standard, style: .violet600).then {
+    private let confirmButton = CSButton(.standard, style: .violet600).then {
         $0.titleLabel?.font = .title_3_B
         $0.isEnabled = false
     }

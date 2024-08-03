@@ -31,7 +31,7 @@ public final class OnBoardViewController: RxBaseViewController<OnBoardViewModel>
         fontColor: .gray155
     ).make(text: "체감 온도에 맞는 스타일을 추천 받아보세요!")
     
-    private var startButton = NewCSButton(.standard, style: .violet600).then {
+    private var startButton = CSButton(.standard, style: .violet600).then {
         $0.setTitle("시작하기", for: .normal)
     }
     

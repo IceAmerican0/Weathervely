@@ -34,7 +34,7 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
         $0.register(withType: EditRegionCollectionViewCell.self)
     }
     
-    private var confirmButton = NewCSButton(.standard, style: .violet600).then {
+    private var confirmButton = CSButton(.standard, style: .violet600).then {
         $0.setTitle("동네 추가하기", for: .normal)
         $0.setTitleColor(.white, for: .normal)
     }

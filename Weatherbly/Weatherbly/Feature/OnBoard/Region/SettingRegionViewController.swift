@@ -61,7 +61,7 @@ final class SettingRegionViewController: RxBaseViewController<SettingRegionViewM
         alignment: .center
     ).make(text: "해당하는 동네 정보가 없어요\n동네 이름을 확인해주세요")
     
-    private var confirmButton = NewCSButton(.standard, style: .violet600).then {
+    private var confirmButton = CSButton(.standard, style: .violet600).then {
         $0.setTitle("확인", for: .normal)
     }
     

@@ -1,5 +1,5 @@
 //
-//  NewCSTextButton.swift
+//  CSButton.swift
 //  Weatherbly
 //
 //  Created by 최수훈 on 12/24/23.
@@ -11,7 +11,7 @@ import RxGesture
 import RxSwift
 import Then
 
-public final class NewCSButton: UIButton {
+public final class CSButton: UIButton {
     
     // MARK: - Control Property
     // 버튼 크기에 따라
@@ -85,7 +85,7 @@ public final class NewCSButton: UIButton {
     }
 }
 
-private extension NewCSButton {
+private extension CSButton {
     /// Button Pressed effect
     func setRxBinding() {
         self.rx.controlEvent(.touchDown)

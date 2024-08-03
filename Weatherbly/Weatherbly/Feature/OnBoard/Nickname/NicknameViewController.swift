@@ -38,7 +38,7 @@ final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
     
     private var buttonView = UIView()
     
-    private var confirmButton = NewCSButton(.standard, style: .violet600).then {
+    private var confirmButton = CSButton(.standard, style: .violet600).then {
         $0.setTitle("확인", for: .normal)
     }
     

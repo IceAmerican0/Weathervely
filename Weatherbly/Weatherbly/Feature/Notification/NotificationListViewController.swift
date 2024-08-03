@@ -30,7 +30,7 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
         fontColor: .gray50
     ).make(text: "알림이 없습니다.")
     
-    private var notiButton = NewCSButton(.standard, style: .violet600).then {
+    private var notiButton = CSButton(.standard, style: .violet600).then {
         $0.setTitle("알림 받기", for: .normal)
     }
     

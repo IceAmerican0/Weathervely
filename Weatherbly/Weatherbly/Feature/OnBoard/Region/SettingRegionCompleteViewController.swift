@@ -27,11 +27,11 @@ public final class SettingRegionCompleteViewController: RxBaseViewController<Set
         $0.lineBreakMode = .byTruncatingTail
     }
     
-    private let negativeButton = NewCSButton(.standard, style: .violet100).then {
+    private let negativeButton = CSButton(.standard, style: .violet100).then {
         $0.setTitle("아니오", for: .normal)
     }
     
-    private let confirmButton = NewCSButton(.standard, style: .violet600).then {
+    private let confirmButton = CSButton(.standard, style: .violet600).then {
         $0.setTitle("네", for: .normal)
     }
     

@@ -1,5 +1,5 @@
 //
-//  NewCSLabel.swift
+//  CSLabel.swift
 //  Weatherbly
 //
 //  Created by 최수훈 on 12/24/23.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-public final class NewCSLabel: UILabel {
+public final class CSLabel: UILabel {
     private let paragraphStyle = NSMutableParagraphStyle()
     var padding: UIEdgeInsets = .zero
     
@@ -89,8 +89,8 @@ public extension LabelDesign {
     func make(
         text: String? = nil,
         attributed: AttributedText? = nil
-    ) -> NewCSLabel {
-        return NewCSLabel(padding: padding).then {
+    ) -> CSLabel {
+        return CSLabel(padding: padding).then {
             $0.numberOfLines = 0
             $0.lineHeight = font.lineHeight
             $0.textAlignment = alignment

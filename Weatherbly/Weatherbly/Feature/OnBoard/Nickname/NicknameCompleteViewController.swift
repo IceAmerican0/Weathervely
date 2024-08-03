@@ -29,11 +29,11 @@ final class NicknameCompleteViewController: RxBaseViewController<NicknameComplet
         font: .body_3_M
     ).make()
     
-    private var refuseButton = NewCSButton(.standard, style: .violet100).then {
+    private var refuseButton = CSButton(.standard, style: .violet100).then {
         $0.setTitle("아니오", for: .normal)
     }
     
-    private var confirmButton = NewCSButton(.standard, style: .violet600).then {
+    private var confirmButton = CSButton(.standard, style: .violet600).then {
         $0.setTitle("네", for: .normal)
     }
     
