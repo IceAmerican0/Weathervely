@@ -4,6 +4,15 @@
 .AppleDouble
 .LSOverride
 
+# fastlane
+**/fastlane/report.xml
+**/fastlane/Preview.html
+**/fastlane/screenshots
+**/fastlane/test_output
+**/fastlane/FastlaneRunner
+.cer
+.mobileprovision
+
 # Icon must end with two
 Icon
 
