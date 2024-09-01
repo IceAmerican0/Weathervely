@@ -95,7 +95,7 @@ public final class NewHomeViewController: RxBaseViewController<NewHomeViewModel>
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         regionLabel.text = UserDefaultManager.shared.dong
-        regionLabel.flex.markDirty()
+        contentView.flex.markDirty()
     }
 
     override func layout() {

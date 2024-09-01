@@ -136,6 +136,7 @@ extension UIImage {
     static let icon_favorites = UIImage(named: "icon_favorites")!
     static let icon_plusL = UIImage(named: "icon_plusL")!
     static let icon_profile = UIImage(named: "icon_profile")!
+    static let icon_region_check = UIImage(named: "icon_region_check")!
     static let icon_set = UIImage(named: "icon_set")!
     static let icon_alarm_on = UIImage(named: "icon_alarm_on")!
     static let icon_alarm_off = UIImage(named: "icon_alarm_off")!
