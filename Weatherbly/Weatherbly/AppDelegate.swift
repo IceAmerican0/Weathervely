@@ -8,6 +8,7 @@
 import Foundation
 import Firebase
 import FirebaseRemoteConfig
+import KakaoMapsSDK
 import RxSwift
 
 @main
@@ -19,6 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         sleep(1)
+        
+        /// Kakao
+        SDKInitializer.InitSDK(appKey: Constants.kakaoAppKeyNative)
         
         /// Firebase
         FirebaseApp.configure()

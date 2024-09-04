@@ -27,9 +27,13 @@ public enum Constants {
     public static var appStoreLink: String {
         "https://apps.apple.com/app/%EC%9B%A8%EB%8D%94%EB%B8%94%EB%A6%AC/id6462055767"
     }
-    /// KAKAO_APP_KEY
-    public static var kakaoAppKey: String {
-        fetchValue(for: "KAKAO_APP_KEY") as? String ?? ""
+    /// KAKAO_APP_KEY_REST
+    public static var kakaoAppKeyRest: String {
+        fetchValue(for: "KAKAO_APP_KEY_REST") as? String ?? ""
+    }
+    /// KAKAO_APP_KEY_NATIVE
+    public static var kakaoAppKeyNative: String {
+        fetchValue(for: "KAKAO_APP_KEY_NATIVE") as? String ?? ""
     }
     /// RELEASE_SERVER_URL
     public static var releaseServerURL: String {

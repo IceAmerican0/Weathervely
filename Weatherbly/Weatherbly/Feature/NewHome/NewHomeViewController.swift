@@ -127,7 +127,7 @@ public final class NewHomeViewController: RxBaseViewController<NewHomeViewModel>
         locationButton.rx.tapGesture()
             .when(.recognized)
             .bind(with: self) { owner, _ in
-                owner.viewModel.toEditRegionView()
+                owner.viewModel.toMapView()
             }.disposed(by: bag)
         
         regionLabel.rx.tapGesture()
