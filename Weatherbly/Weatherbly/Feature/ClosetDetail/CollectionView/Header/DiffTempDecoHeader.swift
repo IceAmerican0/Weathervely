@@ -8,7 +8,18 @@
 import Foundation
 import UIKit
 
-final class DiffTempDecoHeader: UICollectionReusableView {
+public enum DiffTempHeaderComment: String {
+    case detailTitle = "코디 보기"
+    case withItemTitle = "함께 착용한 아이템"
+    case warmDiffTitle = "더 따뜻한 코디"
+    case warmDiffDescription = "현재 코디에서 더 따뜻한 코디를 추천드려요"
+    case secondWarmTitle = "조금 더 따뜻한 옷"
+    case coolDiffTitle = "더 시원한 코디"
+    case coolDiffDescription = "현재 코디에서 더 시원한 코디를 추천드려요"
+    case secondCoolTitle = "조금 더 시원한 옷"
+}
+
+public final class DiffTempDecoHeader: UICollectionReusableView {
     
     private var titleLabel = LabelMaker(
         font: UIFont.title_1_B,
@@ -30,7 +41,7 @@ final class DiffTempDecoHeader: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
+    public override func layoutSubviews() {
         super.layoutSubviews()
         layout()
         self.flex.layout()
@@ -44,6 +55,10 @@ final class DiffTempDecoHeader: UICollectionReusableView {
     }
     
     public func configure(_ title: String, _ description: String) {
+        if title == DiffTempHeaderComment.coolDiffTitle.rawValue {
+            titleLabel.textColor = .blue700
+        }
+        
         titleLabel.text = title
         descriptLabel.text = description
     }

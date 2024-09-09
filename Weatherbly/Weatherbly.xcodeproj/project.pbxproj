@@ -205,7 +205,6 @@
 		BDCEE0BD2C4579C800C54AF6 /* Notification+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCEE0BC2C4579C800C54AF6 /* Notification+Extension.swift */; };
 		BDE912C82C28743000330673 /* CoolDecorationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE912C72C28743000330673 /* CoolDecorationView.swift */; };
 		BDE912CA2C2AB8D600330673 /* DiffTempDecoHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE912C92C2AB8D600330673 /* DiffTempDecoHeader.swift */; };
-		BDE912CC2C2ABC7800330673 /* CSString.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE912CB2C2ABC7800330673 /* CSString.swift */; };
 		BDE912CE2C2C4F4600330673 /* Collection+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE912CD2C2C4F4600330673 /* Collection+Extension.swift */; };
 		BDEAE06A2C497D9800E5EA0B /* HorizonCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDEAE0692C497D9800E5EA0B /* HorizonCellViewModel.swift */; };
 		BDFC0B752C4C2DC300991E98 /* InnerCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDFC0B742C4C2DC300991E98 /* InnerCellViewModel.swift */; };
@@ -397,7 +396,6 @@
 		BDCEE0BC2C4579C800C54AF6 /* Notification+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Extension.swift"; sourceTree = "<group>"; };
 		BDE912C72C28743000330673 /* CoolDecorationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoolDecorationView.swift; sourceTree = "<group>"; };
 		BDE912C92C2AB8D600330673 /* DiffTempDecoHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffTempDecoHeader.swift; sourceTree = "<group>"; };
-		BDE912CB2C2ABC7800330673 /* CSString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSString.swift; sourceTree = "<group>"; };
 		BDE912CD2C2C4F4600330673 /* Collection+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Extension.swift"; sourceTree = "<group>"; };
 		BDEAE0692C497D9800E5EA0B /* HorizonCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizonCellViewModel.swift; sourceTree = "<group>"; };
 		BDFC0B742C4C2DC300991E98 /* InnerCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InnerCellViewModel.swift; sourceTree = "<group>"; };
@@ -967,7 +965,6 @@
 			children = (
 				BD2D01AC2A388860003A25D5 /* Base */,
 				BD2D01A82A38881B003A25D5 /* Extension */,
-				BDE912CB2C2ABC7800330673 /* CSString.swift */,
 				BD3BDE672BE8E522002E9E0C /* StyleBanner.swift */,
 			);
 			path = Common;
@@ -1306,7 +1303,6 @@
 				BD5107322C2859A300D8AFBE /* WarmDecorationView.swift in Sources */,
 				BD4316382A3CA20900E86271 /* UIView+Extension.swift in Sources */,
 				BD2D01AE2A38886C003A25D5 /* RxBaseViewController.swift in Sources */,
-				BDE912CC2C2ABC7800330673 /* CSString.swift in Sources */,
 				BDCEE0BD2C4579C800C54AF6 /* Notification+Extension.swift in Sources */,
 				5CF0A49E2B5A32EA00D2AB4C /* HomeForecastEntity.swift in Sources */,
 				5C6CE79A2C1C38B600D64F22 /* ShimmerView.swift in Sources */,

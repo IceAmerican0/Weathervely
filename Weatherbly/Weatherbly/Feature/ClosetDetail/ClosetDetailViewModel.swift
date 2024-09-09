@@ -123,11 +123,10 @@ final class ClosetDetailViewModel: RxBaseViewModel {
                 onNext: { owner, response in
                     guard let dataList = response.data?.list else { return }
                     
-                    if let firstRow  = dataList.firstRow {
+                    if let firstRow = dataList.firstRow {
                         
-                        var firstItems: [DetailSectionItem] = []
-                        
-                        let _ = firstRow.closets?.map { firstItems.append(DetailSectionItem.firstRow($0))}
+                        var firstItems = firstRow.closets?.map { DetailSectionItem.firstRow($0) } ?? []
+                        firstItems.shuffle()
                         owner.warmFirstRowInfo.accept(firstItems)
                         owner.warmFirstSection.accept(.warmFirst(items: firstItems))
                         owner.WFMaxPage = owner.calculateShare(firstRow.counts ?? 0)
@@ -135,11 +134,8 @@ final class ClosetDetailViewModel: RxBaseViewModel {
                     
                     if let secondRow = dataList.secondRow {
                         
-                        var secondItems: [DetailSectionItem] = []
-                        
-                        let _ = secondRow.closets?.map {
-                            secondItems.append(DetailSectionItem.secondRow($0))
-                        }
+                        var secondItems = secondRow.closets?.map { DetailSectionItem.secondRow($0) } ?? []
+                        secondItems.shuffle()
                         owner.warmSecondRowInfo.accept(secondItems)
                         owner.warmSecondSection.accept(.warmSecond(items: secondItems))
                         owner.WSMaxPage = owner.calculateShare(secondRow.counts ?? 0)
@@ -157,7 +153,7 @@ final class ClosetDetailViewModel: RxBaseViewModel {
                 if let itemsToAdd = response.data?.closets {
                     if rowId == 1 {
                         var firstRow = owner.warmFirstRowInfo.value
-                        firstRow?.append(contentsOf: itemsToAdd.map { DetailSectionItem.firstRow($0)})
+                        firstRow?.append(contentsOf: itemsToAdd.map { DetailSectionItem.firstRow($0) })
                         
                         //binding
                         owner.warmFirstRowInfo.accept(firstRow)
@@ -184,18 +180,16 @@ final class ClosetDetailViewModel: RxBaseViewModel {
                     
                     if let firstRow  = dataList.firstRow {
                         
-                        var firstItems: [DetailSectionItem] = []
-                        let _ = firstRow.closets?.map { firstItems.append(DetailSectionItem.firstRow($0))}
+                        var firstItems = firstRow.closets?.map { DetailSectionItem.firstRow($0) } ?? []
+                        firstItems.shuffle()
                         owner.coolFirstRowInfo.accept(firstItems)
                         owner.coolFirstSection.accept(.coolFirst(items: firstItems))
                         owner.CFMaxPage = owner.calculateShare(firstRow.counts ?? 0)
                     }
                     
                     if let secondRow = dataList.secondRow {
-                        var secondItems: [DetailSectionItem] = []
-                        let _ = secondRow.closets?.map {
-                            secondItems.append(DetailSectionItem.secondRow($0))
-                        }
+                        var secondItems = secondRow.closets?.map { DetailSectionItem.secondRow($0) } ?? []
+                        secondItems.shuffle()
                         owner.coolSecondRowInfo.accept(secondItems)
                         owner.coolSecondSection.accept(.coolSecond(items: secondItems))
                         owner.CSMaxPage = owner.calculateShare(secondRow.counts ?? 0)

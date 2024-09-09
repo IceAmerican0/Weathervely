@@ -21,7 +21,7 @@ final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewMod
     let navigationBar = CSNavigationView(
         .rightButton(UIImage.leftArrow_black, UIImage.home_top)
     ).then {
-        $0.setTitle(CSString.detailTitle.string)
+        $0.setTitle(DiffTempHeaderComment.detailTitle.rawValue)
     }
     
     lazy var flowLayout = UICollectionViewFlowLayout().then {
@@ -251,23 +251,23 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
                     case .mainDetail: return UICollectionReusableView()
                     case .withItem:
                         return collectionView.dequeueReusableHeaderView(withType: TitleLabelReusableHeader.self, for: indexPath).then {
-                            $0.configure(nil, CSString.withItemTitle.string)
+                            $0.configure(nil, DiffTempHeaderComment.withItemTitle.rawValue)
                         }
                     case .warmFirst:
                         return collectionView.dequeueReusableHeaderView(withType: DiffTempDecoHeader.self, for: indexPath).then {
-                            $0.configure(CSString.warmDiffTitle.string, CSString.warmDiffDescription.string)
+                            $0.configure(DiffTempHeaderComment.coolDiffTitle.rawValue, DiffTempHeaderComment.coolDiffDescription.rawValue)
                         }
                     case .warmSecond:
                         return collectionView.dequeueReusableHeaderView(withType: TitleLabelReusableHeader.self, for: indexPath).then {
-                            $0.configure(UIFont.body_2_B, CSString.secondWarmTitle.string)
+                            $0.configure(UIFont.body_2_B, DiffTempHeaderComment.secondCoolTitle.rawValue)
                         }
                     case .coolFirst:
                         return collectionView.dequeueReusableHeaderView(withType: DiffTempDecoHeader.self, for: indexPath).then {
-                            $0.configure(CSString.coolDiffTitle.string, CSString.coolDiffDescription.string)
+                            $0.configure(DiffTempHeaderComment.warmDiffTitle.rawValue, DiffTempHeaderComment.warmDiffDescription.rawValue)
                         }
                     case .coolSecond:
                         return collectionView.dequeueReusableHeaderView(withType: TitleLabelReusableHeader.self, for: indexPath).then {
-                            $0.configure(UIFont.body_2_B, CSString.secondCoolTitle.string)
+                            $0.configure(UIFont.body_2_B, DiffTempHeaderComment.secondWarmTitle.rawValue)
                         }
                     }
                 default:
@@ -300,18 +300,18 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
             case .withItem:
                 layoutSection = self.withItemLayout()
             case .warmFirst(let item):
-                let decoItem = NSCollectionLayoutDecorationItem.background(elementKind: "WarmDecorationView")
+                let decoItem = NSCollectionLayoutDecorationItem.background(elementKind: CoolDecorationView.identifier)
                 layoutSection = self.firstRowLayout(decoItem, item.count)
             case .coolFirst(let item):
-                let decoItem = NSCollectionLayoutDecorationItem.background(elementKind: "CoolDecorationView")
+                let decoItem = NSCollectionLayoutDecorationItem.background(elementKind: WarmDecorationView.identifier)
                 layoutSection = self.firstRowLayout(decoItem, item.count)
             case .warmSecond(let item), .coolSecond(let item):
                 layoutSection = self.secondRowLayout(item.count)
             }
             return layoutSection
         }
-        layout.register(WarmDecorationView.self, forDecorationViewOfKind: "WarmDecorationView")
-        layout.register(CoolDecorationView.self, forDecorationViewOfKind: "CoolDecorationView")
+        layout.register(WarmDecorationView.self, forDecorationViewOfKind: WarmDecorationView.identifier)
+        layout.register(CoolDecorationView.self, forDecorationViewOfKind: CoolDecorationView.identifier)
         
         return layout
     }
