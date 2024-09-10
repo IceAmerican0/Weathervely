@@ -162,8 +162,14 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
         
         titleLabel.rx.tapGesture()
             .when(.recognized)
+            .buffer(
+                timeSpan: .seconds(3),
+                count: 5,
+                scheduler: MainScheduler.instance
+            )
+            .filter { $0.count == 5 }
             .bind(with: self) { owner, _ in
-                owner.viewModel.didTapSecretReset()
+                owner.viewModel.showHiddenAlert()
             }.disposed(by: bag)
     }
     

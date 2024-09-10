@@ -64,7 +64,7 @@ public final class HomeStyleFilterView: UICollectionReusableView {
         viewState = state
         filterList.reloadData()
         
-        DispatchQueue.main.async {
+        Task { @MainActor in
             let selectedList = UserDefaultManager.shared.homeStyleFilterList
             guard let index = self.viewState.firstIndex(where: { String($0.id) == selectedList.first }) else { return }
             

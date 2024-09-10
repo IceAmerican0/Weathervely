@@ -14,7 +14,7 @@ public protocol SettingViewModelLogic: ViewModelBusinessLogic {
     func didTapCollectionViewCell(at index: Int)
     func didTapTableViewCell(at index: Int)
     func pushSetting(selected: Bool)
-    func didTapSecretReset()
+    func showHiddenAlert()
     
     var profileMenuTitle: BehaviorRelay<[ProfileMenuTitle]> { get }
     var menuTitle: BehaviorRelay<[SettingMenuTitle]> { get }
@@ -119,25 +119,7 @@ public final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
         presentViewControllerNoAnimationRelay.accept(webView)
     }
     
-    // MARK: Gimmick Logic
-    public func didTapSecretReset() {
-        if secretResetTapCount < 5 {
-            secretResetTapCount += 1
-            stopTask()
-        } else {
-            secretResetTapCount = 0
-            showHiddenAlert()
-        }
-    }
-    
-    /// 누르고 3초동안 동작 없을시 횟수 초기화
-    private func stopTask() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
-            self?.secretResetTapCount = 0
-        }
-    }
-    
-    private func showHiddenAlert() {
+    public func showHiddenAlert() {
         let leftButton = AlertButtonState(
             title: "계정 초기화",
             action: getUserID
@@ -202,14 +184,12 @@ public final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
         return AlertButtonState(
             title: title,
             action: {
-                DispatchQueue.main.async {
-                    userDefault.set(
-                        environment.rawValue,
-                        forKey: UserDefaultKey.appEnvironment.rawValue
-                    )
-                    userDefault.set(true, forKey: UserDefaultKey.isServerChanged.rawValue)
-                    UIApplication.shared.close()
-                }
+                userDefault.set(
+                    environment.rawValue,
+                    forKey: UserDefaultKey.appEnvironment.rawValue
+                )
+                userDefault.set(true, forKey: UserDefaultKey.isServerChanged.rawValue)
+                UIApplication.shared.close()
             }
         )
     }

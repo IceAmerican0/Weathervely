@@ -40,7 +40,7 @@ public class UserNotificationManager {
     /// 알림 설정창 이동
     public func toPushSetting() {
         guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
-        DispatchQueue.main.async {
+        Task { @MainActor in
             UIApplication.shared.open(url) { success in
                 guard success else { return }
                 NotificationCenter.default.addObserver(
@@ -49,7 +49,7 @@ public class UserNotificationManager {
                     queue: nil
                 ) { _ in
                     UNUserNotificationCenter.current().getNotificationSettings { setting in
-                        DispatchQueue.main.async {
+                        Task { @MainActor in
                             NotificationCenter.default.post(name: .returnFromSetting, object: setting)
                         }
                     }

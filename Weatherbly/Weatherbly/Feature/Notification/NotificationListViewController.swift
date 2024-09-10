@@ -178,7 +178,7 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
         } else {
             Task {
                 let isAuthorized = await UserNotificationManager.shared.checkAuthorization()
-                DispatchQueue.main.async {
+                Task { @MainActor in
                     self.updateView(status: isAuthorized)
                 }
             }

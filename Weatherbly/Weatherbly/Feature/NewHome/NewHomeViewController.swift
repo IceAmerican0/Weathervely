@@ -236,8 +236,9 @@ public final class NewHomeViewController: RxBaseViewController<NewHomeViewModel>
     }
     
     private func scrollToTop() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
-            self?.homeCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
+        Task { @MainActor in
+            try await Task.sleep(for: .seconds(0.3))
+            homeCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
         }
     }
     

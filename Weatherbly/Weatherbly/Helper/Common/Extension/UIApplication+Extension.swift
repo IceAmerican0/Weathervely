@@ -10,7 +10,8 @@ import UIKit
 extension UIApplication {
     public func close() {
         UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+        Task { @MainActor in
+            try await Task.sleep(for: .seconds(0.3))
             exit(0)
         }
     }

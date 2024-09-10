@@ -48,7 +48,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
         notificationCenter.requestAuthorization(
             options: [.alert, .badge, .sound]
         ) { granted, _ in
-            DispatchQueue.main.async {
+            Task { @MainActor in
                 if granted {
                     UIApplication.shared.registerForRemoteNotifications()
                     userDefault.set(true, forKey: UserDefaultKey.pushAgreement.rawValue)

@@ -26,7 +26,7 @@ extension UIImageView {
         emptyView.center = CGPoint(x: bounds.midX, y: bounds.midY)
         emptyView.bounds = CGRect(x: 0, y: 0, width: bounds.size.width, height: bounds.size.height)
         
-        DispatchQueue.main.async {
+        Task { @MainActor in
             self.addSubview(emptyView)
         }
         
@@ -48,7 +48,7 @@ extension UIImageView {
         ) { [weak self] result in
             guard let self else { return }
             
-            DispatchQueue.main.async {
+            Task { @MainActor in
                 emptyView.removeFromSuperview()
             }
             
