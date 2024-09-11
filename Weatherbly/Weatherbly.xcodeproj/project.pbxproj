@@ -11,8 +11,6 @@
 		5C08096D2C37AFD500A902DE /* MediumCategoryDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0809662C37AFD500A902DE /* MediumCategoryDataSource.swift */; };
 		5C08096E2C37AFD500A902DE /* MediumCategoryTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0809672C37AFD500A902DE /* MediumCategoryTarget.swift */; };
 		5C08096F2C37AFD500A902DE /* StyleMediumCategoryEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0809682C37AFD500A902DE /* StyleMediumCategoryEntity.swift */; };
-		5C0809702C37AFD500A902DE /* TypeDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0809692C37AFD500A902DE /* TypeDataSource.swift */; };
-		5C0809712C37AFD500A902DE /* TypeTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C08096A2C37AFD500A902DE /* TypeTarget.swift */; };
 		5C0C57A82BF6EC7700B1102E /* HomeBannerLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0C57A72BF6EC7700B1102E /* HomeBannerLayout.swift */; };
 		5C1BCA172A67D2FF00D02D84 /* NicknameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1BCA162A67D2FF00D02D84 /* NicknameViewModel.swift */; };
 		5C23DB8F2A65045C00F41574 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 5C23DB8E2A65045C00F41574 /* RxCocoa */; };
@@ -48,7 +46,6 @@
 		5C6F0E272BFC89D800AB0C90 /* NotificationListTableFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F0E262BFC89D800AB0C90 /* NotificationListTableFooterView.swift */; };
 		5C6F0E292BFC8D4500AB0C90 /* UITableViewHeaderFooterView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F0E282BFC8D4500AB0C90 /* UITableViewHeaderFooterView+Extension.swift */; };
 		5C7CAE362BE08280007760DD /* FilterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7CAE352BE08280007760DD /* FilterButton.swift */; };
-		5C7CAE382BE08CCF007760DD /* StyleTypeEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7CAE372BE08CCF007760DD /* StyleTypeEntity.swift */; };
 		5C7F674E2C33D9450035DC8A /* Dictionary+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7F674D2C33D9450035DC8A /* Dictionary+Extension.swift */; };
 		5C84169E2B68CAA5003AE726 /* TenDayForecastEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C84169D2B68CAA5003AE726 /* TenDayForecastEntity.swift */; };
 		5C8416A02B68D9FC003AE726 /* TenDaysForecastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C84169F2B68D9FC003AE726 /* TenDaysForecastTableViewCell.swift */; };
@@ -100,9 +97,9 @@
 		5CE0FEB02A8EEC0000A0E655 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5CE0FEAF2A8EEC0000A0E655 /* Kingfisher */; };
 		5CE0FEB22A8F00F700A0E655 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CE0FEB12A8F00F700A0E655 /* WebKit.framework */; };
 		5CE0FEBA2A93529100A0E655 /* AuthLoginEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE0FEB92A93529100A0E655 /* AuthLoginEntity.swift */; };
-		5CE8CD5A2B83275000AB6EBD /* NewClosetTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE8CD592B83275000AB6EBD /* NewClosetTarget.swift */; };
-		5CE8CD5C2B832ED700AB6EBD /* NewClosetDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE8CD5B2B832ED700AB6EBD /* NewClosetDataSource.swift */; };
-		5CE8CD602B83363700AB6EBD /* NewClosetEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE8CD5F2B83363700AB6EBD /* NewClosetEntity.swift */; };
+		5CE8CD5A2B83275000AB6EBD /* ClosetTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE8CD592B83275000AB6EBD /* ClosetTarget.swift */; };
+		5CE8CD5C2B832ED700AB6EBD /* ClosetDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE8CD5B2B832ED700AB6EBD /* ClosetDataSource.swift */; };
+		5CE8CD602B83363700AB6EBD /* ClosetEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE8CD5F2B83363700AB6EBD /* ClosetEntity.swift */; };
 		5CEC8FDC2C21014D003F0CF4 /* NotificationListShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEC8FDB2C21014D003F0CF4 /* NotificationListShimmerView.swift */; };
 		5CEC8FDE2C215C86003F0CF4 /* StyleShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEC8FDD2C215C86003F0CF4 /* StyleShimmerView.swift */; };
 		5CEC8FE02C215E1A003F0CF4 /* DetailShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEC8FDF2C215E1A003F0CF4 /* DetailShimmerView.swift */; };
@@ -127,8 +124,8 @@
 		697EA9FE2C5E15CE00D8845D /* WithClosetInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697EA9F22C5E15CE00D8845D /* WithClosetInfo.swift */; };
 		697EA9FF2C5E15CE00D8845D /* ClosetTypeEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697EA9F42C5E15CE00D8845D /* ClosetTypeEntity.swift */; };
 		697EAA002C5E15CE00D8845D /* StyleClosetEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697EA9F52C5E15CE00D8845D /* StyleClosetEntity.swift */; };
-		6987EBBC2B41409E00CF1E74 /* NewHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6987EBBA2B41409E00CF1E74 /* NewHomeViewController.swift */; };
-		6987EBBD2B41409E00CF1E74 /* NewHomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6987EBBB2B41409E00CF1E74 /* NewHomeViewModel.swift */; };
+		6987EBBC2B41409E00CF1E74 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6987EBBA2B41409E00CF1E74 /* HomeViewController.swift */; };
+		6987EBBD2B41409E00CF1E74 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6987EBBB2B41409E00CF1E74 /* HomeViewModel.swift */; };
 		698F6CA92ADD624C00C2B33A /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698F6CA82ADD624B00C2B33A /* Tab.swift */; };
 		698F6CB22AE00FCC00C2B33A /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698F6CB12AE00FCC00C2B33A /* UIImage+Extension.swift */; };
 		69A3D9EB2B484D2A00CA1FD5 /* UICollectionReusableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A3D9EA2B484D2A00CA1FD5 /* UICollectionReusableView+Extension.swift */; };
@@ -216,8 +213,6 @@
 		5C0809662C37AFD500A902DE /* MediumCategoryDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediumCategoryDataSource.swift; sourceTree = "<group>"; };
 		5C0809672C37AFD500A902DE /* MediumCategoryTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediumCategoryTarget.swift; sourceTree = "<group>"; };
 		5C0809682C37AFD500A902DE /* StyleMediumCategoryEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleMediumCategoryEntity.swift; sourceTree = "<group>"; };
-		5C0809692C37AFD500A902DE /* TypeDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeDataSource.swift; sourceTree = "<group>"; };
-		5C08096A2C37AFD500A902DE /* TypeTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeTarget.swift; sourceTree = "<group>"; };
 		5C0C57A72BF6EC7700B1102E /* HomeBannerLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBannerLayout.swift; sourceTree = "<group>"; };
 		5C1BCA162A67D2FF00D02D84 /* NicknameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewModel.swift; sourceTree = "<group>"; };
 		5C2BB2A52C45076400D9305E /* HomeForecastSectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeForecastSectionCell.swift; sourceTree = "<group>"; };
@@ -244,7 +239,6 @@
 		5C6F0E262BFC89D800AB0C90 /* NotificationListTableFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationListTableFooterView.swift; sourceTree = "<group>"; };
 		5C6F0E282BFC8D4500AB0C90 /* UITableViewHeaderFooterView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewHeaderFooterView+Extension.swift"; sourceTree = "<group>"; };
 		5C7CAE352BE08280007760DD /* FilterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterButton.swift; sourceTree = "<group>"; };
-		5C7CAE372BE08CCF007760DD /* StyleTypeEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleTypeEntity.swift; sourceTree = "<group>"; };
 		5C7F674D2C33D9450035DC8A /* Dictionary+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extension.swift"; sourceTree = "<group>"; };
 		5C84169D2B68CAA5003AE726 /* TenDayForecastEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TenDayForecastEntity.swift; sourceTree = "<group>"; };
 		5C84169F2B68D9FC003AE726 /* TenDaysForecastTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TenDaysForecastTableViewCell.swift; sourceTree = "<group>"; };
@@ -297,9 +291,9 @@
 		5CE0FEAC2A8DDE9200A0E655 /* AddressListEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressListEntity.swift; sourceTree = "<group>"; };
 		5CE0FEB12A8F00F700A0E655 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		5CE0FEB92A93529100A0E655 /* AuthLoginEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthLoginEntity.swift; sourceTree = "<group>"; };
-		5CE8CD592B83275000AB6EBD /* NewClosetTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewClosetTarget.swift; sourceTree = "<group>"; };
-		5CE8CD5B2B832ED700AB6EBD /* NewClosetDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewClosetDataSource.swift; sourceTree = "<group>"; };
-		5CE8CD5F2B83363700AB6EBD /* NewClosetEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewClosetEntity.swift; sourceTree = "<group>"; };
+		5CE8CD592B83275000AB6EBD /* ClosetTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetTarget.swift; sourceTree = "<group>"; };
+		5CE8CD5B2B832ED700AB6EBD /* ClosetDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetDataSource.swift; sourceTree = "<group>"; };
+		5CE8CD5F2B83363700AB6EBD /* ClosetEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetEntity.swift; sourceTree = "<group>"; };
 		5CEC8FDB2C21014D003F0CF4 /* NotificationListShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationListShimmerView.swift; sourceTree = "<group>"; };
 		5CEC8FDD2C215C86003F0CF4 /* StyleShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleShimmerView.swift; sourceTree = "<group>"; };
 		5CEC8FDF2C215E1A003F0CF4 /* DetailShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailShimmerView.swift; sourceTree = "<group>"; };
@@ -318,8 +312,8 @@
 		697EA9F22C5E15CE00D8845D /* WithClosetInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WithClosetInfo.swift; sourceTree = "<group>"; };
 		697EA9F42C5E15CE00D8845D /* ClosetTypeEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClosetTypeEntity.swift; sourceTree = "<group>"; };
 		697EA9F52C5E15CE00D8845D /* StyleClosetEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleClosetEntity.swift; sourceTree = "<group>"; };
-		6987EBBA2B41409E00CF1E74 /* NewHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHomeViewController.swift; sourceTree = "<group>"; };
-		6987EBBB2B41409E00CF1E74 /* NewHomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHomeViewModel.swift; sourceTree = "<group>"; };
+		6987EBBA2B41409E00CF1E74 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		6987EBBB2B41409E00CF1E74 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		698F6CA82ADD624B00C2B33A /* Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
 		698F6CB12AE00FCC00C2B33A /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		69A3D9EA2B484D2A00CA1FD5 /* UICollectionReusableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionReusableView+Extension.swift"; sourceTree = "<group>"; };
@@ -440,8 +434,6 @@
 				5C0809662C37AFD500A902DE /* MediumCategoryDataSource.swift */,
 				5C0809672C37AFD500A902DE /* MediumCategoryTarget.swift */,
 				5C0809682C37AFD500A902DE /* StyleMediumCategoryEntity.swift */,
-				5C0809692C37AFD500A902DE /* TypeDataSource.swift */,
-				5C08096A2C37AFD500A902DE /* TypeTarget.swift */,
 			);
 			path = Filter;
 			sourceTree = "<group>";
@@ -600,7 +592,7 @@
 				5C5F44CF2C4A0149008A8F32 /* Detail */,
 				5C08096B2C37AFD500A902DE /* Filter */,
 				BD7DAB1C2A6E62F600422D25 /* Forcast */,
-				5CE8CD582B83255900AB6EBD /* NewCloset */,
+				5CE8CD582B83255900AB6EBD /* Closet */,
 				5CC2DB9A2C488F4C0098CB68 /* Notification */,
 				5CCC914E2A61195D0025B522 /* Region */,
 				5C9D02D52A71EE9300AF2DA3 /* User */,
@@ -649,16 +641,15 @@
 			path = Molecule;
 			sourceTree = "<group>";
 		};
-		5CE8CD582B83255900AB6EBD /* NewCloset */ = {
+		5CE8CD582B83255900AB6EBD /* Closet */ = {
 			isa = PBXGroup;
 			children = (
 				697EA9F72C5E15CE00D8845D /* Entity */,
-				5CE8CD592B83275000AB6EBD /* NewClosetTarget.swift */,
-				5CE8CD5B2B832ED700AB6EBD /* NewClosetDataSource.swift */,
-				5CE8CD5F2B83363700AB6EBD /* NewClosetEntity.swift */,
-				5C7CAE372BE08CCF007760DD /* StyleTypeEntity.swift */,
+				5CE8CD592B83275000AB6EBD /* ClosetTarget.swift */,
+				5CE8CD5B2B832ED700AB6EBD /* ClosetDataSource.swift */,
+				5CE8CD5F2B83363700AB6EBD /* ClosetEntity.swift */,
 			);
-			path = NewCloset;
+			path = Closet;
 			sourceTree = "<group>";
 		};
 		697EA9B32C5E09EF00D8845D /* CollectionView */ = {
@@ -739,16 +730,16 @@
 			path = Entity;
 			sourceTree = "<group>";
 		};
-		6987EBB72B41400600CF1E74 /* NewHome */ = {
+		6987EBB72B41400600CF1E74 /* Home */ = {
 			isa = PBXGroup;
 			children = (
 				5CDCD7C62B54E767008465B9 /* Filter */,
-				6987EBBA2B41409E00CF1E74 /* NewHomeViewController.swift */,
-				6987EBBB2B41409E00CF1E74 /* NewHomeViewModel.swift */,
+				6987EBBA2B41409E00CF1E74 /* HomeViewController.swift */,
+				6987EBBB2B41409E00CF1E74 /* HomeViewModel.swift */,
 				5C4DB7AB2C200D0D004B4575 /* HomeShimmerView.swift */,
 				697EA9B32C5E09EF00D8845D /* CollectionView */,
 			);
-			path = NewHome;
+			path = Home;
 			sourceTree = "<group>";
 		};
 		698F6CAA2ADD6EC200C2B33A /* Style */ = {
@@ -882,7 +873,7 @@
 			children = (
 				BD51070A2C0F755400D8AFBE /* ClosetDetail */,
 				5C68E91F2AF375CE0046D0BE /* Forecast */,
-				6987EBB72B41400600CF1E74 /* NewHome */,
+				6987EBB72B41400600CF1E74 /* Home */,
 				5C8F2D3A2B6B30D1002DF94E /* Notification */,
 				BD2D01A12A3887E0003A25D5 /* OnBoard */,
 				5C9F45622C37AB2E00DBB9B1 /* Setting */,
@@ -1238,7 +1229,7 @@
 				5CDCD7DE2B564A89008465B9 /* FilterListHeaderView.swift in Sources */,
 				5CEC8FE02C215E1A003F0CF4 /* DetailShimmerView.swift in Sources */,
 				BDFC0B772C4D1E6C00991E98 /* NoItemCell.swift in Sources */,
-				6987EBBD2B41409E00CF1E74 /* NewHomeViewModel.swift in Sources */,
+				6987EBBD2B41409E00CF1E74 /* HomeViewModel.swift in Sources */,
 				BD69B8F92A553A0C00DDCD7A /* CSNavigationView.swift in Sources */,
 				5CAB60CF2A53F61700CD431A /* TenDaysForecastViewController.swift in Sources */,
 				5C9D02DD2A72284300AF2DA3 /* UserTarget.swift in Sources */,
@@ -1251,7 +1242,6 @@
 				69D25C962AD04F6300C17FB1 /* WVProvider.swift in Sources */,
 				BD7DAB2D2A70DEE100422D25 /* ForecastDataSource.swift in Sources */,
 				5CAB60D32A54FC6A00CD431A /* UITableViewCell+Extension.swift in Sources */,
-				5C0809702C37AFD500A902DE /* TypeDataSource.swift in Sources */,
 				5C4A0ACB2B47D34A006BE52A /* HomeStyleFilterView.swift in Sources */,
 				BD5107102C1152AD00D8AFBE /* DetailViewSectionModel.swift in Sources */,
 				5C08096E2C37AFD500A902DE /* MediumCategoryTarget.swift in Sources */,
@@ -1277,7 +1267,7 @@
 				69D25C992AD04F6300C17FB1 /* KakaoErrorResponse.swift in Sources */,
 				BDFC0B752C4C2DC300991E98 /* InnerCellViewModel.swift in Sources */,
 				5CE0FEBA2A93529100A0E655 /* AuthLoginEntity.swift in Sources */,
-				5CE8CD5A2B83275000AB6EBD /* NewClosetTarget.swift in Sources */,
+				5CE8CD5A2B83275000AB6EBD /* ClosetTarget.swift in Sources */,
 				5C8F2D432B6B6A71002DF94E /* NotificationEntity.swift in Sources */,
 				69A7F0D92A80B42A00834974 /* UserDefaultKey.swift in Sources */,
 				BD5169492A5D6FEA00582BA9 /* UITextField+Extension.swift in Sources */,
@@ -1297,7 +1287,6 @@
 				5C9D02EA2A725AC300AF2DA3 /* AddressRequest.swift in Sources */,
 				5CE0FEAD2A8DDE9200A0E655 /* AddressListEntity.swift in Sources */,
 				697EA9FA2C5E15CE00D8845D /* DiffTempEntity.swift in Sources */,
-				5C0809712C37AFD500A902DE /* TypeTarget.swift in Sources */,
 				BD3714392B8629FD00527577 /* StyleTagHeaderView.swift in Sources */,
 				BD4907332A84D42F0027DEE8 /* String+Extension.swift in Sources */,
 				BD5107322C2859A300D8AFBE /* WarmDecorationView.swift in Sources */,
@@ -1321,7 +1310,7 @@
 				BD77B82A2A388CEF00E7D57A /* OnBoardViewController.swift in Sources */,
 				5CC61E1F2A56850F001435E6 /* DateFormatter+Extension.swift in Sources */,
 				697EA9FC2C5E15CE00D8845D /* EachRowEntity.swift in Sources */,
-				6987EBBC2B41409E00CF1E74 /* NewHomeViewController.swift in Sources */,
+				6987EBBC2B41409E00CF1E74 /* HomeViewController.swift in Sources */,
 				BD2D01892A388753003A25D5 /* AppDelegate.swift in Sources */,
 				5CADDD282A9DDF9900EAB678 /* Constants.swift in Sources */,
 				697EA9FB2C5E15CE00D8845D /* DiffTempRows.swift in Sources */,
@@ -1350,7 +1339,6 @@
 				5C6F0E272BFC89D800AB0C90 /* NotificationListTableFooterView.swift in Sources */,
 				5C9F45692C37AB2E00DBB9B1 /* SettingViewModel.swift in Sources */,
 				69C714D22ADD611400748CF6 /* HomeTabBarController.swift in Sources */,
-				5C7CAE382BE08CCF007760DD /* StyleTypeEntity.swift in Sources */,
 				BDCA1E882C401C6500376911 /* StyleViewModel.swift in Sources */,
 				BD05E05D2B3801B600A48E61 /* UIFont+Extension.swift in Sources */,
 				5C5F44D12C4A0149008A8F32 /* DetailDataSource.swift in Sources */,
@@ -1374,14 +1362,14 @@
 				5C9D02C42A6E61C700AF2DA3 /* SettingRegionCompleteViewModel.swift in Sources */,
 				5C61B97F2BB52E67002EA200 /* AppEnvironment.swift in Sources */,
 				5CDCD7DB2B564144008465B9 /* FilterListViewController.swift in Sources */,
-				5CE8CD5C2B832ED700AB6EBD /* NewClosetDataSource.swift in Sources */,
+				5CE8CD5C2B832ED700AB6EBD /* ClosetDataSource.swift in Sources */,
 				5CBD391E2B5F3EFE00B0A85F /* ToastView.swift in Sources */,
 				5C9F45682C37AB2E00DBB9B1 /* EditRegionViewModel.swift in Sources */,
 				698F6CB22AE00FCC00C2B33A /* UIImage+Extension.swift in Sources */,
 				5C08096C2C37AFD500A902DE /* MainMediumCategoryEntity.swift in Sources */,
 				5C4A0ABD2B43ED8F006BE52A /* HomeForecastCell.swift in Sources */,
 				696176B62A63E4A400B83B4C /* EmptyViewModel.swift in Sources */,
-				5CE8CD602B83363700AB6EBD /* NewClosetEntity.swift in Sources */,
+				5CE8CD602B83363700AB6EBD /* ClosetEntity.swift in Sources */,
 				69FDD4C62A39E42900830927 /* NicknameViewController.swift in Sources */,
 				5C8F2D412B6B6836002DF94E /* NotificationListTableViewCell.swift in Sources */,
 				693231642B4A80FE00816B7B /* HomeSection.swift in Sources */,

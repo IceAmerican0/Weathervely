@@ -38,8 +38,8 @@ enum Tab: CaseIterable {
     
     var viewController: UIViewController {
         switch self {
-        case .home: NewHomeViewController(NewHomeViewModel())
-        case .style: StyleViewController(StyleViewModel(closetDataSource: NewClosetDataSource()))
+        case .home: HomeViewController(HomeViewModel())
+        case .style: StyleViewController(StyleViewModel(closetDataSource: ClosetDataSource()))
         case .setting: SettingViewController(SettingViewModel())
         }
     }

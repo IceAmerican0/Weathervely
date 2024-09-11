@@ -13,8 +13,8 @@ enum StyleTabItem: Equatable, IdentifiableType  {
 
     case banner(StyleBanner)
     case type([StyleTabSectionModel])
-    case styles(NewClosetInfo)
-    case closets(NewClosetInfo)
+    case styles(ClosetInfo)
+    case closets(ClosetInfo)
     
     var identity: String {
         switch self {

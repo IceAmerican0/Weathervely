@@ -8,7 +8,7 @@
 import Foundation
 import RxDataSources
 
-struct ClosetTypeEntity: Codable {
+public struct ClosetTypeEntity: Codable {
     let status: Int
     let data: ClosetTypeData
     
@@ -17,7 +17,7 @@ struct ClosetTypeEntity: Codable {
     }
 }
 
-struct ClosetTypeData: Codable {
+public struct ClosetTypeData: Codable {
     let types: [ClosetTypeInfo]
     
     enum CodingKeys: String, CodingKey {
@@ -25,8 +25,8 @@ struct ClosetTypeData: Codable {
     }
 }
 
-struct ClosetTypeInfo: Codable, Equatable, IdentifiableType {
-    let identity: String = UUID().uuidString
+public struct ClosetTypeInfo: Codable, Equatable, IdentifiableType {
+    public let identity: String = UUID().uuidString
     
     let id: Int
     let name: String

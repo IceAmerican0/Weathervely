@@ -1,5 +1,5 @@
 //
-//  NewClosetEntity.swift
+//  ClosetEntity.swift
 //  Weatherbly
 //
 //  Created by Khai on 2/19/24.
@@ -8,26 +8,26 @@
 import Foundation
 import RxDataSources
 
-public struct NewClosetEntity: Codable {
+public struct ClosetEntity: Codable {
     let status: Int
-    let data: NewClosetData
+    let data: ClosetData
     
     enum CodingKeys: String, CodingKey {
         case status, data
     }
 }
 
-public struct NewClosetData: Codable {
+public struct ClosetData: Codable {
     let counts: Int
-//    let style: [NewClosetTypes]?
-    let closets: [NewClosetInfo]
+//    let style: [ClosetTypes]?
+    let closets: [ClosetInfo]
     
     enum CodingKeys: String, CodingKey {
         case counts, /*style,*/ closets
     }
 }
 
-public struct NewClosetTypes: Codable {
+public struct ClosetTypes: Codable {
     let typeId: Int
     let typeName: String
     
@@ -36,8 +36,8 @@ public struct NewClosetTypes: Codable {
     }
 }
 
-public struct NewClosetInfo: Codable, Equatable, IdentifiableType {
-    public static func == (lhs: NewClosetInfo, rhs: NewClosetInfo) -> Bool {
+public struct ClosetInfo: Codable, Equatable, IdentifiableType {
+    public static func == (lhs: ClosetInfo, rhs: ClosetInfo) -> Bool {
         return lhs.identity == rhs.identity
     }
     
@@ -48,14 +48,14 @@ public struct NewClosetInfo: Codable, Equatable, IdentifiableType {
     let closetImageUrl: String
     let closetStatus: String
     let closetSiteName: String
-    let temperature: NewClosetTemp
+    let temperature: ClosetTemp
     
     enum CodingKeys: String, CodingKey {
         case closetId, closetName, closetImageUrl, closetStatus, closetSiteName, temperature
     }
 }
 
-public struct NewClosetTemp: Codable, Equatable, IdentifiableType {
+public struct ClosetTemp: Codable, Equatable, IdentifiableType {
     
     public let identity = UUID()
     

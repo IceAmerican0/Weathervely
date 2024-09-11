@@ -38,7 +38,7 @@ final class StyleCell: UICollectionViewCell {
     private var closetName = ""
     private var imageUrl = ""
     private var status = ""
-    public var closetInfo = NewClosetInfo(closetId: 0, closetName: "", closetImageUrl: "", closetStatus: "", closetSiteName: "", temperature: .init(tempId: 0, maxTemp: 0, minTemp: 0))
+    public var closetInfo = ClosetInfo(closetId: 0, closetName: "", closetImageUrl: "", closetStatus: "", closetSiteName: "", temperature: .init(tempId: 0, maxTemp: 0, minTemp: 0))
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -75,7 +75,7 @@ final class StyleCell: UICollectionViewCell {
         }
     }
     
-    func configure(info: NewClosetInfo?) {
+    func configure(info: ClosetInfo?) {
         guard let info = info else { return }
         let id = info.closetId
         let name = info.closetName
@@ -83,7 +83,7 @@ final class StyleCell: UICollectionViewCell {
         let status = info.closetStatus
         let shopName = info.closetSiteName
         let temperature = info.temperature
-        closetInfo = NewClosetInfo(closetId: id, closetName: name, closetImageUrl: imageUrl, closetStatus: status, closetSiteName: shopName, temperature: temperature)
+        closetInfo = ClosetInfo(closetId: id, closetName: name, closetImageUrl: imageUrl, closetStatus: status, closetSiteName: shopName, temperature: temperature)
         nameLabel.text = name
         imageView.setKF(urlString: imageUrl, placeHolder: UIImage.image_indicator) { [weak self] result in
             switch result {

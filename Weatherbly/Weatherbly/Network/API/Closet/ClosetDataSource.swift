@@ -1,5 +1,5 @@
 //
-//  NewClosetDataSource.swift
+//  ClosetDataSource.swift
 //  Weatherbly
 //
 //  Created by Khai on 2/19/24.
@@ -9,33 +9,33 @@ import Moya
 import RxSwift
 import RxMoya
 
-protocol NewClosetDataSourceProtocol {
-    func getHomeCloset(page: Int, time: String) -> Observable<NewClosetEntity>
-    func getClosetWithType(typeID: Int, page: Int) -> Observable<NewClosetEntity>
+protocol ClosetDataSourceProtocol {
+    func getHomeCloset(page: Int, time: String) -> Observable<ClosetEntity>
+    func getClosetWithType(typeID: Int, page: Int) -> Observable<ClosetEntity>
     func getTypes() -> Observable<ClosetTypeEntity>
     func getCategories(typeID: Int) -> Observable<CategoryEntity>
-    func closetWithCategory(typeID: Int, page: Int, items: String?) -> Observable<NewClosetEntity>
+    func closetWithCategory(typeID: Int, page: Int, items: String?) -> Observable<ClosetEntity>
     func stylePicked(_ closetID: Int) -> Observable<EmptyEntity>
-    func getFilterCount(list: [String], time: String) -> Observable<NewClosetEntity>
+    func getFilterCount(list: [String], time: String) -> Observable<ClosetEntity>
 }
 
-final class NewClosetDataSource: NewClosetDataSourceProtocol {
-    private let provider: WVProvider<NewClosetTarget>
+final class ClosetDataSource: ClosetDataSourceProtocol {
+    private let provider: WVProvider<ClosetTarget>
     
-    public init(provider: WVProvider<NewClosetTarget> = WVProvider<NewClosetTarget>()) {
+    public init(provider: WVProvider<ClosetTarget> = WVProvider<ClosetTarget>()) {
         self.provider = provider
     }
     
-    func getHomeCloset(page: Int, time: String) -> Observable<NewClosetEntity> {
+    func getHomeCloset(page: Int, time: String) -> Observable<ClosetEntity> {
         provider
             .request(.getHomeCloset(page: page, time: time))
-            .mapTo(NewClosetEntity.self)
+            .mapTo(ClosetEntity.self)
     }
     
-    func getClosetWithType(typeID: Int, page: Int) -> Observable<NewClosetEntity> {
+    func getClosetWithType(typeID: Int, page: Int) -> Observable<ClosetEntity> {
         provider
             .request(.getClosetWithType(typeID: typeID, page: page))
-            .mapTo(NewClosetEntity.self)
+            .mapTo(ClosetEntity.self)
     }
     
     func getTypes() -> Observable<ClosetTypeEntity> {
@@ -50,10 +50,10 @@ final class NewClosetDataSource: NewClosetDataSourceProtocol {
             .mapTo(CategoryEntity.self)
     }
     
-    func closetWithCategory(typeID: Int, page: Int, items: String?) -> Observable<NewClosetEntity> {
+    func closetWithCategory(typeID: Int, page: Int, items: String?) -> Observable<ClosetEntity> {
         provider
             .request(.closetWithCategory(typeID: typeID, page: page, items: items ?? ""))
-            .mapTo(NewClosetEntity.self)
+            .mapTo(ClosetEntity.self)
     }
     
     func stylePicked(_ closetID: Int) -> Observable<EmptyEntity> {
@@ -62,9 +62,9 @@ final class NewClosetDataSource: NewClosetDataSourceProtocol {
             .mapTo(EmptyEntity.self)
     }
     
-    func getFilterCount(list: [String], time: String) -> Observable<NewClosetEntity> {
+    func getFilterCount(list: [String], time: String) -> Observable<ClosetEntity> {
         provider
             .request(.getFilterCount(list: list, time: time))
-            .mapTo(NewClosetEntity.self)
+            .mapTo(ClosetEntity.self)
     }
 }

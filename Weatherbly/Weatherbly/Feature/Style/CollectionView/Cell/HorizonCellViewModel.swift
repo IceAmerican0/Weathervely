@@ -11,7 +11,7 @@ import RxSwift
 final class HorizonCellViewModel {
 
     // MARK: - API
-    let dataSource = NewClosetDataSource()
+    let dataSource = ClosetDataSource()
 
     private var bag = DisposeBag()
     public let bindClosets = BehaviorRelay<[StyleTabSectionModel]>(value: [])
@@ -48,7 +48,7 @@ final class HorizonCellViewModel {
             }.disposed(by: bag)
     }
     
-    public func getFilteredByCategories(with tags: [Int], _ completion: (([NewClosetInfo]) -> Void)?) {
+    public func getFilteredByCategories(with tags: [Int], _ completion: (([ClosetInfo]) -> Void)?) {
         selectedTags.accept(tags)
         let typeInfo = typeInfo
         

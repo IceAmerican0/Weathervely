@@ -1,5 +1,5 @@
 //
-//  NewClosetTarget.swift
+//  ClosetTarget.swift
 //  Weatherbly
 //
 //  Created by Khai on 2/19/24.
@@ -7,7 +7,7 @@
 
 import Moya
 
-public enum NewClosetTarget {
+public enum ClosetTarget {
     /// 메인탭 코디 가져오기
     case getHomeCloset(page: Int, time: String)
     /// 스타일탭 코디 가져오기
@@ -21,7 +21,7 @@ public enum NewClosetTarget {
     case getFilterCount(list: [String], time: String)
 }
 
-extension NewClosetTarget: WVTargetType {
+extension ClosetTarget: WVTargetType {
     public var path: String {
         switch self {
         case .getHomeCloset,

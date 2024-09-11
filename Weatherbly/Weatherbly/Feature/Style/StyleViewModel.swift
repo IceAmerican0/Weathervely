@@ -17,7 +17,7 @@ fileprivate protocol StyleViewModelLogic: ViewModelBusinessLogic {
 }
 
 final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
-    private let closetDataSource: NewClosetDataSourceProtocol
+    private let closetDataSource: ClosetDataSourceProtocol
     /// 첫 실행 shimmer 여부
     public var shimmerStatus: PublishRelay<Bool> = .init()
     /// 스타일 콜렉션 뷰 정보
@@ -52,7 +52,7 @@ final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
      StypeSection1 [ header: [MediumCategory for type1]
      */
     
-    init(closetDataSource: NewClosetDataSource) {
+    init(closetDataSource: ClosetDataSource) {
         self.closetDataSource = closetDataSource
     }
     
@@ -71,10 +71,10 @@ final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
                         items: self.styleSectinos.value
          
         ** types의 item 예시
-        [   .style(header: (typeInfo: ClosetTypeInfo(id:1, name: "타입이름"), categories: [MCategories]), items: [NewClosetInfo,
-            .style(header: (typeInfo: ClosetTypeInfo(id:2, name: "타입이름"), categories: [MCategories]), items: [NewClosetInfo],
-            .style(header: (typeInfo: ClosetTypeInfo(id:3, name: "타입이름"), categories: [MCategories]), items: [NewClosetInfo],
-            .style(header: (typeInfo: ClosetTypeInfo(id:4, name: "타입이름"), categories: [MCategories]), items: [NewClosetInfo]
+        [   .style(header: (typeInfo: ClosetTypeInfo(id:1, name: "타입이름"), categories: [MCategories]), items: [ClosetInfo,
+            .style(header: (typeInfo: ClosetTypeInfo(id:2, name: "타입이름"), categories: [MCategories]), items: [ClosetInfo],
+            .style(header: (typeInfo: ClosetTypeInfo(id:3, name: "타입이름"), categories: [MCategories]), items: [ClosetInfo],
+            .style(header: (typeInfo: ClosetTypeInfo(id:4, name: "타입이름"), categories: [MCategories]), items: [ClosetInfo]
 
             ]
             ]
@@ -125,7 +125,7 @@ final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
             }
     }
     
-    public func getClosets(typeInfo: ClosetTypeInfo, categories: [MCategoryInfo], page: Int) -> Observable<[NewClosetInfo]>  {
+    public func getClosets(typeInfo: ClosetTypeInfo, categories: [MCategoryInfo], page: Int) -> Observable<[ClosetInfo]>  {
         return closetDataSource.getClosetWithType(typeID: typeInfo.id, page: 1)
             .map { response in
                 let closetInfo = response.data.closets

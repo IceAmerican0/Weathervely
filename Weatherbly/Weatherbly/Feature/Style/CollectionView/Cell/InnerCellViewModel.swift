@@ -14,7 +14,7 @@ final class InnerCellViewModel {
     private var bag = DisposeBag()
     public let bindSectionsRelay = BehaviorRelay<[StyleTabSectionModel]>(value: [])
     public let sectionItems = BehaviorRelay<[StyleTabItem]?>(value: nil)
-    private let dataSource = NewClosetDataSource()
+    private let dataSource = ClosetDataSource()
     
     public func getFilteredByCategories(with tags: [Int] ,in sectionIndex: Int, typeInfo: ClosetTypeInfo) {
         switch tags.isEmpty {

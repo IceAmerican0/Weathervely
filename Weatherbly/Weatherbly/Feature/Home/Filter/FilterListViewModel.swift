@@ -93,7 +93,7 @@ public final class FilterListViewModel: RxBaseViewModel, FilterListViewModelLogi
             selectedList.accept(list)
         }
         
-        let dataSource: NewClosetDataSourceProtocol = NewClosetDataSource()
+        let dataSource: ClosetDataSourceProtocol = ClosetDataSource()
         dataSource.getFilterCount(list: list, time: selectedTime)
             .subscribe(
                 with: self,

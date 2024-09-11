@@ -59,7 +59,7 @@ public final class HomeClosetCell: UICollectionViewCell {
         }
     }
     
-    func configureCellState(state: NewClosetInfo) {
+    func configureCellState(state: ClosetInfo) {
         if state.closetId == -1 {
             cloth.image = .home_banner_01
             cloth.contentMode = .scaleAspectFill

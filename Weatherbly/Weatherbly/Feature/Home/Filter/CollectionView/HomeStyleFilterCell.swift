@@ -50,7 +50,7 @@ public final class HomeStyleFilterCell: UICollectionViewCell {
         listButton.isSelected = false
     }
     
-    public func configureCellState(state: StyleTypeInfo) {
+    public func configureCellState(state: ClosetTypeInfo) {
         listButton.titleAttribute(title: state.name)
         
         if UserDefaultManager.shared.homeStyleFilterList.contains("\(state.id)") {

@@ -1,5 +1,5 @@
 //
-//  NewHomeViewController.swift
+//  HomeViewController.swift
 //  Weatherbly
 //
 //  Created by Khai on 12/31/23.
@@ -21,7 +21,7 @@ public enum ButtonTapAction {
     case didTapNext
 }
 
-public final class NewHomeViewController: RxBaseViewController<NewHomeViewModel> {
+public final class HomeViewController: RxBaseViewController<HomeViewModel> {
     private let shimmerView = HomeShimmerView()
     
     private let contentView = UIView()
@@ -272,7 +272,7 @@ public final class NewHomeViewController: RxBaseViewController<NewHomeViewModel>
 }
 
 // MARK: RxCollectionview DataSource
-extension NewHomeViewController {
+extension HomeViewController {
     func setDataSource() -> RxCollectionViewSectionedReloadDataSource<HomeSection> {
         RxCollectionViewSectionedReloadDataSource<HomeSection> (configureCell: { [weak self] dataSource, collectionView, indexPath, _ in
             guard self != nil else { return UICollectionViewCell() }
@@ -352,7 +352,7 @@ extension NewHomeViewController {
 }
 
 // MARK: StyleListViewDelegate
-extension NewHomeViewController: HomeStyleFilterViewDelegate {
+extension HomeViewController: HomeStyleFilterViewDelegate {
     /// 스타일필터 선택시
     public func didTap() {
         scrollToTop()

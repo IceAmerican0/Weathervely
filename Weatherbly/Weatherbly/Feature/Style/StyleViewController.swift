@@ -65,7 +65,7 @@ final class StyleViewController: RxBaseViewController<StyleViewModel> {
         
         NotificationCenter.default.rx.notification(.styleClosetTap)
             .compactMap { $0.userInfo }
-            .compactMap { $0["selectedCloset"] as? NewClosetInfo }
+            .compactMap { $0["selectedCloset"] as? ClosetInfo }
             .bind(with: self) { owner, closetInfo in
                     let detailVM = ClosetDetailViewModel(closetId: closetInfo.closetId, tempId: closetInfo.temperature.tempId)
                     let detailVC = ClosetDetailViewController(detailVM)
@@ -98,7 +98,7 @@ extension StyleViewController: StyleTabClosetTouchDelegate {
     // MARK: - InnerCV Cell Tap Event
     @objc func pushDetailView(_ notification: Notification) {
         if let data = notification.userInfo as? [String: Any],
-            let selectedCloset = data["selectedCloset"] as? NewClosetInfo {
+            let selectedCloset = data["selectedCloset"] as? ClosetInfo {
             let detailVM = ClosetDetailViewModel(closetId: selectedCloset.closetId, tempId: selectedCloset.temperature.tempId)
             let detailVC = ClosetDetailViewController(detailVM)
             self.viewModel.navigationPushViewControllerRelay.accept(detailVC)

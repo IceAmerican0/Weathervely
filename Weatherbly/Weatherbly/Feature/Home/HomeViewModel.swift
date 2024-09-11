@@ -1,5 +1,5 @@
 //
-//  NewHomeViewModel.swift
+//  HomeViewModel.swift
 //  Weatherbly
 //
 //  Created by Khai on 12/31/23.
@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 import RxGesture
 
-public protocol NewHomeViewModelLogic: ViewModelBusinessLogic {
+public protocol HomeViewModelLogic: ViewModelBusinessLogic {
     func loadHome()
     func pullToRefresh()
     func getForecastInfo()
@@ -22,7 +22,7 @@ public protocol NewHomeViewModelLogic: ViewModelBusinessLogic {
     func didTapTimeLabel()
     func filterCloset(delegate: HomeStyleFilterViewDelegate)
     func stylePicked(closetID: Int)
-    func toDetailView(state: NewClosetInfo)
+    func toDetailView(state: ClosetInfo)
     func toEditRegionView()
     func toNotificationListView()
     func toTendaysForecastView()
@@ -32,13 +32,12 @@ public protocol NewHomeViewModelLogic: ViewModelBusinessLogic {
     var homeSections: BehaviorRelay<[HomeSection]> { get }
     var forecastInfo: [HomeForecastInfo] { get }
     var selectedIndex: BehaviorRelay<Int> { get }
-    var styleFilterList: [StyleTypeInfo] { get }
+    var styleFilterList: [ClosetTypeInfo] { get }
 }
 
-public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
+public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     private let forecastDataSource: ForecastDataSourceProtocol = ForecastDataSource()
-    private let closetDataSource: NewClosetDataSourceProtocol = NewClosetDataSource()
-    private let typeDataSource: TypeDataSourceProtocol = TypeDataSource()
+    private let closetDataSource: ClosetDataSourceProtocol = ClosetDataSource()
     
     /// 첫 실행 shimmer 여부
     public var shimmerStatus: PublishRelay<Bool> = .init()
@@ -51,9 +50,9 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     /// 선택돼있는 인덱스
     public var selectedIndex = BehaviorRelay<Int>(value: 0)
     /// 스타일 필터 리스트
-    public var styleFilterList: [StyleTypeInfo] = []
+    public var styleFilterList: [ClosetTypeInfo] = []
     /// 스타일 추천 리스트
-    private var closetList: [NewClosetInfo] = []
+    private var closetList: [ClosetInfo] = []
     /// pagination용 리스트 총 개수
     private var closetListMaxCount = 0
     /// pagination용 이미 로드된 페이지
@@ -69,14 +68,14 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
         ]
         
         /// 첫 Cell Banner 처리를 위한 Dummy Data 넣어줌(Banner + List)
-        var banner: [NewClosetInfo] = [
+        var banner: [ClosetInfo] = [
             .init(
                 closetId: -1, 
                 closetName: "",
                 closetImageUrl: "",
                 closetStatus: "",
                 closetSiteName: "",
-                temperature: NewClosetTemp.init(
+                temperature: ClosetTemp.init(
                     tempId: 0,
                     maxTemp: 0,
                     minTemp: 0
@@ -132,7 +131,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     
     /// 스타일 필터 리스트 받아오기
     public func getStyleFilterList() {
-        typeDataSource.getTypeList()
+        closetDataSource.getTypes()
             .subscribe(
                 with: self,
                 onNext: { owner, response in
@@ -290,7 +289,7 @@ public final class NewHomeViewModel: RxBaseViewModel, NewHomeViewModelLogic {
     }
     
     /// 상세보기 이동
-    public func toDetailView(state: NewClosetInfo) {
+    public func toDetailView(state: ClosetInfo) {
         let vc = ClosetDetailViewController(ClosetDetailViewModel(closetId: state.closetId, tempId: state.temperature.tempId))
         navigationPushViewControllerRelay.accept(vc)
     }
