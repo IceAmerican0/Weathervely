@@ -32,34 +32,54 @@ extension UIImageView {
         
         let url = URL(string: urlString)
         
-        let retryStrategy = DelayRetryStrategy(
-            maxRetryCount: 2,
-            retryInterval: .seconds(0.1)
-        )
-        
-        self.kf.setImage(
-            with: url,
-            placeholder: placeHolder,
-            options: [
-                .retryStrategy(retryStrategy),
-                .transition(.fade(0.2)),
-                .cacheOriginalImage
-            ]
-        ) { [weak self] result in
-            guard let self else { return }
+        // 이미지 로딩 애니메이션 직접 처리
+        KingfisherManager.shared.retrieveImage(with: url!) { result in
             
             Task { @MainActor in
                 emptyView.removeFromSuperview()
             }
             
-            switch result {
-            case .success:
-                self.contentMode = .scaleAspectFill
-            case .failure:
-                self.contentMode = .center
-                self.image = placeHolder
-            }
-            completionHandler?(result)
+            UIView.transition(with: self, duration: 0.2, animations: {
+                switch result {
+                case .success(let value):
+                    self.image = value.image
+                    self.contentMode = .scaleAspectFill
+                case .failure:
+                    self.image = placeHolder
+                    self.contentMode = .center
+                }
+                completionHandler?(result)
+            })
         }
+        
+//        let retryStrategy = DelayRetryStrategy(
+//            maxRetryCount: 2,
+//            retryInterval: .seconds(0.1)
+//        )
+//
+//        self.kf.setImage(
+//            with: url,
+//            placeholder: placeHolder,
+//            options: [
+//                .retryStrategy(retryStrategy),
+//                .transition(.fade(0.2)),
+//                .cacheOriginalImage
+//            ]
+//        ) { [weak self] result in
+//            guard let self else { return }
+//
+//            Task { @MainActor in
+//                emptyView.removeFromSuperview()
+//            }
+//
+//            switch result {
+//            case .success:
+//                self.contentMode = .scaleAspectFill
+//            case .failure:
+//                self.contentMode = .center
+//                self.image = placeHolder
+//            }
+//            completionHandler?(result)
+//        }
     }
 }

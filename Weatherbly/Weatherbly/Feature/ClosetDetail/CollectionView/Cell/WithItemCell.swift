@@ -17,18 +17,19 @@ import Kingfisher
 final class WithItemCell: UICollectionViewCell {
     var bag = DisposeBag()
     
-    let imagePlaceHolder = UIImage.image_indicator
     private var imageViewWrapper = UIView().then {
-        $0.layer.cornerRadius = 12
-        $0.clipsToBounds = true
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = UIColor.gray10
+        $0.layer.setShadow(
+            CGSize(width: 4, height: 4),
+            UIColor.dark12.cgColor, 1, 4
+        )
     }
     
     private var itemImage = UIImageView().then {
-        $0.image = UIImage.image_indicator
+        $0.layer.masksToBounds = true
+        $0.setCornerRadius(12)
         $0.contentMode = .scaleAspectFit
     }
+    
     private var itemNameLabel = LabelMaker(
         font: UIFont.body_3_B,
         fontColor: UIColor.black,
@@ -83,15 +84,7 @@ final class WithItemCell: UICollectionViewCell {
     }
     
     func layout() {
-        clipsToBounds = true
         layer.masksToBounds = false
-        layer.setShadow(
-            CGSize(width: 4, height: 4),
-            UIColor.dark12.cgColor, 1, 4
-        )
-        
-        imageViewWrapper.layer.masksToBounds = true
-        imageViewWrapper.setCornerRadius(12)
         
         contentView.addSubviews(imageViewWrapper
                                 ,itemNameLabel
@@ -103,38 +96,22 @@ final class WithItemCell: UICollectionViewCell {
         itemImage.pin.all()
         soldOutView.pin.all()
         
-        itemNameLabel.pin.below(of: imageViewWrapper).horizontally().height(itemNameLabel.font.setLineHeight()).marginTop(12)
-        shopNameLabel.pin.below(of: itemNameLabel).horizontally().height(shopNameLabel.font.setLineHeight())/*.marginVertical(4)*/
-//        categoryLabel.pin.below(of: shopNameLabel).horizontally().height(categoryLabel.font.setLineHeight())
+        itemNameLabel.pin.below(of: imageViewWrapper).horizontally().marginTop(12).height(19)
+        shopNameLabel.pin.below(of: itemNameLabel).horizontally().marginTop(4).height(17)
+        categoryLabel.pin.below(of: shopNameLabel).horizontally().marginTop(4).height(17)
     }
     
-    func configure(info: WithItemsInfo?) {
-        
-        guard let info = info else { return }
-        if let imageUrl = info.imageUrl,
-           let itemName = info.name,
-           let brandName = info.brandName,
-           let status = info.status {
-            itemImage.setKF(urlString: imageUrl, placeHolder: imagePlaceHolder) { [weak self] result in
-                switch result {
-                case.success:
-                    self?.itemImage.pin.all()
-                    self?.itemImage.contentMode = .scaleAspectFit
-                case .failure:
-                    self?.itemImage.pin.all()
-                    self?.itemImage.contentMode = .center
-                    self?.flex.alignSelf(.center)
-                    self?.itemImage.flex.layout()
-                }
-                self?.layoutUpdate(view: self?.itemImage)
-            }
-            
-            itemNameLabel.text = itemName
-            shopNameLabel.text = brandName
-//            categoryLabel.text = category
-            if isSoldOut(status) { isHiddenToggle() }
+    func configure(info: WithItemsInfo) {
+        itemImage.setKF(urlString: info.imageUrl ?? "", placeHolder: .image_indicator) { [weak self] _ in
+            guard let self else { return }
+            self.layoutIfNeeded()
         }
+            
+        itemNameLabel.text = info.name ?? ""
+        shopNameLabel.text = info.brandName ?? ""
+        categoryLabel.text = info.category?.categoryName ?? ""
         
+        if isSoldOut(info.status ?? "") { isHiddenToggle() }
     }
     
     func isSoldOut(_ status: String) -> Bool {
@@ -145,12 +122,6 @@ final class WithItemCell: UICollectionViewCell {
         soldOutView.isHidden.toggle()
         // FIXME: - 인터렉션 막던지 alert 띄우기 의논해보기
         self.isUserInteractionEnabled = false
-    }
-    
-    func layoutUpdate(view: UIView?) {
-        view!.flex.markDirty()
-        view!.setNeedsLayout()
-        view!.layoutIfNeeded()
     }
     
     override func prepareForReuse() {

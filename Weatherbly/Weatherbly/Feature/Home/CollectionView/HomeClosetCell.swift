@@ -66,10 +66,10 @@ public final class HomeClosetCell: UICollectionViewCell {
         } else {
             cloth.setKF(urlString: state.closetImageUrl, placeHolder: .image_indicator) { [weak self] _ in
                 guard let self else { return }
-                self.setNeedsLayout()
+                self.layoutIfNeeded()
             }
         }
         
-        setNeedsLayout()
+        layoutIfNeeded()
     }
 }

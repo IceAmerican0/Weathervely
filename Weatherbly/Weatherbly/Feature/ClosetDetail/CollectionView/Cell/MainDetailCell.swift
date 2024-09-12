@@ -19,14 +19,13 @@ final class MainDetailCell: UICollectionViewCell {
         $0.backgroundColor = .white
     }
     
-    public var imageWrapper = UIView()
     public var detailImageView = UIImageView().then {
-        $0.image = UIImage.image_indicator
-        $0.contentMode = .scaleAspectFit
+        $0.contentMode = .center
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        layout()
     }
     
     required init?(coder: NSCoder) {
@@ -35,7 +34,6 @@ final class MainDetailCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        layout()
         contentView.pin.all()
         contentView.flex.layout()
     }
@@ -43,32 +41,18 @@ final class MainDetailCell: UICollectionViewCell {
     func layout() {
         contentView.flex.direction(.column).define {
             $0.addItem(shopLabel).height(44).marginLeft(20)
-            $0.addItem(imageWrapper).width(100%).backgroundColor(UIColor.gray10).define { wrapper in
-                wrapper.addItem(detailImageView).height(562.6)
-            }
+            $0.addItem(detailImageView).marginTop(10).width(100%).height(562.6)
         }
     }
     
     func configure(info: SelectedClosetInfo?) {
-        guard let info = info else { return }
+        guard let info else { return }
         if let imageUrl = info.imageUrl,
            let shopName = info.shopName {
             
             self.detailImageView.setKF(urlString: imageUrl, placeHolder: UIImage.image_indicator) { [weak self] result in
-                switch result {
-                case .success:
-                    self?.detailImageView.contentMode = .scaleAspectFit
-                    self?.detailImageView.pin.all()
-                    
-                case .failure:
-                    self?.detailImageView.image?.resized(to: CGSize(width: 56, height: 56))
-                    self?.detailImageView.contentMode = .center
-                    self?.detailImageView.pin.all()
-                    
-                }
-                self?.detailImageView.flex.markDirty()
-                self?.detailImageView.layoutIfNeeded()
-                self?.detailImageView.setNeedsLayout()
+                guard let self else { return }
+                self.layoutIfNeeded()
             }
             shopLabel.text = shopName
         }
@@ -77,5 +61,6 @@ final class MainDetailCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         self.detailImageView.image = nil
+        self.detailImageView.contentMode = .center
     }
 }

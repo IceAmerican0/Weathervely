@@ -14,9 +14,6 @@ import Then
 import Kingfisher
 
 final class StyleCell: UICollectionViewCell {
-    
-    let imagePlaceHolder = UIImage.image_indicator.resized(to: CGSizeMake(56, 56))
-    
     private var nameLabel = LabelMaker(
         font: UIFont.body_5_M,
         fontColor: UIColor.gray100,
@@ -24,14 +21,16 @@ final class StyleCell: UICollectionViewCell {
     ).make(text: "이 옷은 어느 쇼핑몰에서?")
     
     private var imageViewWrapper = UIView().then {
-//        $0.layer.cornerRadius = 12
-//        $0.clipsToBounds = true
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.layer.setShadow(
+            CGSize(width: 4, height: 4),
+            UIColor.dark12.cgColor, 1, 4
+        )
     }
     
     private var imageView = UIImageView().then {
-        $0.image = UIImage.image_indicator.resized(to: CGSizeMake(56, 56))
-        $0.contentMode = .scaleAspectFit
+        $0.layer.masksToBounds = true
+        $0.setCornerRadius(12)
+        $0.contentMode = .center
     }
     
     private var id = ""
@@ -57,26 +56,18 @@ final class StyleCell: UICollectionViewCell {
     }
     
     func layout() {
-        clipsToBounds = true
         layer.masksToBounds = false
-        layer.setShadow(
-            CGSize(width: 4, height: 4),
-            UIColor.dark12.cgColor, 1, 4
-        )
         
-        imageView.layer.masksToBounds = true
-        imageView.setCornerRadius(12)
-        
-        contentView.flex.direction(.column).define {
-            $0.addItem(imageViewWrapper).define {
-                $0.addItem(imageView).height(180).alignSelf(.center)
+        contentView.flex.define {
+            $0.addItem(imageViewWrapper).width(120).height(180).define {
+                $0.addItem(imageView).grow(1)
             }
             $0.addItem(nameLabel).marginTop(12).width(120).height(17)
         }
     }
     
     func configure(info: ClosetInfo?) {
-        guard let info = info else { return }
+        guard let info else { return }
         let id = info.closetId
         let name = info.closetName
         let imageUrl = info.closetImageUrl
@@ -85,28 +76,16 @@ final class StyleCell: UICollectionViewCell {
         let temperature = info.temperature
         closetInfo = ClosetInfo(closetId: id, closetName: name, closetImageUrl: imageUrl, closetStatus: status, closetSiteName: shopName, temperature: temperature)
         nameLabel.text = name
-        imageView.setKF(urlString: imageUrl, placeHolder: UIImage.image_indicator) { [weak self] result in
-            switch result {
-            case .success:
-                self?.imageView.pin.all()
-                self?.imageView.contentMode = .scaleAspectFit
-            case .failure:
-                self?.imageView.pin.size(56)
-                self?.imageView.contentMode = .center
-            }
-            self?.updateLayout(self?.imageView)
+        imageView.setKF(urlString: imageUrl, placeHolder: UIImage.image_indicator) { [weak self] _ in
+            guard let self else { return }
+            imageViewWrapper.layoutIfNeeded()
         }
-    }
-    
-    private func updateLayout(_ view: UIView?) {
-        view!.flex.markDirty()
-        view!.layoutIfNeeded()
-        view!.setNeedsLayout()
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
         self.imageView.image = nil
+        self.imageView.contentMode = .center
         self.imageView.kf.cancelDownloadTask()
     }
 }
