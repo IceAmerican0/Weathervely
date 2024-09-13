@@ -10,17 +10,15 @@ import PinLayout
 import FlexLayout
 
 class TitleLabelReusableHeader: UICollectionReusableView {
-
-    private let labelWrapper = UIView().then {
-        $0.backgroundColor = .white
-    }
-    private var reusableLabel = LabelMaker(
-        font: UIFont.title_3_B
+    private let container = UIView()
+    
+    private var titleLabel = LabelMaker(
+        font: UIFont.body_3_B
     ).make(text: "Title text")
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .white
+        layout()
     }
     
     required init?(coder: NSCoder) {
@@ -29,22 +27,24 @@ class TitleLabelReusableHeader: UICollectionReusableView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        layout()
+        container.pin.all()
+        container.flex.layout()
     }
     
     private func layout() {
-        self.addSubview(labelWrapper)
-        labelWrapper.addSubview(reusableLabel)
-        labelWrapper.pin.height(reusableLabel.font.setLineHeight()).all()
-        reusableLabel.pin.height(reusableLabel.font.setLineHeight()).left().right().bottom()
+        backgroundColor = .clear
+        
+        flex.addItem(container).define {
+            $0.addItem(titleLabel)
+        }
     }
     
-    public func configure(_ font: UIFont? = nil, _ text: String? = nil) {
-        if let font = font {
-            reusableLabel.font = font
+    public func configure(font: UIFont? = nil, text: String? = nil) {
+        if let font {
+            titleLabel.font = font
         }
-        if let text = text {
-            reusableLabel.text = text
+        if let text {
+            titleLabel.text = text
         }
     }
     

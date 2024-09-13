@@ -26,7 +26,6 @@ final class ClosetDetailViewModel: RxBaseViewModel {
     
     /// 함께착용한 아이템 정보
     private var withItemSection = BehaviorRelay<DetailViewSectionModel?>(value: .withItem(items: []))
-    public var withItemSectionItem = BehaviorRelay<[DetailSectionItem]?>(value: nil)
     
     /// Warmmer closets
     /// /// 더 따뜻한 옷 첫번쨰 줄
@@ -101,13 +100,11 @@ final class ClosetDetailViewModel: RxBaseViewModel {
                         let detailArray: [DetailSectionItem] = [DetailSectionItem.mainDetail(detailInfo)]
                         owner.mainDetailSection.accept(.mainDetail(items: detailArray))
                         
-                        // withItemSectio accept
-                        var itemArray: [DetailSectionItem] = []
-                        let _ = withItemInfo.map {
-                            itemArray.append(DetailSectionItem.withItem($0))
+                        // withItemSection accept
+                        let itemArray = withItemInfo.map {
+                            DetailSectionItem.withItem($0)
                         }
-                
-                        owner.withItemSectionItem.accept(itemArray)
+                        
                         owner.withItemSection.accept(.withItem(items: itemArray))
                     }
                 },

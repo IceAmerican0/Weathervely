@@ -13,10 +13,10 @@ public enum DiffTempHeaderComment: String {
     case withItemTitle = "함께 착용한 아이템"
     case warmDiffTitle = "더 따뜻한 코디"
     case warmDiffDescription = "현재 코디에서 더 따뜻한 코디를 추천드려요"
-    case secondWarmTitle = "조금 더 따뜻한 옷"
+    case secondWarmTitle = "좀 더 따뜻한 옷을 추천드려요"
     case coolDiffTitle = "더 시원한 코디"
     case coolDiffDescription = "현재 코디에서 더 시원한 코디를 추천드려요"
-    case secondCoolTitle = "조금 더 시원한 옷"
+    case secondCoolTitle = "좀 더 시원한 옷을 추천드려요"
 }
 
 public final class DiffTempDecoHeader: UICollectionReusableView {
@@ -49,12 +49,12 @@ public final class DiffTempDecoHeader: UICollectionReusableView {
     
     private func layout() {
         self.flex.define {
-            $0.addItem(titleLabel).height(titleLabel.font.setLineHeight()).marginTop(30.5)
+            $0.addItem(titleLabel).height(titleLabel.font.setLineHeight()).marginTop(29.5)
             $0.addItem(descriptLabel).height(descriptLabel.font.setLineHeight()).marginTop(9)
         }
     }
     
-    public func configure(_ title: String, _ description: String) {
+    public func configure(title: String, description: String) {
         if title == DiffTempHeaderComment.coolDiffTitle.rawValue {
             titleLabel.textColor = .blue700
         }

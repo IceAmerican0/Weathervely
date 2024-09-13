@@ -12,7 +12,6 @@ import RxSwift
 import RxDataSources
 import Then
 
-// FIXME: - Select Event 처리 필요
 final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewModel> {
     private let shimmerView = DetailShimmerView()
     
@@ -22,6 +21,7 @@ final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewMod
         .rightButton(UIImage.leftArrow_black, UIImage.home_top)
     ).then {
         $0.setTitle(DiffTempHeaderComment.detailTitle.rawValue)
+        $0.addBorder(.bottom, 1, .gray30)
     }
     
     lazy var flowLayout = UICollectionViewFlowLayout().then {
@@ -245,29 +245,55 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
                 }
             }, configureSupplementaryView: { [weak self] dataSource, collectionView, kind, indexPath in
                 guard self != nil else { return UICollectionReusableView() }
+                
                 switch kind {
                 case UICollectionView.elementKindSectionHeader:
                     switch dataSource[indexPath.section] {
-                    case .mainDetail: return UICollectionReusableView()
+                    case .mainDetail: 
+                        return UICollectionReusableView()
                     case .withItem:
-                        return collectionView.dequeueReusableHeaderView(withType: TitleLabelReusableHeader.self, for: indexPath).then {
-                            $0.configure(nil, DiffTempHeaderComment.withItemTitle.rawValue)
+                        return collectionView.dequeueReusableHeaderView(
+                            withType: TitleLabelReusableHeader.self,
+                            for: indexPath
+                        ).then {
+                            $0.configure(
+                                font: UIFont.title_3_B,
+                                text: DiffTempHeaderComment.withItemTitle.rawValue
+                            )
                         }
                     case .warmFirst:
-                        return collectionView.dequeueReusableHeaderView(withType: DiffTempDecoHeader.self, for: indexPath).then {
-                            $0.configure(DiffTempHeaderComment.coolDiffTitle.rawValue, DiffTempHeaderComment.coolDiffDescription.rawValue)
+                        return collectionView.dequeueReusableHeaderView(
+                            withType: DiffTempDecoHeader.self,
+                            for: indexPath
+                        ).then {
+                            $0.configure(
+                                title: DiffTempHeaderComment.coolDiffTitle.rawValue,
+                                description: DiffTempHeaderComment.coolDiffDescription.rawValue
+                            )
                         }
                     case .warmSecond:
-                        return collectionView.dequeueReusableHeaderView(withType: TitleLabelReusableHeader.self, for: indexPath).then {
-                            $0.configure(UIFont.body_2_B, DiffTempHeaderComment.secondCoolTitle.rawValue)
+                        return collectionView.dequeueReusableHeaderView(
+                            withType: TitleLabelReusableHeader.self,
+                            for: indexPath
+                        ).then {
+                            $0.configure(text: DiffTempHeaderComment.secondCoolTitle.rawValue)
                         }
                     case .coolFirst:
-                        return collectionView.dequeueReusableHeaderView(withType: DiffTempDecoHeader.self, for: indexPath).then {
-                            $0.configure(DiffTempHeaderComment.warmDiffTitle.rawValue, DiffTempHeaderComment.warmDiffDescription.rawValue)
+                        return collectionView.dequeueReusableHeaderView(
+                            withType: DiffTempDecoHeader.self,
+                            for: indexPath
+                        ).then {
+                            $0.configure(
+                                title: DiffTempHeaderComment.warmDiffTitle.rawValue,
+                                description: DiffTempHeaderComment.warmDiffDescription.rawValue
+                            )
                         }
                     case .coolSecond:
-                        return collectionView.dequeueReusableHeaderView(withType: TitleLabelReusableHeader.self, for: indexPath).then {
-                            $0.configure(UIFont.body_2_B, DiffTempHeaderComment.secondWarmTitle.rawValue)
+                        return collectionView.dequeueReusableHeaderView(
+                            withType: TitleLabelReusableHeader.self,
+                            for: indexPath
+                        ).then {
+                            $0.configure(text: DiffTempHeaderComment.secondWarmTitle.rawValue)
                         }
                     }
                 default:
@@ -276,12 +302,6 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
                 return UICollectionReusableView()
             })
     }
-    
-//    func setParentCollectionView() -> RxCollectionViewSectionedAnimatedDataSource<DetailViewSectionModel> {
-//        RxCollectionViewSectionedAnimatedDataSource<DetailViewSectionModel> (configureCell: {
-//            [weak self] dataSource, collectionView, indexPath, item in
-//
-//    }
     
     func setSectionLayout() -> UICollectionViewCompositionalLayout {
         let layout = UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ -> NSCollectionLayoutSection? in
@@ -321,7 +341,7 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
         
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
-            heightDimension: .estimated(606.5)
+            heightDimension: .estimated(636.5)
         )
         
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -336,7 +356,7 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
     }
     
     // MARK: - withItemScction Layout
-    func withItemLayout() -> NSCollectionLayoutSection {
+    func withItemLayout() -> NSCollectionLayoutSection { // 180 + 12 + 19 + 4 + 17 = 231 + (4 + 17) / 29.5 + (4 + 17)
         let itemWidth = (Constants.screenWidth - 20 ) / 3
         let groupWidth = itemWidth * 3 + 32
         let itemSize = NSCollectionLayoutSize(
@@ -350,7 +370,7 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
         /// https://ios-development.tistory.com/945
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .absolute(groupWidth),
-            heightDimension: .absolute(233)
+            heightDimension: .absolute(263)
         )
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: groupSize,
@@ -371,7 +391,7 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
         
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
-        section.contentInsets = NSDirectionalEdgeInsets(top: 12 , leading: 20, bottom: 30, trailing: 0)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 12 , leading: 20, bottom: 0, trailing: 0)
         section.interGroupSpacing = 16
         section.boundarySupplementaryItems = [sectionHeader]
         
@@ -391,7 +411,7 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
         
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .absolute(groupWidth),
-            heightDimension: .absolute(180)
+            heightDimension: .absolute(200)
         )
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: groupSize,

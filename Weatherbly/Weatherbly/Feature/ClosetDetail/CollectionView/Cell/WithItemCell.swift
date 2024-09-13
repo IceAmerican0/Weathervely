@@ -98,7 +98,7 @@ final class WithItemCell: UICollectionViewCell {
         
         itemNameLabel.pin.below(of: imageViewWrapper).horizontally().marginTop(12).height(19)
         shopNameLabel.pin.below(of: itemNameLabel).horizontally().marginTop(4).height(17)
-        categoryLabel.pin.below(of: shopNameLabel).horizontally().marginTop(4).height(17)
+//        categoryLabel.pin.below(of: shopNameLabel).horizontally().marginTop(4).height(17)
     }
     
     func configure(info: WithItemsInfo) {
@@ -109,7 +109,7 @@ final class WithItemCell: UICollectionViewCell {
             
         itemNameLabel.text = info.name ?? ""
         shopNameLabel.text = info.brandName ?? ""
-        categoryLabel.text = info.category?.categoryName ?? ""
+//        categoryLabel.text = info.category?.categoryName ?? ""
         
         if isSoldOut(info.status ?? "") { isHiddenToggle() }
     }
