@@ -7,10 +7,9 @@
 
 import UIKit
 import Then
-import FlexLayout
+import PinLayout
 import CoreLocation
 import KakaoMapsSDK
-
 
 public final class MapViewController: RxBaseViewController<MapViewModel>, MapControllerDelegate {
     private lazy var mapContainer = KMViewContainer().then {
@@ -47,6 +46,10 @@ public final class MapViewController: RxBaseViewController<MapViewModel>, MapCon
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.addSubview(mapContainer)
+        
+        configureAuthorizationState(locationManager)
+        
         if mapContainer.proMotionDisplay == true {
             mapController.proMotionSupport = true
         }
@@ -78,12 +81,10 @@ public final class MapViewController: RxBaseViewController<MapViewModel>, MapCon
         mapController.resetEngine()
     }
     
-    override func layout() {
-        super.layout()
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         
-        container.flex.define {
-            $0.addItem(mapContainer).grow(1)
-        }
+        mapContainer.pin.all()
     }
     
     func addObservers(){
@@ -111,7 +112,7 @@ public final class MapViewController: RxBaseViewController<MapViewModel>, MapCon
 
 // MARK: CLLocationManagerDelegate
 extension MapViewController: CLLocationManagerDelegate {
-    public func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+    public func configureAuthorizationState(_ manager: CLLocationManager) {
         switch manager.authorizationStatus {
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
@@ -150,19 +151,33 @@ extension MapViewController: CLLocationManagerDelegate {
         }
     }
     
+    public func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        configureAuthorizationState(manager)
+    }
+    
     public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
         currentLongitude = location.coordinate.longitude
         currentLatitude = location.coordinate.latitude
+    }
+    
+    public func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
+        viewModel.alertState.accept(
+            .init(
+                title: "위치를 불러오지 못했어요.\n다시 시도해주세요.",
+                alertType: .popup,
+                closeAction: { self.viewModel.navigationPopViewControllerRelay.accept(Void()) }
+            )
+        )
     }
 }
 
 // MARK: MapControllerDelegate
 extension MapViewController {
     public func addViews() {
-        //여기에서 그릴 View(KakaoMap, Roadview)들을 추가한다.
+        // 여기에서 그릴 View(KakaoMap, Roadview)들을 추가한다.
         let defaultPosition: MapPoint = MapPoint(longitude: currentLongitude, latitude: currentLatitude)
-        //지도(KakaoMap)를 그리기 위한 viewInfo를 생성
+        // 지도(KakaoMap)를 그리기 위한 viewInfo 생성
         let mapviewInfo: MapviewInfo = MapviewInfo(viewName: "mapview", viewInfoName: "map", defaultPosition: defaultPosition, defaultLevel: 13)
         
         //KakaoMap 추가.
@@ -172,6 +187,9 @@ extension MapViewController {
     public func addViewSucceeded(_ viewName: String, viewInfoName: String) {
         let view = mapController.getView("mapview") as! KakaoMap
         view.viewRect = mapContainer.bounds
+        
+        setPoi()
+        setSpriteGUI()
     }
     
     public func containerDidResized(_ size: CGSize) {
@@ -214,6 +232,75 @@ extension MapViewController: KakaoMapEventDelegate {
     }
     
     public func onViewInfoChangeFailure(kakaoMap: KakaoMap, viewInfoName: String) {
+        
+    }
+}
+
+// MARK: Poi
+extension MapViewController {
+    private func setPoi() {
+        let view = mapController.getView("mapview") as! KakaoMap
+        let labelManager = view.getLabelManager()
+        
+        let layerOption = LabelLayerOptions(
+            layerID: "PoiLayer",
+            competitionType: .none,
+            competitionUnit: .poi,
+            orderType: .rank,
+            zOrder: 10001
+        )
+        
+        let _ = labelManager.addLabelLayer(option: layerOption)
+        
+        let iconStyle = PoiIconStyle(
+            symbol: UIImage(named: "mapIcoBookmark_01.png"),
+            anchorPoint: CGPoint(x: 0.0, y: 0.5)
+        )
+        let perLevelStyle = PerLevelPoiStyle(iconStyle: iconStyle, level: 0)
+        let poiStyle = PoiStyle(styleID: "customStyle1", styles: [perLevelStyle])
+        labelManager.addPoiStyle(poiStyle)
+        
+        let poiOption = PoiOptions(styleID: "customStyle1").then {
+            $0.rank = 0
+            $0.clickable = true
+        }
+        
+        let layer = labelManager.getLabelLayer(layerID: "PoiLayer")
+        
+        let poi = layer?.addPoi(
+            option: poiOption,
+            at: MapPoint(longitude: currentLongitude, latitude: currentLatitude)
+        )
+        
+        let _ = poi?.addPoiTappedEventHandler(target: self, handler: MapViewController.poiTapped)
+        poi?.show()
+    }
+    
+    private func poiTapped(_ param: PoiInteractionEventParam) {
+        viewModel.poiTapped()
+    }
+}
+
+// MARK: SpriteGUI
+extension MapViewController: GuiEventDelegate {
+    private func setSpriteGUI() {
+        let mapView: KakaoMap = mapController.getView("mapview") as! KakaoMap
+        let guiManager: GuiManager = mapView.getGuiManager()
+        let spriteLayer = guiManager.spriteGuiLayer
+        
+        let button = GuiButton("button")
+        button.image = UIImage(named: "track_location_btn.png")
+        
+        let spriteGui = SpriteGui("buttonGui")
+        spriteGui.addChild(button)
+        spriteGui.origin = GuiAlignment(vAlign: .bottom, hAlign: .right)
+        spriteGui.delegate = self
+        
+        spriteLayer.addSpriteGui(spriteGui)
+        spriteGui.show()
+    }
+    
+    public func guiDidTapped(_ gui: GuiBase, componentName: String) {
         
     }
 }

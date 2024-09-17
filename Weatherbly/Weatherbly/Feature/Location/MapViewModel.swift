@@ -9,10 +9,15 @@ import UIKit
 import CoreLocation
 
 public protocol MapViewModelLogic: ViewModelBusinessLogic {
+    func poiTapped()
     func goToSetting()
 }
 
 public final class MapViewModel: RxBaseViewModel, MapViewModelLogic {
+    public func poiTapped() {
+        
+    }
+    
     public func goToSetting() {
         guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
         DispatchQueue.main.async {
