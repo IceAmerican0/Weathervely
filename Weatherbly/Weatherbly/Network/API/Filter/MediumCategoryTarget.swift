@@ -10,7 +10,7 @@ import Moya
 public enum MediumCategoryTarget {
     /// 타입 리스트 가져오기
     case getMainMediumCategoryList
-    case getStyleMediumCategoryList(id: String)
+    case getStyleMediumCategoryList(id: Int)
 }
 
 extension MediumCategoryTarget: WVTargetType {

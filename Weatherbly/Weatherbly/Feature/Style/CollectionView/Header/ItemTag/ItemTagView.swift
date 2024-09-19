@@ -6,16 +6,12 @@
 //
 
 import UIKit
+import FlexLayout
 import PinLayout
 import RxGesture
 import RxSwift
 import RxCocoa
-import SnapKit
-
-struct TagState {
-    var identfier: MCategoryInfo?
-    var isSelected: SelectedChageState = .deSelected
-}
+import Then
 
 public enum SelectedChageState {
     case selected
@@ -29,24 +25,24 @@ public enum SelectedChageState {
     }
 }
 
-class ItemTagView: UIView {
+public final class ItemTagView: UIView {
     
     public var bag = DisposeBag()
     public var selectedState = BehaviorRelay<SelectedChageState>(value: .deSelected)
-    public var categoryInfo: MCategoryInfo = .init(id: 0, name: "")
+    public var categoryInfo: StyleMediumCategoryInfo = .init(id: 0, name: "")
+    
     public var labelWrapper = UIView().then {
         $0.layer.cornerRadius = 14
         $0.layer.borderWidth = 1
         $0.layer.borderColor = UIColor.gray20.cgColor
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.clipsToBounds = true
     }
+    
     public var tagLabel = LabelMaker(
         font: UIFont.body_5_B,
         fontColor: .black,
         alignment: .center
     ).make(text: "#Item1").then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.numberOfLines = 1
         $0.clipsToBounds = true
         $0.textAlignment = .center
@@ -54,7 +50,6 @@ class ItemTagView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configureAttribute()
         layout()
         binding()
     }
@@ -63,90 +58,77 @@ class ItemTagView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        setLayout()
+    }
+    
+    public override func sizeThatFits(_ size: CGSize) -> CGSize {
+        setLayout()
+        flex.layout(mode: .adjustWidth)
+        return frame.size
+    }
+    
     var tagDidTap: Observable<UITapGestureRecognizer> {
-        self.labelWrapper.rx.tapGesture().when(.recognized)
+        rx.tapGesture().when(.recognized)
     }
     
     private func binding() {
         selectedState.asDriver()
-            .drive(with: self ) { owner, isSelected in
-
-            switch isSelected {
-            case .selected:
-                    owner.labelWrapper.layer.borderColor = UIColor.violet500.cgColor
-                    owner.labelWrapper.backgroundColor = UIColor.violet10
+            .drive(with: self) { owner, isSelected in
+                switch isSelected {
+                case .selected:
+                    owner.labelWrapper.do {
+                        $0.layer.borderColor = UIColor.violet500.cgColor
+                        $0.backgroundColor = UIColor.violet10
+                    }
+                    
                     owner.tagLabel.do {
-                    $0.textColor = UIColor.violet500
-                    $0.backgroundColor = UIColor.violet10
-                }
-            case .deSelected:
-                    owner.labelWrapper.layer.borderColor = UIColor.gray20.cgColor
-                    owner.labelWrapper.backgroundColor = .white
+                        $0.textColor = UIColor.violet500
+                        $0.backgroundColor = UIColor.violet10
+                    }
+                case .deSelected:
+                    owner.labelWrapper.do {
+                        $0.layer.borderColor = UIColor.gray20.cgColor
+                        $0.backgroundColor = .white
+                    }
+                    
                     owner.tagLabel.do {
-                    $0.textColor = .black
-                    $0.backgroundColor = .white
+                        $0.textColor = .black
+                        $0.backgroundColor = .white
+                    }
                 }
-                 
-            }
             }.disposed(by: bag)
     }
     
-    func configureAttribute() {
-        
-        labelWrapper.do {
-            $0.layer.cornerRadius = 14
-            $0.layer.borderWidth = 1
-            $0.layer.borderColor = UIColor.gray20.cgColor
-            $0.translatesAutoresizingMaskIntoConstraints = false
-            $0.clipsToBounds = true
-        }
-        tagLabel.do {
-            $0.translatesAutoresizingMaskIntoConstraints = false
-            $0.numberOfLines = 1
-            $0.clipsToBounds = true
-            $0.textAlignment = .center
-        }
+    private func setLayout() {
+        labelWrapper.pin.all()
+        labelWrapper.flex.layout()
     }
     
     func layout() {
-        
-        // ISSUE: - Pin 또는 Flex 사용할 경우 Layout 정상적으로 작동하지 않는다.
-        // UIView의 라이프싸이클 문제로 추측 된다.
-        addSubview(labelWrapper)
-        labelWrapper.addSubview(tagLabel)
-        labelWrapper.snp.makeConstraints {
-            $0.top.leading.trailing.bottom.equalToSuperview()
-            $0.width.greaterThanOrEqualTo(30)
-            $0.height.equalTo(29)
-        }
-        tagLabel.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.equalToSuperview().offset(14)
-            $0.trailing.equalToSuperview().inset(14)
-            $0.bottom.equalToSuperview()
-            $0.width.greaterThanOrEqualTo(30)
+        flex.addItem(labelWrapper).maxWidth(300).height(29).justifyContent(.center).define {
+            $0.addItem(tagLabel).marginHorizontal(14).grow(1)
         }
     }
     
-    func configure(with tagInfo: MCategoryInfo?, selectedTags: [Int]) {
+    func configure(with tagInfo: StyleMediumCategoryInfo?, selectedTags: [Int]) {
         
-        guard let tagInfo = tagInfo else {
+        guard let tagInfo else {
             tagLabel.text = "#카테고리"
-            tagLabel.sizeToFit()
-            setNeedsLayout()
+            tagLabel.flex.markDirty()
             return
         }
+        
         if selectedTags.contains(tagInfo.id) {
             self.selectedState.accept(.selected)
         } else {
             self.selectedState.accept(.deSelected)
         }
+        
         categoryInfo = tagInfo
         tagLabel.text = tagInfo.name
-        tagLabel.sizeToFit()
-        setNeedsLayout()
+        tagLabel.flex.markDirty()
     }
-        
-    
 }
 

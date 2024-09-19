@@ -8,8 +8,8 @@
 import UIKit
 import RxDataSources
 
-struct StyleBanner: Equatable, IdentifiableType {
-    let identity = UUID()
+public struct StyleBanner: Equatable, IdentifiableType {
+    public let identity = UUID()
     
     let styleBanner = UIImage.style_banner
 }

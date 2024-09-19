@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RxDataSources
 
 public struct StyleMediumCategoryEntity: Codable {
     var status: Int
@@ -24,7 +25,9 @@ public struct StyleMediumCategoryData: Codable {
     }
 }
 
-public struct StyleMediumCategoryInfo: Codable {
+public struct StyleMediumCategoryInfo: Codable, Equatable, IdentifiableType {
+    public var identity = UUID().uuidString
+    
     var id: Int
     var name: String
     

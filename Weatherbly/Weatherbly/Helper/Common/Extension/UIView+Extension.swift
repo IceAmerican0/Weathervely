@@ -135,10 +135,6 @@ extension UIView {
         self.layer.insertSublayer(caGradientLayer, at: 0)
     }
     
-    func setBackgroundColor(_ color: UIColor) {
-        self.backgroundColor = color
-    }
-    
     func shimmer(_ radius: CGFloat) -> UIView {
         ShimmerView().setCornerRadius(radius)
     }

@@ -5,12 +5,11 @@
 //  Created by 최수훈 on 7/21/24.
 //
 
-import UIKit
 import RxDataSources
 import RxCocoa
 import RxSwift
 
-final class InnerCellViewModel {
+public final class InnerCellViewModel {
     private var bag = DisposeBag()
     public let bindSectionsRelay = BehaviorRelay<[StyleTabSectionModel]>(value: [])
     public let sectionItems = BehaviorRelay<[StyleTabItem]?>(value: nil)

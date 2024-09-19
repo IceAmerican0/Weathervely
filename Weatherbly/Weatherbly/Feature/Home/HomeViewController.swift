@@ -316,7 +316,12 @@ extension HomeViewController {
                     withType: HomeClosetCell.self,
                     for: indexPath
                 ).then {
-                    $0.configureCellState(state: cellState)
+                    if cellState.closetId == -1 {
+                        $0.cloth.image = .home_banner_01
+                        $0.cloth.contentMode = .scaleAspectFill
+                    } else {
+                        $0.configureCellState(state: cellState)
+                    }
                 }
             }
         }, configureSupplementaryView: { [weak self] dataSource, collectionView, kind, indexPath in

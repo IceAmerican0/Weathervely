@@ -95,12 +95,11 @@ private extension CSButton {
                 onNext: { owner, _ in
                     switch owner.style {
                     case .violet600:
-                        owner.setBackgroundColor(.violet400)
+                        owner.backgroundColor = .violet400
                     case .violet100:
-                        owner.setBackgroundColor(.violet200)
+                        owner.backgroundColor = .violet200
                     case .white:
-                        owner.setBackgroundColor(.violet50)
-                        self.setTitleColor(.violet400, for: .highlighted)
+                        owner.backgroundColor = .violet50
                     }
                 }
             ).disposed(by: bag)
@@ -112,12 +111,11 @@ private extension CSButton {
                 onNext: { owner, _ in
                     switch owner.style {
                     case .violet600:
-                        owner.setBackgroundColor(.violet600)
+                        owner.backgroundColor = .violet600
                     case .violet100:
-                        owner.setBackgroundColor(.violet100)
+                        owner.backgroundColor = .violet100
                     case .white:
-                        owner.setBackgroundColor(.white)
-                        self.setTitleColor(.violet600, for: .normal)
+                        owner.backgroundColor = .white
                     }
                 }
             ).disposed(by: bag)
@@ -144,6 +142,7 @@ private extension CSButton {
                 case .white:
                     $0.backgroundColor = .white
                     $0.setTitleColor(.violet600, for: .normal)
+                    $0.setTitleColor(.violet400, for: .highlighted)
                     $0.setTitleColor(.gray30, for: .disabled)
                     $0.layer.borderWidth = 1
                     $0.layer.borderColor = UIColor.violet150.cgColor

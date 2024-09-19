@@ -10,8 +10,9 @@ import FlexLayout
 import RxSwift
 import RxDataSources
 import RxGesture
+import Then
 
-final class StyleViewController: RxBaseViewController<StyleViewModel> {
+public final class StyleViewController: RxBaseViewController<StyleViewModel> {
     private let shimmerView = StyleShimmerView()
     
     private let contentView = UIView()
@@ -32,12 +33,12 @@ final class StyleViewController: RxBaseViewController<StyleViewModel> {
     
     private lazy var rxDataSources = setRxDataSources()
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.fetchData()
     }
     
-    override func viewDidLayoutSubviews() {
+    public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         container.flex.layout()
     }
@@ -72,7 +73,6 @@ final class StyleViewController: RxBaseViewController<StyleViewModel> {
                     owner.viewModel.navigationPushViewControllerRelay.accept(detailVC)
                     
             }.disposed(by: bag)
-//        addObserver(self, selector: #selector(pushDetailView(_:)), name: .styleClosetTap, object: nil)
     }
     
     override func viewModelBinding() {
@@ -113,13 +113,10 @@ extension StyleViewController: StyleTabClosetTouchDelegate {
         let parentScrollOffsetY = titleLabelAreaHeight + bannerSectionHeight
         
         if offsetY <= 0 { // innerCV 최상단
-//            collectionView.becomeFirstResponder()
-            
             /// collectionView의 스크롤 높이가 가장 최상단일때
             if collectionView.contentOffset.y <= 0 {
                 collectionView.contentOffset.y = 0
                 innerCollectionView.contentOffset.y = 0
-//                innerCollectionView.setContentOffset(CGPoint(x: innerCollectionView.contentOffset.x, y: 0), animated: true)
             } else {
                 /// collectionVie의 스크롤의 높이가 0보다 크면서 parentScrollOffsetY 보다 작을 때
                 /// 즉, 배너섹션의 끝 영역까지
@@ -158,7 +155,7 @@ extension StyleViewController: StyleTabClosetTouchDelegate {
 extension StyleViewController: UICollectionViewDelegate {
 
     // MARK: - 이중 스크롤 방지
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let titleLabelAreaHeight = titleLabel.lineHeight + 28.5
         let bannerSectionHeight = CGFloat(80)
         //
@@ -176,9 +173,6 @@ extension StyleViewController: UICollectionViewDelegate {
             parentCV.isScrollEnabled = false
             
         }
-//        debugPrint("parentOffsetY : \(parentOffsetY)")
-        debugPrint("scrollY : \(scrollView.contentOffset.y )")
-        
     }
     
     // MARK: - DataSource
@@ -201,9 +195,8 @@ extension StyleViewController: UICollectionViewDelegate {
             default: return UICollectionViewCell()
             }
             
-        }, configureSupplementaryView: { [ weak self] dataSource, collectionView, kind, indexPath in
+        }, configureSupplementaryView: { [weak self] dataSource, collectionView, kind, indexPath in
             guard self != nil else { return UICollectionReusableView() }
-            // TODO: - header styleTagHeaderView 넣기
             
             switch kind {
             case UICollectionView.elementKindSectionHeader:
@@ -211,7 +204,6 @@ extension StyleViewController: UICollectionViewDelegate {
                     
                 case .types(let types, _):
                     return collectionView.dequeueReusableHeaderView(withType: StyleTagHeaderView.self, for: indexPath).then {
-                        debugPrint("header 생성 \(types)")
                         $0.configureTag(types)
                     }
                 default:

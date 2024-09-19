@@ -8,15 +8,14 @@
 import Foundation
 import RxDataSources
 
-typealias SyleSectionItem = StyleTabItem
-enum StyleTabItem: Equatable, IdentifiableType  {
+public enum StyleTabItem: Equatable, IdentifiableType  {
 
     case banner(StyleBanner)
     case type([StyleTabSectionModel])
     case styles(ClosetInfo)
     case closets(ClosetInfo)
     
-    var identity: String {
+    public var identity: String {
         switch self {
         case .banner(let item):
             return "banner-\(item.identity)"
@@ -31,16 +30,13 @@ enum StyleTabItem: Equatable, IdentifiableType  {
     }
 }
 
-enum StyleTabSectionModel: AnimatableSectionModelType {
+public enum StyleTabSectionModel: AnimatableSectionModelType {
+    case banner(item: [StyleTabItem])
+    case types(header: [ClosetTypeInfo], items: [StyleTabItem])
+    case styles(header: (typeInfo: ClosetTypeInfo, categories: [StyleMediumCategoryInfo]), items: [StyleTabItem])
+    case closets(item: [StyleTabItem])
     
-//    typealias Item = StyleTabItem
-    
-    case banner(item: [SyleSectionItem])
-    case types(header: [ClosetTypeInfo], items: [SyleSectionItem])
-    case styles(header: (typeInfo: ClosetTypeInfo, categories: [MCategoryInfo]), items: [SyleSectionItem])
-    case closets(item: [SyleSectionItem])
-    
-    var identity: String {
+    public var identity: String {
         switch self {
         case .banner: return "banner"
         case .types: return UUID().uuidString.identity
@@ -49,7 +45,7 @@ enum StyleTabSectionModel: AnimatableSectionModelType {
         }
     }
     
-    var items: [SyleSectionItem] {
+    public var items: [StyleTabItem] {
         switch self {
         case .banner(item: let item): item
         case .types(_, items: let item): item.map { $0 }
@@ -61,11 +57,11 @@ enum StyleTabSectionModel: AnimatableSectionModelType {
 
 
 extension StyleTabSectionModel: SectionModelType, Equatable, IdentifiableType{
-    static func == (lhs: StyleTabSectionModel, rhs: StyleTabSectionModel) -> Bool {
+    public static func == (lhs: StyleTabSectionModel, rhs: StyleTabSectionModel) -> Bool {
         return lhs.identity == rhs.identity
     }
     
-    init(original: StyleTabSectionModel, items: [SyleSectionItem]) {
+    public init(original: StyleTabSectionModel, items: [StyleTabItem]) {
         switch original {
         case .banner:
             self = .banner(item: items)

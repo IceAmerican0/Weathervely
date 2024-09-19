@@ -9,15 +9,16 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-fileprivate protocol StyleViewModelLogic: ViewModelBusinessLogic {
+public protocol StyleViewModelLogic: ViewModelBusinessLogic {
     func getTypes()
     func getAPISerial(with typeInfo: [ClosetTypeInfo], _ completion: (([StyleTabSectionModel]) -> Void)? )
     
     var shimmerStatus: PublishRelay<Bool> { get }
 }
 
-final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
-    private let closetDataSource: ClosetDataSourceProtocol
+public final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
+    private let closetDataSource: ClosetDataSourceProtocol = ClosetDataSource()
+    private let categoryDataSource: MediumCategoryDataSourceProtocol = MediumCategoryDataSource()
     /// 첫 실행 shimmer 여부
     public var shimmerStatus: PublishRelay<Bool> = .init()
     /// 스타일 콜렉션 뷰 정보
@@ -27,10 +28,6 @@ final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
     /// Types
     public var types = BehaviorRelay<[ClosetTypeInfo]?>(value: [])
     public var typesSection = BehaviorRelay<StyleTabSectionModel?>(value: .types(header: [], items: []))
-//    public var typesSection = BehaviorRelay<[StyleTabSectionModel]?>(value: [])
-    /// Categories
-    public var categories = BehaviorRelay<[MCategoryInfo]?>(value: [])
-    
     /// Closets
     public var styleSection = BehaviorRelay<[StyleTabSectionModel]?>(value: [])
     
@@ -52,42 +49,18 @@ final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
      StypeSection1 [ header: [MediumCategory for type1]
      */
     
-    init(closetDataSource: ClosetDataSource) {
-        self.closetDataSource = closetDataSource
-    }
-    
     public func fetchData() {
-        
         getTypes()
         bindSections()
-        
     }
+    
     public func bindSections() {
-        /*
-            // TODO: - bindSectionsRelay 의 모습은
-            [
-                .banner(bannerImage),
-                .types( header: self.types.value, ( [ClosetTypeInfo] )
-                        items: self.styleSectinos.value
-         
-        ** types의 item 예시
-        [   .style(header: (typeInfo: ClosetTypeInfo(id:1, name: "타입이름"), categories: [MCategories]), items: [ClosetInfo,
-            .style(header: (typeInfo: ClosetTypeInfo(id:2, name: "타입이름"), categories: [MCategories]), items: [ClosetInfo],
-            .style(header: (typeInfo: ClosetTypeInfo(id:3, name: "타입이름"), categories: [MCategories]), items: [ClosetInfo],
-            .style(header: (typeInfo: ClosetTypeInfo(id:4, name: "타입이름"), categories: [MCategories]), items: [ClosetInfo]
-
-            ]
-            ]
-         
-         */
-        
         let _  = Observable.combineLatest(bannserSection, typesSection).map { banner, types -> [StyleTabSectionModel] in
             var sections: [StyleTabSectionModel] = []
             if let banner, let types {
                 sections.append(banner)
                 sections.append(types)
             }
-//            debugPrint("bindingSection : \(sections) ")
             return sections
         }.bind(to: bindSectionsRelay)
             .disposed(by: bag)
@@ -116,26 +89,22 @@ final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
             .disposed(by: bag)
     }
     
-    public func getCategories(typeID: Int) -> Observable<[MCategoryInfo]> {
-        return closetDataSource.getCategories(typeID: typeID)
+    public func getCategories(typeID: Int) -> Observable<[StyleMediumCategoryInfo]> {
+        return categoryDataSource.getStyleMediumCategoryList(id: typeID)
             .map { response in
-                let categories = response.data.mediumCategories
-//                debugPrint("⚪️⚪️⚪️ getCategories TYPEINFO : ", typeID)
-                return categories
+                return response.data.mediumCategories
             }
     }
     
-    public func getClosets(typeInfo: ClosetTypeInfo, categories: [MCategoryInfo], page: Int) -> Observable<[ClosetInfo]>  {
+    public func getClosets(typeInfo: ClosetTypeInfo, categories: [StyleMediumCategoryInfo], page: Int) -> Observable<[ClosetInfo]>  {
         return closetDataSource.getClosetWithType(typeID: typeInfo.id, page: 1)
             .map { response in
                 let closetInfo = response.data.closets
-//                debugPrint("🔥🔥🔥 getClosets TYPEINFO : \(typeInfo.id) : \(typeInfo.name)")
                 return closetInfo
             }
     }
     
-    fileprivate func getAPISerial(with typeInfo: [ClosetTypeInfo], _ completion: (([StyleTabSectionModel]) -> Void)?) {
-        debugPrint("1️⃣1️⃣1️⃣ getCategories TYPEINFO : ", typeInfo)
+    public func getAPISerial(with typeInfo: [ClosetTypeInfo], _ completion: (([StyleTabSectionModel]) -> Void)?) {
         Observable.from(typeInfo)
             .concatMap { typeInfo in
                 self.getCategories(typeID: typeInfo.id)
@@ -153,7 +122,6 @@ final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
                 closetsInfo.forEach {
                     styleItemArr.append(StyleTabItem.styles($0))
                 }
-//                debugPrint("🚀🚀🚀 styleSection.value: \(self.styleSection.value?.last)")
                 styleSection.append(
                     StyleTabSectionModel.styles(
                         header: (typeInfo: typeInfo, categories: categories),

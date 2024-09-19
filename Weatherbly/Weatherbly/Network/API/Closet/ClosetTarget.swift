@@ -13,7 +13,6 @@ public enum ClosetTarget {
     /// 스타일탭 코디 가져오기
     case getClosetWithType(typeID: Int, page: Int)
     case getTypes
-    case getCategories(typeID: Int)
     case closetWithCategory(typeID: Int, page: Int, items: String?)
     /// 메인 > 메인 카드 클릭시 히스토리 저장
     case stylePicked(_ closetID: Int)
@@ -30,7 +29,6 @@ extension ClosetTarget: WVTargetType {
              .getFilterCount:            "/closet"
         case .stylePicked(let closetID): "/closet/pick/\(closetID)"
         case .getTypes:                  "/type"
-        case .getCategories:             "/mediumCategory"
         }
     }
     
@@ -40,7 +38,6 @@ extension ClosetTarget: WVTargetType {
              .getFilterCount,
              .getClosetWithType,
              .getTypes,
-             .getCategories,
              .closetWithCategory:
             return .get
         case .stylePicked:
@@ -75,15 +72,6 @@ extension ClosetTarget: WVTargetType {
             
         case .getTypes:
             return .requestPlain
-            
-        case .getCategories(let typeID):
-            return .requestParameters(
-                parameters: [
-                    "tab" : "style",
-                    "style_ids": typeID
-                ],
-                encoding: URLEncoding.queryString
-            )
             
         case .closetWithCategory(let typeID, let page, let items):
             return .requestParameters(

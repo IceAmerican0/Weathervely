@@ -60,14 +60,9 @@ public final class HomeClosetCell: UICollectionViewCell {
     }
     
     func configureCellState(state: ClosetInfo) {
-        if state.closetId == -1 {
-            cloth.image = .home_banner_01
-            cloth.contentMode = .scaleAspectFill
-        } else {
-            cloth.setKF(urlString: state.closetImageUrl, placeHolder: .image_indicator) { [weak self] _ in
-                guard let self else { return }
-                self.layoutIfNeeded()
-            }
+        cloth.setKF(urlString: state.closetImageUrl, placeHolder: .image_indicator) { [weak self] _ in
+            guard let self else { return }
+            self.layoutIfNeeded()
         }
         
         layoutIfNeeded()

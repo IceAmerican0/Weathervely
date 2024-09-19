@@ -15,7 +15,7 @@ protocol StyleTabClosetTouchDelegate: AnyObject {
     func innerCollectionViewDidScroll(_ innerCollectionView: UICollectionView, contentOffset: CGPoint)
 }
 
-final public class InnerCollectionViewCell: UICollectionViewCell {
+public final class InnerCollectionViewCell: UICollectionViewCell {
     
     // MARK: - 전역변수 & delegate
     private var bag = DisposeBag()
@@ -132,7 +132,7 @@ final public class InnerCollectionViewCell: UICollectionViewCell {
 // MARK: - 테그 탭 이벤트 처리
 extension InnerCollectionViewCell: CategoryHeaderViewDelegate {
 
-    func sendCategoryWithType(_ view: CategoryHeaderView, tags: [Int], typeInfo: ClosetTypeInfo) {
+    func sendCategoryWithType(tags: [Int], typeInfo: ClosetTypeInfo) {
         
         self.selectedTags = tags
         let updatedSections = self.cellViewModel.bindSectionsRelay.value
@@ -327,11 +327,7 @@ extension InnerCollectionViewCell: UICollectionViewDelegate {
     
     // MARK: - 이중 스크롤 방지
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        debugPrint("⚪️⚪️⚪️\(scrollView.contentOffset.y)")
-        debugPrint("🔵🔵🔵\(innerCollectionView.contentOffset.y)")
-        
         delegate?.innerCollectionViewDidScroll(innerCollectionView, contentOffset: scrollView.contentOffset)
     }
-
 }
 

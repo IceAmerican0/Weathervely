@@ -13,7 +13,6 @@ protocol ClosetDataSourceProtocol {
     func getHomeCloset(page: Int, time: String) -> Observable<ClosetEntity>
     func getClosetWithType(typeID: Int, page: Int) -> Observable<ClosetEntity>
     func getTypes() -> Observable<ClosetTypeEntity>
-    func getCategories(typeID: Int) -> Observable<CategoryEntity>
     func closetWithCategory(typeID: Int, page: Int, items: String?) -> Observable<ClosetEntity>
     func stylePicked(_ closetID: Int) -> Observable<EmptyEntity>
     func getFilterCount(list: [String], time: String) -> Observable<ClosetEntity>
@@ -42,12 +41,6 @@ final class ClosetDataSource: ClosetDataSourceProtocol {
         provider
             .request(.getTypes)
             .mapTo(ClosetTypeEntity.self)
-    }
-    
-    func getCategories(typeID: Int) -> Observable<CategoryEntity> {
-        provider
-            .request(.getCategories(typeID: typeID))
-            .mapTo(CategoryEntity.self)
     }
     
     func closetWithCategory(typeID: Int, page: Int, items: String?) -> Observable<ClosetEntity> {

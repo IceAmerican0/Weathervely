@@ -99,11 +99,11 @@ public final class UserDefaultManager {
                 return .develop
             }
         } else {
-            #if DEBUG
-                return .develop
-            #else
+//            #if DEBUG
+//                return .develop
+//            #else
                 return .production
-            #endif
+//            #endif
         }
     }
     

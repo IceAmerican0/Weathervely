@@ -10,7 +10,7 @@ import RxSwift
 
 protocol MediumCategoryDataSourceProtocol {
     func getMainMediumCategoryList() -> Observable<MainMediumCategoryEntity>
-    func getStyleMediumCategoryList(id: String) -> Observable<StyleMediumCategoryEntity>
+    func getStyleMediumCategoryList(id: Int) -> Observable<StyleMediumCategoryEntity>
 }
 
 final class MediumCategoryDataSource: MediumCategoryDataSourceProtocol {
@@ -26,7 +26,7 @@ final class MediumCategoryDataSource: MediumCategoryDataSourceProtocol {
             .mapTo(MainMediumCategoryEntity.self)
     }
     
-    func getStyleMediumCategoryList(id: String) -> Observable<StyleMediumCategoryEntity> {
+    func getStyleMediumCategoryList(id: Int) -> Observable<StyleMediumCategoryEntity> {
         provider
             .request(.getStyleMediumCategoryList(id: id))
             .mapTo(StyleMediumCategoryEntity.self)
