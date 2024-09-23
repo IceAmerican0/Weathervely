@@ -61,7 +61,7 @@ final class MainDetailCell: UICollectionViewCell {
                     self?.detailImageView.pin.all()
                     
                 case .failure:
-                    self?.detailImageView.image?.resized(to: CGSize(width: 56, height: 56))
+                    self?.detailImageView.image?.reDesign(size: CGSize(width: 56, height: 56))
                     self?.detailImageView.contentMode = .center
                     self?.detailImageView.pin.all()
                     

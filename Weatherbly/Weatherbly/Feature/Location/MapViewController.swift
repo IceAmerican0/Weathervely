@@ -20,10 +20,6 @@ public final class MapViewController: RxBaseViewController<MapViewModel>, MapCon
         $0.delegate = self
     }
     
-    private lazy var mapView = (mapController.getView("mapview") as! KakaoMap).then {
-        $0.changeViewInfo(appName: "openmap", viewInfoName: "kakao_map")
-    }
-    
     private lazy var locationManager = CLLocationManager().then {
         $0.delegate = self
         $0.desiredAccuracy = kCLLocationAccuracyBest
@@ -178,7 +174,7 @@ extension MapViewController {
         // 여기에서 그릴 View(KakaoMap, Roadview)들을 추가한다.
         let defaultPosition: MapPoint = MapPoint(longitude: currentLongitude, latitude: currentLatitude)
         // 지도(KakaoMap)를 그리기 위한 viewInfo 생성
-        let mapviewInfo: MapviewInfo = MapviewInfo(viewName: "mapview", viewInfoName: "map", defaultPosition: defaultPosition, defaultLevel: 13)
+        let mapviewInfo: MapviewInfo = MapviewInfo(viewName: "mapview", viewInfoName: "map", defaultPosition: defaultPosition, defaultLevel: 15)
         
         //KakaoMap 추가.
         mapController.addView(mapviewInfo)
@@ -226,16 +222,6 @@ extension MapViewController {
     }
 }
 
-extension MapViewController: KakaoMapEventDelegate {
-    public func onViewInfoChanged(kakaoMap: KakaoMap, viewInfoName: String) {
-        
-    }
-    
-    public func onViewInfoChangeFailure(kakaoMap: KakaoMap, viewInfoName: String) {
-        
-    }
-}
-
 // MARK: Poi
 extension MapViewController {
     private func setPoi() {
@@ -253,7 +239,7 @@ extension MapViewController {
         let _ = labelManager.addLabelLayer(option: layerOption)
         
         let iconStyle = PoiIconStyle(
-            symbol: UIImage(named: "mapIcoBookmark_01.png"),
+            symbol: .icon_location.reDesign(size: CGSize(width: 30, height: 30)),
             anchorPoint: CGPoint(x: 0.0, y: 0.5)
         )
         let perLevelStyle = PerLevelPoiStyle(iconStyle: iconStyle, level: 0)
@@ -285,15 +271,16 @@ extension MapViewController {
 extension MapViewController: GuiEventDelegate {
     private func setSpriteGUI() {
         let mapView: KakaoMap = mapController.getView("mapview") as! KakaoMap
-        let guiManager: GuiManager = mapView.getGuiManager()
-        let spriteLayer = guiManager.spriteGuiLayer
+        let spriteLayer = mapView.getGuiManager().spriteGuiLayer
         
         let button = GuiButton("button")
-        button.image = UIImage(named: "track_location_btn.png")
+        let buttonImage: UIImage = .icon_current_location
+        button.image = buttonImage.reDesign(size: CGSize(width: 25, height: 25), backgroundColor: .white)
         
         let spriteGui = SpriteGui("buttonGui")
         spriteGui.addChild(button)
         spriteGui.origin = GuiAlignment(vAlign: .bottom, hAlign: .right)
+        spriteGui.position = CGPoint(x: 40, y: 50)
         spriteGui.delegate = self
         
         spriteLayer.addSpriteGui(spriteGui)

@@ -15,7 +15,7 @@ import Kingfisher
 
 final class StyleCell: UICollectionViewCell {
     
-    let imagePlaceHolder = UIImage.image_indicator.resized(to: CGSizeMake(56, 56))
+    let imagePlaceHolder = UIImage.image_indicator.reDesign(size: CGSizeMake(56, 56))
     
     private var nameLabel = LabelMaker(
         font: UIFont.body_5_M,
@@ -30,7 +30,7 @@ final class StyleCell: UICollectionViewCell {
     }
     
     private var imageView = UIImageView().then {
-        $0.image = UIImage.image_indicator.resized(to: CGSizeMake(56, 56))
+        $0.image = UIImage.image_indicator.reDesign(size: CGSizeMake(56, 56))
         $0.contentMode = .scaleAspectFit
     }
     
