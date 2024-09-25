@@ -12,6 +12,10 @@ import CoreLocation
 import KakaoMapsSDK
 
 public final class MapViewController: RxBaseViewController<MapViewModel>, MapControllerDelegate {
+    private let navigationView = CSNavigationView(.leftButton(.leftArrow_black)).then {
+        $0.setTitle("동네 설정")
+    }
+    
     private lazy var mapContainer = KMViewContainer().then {
         $0.sizeToFit()
     }
@@ -42,6 +46,7 @@ public final class MapViewController: RxBaseViewController<MapViewModel>, MapCon
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.addSubview(navigationView)
         view.addSubview(mapContainer)
         
         configureAuthorizationState(locationManager)
@@ -80,7 +85,18 @@ public final class MapViewController: RxBaseViewController<MapViewModel>, MapCon
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        mapContainer.pin.all()
+        navigationView.pin.top(view.pin.safeArea.top).horizontally().height(44)
+        mapContainer.pin.below(of: navigationView).horizontally().bottom()
+    }
+    
+    override func viewBinding() {
+        super.viewBinding()
+        
+        navigationView.leftButtonDidTapRelay
+            .drive(with: self) { owner, _ in
+                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
+            }
+            .disposed(by: bag)
     }
     
     func addObservers(){
@@ -174,7 +190,7 @@ extension MapViewController {
         // 여기에서 그릴 View(KakaoMap, Roadview)들을 추가한다.
         let defaultPosition: MapPoint = MapPoint(longitude: currentLongitude, latitude: currentLatitude)
         // 지도(KakaoMap)를 그리기 위한 viewInfo 생성
-        let mapviewInfo: MapviewInfo = MapviewInfo(viewName: "mapview", viewInfoName: "map", defaultPosition: defaultPosition, defaultLevel: 15)
+        let mapviewInfo: MapviewInfo = MapviewInfo(viewName: "mapview", viewInfoName: "map", defaultPosition: defaultPosition, defaultLevel: 17)
         
         //KakaoMap 추가.
         mapController.addView(mapviewInfo)
@@ -183,6 +199,7 @@ extension MapViewController {
     public func addViewSucceeded(_ viewName: String, viewInfoName: String) {
         let view = mapController.getView("mapview") as! KakaoMap
         view.viewRect = mapContainer.bounds
+        view.setMargins(UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
         
         setPoi()
         setSpriteGUI()
@@ -227,6 +244,7 @@ extension MapViewController {
     private func setPoi() {
         let view = mapController.getView("mapview") as! KakaoMap
         let labelManager = view.getLabelManager()
+        let trackingManager = view.getTrackingManager()
         
         let layerOption = LabelLayerOptions(
             layerID: "PoiLayer",
@@ -240,7 +258,7 @@ extension MapViewController {
         
         let iconStyle = PoiIconStyle(
             symbol: .icon_location.reDesign(size: CGSize(width: 30, height: 30)),
-            anchorPoint: CGPoint(x: 0.0, y: 0.5)
+            anchorPoint: CGPoint(x: 0.0, y: 0.0)
         )
         let perLevelStyle = PerLevelPoiStyle(iconStyle: iconStyle, level: 0)
         let poiStyle = PoiStyle(styleID: "customStyle1", styles: [perLevelStyle])
@@ -288,6 +306,18 @@ extension MapViewController: GuiEventDelegate {
     }
     
     public func guiDidTapped(_ gui: GuiBase, componentName: String) {
-        
+        let view = mapController.getView("mapview") as! KakaoMap
+        view.moveCamera(
+            CameraUpdate.make(
+                target: MapPoint(
+                    longitude: currentLongitude,
+                    latitude: currentLatitude
+                ),
+                zoomLevel: 17,
+                rotation: 0,
+                tilt: 0,
+                mapView: view
+            )
+        )
     }
 }

@@ -14,6 +14,8 @@ public protocol MapViewModelLogic: ViewModelBusinessLogic {
 }
 
 public final class MapViewModel: RxBaseViewModel, MapViewModelLogic {
+    private let dataSource: RegionDataSourceProtocol = RegionDataSource()
+    
     public func poiTapped() {
         
     }
