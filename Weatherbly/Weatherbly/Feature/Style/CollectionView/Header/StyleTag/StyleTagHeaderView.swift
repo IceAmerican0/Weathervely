@@ -35,7 +35,7 @@ public class StyleTagHeaderView: UICollectionReusableView {
         $0.register(withType: TypeTagCell.self)
         $0.dataSource = self
         $0.delegate = self
-        $0.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 5)
+        $0.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
     }
     
     public override init(frame: CGRect) {

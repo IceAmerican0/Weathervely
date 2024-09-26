@@ -43,7 +43,7 @@ final class CategoryHeaderView : UICollectionReusableView {
         StyleMediumCategoryInfo(id: 37, name: "기타 상의")
     ])
     
-    private lazy var tagsView = CategoryTagsView().then {
+    public lazy var tagsView = CategoryTagsView().then {
         $0.backgroundColor = .white
         $0.tagsViewDelegate = self
     }
@@ -65,7 +65,9 @@ final class CategoryHeaderView : UICollectionReusableView {
         super.prepareForReuse()
         sectionTitleLabel.text = ""
         selectedTags = BehaviorRelay<[Int]>(value: [])
+        tagsView.bag = DisposeBag()
         tagsView.tags = []  // 태그 뷰 초기화
+        tagsView.scrollView.setContentOffset(.zero, animated: false)
     }
     
     override func layoutSubviews() {

@@ -24,10 +24,6 @@ final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewMod
         $0.addBorder(.bottom, 1, .gray30)
     }
     
-    lazy var flowLayout = UICollectionViewFlowLayout().then {
-        $0.scrollDirection = .vertical
-        $0.itemSize = CGSize(width: 180, height: 200)
-    }
     lazy var parentCollectionView = UICollectionView(frame: .zero, collectionViewLayout: setSectionLayout()).then {
         $0.showsVerticalScrollIndicator = false
         $0.showsHorizontalScrollIndicator = false
@@ -391,7 +387,7 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
         
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
-        section.contentInsets = NSDirectionalEdgeInsets(top: 12 , leading: 20, bottom: 0, trailing: 0)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 12 , leading: 20, bottom: 0, trailing: 20)
         section.interGroupSpacing = 16
         section.boundarySupplementaryItems = [sectionHeader]
         
@@ -436,7 +432,7 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
             section.decorationItems = [decoItem]
             section.boundarySupplementaryItems = [sectionHeader]
         }
-        section.contentInsets = NSDirectionalEdgeInsets(top: 19.5, leading: 20, bottom: 20, trailing: 0)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 19.5, leading: 20, bottom: 20, trailing: 20)
         return section
     }
     
@@ -477,7 +473,7 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
             )
             section.boundarySupplementaryItems = [sectionHeader]
         }
-        section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 20, bottom: 50, trailing: 0)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 20, bottom: 50, trailing: 20)
         return section
     }
     

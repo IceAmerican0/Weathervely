@@ -10,28 +10,31 @@ import PinLayout
 import RxDataSources
 import RxSwift
 import RxCocoa
-
-protocol StyleTabClosetTouchDelegate: AnyObject {
-    func innerCollectionViewDidScroll(_ innerCollectionView: UICollectionView, contentOffset: CGPoint)
-}
+import Then
 
 public final class InnerCollectionViewCell: UICollectionViewCell {
     
-    // MARK: - 전역변수 & delegate
     private var bag = DisposeBag()
-    weak var delegate: StyleTabClosetTouchDelegate?
+    
     private var cellViewModel = InnerCellViewModel()
-    // MARK: - UI Property
-//    private var bindSectionsRelay = BehaviorRelay<[StyleTabSectionModel]>(value: [])
-    private lazy var innerCollectionView = UICollectionView(frame: .zero, collectionViewLayout: setInnerLayout()).then {
+    
+    private lazy var innerCollectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: setInnerLayout()
+    ).then {
         $0.showsVerticalScrollIndicator = false
         $0.register(withType: StyleCell.self)
         $0.register(withType: NoItemCell.self)
         $0.registerHeader(withType: StyleTagHeaderView.self)
         $0.registerReusableView(withType: CategoryHeaderView.self, kind: .sectionHeader)
     }
+    
     lazy var dataSource = self.setInnerCollectionViewDataSource()
+    
     var selectedTags: [Int] = []
+    
+    // scrollView의 offset 저장
+    var savedOffsets: [IndexPath: CGPoint] = [:]
     
     // MARK: - lifeCycle
     public override init(frame: CGRect) {
@@ -152,84 +155,81 @@ extension InnerCollectionViewCell: UICollectionViewDelegate {
     
     // MARK: - 탭처리
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        debugPrint("indexPath : \(indexPath.section)")
-        debugPrint("indexPath : \(indexPath.item)")
         if let cell = collectionView.cellForItem(at: indexPath) as? StyleCell {
             let selectedInfo = cell.closetInfo
             NotificationCenter.default.post(name: .styleClosetTap, object: nil, userInfo: ["selectedCloset" : selectedInfo])
         }
         
     }
+    
+    public func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
+        let categoryHeaderView = view as! CategoryHeaderView
+        savedOffsets[indexPath] = categoryHeaderView.tagsView.scrollView.contentOffset
+    }
  
     func setInnerCollectionViewDataSource() -> RxCollectionViewSectionedAnimatedDataSource<StyleTabSectionModel> {
         RxCollectionViewSectionedAnimatedDataSource<StyleTabSectionModel> (animationConfiguration: AnimationConfiguration(insertAnimation: .fade, reloadAnimation: .none, deleteAnimation: .automatic),configureCell: { [ weak self ] dataSource, collectionView, indexPath, item in
             guard self != nil else { return UICollectionViewCell() }
             
-       
-                switch item {
-                case .styles(let styleInfo):
-                    let sectionItem = dataSource[indexPath.section].items
-                    if sectionItem.count <= 0 || sectionItem.isEmpty {
-                        
-                        // ISSUE: - 일단 되지는 않는데, 추후에 테스트 필요.
-                        // animatable 에서는 값이 없으면 자동으로 레이아웃 지워버리는 이슈 해결필요.
-                        return collectionView.dequeueCell(withType: NoItemCell.self, for: indexPath)
-                    } else {
-                        return collectionView.dequeueCell(withType: StyleCell.self, for: indexPath).then {
-                            $0.configure(info: styleInfo)
+            if case let .styles(styleInfo) = item {
+                let sectionItem = dataSource[indexPath.section].items
+                if sectionItem.count <= 0 || sectionItem.isEmpty {
+                    
+                    // ISSUE: - 일단 되지는 않는데, 추후에 테스트 필요.
+                    // animatable 에서는 값이 없으면 자동으로 레이아웃 지워버리는 이슈 해결필요.
+                    return collectionView.dequeueCell(withType: NoItemCell.self, for: indexPath)
+                } else {
+                    return collectionView.dequeueCell(withType: StyleCell.self, for: indexPath).then {
+                        $0.configure(info: styleInfo)
+                    }
+                }
+            }
+            
+            return UICollectionViewCell()
+            
+        }, configureSupplementaryView: { [weak self] dataSource, collectionView, kind, indexPath in
+            guard let self else { return UICollectionReusableView() }
+            
+            if case UICollectionView.elementKindSectionHeader = kind {
+                if case let .styles(headerInfo, _) = dataSource[indexPath.section] {
+                    
+                    return collectionView.dequeueReusableHeaderView(withType: CategoryHeaderView.self, for: indexPath).then {
+                        let state: [Int] = (userDefault.object(forKey: String(headerInfo.typeInfo.id)) ?? []) as! [Int]
+                        $0.headerDelegate = self
+                        $0.configure(
+                            info: headerInfo.typeInfo,
+                            categories: headerInfo.categories,
+                            state: state
+                        )
+                        if let offset = self.savedOffsets[indexPath] {
+                            $0.tagsView.scrollView.setContentOffset(offset, animated: false)
+                        } else {
+                            $0.tagsView.scrollView.setContentOffset(.zero, animated: false)
                         }
                     }
-                default:
-                    return UICollectionViewCell()
                 }
-            
-            
-        }, configureSupplementaryView: { [ weak self ] dataSource, collectionView, kind, indexPath in
-            guard self != nil else { return UICollectionReusableView() }
-            switch kind {
-            case UICollectionView.elementKindSectionHeader:
-                switch dataSource[indexPath.section] {
-                case .styles(let headerInfo, _):
-                    let header = collectionView.dequeueReusableHeaderView(withType: CategoryHeaderView.self, for: indexPath).then {
-                        userDefault.synchronize()
-                        $0.headerDelegate = self
-                        let state: [Int] = (userDefault.object(forKey: String(headerInfo.typeInfo.id)) ?? []) as! [Int]
-                        debugPrint("📌📌 \(headerInfo.typeInfo.name): \(headerInfo.typeInfo.id)   \(state)")
-                        $0.configure(info: headerInfo.typeInfo, categories: headerInfo.categories, state: state)
-                    }
-                    return header
-                    // TODO: - ItemTagHeaderView 이벤트 반드시 받아올 수 있어야 함.
-                    
-                default:
-                    return UICollectionReusableView()
-                }
-            default:
-                fatalError("Fail to Generate SupplementaryView")
             }
+            
             return UICollectionReusableView()
         })
     }
     
     func setInnerLayout() -> UICollectionViewCompositionalLayout {
-        let layout = UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ -> NSCollectionLayoutSection? in
-            
-            guard let self = self else { return nil }
+        UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ -> NSCollectionLayoutSection? in
+            guard let self else { return nil }
             guard sectionIndex < self.cellViewModel.bindSectionsRelay.value.count else {
                 debugPrint("Section index \(sectionIndex) out of range.")
                 return nil
             }
     
             let section = self.cellViewModel.bindSectionsRelay.value[sectionIndex]
-            var layoutSection: NSCollectionLayoutSection?
             switch section {
             case .styles(_, let items):
-                layoutSection = self.styleSectionLayout(items: items, madeSection: section)
+                return self.styleSectionLayout(items: items, madeSection: section)
             default:
-                layoutSection =  .init(group: .init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(1))))
+                return .init(group: .init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(1))))
             }
-            return layoutSection
         }
-        return layout
     }
     
     // TODO: - // Item 레이아웃 사이즈 변경
@@ -238,7 +238,7 @@ extension InnerCollectionViewCell: UICollectionViewDelegate {
         // Size Property
         switch items.count > 0 {
         case true:
-            let itemWidth = (Constants.screenWidth - 20 ) / 3
+            let itemWidth = (Constants.screenWidth - 20) / 3
             let itemSize = NSCollectionLayoutSize(
                 widthDimension: .absolute(itemWidth),
                 heightDimension: .absolute(210)
@@ -256,7 +256,7 @@ extension InnerCollectionViewCell: UICollectionViewDelegate {
                 layoutSize: groupSize,
                 subitems: [item, item]
             )
-            group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0)
+            group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 20)
             group.interItemSpacing = .fixed(12)
             
             // Header
@@ -270,18 +270,16 @@ extension InnerCollectionViewCell: UICollectionViewDelegate {
                 alignment: .topLeading
             )
             
-            let section = NSCollectionLayoutSection(group: group)
-            section.orthogonalScrollingBehavior = .continuous
-            section.boundarySupplementaryItems = [sectionHeader]
-            
-            if self.cellViewModel.bindSectionsRelay.value.firstIndex(of: madeSection) == cellViewModel.bindSectionsRelay.value.count - 1 {
-                section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 0, bottom: 30, trailing: 5)
-            } else {
-                section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 0, bottom: 20, trailing: 5)
+            return NSCollectionLayoutSection(group: group).then {
+                $0.orthogonalScrollingBehavior = .continuous
+                $0.boundarySupplementaryItems = [sectionHeader]
+                
+                if self.cellViewModel.bindSectionsRelay.value.firstIndex(of: madeSection) == cellViewModel.bindSectionsRelay.value.count - 1 {
+                    $0.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 0, bottom: 30, trailing: 20)
+                } else {
+                    $0.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 0, bottom: 20, trailing: 20)
+                }
             }
-            
-            
-            return section
             
         case false:
             let itemSize = NSCollectionLayoutSize(
@@ -316,18 +314,11 @@ extension InnerCollectionViewCell: UICollectionViewDelegate {
                 alignment: .topLeading
             )
             
-            let section = NSCollectionLayoutSection(group: group)
-            section.boundarySupplementaryItems = [sectionHeader]
-            section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 0, bottom: 20, trailing: 5)
-            
-            return section
+            return NSCollectionLayoutSection(group: group).then {
+                $0.boundarySupplementaryItems = [sectionHeader]
+                $0.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 0, bottom: 20, trailing: 20)
+            }
         }
-        
-    }
-    
-    // MARK: - 이중 스크롤 방지
-    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        delegate?.innerCollectionViewDidScroll(innerCollectionView, contentOffset: scrollView.contentOffset)
     }
 }
 
