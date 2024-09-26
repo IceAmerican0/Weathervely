@@ -15,7 +15,7 @@ final class NoItemCell: UICollectionViewCell {
     
     let contentWrapper = UIView()
     let noItemImage = UIImageView().then {
-        $0.image = UIImage.search_empty.resized(to: CGSize(width: 48, height: 48))
+        $0.image = UIImage.search_empty.reDesign(size: CGSize(width: 48, height: 48))
         $0.contentMode = .center
     }
     let noitemLabel = LabelMaker(

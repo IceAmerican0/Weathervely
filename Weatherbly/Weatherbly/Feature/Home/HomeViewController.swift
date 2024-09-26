@@ -95,7 +95,7 @@ public final class HomeViewController: RxBaseViewController<HomeViewModel> {
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         regionLabel.text = UserDefaultManager.shared.dong
-        regionLabel.flex.markDirty()
+        contentView.flex.markDirty()
     }
 
     override func layout() {
@@ -127,7 +127,7 @@ public final class HomeViewController: RxBaseViewController<HomeViewModel> {
         locationButton.rx.tapGesture()
             .when(.recognized)
             .bind(with: self) { owner, _ in
-                owner.viewModel.toEditRegionView()
+                owner.viewModel.toMapView()
             }.disposed(by: bag)
         
         regionLabel.rx.tapGesture()

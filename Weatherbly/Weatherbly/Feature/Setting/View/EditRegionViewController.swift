@@ -141,7 +141,7 @@ extension EditRegionViewController: UICollectionViewDataSource {
             let data = self.viewModel.loadedListRelay.value
             self.listCount = data.count
             
-            $0.configureCellState(EditRegionCellState(region: data[indexPath.row].addressName, count: self.listCount))
+            $0.configureCellState(region: data[indexPath.row].addressName, row: indexPath.row)
             
             self.confirmButtonState()
         }

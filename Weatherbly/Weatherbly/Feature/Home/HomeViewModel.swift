@@ -26,6 +26,7 @@ public protocol HomeViewModelLogic: ViewModelBusinessLogic {
     func toEditRegionView()
     func toNotificationListView()
     func toTendaysForecastView()
+    func toMapView()
     
     var shimmerStatus: PublishRelay<Bool> { get }
     var refreshStatus: PublishRelay<Bool> { get }
@@ -309,6 +310,11 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     /// 동네 설정 이동
     public func toEditRegionView() {
         let vc = EditRegionViewController(EditRegionViewModel(.edit))
+        navigationPushViewControllerRelay.accept(vc)
+    }
+    
+    public func toMapView() {
+        let vc = MapViewController(MapViewModel())
         navigationPushViewControllerRelay.accept(vc)
     }
 }

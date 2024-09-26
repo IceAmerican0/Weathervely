@@ -8,10 +8,21 @@
 import UIKit
 
 extension UIImage {
-    /// 이미지 크기 조절
-    func resized(to newSize: CGSize) -> UIImage {
-        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
-        self.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
+    /// 이미지 크기 조절 및 배경색 설정
+    func reDesign(size: CGSize, backgroundColor: UIColor? = nil) -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+        
+        if let backgroundColor {
+            let rect = CGRect(origin: .zero, size: size)
+            let path = UIBezierPath(roundedRect: rect, cornerRadius: 8)
+            backgroundColor.setFill()
+            path.fill()
+            
+            self.draw(in: rect)
+        } else {
+            self.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+        }
+        
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return newImage ?? self
@@ -133,9 +144,12 @@ extension UIImage {
     
     // MyPage
     static let commontab = UIImage(named: "commontab")!
+    static let icon_current_location = UIImage(named: "icon_current_location")!
     static let icon_favorites = UIImage(named: "icon_favorites")!
+    static let icon_location = UIImage(named: "icon_location")!
     static let icon_plusL = UIImage(named: "icon_plusL")!
     static let icon_profile = UIImage(named: "icon_profile")!
+    static let icon_region_check = UIImage(named: "icon_region_check")!
     static let icon_set = UIImage(named: "icon_set")!
     static let icon_alarm_on = UIImage(named: "icon_alarm_on")!
     static let icon_alarm_off = UIImage(named: "icon_alarm_off")!

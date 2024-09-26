@@ -55,11 +55,19 @@
 		<string>fetch</string>
 		<string>remote-notification</string>
 	</array>
-	<key>KAKAO_APP_KEY</key>
-	<string>$(KAKAO_APP_KEY)</string>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<string>true</string>
+	<key>KAKAO_APP_KEY_REST</key>
+	<string>$(KAKAO_APP_KEY_REST)</string>
+	<key>KAKAO_APP_KEY_NATIVE</key>
+	<string>$(KAKAO_APP_KEY_NATIVE)</string>
 	<key>RELEASE_SERVER_URL</key>
 	<string>https://$(RELEASE_SERVER_URL)</string>
 	<key>TEST_SERVER_URL</key>
 	<string>http://$(TEST_SERVER_URL)</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>위치 정보를 기반으로 정확한 날씨 정보를 제공해요</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>위치 정보를 기반으로 정확한 날씨 정보를 제공해요</string>
 </dict>
 </plist>

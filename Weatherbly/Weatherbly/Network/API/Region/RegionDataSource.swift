@@ -10,6 +10,7 @@ import RxSwift
 
 public protocol RegionDataSourceProtocol {
     func searchRegion(_ request: String) -> Observable<SearchRegionEntity>
+    func coordToRegion(longitude: String, latitude: String) -> Observable<SearchRegionEntity>
 }
 
 public final class RegionDataSource: RegionDataSourceProtocol {
@@ -23,6 +24,12 @@ public final class RegionDataSource: RegionDataSourceProtocol {
     public func searchRegion(_ request: String) -> Observable<SearchRegionEntity> {
         provider
             .request(.searchRegion(request))
+            .mapTo(SearchRegionEntity.self)
+    }
+    
+    public func coordToRegion(longitude: String, latitude: String) -> Observable<SearchRegionEntity> {
+        provider
+            .request(.coordToAddress(longitude: longitude, latitude: latitude))
             .mapTo(SearchRegionEntity.self)
     }
 }

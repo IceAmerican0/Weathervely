@@ -127,6 +127,9 @@
 		6987EBBD2B41409E00CF1E74 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6987EBBB2B41409E00CF1E74 /* HomeViewModel.swift */; };
 		698F6CA92ADD624C00C2B33A /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698F6CA82ADD624B00C2B33A /* Tab.swift */; };
 		698F6CB22AE00FCC00C2B33A /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698F6CB12AE00FCC00C2B33A /* UIImage+Extension.swift */; };
+		699AE66E2C81EDDB00025E7A /* KakaoMapsSDK-SPM in Frameworks */ = {isa = PBXBuildFile; productRef = 699AE66D2C81EDDB00025E7A /* KakaoMapsSDK-SPM */; };
+		699AE6722C81F08800025E7A /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699AE6702C81F08800025E7A /* MapViewController.swift */; };
+		699AE6732C81F08800025E7A /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699AE6712C81F08800025E7A /* MapViewModel.swift */; };
 		69A3D9EB2B484D2A00CA1FD5 /* UICollectionReusableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A3D9EA2B484D2A00CA1FD5 /* UICollectionReusableView+Extension.swift */; };
 		69A7F0D92A80B42A00834974 /* UserDefaultKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A7F0D82A80B42A00834974 /* UserDefaultKey.swift */; };
 		69A7F0E02A80CDD800834974 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 69A7F0DF2A80CDD800834974 /* LaunchScreen.storyboard */; };
@@ -312,6 +315,8 @@
 		6987EBBB2B41409E00CF1E74 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		698F6CA82ADD624B00C2B33A /* Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
 		698F6CB12AE00FCC00C2B33A /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		699AE6702C81F08800025E7A /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		699AE6712C81F08800025E7A /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		69A3D9EA2B484D2A00CA1FD5 /* UICollectionReusableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionReusableView+Extension.swift"; sourceTree = "<group>"; };
 		69A7F0D82A80B42A00834974 /* UserDefaultKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultKey.swift; sourceTree = "<group>"; };
 		69A7F0DF2A80CDD800834974 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -415,6 +420,7 @@
 				5CE0FEB02A8EEC0000A0E655 /* Kingfisher in Frameworks */,
 				690B6EEB2AA9EF9000D54ABC /* FirebaseCrashlytics in Frameworks */,
 				5C23DB9C2A65048200F41574 /* CombineMoya in Frameworks */,
+				699AE66E2C81EDDB00025E7A /* KakaoMapsSDK-SPM in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -747,6 +753,15 @@
 			path = Style;
 			sourceTree = "<group>";
 		};
+		699AE66F2C81F06E00025E7A /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				699AE6702C81F08800025E7A /* MapViewController.swift */,
+				699AE6712C81F08800025E7A /* MapViewModel.swift */,
+			);
+			path = Location;
+			sourceTree = "<group>";
+		};
 		69C714D02ADD60C500748CF6 /* TabBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -863,6 +878,7 @@
 		BD2D019C2A3887A3003A25D5 /* Feature */ = {
 			isa = PBXGroup;
 			children = (
+				699AE66F2C81F06E00025E7A /* Location */,
 				BD51070A2C0F755400D8AFBE /* ClosetDetail */,
 				5C68E91F2AF375CE0046D0BE /* Forecast */,
 				6987EBB72B41400600CF1E74 /* Home */,
@@ -1095,6 +1111,7 @@
 				5C2AD7382AC2B5BD006BFF81 /* Then */,
 				5CA0040B2AC2B90700B0BFB4 /* FlexLayout */,
 				693231612B4A6B3A00816B7B /* RxDataSources */,
+				699AE66D2C81EDDB00025E7A /* KakaoMapsSDK-SPM */,
 			);
 			productName = Weatherbly;
 			productReference = BD2D01852A388753003A25D5 /* Weatherbly.app */;
@@ -1135,6 +1152,7 @@
 				5C2AD7372AC2B5BD006BFF81 /* XCRemoteSwiftPackageReference "Then" */,
 				5CA0040A2AC2B90700B0BFB4 /* XCRemoteSwiftPackageReference "FlexLayout" */,
 				693231602B4A6B3A00816B7B /* XCRemoteSwiftPackageReference "RxDataSources" */,
+				699AE66C2C81EDDB00025E7A /* XCRemoteSwiftPackageReference "KakaoMapsSDK-SPM" */,
 			);
 			productRefGroup = BD2D01862A388753003A25D5 /* Products */;
 			projectDirPath = "";
@@ -1275,6 +1293,8 @@
 				5C4A0AC72B46832D006BE52A /* HomeClosetCell.swift in Sources */,
 				5C9D02EA2A725AC300AF2DA3 /* AddressRequest.swift in Sources */,
 				5CE0FEAD2A8DDE9200A0E655 /* AddressListEntity.swift in Sources */,
+				699AE6722C81F08800025E7A /* MapViewController.swift in Sources */,
+				699AE6732C81F08800025E7A /* MapViewModel.swift in Sources */,
 				697EA9FA2C5E15CE00D8845D /* DiffTempEntity.swift in Sources */,
 				BD3714392B8629FD00527577 /* StyleTagHeaderView.swift in Sources */,
 				BD4907332A84D42F0027DEE8 /* String+Extension.swift in Sources */,
@@ -1659,6 +1679,14 @@
 				version = 4.2.2;
 			};
 		};
+		699AE66C2C81EDDB00025E7A /* XCRemoteSwiftPackageReference "KakaoMapsSDK-SPM" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kakao-mapsSDK/KakaoMapsSDK-SPM.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.10.5;
+			};
+		};
 		BD1F3AEF2A7BA08100E528DC /* XCRemoteSwiftPackageReference "RxGesture" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/RxSwiftCommunity/RxGesture";
@@ -1754,6 +1782,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 69683A592A9BABC900A2BD5A /* XCRemoteSwiftPackageReference "KeychainAccess" */;
 			productName = KeychainAccess;
+		};
+		699AE66D2C81EDDB00025E7A /* KakaoMapsSDK-SPM */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 699AE66C2C81EDDB00025E7A /* XCRemoteSwiftPackageReference "KakaoMapsSDK-SPM" */;
+			productName = "KakaoMapsSDK-SPM";
 		};
 		BD1F3AF02A7BA08100E528DC /* RxGesture */ = {
 			isa = XCSwiftPackageProductDependency;

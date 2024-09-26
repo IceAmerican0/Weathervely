@@ -10,11 +10,12 @@ import Moya
 
 public enum RegionTarget {
     case searchRegion(_ query: String)
+    case coordToAddress(longitude: String, latitude: String)
 }
 
 extension RegionTarget: WVTargetType {
     public var baseURL: URL {
-        guard let baseURL = URL(string: "https://dapi.kakao.com/v2/local/search/address.json") else {
+        guard let baseURL = URL(string: "https://dapi.kakao.com/v2/local") else {
             fatalError("BaseURL 세팅 실패")
         }
         return baseURL
@@ -22,10 +23,17 @@ extension RegionTarget: WVTargetType {
     
     public var method: Moya.Method { .get }
     
-    public var path: String { "" }
+    public var path: String {
+        switch self {
+        case .searchRegion: 
+            "/search/address"
+        case .coordToAddress(let longitude, let latitude):
+            "/geo/coord2address?x=\(longitude)&y=\(latitude)"
+        }
+    }
     
     public var headers: [String : String]? {
-        ["Authorization": "KakaoAK \(Constants.kakaoAppKey)"]
+        ["Authorization": "KakaoAK \(Constants.kakaoAppKeyRest)"]
     }
     
     public var task: Task {
@@ -35,6 +43,8 @@ extension RegionTarget: WVTargetType {
                 parameters: ["query": query],
                 encoding: URLEncoding.queryString
             )
+        case .coordToAddress:
+            .requestPlain
         }
     }
 }

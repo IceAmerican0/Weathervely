@@ -12,27 +12,25 @@ import Then
 import RxSwift
 import RxCocoa
 
-public struct EditRegionCellState {
-    let region: String
-    let count: Int
-}
-
 public final class EditRegionCollectionViewCell: UICollectionViewCell {
     
     private let container = UIView().then {
         $0.backgroundColor = .white
-        $0.layer.borderColor = UIColor.violet150.cgColor
         $0.layer.borderWidth = 1
         $0.layer.cornerRadius = 16
         $0.layer.masksToBounds = false
         $0.clipsToBounds = false
     }
     
-    public var regionLabel = LabelMaker(
+    private let regionLabel = LabelMaker(
         font: .body_1_M
     ).make().then {
         $0.numberOfLines = 1
         $0.lineBreakMode = .byTruncatingTail
+    }
+    
+    private let regionChecked = UIImageView().then {
+        $0.image = .icon_region_check
     }
     
     public override init(frame: CGRect) {
@@ -56,14 +54,25 @@ public final class EditRegionCollectionViewCell: UICollectionViewCell {
     private func layout() {
         contentView.flex.define {
             $0.addItem(container).direction(.row).alignItems(.center).justifyContent(.spaceBetween).grow(1).define {
-                $0.addItem(regionLabel).marginHorizontal(20).height(21).grow(1).shrink(1)
+                $0.addItem(regionLabel).marginLeft(20).marginRight(16).height(21).grow(1).shrink(1)
+                $0.addItem(regionChecked).marginRight(20).size(20).display(.none)
             }
         }
         
         backgroundColor = .clear
     }
     
-    public func configureCellState(_ cellState: EditRegionCellState) {
-        regionLabel.text = cellState.region
+    public func configureCellState(region: String, row: Int) {
+        regionLabel.text = region
+        
+        if row == 0 {
+            container.layer.borderColor = UIColor.violet600.cgColor
+            regionChecked.flex.display(.flex)
+        } else {
+            container.layer.borderColor = UIColor.violet150.cgColor
+            regionChecked.flex.display(.none)
+        }
+        
+        container.flex.markDirty()
     }
 }
