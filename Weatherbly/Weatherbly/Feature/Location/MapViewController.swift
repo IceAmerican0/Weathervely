@@ -10,10 +10,27 @@ import Then
 import PinLayout
 import CoreLocation
 import KakaoMapsSDK
+import RxCocoa
 
 public final class MapViewController: RxBaseViewController<MapViewModel>, MapControllerDelegate {
     private let navigationView = CSNavigationView(.leftButton(.leftArrow_black)).then {
         $0.setTitle("동네 설정")
+    }
+    
+    private let positionContainer = UIView().then {
+        $0.backgroundColor = .white
+    }
+    
+    private let positionLabel = LabelMaker(
+        font: UIFont.body_3_B,
+        alignment: .left
+    ).make().then {
+        $0.numberOfLines = 1
+    }
+    
+    private var confirmButton = CSButton(.standard, style: .violet600).then {
+        $0.setTitle("이 위치로 동네 추가하기", for: .normal)
+        $0.setTitleColor(.white, for: .normal)
     }
     
     private lazy var mapContainer = KMViewContainer().then {
@@ -38,16 +55,29 @@ public final class MapViewController: RxBaseViewController<MapViewModel>, MapCon
     private var currentLongitude: Double = 127.108678
     private var currentLatitude: Double = 37.402001
     
+    private var cameraStoppedHandler: DisposableEventHandler?
+    private var cameraStartHandler: DisposableEventHandler?
+    
     deinit {
         mapController.pauseEngine()
         mapController.resetEngine()
+        cameraStartHandler?.dispose()
+        cameraStoppedHandler?.dispose()
     }
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.addSubview(navigationView)
-        view.addSubview(mapContainer)
+        view.addSubviews(
+            navigationView,
+            mapContainer,
+            positionContainer
+        )
+        
+        positionContainer.addSubviews(
+            positionLabel,
+            confirmButton
+        )
         
         configureAuthorizationState(locationManager)
         
@@ -86,7 +116,10 @@ public final class MapViewController: RxBaseViewController<MapViewModel>, MapCon
         super.viewDidLayoutSubviews()
         
         navigationView.pin.top(view.pin.safeArea.top).horizontally().height(44)
-        mapContainer.pin.below(of: navigationView).horizontally().bottom()
+        positionContainer.pin.horizontally().bottom().height(150)
+        positionLabel.pin.top(to: positionContainer.edge.top).horizontally(20).marginTop(10).sizeToFit()
+        confirmButton.pin.horizontally(52).bottom(view.pin.safeArea.bottom).height(48)
+        mapContainer.pin.below(of: navigationView).horizontally().bottom(to: positionContainer.edge.top)
     }
     
     override func viewBinding() {
@@ -97,29 +130,55 @@ public final class MapViewController: RxBaseViewController<MapViewModel>, MapCon
                 owner.viewModel.navigationPopViewControllerRelay.accept(Void())
             }
             .disposed(by: bag)
+        
+        confirmButton.rx.tap
+            .bind(with:self) { owner, _ in
+                owner.viewModel.didTapConfirmButton()
+            }
+            .disposed(by: bag)
     }
     
-    func addObservers(){
-         NotificationCenter.default.addObserver(self, selector: #selector(willResignActive), name: UIApplication.willResignActiveNotification, object: nil)
-         NotificationCenter.default.addObserver(self, selector: #selector(didBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
+    override func viewModelBinding() {
+        super.viewModelBinding()
+        
+        viewModel.isLoading
+            .asDriver()
+            .drive(with: self) { owner, loading in
+                if loading {
+                    owner.confirmButton.startAnimation()
+                } else {
+                    owner.confirmButton.stopAnimation()
+                }
+            }.disposed(by: bag)
+        
+        viewModel.pickedAddress
+            .filter { !$0.isEmpty }
+            .asDriver(onErrorJustReturn: "")
+            .drive(with: self) { owner, result in
+                owner.positionLabel.text = result
+            }.disposed(by: bag)
+    }
     
-         observerAdded = true
-     }
+    func addObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(willResignActive), name: UIApplication.willResignActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
+        observerAdded = true
+    }
      
-     func removeObservers(){
-         NotificationCenter.default.removeObserver(self, name: UIApplication.willResignActiveNotification, object: nil)
-         NotificationCenter.default.removeObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
-     
-          observerAdded = false
-     }
-     
-     @objc func willResignActive(){
-         mapController.pauseEngine()
-     }
-     
-     @objc func didBecomeActive(){
-         mapController.activateEngine()
-     }
+    func removeObservers(){
+        NotificationCenter.default.removeObserver(self, name: UIApplication.willResignActiveNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
+
+        observerAdded = false
+    }
+
+    @objc func willResignActive() {
+        mapController.pauseEngine()
+    }
+
+    @objc func didBecomeActive() {
+        mapController.activateEngine()
+    }
 }
 
 // MARK: CLLocationManagerDelegate
@@ -190,7 +249,7 @@ extension MapViewController {
         // 여기에서 그릴 View(KakaoMap, Roadview)들을 추가한다.
         let defaultPosition: MapPoint = MapPoint(longitude: currentLongitude, latitude: currentLatitude)
         // 지도(KakaoMap)를 그리기 위한 viewInfo 생성
-        let mapviewInfo: MapviewInfo = MapviewInfo(viewName: "mapview", viewInfoName: "map", defaultPosition: defaultPosition, defaultLevel: 17)
+        let mapviewInfo: MapviewInfo = MapviewInfo(viewName: "mapview", viewInfoName: "map", defaultPosition: defaultPosition, defaultLevel: 15)
         
         //KakaoMap 추가.
         mapController.addView(mapviewInfo)
@@ -201,8 +260,11 @@ extension MapViewController {
         view.viewRect = mapContainer.bounds
         view.setMargins(UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
         
+        viewModel.getCoordToRegion(longitude: currentLongitude, latitude: currentLatitude)
+        
         setPoi()
         setSpriteGUI()
+        setCameraOption()
     }
     
     public func containerDidResized(_ size: CGSize) {
@@ -244,7 +306,6 @@ extension MapViewController {
     private func setPoi() {
         let view = mapController.getView("mapview") as! KakaoMap
         let labelManager = view.getLabelManager()
-        let trackingManager = view.getTrackingManager()
         
         let layerOption = LabelLayerOptions(
             layerID: "PoiLayer",
@@ -256,32 +317,61 @@ extension MapViewController {
         
         let _ = labelManager.addLabelLayer(option: layerOption)
         
+        // Icon Style
         let iconStyle = PoiIconStyle(
             symbol: .icon_location.reDesign(size: CGSize(width: 30, height: 30)),
-            anchorPoint: CGPoint(x: 0.0, y: 0.0)
+            anchorPoint: CGPoint(x: 0.5, y: 0.5)
         )
-        let perLevelStyle = PerLevelPoiStyle(iconStyle: iconStyle, level: 0)
+        
+        // Text Style
+        let textStyle = TextStyle(
+            fontSize: 50,
+            fontColor: .black, 
+            font: GothicNeo.bold
+        )
+        let textLineStyle = PoiTextLineStyle(textStyle: textStyle)
+        let poiTextStyle = PoiTextStyle(textLineStyles: [textLineStyle]).then {
+            $0.textLayouts = [.top]
+        }
+        
+        // Merge Poi Styles
+        let perLevelStyle = PerLevelPoiStyle(iconStyle: iconStyle, textStyle: poiTextStyle, level: 0)
         let poiStyle = PoiStyle(styleID: "customStyle1", styles: [perLevelStyle])
         labelManager.addPoiStyle(poiStyle)
         
-        let poiOption = PoiOptions(styleID: "customStyle1").then {
+        let poiOption = PoiOptions(styleID: "customStyle1", poiID: "poi1").then {
             $0.rank = 0
             $0.clickable = true
         }
         
         let layer = labelManager.getLabelLayer(layerID: "PoiLayer")
         
-        let poi = layer?.addPoi(
-            option: poiOption,
-            at: MapPoint(longitude: currentLongitude, latitude: currentLatitude)
+        let center = view.getPosition(
+            CGPoint(
+                x: view.viewRect.size.width * 0.5,
+                y: view.viewRect.size.height * 0.5
+            )
         )
+        guard let poi = layer?.addPoi(
+            option: poiOption,
+            at: center
+        ) else { return }
         
-        let _ = poi?.addPoiTappedEventHandler(target: self, handler: MapViewController.poiTapped)
-        poi?.show()
+        poi.show()
     }
     
-    private func poiTapped(_ param: PoiInteractionEventParam) {
-        viewModel.poiTapped()
+    private func changePoi() {
+        let view = mapController.getView("mapview") as! KakaoMap
+        let manager = view.getLabelManager()
+        let layer = manager.getLabelLayer(layerID: "PoiLayer")
+        let poi = layer?.getPoi(poiID: "poi1")
+        
+        poi?.changeTextAndStyle(
+            texts: [
+                PoiText(text: viewModel.pickedAddress.value, styleIndex: 0)
+            ],
+            styleID: "customStyle1"
+        )
     }
 }
 
@@ -313,11 +403,35 @@ extension MapViewController: GuiEventDelegate {
                     longitude: currentLongitude,
                     latitude: currentLatitude
                 ),
-                zoomLevel: 17,
+                zoomLevel: 15,
                 rotation: 0,
                 tilt: 0,
                 mapView: view
             )
         )
+    }
+}
+
+// MARK: Camera
+extension MapViewController {
+    
+    func setCameraOption() {
+        let mapView = mapController.getView("mapview") as! KakaoMap
+        cameraStartHandler = mapView.addCameraWillMovedEventHandler(target: self, handler: MapViewController.cameraWillMove)
+        cameraStoppedHandler = mapView.addCameraStoppedEventHandler(target: self, handler: MapViewController.onCameraStopped)
+    }
+    
+    func cameraWillMove(_ param: CameraActionEventParam) {
+        viewModel.isLoading.accept(true)
+    }
+    
+    func onCameraStopped(_ param: CameraActionEventParam) {
+        let mapView = param.view as! KakaoMap
+        let position = mapView.getPosition(CGPoint(x: 0.5, y: 0.5))
+        
+        let pickedLongitude = position.wgsCoord.longitude
+        let pickedLatitude = position.wgsCoord.latitude
+        
+        viewModel.getCoordToRegion(longitude: pickedLongitude, latitude: pickedLatitude)
     }
 }

@@ -49,8 +49,12 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
                     owner.toHomeView()
                 },
                 onError: { owner, error in
-                    owner.alertState.accept(.init(title: error.localizedDescription,
-                                                  alertType: .popup))
+                    owner.alertState.accept(
+                        .init(
+                            title: error.localizedDescription,
+                            alertType: .popup
+                        )
+                    )
                 }
             ).disposed(by: bag)
     }
@@ -65,8 +69,12 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
                     owner.toEditRegionView(.change)
                 },
                 onError: { owner, error in
-                    owner.alertState.accept(.init(title: error.localizedDescription,
-                                                         alertType: .popup))
+                    owner.alertState.accept(
+                        .init(
+                            title: error.localizedDescription,
+                            alertType: .popup
+                        )
+                    )
             })
             .disposed(by: bag)
     }
@@ -80,16 +88,19 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
                 },
                 onError: { owner, error in
                     let errorString = error.localizedDescription
+                    var closeAction: AlertActionHandler?
+                    
                     if errorString == "중복된 주소를 등록 했습니다." {
-                        owner.alertState.accept(.init(title: errorString,
-                                                      alertType: .popup,
-                                                      closeAction: {
-                            owner.navigationPopViewControllerRelay.accept(Void())
-                        }))
-                    } else {
-                        owner.alertState.accept(.init(title: errorString,
-                                                      alertType: .popup))
+                        closeAction = { owner.navigationPopViewControllerRelay.accept(Void()) }
                     }
+                    
+                    owner.alertState.accept(
+                        .init(
+                            title: errorString,
+                            alertType: .popup,
+                            closeAction: closeAction
+                        )
+                    )
                 }
             ).disposed(by: bag)
     }

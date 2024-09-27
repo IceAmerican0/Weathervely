@@ -52,19 +52,31 @@ public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogi
                     case .edit:
                         break
                     case .change:
-                        owner.alertState.accept(.init(title: "현재 동네가 \(UserDefaultManager.shared.dong)(으)로 변경됐어요",
-                                                             alertType: .toast))
+                        owner.alertState.accept(
+                            .init(
+                                title: "현재 동네가 \(UserDefaultManager.shared.dong)(으)로 변경됐어요",
+                                alertType: .toast
+                            )
+                        )
                     case .add:
-                        owner.alertState.accept(.init(title: "동네가 추가됐어요",
-                                                             alertType: .toast))
+                        owner.alertState.accept(
+                            .init(
+                                title: "동네가 추가됐어요",
+                                alertType: .toast
+                            )
+                        )
                     }
                 },
                 onError: { owner, error in
-                    owner.alertState.accept(.init(title: error.localizedDescription,
-                                                        alertType: .popup,
-                                                        closeAction: {
-                        owner.navigationPopViewControllerRelay.accept(Void())
-                    }))
+                    owner.alertState.accept(
+                        .init(
+                            title: error.localizedDescription,
+                            alertType: .popup,
+                            closeAction: {
+                                owner.navigationPopViewControllerRelay.accept(Void())
+                            }
+                        )
+                    )
             })
             .disposed(by: bag)
     }
@@ -79,13 +91,21 @@ public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogi
                 with: self,
                 onNext: { owner, _ in
                     owner.loadRegionList()
-                    owner.alertState.accept(.init(title: "선택한 동네가 삭제됐어요",
-                                                         alertType: .toast))
+                    owner.alertState.accept(
+                        .init(
+                            title: "선택한 동네가 삭제됐어요",
+                            alertType: .toast
+                        )
+                    )
                     state = true
                 },
                 onError: { owner, error in
-                    owner.alertState.accept(.init(title: error.localizedDescription,
-                                                        alertType: .popup))
+                    owner.alertState.accept(
+                        .init(
+                            title: error.localizedDescription,
+                            alertType: .popup
+                        )
+                    )
                     state = false
             })
             .disposed(by: bag)
@@ -102,12 +122,20 @@ public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogi
                 onNext: { owner, _ in
                     owner.loadRegionList()
                     userDefault.set(regionInfo.dong, forKey: UserDefaultKey.dong.rawValue)
-                    owner.alertState.accept(.init(title: "현재 동네가 \(regionInfo.dong)(으)로 변경됐어요",
-                                                         alertType: .toast))
+                    owner.alertState.accept(
+                        .init(
+                            title: "현재 동네가 \(regionInfo.dong)(으)로 변경됐어요",
+                            alertType: .toast
+                        )
+                    )
                 },
                 onError: { owner, error in
-                    owner.alertState.accept(.init(title: error.localizedDescription,
-                                                        alertType: .popup))
+                    owner.alertState.accept(
+                        .init(
+                            title: error.localizedDescription,
+                            alertType: .popup
+                        )
+                    )
             })
             .disposed(by: bag)
     }
@@ -120,8 +148,12 @@ public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogi
     
     public func didTapConfirmButton() {
         if loadedListRelay.value.count == 3 {
-            alertState.accept(.init(title: "동네는 최대 3개까지 지정할 수 있어요",
-                                           alertType: .toast))
+            alertState.accept(
+                .init(
+                    title: "동네는 최대 3개까지 지정할 수 있어요",
+                    alertType: .toast
+                )
+            )
         } else {
             toSettingRegionView(.add)
         }

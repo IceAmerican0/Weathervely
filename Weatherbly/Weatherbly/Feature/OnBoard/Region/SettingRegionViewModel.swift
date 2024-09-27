@@ -50,8 +50,12 @@ public final class SettingRegionViewModel: RxBaseViewModel, SettingRegionViewMod
                     }
                 },
                 onError: { owner, error in
-                    owner.alertState.accept(.init(title: error.localizedDescription,
-                                                         alertType: .popup))
+                    owner.alertState.accept(
+                        .init(
+                            title: error.localizedDescription,
+                            alertType: .popup
+                        )
+                    )
             })
             .disposed(by: bag)
     }
@@ -59,22 +63,26 @@ public final class SettingRegionViewModel: RxBaseViewModel, SettingRegionViewMod
     public func didTapTableViewCell(at: IndexPath) {
         var addressRequest = AddressRequest()
         if let address = searchedListRelay.value[at.row].address {
-            addressRequest = AddressRequest(address_name: address.addressName,
-                                                city: address.region1DepthName,
-                                                gu: address.region2DepthName,
-                                                dong: address.region3DepthName.isEmpty ? address.region3DepthHName : address.region3DepthName,
-                                                country: "kr",
-                                                x_code: Double(address.y) ?? 0,
-                                                y_code: Double(address.x) ?? 0)
+            addressRequest = AddressRequest(
+                address_name: address.addressName,
+                city: address.region1DepthName,
+                gu: address.region2DepthName,
+                dong: address.region3DepthName.isEmpty ? address.region3DepthHName : address.region3DepthName,
+                country: "kr",
+                x_code: Double(address.y) ?? 0,
+                y_code: Double(address.x) ?? 0
+            )
         } else {
             guard let address = searchedListRelay.value[at.row].roadAddress else { return }
-            addressRequest = AddressRequest(address_name: address.addressName,
-                                            city: address.region1DepthName,
-                                            gu: address.region2DepthName,
-                                            dong: address.region3DepthName,
-                                            country: "kr",
-                                            x_code: Double(address.y) ?? 0,
-                                            y_code: Double(address.x) ?? 0)
+            addressRequest = AddressRequest(
+                address_name: address.addressName,
+                city: address.region1DepthName,
+                gu: address.region2DepthName,
+                dong: address.region3DepthName,
+                country: "kr",
+                x_code: Double(address.y) ?? 0,
+                y_code: Double(address.x) ?? 0
+            )
         }
         
         var nextModel: SettingRegionCompleteViewModel {

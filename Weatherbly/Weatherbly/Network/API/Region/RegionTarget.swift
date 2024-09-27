@@ -27,8 +27,8 @@ extension RegionTarget: WVTargetType {
         switch self {
         case .searchRegion: 
             "/search/address"
-        case .coordToAddress(let longitude, let latitude):
-            "/geo/coord2address?x=\(longitude)&y=\(latitude)"
+        case .coordToAddress:
+            "/geo/coord2address"
         }
     }
     
@@ -43,8 +43,14 @@ extension RegionTarget: WVTargetType {
                 parameters: ["query": query],
                 encoding: URLEncoding.queryString
             )
-        case .coordToAddress:
-            .requestPlain
+        case .coordToAddress(let longitude, let latitude):
+            .requestParameters(
+                parameters: [
+                    "x": longitude,
+                    "y": latitude
+                ],
+                encoding: URLEncoding.queryString
+            )
         }
     }
 }

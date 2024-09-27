@@ -32,6 +32,7 @@
 		5C4BE89D2A5E63C000FD2CEF /* RegionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4BE89C2A5E63C000FD2CEF /* RegionTableViewCell.swift */; };
 		5C4DB7AC2C200D0D004B4575 /* HomeShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4DB7AB2C200D0D004B4575 /* HomeShimmerView.swift */; };
 		5C4DB7B02C202897004B4575 /* TenDaysForecastShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4DB7AF2C202897004B4575 /* TenDaysForecastShimmerView.swift */; };
+		5C4F911D2CA5317D00E7B486 /* CoordToAddressEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4F911C2CA5317D00E7B486 /* CoordToAddressEntity.swift */; };
 		5C501F942BCE5A8000533F68 /* UserNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C501F932BCE5A8000533F68 /* UserNotificationManager.swift */; };
 		5C5360E12BDB3C56001543FE /* HomeStyleFilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5360E02BDB3C56001543FE /* HomeStyleFilterCell.swift */; };
 		5C5C1C2A2B86CAE500294BFF /* CSTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C1C292B86CAE500294BFF /* CSTextField.swift */; };
@@ -225,6 +226,7 @@
 		5C4BE89C2A5E63C000FD2CEF /* RegionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionTableViewCell.swift; sourceTree = "<group>"; };
 		5C4DB7AB2C200D0D004B4575 /* HomeShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeShimmerView.swift; sourceTree = "<group>"; };
 		5C4DB7AF2C202897004B4575 /* TenDaysForecastShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TenDaysForecastShimmerView.swift; sourceTree = "<group>"; };
+		5C4F911C2CA5317D00E7B486 /* CoordToAddressEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordToAddressEntity.swift; sourceTree = "<group>"; };
 		5C501F932BCE5A8000533F68 /* UserNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNotificationManager.swift; sourceTree = "<group>"; };
 		5C5360E02BDB3C56001543FE /* HomeStyleFilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeStyleFilterCell.swift; sourceTree = "<group>"; };
 		5C5C1C292B86CAE500294BFF /* CSTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSTextField.swift; sourceTree = "<group>"; };
@@ -609,6 +611,7 @@
 				5C9D02E92A725AC300AF2DA3 /* AddressRequest.swift */,
 				5C9F45552A8388130079ABA6 /* AddressEntity.swift */,
 				5CE0FEAC2A8DDE9200A0E655 /* AddressListEntity.swift */,
+				5C4F911C2CA5317D00E7B486 /* CoordToAddressEntity.swift */,
 			);
 			path = Region;
 			sourceTree = "<group>";
@@ -1247,6 +1250,7 @@
 				5C5C1C2E2B8738D500294BFF /* NicknameCompleteViewModel.swift in Sources */,
 				5C5F44D02C4A0149008A8F32 /* ClosetDetailTarget.swift in Sources */,
 				696176B22A63E37F00B83B4C /* RxBaseViewModel.swift in Sources */,
+				5C4F911D2CA5317D00E7B486 /* CoordToAddressEntity.swift in Sources */,
 				69D25C962AD04F6300C17FB1 /* WVProvider.swift in Sources */,
 				BD7DAB2D2A70DEE100422D25 /* ForecastDataSource.swift in Sources */,
 				5CAB60D32A54FC6A00CD431A /* UITableViewCell+Extension.swift in Sources */,
