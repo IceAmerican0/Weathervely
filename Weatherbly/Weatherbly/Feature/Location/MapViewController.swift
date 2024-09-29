@@ -22,15 +22,16 @@ public final class MapViewController: RxBaseViewController<MapViewModel>, MapCon
     }
     
     private let positionLabel = LabelMaker(
-        font: UIFont.body_3_B,
+        font: UIFont.title_2_B,
         alignment: .left
     ).make().then {
         $0.numberOfLines = 1
+        $0.lineBreakMode = .byTruncatingTail
     }
     
     private var confirmButton = CSButton(.standard, style: .violet600).then {
         $0.setTitle("이 위치로 동네 추가하기", for: .normal)
-        $0.setTitleColor(.white, for: .normal)
+        $0.setTitle("", for: .disabled)
     }
     
     private lazy var mapContainer = KMViewContainer().then {
@@ -47,6 +48,8 @@ public final class MapViewController: RxBaseViewController<MapViewModel>, MapCon
         $0.requestWhenInUseAuthorization()
         $0.startUpdatingLocation()
     }
+    
+    private var poi: Poi?
     
     private var auth = false
     private var appear = false
@@ -117,7 +120,7 @@ public final class MapViewController: RxBaseViewController<MapViewModel>, MapCon
         
         navigationView.pin.top(view.pin.safeArea.top).horizontally().height(44)
         positionContainer.pin.horizontally().bottom().height(150)
-        positionLabel.pin.top(to: positionContainer.edge.top).horizontally(20).marginTop(10).sizeToFit()
+        positionLabel.pin.top(to: positionContainer.edge.top).horizontally(20).marginTop(20).height(positionLabel.font.lineHeight)
         confirmButton.pin.horizontally(52).bottom(view.pin.safeArea.bottom).height(48)
         mapContainer.pin.below(of: navigationView).horizontally().bottom(to: positionContainer.edge.top)
     }
@@ -306,6 +309,7 @@ extension MapViewController {
     private func setPoi() {
         let view = mapController.getView("mapview") as! KakaoMap
         let labelManager = view.getLabelManager()
+        let trackingManager = view.getTrackingManager()
         
         let layerOption = LabelLayerOptions(
             layerID: "PoiLayer",
@@ -352,26 +356,12 @@ extension MapViewController {
                 y: view.viewRect.size.height * 0.5
             )
         )
-        guard let poi = layer?.addPoi(
+        poi = layer?.addPoi(
             option: poiOption,
             at: center
-        ) else { return }
-        
-        poi.show()
-    }
-    
-    private func changePoi() {
-        let view = mapController.getView("mapview") as! KakaoMap
-        let manager = view.getLabelManager()
-        let layer = manager.getLabelLayer(layerID: "PoiLayer")
-        let poi = layer?.getPoi(poiID: "poi1")
-        
-        poi?.changeTextAndStyle(
-            texts: [
-                PoiText(text: viewModel.pickedAddress.value, styleIndex: 0)
-            ],
-            styleID: "customStyle1"
         )
+        
+        poi?.show()
     }
 }
 
