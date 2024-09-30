@@ -36,7 +36,6 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
     
     private var confirmButton = CSButton(.standard, style: .violet600).then {
         $0.setTitle("동네 추가하기", for: .normal)
-        $0.setTitleColor(.white, for: .normal)
     }
     
     private var listCount = 0
@@ -68,7 +67,7 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
         
         confirmButton.rx.tap
             .bind(with:self) { owner, _ in
-                owner.viewModel.didTapConfirmButton()
+                owner.viewModel.toSettingRegionView(.add)
             }
             .disposed(by: bag)
     }
@@ -86,16 +85,6 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
             .bind(with: self) { owner, indexPath in
                 owner.viewModel.updateMainRegion(indexPath.row)
             }.disposed(by: bag)
-    }
-    
-    private func confirmButtonState() {
-        confirmButton.do {
-            if listCount == 3 {
-                $0.isEnabled = false
-            } else {
-                $0.isEnabled = true
-            }
-        }
     }
 }
 
@@ -142,8 +131,6 @@ extension EditRegionViewController: UICollectionViewDataSource {
             self.listCount = data.count
             
             $0.configureCellState(region: data[indexPath.row].addressName, row: indexPath.row)
-            
-            self.confirmButtonState()
         }
     }
 }
