@@ -28,14 +28,14 @@ public struct MainMediumCategoryData: Codable {
 
 public struct MainMediumCategoryList: Codable {
     var category: String
-    var items: [MainMediumCategoryInfo]
+    var items: [CategoryInfo]
     
     enum CodingKeys: String, CodingKey {
         case category, items
     }
 }
 
-public struct MainMediumCategoryInfo: Codable {
+public struct CategoryInfo: Codable {
     var id: Int
     var name: String
     

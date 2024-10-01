@@ -8,7 +8,7 @@
 import RxDataSources
 
 struct ClosetSectionModel {
-    var header: StyleMediumCategoryInfo
+    var header: CategoryInfo
     var items: [Item]
 }
 

@@ -21,8 +21,8 @@ public class StyleTagHeaderView: UICollectionReusableView {
     
     weak var delegate: TypeTagDelegate?
     var bag = DisposeBag()
-    var tags: [ClosetTypeInfo] = []
-    var tagsRelay = BehaviorRelay<[ClosetTypeInfo]?>(value: [])
+    var tags: [CategoryInfo] = []
+    var tagsRelay = BehaviorRelay<[CategoryInfo]?>(value: [])
     
     lazy var tagCollectionFlowLayout = UICollectionViewFlowLayout().then {
         $0.scrollDirection = .horizontal
@@ -57,7 +57,7 @@ public class StyleTagHeaderView: UICollectionReusableView {
         self.flex.addItem(tagCollectionView).width(100%).height(56).direction(.row)
     }
     
-    func configureTag(_ tagItem: [ClosetTypeInfo]?) {
+    func configureTag(_ tagItem: [CategoryInfo]?) {
         guard let tagItem = tagItem else { return }
         tagsRelay.accept(tagItem)
         tagCollectionView.reloadData()
@@ -74,7 +74,7 @@ extension StyleTagHeaderView: UICollectionViewDataSource, UICollectionViewDelega
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         return collectionView.dequeueCell(withType: TypeTagCell.self, for: indexPath).then {
-            $0.configure(typeInfo: tagsRelay.value?[indexPath.item] ?? ClosetTypeInfo(id: 0, name: "tag"))
+            $0.configure(typeInfo: tagsRelay.value?[indexPath.item] ?? CategoryInfo(id: 0, name: "tag"))
         }
     }
     

@@ -21,7 +21,7 @@ public final class HomeStyleFilterView: UICollectionReusableView {
     
     weak var delegate: HomeStyleFilterViewDelegate?
     
-    private var viewState: [ClosetTypeInfo] = []
+    private var viewState: [CategoryInfo] = []
     
     public lazy var filterList = UICollectionView(
         frame: .zero,
@@ -60,7 +60,7 @@ public final class HomeStyleFilterView: UICollectionReusableView {
         bag = DisposeBag()
     }
     
-    public func configureCellState(state: [ClosetTypeInfo]) {
+    public func configureCellState(state: [CategoryInfo]) {
         viewState = state
         filterList.reloadData()
         

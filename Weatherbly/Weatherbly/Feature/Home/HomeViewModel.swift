@@ -33,7 +33,7 @@ public protocol HomeViewModelLogic: ViewModelBusinessLogic {
     var homeSections: BehaviorRelay<[HomeSection]> { get }
     var forecastInfo: [HomeForecastInfo] { get }
     var selectedIndex: BehaviorRelay<Int> { get }
-    var styleFilterList: [ClosetTypeInfo] { get }
+    var styleFilterList: [CategoryInfo] { get }
 }
 
 public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
@@ -51,7 +51,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     /// 선택돼있는 인덱스
     public var selectedIndex = BehaviorRelay<Int>(value: 0)
     /// 스타일 필터 리스트
-    public var styleFilterList: [ClosetTypeInfo] = []
+    public var styleFilterList: [CategoryInfo] = []
     /// 스타일 추천 리스트
     private var closetList: [ClosetInfo] = []
     /// pagination용 리스트 총 개수

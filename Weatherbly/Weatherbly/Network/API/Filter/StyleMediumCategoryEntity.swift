@@ -18,20 +18,9 @@ public struct StyleMediumCategoryEntity: Codable {
 }
 
 public struct StyleMediumCategoryData: Codable {
-    var mediumCategories: [StyleMediumCategoryInfo]
+    var mediumCategories: [CategoryInfo]
     
     enum CodingKeys: String, CodingKey {
         case mediumCategories
-    }
-}
-
-public struct StyleMediumCategoryInfo: Codable, Equatable, IdentifiableType {
-    public var identity = UUID().uuidString
-    
-    var id: Int
-    var name: String
-    
-    enum CodingKeys: String, CodingKey {
-        case id, name
     }
 }

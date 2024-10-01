@@ -18,20 +18,9 @@ public struct ClosetTypeEntity: Codable {
 }
 
 public struct ClosetTypeData: Codable {
-    let types: [ClosetTypeInfo]
+    let types: [CategoryInfo]
     
     enum CodingKeys: String, CodingKey {
         case types
-    }
-}
-
-public struct ClosetTypeInfo: Codable, Equatable, IdentifiableType {
-    public let identity: String = UUID().uuidString
-    
-    let id: Int
-    let name: String
-    
-    enum CodingKeys: String, CodingKey {
-        case id, name
     }
 }

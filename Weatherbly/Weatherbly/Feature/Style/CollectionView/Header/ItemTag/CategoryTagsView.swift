@@ -13,22 +13,16 @@ import RxCocoa
 import Then
 
 public protocol ItemTagsViewDelegate: AnyObject {
-    func selectItemTags(categoryInfo: StyleMediumCategoryInfo)
+    func selectItemTags(categoryInfo: CategoryInfo)
 }
 
 public final class CategoryTagsView: UIView {
     
     // MARK: - State
-    public var typeInfo = ClosetTypeInfo.init(id: 0, name: "")
+    public var typeInfo = CategoryInfo.init(id: 0, name: "")
     public weak var tagsViewDelegate: ItemTagsViewDelegate?
     public var identifer: String?
     var bag = DisposeBag()
-    
-    private var sectionTitleLabel = LabelMaker(
-        font: UIFont.title_3_B,
-        fontColor: UIColor.black,
-        alignment: .left
-    ).make(text: "#Type1")
 
     public let scrollView = UIScrollView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -46,7 +40,7 @@ public final class CategoryTagsView: UIView {
     
     public var selectedTags: [Int] = []
     
-    var tags: [StyleMediumCategoryInfo] = []
+    var tags: [CategoryInfo] = []
     
     init() {
         super.init(frame: .zero)
@@ -75,7 +69,7 @@ public final class CategoryTagsView: UIView {
         }
     }
     
-    public func configure(tags: [StyleMediumCategoryInfo]? = nil, selectedTags: [Int]) {
+    public func configure(tags: [CategoryInfo]? = nil, selectedTags: [Int]) {
         self.selectedTags = selectedTags
         
         guard let tags else { return }

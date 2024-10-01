@@ -12,7 +12,7 @@ import RxSwift
 import Then
 
 protocol CategoryHeaderViewDelegate: AnyObject {
-    func sendCategoryWithType(tags: [Int], typeInfo: ClosetTypeInfo)
+    func sendCategoryWithType(tags: [Int], typeInfo: CategoryInfo)
 }
 
 final class CategoryHeaderView : UICollectionReusableView {
@@ -21,7 +21,7 @@ final class CategoryHeaderView : UICollectionReusableView {
     
     public weak var headerDelegate: CategoryHeaderViewDelegate?
     
-    public var typeInfo = ClosetTypeInfo.init(id: 0, name: "")
+    public var typeInfo = CategoryInfo.init(id: 0, name: "")
     
     var state: [Int] = []
     
@@ -33,14 +33,14 @@ final class CategoryHeaderView : UICollectionReusableView {
         alignment: .left
     ).make(text: "#Type1")
     
-    private var categoriesRelay = BehaviorRelay<[StyleMediumCategoryInfo]>(value: [
-        StyleMediumCategoryInfo(id: 28, name: "니트/스웨터"),
-        StyleMediumCategoryInfo(id: 31, name: "긴소매 티셔츠"),
-        StyleMediumCategoryInfo(id: 32, name: "셔츠/블라우스"),
-        StyleMediumCategoryInfo(id: 33, name: "피케/카라티셔츠"),
-        StyleMediumCategoryInfo(id: 34, name: "반소매 티셔츠"),
-        StyleMediumCategoryInfo(id: 35, name: "민소매 티셔츠"),
-        StyleMediumCategoryInfo(id: 37, name: "기타 상의")
+    private var categoriesRelay = BehaviorRelay<[CategoryInfo]>(value: [
+        CategoryInfo(id: 28, name: "니트/스웨터"),
+        CategoryInfo(id: 31, name: "긴소매 티셔츠"),
+        CategoryInfo(id: 32, name: "셔츠/블라우스"),
+        CategoryInfo(id: 33, name: "피케/카라티셔츠"),
+        CategoryInfo(id: 34, name: "반소매 티셔츠"),
+        CategoryInfo(id: 35, name: "민소매 티셔츠"),
+        CategoryInfo(id: 37, name: "기타 상의")
     ])
     
     public lazy var tagsView = CategoryTagsView().then {
@@ -103,7 +103,7 @@ final class CategoryHeaderView : UICollectionReusableView {
             }).disposed(by: bag)
     }
     
-    func configure(info: ClosetTypeInfo?, categories: [StyleMediumCategoryInfo]?, state: [Int]?) {
+    func configure(info: CategoryInfo?, categories: [CategoryInfo]?, state: [Int]?) {
         guard let typeInfo = info else { return }
         self.typeInfo = typeInfo
         sectionTitleLabel.text = "#\(typeInfo.name)"
@@ -121,7 +121,7 @@ final class CategoryHeaderView : UICollectionReusableView {
 }
 
 extension CategoryHeaderView: ItemTagsViewDelegate {
-    func selectItemTags(categoryInfo: StyleMediumCategoryInfo) {
+    func selectItemTags(categoryInfo: CategoryInfo) {
         let id = categoryInfo.id
         
         // 태그뷰 모으기

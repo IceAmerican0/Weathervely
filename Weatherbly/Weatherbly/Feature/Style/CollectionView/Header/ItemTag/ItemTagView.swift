@@ -29,7 +29,7 @@ public final class ItemTagView: UIView {
     
     public var bag = DisposeBag()
     public var selectedState = BehaviorRelay<SelectedChageState>(value: .deSelected)
-    public var categoryInfo: StyleMediumCategoryInfo = .init(id: 0, name: "")
+    public var categoryInfo: CategoryInfo = .init(id: 0, name: "")
     
     public var labelWrapper = UIView().then {
         $0.layer.cornerRadius = 14
@@ -112,7 +112,7 @@ public final class ItemTagView: UIView {
         }
     }
     
-    func configure(with tagInfo: StyleMediumCategoryInfo?, selectedTags: [Int]) {
+    func configure(with tagInfo: CategoryInfo?, selectedTags: [Int]) {
         
         guard let tagInfo else {
             tagLabel.text = "#카테고리"
