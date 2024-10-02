@@ -9,7 +9,7 @@ import Foundation
 import RxDataSources
 
 public enum StyleSection {
-    case banner
+    case banner(item: [Item])
     case tag(types: [CategoryInfo])
     case title(type: String)
     case category(types: [CategoryInfo])
@@ -18,16 +18,23 @@ public enum StyleSection {
 
 
 extension StyleSection: AnimatableSectionModelType {
+    public typealias Item = StyleSectionItem
     public var identity: UUID { UUID() }
     
-    public var items: [StyleSectionItem] {
-        return []
+    public var items: [Item] {
+        switch self {
+        case .banner(item: let item): item
+        case .tag(let types): /*types.map { Item.tag($0) }*/[]
+        case .title(let type): [.title(type)]
+        case .category(let types): types.map { Item.category($0) }
+        case .card(let items): items.map { Item.card($0) }
+        }
     }
     
-    public init(original: StyleSection, items: [StyleSectionItem]) {
+    public init(original: StyleSection, items: [Item]) {
         switch original {
         case .banner:
-            self = .banner
+            self = .banner(item: items)
         case .tag(let types):
             self = .tag(types: types)
         case .title(let type):
@@ -43,11 +50,11 @@ extension StyleSection: AnimatableSectionModelType {
 public enum StyleSectionItem: Equatable, IdentifiableType {
     public var identity: UUID { UUID() }
     
-    case banner
-    case tag([CategoryInfo])
+    case banner(StyleBanner)
+    case tag(CategoryInfo)
     case title(String)
-    case category([CategoryInfo])
-    case card([ClosetInfo])
+    case category(CategoryInfo)
+    case card(ClosetInfo)
     
     public static func == (lhs: StyleSectionItem, rhs: StyleSectionItem) -> Bool {
         return lhs.identity == rhs.identity

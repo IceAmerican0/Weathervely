@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RxDataSources
 
 // mediumCategory API response 변경 됐음으로 새 entitiy로 교체
 // 빌드시 에러 때문에 이거는 두고 같은 API에 사용되는 CategoryEntity로 변경

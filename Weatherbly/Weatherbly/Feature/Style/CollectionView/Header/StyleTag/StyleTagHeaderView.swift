@@ -40,7 +40,7 @@ public class StyleTagHeaderView: UICollectionReusableView {
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        
+        layout()
     }
     
     required init?(coder: NSCoder) {
@@ -49,12 +49,11 @@ public class StyleTagHeaderView: UICollectionReusableView {
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-        layout()
-        self.flex.layout()
+        flex.layout()
     }
     
     func layout() {
-        self.flex.addItem(tagCollectionView).width(100%).height(56).direction(.row)
+        flex.addItem(tagCollectionView).width(100%).height(56).direction(.row)
     }
     
     func configureTag(_ tagItem: [CategoryInfo]?) {

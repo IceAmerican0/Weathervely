@@ -8,40 +8,38 @@
 import UIKit
 import FlexLayout
 import PinLayout
+import Then
 
-final class BannerCell: UICollectionViewCell {
-    
-     var bannerImageView = UIImageView().then {
-        $0.image = UIImage.style_banner
-        $0.contentMode = .scaleAspectFill
-        $0.layer.cornerRadius = 12
-        $0.clipsToBounds = true
-        $0.translatesAutoresizingMaskIntoConstraints = true
-        $0.image = UIImage.style_banner
+public final class BannerCell: UICollectionViewCell {
+     private var bannerImageView = UIImageView().then {
+         $0.image = .style_banner
+         $0.contentMode = .scaleAspectFill
+         $0.layer.cornerRadius = 12
+         $0.clipsToBounds = true
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        cellLayout()
+        layout()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
+    public override func layoutSubviews() {
         super.layoutSubviews()
-        
-        contentView.pin.all()
-        contentView.flex.layout(mode: .adjustHeight)
+        setLayout()
     }
     
-    private func cellLayout() {
-        
-        contentView.flex.define { contentView in
-            contentView.addItem(bannerImageView).margin(0, 0, 0, 20).height(80)
+    private func setLayout() {
+        contentView.pin.all()
+        contentView.flex.layout()
+    }
+    
+    private func layout() {
+        contentView.flex.define {
+            $0.addItem(bannerImageView).grow(1)
         }
     }
-    
 }

@@ -106,8 +106,7 @@ public final class HomeViewController: RxBaseViewController<HomeViewModel> {
             $0.addItem(contentView).grow(1).define {
                 $0.addItem().direction(.row).alignItems(.center).justifyContent(.spaceBetween).width(100%).height(44).define { header in
                     header.addItem(locationButton).marginLeft(20).size(20)
-                    header.addItem(regionLabel).marginHorizontal(8).shrink(1)
-                    header.addItem().grow(1)
+                    header.addItem(regionLabel).marginHorizontal(8).grow(1)
                     header.addItem(notificationButton).marginRight(20).size(20)
                 }
                 $0.addItem().direction(.row).alignItems(.center).justifyContent(.center).height(30).define { date in

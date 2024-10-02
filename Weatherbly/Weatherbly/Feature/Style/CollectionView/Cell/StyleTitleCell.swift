@@ -43,7 +43,7 @@ public final class StyleTitleCell: UICollectionViewCell {
     }
     
     public func configureCellState(text: String) {
-        titleLabel.text = text
+        titleLabel.text = "#\(text)"
         titleLabel.flex.markDirty()
     }
 }

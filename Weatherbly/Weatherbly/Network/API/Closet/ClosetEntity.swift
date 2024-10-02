@@ -19,11 +19,10 @@ public struct ClosetEntity: Codable {
 
 public struct ClosetData: Codable {
     let counts: Int
-//    let style: [ClosetTypes]?
     let closets: [ClosetInfo]
     
     enum CodingKeys: String, CodingKey {
-        case counts, /*style,*/ closets
+        case counts, closets
     }
 }
 
@@ -36,13 +35,7 @@ public struct ClosetTypes: Codable {
     }
 }
 
-public struct ClosetInfo: Codable, Equatable, IdentifiableType {
-    public static func == (lhs: ClosetInfo, rhs: ClosetInfo) -> Bool {
-        return lhs.identity == rhs.identity
-    }
-    
-    public let identity = UUID().uuidString
-    
+public struct ClosetInfo: Codable {
     let closetId: Int
     let closetName: String
     let closetImageUrl: String
@@ -55,10 +48,7 @@ public struct ClosetInfo: Codable, Equatable, IdentifiableType {
     }
 }
 
-public struct ClosetTemp: Codable, Equatable, IdentifiableType {
-    
-    public let identity = UUID()
-    
+public struct ClosetTemp: Codable {
     let tempId: Int
     let maxTemp: Int
     let minTemp: Int

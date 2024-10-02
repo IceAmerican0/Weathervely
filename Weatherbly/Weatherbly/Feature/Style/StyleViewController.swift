@@ -29,11 +29,11 @@ public final class StyleViewController: RxBaseViewController<StyleViewModel> {
         $0.register(withType: BannerCell.self)
         $0.registerHeader(withType: StyleTagHeaderView.self)
         $0.register(withType: StyleTitleCell.self)
-        $0.register(withType: HomeStyleFilterCell.self)
+        $0.register(withType: StyleFilterCell.self)
         $0.register(withType: StyleCardCell.self)
     }
     
-    private lazy var rxDataSources = setRxDataSources()
+    private lazy var dataSource = setDataSource()
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,24 +59,24 @@ public final class StyleViewController: RxBaseViewController<StyleViewModel> {
             .setDelegate(self)
             .disposed(by: bag)
         
-        NotificationCenter.default.rx.notification(.styleClosetTap)
-            .compactMap { $0.userInfo }
-            .compactMap { $0["selectedCloset"] as? ClosetInfo }
-            .bind(with: self) { owner, closetInfo in
-                let detailVM = ClosetDetailViewModel(
-                    closetId: closetInfo.closetId,
-                    tempId: closetInfo.temperature.tempId
-                )
-                let detailVC = ClosetDetailViewController(detailVM)
-                owner.viewModel.navigationPushViewControllerRelay.accept(detailVC)
-            }.disposed(by: bag)
+        collectionView.rx.itemSelected
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, indexPath in
+                    let row = indexPath.row
+                    if case .card(let item) = owner.dataSource[indexPath.section] {
+                        owner.viewModel.toDetailView(id: item[row].closetId, temp: item[row].temperature.tempId)
+                    }
+                }
+            ).disposed(by: bag)
     }
     
     override func viewModelBinding() {
         super.viewModelBinding()
         
         viewModel.dataSource
-            .bind(to: collectionView.rx.items(dataSource: setRxDataSources()))
+            .bind(to: collectionView.rx.items(dataSource: dataSource))
             .disposed(by: bag)
         
         viewModel.shimmerStatus
@@ -106,12 +106,12 @@ extension StyleViewController {
 extension StyleViewController: UICollectionViewDelegate {
     
     // MARK: - DataSource
-    func setRxDataSources() -> RxCollectionViewSectionedAnimatedDataSource<StyleSection> {
+    func setDataSource() -> RxCollectionViewSectionedAnimatedDataSource<StyleSection> {
         RxCollectionViewSectionedAnimatedDataSource<StyleSection> (
             configureCell: { [weak self] dataSource, collectionView, indexPath, item in
-            guard self != nil else { return UICollectionViewCell() }
+            guard let self else { return UICollectionViewCell() }
             
-            switch item {
+            switch dataSource[indexPath] {
             case .banner:
                 return collectionView.dequeueCell(withType: BannerCell.self, for: indexPath)
                 
@@ -121,13 +121,16 @@ extension StyleViewController: UICollectionViewDelegate {
                 }
                 
             case .category(let types):
-                return collectionView.dequeueCell(withType: HomeStyleFilterCell.self, for: indexPath).then {
-                    $0.configureCellState(state: types[indexPath.item])
+                return collectionView.dequeueCell(withType: StyleFilterCell.self, for: indexPath).then {
+                    $0.configureCellState(state: types)
+                    $0.buttonTap
+                        .drive(with: self) { owner, _ in
+//                            owner.viewModel.filterCloset(delegate: self)
+                        }.disposed(by: $0.bag)
                 }
-                
             case .card(let info):
                 return collectionView.dequeueCell(withType: StyleCardCell.self, for: indexPath).then {
-                    $0.configure(info: info[indexPath.item])
+                    $0.configure(info: info)
                 }
                 
             default: return UICollectionViewCell()
@@ -150,21 +153,15 @@ extension StyleViewController: UICollectionViewDelegate {
     
     func setSectionLayout() -> UICollectionViewCompositionalLayout {
         UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ -> NSCollectionLayoutSection? in
-            
             guard let self else { return nil }
-            guard sectionIndex < self.viewModel.dataSource.value.count else {
-                debugPrint("Section index \(sectionIndex) out of range.")
-                return nil
-            }
             
-            let section = self.viewModel.dataSource.value[sectionIndex]
-            return switch section {
+            return switch self.dataSource[sectionIndex] {
             case .banner:
                 self.setBannerSection()
             case .tag:
                 self.setTagSection()
             case .title:
-                self.setTagSection()
+                self.setTitleSection()
             case .category:
                 self.setCategorySection()
             case .card:
@@ -175,7 +172,7 @@ extension StyleViewController: UICollectionViewDelegate {
     
     func setBannerSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(
-            widthDimension: .absolute(Constants.screenWidth - 20),
+            widthDimension: .fractionalWidth(1.0),
             heightDimension: .absolute(80)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -186,32 +183,27 @@ extension StyleViewController: UICollectionViewDelegate {
         )
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 0)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
         return section
     }
     
     func setTagSection() -> NSCollectionLayoutSection {
-        
         // item
         let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .absolute(56)
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .absolute(1)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         // group
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .absolute(56)
-        )
         let group = NSCollectionLayoutGroup.vertical(
-            layoutSize: groupSize,
+            layoutSize: itemSize,
             subitems: [item]
         )
         
         // Header
         let headerSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
+            widthDimension: .fractionalWidth(1.0),
             heightDimension: .absolute(56)
         )
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
@@ -223,6 +215,7 @@ extension StyleViewController: UICollectionViewDelegate {
         // Section
         sectionHeader.pinToVisibleBounds = true
         let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
         
         section.boundarySupplementaryItems = [sectionHeader]
         
@@ -230,17 +223,16 @@ extension StyleViewController: UICollectionViewDelegate {
     }
     
     func setTitleSection() -> NSCollectionLayoutSection {
-        
         // item
         let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
+            widthDimension: .fractionalWidth(1.0),
             heightDimension: .absolute(56)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         // group
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
+            widthDimension: .fractionalWidth(1.0),
             heightDimension: .absolute(56)
         )
         let group = NSCollectionLayoutGroup.vertical(
@@ -250,13 +242,13 @@ extension StyleViewController: UICollectionViewDelegate {
         
         // section
         let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
         section.orthogonalScrollingBehavior = .none
         
         return section
     }
     
     func setCategorySection() -> NSCollectionLayoutSection {
-        
         // item
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .estimated(70),
@@ -266,14 +258,14 @@ extension StyleViewController: UICollectionViewDelegate {
         
         // group
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
+            widthDimension: .estimated(70),
             heightDimension: .absolute(66)
         )
-        let group = NSCollectionLayoutGroup.horizontal(
+        let group = NSCollectionLayoutGroup.vertical(
             layoutSize: groupSize,
-            repeatingSubitem: item,
-            count: 2
+            subitems: [item, item]
         )
+        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
         group.interItemSpacing = .fixed(8)
         
         // section
@@ -286,7 +278,6 @@ extension StyleViewController: UICollectionViewDelegate {
     }
     
     func setCardSection() -> NSCollectionLayoutSection {
-        
         // item
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .absolute(120),
@@ -296,20 +287,20 @@ extension StyleViewController: UICollectionViewDelegate {
         
         // group
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
+            widthDimension: .absolute(120),
             heightDimension: .absolute(430)
         )
-        let group = NSCollectionLayoutGroup.horizontal(
+        let group = NSCollectionLayoutGroup.vertical(
             layoutSize: groupSize,
-            repeatingSubitem: item,
-            count: 2
+            subitems: [item, item]
         )
-        group.interItemSpacing = .fixed(16)
+        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        group.interItemSpacing = .fixed(12)
         
         // section
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 20)
-        section.interGroupSpacing = 12
+        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20)
+        section.interGroupSpacing = 16
         section.orthogonalScrollingBehavior = .continuous
         
         return section

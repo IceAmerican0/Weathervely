@@ -12,8 +12,9 @@ import RxCocoa
 public protocol StyleViewModelLogic: ViewModelBusinessLogic {
     func getTypes()
     func getAPISerial(with typeInfo: [CategoryInfo])
+    func toDetailView(id: Int, temp: Int)
     
-    var dataSource: BehaviorRelay<[StyleSection]> { get }
+    var dataSource: PublishRelay<[StyleSection]> { get }
     var shimmerStatus: PublishRelay<Bool> { get }
 }
 
@@ -23,7 +24,7 @@ public final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
     /// 첫 실행 shimmer 여부
     public var shimmerStatus: PublishRelay<Bool> = .init()
     /// 스타일 콜렉션 뷰 정보
-    public var dataSource = BehaviorRelay<[StyleSection]>(value: [])
+    public var dataSource: PublishRelay<[StyleSection]> = .init()
     /// Types
     public var types: StyleSection = .tag(types: [])
     
@@ -94,7 +95,7 @@ public final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
                     guard let self else { return }
                     
                     self.content.insert(self.types, at: 0)
-                    self.content.insert(.banner, at: 0)
+                    self.content.insert(.banner(item: [.banner(StyleBanner())]), at: 0)
                     
                     self.dataSource.accept(self.content)
                     self.shimmerStatus.accept(true)
@@ -102,4 +103,9 @@ public final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
             ).disposed(by: bag)
     }
 
+    public func toDetailView(id: Int, temp: Int) {
+        let viewModel = ClosetDetailViewModel(closetId: id, tempId: temp)
+        let vc = ClosetDetailViewController(viewModel)
+        navigationPushViewControllerRelay.accept(vc)
+    }
 }
