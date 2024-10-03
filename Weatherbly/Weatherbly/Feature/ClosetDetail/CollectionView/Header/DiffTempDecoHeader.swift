@@ -23,14 +23,12 @@ public final class DiffTempDecoHeader: UICollectionReusableView {
     
     private var titleLabel = LabelMaker(
         font: UIFont.title_1_B,
-        fontColor: UIColor.red900,
-        alignment: .left
+        fontColor: UIColor.red900
     ).make(text: "더 따뜻한 코디")
     
     private var descriptLabel = LabelMaker(
         font: UIFont.body_5_M,
-        fontColor: UIColor.gray80,
-        alignment: .left
+        fontColor: UIColor.gray80
     ).make(text: "현재 코디에서 더 따뜻한 코디를 추천드려요")
     
     override init(frame: CGRect) {

@@ -13,7 +13,7 @@ class TitleLabelReusableHeader: UICollectionReusableView {
     private let container = UIView()
     
     private var titleLabel = LabelMaker(
-        font: UIFont.body_3_B
+        font: UIFont.title_3_B
     ).make(text: "Title text")
     
     override init(frame: CGRect) {
@@ -39,10 +39,7 @@ class TitleLabelReusableHeader: UICollectionReusableView {
         }
     }
     
-    public func configure(font: UIFont? = nil, text: String? = nil) {
-        if let font {
-            titleLabel.font = font
-        }
+    public func configure(text: String? = nil) {
         if let text {
             titleLabel.text = text
         }

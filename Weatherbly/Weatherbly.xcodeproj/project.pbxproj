@@ -160,7 +160,6 @@
 		BD05E0702B38045500A48E61 /* AppleSDGothicNeoM.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BD05E0672B38045500A48E61 /* AppleSDGothicNeoM.ttf */; };
 		BD05E0722B380C9400A48E61 /* CSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD05E0712B380C9400A48E61 /* CSLabel.swift */; };
 		BD05E07A2B38114B00A48E61 /* CSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD05E0792B38114B00A48E61 /* CSButton.swift */; };
-		BD05E3C22C36F6EA00F1484A /* CategoryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD05E3C12C36F6EA00F1484A /* CategoryHeaderView.swift */; };
 		BD0A68572C00EE46005460B1 /* ClosetSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD0A68562C00EE46005460B1 /* ClosetSectionModel.swift */; };
 		BD1F3AF12A7BA08100E528DC /* RxGesture in Frameworks */ = {isa = PBXBuildFile; productRef = BD1F3AF02A7BA08100E528DC /* RxGesture */; };
 		BD2D01892A388753003A25D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D01882A388753003A25D5 /* AppDelegate.swift */; };
@@ -170,13 +169,10 @@
 		BD2D01B42A3888AA003A25D5 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D01B32A3888AA003A25D5 /* UIColor+Extension.swift */; };
 		BD2D01B62A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D01B52A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift */; };
 		BD2D11BC2A9AEB0D008CBF0D /* TenDaysForecastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D11BB2A9AEB0D008CBF0D /* TenDaysForecastViewModel.swift */; };
-		BD3714392B8629FD00527577 /* StyleTagHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3714382B8629FD00527577 /* StyleTagHeaderView.swift */; };
 		BD3BDE662BDD456E002E9E0C /* BannerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3BDE652BDD456E002E9E0C /* BannerCell.swift */; };
 		BD3BDE682BE8E522002E9E0C /* StyleBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3BDE672BE8E522002E9E0C /* StyleBanner.swift */; };
 		BD3BDE6D2BEBD2EE002E9E0C /* TypeTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3BDE6C2BEBD2EE002E9E0C /* TypeTagCell.swift */; };
 		BD3BDE702BFA03EF002E9E0C /* StyleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3BDE6F2BFA03EF002E9E0C /* StyleCell.swift */; };
-		BD3BDE732BFA1692002E9E0C /* CategoryTagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3BDE722BFA1692002E9E0C /* CategoryTagsView.swift */; };
-		BD3BDE752BFA1753002E9E0C /* ItemTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3BDE742BFA1753002E9E0C /* ItemTagView.swift */; };
 		BD4316382A3CA20900E86271 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4316372A3CA20900E86271 /* UIView+Extension.swift */; };
 		BD4907332A84D42F0027DEE8 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4907322A84D42F0027DEE8 /* String+Extension.swift */; };
 		BD4AC38A2A655AEC00537583 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4AC3892A655AEC00537583 /* Date+Extension.swift */; };
@@ -203,7 +199,6 @@
 		BDCA1E862C401C5600376911 /* StyleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCA1E852C401C5600376911 /* StyleViewController.swift */; };
 		BDCA1E882C401C6500376911 /* StyleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCA1E872C401C6500376911 /* StyleViewModel.swift */; };
 		BDCA1E8A2C401DDE00376911 /* StyleSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCA1E892C401DDE00376911 /* StyleSection.swift */; };
-		BDCEE0BD2C4579C800C54AF6 /* Notification+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCEE0BC2C4579C800C54AF6 /* Notification+Extension.swift */; };
 		BDE912C82C28743000330673 /* CoolDecorationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE912C72C28743000330673 /* CoolDecorationView.swift */; };
 		BDE912CA2C2AB8D600330673 /* DiffTempDecoHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE912C92C2AB8D600330673 /* DiffTempDecoHeader.swift */; };
 		BDE912CE2C2C4F4600330673 /* Collection+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE912CD2C2C4F4600330673 /* Collection+Extension.swift */; };
@@ -349,7 +344,6 @@
 		BD05E0672B38045500A48E61 /* AppleSDGothicNeoM.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AppleSDGothicNeoM.ttf; sourceTree = "<group>"; };
 		BD05E0712B380C9400A48E61 /* CSLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSLabel.swift; sourceTree = "<group>"; };
 		BD05E0792B38114B00A48E61 /* CSButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSButton.swift; sourceTree = "<group>"; };
-		BD05E3C12C36F6EA00F1484A /* CategoryHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryHeaderView.swift; sourceTree = "<group>"; };
 		BD0A68562C00EE46005460B1 /* ClosetSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetSectionModel.swift; sourceTree = "<group>"; };
 		BD2D01852A388753003A25D5 /* Weatherbly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Weatherbly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD2D01882A388753003A25D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -360,13 +354,10 @@
 		BD2D01B32A3888AA003A25D5 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		BD2D01B52A3888C5003A25D5 /* CodeBaseInitialzerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeBaseInitialzerProtocol.swift; sourceTree = "<group>"; };
 		BD2D11BB2A9AEB0D008CBF0D /* TenDaysForecastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TenDaysForecastViewModel.swift; sourceTree = "<group>"; };
-		BD3714382B8629FD00527577 /* StyleTagHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleTagHeaderView.swift; sourceTree = "<group>"; };
 		BD3BDE652BDD456E002E9E0C /* BannerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerCell.swift; sourceTree = "<group>"; };
 		BD3BDE672BE8E522002E9E0C /* StyleBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleBanner.swift; sourceTree = "<group>"; };
 		BD3BDE6C2BEBD2EE002E9E0C /* TypeTagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeTagCell.swift; sourceTree = "<group>"; };
 		BD3BDE6F2BFA03EF002E9E0C /* StyleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleCell.swift; sourceTree = "<group>"; };
-		BD3BDE722BFA1692002E9E0C /* CategoryTagsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTagsView.swift; sourceTree = "<group>"; };
-		BD3BDE742BFA1753002E9E0C /* ItemTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemTagView.swift; sourceTree = "<group>"; };
 		BD4316372A3CA20900E86271 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		BD4907322A84D42F0027DEE8 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		BD4AC3892A655AEC00537583 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
@@ -393,7 +384,6 @@
 		BDCA1E852C401C5600376911 /* StyleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleViewController.swift; sourceTree = "<group>"; };
 		BDCA1E872C401C6500376911 /* StyleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleViewModel.swift; sourceTree = "<group>"; };
 		BDCA1E892C401DDE00376911 /* StyleSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleSection.swift; sourceTree = "<group>"; };
-		BDCEE0BC2C4579C800C54AF6 /* Notification+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Extension.swift"; sourceTree = "<group>"; };
 		BDE912C72C28743000330673 /* CoolDecorationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoolDecorationView.swift; sourceTree = "<group>"; };
 		BDE912C92C2AB8D600330673 /* DiffTempDecoHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffTempDecoHeader.swift; sourceTree = "<group>"; };
 		BDE912CD2C2C4F4600330673 /* Collection+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Extension.swift"; sourceTree = "<group>"; };
@@ -698,7 +688,6 @@
 				BDCA1E892C401DDE00376911 /* StyleSection.swift */,
 				BD0A68562C00EE46005460B1 /* ClosetSectionModel.swift */,
 				BD05E3C32C36FDDD00F1484A /* Cell */,
-				BD3BDE692BEBD023002E9E0C /* Header */,
 			);
 			path = CollectionView;
 			sourceTree = "<group>";
@@ -844,6 +833,7 @@
 				BD3BDE6F2BFA03EF002E9E0C /* StyleCell.swift */,
 				5C131E942CAD380B000DFB2C /* StyleFilterCell.swift */,
 				697CC2712CABB60F006D2A64 /* StyleTitleCell.swift */,
+				BD3BDE6C2BEBD2EE002E9E0C /* TypeTagCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -943,7 +933,6 @@
 				5CC61E1E2A56850F001435E6 /* DateFormatter+Extension.swift */,
 				5C7F674D2C33D9450035DC8A /* Dictionary+Extension.swift */,
 				5C9D02EB2A725BA200AF2DA3 /* Encodable+Extension.swift */,
-				BDCEE0BC2C4579C800C54AF6 /* Notification+Extension.swift */,
 				BD7DAB242A6E757C00422D25 /* PrimitiveSequence+Extension.swift */,
 				BD4907322A84D42F0027DEE8 /* String+Extension.swift */,
 				5C5F800F2C4E3425006A0AEB /* UIApplication+Extension.swift */,
@@ -993,34 +982,6 @@
 			children = (
 			);
 			path = Enum;
-			sourceTree = "<group>";
-		};
-		BD3BDE692BEBD023002E9E0C /* Header */ = {
-			isa = PBXGroup;
-			children = (
-				BD3BDE712BFA1675002E9E0C /* ItemTag */,
-				BD3BDE6A2BEBD058002E9E0C /* StyleTag */,
-			);
-			path = Header;
-			sourceTree = "<group>";
-		};
-		BD3BDE6A2BEBD058002E9E0C /* StyleTag */ = {
-			isa = PBXGroup;
-			children = (
-				BD3714382B8629FD00527577 /* StyleTagHeaderView.swift */,
-				BD3BDE6C2BEBD2EE002E9E0C /* TypeTagCell.swift */,
-			);
-			path = StyleTag;
-			sourceTree = "<group>";
-		};
-		BD3BDE712BFA1675002E9E0C /* ItemTag */ = {
-			isa = PBXGroup;
-			children = (
-				BD3BDE722BFA1692002E9E0C /* CategoryTagsView.swift */,
-				BD3BDE742BFA1753002E9E0C /* ItemTagView.swift */,
-				BD05E3C12C36F6EA00F1484A /* CategoryHeaderView.swift */,
-			);
-			path = ItemTag;
 			sourceTree = "<group>";
 		};
 		BD51070A2C0F755400D8AFBE /* ClosetDetail */ = {
@@ -1273,7 +1234,6 @@
 				697EAA002C5E15CE00D8845D /* StyleClosetEntity.swift in Sources */,
 				5CC61E282A5BDCCC001435E6 /* UIViewController+Extension.swift in Sources */,
 				BDCA1E8A2C401DDE00376911 /* StyleSection.swift in Sources */,
-				BD05E3C22C36F6EA00F1484A /* CategoryHeaderView.swift in Sources */,
 				5C8416A02B68D9FC003AE726 /* TenDaysForecastTableViewCell.swift in Sources */,
 				5C7F674E2C33D9450035DC8A /* Dictionary+Extension.swift in Sources */,
 				BD51072C2C1EE05C00D8AFBE /* TitleLabelReusableHeader.swift in Sources */,
@@ -1302,12 +1262,10 @@
 				699AE6722C81F08800025E7A /* MapViewController.swift in Sources */,
 				699AE6732C81F08800025E7A /* MapViewModel.swift in Sources */,
 				697EA9FA2C5E15CE00D8845D /* DiffTempEntity.swift in Sources */,
-				BD3714392B8629FD00527577 /* StyleTagHeaderView.swift in Sources */,
 				BD4907332A84D42F0027DEE8 /* String+Extension.swift in Sources */,
 				BD5107322C2859A300D8AFBE /* WarmDecorationView.swift in Sources */,
 				BD4316382A3CA20900E86271 /* UIView+Extension.swift in Sources */,
 				BD2D01AE2A38886C003A25D5 /* RxBaseViewController.swift in Sources */,
-				BDCEE0BD2C4579C800C54AF6 /* Notification+Extension.swift in Sources */,
 				5CF0A49E2B5A32EA00D2AB4C /* HomeForecastEntity.swift in Sources */,
 				5C6CE79A2C1C38B600D64F22 /* ShimmerView.swift in Sources */,
 				69D25C972AD04F6300C17FB1 /* WVNetWorkError.swift in Sources */,
@@ -1338,7 +1296,6 @@
 				5C9D02EC2A725BA200AF2DA3 /* Encodable+Extension.swift in Sources */,
 				5C6AC7022A84A4D000CE5D34 /* UserInfoEntity.swift in Sources */,
 				BD3BDE682BE8E522002E9E0C /* StyleBanner.swift in Sources */,
-				BD3BDE752BFA1753002E9E0C /* ItemTagView.swift in Sources */,
 				5C5C1C2A2B86CAE500294BFF /* CSTextField.swift in Sources */,
 				BD5107212C17270200D8AFBE /* WithItemCell.swift in Sources */,
 				BD51070E2C0F75B300D8AFBE /* ClosetDetailViewModel.swift in Sources */,
@@ -1370,7 +1327,6 @@
 				BD3BDE702BFA03EF002E9E0C /* StyleCell.swift in Sources */,
 				5CC2DB9C2C488F6B0098CB68 /* NotificationTarget.swift in Sources */,
 				5CAB60D12A54FC5F00CD431A /* UITableView+Extension.swift in Sources */,
-				BD3BDE732BFA1692002E9E0C /* CategoryTagsView.swift in Sources */,
 				5CCC91562A613F010025B522 /* SettingRegionViewModel.swift in Sources */,
 				5C4DB7AC2C200D0D004B4575 /* HomeShimmerView.swift in Sources */,
 				BD7DAB312A70DEF400422D25 /* ForeCastTarget.swift in Sources */,

@@ -252,10 +252,7 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
                             withType: TitleLabelReusableHeader.self,
                             for: indexPath
                         ).then {
-                            $0.configure(
-                                font: UIFont.title_3_B,
-                                text: DiffTempHeaderComment.withItemTitle.rawValue
-                            )
+                            $0.configure(text: DiffTempHeaderComment.withItemTitle.rawValue)
                         }
                     case .warmFirst:
                         return collectionView.dequeueReusableHeaderView(

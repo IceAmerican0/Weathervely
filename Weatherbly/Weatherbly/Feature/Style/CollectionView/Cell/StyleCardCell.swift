@@ -16,8 +16,7 @@ import Kingfisher
 public final class StyleCardCell: UICollectionViewCell {
     private var nameLabel = LabelMaker(
         font: UIFont.body_5_M,
-        fontColor: UIColor.gray100,
-        alignment: .left
+        fontColor: UIColor.gray100
     ).make(text: "이 옷은 어느 쇼핑몰에서?")
     
     private var imageViewWrapper = UIView().then {

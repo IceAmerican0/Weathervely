@@ -31,32 +31,27 @@ final class WithItemCell: UICollectionViewCell {
     }
     
     private var itemNameLabel = LabelMaker(
-        font: UIFont.body_3_B,
-        fontColor: UIColor.black,
-        alignment: .left
+        font: UIFont.body_3_B
     ).make(text: "ItemName").then {
         $0.numberOfLines = 1
     }
     
     private var shopNameLabel = LabelMaker(
         font: UIFont.body_5_M,
-        fontColor: UIColor.gray100,
-        alignment: .left
+        fontColor: UIColor.gray100
     ).make(text: "ItemShopName").then {
         $0.numberOfLines = 1
     }
     
     private var categoryLabel = LabelMaker(
         font: UIFont.body_5_M,
-        fontColor: UIColor.gray50,
-        alignment: .left
+        fontColor: UIColor.gray50
     ).make(text: "category").then {
         $0.numberOfLines = 1
     }
     
     private var soldOutView = LabelMaker.init(
         font: UIFont.body_3_B,
-        fontColor: .black,
         alignment: .center
     ).make(text: "SOLD OUT").then {
         $0.layer.opacity = 0.3

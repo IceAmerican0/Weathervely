@@ -20,8 +20,7 @@ final class NoItemCell: UICollectionViewCell {
     }
     let noitemLabel = LabelMaker(
         font: UIFont.body_5_M,
-        fontColor: UIColor.gray50,
-        alignment: .center
+        fontColor: UIColor.gray50
     ).make(text: "조건에 맞는 코디가 없어요")
     
     override init(frame: CGRect) {

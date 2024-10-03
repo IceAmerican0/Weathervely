@@ -27,13 +27,15 @@ public final class StyleViewController: RxBaseViewController<StyleViewModel> {
     ).then {
         $0.showsVerticalScrollIndicator = false
         $0.register(withType: BannerCell.self)
-        $0.registerHeader(withType: StyleTagHeaderView.self)
+        $0.register(withType: TypeTagCell.self)
         $0.register(withType: StyleTitleCell.self)
         $0.register(withType: StyleFilterCell.self)
         $0.register(withType: StyleCardCell.self)
     }
     
     private lazy var dataSource = setDataSource()
+    
+    private var selectedFilter: [String: [String]] = [:]
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,8 +67,15 @@ public final class StyleViewController: RxBaseViewController<StyleViewModel> {
                 with: self,
                 onNext: { owner, indexPath in
                     let row = indexPath.row
-                    if case .card(let item) = owner.dataSource[indexPath.section] {
+                    
+                    switch owner.dataSource[indexPath.section] {
+                    case .tag(let types):
+                        owner.collectionView.scrollToItem(at: IndexPath(item: 0, section: row + (row + 1) * 2), at: .top, animated: true)
+                    case .category(let types):
+                        return
+                    case .card(let item):
                         owner.viewModel.toDetailView(id: item[row].closetId, temp: item[row].temperature.tempId)
+                    default: return
                     }
                 }
             ).disposed(by: bag)
@@ -89,19 +98,6 @@ public final class StyleViewController: RxBaseViewController<StyleViewModel> {
             }.disposed(by: bag)
     }
 }
-
-extension StyleViewController {
-    
-    // MARK: - InnerCV Cell Tap Event
-    @objc func pushDetailView(_ notification: Notification) {
-        if let data = notification.userInfo as? [String: Any],
-            let selectedCloset = data["selectedCloset"] as? ClosetInfo {
-            let detailVM = ClosetDetailViewModel(closetId: selectedCloset.closetId, tempId: selectedCloset.temperature.tempId)
-            let detailVC = ClosetDetailViewController(detailVM)
-            self.viewModel.navigationPushViewControllerRelay.accept(detailVC)
-        }
-    }
-}
     
 extension StyleViewController: UICollectionViewDelegate {
     
@@ -114,6 +110,11 @@ extension StyleViewController: UICollectionViewDelegate {
             switch dataSource[indexPath] {
             case .banner:
                 return collectionView.dequeueCell(withType: BannerCell.self, for: indexPath)
+                
+            case .tag(let tag):
+                return collectionView.dequeueCell(withType: TypeTagCell.self, for: indexPath).then {
+                    $0.configureCellState(text: tag.name)
+                }
                 
             case .title(let title):
                 return collectionView.dequeueCell(withType: StyleTitleCell.self, for: indexPath).then {
@@ -132,22 +133,7 @@ extension StyleViewController: UICollectionViewDelegate {
                 return collectionView.dequeueCell(withType: StyleCardCell.self, for: indexPath).then {
                     $0.configure(info: info)
                 }
-                
-            default: return UICollectionViewCell()
             }
-            
-        }, configureSupplementaryView: { [weak self] dataSource, collectionView, kind, indexPath in
-            guard self != nil else { return UICollectionReusableView() }
-            
-            if case UICollectionView.elementKindSectionHeader = kind {
-                if case .tag(let types) = dataSource[indexPath.section] {
-                    return collectionView.dequeueReusableHeaderView(withType: StyleTagHeaderView.self, for: indexPath).then {
-                        $0.configureTag(types)
-                    }
-                }
-            }
-            
-            return UICollectionReusableView()
         })
     }
     
@@ -190,34 +176,22 @@ extension StyleViewController: UICollectionViewDelegate {
     func setTagSection() -> NSCollectionLayoutSection {
         // item
         let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .absolute(1)
+            widthDimension: .estimated(70),
+            heightDimension: .absolute(56)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         // group
-        let group = NSCollectionLayoutGroup.vertical(
+        let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: itemSize,
             subitems: [item]
         )
         
-        // Header
-        let headerSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .absolute(56)
-        )
-        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: headerSize,
-            elementKind: UICollectionView.elementKindSectionHeader,
-            alignment: .topLeading
-        )
-        
         // Section
-        sectionHeader.pinToVisibleBounds = true
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-        
-        section.boundarySupplementaryItems = [sectionHeader]
+        section.interGroupSpacing = 12
+        section.contentInsets = NSDirectionalEdgeInsets(top: 14, leading: 20, bottom: 0, trailing: 20)
+        section.orthogonalScrollingBehavior = .continuous
         
         return section
     }

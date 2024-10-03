@@ -12,9 +12,7 @@ import Then
 
 public final class StyleTitleCell: UICollectionViewCell {
     private var titleLabel = LabelMaker(
-        font: UIFont.title_3_B,
-        fontColor: UIColor.black,
-        alignment: .left
+        font: UIFont.title_3_B
     ).make(text: "#Type1").then {
         $0.numberOfLines = 1
         $0.lineBreakMode = .byTruncatingTail

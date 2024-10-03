@@ -24,7 +24,7 @@ extension StyleSection: AnimatableSectionModelType {
     public var items: [Item] {
         switch self {
         case .banner(item: let item): item
-        case .tag(let types): /*types.map { Item.tag($0) }*/[]
+        case .tag(let types): types.map { Item.tag($0) }
         case .title(let type): [.title(type)]
         case .category(let types): types.map { Item.category($0) }
         case .card(let items): items.map { Item.card($0) }

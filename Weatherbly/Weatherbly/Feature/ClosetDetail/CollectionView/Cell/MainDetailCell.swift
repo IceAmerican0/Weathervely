@@ -12,9 +12,7 @@ import PinLayout
 final class MainDetailCell: UICollectionViewCell {
     
     public var shopLabel = LabelMaker(
-        font: UIFont.title_3_B,
-        fontColor: UIColor.black,
-        alignment: .left
+        font: UIFont.title_3_B
     ).make(text: "shopName").then {
         $0.backgroundColor = .white
     }
