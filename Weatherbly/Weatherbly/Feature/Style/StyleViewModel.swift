@@ -26,13 +26,13 @@ public final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
     /// 스타일 콜렉션 뷰 정보
     public var dataSource: PublishRelay<[StyleSection]> = .init()
     /// Types
-    public var types: StyleSection = .tag(types: [])
-    
+    private var types: [CategoryInfo] = []
+    /// 전체 섹션 정보
     private var content: [StyleSection] = []
-    
-    public func fetchData() {
-        getTypes()
-    }
+    /// prefetch를 위한 페이지 정보
+    private var pageInfo: [Int] = []
+    /// 필터 정보
+    public var categoryFilter: [[String]] = []
     
     public func getTypes() {
         closetDataSource.getTypes()
@@ -40,10 +40,11 @@ public final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
                 with: self,
                 onNext: { owner, response in
                     let typeInfo = response.data.types
-                    owner.types = .tag(types: typeInfo)
-                    // 섹션에서 선택값 들고 있는 것 초기화하기
-                    let  _ = typeInfo.map {
-                        userDefault.set([],forKey: String($0.id))
+                    owner.types = typeInfo
+                    
+                    typeInfo.forEach { _ in
+                        owner.pageInfo.append(1)
+                        owner.categoryFilter.append([])
                     }
                     
                     owner.getAPISerial(with: typeInfo)
@@ -62,8 +63,8 @@ public final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
             }
     }
     
-    public func getClosets(typeInfo: CategoryInfo, categories: [CategoryInfo], page: Int) -> Observable<[ClosetInfo]>  {
-        return closetDataSource.getClosetWithType(typeID: typeInfo.id, page: 1)
+    public func getClosets(typeInfo: CategoryInfo, page: Int) -> Observable<[ClosetInfo]>  {
+        return closetDataSource.getStyleCloset(typeID: typeInfo.id, page: 1, categories: [])
             .map { response in
                 let closetInfo = response.data.closets
                 return closetInfo
@@ -77,7 +78,7 @@ public final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
                     .map { categories in (typeInfo, categories) }
             }
             .concatMap { (typeInfo, categories) in
-                self.getClosets(typeInfo: typeInfo, categories: categories, page: 1)
+                self.getClosets(typeInfo: typeInfo, page: 1)
                     .map { closetsInfo in (typeInfo, categories, closetsInfo) }
             }
             .subscribe(
@@ -94,11 +95,86 @@ public final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
                 onCompleted: { [weak self] in
                     guard let self else { return }
                     
-                    self.content.insert(self.types, at: 0)
+                    self.content.insert(.tag(types: self.types), at: 0)
                     self.content.insert(.banner(item: [.banner(StyleBanner())]), at: 0)
                     
                     self.dataSource.accept(self.content)
                     self.shimmerStatus.accept(true)
+                }
+            ).disposed(by: bag)
+    }
+    
+    public func getNextCloset(indexPath: IndexPath) {
+        // row + (row + 2) * 2
+        let path = (indexPath.section - 4) / 3
+        
+        if path < 0 || path * 10 > 0 { return }
+        
+        let id = types[path].id
+        let currentPage = pageInfo[path] + 1
+        let categories: [String] = categoryFilter[path]
+        
+        closetDataSource.getStyleCloset(typeID: id, page: currentPage, categories: categories)
+            .subscribe(
+                with: self,
+                onNext: { owner, result in
+                    for (index, section) in owner.content.enumerated() {
+                        if path == index {
+                            if case .card(let item) = section {
+                                var newItem = item
+                                newItem.append(contentsOf: result.data.closets)
+                                owner.content[path] = .card(item: newItem)
+                                owner.dataSource.accept(owner.content)
+                                
+                                owner.pageInfo[path] = currentPage
+                            }
+                        }
+                    }
+                },
+                onError: { owner, error in
+                    owner.alertState.accept(
+                        .init(
+                            title: error.localizedDescription,
+                            alertType: .popup
+                        )
+                    )
+                }
+            ).disposed(by: bag)
+    }
+    
+    public func getFilteredList(indexPath: IndexPath, selected: Int) {
+        let path = indexPath.row
+        let id = types[path].id
+        var categories: [String] = categoryFilter[path]
+        
+        if let index = categories.firstIndex(of: "\(selected)") {
+            categories.remove(at: index)
+        } else {
+            categories.append("\(selected)")
+        }
+        
+        categoryFilter[path] = categories
+        
+        closetDataSource.getStyleCloset(typeID: id, page: 1, categories: categories)
+            .subscribe(
+                with: self,
+                onNext: { owner, result in
+                    for (index, section) in owner.content.enumerated() {
+                        if path == index {
+                            if case .card(let item) = section {
+                                owner.content[path] = .card(item: result.data.closets)
+                                owner.dataSource.accept(owner.content)
+                            }
+                        }
+                    }
+                },
+                onError: { owner, error in
+                    owner.alertState.accept(
+                        .init(
+                            title: error.localizedDescription,
+                            alertType: .popup
+                        )
+                    )
                 }
             ).disposed(by: bag)
     }

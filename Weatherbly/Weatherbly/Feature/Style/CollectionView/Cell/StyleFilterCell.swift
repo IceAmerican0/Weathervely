@@ -50,10 +50,10 @@ public final class StyleFilterCell: UICollectionViewCell {
         listButton.isSelected = false
     }
     
-    public func configureCellState(state: CategoryInfo) {
+    public func configureCellState(state: CategoryInfo, list: [String] = []) {
         listButton.titleAttribute(title: state.name)
         
-        if UserDefaultManager.shared.homeStyleFilterList.contains("\(state.id)") {
+        if list.contains("\(state.id)") {
             listButton.isSelected = true
         }
         

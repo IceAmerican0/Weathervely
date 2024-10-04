@@ -35,11 +35,9 @@ public final class StyleViewController: RxBaseViewController<StyleViewModel> {
     
     private lazy var dataSource = setDataSource()
     
-    private var selectedFilter: [String: [String]] = [:]
-    
     public override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.fetchData()
+        viewModel.getTypes()
     }
     
     override func layout() {
@@ -69,10 +67,8 @@ public final class StyleViewController: RxBaseViewController<StyleViewModel> {
                     let row = indexPath.row
                     
                     switch owner.dataSource[indexPath.section] {
-                    case .tag(let types):
+                    case .tag: // 태그에 맞는 타이틀 위치로
                         owner.collectionView.scrollToItem(at: IndexPath(item: 0, section: row + (row + 1) * 2), at: .top, animated: true)
-                    case .category(let types):
-                        return
                     case .card(let item):
                         owner.viewModel.toDetailView(id: item[row].closetId, temp: item[row].temperature.tempId)
                     default: return
@@ -96,6 +92,14 @@ public final class StyleViewController: RxBaseViewController<StyleViewModel> {
                 owner.contentView.flex.display(.flex)
                 owner.container.flex.layout()
             }.disposed(by: bag)
+        
+//        collectionView.rx.prefetchItems
+//            .distinctUntilChanged()
+//            .bind(with: self) { owner, indexPaths in
+//                for indexPath in indexPaths {
+//                    owner.viewModel.getNextCloset(indexPath: indexPath)
+//                }
+//            }.disposed(by: bag)
     }
 }
     
@@ -121,12 +125,12 @@ extension StyleViewController: UICollectionViewDelegate {
                     $0.configureCellState(text: title)
                 }
                 
-            case .category(let types):
+            case .category(let type):
                 return collectionView.dequeueCell(withType: StyleFilterCell.self, for: indexPath).then {
-                    $0.configureCellState(state: types)
+                    $0.configureCellState(state: type)
                     $0.buttonTap
                         .drive(with: self) { owner, _ in
-//                            owner.viewModel.filterCloset(delegate: self)
+                            owner.viewModel.getFilteredList(indexPath: indexPath, selected: type.id)
                         }.disposed(by: $0.bag)
                 }
             case .card(let info):
