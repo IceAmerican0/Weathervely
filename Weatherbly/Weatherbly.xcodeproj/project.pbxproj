@@ -508,6 +508,7 @@
 		5C9F45572C37A83A00DBB9B1 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				BD05E05E2B38042600A48E61 /* Font */,
 				5C4A0ABA2B3ABA56006BE52A /* Colors.xcassets */,
 				BD2D01912A388755003A25D5 /* Images.xcassets */,
 				BD2D01962A388755003A25D5 /* Info.plist */,
@@ -874,10 +875,10 @@
 		BD2D019C2A3887A3003A25D5 /* Feature */ = {
 			isa = PBXGroup;
 			children = (
-				699AE66F2C81F06E00025E7A /* Location */,
 				BD51070A2C0F755400D8AFBE /* ClosetDetail */,
 				5C68E91F2AF375CE0046D0BE /* Forecast */,
 				6987EBB72B41400600CF1E74 /* Home */,
+				699AE66F2C81F06E00025E7A /* Location */,
 				5C8F2D3A2B6B30D1002DF94E /* Notification */,
 				BD2D01A12A3887E0003A25D5 /* OnBoard */,
 				5C9F45622C37AB2E00DBB9B1 /* Setting */,
@@ -890,7 +891,6 @@
 		BD2D019D2A3887AA003A25D5 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
-				BD05E05E2B38042600A48E61 /* Font */,
 				BD2D01A92A388825003A25D5 /* Common */,
 				BD351C3A2C4810D300DE96D9 /* Enum */,
 				5CADDD272A9DDF9900EAB678 /* Constants.swift */,
