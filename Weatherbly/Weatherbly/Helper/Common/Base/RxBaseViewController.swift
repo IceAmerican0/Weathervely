@@ -30,8 +30,7 @@ public class RxBaseViewController<ViewModel>:
     init(_ viewModel: ViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
-
-        /// attribute, layout, bind 를 호출해서 필요한 코드를 작성하면 된다.
+        
         codeBaseInitializer()
     }
     
@@ -41,8 +40,7 @@ public class RxBaseViewController<ViewModel>:
     
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-
-    /// child component들의 속성을 잡아주기 위해서 flex.layout()을 먼저 호출한다.
+        
         container.pin.all(view.pin.safeArea)
         container.flex.layout()
     }

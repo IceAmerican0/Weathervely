@@ -5,20 +5,20 @@ let project = Project(
     targets: [
         .target(
             name: "Weatherbly",
-            destinations: .iOS,
+            destinations: [.iPhone],
             product: .app,
             bundleId: "com.redthree.weathervely",
-            infoPlist: .extendingDefault(
-                with: [
-                    "UILaundchScreen": "LaunchScreen.storyboard"
-                ]
-            ),
+            deploymentTargets: .iOS("17.0"),
+            infoPlist: .file(path: .relativeToRoot("Weatherbly/Weatherbly/Resources/Info.plist")),
             sources: [
                 .glob(.relativeToRoot("Weatherbly/**"))
             ],
             resources: [
+                .glob(pattern: .relativeToCurrentFile("Weatherbly/Weatherbly/LauncScreen.storyboard")),
                 .glob(pattern: .relativeToCurrentFile("Weatherbly/Weatherbly/Configurations/Common.xcconfig")),
-                .glob(pattern: .relativeToCurrentFile("Weatherbly/Weatherbly/Resources/Info.plist")),
+                .glob(pattern: .relativeToCurrentFile("Weatherbly/Weatherbly/Resources/Font/**")),
+                .glob(pattern: .relativeToCurrentFile("Weatherbly/Weatherbly/Resources/Colors.xcassets")),
+                .glob(pattern: .relativeToCurrentFile("Weatherbly/Weatherbly/Resources/Images.xcassets")),
                 .glob(pattern: .relativeToCurrentFile("Weatherbly/Weatherbly/Resources/GoogleService-Info.plist")),
                 .glob(pattern: .relativeToCurrentFile("Weatherbly/Weatherbly/Resources/PrivacyInfo.xcprivacy"))
             ],
@@ -42,6 +42,23 @@ let project = Project(
                 )
             ],
             dependencies: [
+                .SPM.RxSwift,
+                .SPM.RxCocoa,
+                .SPM.RxRelay,
+                .SPM.RxDataSources,
+                .SPM.RxGesture,
+                .SPM.Moya,
+                .SPM.RxMoya,
+                .SPM.Kingfisher,
+                .SPM.Then,
+                .SPM.KeychainAccess,
+                .SPM.FlexLayout,
+                .SPM.PinLayout,
+                .SPM.FirebaseAnalytics,
+                .SPM.FirebaseCrashlytics,
+                .SPM.FirebaseMessaging,
+                .SPM.FirebaseRemoteConfig,
+                .SPM.KakaoMapsSDK
             ],
             settings: Settings.settings(
                 base: SettingsDictionary()
@@ -51,12 +68,20 @@ let project = Project(
                         "CODE_SIGN_STYLE": "$(CODE_SIGN_STYLE)",
                         "CODE_SIGN_IDENTITY": "$(CODE_SIGN_IDENTITY)",
                         "DEVELOPMENT_TEAM": "$(DEVELOPMENT_TEAM)",
-                        "PROVISIONING_PROFILE_SPECIFIER": "$(PROVISIONING_PROFILE)"
+                        "PROVISIONING_PROFILE_SPECIFIER": "$(PROVISIONING_PROFILE)",
+                        "OTHER_LDFLAGS" : "$(inherited) -all_load"
                     ])
                 ,
                 configurations: [
-                    .debug(name: "Debug", xcconfig: .relativeToRoot("Weatherbly/Weatherbly/Configurations/Debug.xcconfig")),
-                    .release(name: "Release", xcconfig: .relativeToRoot("Weatherbly/Weatherbly/Configurations/Release.xcconfig"))
+                    .debug(
+                        name: "Debug",
+                        settings: ["GCC_PREPROCESSOR_DEFINITIONS": "DEBUG=1"],
+                        xcconfig: .relativeToRoot("Weatherbly/Weatherbly/Configurations/Debug.xcconfig")
+                    ),
+                    .release(
+                        name: "Release",
+                        xcconfig: .relativeToRoot("Weatherbly/Weatherbly/Configurations/Release.xcconfig")
+                    )
                 ],
                 defaultSettings: .recommended(excluding: [
                     "GCC_PREPROCESSOR_DEFINITIONS"
@@ -68,17 +93,6 @@ let project = Project(
         .plists()
     ]
 )
-
-//let project = Workspace(
-//    name: "Workspace",
-//    projects: [
-//        "Weatherbly",
-//        "DesignSystem/**",
-//        "Network/**",
-//        "Helper/**",
-//        "Feature/**"
-//    ]
-//)
 
 public typealias Dep = TargetDependency
 
@@ -110,6 +124,9 @@ public extension Dep.SPM {
     static let PinLayout            = Dep.external(name: "PinLayout")
 
     // ETC
-    static let Firebase  = Dep.external(name: "Firebase")
-    static let KakaoMapsSDK        = Dep.external(name: "KakaoMapsSDK-SPM")
+    static let FirebaseAnalytics    = Dep.external(name: "FirebaseAnalytics")
+    static let FirebaseCrashlytics  = Dep.external(name: "FirebaseCrashlytics")
+    static let FirebaseMessaging    = Dep.external(name: "FirebaseMessaging")
+    static let FirebaseRemoteConfig = Dep.external(name: "FirebaseRemoteConfig")
+    static let KakaoMapsSDK         = Dep.external(name: "KakaoMapsSDK-SPM")
 }

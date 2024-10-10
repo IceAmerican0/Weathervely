@@ -9,11 +9,11 @@
 // https://help.apple.com/xcode/#/dev745c5c974
 
 // 버전
-MARKETING_VERSION = 2.0.0
+MARKETING_VERSION = 2.0.1
 CURRENT_PROJECT_VERSION = 0.0.0
 
 // 번들
-PRODUCT_BUNDLE_IDENTIFIER = com.redthree.weathervely
+BUNDLE_ID = com.redthree.weathervely
 
 // Signing
 CODE_SIGN_STYLE = Manual

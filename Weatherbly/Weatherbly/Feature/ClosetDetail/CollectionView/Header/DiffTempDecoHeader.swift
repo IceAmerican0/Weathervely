@@ -33,6 +33,7 @@ public final class DiffTempDecoHeader: UICollectionReusableView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        layout()
     }
     
     required init?(coder: NSCoder) {
@@ -41,11 +42,12 @@ public final class DiffTempDecoHeader: UICollectionReusableView {
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-        layout()
         self.flex.layout()
     }
     
     private func layout() {
+        self.backgroundColor = .clear
+        
         self.flex.define {
             $0.addItem(titleLabel).height(titleLabel.font.setLineHeight()).marginTop(29.5)
             $0.addItem(descriptLabel).height(descriptLabel.font.setLineHeight()).marginTop(9)

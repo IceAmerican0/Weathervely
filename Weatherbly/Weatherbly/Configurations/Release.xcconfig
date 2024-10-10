@@ -14,7 +14,7 @@
 CODE_SIGN_IDENTITY = Apple Distribution: Sung June Park (M9YVZ9AJMM)
 
 // Provisioning
-PROVISIONING_PROFILE_SPECIFIER = Weathervely_FCM_241104
+PROVISIONING_PROFILE = Weathervely_FCM_241104
 
 // 앱 이름
 INFOPLIST_KEY_CFBundleDisplayName = 웨더블리

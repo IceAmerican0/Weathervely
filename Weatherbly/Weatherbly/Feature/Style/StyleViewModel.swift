@@ -161,7 +161,7 @@ public final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
                 onNext: { owner, result in
                     for (index, section) in owner.content.enumerated() {
                         if path == index {
-                            if case .card(let item) = section {
+                            if case .card = section {
                                 owner.content[path] = .card(item: result.data.closets)
                                 owner.dataSource.accept(owner.content)
                             }
