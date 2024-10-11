@@ -24,7 +24,7 @@ KAKAO_APP_KEY_NATIVE = 41fdca5b4fae223d28b4ef6cdb8417b1
 KAKAO_APP_KEY_REST = 94e9855982bd4da35238debd0d23a313
 
 // Info.plist
-INFOPLIST_FILE = Weatherbly/Resources/Info.plist
+INFOPLIST_FILE = Resources/Info.plist
 
 // Server
 RELEASE_SERVER_URL = prod-server.weathervely.com

@@ -70,7 +70,6 @@ public final class CSButton: UIButton {
     
     /// Loading Indicator On
     public func startAnimation() {
-        titleLabel?.isHidden = true
         isEnabled = false
         indicator.flex.display(.flex)
         indicator.startAnimating()
@@ -78,7 +77,6 @@ public final class CSButton: UIButton {
     
     /// Loading Indicator Off
     public func stopAnimation() {
-        titleLabel?.isHidden = false
         isEnabled = true
         indicator.flex.display(.none)
         indicator.stopAnimating()

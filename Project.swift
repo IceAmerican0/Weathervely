@@ -1,26 +1,26 @@
 import ProjectDescription
 
 let project = Project(
-    name: "Weatherbly",
+    name: "Weathervely",
     targets: [
         .target(
-            name: "Weatherbly",
+            name: "Weathervely",
             destinations: [.iPhone],
             product: .app,
             bundleId: "com.redthree.weathervely",
             deploymentTargets: .iOS("17.0"),
-            infoPlist: .file(path: .relativeToRoot("Weatherbly/Weatherbly/Resources/Info.plist")),
+            infoPlist: .file(path: .relativeToRoot("Weathervely/Resources/Info.plist")),
             sources: [
-                .glob(.relativeToRoot("Weatherbly/**"))
+                .glob(.relativeToRoot("Weathervely/Sources/**"))
             ],
             resources: [
-                .glob(pattern: .relativeToCurrentFile("Weatherbly/Weatherbly/LauncScreen.storyboard")),
-                .glob(pattern: .relativeToCurrentFile("Weatherbly/Weatherbly/Configurations/Common.xcconfig")),
-                .glob(pattern: .relativeToCurrentFile("Weatherbly/Weatherbly/Resources/Font/**")),
-                .glob(pattern: .relativeToCurrentFile("Weatherbly/Weatherbly/Resources/Colors.xcassets")),
-                .glob(pattern: .relativeToCurrentFile("Weatherbly/Weatherbly/Resources/Images.xcassets")),
-                .glob(pattern: .relativeToCurrentFile("Weatherbly/Weatherbly/Resources/GoogleService-Info.plist")),
-                .glob(pattern: .relativeToCurrentFile("Weatherbly/Weatherbly/Resources/PrivacyInfo.xcprivacy"))
+                .glob(pattern: .relativeToRoot("Weathervely/Configurations/Common.xcconfig")),
+                .glob(pattern: .relativeToRoot("Weathervely/Resources/LaunchScreen.storyboard")),
+                .glob(pattern: .relativeToRoot("Weathervely/Resources/Font/**")),
+                .glob(pattern: .relativeToRoot("Weathervely/Resources/Colors.xcassets")),
+                .glob(pattern: .relativeToRoot("Weathervely/Resources/Images.xcassets")),
+                .glob(pattern: .relativeToRoot("Weathervely/Resources/GoogleService-Info.plist")),
+                .glob(pattern: .relativeToRoot("Weathervely/Resources/PrivacyInfo.xcprivacy"))
             ],
             scripts: [
                 .pre(
@@ -76,11 +76,11 @@ let project = Project(
                     .debug(
                         name: "Debug",
                         settings: ["GCC_PREPROCESSOR_DEFINITIONS": "DEBUG=1"],
-                        xcconfig: .relativeToRoot("Weatherbly/Weatherbly/Configurations/Debug.xcconfig")
+                        xcconfig: .relativeToRoot("Weathervely/Configurations/Debug.xcconfig")
                     ),
                     .release(
                         name: "Release",
-                        xcconfig: .relativeToRoot("Weatherbly/Weatherbly/Configurations/Release.xcconfig")
+                        xcconfig: .relativeToRoot("Weathervely/Configurations/Release.xcconfig")
                     )
                 ],
                 defaultSettings: .recommended(excluding: [

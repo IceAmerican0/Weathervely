@@ -22,7 +22,6 @@ public final class FilterListViewController: RxBaseViewController<FilterListView
         frame: .zero,
         collectionViewLayout: setLayout()
     ).then {
-//        $0.showsVerticalScrollIndicator = false
         $0.backgroundColor = .clear
         $0.registerHeader(withType: FilterListHeaderView.self)
         $0.register(withType: HomeItemFilterCell.self)
@@ -38,6 +37,7 @@ public final class FilterListViewController: RxBaseViewController<FilterListView
     }
     
     private let confirmButton = CSButton(.standard, style: .violet600).then {
+        $0.setTitle("", for: .disabled)
         $0.titleLabel?.font = .title_3_B
         $0.isEnabled = false
     }

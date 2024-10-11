@@ -7,6 +7,7 @@ import PackageDescription
     let packageSettings = PackageSettings(
         productTypes: [
             "RxCocoa": .framework,
+            "KakaoMapsSDK-SPM": .staticLibrary
         ],
         baseSettings: .settings(configurations: [
             .debug(name: "Debug"),
