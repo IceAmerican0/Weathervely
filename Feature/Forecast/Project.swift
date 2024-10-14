@@ -1,5 +1,4 @@
 import ProjectDescription
-import ProjectDescriptionHelpers
 import DescriptionHelperPlugin
 
 let project = Project(
@@ -13,7 +12,7 @@ let project = Project(
             deploymentTargets: .iOS("17.0"),
             infoPlist: .file(path: .relativeToRoot("Weathervely/Resources/Info.plist")),
             sources: [
-                .glob(.relativeToRoot("Weathervely/Sources/**"))
+                .glob(.relativeToRoot("Weathervely/Sources/Feature/Forecast"))
             ],
             resources: [
                 .glob(pattern: .relativeToRoot("Weathervely/Configurations/Common.xcconfig")),
@@ -24,7 +23,6 @@ let project = Project(
                 .glob(pattern: .relativeToRoot("Weathervely/Resources/GoogleService-Info.plist")),
                 .glob(pattern: .relativeToRoot("Weathervely/Resources/PrivacyInfo.xcprivacy"))
             ],
-            scripts: TargetScript.Weathervely,
             dependencies: [
                 .SPM.RxSwift,
                 .SPM.RxCocoa,
@@ -46,8 +44,5 @@ let project = Project(
             ],
             settings: Settings.baseSetting
         )
-    ],
-    resourceSynthesizers: [
-        .plists()
     ]
 )

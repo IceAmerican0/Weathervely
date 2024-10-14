@@ -1,30 +1,25 @@
 import ProjectDescription
-import ProjectDescriptionHelpers
 import DescriptionHelperPlugin
 
 let project = Project(
-    name: "Weathervely",
+    name: "ClosetDetail",
     targets: [
         .target(
-            name: "Weathervely",
+            name: "ClosetDetail",
             destinations: [.iPhone],
             product: .app,
             bundleId: "com.redthree.weathervely",
             deploymentTargets: .iOS("17.0"),
             infoPlist: .file(path: .relativeToRoot("Weathervely/Resources/Info.plist")),
             sources: [
-                .glob(.relativeToRoot("Weathervely/Sources/**"))
+                .glob(.relativeToRoot("Weathervely/Sources/Feature/ClosetDetail"))
             ],
             resources: [
                 .glob(pattern: .relativeToRoot("Weathervely/Configurations/Common.xcconfig")),
-                .glob(pattern: .relativeToRoot("Weathervely/Resources/LaunchScreen.storyboard")),
                 .glob(pattern: .relativeToRoot("Weathervely/Resources/Font/**")),
                 .glob(pattern: .relativeToRoot("Weathervely/Resources/Colors.xcassets")),
                 .glob(pattern: .relativeToRoot("Weathervely/Resources/Images.xcassets")),
-                .glob(pattern: .relativeToRoot("Weathervely/Resources/GoogleService-Info.plist")),
-                .glob(pattern: .relativeToRoot("Weathervely/Resources/PrivacyInfo.xcprivacy"))
             ],
-            scripts: TargetScript.Weathervely,
             dependencies: [
                 .SPM.RxSwift,
                 .SPM.RxCocoa,
@@ -46,8 +41,5 @@ let project = Project(
             ],
             settings: Settings.baseSetting
         )
-    ],
-    resourceSynthesizers: [
-        .plists()
     ]
 )
