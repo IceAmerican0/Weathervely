@@ -17,7 +17,9 @@ public final class StyleViewController: RxBaseViewController<StyleViewModel> {
     
     private let contentView = UIView()
     
-    private var titleLabel = LabelMaker(font: UIFont.title_3_B).make(text: "스타일").then {
+    private var titleLabel = LabelMaker(
+        font: UIFont.title_3_B
+    ).make(text: "스타일").then {
         $0.sizeToFit()
     }
     
@@ -55,9 +57,9 @@ public final class StyleViewController: RxBaseViewController<StyleViewModel> {
     override func viewBinding() {
         super.viewBinding()
         
-        collectionView.rx
-            .setDelegate(self)
-            .disposed(by: bag)
+//        collectionView.rx
+//            .setDelegate(self)
+//            .disposed(by: bag)
         
         collectionView.rx.itemSelected
             .asDriver()
@@ -103,7 +105,7 @@ public final class StyleViewController: RxBaseViewController<StyleViewModel> {
     }
 }
     
-extension StyleViewController: UICollectionViewDelegate {
+extension StyleViewController {
     
     // MARK: - DataSource
     func setDataSource() -> RxCollectionViewSectionedAnimatedDataSource<StyleSection> {
@@ -127,7 +129,7 @@ extension StyleViewController: UICollectionViewDelegate {
                 
             case .category(let type):
                 return collectionView.dequeueCell(withType: StyleFilterCell.self, for: indexPath).then {
-                    $0.configureCellState(state: type)
+                    $0.configureCellState(state: type, list: self.viewModel.categoryFilter[type.id] ?? [])
                     $0.buttonTap
                         .drive(with: self) { owner, _ in
                             owner.viewModel.getFilteredList(indexPath: indexPath, selected: type.id)

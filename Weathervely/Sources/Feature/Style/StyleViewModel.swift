@@ -30,9 +30,11 @@ public final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
     /// 전체 섹션 정보
     private var content: [StyleSection] = []
     /// prefetch를 위한 페이지 정보
-    private var pageInfo: [Int] = []
+    private var pageInfo: [Int: Int] = [:]
+    /// 필터 카테고리 리스트
+    public var typeList: [Int: [CategoryInfo]] = [:]
     /// 필터 정보
-    public var categoryFilter: [[String]] = []
+    public var categoryFilter: [Int: [String]] = [:]
     
     public func getTypes() {
         closetDataSource.getTypes()
@@ -42,9 +44,9 @@ public final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
                     let typeInfo = response.data.types
                     owner.types = typeInfo
                     
-                    typeInfo.forEach { _ in
-                        owner.pageInfo.append(1)
-                        owner.categoryFilter.append([])
+                    typeInfo.forEach { type in
+                        owner.pageInfo[type.id] = 1
+                        owner.categoryFilter[type.id] = []
                     }
                     
                     owner.getAPISerial(with: typeInfo)
@@ -85,6 +87,7 @@ public final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
                 onNext: { [weak self] (typeInfo, categories, closetsInfo) in
                     guard let self else { return }
                     
+                    self.typeList[typeInfo.id] = categories
                     self.content.append(.title(type: typeInfo.name))
                     self.content.append(.category(types: categories))
                     self.content.append(.card(item: closetsInfo))
@@ -111,8 +114,8 @@ public final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
         if path < 0 || path * 10 > 0 { return }
         
         let id = types[path].id
-        let currentPage = pageInfo[path] + 1
-        let categories: [String] = categoryFilter[path]
+        let currentPage = (pageInfo[id] ?? 1) + 1
+        let categories = categoryFilter[id] ?? []
         
         closetDataSource.getStyleCloset(typeID: id, page: currentPage, categories: categories)
             .subscribe(
@@ -143,9 +146,10 @@ public final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
     }
     
     public func getFilteredList(indexPath: IndexPath, selected: Int) {
-        let path = indexPath.row
+        guard let row = indexPath.first else { return }
+        let path = (row / 3) - 1
         let id = types[path].id
-        var categories: [String] = categoryFilter[path]
+        var categories = categoryFilter[id] ?? []
         
         if let index = categories.firstIndex(of: "\(selected)") {
             categories.remove(at: index)
@@ -153,16 +157,16 @@ public final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
             categories.append("\(selected)")
         }
         
-        categoryFilter[path] = categories
+        categoryFilter[id] = categories
         
         closetDataSource.getStyleCloset(typeID: id, page: 1, categories: categories)
             .subscribe(
                 with: self,
                 onNext: { owner, result in
                     for (index, section) in owner.content.enumerated() {
-                        if path == index {
+                        if (row + 1) == index {
                             if case .card = section {
-                                owner.content[path] = .card(item: result.data.closets)
+                                owner.content[row + 1] = .card(item: result.data.closets)
                                 owner.dataSource.accept(owner.content)
                             }
                         }
