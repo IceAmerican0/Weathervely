@@ -8,16 +8,26 @@ public extension TargetScript {
 }
 
 private extension TargetScript {
-    static let FirebaseCrashLytics = ProjectDescription.TargetScript.pre(
+    static let FirebaseCrashLytics = ProjectDescription.TargetScript.post(
         script: """
                 if [ "${CONFIGURATION}" != "Debug" ]; then
-                    "${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run"
+                    if [ -d "$SRCROOT/../.build/checkouts/firebase-ios-sdk/Crashlytics" ]; then
+                        "$SRCROOT/../.build/checkouts/firebase-ios-sdk/Crashlytics/run"
+                    else
+                        echo "Crashlytics has not been installed properly."
+                    fi
+                else
+                    echo "Executing Debug Mode, Crashlytics Disabled"
                 fi
                 """,
-        name: "Firebase Crashlytics"
+        name: "Firebase Crashlytics",
+        inputPaths: [
+            "${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+            "$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)"
+        ]
     )
     
-    static let BuildNumberRunScript = ProjectDescription.TargetScript.pre(
+    static let BuildNumberRunScript = ProjectDescription.TargetScript.post(
         script: """
                 BUILD_NUMBER_WITH_CURRENT_DATE=$(date "+%Y.%m.%d.%H.%M")
 

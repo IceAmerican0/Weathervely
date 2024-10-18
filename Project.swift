@@ -24,6 +24,7 @@ let project = Project(
                 .glob(pattern: .relativeToRoot("Weathervely/Resources/GoogleService-Info.plist")),
                 .glob(pattern: .relativeToRoot("Weathervely/Resources/PrivacyInfo.xcprivacy"))
             ],
+            entitlements: .file(path: .relativeToRoot("Weathervely/Resources/Weathervely.entitlements")),
             scripts: TargetScript.Weathervely,
             dependencies: [
                 .SPM.RxSwift,
