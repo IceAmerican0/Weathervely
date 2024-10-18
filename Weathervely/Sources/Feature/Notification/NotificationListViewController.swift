@@ -55,7 +55,7 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
         $0.showsVerticalScrollIndicator = true
         $0.showsHorizontalScrollIndicator = false
         $0.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-        $0.tableFooterView = NotificationListTableFooterView()
+        $0.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: Constants.screenWidth, height: 100))
         $0.register(withType: NotificationListTableViewCell.self)
         $0.registerHeaderFooterView(withType: NotificationListTableFooterView.self)
     }
@@ -224,5 +224,9 @@ extension NotificationListViewController: UITableViewDelegate {
         deleteAction.image = UIImage(systemName: "trash.fill")
         
         return UISwipeActionsConfiguration(actions: [deleteAction])
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        tableView.dequeueHeaderFooterView(withType: NotificationListTableFooterView.self)
     }
 }

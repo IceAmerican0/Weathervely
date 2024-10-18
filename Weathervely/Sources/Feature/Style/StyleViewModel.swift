@@ -25,8 +25,10 @@ public final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
     public var shimmerStatus: PublishRelay<Bool> = .init()
     /// 스타일 콜렉션 뷰 정보
     public var dataSource: PublishRelay<[StyleSection]> = .init()
+    /// performBatch용 relay
+    public var refreshList = BehaviorRelay<[StyleSection]>(value: [])
     /// Types
-    private var types: [CategoryInfo] = []
+    public var types: [CategoryInfo] = []
     /// 전체 섹션 정보
     private var content: [StyleSection] = []
     /// prefetch를 위한 페이지 정보
@@ -167,7 +169,7 @@ public final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
                         if (row + 1) == index {
                             if case .card = section {
                                 owner.content[row + 1] = .card(item: result.data.closets)
-                                owner.dataSource.accept(owner.content)
+                                owner.refreshList.accept(owner.content)
                             }
                         }
                     }

@@ -86,6 +86,16 @@ public final class StyleViewController: RxBaseViewController<StyleViewModel> {
             .bind(to: collectionView.rx.items(dataSource: dataSource))
             .disposed(by: bag)
         
+        viewModel.refreshList
+            .bind(
+                with : self,
+                onNext: { owner, value in
+                    owner.collectionView.performBatchUpdates({
+                        owner.viewModel.dataSource.accept(value)
+                    })
+                }
+            ).disposed(by: bag)
+        
         viewModel.shimmerStatus
             .observe(on: MainScheduler.instance)
             .take(1)
@@ -96,12 +106,15 @@ public final class StyleViewController: RxBaseViewController<StyleViewModel> {
             }.disposed(by: bag)
         
 //        collectionView.rx.prefetchItems
-//            .distinctUntilChanged()
-//            .bind(with: self) { owner, indexPaths in
-//                for indexPath in indexPaths {
-//                    owner.viewModel.getNextCloset(indexPath: indexPath)
+//            .filter { indexPaths in
+//                indexPaths.contains { $0.section == .card }
+//            }
+//            .subscribe(
+//                with: self,
+//                onNext: { owner, indexPaths in
+//                    owner.viewModel.getNextCloset(indexPath: indexPaths)
 //                }
-//            }.disposed(by: bag)
+//            ).disposed(by: bag)
     }
 }
     
@@ -128,13 +141,19 @@ extension StyleViewController {
                 }
                 
             case .category(let type):
-                return collectionView.dequeueCell(withType: StyleFilterCell.self, for: indexPath).then {
-                    $0.configureCellState(state: type, list: self.viewModel.categoryFilter[type.id] ?? [])
-                    $0.buttonTap
-                        .drive(with: self) { owner, _ in
-                            owner.viewModel.getFilteredList(indexPath: indexPath, selected: type.id)
-                        }.disposed(by: $0.bag)
+                let cell = collectionView.dequeueCell(withType: StyleFilterCell.self, for: indexPath).then {
+                    let section = (indexPath.first ?? 3) / 3
+                    let id = self.viewModel.types[section].id
+                    $0.configureCellState(state: type, list: self.viewModel.categoryFilter[id] ?? [])
                 }
+                
+                cell.buttonTap
+                    .drive(with: self) { owner, _ in
+                        cell.listButton.isSelected.toggle()
+                        owner.viewModel.getFilteredList(indexPath: indexPath, selected: type.id)
+                    }.disposed(by: cell.bag)
+                
+                return cell
             case .card(let info):
                 return collectionView.dequeueCell(withType: StyleCardCell.self, for: indexPath).then {
                     $0.configure(info: info)
