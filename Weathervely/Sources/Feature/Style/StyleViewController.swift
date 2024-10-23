@@ -7,6 +7,7 @@
 
 import UIKit
 import FlexLayout
+import PinLayout
 import RxSwift
 import RxDataSources
 import RxGesture
@@ -27,13 +28,16 @@ public final class StyleViewController: RxBaseViewController<StyleViewModel> {
         frame: .zero,
         collectionViewLayout: setSectionLayout()
     ).then {
+        $0.delegate = self
         $0.showsVerticalScrollIndicator = false
         $0.register(withType: BannerCell.self)
-        $0.register(withType: TypeTagCell.self)
+        $0.registerHeader(withType: StyleTagHeaderView.self)
         $0.register(withType: StyleTitleCell.self)
         $0.register(withType: StyleFilterCell.self)
         $0.register(withType: StyleCardCell.self)
     }
+    
+    private var headerView = StyleTagHeaderView()
     
     private lazy var dataSource = setDataSource()
     
@@ -52,14 +56,11 @@ public final class StyleViewController: RxBaseViewController<StyleViewModel> {
                 $0.addItem(collectionView).grow(1)
             }.display(.none)
         }
+        container.addSubview(headerView)
     }
     
     override func viewBinding() {
         super.viewBinding()
-        
-//        collectionView.rx
-//            .setDelegate(self)
-//            .disposed(by: bag)
         
         collectionView.rx.itemSelected
             .asDriver()
@@ -118,48 +119,58 @@ public final class StyleViewController: RxBaseViewController<StyleViewModel> {
     }
 }
     
-extension StyleViewController {
+extension StyleViewController: UICollectionViewDelegate {
     
     // MARK: - DataSource
     func setDataSource() -> RxCollectionViewSectionedAnimatedDataSource<StyleSection> {
         RxCollectionViewSectionedAnimatedDataSource<StyleSection> (
             configureCell: { [weak self] dataSource, collectionView, indexPath, item in
-            guard let self else { return UICollectionViewCell() }
-            
-            switch dataSource[indexPath] {
-            case .banner:
-                return collectionView.dequeueCell(withType: BannerCell.self, for: indexPath)
+                guard let self else { return UICollectionViewCell() }
                 
-            case .tag(let tag):
-                return collectionView.dequeueCell(withType: TypeTagCell.self, for: indexPath).then {
-                    $0.configureCellState(text: tag.name)
+                switch dataSource[indexPath] {
+                case .banner:
+                    return collectionView.dequeueCell(withType: BannerCell.self, for: indexPath)
+                    
+                case .title(let title):
+                    return collectionView.dequeueCell(withType: StyleTitleCell.self, for: indexPath).then {
+                        $0.configureCellState(text: title)
+                    }
+                    
+                case .category(let type):
+                    let cell = collectionView.dequeueCell(withType: StyleFilterCell.self, for: indexPath).then {
+                        let section = ((indexPath.first ?? 3) / 3) - 1
+                        let id = self.viewModel.types[section].id
+                        $0.configureCellState(state: type, list: self.viewModel.categoryFilter[id] ?? [])
+                    }
+                    
+                    cell.buttonTap
+                        .drive(with: self) { owner, _ in
+                            cell.listButton.isSelected.toggle()
+                            owner.viewModel.getFilteredList(indexPath: indexPath, selected: type.id)
+                        }.disposed(by: cell.bag)
+                    
+                    return cell
+                case .card(let info):
+                    return collectionView.dequeueCell(withType: StyleCardCell.self, for: indexPath).then {
+                        $0.configure(info: info)
+                    }
+                default:
+                    return UICollectionViewCell()
+                }
+            }, configureSupplementaryView: { [weak self] dataSource, collectionView, kind, indexPath in
+                guard let self else { return UICollectionReusableView() }
+                
+                if case UICollectionView.elementKindSectionHeader = kind {
+                    if case .tag(let types) = dataSource[indexPath.section] {
+                        return collectionView.dequeueReusableHeaderView(withType: StyleTagHeaderView.self, for: indexPath).then {
+                            $0.configureState(state: types)
+                            self.headerView.configureState(state: types)
+                        }
+                    }
                 }
                 
-            case .title(let title):
-                return collectionView.dequeueCell(withType: StyleTitleCell.self, for: indexPath).then {
-                    $0.configureCellState(text: title)
-                }
-                
-            case .category(let type):
-                let cell = collectionView.dequeueCell(withType: StyleFilterCell.self, for: indexPath).then {
-                    let section = (indexPath.first ?? 3) / 3
-                    let id = self.viewModel.types[section].id
-                    $0.configureCellState(state: type, list: self.viewModel.categoryFilter[id] ?? [])
-                }
-                
-                cell.buttonTap
-                    .drive(with: self) { owner, _ in
-                        cell.listButton.isSelected.toggle()
-                        owner.viewModel.getFilteredList(indexPath: indexPath, selected: type.id)
-                    }.disposed(by: cell.bag)
-                
-                return cell
-            case .card(let info):
-                return collectionView.dequeueCell(withType: StyleCardCell.self, for: indexPath).then {
-                    $0.configure(info: info)
-                }
-            }
-        })
+                return UICollectionReusableView()
+            })
     }
     
     func setSectionLayout() -> UICollectionViewCompositionalLayout {
@@ -202,7 +213,7 @@ extension StyleViewController {
         // item
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .estimated(70),
-            heightDimension: .absolute(56)
+            heightDimension: .absolute(0.1)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
@@ -215,8 +226,21 @@ extension StyleViewController {
         // Section
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = 12
-        section.contentInsets = NSDirectionalEdgeInsets(top: 14, leading: 20, bottom: 0, trailing: 20)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 14, leading: 0, bottom: 0, trailing: 0)
         section.orthogonalScrollingBehavior = .continuous
+        
+        let headerSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .absolute(56)
+        )
+        
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .top
+        )
+        
+        section.boundarySupplementaryItems = [sectionHeader]
         
         return section
     }
@@ -303,5 +327,27 @@ extension StyleViewController {
         section.orthogonalScrollingBehavior = .continuous
         
         return section
+    }
+    
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let headerIndex = IndexPath(item: 0, section: 1)
+        let header = collectionView.layoutAttributesForSupplementaryElement(
+            ofKind: UICollectionView.elementKindSectionHeader,
+            at: headerIndex
+        )
+        
+        let yPosition = header?.frame.origin.y ?? 0
+        let offsetY = scrollView.contentOffset.y
+        
+        if offsetY > yPosition + 14 {
+            if !headerView.isHidden {
+                return
+            }
+            
+            headerView.pin.top(to: titleLabel.edge.bottom).horizontally().height(56)
+            headerView.isHidden = false
+        } else {
+            headerView.isHidden = true
+        }
     }
 }

@@ -25,7 +25,7 @@ public final class HomeStyleFilterView: UICollectionReusableView {
     
     public lazy var filterList = UICollectionView(
         frame: .zero,
-        collectionViewLayout: setCollectionLayout()
+        collectionViewLayout: UICollectionViewLayout().setFlexibleLayout()
     ).then {
         $0.dataSource = self
         $0.delegate = self
@@ -110,32 +110,5 @@ extension HomeStyleFilterView: UICollectionViewDelegate, UICollectionViewDataSou
             }).disposed(by: cell.bag)
         
         return cell
-    }
-    
-    func setCollectionLayout() -> UICollectionViewCompositionalLayout {
-        UICollectionViewCompositionalLayout { [weak self] _, _ -> NSCollectionLayoutSection? in
-            guard self != nil else { return nil }
-            
-            let itemSize = NSCollectionLayoutSize(
-                widthDimension: .estimated(70),
-                heightDimension: .estimated(29)
-            )
-            
-            let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            let layoutGroup = NSCollectionLayoutGroup.horizontal(
-                layoutSize: itemSize,
-                subitems: [item]
-            )
-            layoutGroup.interItemSpacing = .fixed(10)
-            
-            let section = NSCollectionLayoutSection(group: layoutGroup)
-            section.contentInsets = NSDirectionalEdgeInsets(
-                top: 0, leading: 0, bottom: 0, trailing: 0
-            )
-            section.interGroupSpacing = 10
-            section.orthogonalScrollingBehavior = .continuous
-            
-            return section
-        }
     }
 }

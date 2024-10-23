@@ -9,6 +9,7 @@ import UIKit
 import FlexLayout
 import PinLayout
 import RxSwift
+import RxCocoa
 import Then
 
 final class TypeTagCell: UICollectionViewCell {
@@ -39,6 +40,11 @@ final class TypeTagCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         setLayout()
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        bag = DisposeBag()
     }
     
     private func setLayout() {

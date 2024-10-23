@@ -23,8 +23,8 @@ extension StyleSection: AnimatableSectionModelType {
     
     public var items: [Item] {
         switch self {
-        case .banner(item: let item): item
-        case .tag(let types): types.map { Item.tag($0) }
+        case .banner(let item): item
+        case .tag: []
         case .title(let type): [.title(type)]
         case .category(let types): types.map { Item.category($0) }
         case .card(let items): items.map { Item.card($0) }
@@ -34,9 +34,9 @@ extension StyleSection: AnimatableSectionModelType {
     public init(original: StyleSection, items: [Item]) {
         switch original {
         case .banner:
-            self = .banner(item: items)
-        case .tag(let types):
-            self = .tag(types: types)
+            self = original
+        case .tag:
+            self = original
         case .title(let type):
             self = .title(type: type)
         case .category(let types):
@@ -50,7 +50,7 @@ extension StyleSection: AnimatableSectionModelType {
 public enum StyleSectionItem: Equatable, IdentifiableType {
     public var identity: UUID { UUID() }
     
-    case banner(StyleBanner)
+    case banner
     case tag(CategoryInfo)
     case title(String)
     case category(CategoryInfo)
@@ -60,5 +60,3 @@ public enum StyleSectionItem: Equatable, IdentifiableType {
         return lhs.identity == rhs.identity
     }
 }
-
-

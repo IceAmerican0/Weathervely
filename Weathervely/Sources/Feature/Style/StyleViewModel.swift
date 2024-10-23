@@ -101,7 +101,7 @@ public final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
                     guard let self else { return }
                     
                     self.content.insert(.tag(types: self.types), at: 0)
-                    self.content.insert(.banner(item: [.banner(StyleBanner())]), at: 0)
+                    self.content.insert(.banner(item: [.banner]), at: 0)
                     
                     self.dataSource.accept(self.content)
                     self.shimmerStatus.accept(true)

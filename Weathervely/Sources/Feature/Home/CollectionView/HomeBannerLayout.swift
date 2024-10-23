@@ -84,7 +84,9 @@ public final class HomeBannerLayout: UICollectionViewLayout {
     public override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         var layoutAttributes = cache.filter { $0.frame.intersects(rect) }
         
-        if let stickyAttributes = getStickyAttributes(at: IndexPath(item: 0, section: 1)) {
+        if let stickyAttributes = getStickyAttributes(
+            at: IndexPath(item: 0, section: 1)
+        ) {
             layoutAttributes.insert(stickyAttributes, at: 0)
         }
         
@@ -108,30 +110,5 @@ public final class HomeBannerLayout: UICollectionViewLayout {
         super.invalidateLayout(with: context)
         cache.removeAll()
         contentHeight = 0
-    }
-    
-    private func getStickyAttributes(at indexPath: IndexPath?) -> UICollectionViewLayoutAttributes? {
-        // header layout attribute 받아오기
-        guard let collectionView,
-              let indexPath,
-              let stickyAttributes = layoutAttributesForSupplementaryView(
-                ofKind: UICollectionView.elementKindSectionHeader,
-                at: indexPath
-              )?.copy() as? UICollectionViewLayoutAttributes
-              else {
-            return nil
-        }
-        
-        let contentOffsetY = collectionView.contentOffset.y
-        var frame = stickyAttributes.frame
-        
-        // collectionView Offset Y값을 header의 Y값과 비교하여 초과시 상단 고정 노출
-        if contentOffsetY > frame.origin.y {
-            frame.origin.y = contentOffsetY
-            stickyAttributes.frame = frame
-            stickyAttributes.zIndex = 1
-            return stickyAttributes
-        }
-        return nil
     }
 }
