@@ -12,10 +12,14 @@ import Then
 import RxSwift
 import RxCocoa
 
+public protocol StyleTagHeaderViewDelegate: AnyObject {
+    func didTap(row: Int)
+}
+
 public final class StyleTagHeaderView: UICollectionReusableView {
     var bag = DisposeBag()
     
-    weak var delegate: HomeStyleFilterViewDelegate?
+    weak var delegate: StyleTagHeaderViewDelegate?
     
     private var viewState: [CategoryInfo] = []
     
@@ -28,7 +32,7 @@ public final class StyleTagHeaderView: UICollectionReusableView {
         $0.register(withType: TypeTagCell.self)
         $0.dataSource = self
         $0.delegate = self
-        $0.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        $0.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 20)
     }
     
     public override init(frame: CGRect) {
@@ -51,12 +55,27 @@ public final class StyleTagHeaderView: UICollectionReusableView {
     }
     
     private func layout() {
-        flex.addItem(collectionView).marginTop(14).grow(1)
+        backgroundColor = .white
+        flex.addItem(collectionView).marginTop(14).marginLeft(20).grow(1)
     }
     
     public func configureState(state: [CategoryInfo]) {
         viewState = state
         collectionView.reloadData()
+        
+        collectionView.rx.itemSelected
+            .asDriver()
+            .drive(
+                with: self,
+                onNext: { owner, indexPath in
+                    owner.delegate?.didTap(row: indexPath.row)
+                    owner.autoScroll(to: indexPath.row)
+                }
+            ).disposed(by: bag)
+    }
+    
+    public func autoScroll(to row: Int) {
+        collectionView.selectItem(at: IndexPath(row: row, section: 0), animated: true, scrollPosition: .left)
     }
 }
 

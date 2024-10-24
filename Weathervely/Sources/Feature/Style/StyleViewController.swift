@@ -37,7 +37,10 @@ public final class StyleViewController: RxBaseViewController<StyleViewModel> {
         $0.register(withType: StyleCardCell.self)
     }
     
-    private var headerView = StyleTagHeaderView()
+    private lazy var headerView = StyleTagHeaderView().then {
+        $0.delegate = self
+        $0.isHidden = true
+    }
     
     private lazy var dataSource = setDataSource()
     
@@ -69,12 +72,8 @@ public final class StyleViewController: RxBaseViewController<StyleViewModel> {
                 onNext: { owner, indexPath in
                     let row = indexPath.row
                     
-                    switch owner.dataSource[indexPath.section] {
-                    case .tag: // 태그에 맞는 타이틀 위치로
-                        owner.collectionView.scrollToItem(at: IndexPath(item: 0, section: row + (row + 1) * 2), at: .top, animated: true)
-                    case .card(let item):
+                    if case .card(let item) = owner.dataSource[indexPath.section] {
                         owner.viewModel.toDetailView(id: item[row].closetId, temp: item[row].temperature.tempId)
-                    default: return
                     }
                 }
             ).disposed(by: bag)
@@ -118,7 +117,8 @@ public final class StyleViewController: RxBaseViewController<StyleViewModel> {
 //            ).disposed(by: bag)
     }
 }
-    
+
+// MARK: CollectionViewDelegate
 extension StyleViewController: UICollectionViewDelegate {
     
     // MARK: - DataSource
@@ -164,6 +164,7 @@ extension StyleViewController: UICollectionViewDelegate {
                     if case .tag(let types) = dataSource[indexPath.section] {
                         return collectionView.dequeueReusableHeaderView(withType: StyleTagHeaderView.self, for: indexPath).then {
                             $0.configureState(state: types)
+                            $0.delegate = self
                             self.headerView.configureState(state: types)
                         }
                     }
@@ -173,6 +174,7 @@ extension StyleViewController: UICollectionViewDelegate {
             })
     }
     
+    // MARK: Layout
     func setSectionLayout() -> UICollectionViewCompositionalLayout {
         UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ -> NSCollectionLayoutSection? in
             guard let self else { return nil }
@@ -331,23 +333,44 @@ extension StyleViewController: UICollectionViewDelegate {
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let headerIndex = IndexPath(item: 0, section: 1)
+        let sectionHeader = UICollectionView.elementKindSectionHeader
         let header = collectionView.layoutAttributesForSupplementaryElement(
-            ofKind: UICollectionView.elementKindSectionHeader,
+            ofKind: sectionHeader,
             at: headerIndex
         )
         
         let yPosition = header?.frame.origin.y ?? 0
         let offsetY = scrollView.contentOffset.y
         
+        let currentPosition = collectionView.indexPathsForVisibleItems.sorted().first ?? IndexPath(item: 0, section: 0)
+        
         if offsetY > yPosition + 14 {
-            if !headerView.isHidden {
-                return
+            if headerView.isHidden {
+                headerView.isHidden = false
             }
             
             headerView.pin.top(to: titleLabel.edge.bottom).horizontally().height(56)
-            headerView.isHidden = false
+            headerView.autoScroll(to: (currentPosition.section - 2) / 3)
         } else {
             headerView.isHidden = true
+            
+            guard let tagHeader = collectionView.supplementaryView(
+                forElementKind: sectionHeader,
+                at: headerIndex
+            ) as? StyleTagHeaderView else { return }
+            tagHeader.autoScroll(to: 0)
         }
+    }
+}
+
+extension StyleViewController: StyleTagHeaderViewDelegate {
+    public func didTap(row: Int) {
+        collectionView.scrollToItem(at: IndexPath(item: 0, section: row + (row + 1) * 2), at: .top, animated: true)
+        
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+//            guard let self else { return }
+//            let position = self.collectionView.contentOffset
+//            self.collectionView.setContentOffset(CGPoint(x: 0, y: position.y - 30), animated: false)
+//        }
     }
 }
