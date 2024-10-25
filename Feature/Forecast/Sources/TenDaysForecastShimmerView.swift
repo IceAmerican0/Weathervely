@@ -5,9 +5,8 @@
 //  Created by Khai on 6/17/24.
 //
 
+import DesignSystem
 import UIKit
-import FlexLayout
-import PinLayout
 
 public final class TendaysForecastShimmerView: UIView {
     public init() {

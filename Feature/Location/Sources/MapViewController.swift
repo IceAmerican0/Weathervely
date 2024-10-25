@@ -5,12 +5,10 @@
 //  Created by Khai on 8/30/24.
 //
 
+import DesignSystem
 import UIKit
-import Then
-import PinLayout
 import CoreLocation
 import KakaoMapsSDK
-import RxCocoa
 
 public final class MapViewController: RxBaseViewController<MapViewModel>, MapControllerDelegate {
     private let navigationView = CSNavigationView(.leftButton(.leftArrow_black)).then {

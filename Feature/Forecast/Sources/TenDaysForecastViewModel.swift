@@ -5,9 +5,9 @@
 //  Created by Khai on 1/30/24.
 //
 
+import DesignSystem
+import Network
 import UIKit
-import RxSwift
-import RxCocoa
 
 public protocol TenDaysForecastViewModelLogic: ViewModelBusinessLogic {
     func getForecastData()

@@ -5,6 +5,7 @@
 //  Created by 최수훈 on 12/24/23.
 //
 
+import ResourcePackage
 import UIKit
 import FlexLayout
 import RxGesture

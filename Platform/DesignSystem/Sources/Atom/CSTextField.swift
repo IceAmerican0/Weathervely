@@ -5,6 +5,7 @@
 //  Created by Khai on 2/22/24.
 //
 
+import ResourcePackage
 import UIKit
 import RxSwift
 import RxCocoa

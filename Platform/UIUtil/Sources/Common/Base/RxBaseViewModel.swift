@@ -5,9 +5,8 @@
 //  Created by 박성준 on 2023/07/16.
 //
 
+import DesignSystem
 import UIKit
-import RxSwift
-import RxCocoa
 
 public protocol ViewModelBusinessLogic: AnyObject {}
 

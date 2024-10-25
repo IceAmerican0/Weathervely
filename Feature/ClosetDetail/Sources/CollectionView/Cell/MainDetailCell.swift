@@ -5,9 +5,9 @@
 //  Created by 최수훈 on 6/7/24.
 //
 
+import DesignSystem
+import Network
 import UIKit
-import FlexLayout
-import PinLayout
 
 final class MainDetailCell: UICollectionViewCell {
     

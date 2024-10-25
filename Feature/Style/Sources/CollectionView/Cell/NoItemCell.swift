@@ -5,10 +5,8 @@
 //  Created by 최수훈 on 7/21/24.
 //
 
-import Foundation
+import DesignSystem
 import UIKit
-import PinLayout
-import FlexLayout
 
 
 final class NoItemCell: UICollectionViewCell {

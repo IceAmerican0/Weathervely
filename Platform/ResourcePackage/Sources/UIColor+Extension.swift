@@ -206,7 +206,7 @@ public extension UIColor {
 }
 
 // MARK: Gradient
-extension [UIColor] {
+public extension [UIColor] {
     static let gradient10: [UIColor] = [.violet500, .blue500]
     static let gradient20: [UIColor] = [.violet500, .gray100]
     static let gradient30: [UIColor] = [.violet150, .gdBlue30]

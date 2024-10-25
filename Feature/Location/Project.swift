@@ -10,15 +10,11 @@ let project = Project.build(
                 name: "Location",
                 product: .staticLibrary,
                 sources: [.glob(.relativeToCurrentFile("Sources/**"))],
-                resources: ResourceFileElements.baseResources,
                 dependencies: [
-                    .SPM.RxCocoa,
-                    .SPM.RxRelay,
-                    .SPM.RxGesture,
-                    .SPM.Then,
-                    .Project.Network,
-                ] + .PlatformDeps,
-                settings: .settings(defaultSettings: Settings.defaultSetting)
+                    .SPM.KakaoMapsSDK,
+                    .Project.Platform.DesignSystem
+                ],
+                settings: .settings()
             ))
         ]
     )

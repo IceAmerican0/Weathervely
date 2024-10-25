@@ -5,6 +5,7 @@
 //  Created by Khai on 2/7/24.
 //
 
+import ResourcePackage
 import UIKit
 import PinLayout
 import Then

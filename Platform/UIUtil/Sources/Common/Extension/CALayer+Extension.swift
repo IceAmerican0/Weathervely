@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension CALayer {
+public extension CALayer {
     func setShadow(_ size: CGSize, _ color: CGColor?, _ opacity: Float, _ radius: CGFloat?) {
         self.shadowOffset = size
         self.shadowColor = color
@@ -19,7 +19,7 @@ extension CALayer {
     }
 }
 
-extension CAGradientLayer {
+public extension CAGradientLayer {
     func setGradient(color: [CGColor], locations: [NSNumber]? , _ radius: CGFloat?) {
         self.cornerRadius = radius ?? 0
         self.colors = color

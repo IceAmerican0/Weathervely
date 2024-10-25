@@ -5,6 +5,7 @@
 //  Created by Khai on 4/30/24.
 //
 
+import ResourcePackage
 import UIKit
 import Then
 

@@ -5,6 +5,7 @@
 //  Created by 최수훈 on 5/25/24.
 //
 
+import Network
 import RxDataSources
 
 struct ClosetSectionModel {

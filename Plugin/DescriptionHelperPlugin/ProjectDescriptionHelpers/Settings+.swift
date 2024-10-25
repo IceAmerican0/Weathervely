@@ -30,4 +30,19 @@ extension Settings {
         ],
         defaultSettings: defaultSetting
     )
+    
+    public static let featureSetting = Settings.settings(
+        configurations: [
+            .debug(
+                name: "Debug",
+                settings: ["GCC_PREPROCESSOR_DEFINITIONS": "DEBUG=1"],
+                xcconfig: .relativeToRoot("Weathervely/Configurations/Debug.xcconfig")
+            ),
+            .release(
+                name: "Release",
+                xcconfig: .relativeToRoot("Weathervely/Configurations/Release.xcconfig")
+            )
+        ],
+        defaultSettings: defaultSetting
+    )
 }

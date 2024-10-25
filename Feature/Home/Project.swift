@@ -10,16 +10,13 @@ let project = Project.build(
                 name: "Home",
                 product: .staticLibrary,
                 sources: [.glob(.relativeToCurrentFile("Sources/**"))],
-                resources: ResourceFileElements.baseResources,
                 dependencies: [
-                    .SPM.RxCocoa,
-                    .SPM.RxRelay,
                     .SPM.RxDataSources,
                     .SPM.RxGesture,
-                    .SPM.Then,
                     .SPM.KeychainAccess,
-                ] + .PlatformDeps,
-                settings: .settings(defaultSettings: Settings.defaultSetting)
+                    .Project.Platform.DesignSystem
+                ],
+                settings: .settings()
             ))
         ]
     )

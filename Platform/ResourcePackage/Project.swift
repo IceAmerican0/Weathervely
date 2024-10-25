@@ -14,7 +14,7 @@ let project = Project.build(
                     .glob(pattern: .relativeToCurrentFile("Resources/**"))
                 ],
                 dependencies: [],
-                settings: .settings(defaultSettings: Settings.defaultSetting)
+                settings: .settings()
             ))
         ],
         resourceSynthesizers: [

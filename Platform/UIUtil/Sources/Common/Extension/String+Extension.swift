@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension String {
+public extension String {
     
     var addColon: String {
         return String(self.prefix(2)) + ":" + String(self.suffix(2))

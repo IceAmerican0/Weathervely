@@ -10,13 +10,11 @@ let project = Project.build(
                 name: "Network",
                 product: .staticLibrary,
                 sources: [.glob(.relativeToCurrentFile("Sources/**"))],
-                resources: ResourceFileElements.baseResources,
                 dependencies: [
-                    .SPM.RxSwift,
-                    .SPM.Moya,
-                    .SPM.RxMoya
+                    .SPM.RxMoya,
+                    .Project.Platform.UIUtil
                 ],
-                settings: .settings(defaultSettings: Settings.defaultSetting)
+                settings: .settings()
             ))
         ]
     )

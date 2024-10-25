@@ -5,12 +5,14 @@
 //  Created by 최수훈 on 2023/06/16.
 //
 
+import DesignSystem
+import ResourcePackage
 import UIKit
 import FlexLayout
 import PinLayout
 import Then
 
-extension UIView {
+public extension UIView {
     func addSubviews(_ subviews: UIView...) {
         subviews.forEach {
             addSubview($0)

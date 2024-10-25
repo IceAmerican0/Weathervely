@@ -5,6 +5,8 @@
 //  Created by Khai on 10/1/24.
 //
 
+import DesignSystem
+import ResourcePackage
 import UIKit
 import FlexLayout
 import PinLayout

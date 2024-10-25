@@ -8,12 +8,12 @@
 import Foundation
 import RxDataSources
 
-struct DiffTempRows: Codable {
+public struct DiffTempRows: Codable {
     var counts: Int?
     var closets: [RowInfo]?
 }
 
-struct RowInfo: Codable, Equatable, IdentifiableType {
+public struct RowInfo: Codable, Equatable, IdentifiableType {
     let identity = UUID()
     
     var closetId: Int

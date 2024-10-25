@@ -5,12 +5,8 @@
 //  Created by 박성준 on 2023/07/25.
 //
 
+import DesignSystem
 import UIKit
-import FlexLayout
-import PinLayout
-import Then
-import RxSwift
-import RxCocoa
 
 public final class EditRegionCollectionViewCell: UICollectionViewCell {
     

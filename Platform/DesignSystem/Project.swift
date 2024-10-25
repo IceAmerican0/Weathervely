@@ -10,21 +10,17 @@ let project = Project.build(
                 name: "DesignSystem",
                 product: .staticLibrary,
                 sources: [.glob(.relativeToCurrentFile("Sources/**"))],
-                resources: ResourceFileElements.baseResources,
                 dependencies: [
                     .SPM.RxSwift,
                     .SPM.RxCocoa,
                     .SPM.RxRelay,
-                    .SPM.RxDataSources,
                     .SPM.RxGesture,
-                    .SPM.Kingfisher,
                     .SPM.Then,
-                    .SPM.KeychainAccess,
                     .SPM.FlexLayout,
                     .SPM.PinLayout,
-                    .Project.Platform.ResourcePackage
+                    .Project.Platform.UIUtil
                 ],
-                settings: .settings(defaultSettings: Settings.defaultSetting)
+                settings: .settings()
             ))
         ]
     )

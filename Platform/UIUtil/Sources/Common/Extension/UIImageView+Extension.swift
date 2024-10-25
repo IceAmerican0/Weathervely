@@ -5,10 +5,11 @@
 //  Created by 최수훈 on 2023/06/19.
 //  Fixed by 최수훈 on 2024/05/30
 
+import DesignSystem
 import UIKit
 import Kingfisher
 
-extension UIImageView {
+public extension UIImageView {
     /// Setting Kingfisher Image
     func setKF(
         urlString: String,

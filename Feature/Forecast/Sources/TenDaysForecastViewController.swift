@@ -5,10 +5,8 @@
 //  Created by Khai on 1/30/24.
 //
 
+import DesignSystem
 import UIKit
-import FlexLayout
-import PinLayout
-import Then
 import RxSwift
 
 final class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastViewModel> {

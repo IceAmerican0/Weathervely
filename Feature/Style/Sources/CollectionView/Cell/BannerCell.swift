@@ -5,6 +5,7 @@
 //  Created by 최수훈 on 4/27/24.
 //
 
+import ResourcePackage
 import UIKit
 import FlexLayout
 import PinLayout

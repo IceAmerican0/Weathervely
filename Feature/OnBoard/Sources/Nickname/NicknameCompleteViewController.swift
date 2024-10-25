@@ -5,11 +5,8 @@
 //  Created by Khai on 2/22/24.
 //
 
+import DesignSystem
 import UIKit
-import RxSwift
-import FlexLayout
-import PinLayout
-import Then
 
 final class NicknameCompleteViewController: RxBaseViewController<NicknameCompleteViewModel> {
     private var navigationView = CSNavigationView(.leftButton(.leftArrow_black)).then {

@@ -5,6 +5,7 @@
 //  Created by 최수훈 on 2023/07/05.
 //
 
+import ResourcePackage
 import UIKit
 import FlexLayout
 import PinLayout

@@ -10,13 +10,18 @@ let project = Project.build(
                 name: "UIUtil",
                 product: .staticLibrary,
                 sources: [.glob(.relativeToCurrentFile("Sources/**"))],
-                resources: ResourceFileElements.baseResources,
                 dependencies: [
+                    .SPM.RxSwift,
+                    .SPM.RxCocoa,
+                    .SPM.RxRelay,
                     .SPM.Kingfisher,
                     .SPM.FlexLayout,
                     .SPM.PinLayout,
+                    .SPM.Then,
+                    .SPM.KeychainAccess,
+                    .Project.Platform.ResourcePackage
                 ],
-                settings: .settings(defaultSettings: Settings.defaultSetting)
+                settings: .settings()
             ))
         ]
     )

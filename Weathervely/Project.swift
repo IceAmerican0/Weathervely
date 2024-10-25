@@ -18,9 +18,10 @@ let project = Project(
                 .SPM.FirebaseCrashlytics,
                 .SPM.FirebaseMessaging,
                 .SPM.FirebaseRemoteConfig,
-                .Project.Network
-            ] + .FeatureDeps + .PlatformDeps,
-            settings: .baseSetting
+                .SPM.KakaoMapsSDK,
+                .Project.Network,
+                .Project.Platform.DesignSystem
+            ] + .FeatureDeps
         ))
     ],
     resourceSynthesizers: [ 

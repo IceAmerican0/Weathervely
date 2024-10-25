@@ -17,11 +17,11 @@ public struct AuthLoginEntity: Codable {
 }
 
 public struct AuthData: Codable {
-    var user: UserInfo
-    var address: AddressIDInfo?
-    var version: String?
-    var canUpdate: Bool
-    var latestVersion: String
+    public var user: UserInfo
+    public var address: AddressIDInfo?
+    public var version: String?
+    public var canUpdate: Bool
+    public var latestVersion: String
     
     enum CodingKeys: String, CodingKey {
         case user, address, version, canUpdate, latestVersion

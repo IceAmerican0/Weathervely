@@ -5,10 +5,8 @@
 //  Created by Khai on 1/16/24.
 //
 
+import DesignSystem
 import UIKit
-import PinLayout
-import Then
-import RxSwift
 import RxDataSources
 
 public final class FilterListViewController: RxBaseViewController<FilterListViewModel> {
