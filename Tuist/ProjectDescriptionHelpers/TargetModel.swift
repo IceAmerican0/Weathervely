@@ -3,6 +3,7 @@ import DescriptionHelperPlugin
 
 public struct TargetModel {
     let name: String
+    let product: Product
     let deploymentTargets: DeploymentTargets?
     let bundleId: String
     let infoPlist: InfoPlist
@@ -21,6 +22,7 @@ public struct TargetModel {
     
     public init(
         name: String,
+        product: Product = .app,
         bundleId: String = "com.redthree.weathervely",
         deploymentTargets: DeploymentTargets? = .iOS("17.0"),
         infoPlist: InfoPlist = .default,
@@ -32,12 +34,13 @@ public struct TargetModel {
         entitlements: Entitlements? = nil,
         scripts: [TargetScript] = [],
         dependencies: [TargetDependency] = [],
-        settings: Settings,
+        settings: Settings = Settings.baseSetting,
         coreDataModels: [CoreDataModel] = [],
         launchArguments: [LaunchArgument] = [],
         additionalFiles: [FileElement] = []
     ) {
         self.name = name
+        self.product = product
         self.deploymentTargets = deploymentTargets
         self.bundleId = bundleId
         self.infoPlist = infoPlist

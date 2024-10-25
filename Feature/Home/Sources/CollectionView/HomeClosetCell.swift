@@ -6,10 +6,6 @@
 //
 
 import UIKit
-import FlexLayout
-import PinLayout
-import Then
-import Kingfisher
 
 public final class HomeClosetCell: UICollectionViewCell {
     let cloth = UIImageView().then {

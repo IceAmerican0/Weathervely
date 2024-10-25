@@ -7,7 +7,7 @@ public extension Target {
         Target.target(
             name: model.name,
             destinations: [.iPhone],
-            product: .app,
+            product: model.product,
             bundleId: model.bundleId,
             deploymentTargets: model.deploymentTargets,
             infoPlist: model.infoPlist,
@@ -18,7 +18,7 @@ public extension Target {
             entitlements: model.entitlements,
             scripts: model.scripts,
             dependencies: model.dependencies,
-            settings: Settings.baseSetting,
+            settings: model.settings,
             coreDataModels: model.coreDataModels,
             launchArguments: model.launchArguments,
             additionalFiles: model.additionalFiles

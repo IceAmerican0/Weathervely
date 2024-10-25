@@ -1,6 +1,10 @@
 import ProjectDescription
 
 extension Settings {
+    public static let defaultSetting: DefaultSettings = .recommended(excluding: [
+        "GCC_PREPROCESSOR_DEFINITIONS"
+    ])
+    
     public static let baseSetting = Settings.settings(
         base: SettingsDictionary()
             .automaticCodeSigning(devTeam: "$(DEVELOPMENT_TEAM)")
@@ -24,8 +28,6 @@ extension Settings {
                 xcconfig: .relativeToRoot("Weathervely/Configurations/Release.xcconfig")
             )
         ],
-        defaultSettings: .recommended(excluding: [
-            "GCC_PREPROCESSOR_DEFINITIONS"
-        ])
+        defaultSettings: defaultSetting
     )
 }

@@ -4,21 +4,18 @@ import DescriptionHelperPlugin
 
 let project = Project.build(
     model: .init(
-        name: "OnBoard",
+        name: "Network",
         targets: [
             Target.build(model: .init(
-                name: "OnBoard",
+                name: "Network",
                 product: .staticLibrary,
                 sources: [.glob(.relativeToCurrentFile("Sources/**"))],
                 resources: ResourceFileElements.baseResources,
                 dependencies: [
-                    .SPM.RxCocoa,
-                    .SPM.RxRelay,
-                    .SPM.RxGesture,
-                    .SPM.Then,
-                    .SPM.KeychainAccess,
-                    .Project.Network,
-                ] + .PlatformDeps,
+                    .SPM.RxSwift,
+                    .SPM.Moya,
+                    .SPM.RxMoya
+                ],
                 settings: .settings(defaultSettings: Settings.defaultSetting)
             ))
         ]

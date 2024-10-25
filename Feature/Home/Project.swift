@@ -8,12 +8,18 @@ let project = Project.build(
         targets: [
             Target.build(model: .init(
                 name: "Home",
-                sources: [""],
-                targets: [
-                ],
+                product: .staticLibrary,
+                sources: [.glob(.relativeToCurrentFile("Sources/**"))],
+                resources: ResourceFileElements.baseResources,
                 dependencies: [
-                ],
-                settings: Settings.baseSetting
+                    .SPM.RxCocoa,
+                    .SPM.RxRelay,
+                    .SPM.RxDataSources,
+                    .SPM.RxGesture,
+                    .SPM.Then,
+                    .SPM.KeychainAccess,
+                ] + .PlatformDeps,
+                settings: .settings(defaultSettings: Settings.defaultSetting)
             ))
         ]
     )

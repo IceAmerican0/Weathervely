@@ -4,21 +4,22 @@ import DescriptionHelperPlugin
 
 let project = Project.build(
     model: .init(
-        name: "Forecast",
+        name: "ResourcePackage",
         targets: [
             Target.build(model: .init(
-                name: "Forecast",
-                product: .staticLibrary,
+                name: "ResourcePackage",
+                product: .framework,
                 sources: [.glob(.relativeToCurrentFile("Sources/**"))],
-                resources: ResourceFileElements.baseResources,
-                dependencies: [
-                    .SPM.RxCocoa,
-                    .SPM.RxRelay,
-                    .SPM.Then,
-                    .Project.Network,
-                ] + .PlatformDeps,
+                resources: [
+                    .glob(pattern: .relativeToCurrentFile("Resources/**"))
+                ],
+                dependencies: [],
                 settings: .settings(defaultSettings: Settings.defaultSetting)
             ))
+        ],
+        resourceSynthesizers: [
+            .assets(),
+            .fonts()
         ]
     )
 )

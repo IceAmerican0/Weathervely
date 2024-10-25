@@ -4,21 +4,18 @@ import DescriptionHelperPlugin
 
 let project = Project.build(
     model: .init(
-        name: "OnBoard",
+        name: "UIUtil",
         targets: [
             Target.build(model: .init(
-                name: "OnBoard",
+                name: "UIUtil",
                 product: .staticLibrary,
                 sources: [.glob(.relativeToCurrentFile("Sources/**"))],
                 resources: ResourceFileElements.baseResources,
                 dependencies: [
-                    .SPM.RxCocoa,
-                    .SPM.RxRelay,
-                    .SPM.RxGesture,
-                    .SPM.Then,
-                    .SPM.KeychainAccess,
-                    .Project.Network,
-                ] + .PlatformDeps,
+                    .SPM.Kingfisher,
+                    .SPM.FlexLayout,
+                    .SPM.PinLayout,
+                ],
                 settings: .settings(defaultSettings: Settings.defaultSetting)
             ))
         ]

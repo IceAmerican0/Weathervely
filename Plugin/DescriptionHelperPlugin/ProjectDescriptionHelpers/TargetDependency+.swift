@@ -1,10 +1,20 @@
 import ProjectDescription
 
-extension TargetDependency {
-    public static let Dependencies: [TargetDependency] = [
-        
+extension [Dep] {
+    public static let FeatureDeps: [Dep] = [
+        .Project.Feature.ClosetDetail,
+        .Project.Feature.Forecast,
+        .Project.Feature.Home,
+        .Project.Feature.Location,
+        .Project.Feature.Notification,
+        .Project.Feature.OnBoard,
+        .Project.Feature.Setting,
+        .Project.Feature.Style
     ]
-}
-
-private extension TargetDependency {
+    
+    public static let PlatformDeps: [Dep] = [
+        .Project.Platform.DesignSystem,
+        .Project.Platform.UIUtil,
+        .Project.Platform.ResourcePackage
+    ]
 }
