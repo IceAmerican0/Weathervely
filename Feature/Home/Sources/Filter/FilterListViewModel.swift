@@ -5,9 +5,9 @@
 //  Created by Khai on 1/16/24.
 //
 
+import WVAlert
+import Network
 import UIKit
-import RxSwift
-import RxCocoa
 
 public protocol FilterListViewModelLogic: ViewModelBusinessLogic {
     func getCategoryList()
@@ -60,10 +60,9 @@ public final class FilterListViewModel: RxBaseViewModel, FilterListViewModelLogi
                 },
                 onError: { owner, error in
                     owner.isLoading.accept(false)
-                    owner.alertState.accept(
+                    AlertManager.shared.present(state:
                         .init(
                             title: "리스트를 불러오지 못했어요",
-                            alertType: .popup,
                             closeAction: {
                                 self.dismissSelfWithAnimationRelay.accept(Void())
                             }

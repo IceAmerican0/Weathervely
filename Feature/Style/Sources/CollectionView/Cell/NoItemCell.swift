@@ -8,14 +8,15 @@
 import DesignSystem
 import UIKit
 
-
-final class NoItemCell: UICollectionViewCell {
+public final class NoItemCell: UICollectionViewCell {
     
     let contentWrapper = UIView()
+    
     let noItemImage = UIImageView().then {
         $0.image = UIImage.search_empty.reDesign(size: CGSize(width: 48, height: 48))
         $0.contentMode = .center
     }
+    
     let noitemLabel = LabelMaker(
         font: UIFont.body_5_M,
         fontColor: UIColor.gray50
@@ -23,7 +24,7 @@ final class NoItemCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+        layout()
     }
     
     required init?(coder: NSCoder) {
@@ -33,7 +34,6 @@ final class NoItemCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         contentView.pin.all()
-        layout()
         contentView.flex.layout()
     }
     

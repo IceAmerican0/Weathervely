@@ -5,8 +5,8 @@
 //  Created by 박성준 on 2023/07/14.
 //
 
-import RxRelay
-import RxSwift
+import WVAlert
+import Network
 import UIKit
 
 public enum SettingRegionState {
@@ -50,11 +50,8 @@ public final class SettingRegionViewModel: RxBaseViewModel, SettingRegionViewMod
                     }
                 },
                 onError: { owner, error in
-                    owner.alertState.accept(
-                        .init(
-                            title: error.localizedDescription,
-                            alertType: .popup
-                        )
+                    AlertManager.shared.present(
+                        state: .init(title: error.localizedDescription)
                     )
             })
             .disposed(by: bag)

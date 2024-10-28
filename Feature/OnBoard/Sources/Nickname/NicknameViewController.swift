@@ -5,11 +5,8 @@
 //  Created by 박성준 on 2023/06/14.
 //
 
+import DesignSystem
 import UIKit
-import FlexLayout
-import PinLayout
-import RxCocoa
-import Then
 
 final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
     

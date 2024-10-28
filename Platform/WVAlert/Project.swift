@@ -4,13 +4,15 @@ import DescriptionHelperPlugin
 
 let project = Project.build(
     model: .init(
-        name: "OnBoard",
+        name: "WVAlert",
         targets: [
             Target.build(model: .init(
-                name: "OnBoard",
+                name: "WVAlert",
                 product: .staticLibrary,
                 sources: [.glob(.relativeToCurrentFile("Sources/**"))],
-                dependencies: .FeatureBaseDeps,
+                dependencies: [
+                    .Project.Platform.DesignSystem
+                ],
                 settings: .settings()
             ))
         ]

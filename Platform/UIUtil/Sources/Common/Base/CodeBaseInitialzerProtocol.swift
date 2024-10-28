@@ -7,16 +7,6 @@
 
 import Foundation
 
-// 코드로 작성하는 경우 아래의 주석을 활용한다.
-// MARK: - UI Property
-// MARK: - Control Property
-// MARK: - Binding Property
-// MARK: - Initialization
-// MARK: - Attribute
-// MARK: - Layout
-// MARK: - Bind
-// MARK: - Method
-
 protocol CodeBaseInitializerProtocol {
     func codeBaseInitializer()
     func layout()

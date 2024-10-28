@@ -6,13 +6,7 @@
 //
 
 import DesignSystem
-import ResourcePackage
 import UIKit
-import FlexLayout
-import PinLayout
-import RxSwift
-import RxCocoa
-import Then
 
 final class TypeTagCell: UICollectionViewCell {
     public var bag = DisposeBag()

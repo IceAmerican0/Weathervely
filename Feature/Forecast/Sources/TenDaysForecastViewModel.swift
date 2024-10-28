@@ -5,7 +5,7 @@
 //  Created by Khai on 1/30/24.
 //
 
-import DesignSystem
+import WVAlert
 import Network
 import UIKit
 
@@ -42,8 +42,8 @@ public final class TenDaysForecastViewModel: RxBaseViewModel, TenDaysForecastVie
                 },
                 onError: { owner, error in
                     owner.shimmerStatus.accept(true)
-                    owner.alertState.accept(
-                        .init(title: error.localizedDescription, alertType: .popup)
+                    AlertManager.shared.present(
+                        state: .init(title: error.localizedDescription)
                     )
                 }
             ).disposed(by: bag)

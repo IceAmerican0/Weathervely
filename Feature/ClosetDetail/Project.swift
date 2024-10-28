@@ -11,13 +11,10 @@ let project = Project.build(
                 product: .staticLibrary,
                 sources: [.glob(.relativeToCurrentFile("Sources/**"))],
                 dependencies: [
-                    .SPM.RxCocoa,
-                    .SPM.RxRelay,
                     .SPM.RxDataSources,
-                    .SPM.RxGesture,
-                    .SPM.KeychainAccess,
-                    .Project.Network,
-                    .Project.Platform.DesignSystem
+                    .Project.Platform.WVAlert,
+                    .Project.Platform.DesignSystem,
+                    .Project.Network
                 ],
                 settings: .settings()
             ))

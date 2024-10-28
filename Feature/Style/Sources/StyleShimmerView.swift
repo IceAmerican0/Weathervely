@@ -7,7 +7,6 @@
 
 import DesignSystem
 import UIKit
-import FlexLayout
 
 public final class StyleShimmerView: UIView {
     public init() {

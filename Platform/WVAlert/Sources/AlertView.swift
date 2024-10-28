@@ -5,12 +5,8 @@
 //  Created by Khai on 2/16/24.
 //
 
-import ResourcePackage
+import DesignSystem
 import UIKit
-import FlexLayout
-import PinLayout
-import Then
-import RxSwift
 
 final class AlertView: UIView {
     private let dimView = UIView().then {

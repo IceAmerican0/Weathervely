@@ -5,11 +5,9 @@
 //  Created by 최수훈 on 2023/07/09.
 //
 
-import UIUtil
-import ResourcePackage
+import WVAlert
 import Network
 import UIKit
-import RxRelay
 import SafariServices
 
 public protocol SettingViewModelLogic: ViewModelBusinessLogic {
@@ -19,13 +17,15 @@ public protocol SettingViewModelLogic: ViewModelBusinessLogic {
     func pushSetting(selected: Bool)
     func showHiddenAlert()
     
+    var toastRelay: PublishRelay<Bool> { get }
     var profileMenuTitle: BehaviorRelay<[ProfileMenuTitle]> { get }
     var menuTitle: BehaviorRelay<[SettingMenuTitle]> { get }
 }
 
 public final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
     private let userDataSource: UserDataSourceProtocol = UserDataSource()
-    
+    /// toast
+    public var toastRelay: PublishRelay<Bool> = .init()
     /// 내 정보 설정 리스트
     public var profileMenuTitle = BehaviorRelay<[ProfileMenuTitle]>(
         value: ProfileMenuTitle.allCases.map { $0 }
@@ -76,12 +76,7 @@ public final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
                         message = "알림 설정이 꺼졌어요 알림 받기를 눌러 웨더블리의 날씨 꿀팁을 받아보세요"
                     }
                     
-                    owner.alertState.accept(
-                        .init(
-                            title: message,
-                            alertType: .toast
-                        )
-                    )
+                    owner.toastRelay.accept(message)
                 },
                 onError: { owner, error in
                     debugPrint("error fetching push agreement: \(error)")
@@ -130,13 +125,12 @@ public final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
         
         let alert = AlertViewState(
             title: "테스트 기능",
-            alertType: .popup,
             buttonListState: .double(
                 left: leftButton,
                 right: configureServerState()
             )
         )
-        alertState.accept(alert)
+        AlertManager.shared.present(state: alert)
     }
     
     /// 계정초기화용 ID 가져오기
@@ -160,12 +154,7 @@ public final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
                     UIApplication.shared.close()
                 },
                 onError: { owner, error in
-                    owner.alertState.accept(
-                        .init(
-                            title: error.localizedDescription,
-                            alertType: .toast
-                        )
-                    )
+                    owner.toastRelay.accept(error.localizedDescription)
                 }
             ).disposed(by: bag)
     }

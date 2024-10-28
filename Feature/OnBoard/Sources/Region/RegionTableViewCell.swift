@@ -5,11 +5,8 @@
 //  Created by 박성준 on 2023/07/12.
 //
 
+import DesignSystem
 import UIKit
-import RxSwift
-import FlexLayout
-import PinLayout
-import Then
 
 public final class RegionTableViewCell: UITableViewCell {
     public var regionLabel = LabelMaker(

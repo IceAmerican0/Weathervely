@@ -8,7 +8,7 @@ let project = Project.build(
         targets: [
             Target.build(model: .init(
                 name: "UIUtil",
-                product: .staticLibrary,
+                product: .framework,
                 sources: [.glob(.relativeToCurrentFile("Sources/**"))],
                 dependencies: [
                     .SPM.RxSwift,

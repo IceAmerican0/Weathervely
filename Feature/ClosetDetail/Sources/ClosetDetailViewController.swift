@@ -5,12 +5,10 @@
 //  Created by 최수훈 on 6/5/24.
 //
 
+import DesignSystem
 import UIKit
-import FlexLayout
-import PinLayout
 import RxSwift
 import RxDataSources
-import Then
 
 final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewModel> {
     private let shimmerView = DetailShimmerView()

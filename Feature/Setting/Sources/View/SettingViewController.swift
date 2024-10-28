@@ -5,18 +5,11 @@
 //  Created by 최수훈 on 2023/07/04.
 //
 
-import UIUtil
 import DesignSystem
-import ResourcePackage
 import UIKit
-import FlexLayout
-import PinLayout
-import Then
-import RxCocoa
-import RxSwift
 import RxGesture
 
-final class SettingViewController: RxBaseViewController<SettingViewModel> {
+public final class SettingViewController: RxBaseViewController<SettingViewModel>, Toastable {
     
     private var titleLabel = LabelMaker(
         font: .title_3_B,
@@ -173,6 +166,15 @@ final class SettingViewController: RxBaseViewController<SettingViewModel> {
             .filter { $0.count == 5 }
             .bind(with: self) { owner, _ in
                 owner.viewModel.showHiddenAlert()
+            }.disposed(by: bag)
+    }
+    
+    override func viewModelBinding() {
+        super.viewModelBinding()
+        
+        viewModel.toastRelay
+            .bind(with: self) { owner, value in
+                owner.presentToast(content: value)
             }.disposed(by: bag)
     }
     

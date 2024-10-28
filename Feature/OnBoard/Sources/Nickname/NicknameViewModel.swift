@@ -5,9 +5,9 @@
 //  Created by 박성준 on 2023/07/19.
 //
 
+import UIUtil
+import Network
 import Foundation
-import RxSwift
-import RxRelay
 
 public protocol NicknameViewModelLogic: ViewModelBusinessLogic {
     func didTapConfirmButton(_ text: String)

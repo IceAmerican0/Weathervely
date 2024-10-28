@@ -8,16 +8,10 @@ let project = Project.build(
         targets: [
             Target.build(model: .init(
                 name: "DesignSystem",
-                product: .staticLibrary,
+                product: .framework,
                 sources: [.glob(.relativeToCurrentFile("Sources/**"))],
                 dependencies: [
-                    .SPM.RxSwift,
-                    .SPM.RxCocoa,
-                    .SPM.RxRelay,
                     .SPM.RxGesture,
-                    .SPM.Then,
-                    .SPM.FlexLayout,
-                    .SPM.PinLayout,
                     .Project.Platform.UIUtil
                 ],
                 settings: .settings()

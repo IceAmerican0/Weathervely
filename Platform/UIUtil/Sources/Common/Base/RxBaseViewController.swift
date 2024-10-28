@@ -65,7 +65,6 @@ public class RxBaseViewController<ViewModel>:
     func bind() {
         viewBinding()
         viewModelBinding()
-        alertBinding()
     }
     
     func viewBinding() { }
@@ -156,48 +155,6 @@ public class RxBaseViewController<ViewModel>:
                 owner.dismiss(animated: true, completion: closure)
             }
             .disposed(by: bag)
-    }
-    
-    func alertBinding() {
-        viewModel.alertState
-            .bind(with: self) { owner, state in
-                let scenes = UIApplication.shared.connectedScenes
-                let windowScene = scenes.first as? UIWindowScene
-                guard let superView = windowScene?.windows.first else { return }
-                
-                switch state.alertType {
-                case .popup:
-                    // 이미 떠있는 알럿 제거
-                    superView.subviews.forEach {
-                        ($0 as? AlertView)?.dismiss()
-                    }
-                    
-                    superView.accessibilityViewIsModal = true
-                    
-                    let alert = AlertView(state: state)
-                    superView.addSubview(alert)
-                    
-                case .toast:
-                    // 이미 떠있는 토스트 제거
-                    superView.subviews.forEach {
-                        ($0 as? ToastView)?.dismiss()
-                    }
-                    
-                    let toast = ToastView(
-                        text: state.title,
-                        completionHandler: state.closeAction
-                    )
-                    superView.addSubview(toast)
-                    
-                    NSLayoutConstraint.activate([
-                        toast.centerXAnchor.constraint(equalTo: superView.centerXAnchor),
-                        toast.leadingAnchor.constraint(greaterThanOrEqualTo: superView.leadingAnchor, constant: 15),
-                        toast.trailingAnchor.constraint(lessThanOrEqualTo: superView.trailingAnchor, constant: -15),
-                        toast.bottomAnchor.constraint(equalTo: superView.safeAreaLayoutGuide.bottomAnchor, constant: -30),
-                        toast.heightAnchor.constraint(lessThanOrEqualToConstant: 58)
-                    ])
-                }
-            }.disposed(by: bag)
     }
     
     // MARK: UIGestureRecognizerDelegate

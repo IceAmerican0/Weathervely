@@ -5,6 +5,8 @@
 //  Created by Khai on 2/22/24.
 //
 
+import WVAlert
+import Network
 import UIKit
 
 public protocol NicknameCompleteViewModelLogic: ViewModelBusinessLogic {
@@ -52,10 +54,9 @@ public final class NicknameCompleteViewModel: RxBaseViewModel, NicknameCompleteV
                         let tempID: String = "tempID-" + Date().microCurrent
                         owner.setNickname(uuid: tempID)
                     } else {
-                        owner.alertState.accept(
-                            .init(
+                        AlertManager.shared.present(
+                            state: .init(
                                 title: "닉네임을 다시 설정해주세요",
-                                alertType: .popup,
                                 closeAction: {
                                     owner.didTapRefuseButton()
                                 }
@@ -79,10 +80,9 @@ public final class NicknameCompleteViewModel: RxBaseViewModel, NicknameCompleteV
                 },
                 onError: { owner, error in
                     debugPrint(error.localizedDescription)
-                    owner.alertState.accept(
-                        .init(
+                    AlertManager.shared.present(
+                        state: .init(
                             title: "닉네임을 다시 설정해주세요",
-                            alertType: .popup,
                             closeAction: {
                                 owner.didTapRefuseButton()
                             }

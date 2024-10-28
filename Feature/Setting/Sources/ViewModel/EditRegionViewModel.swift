@@ -5,12 +5,9 @@
 //  Created by 박성준 on 2023/07/25.
 //
 
-import DesignSystem
-import ResourcePackage
 import Network
+import WVAlert
 import Foundation
-import RxSwift
-import RxCocoa
 
 public enum EditRegionState {
     /// 설정페이지에서 진입시
@@ -27,12 +24,16 @@ public protocol EditRegionViewModelLogic: ViewModelBusinessLogic {
     func updateMainRegion(_ index: Int)
     func didTapCellButton(_ index: Int)
     func toSettingRegionView(_ settingRegionState: SettingRegionState)
+    
+    var toastRelay: PublishRelay<Bool> { get }
 }
 
 public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogic {
-    public var loadedListRelay = BehaviorRelay<[AddressListInfo]>(value: [])
-    
     private let dataSource: UserDataSourceProtocol = UserDataSource()
+    /// toast
+    public var toastRelay: PublishRelay<Bool> = .init()
+    
+    public var loadedListRelay = BehaviorRelay<[AddressListInfo]>(value: [])
     
     public var editRegionState: EditRegionState
     
@@ -54,26 +55,16 @@ public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogi
                     case .edit:
                         break
                     case .change:
-                        owner.alertState.accept(
-                            .init(
-                                title: "현재 동네가 \(UserDefaultManager.shared.dong)(으)로 변경됐어요",
-                                alertType: .toast
-                            )
+                        owner.toastRelay.accept("현재 동네가 \(UserDefaultManager.shared.dong)(으)로 변경됐어요")
                         )
                     case .add:
-                        owner.alertState.accept(
-                            .init(
-                                title: "동네가 추가됐어요",
-                                alertType: .toast
-                            )
-                        )
+                        owner.toastRelay.accept("동네가 추가됐어요")
                     }
                 },
                 onError: { owner, error in
-                    owner.alertState.accept(
-                        .init(
+                    AlertManager.shared.present(
+                        state: .init(
                             title: error.localizedDescription,
-                            alertType: .popup,
                             closeAction: {
                                 owner.navigationPopViewControllerRelay.accept(Void())
                             }
@@ -93,21 +84,11 @@ public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogi
                 with: self,
                 onNext: { owner, _ in
                     owner.loadRegionList()
-                    owner.alertState.accept(
-                        .init(
-                            title: "선택한 동네가 삭제됐어요",
-                            alertType: .toast
-                        )
-                    )
+                    owner.toastRelay.accept("선택한 동네가 삭제됐어요")
                     state = true
                 },
                 onError: { owner, error in
-                    owner.alertState.accept(
-                        .init(
-                            title: error.localizedDescription,
-                            alertType: .popup
-                        )
-                    )
+                    AlertManager.shared.present(.init(title: error.localizedDescription))
                     state = false
             })
             .disposed(by: bag)
@@ -124,19 +105,11 @@ public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogi
                 onNext: { owner, _ in
                     owner.loadRegionList()
                     userDefault.set(regionInfo.dong, forKey: UserDefaultKey.dong.rawValue)
-                    owner.alertState.accept(
-                        .init(
-                            title: "현재 동네가 \(regionInfo.dong)(으)로 변경됐어요",
-                            alertType: .toast
-                        )
-                    )
+                    owner.toastRelay.accept("현재 동네가 \(regionInfo.dong)(으)로 변경됐어요")
                 },
                 onError: { owner, error in
-                    owner.alertState.accept(
-                        .init(
-                            title: error.localizedDescription,
-                            alertType: .popup
-                        )
+                    AlertManager.shared.present(
+                        state: .init(title: error.localizedDescription)
                     )
             })
             .disposed(by: bag)

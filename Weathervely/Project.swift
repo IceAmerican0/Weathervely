@@ -18,9 +18,6 @@ let project = Project(
                 .SPM.FirebaseCrashlytics,
                 .SPM.FirebaseMessaging,
                 .SPM.FirebaseRemoteConfig,
-                .SPM.KakaoMapsSDK,
-                .Project.Network,
-                .Project.Platform.DesignSystem
             ] + .FeatureDeps
         ))
     ],

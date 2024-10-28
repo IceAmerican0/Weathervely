@@ -5,9 +5,9 @@
 //  Created by 박성준 on 2023/07/24.
 //
 
+import WVAlert
+import Network
 import Foundation
-import RxSwift
-import RxCocoa
 
 public protocol SettingRegionCompleteViewModelLogic: ViewModelBusinessLogic {
     func didTapConfirmButton()
@@ -49,11 +49,8 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
                     owner.toHomeView()
                 },
                 onError: { owner, error in
-                    owner.alertState.accept(
-                        .init(
-                            title: error.localizedDescription,
-                            alertType: .popup
-                        )
+                    AlertManager.shared.present(
+                        state: .init(title: error.localizedDescription)
                     )
                 }
             ).disposed(by: bag)
@@ -69,11 +66,8 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
                     owner.toEditRegionView(.change)
                 },
                 onError: { owner, error in
-                    owner.alertState.accept(
-                        .init(
-                            title: error.localizedDescription,
-                            alertType: .popup
-                        )
+                    AlertManager.shared.present(
+                        state: .init(title: error.localizedDescription)
                     )
             })
             .disposed(by: bag)
@@ -94,10 +88,9 @@ public final class SettingRegionCompleteViewModel: RxBaseViewModel, SettingRegio
                         closeAction = { owner.navigationPopViewControllerRelay.accept(Void()) }
                     }
                     
-                    owner.alertState.accept(
-                        .init(
+                    AlertManager.shared.present(
+                        state: .init(
                             title: errorString,
-                            alertType: .popup,
                             closeAction: closeAction
                         )
                     )

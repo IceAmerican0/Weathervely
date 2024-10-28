@@ -10,12 +10,7 @@ let project = Project.build(
                 name: "Setting",
                 product: .staticLibrary,
                 sources: [.glob(.relativeToCurrentFile("Sources/**"))],
-                dependencies: [
-                    .SPM.RxGesture,
-                    .SPM.KeychainAccess,
-                    .Project.Network,
-                    .Project.Platform.DesignSystem
-                ],
+                dependencies: .FeatureBaseDeps,
                 settings: .settings()
             ))
         ]

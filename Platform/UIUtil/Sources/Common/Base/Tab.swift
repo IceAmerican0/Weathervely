@@ -5,6 +5,7 @@
 //  Created by Khai on 10/16/23.
 //
 
+import ResourcePackage
 import UIKit
 
 enum Tab: CaseIterable {

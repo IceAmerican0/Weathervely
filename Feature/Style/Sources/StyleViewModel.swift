@@ -5,11 +5,9 @@
 //  Created by 최수훈 on 7/11/24.
 //
 
-import UIUtil
+import WVAlert
 import Network
 import UIKit
-import RxSwift
-import RxCocoa
 
 public protocol StyleViewModelLogic: ViewModelBusinessLogic {
     func getTypes()
@@ -139,11 +137,8 @@ public final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
                     }
                 },
                 onError: { owner, error in
-                    owner.alertState.accept(
-                        .init(
-                            title: error.localizedDescription,
-                            alertType: .popup
-                        )
+                    AlertManager.shared.present(
+                        state: .init(title: error.localizedDescription)
                     )
                 }
             ).disposed(by: bag)
@@ -177,11 +172,8 @@ public final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
                     }
                 },
                 onError: { owner, error in
-                    owner.alertState.accept(
-                        .init(
-                            title: error.localizedDescription,
-                            alertType: .popup
-                        )
+                    AlertManager.shared.present(
+                        state: .init(title: error.localizedDescription)
                     )
                 }
             ).disposed(by: bag)

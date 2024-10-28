@@ -5,12 +5,8 @@
 //  Created by 박성준 on 2023/07/10.
 //
 
+import DesignSystem
 import UIKit
-import PinLayout
-import FlexLayout
-import RxCocoa
-import RxSwift
-import Then
 
 final class SettingRegionViewController: RxBaseViewController<SettingRegionViewModel> {
     private var navigationView = CSNavigationView(.leftButton(.leftArrow_black))

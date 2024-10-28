@@ -5,7 +5,7 @@
 //  Created by Khai on 8/30/24.
 //
 
-import DesignSystem
+import WVAlert
 import UIKit
 import CoreLocation
 import KakaoMapsSDK
@@ -202,10 +202,9 @@ extension MapViewController: CLLocationManagerDelegate {
                 action: { self.viewModel.goToSetting() }
             )
             
-            viewModel.alertState.accept(
-                .init(
+            AlertManager.shared.present(
+                state: .init(
                     title: "위치 권한을 설정해주세요.",
-                    alertType: .popup,
                     buttonListState: .double(
                         left: laterState,
                         right: goSettingState
@@ -213,10 +212,9 @@ extension MapViewController: CLLocationManagerDelegate {
                 )
             )
         @unknown default:
-            viewModel.alertState.accept(
-                .init(
+            AlertManager.shared.present(
+                state: .init(
                     title: "다시 시도해주세요.",
-                    alertType: .popup,
                     closeAction: { self.viewModel.navigationPopViewControllerRelay.accept(Void()) }
                 )
             )
@@ -234,10 +232,9 @@ extension MapViewController: CLLocationManagerDelegate {
     }
     
     public func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
-        viewModel.alertState.accept(
-            .init(
+        AlertManager.shared.present(
+            state: .init(
                 title: "위치를 불러오지 못했어요.\n다시 시도해주세요.",
-                alertType: .popup,
                 closeAction: { self.viewModel.navigationPopViewControllerRelay.accept(Void()) }
             )
         )
@@ -289,10 +286,9 @@ extension MapViewController {
         if errorCode == 403 {
             viewModel.goToSetting()
         } else {
-            viewModel.alertState.accept(
-                .init(
+            AlertManager.shared.present(
+                state: .init(
                     title: "지도 불러오기를 실패했어요\n 다시 시도해주세요",
-                    alertType: .popup,
                     closeAction: {
                         self.viewModel.navigationPopViewControllerRelay.accept(Void())
                     }

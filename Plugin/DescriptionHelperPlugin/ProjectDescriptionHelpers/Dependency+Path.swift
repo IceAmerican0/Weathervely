@@ -42,4 +42,11 @@ extension Dep {
             path: .relativeToRoot("Platform/ResourcePackage")
         )
     }
+    
+    public static func alertPath() -> Dep {
+        .project(
+            target: "WVAlert",
+            path: .relativeToRoot("Platform/WVAlert")
+        )
+    }
 }

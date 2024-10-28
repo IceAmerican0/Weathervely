@@ -5,8 +5,8 @@
 //  Created by 박성준 on 2023/07/16.
 //
 
-import DesignSystem
 import UIKit
+import RxRelay
 
 public protocol ViewModelBusinessLogic: AnyObject {}
 
@@ -14,8 +14,6 @@ public protocol ViewModelable: AnyObject {}
 
 public class RxBaseViewModel: BaseDisposebag, ViewModelable {
     let bag = DisposeBag()
-    /// 알럿 / 토스트 정보
-    let alertState = PublishRelay<AlertViewState>()
     
     let viewWillAppearRelay = PublishRelay<Void>()
     let viewDidAppearRelay = PublishRelay<Void>()

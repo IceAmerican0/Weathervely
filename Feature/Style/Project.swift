@@ -11,12 +11,8 @@ let project = Project.build(
                 product: .staticLibrary,
                 sources: [.glob(.relativeToCurrentFile("Sources/**"))],
                 dependencies: [
-                    .SPM.RxDataSources,
-                    .SPM.RxGesture,
-                    .SPM.KeychainAccess,
-                    .Project.Network,
-                    .Project.Platform.DesignSystem
-                ],
+                    .SPM.RxDataSources
+                ] + .FeatureBaseDeps,
                 settings: .settings()
             ))
         ]

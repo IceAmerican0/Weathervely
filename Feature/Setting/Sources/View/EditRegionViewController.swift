@@ -5,17 +5,10 @@
 //  Created by 박성준 on 2023/07/12.
 //
 
-import UIUtil
 import DesignSystem
-import ResourcePackage
 import UIKit
-import PinLayout
-import FlexLayout
-import RxSwift
-import RxCocoa
-import Then
 
-final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> {
+final class EditRegionViewController: RxBaseViewController<EditRegionViewModel>, Toastable {
     private var navigationView = CSNavigationView(.leftButton(.leftArrow_black)).then {
         $0.setTitle("동네 설정")
         $0.addBorder(.bottom, 1, .gray30)
@@ -77,6 +70,11 @@ final class EditRegionViewController: RxBaseViewController<EditRegionViewModel> 
     
     override func viewModelBinding() {
         super.viewModelBinding()
+        
+        viewModel.toastRelay
+            .bind(with: self) { owner, value in
+                owner.presentToast(content: value)
+            }.disposed(by: bag)
         
         viewModel.loadedListRelay
             .asDriver()

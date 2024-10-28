@@ -5,16 +5,8 @@
 //  Created by Khai on 10/1/24.
 //
 
-import UIUtil
 import DesignSystem
-import ResourcePackage
 import UIKit
-import RxSwift
-import RxCocoa
-import FlexLayout
-import PinLayout
-import Then
-import Kingfisher
 
 public final class StyleCardCell: UICollectionViewCell {
     private var nameLabel = LabelMaker(

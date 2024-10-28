@@ -6,11 +6,7 @@
 //
 
 import DesignSystem
-import ResourcePackage
 import UIKit
-import FlexLayout
-import PinLayout
-import Then
 
 public final class StyleTitleCell: UICollectionViewCell {
     private var titleLabel = LabelMaker(

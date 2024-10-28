@@ -5,10 +5,9 @@
 //  Created by Khai on 12/31/23.
 //
 
+import WVAlert
+import Network
 import UIKit
-import RxSwift
-import RxCocoa
-import RxGesture
 
 public protocol HomeViewModelLogic: ViewModelBusinessLogic {
     func loadHome()
@@ -120,11 +119,8 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                 onError: { owner, error in
                     owner.shimmerStatus.accept(true)
                     owner.refreshStatus.accept(false)
-                    owner.alertState.accept(
-                        .init(
-                            title: error.localizedDescription,
-                            alertType: .popup
-                        )
+                    AlertManager.shared.present(
+                        state: .init(title: error.localizedDescription)
                     )
                 }
             ).disposed(by: bag)
@@ -142,10 +138,9 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                 onError: { owner, error in
                     owner.shimmerStatus.accept(true)
                     owner.refreshStatus.accept(false)
-                    owner.alertState.accept(
-                        .init(
+                    AlertManager.shared.present(
+                        state: .init(
                             title: error.localizedDescription,
-                            alertType: .popup,
                             closeAction: { owner.getStyleFilterList() }
                         )
                     )
@@ -171,11 +166,8 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                     owner.refreshStatus.accept(false)
                     owner.settingEmptySection()
                     owner.loadHome()
-                    owner.alertState.accept(
-                        .init(
-                            title: error.localizedDescription,
-                            alertType: .popup
-                        )
+                    AlertManager.shared.present(
+                        state: .init(title: error.localizedDescription)
                     )
                 }
             ).disposed(by: bag)
@@ -214,11 +206,8 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                 },
                 onError: { owner, error in
                     owner.refreshStatus.accept(false)
-                    owner.alertState.accept(
-                        .init(
-                            title: error.localizedDescription,
-                            alertType: .popup
-                        )
+                    AlertManager.shared.present(
+                        state: .init(title: error.localizedDescription)
                     )
                 }
             ).disposed(by: bag)

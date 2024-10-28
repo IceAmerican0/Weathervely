@@ -5,17 +5,16 @@
 //  Created by Khai on 2/1/24.
 //
 
-import DesignSystem
 import Network
+import WVAlert
 import UIKit
-import RxSwift
-import RxCocoa
 
 public protocol NotificationListViewModelLogic: ViewModelBusinessLogic {
     func pullToRefresh()
     func getNotiInfo()
     func deleteNoti(row: Int) -> Bool
     
+    var toastRelay: PublishRelay<Bool> { get }
     var shimmerStatus: PublishRelay<Bool> { get }
     var refreshStatus: PublishRelay<Bool> { get }
     var notificationInfo: BehaviorRelay<[NotificationEntity]> { get }
@@ -23,6 +22,8 @@ public protocol NotificationListViewModelLogic: ViewModelBusinessLogic {
 
 final class NotificationListViewModel: RxBaseViewModel, NotificationListViewModelLogic {
     private let dataSource: NotificationDataSourceProtocol = NotificationDataSource()
+    /// toast
+    public var toastRelay: PublishRelay<Bool> = .init()
     /// 첫 실행 shimmer 여부
     public var shimmerStatus: PublishRelay<Bool> = .init()
     /// 새로고침 상태
@@ -50,11 +51,8 @@ final class NotificationListViewModel: RxBaseViewModel, NotificationListViewMode
                     owner.shimmerStatus.accept(true)
                     owner.refreshStatus.accept(false)
                     owner.notificationInfo.accept([])
-                    owner.alertState.accept(
-                        .init(
-                            title: error.localizedDescription,
-                            alertType: .popup
-                        )
+                    AlertManager.shared.present(
+                        state: .init(title: error.localizedDescription)
                     )
                 }
             ).disposed(by: bag)
@@ -67,20 +65,12 @@ final class NotificationListViewModel: RxBaseViewModel, NotificationListViewMode
             .subscribe(
                 with: self,
                 onNext: { owner, _ in
-                    owner.alertState.accept(
-                        .init(
-                            title: "알림이 삭제됐어요",
-                            alertType: .toast
-                        )
-                    )
+                    owner.toastRelay.accept("알림이 삭제됐어요")
                     state = true
                 },
                 onError: { owner, error in
-                    owner.alertState.accept(
-                        .init(
-                            title: error.localizedDescription,
-                            alertType: .popup
-                        )
+                    AlertManager.shared.present(
+                        state: .init(title: error.localizedDescription)
                     )
                     state = false
                 }

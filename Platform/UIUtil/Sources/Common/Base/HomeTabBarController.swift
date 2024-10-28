@@ -5,6 +5,7 @@
 //  Created by Khai on 10/16/23.
 //
 
+import ResourcePackage
 import UIKit
 
 public final class HomeTabBarController: UITabBarController {

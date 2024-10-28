@@ -27,13 +27,13 @@ public struct TenDayForecastData: Codable {
 }
 
 public struct TenDayForecastInfo: Codable {
-    let date: String
-    let minTemp: Int
-    let maxTemp: Int
-    let weatherAM: String
-    let weatherPM: String
-    let rainAM: Int
-    let rainPM: Int
+    public let date: String
+    public let minTemp: Int
+    public let maxTemp: Int
+    public let weatherAM: String
+    public let weatherPM: String
+    public let rainAM: Int
+    public let rainPM: Int
     
     enum CodingKeys: String, CodingKey {
         case date, minTemp, maxTemp, weatherAM, weatherPM, rainAM, rainPM

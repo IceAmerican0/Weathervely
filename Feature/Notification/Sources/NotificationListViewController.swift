@@ -6,15 +6,9 @@
 //
 
 import DesignSystem
-import UIUtil
-import ResourcePackage
 import UIKit
-import FlexLayout
-import PinLayout
-import Then
-import RxSwift
 
-final class NotificationListViewController: RxBaseViewController<NotificationListViewModel> {
+public final class NotificationListViewController: RxBaseViewController<NotificationListViewModel>, Toastable {
     private var navigationView = CSNavigationView(.rightButton(.leftArrow_black, .tab_mypage_nor)).then {
         $0.setTitle("알림")
         $0.addBorder(.bottom, 1, .gray30)
@@ -166,6 +160,13 @@ final class NotificationListViewController: RxBaseViewController<NotificationLis
                 
                 cell.selectionStyle = .none
                 cell.configureCellState(state: data)
+            }.disposed(by: bag)
+    }
+    
+    override func viewModelBinding() {
+        viewModel.toastRelay
+            .bind(with: self) { owner, value in
+                owner.presentToast(content: value)
             }.disposed(by: bag)
     }
     

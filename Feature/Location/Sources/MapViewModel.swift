@@ -5,7 +5,7 @@
 //  Created by Khai on 8/30/24.
 //
 
-import UIUtil
+import WVAlert
 import Network
 import UIKit
 import CoreLocation
@@ -89,10 +89,9 @@ public final class MapViewModel: RxBaseViewModel, MapViewModelLogic {
                         closeAction = { owner.navigationPopViewControllerRelay.accept(Void()) }
                     }
                     
-                    owner.alertState.accept(
-                        .init(
+                    AlertManager.shared.present(
+                        state: .init(
                             title: errorString,
-                            alertType: .popup,
                             closeAction: closeAction
                         )
                     )
@@ -109,11 +108,8 @@ public final class MapViewModel: RxBaseViewModel, MapViewModelLogic {
                     owner.updateMainRegion(id: id)
                 },
                 onError : { owner, error in
-                    owner.alertState.accept(
-                        .init(
-                            title: error.localizedDescription,
-                            alertType: .popup
-                        )
+                    AlertManager.shared.present(
+                        state: .init(title: error.localizedDescription)
                     )
                 }
             ).disposed(by: bag)
@@ -125,20 +121,11 @@ public final class MapViewModel: RxBaseViewModel, MapViewModelLogic {
                 with: self,
                 onNext: { owner, _ in
                     userDefault.set(owner.addressInfo.dong, forKey: UserDefaultKey.dong.rawValue)
-                    owner.alertState.accept(
-                        .init(
-                            title: "현재 동네가 \(owner.addressInfo.dong ?? "")(으)로 변경됐어요",
-                            alertType: .toast
-                        )
-                    )
                     owner.navigationPopViewControllerRelay.accept(Void())
                 },
                 onError: { owner, error in
-                    owner.alertState.accept(
-                        .init(
-                            title: error.localizedDescription,
-                            alertType: .popup
-                        )
+                    AlertManager.shared.present(
+                        state: .init(title: error.localizedDescription)
                     )
             })
             .disposed(by: bag)

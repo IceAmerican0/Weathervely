@@ -8,13 +8,6 @@
 import UIKit
 
 public struct AlertViewState {
-    public enum AlertType {
-        /// 토스트
-        case toast
-        /// 알럿창
-        case popup
-    }
-    
     public enum HapticType {
         case success
         case error
@@ -25,7 +18,6 @@ public struct AlertViewState {
     
     public var title: String
     public var message: String?
-    public let alertType: AlertType
     public let closeAction: AlertActionHandler?
     public let buttonListState: AlertButtonListState
     public let hapticType: HapticType
@@ -33,14 +25,12 @@ public struct AlertViewState {
     public init(
         title: String,
         message: String? = nil,
-        alertType: AlertType,
         closeAction: AlertActionHandler? = nil,
         buttonListState: AlertButtonListState = .single,
         hapticType: HapticType = .impact
     ) {
         self.title = title
         self.message = message
-        self.alertType = alertType
         self.closeAction = closeAction
         self.buttonListState = buttonListState
         self.hapticType = hapticType

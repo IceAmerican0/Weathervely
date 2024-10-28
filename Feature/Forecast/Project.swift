@@ -10,12 +10,7 @@ let project = Project.build(
                 name: "Forecast",
                 product: .staticLibrary,
                 sources: [.glob(.relativeToCurrentFile("Sources/**"))],
-                dependencies: [
-                    .SPM.RxCocoa,
-                    .SPM.RxRelay,
-                    .Project.Network,
-                    .Project.Platform.DesignSystem
-                ],
+                dependencies: .FeatureBaseDeps,
                 settings: .settings()
             ))
         ]

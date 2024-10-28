@@ -6,10 +6,10 @@
 //
 
 import ResourcePackage
-import UIKit
+import Then
 import FlexLayout
 import PinLayout
-import Then
+import UIKit
 
 public final class BannerCell: UICollectionViewCell {
      private var bannerImageView = UIImageView().then {

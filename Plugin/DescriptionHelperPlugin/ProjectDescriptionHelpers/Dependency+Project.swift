@@ -9,7 +9,8 @@ extension Dep {
         public static let Platform: PlatformBP<Dep> = PlatformBP(
             DesignSystem: designPath(),
             UIUtil: uiUtilPath(),
-            ResourcePackage: resourcePath()
+            ResourcePackage: resourcePath(),
+            WVAlert: alertPath()
         )
         
         public static let Feature: FeatureBP<Dep> = FeatureBP(
@@ -29,6 +30,7 @@ public struct PlatformBP<WVType> {
     public let DesignSystem: WVType
     public let UIUtil: WVType
     public let ResourcePackage: WVType
+    public let WVAlert: WVType
 }
 
 public struct FeatureBP<WVType> {

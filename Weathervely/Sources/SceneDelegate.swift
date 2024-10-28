@@ -5,9 +5,10 @@
 //  Created by 최수훈 on 2023/06/13.
 //
 
-import DesignSystem
+import WVAlert
 import Network
 import UIKit
+import OnBoard
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
@@ -105,7 +106,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func showAlert(title: String, action: @escaping () -> Void) {
         let state: AlertViewState = .init(
             title: title,
-            alertType: .popup,
             closeAction: action
         )
         

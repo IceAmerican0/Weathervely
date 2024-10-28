@@ -11,9 +11,8 @@ let project = Project.build(
                 product: .staticLibrary,
                 sources: [.glob(.relativeToCurrentFile("Sources/**"))],
                 dependencies: [
-                    .SPM.KakaoMapsSDK,
-                    .Project.Platform.DesignSystem
-                ],
+                    .SPM.KakaoMapsSDK
+                ] + .FeatureBaseDeps,
                 settings: .settings()
             ))
         ]
