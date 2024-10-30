@@ -27,6 +27,26 @@ private extension TargetScript {
         ]
     )
     
+    static let DsymRunScript = ProjectDescription.TargetScript.post(
+        script: """
+                EXEC_PATH="$SRCROOT/../.build/checkouts/firebase-ios-sdk/Crashlytics/upload-symbols"
+                PLIST_PATH="${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist"
+
+                # if [ "${CONFIGURATION}" != "Debug" ]; then
+                    if [ -f "$EXEC_PATH" ] && [ -f "$PLIST_PATH" ]; then
+                        echo "Submit Debug Symbol to Firebase Crashlytics"
+                        "$EXEC_PATH" -gsp "$PLIST_PATH" -p ios "${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}"
+                    else
+                        echo "Fail to Submit Debug Symbol. Please check upload-symbols.exec or GoogleService-Info.plist files path."
+                    fi
+                # else
+                #     echo "Executing Debug Mode, Uploading Debug Symbol Disabled"
+                # fi
+
+                """,
+        name: "Dsym Run Script"
+    )
+    
     static let BuildNumberRunScript = ProjectDescription.TargetScript.post(
         script: """
                 BUILD_NUMBER_WITH_CURRENT_DATE=$(date "+%Y.%m.%d.%H.%M")
