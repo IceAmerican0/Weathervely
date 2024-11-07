@@ -5,6 +5,10 @@ extension Settings {
         "GCC_PREPROCESSOR_DEFINITIONS"
     ])
     
+    public static let basicSetting: Settings = .settings(
+        defaultSettings: defaultSetting
+    )
+    
     public static let baseSetting = Settings.settings(
         base: SettingsDictionary()
             .automaticCodeSigning(devTeam: "$(DEVELOPMENT_TEAM)")

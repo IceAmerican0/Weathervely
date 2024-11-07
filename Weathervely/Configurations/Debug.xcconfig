@@ -11,10 +11,10 @@
 #include "Common.xcconfig"
 
 // Signing
-CODE_SIGN_IDENTITY = Apple Development: Sung June Park (4B9B824BU4)
+CODE_SIGN_IDENTITY = iPhone Developer: Sung June Park (4B9B824BU4)
 
 // Provisioning
-PROVISIONING_PROFILE = Weathervely_FCM_241104_Develop
+PROVISIONING_PROFILE = Weathervely_251106
 
 // 앱 이름
 INFOPLIST_KEY_CFBundleDisplayName = 웨더블리 DEV

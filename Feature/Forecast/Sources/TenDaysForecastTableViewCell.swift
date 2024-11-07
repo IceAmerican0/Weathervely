@@ -6,7 +6,7 @@
 //
 
 import DesignSystem
-import Network
+import WVNetwork
 import UIKit
 
 public final class TenDaysForecastTableViewCell: UITableViewCell {

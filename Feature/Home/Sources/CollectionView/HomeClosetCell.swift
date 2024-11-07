@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import DesignSystem
+import WVNetwork
 
 public final class HomeClosetCell: UICollectionViewCell {
     let cloth = UIImageView().then {
@@ -55,8 +57,8 @@ public final class HomeClosetCell: UICollectionViewCell {
         }
     }
     
-    func configureCellState(state: ClosetInfo) {
-        cloth.setKF(urlString: state.closetImageUrl, placeHolder: .image_indicator) { [weak self] _ in
+    func configureCellState(imageURL: String) {
+        cloth.setKF(urlString: imageURL, placeHolder: .image_indicator) { [weak self] _ in
             guard let self else { return }
             self.layoutIfNeeded()
         }

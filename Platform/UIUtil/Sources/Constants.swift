@@ -44,13 +44,13 @@ public enum Constants {
         fetchValue(for: "TEST_SERVER_URL") as? String ?? ""
     }
     /// Screen Width
-    static let screenWidth = (UIApplication.shared.connectedScenes.first as? UIWindowScene)!.screen.bounds.size.width
+    public static let screenWidth = (UIApplication.shared.connectedScenes.first as? UIWindowScene)!.screen.bounds.size.width
     /// Screen Height
-    static let screenHeight = UIScreen.main.bounds.height
+    public static let screenHeight = UIScreen.main.bounds.height
     
     
     /// KeychainKey
-    struct KeychainKey {
+    public struct KeychainKey {
         static let production = "com.redthree.weathervely"
         static let develop = "com.redthree.weathervelytest"
     }

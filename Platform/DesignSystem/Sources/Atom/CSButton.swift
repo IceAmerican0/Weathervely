@@ -12,22 +12,20 @@ import RxGesture
 import RxSwift
 import Then
 
+// 버튼 크기에 따라
+public enum ButtonScale {
+    case standard
+    case compact
+}
+
+// 버튼 색상에 따라
+public enum ButtonStyle {
+    case violet600
+    case violet100
+    case white // -> border
+}
+
 public final class CSButton: UIButton {
-    
-    // MARK: - Control Property
-    // 버튼 크기에 따라
-    enum ButtonScale {
-        case standard
-        case compact
-    }
-    
-    // 버튼 색상에 따라
-    enum ButtonStyle {
-        case violet600
-        case violet100
-        case white // -> border
-    }
-    
     var bag = DisposeBag()
     
     var scale: ButtonScale
@@ -39,7 +37,7 @@ public final class CSButton: UIButton {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    init(_ scale: ButtonScale, style: ButtonStyle) {
+    public init(_ scale: ButtonScale, style: ButtonStyle) {
         self.scale = scale
         self.style = style
         super.init(frame: .zero)
@@ -48,7 +46,7 @@ public final class CSButton: UIButton {
         setIndicator()
     }
     
-    required init?(coder: NSCoder) {
+    public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     

@@ -7,6 +7,7 @@
 
 import DesignSystem
 import UIKit
+import FlexLayout
 
 public final class NoItemCell: UICollectionViewCell {
     
@@ -31,7 +32,7 @@ public final class NoItemCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
+    public override func layoutSubviews() {
         super.layoutSubviews()
         contentView.pin.all()
         contentView.flex.layout()

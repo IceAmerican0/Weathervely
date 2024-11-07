@@ -6,7 +6,9 @@
 //
 
 import DesignSystem
+import UIUtil
 import UIKit
+import RxSwift
 import RxDataSources
 import RxGesture
 
@@ -46,7 +48,7 @@ public final class StyleViewController: RxBaseViewController<StyleViewModel> {
         viewModel.getTypes()
     }
     
-    override func layout() {
+    public override func layout() {
         super.layout()
         
         container.flex.define {
@@ -59,7 +61,7 @@ public final class StyleViewController: RxBaseViewController<StyleViewModel> {
         container.addSubview(headerView)
     }
     
-    override func viewBinding() {
+    public override func viewBinding() {
         super.viewBinding()
         
         collectionView.rx.itemSelected
@@ -76,7 +78,7 @@ public final class StyleViewController: RxBaseViewController<StyleViewModel> {
             ).disposed(by: bag)
     }
     
-    override func viewModelBinding() {
+    public override func viewModelBinding() {
         super.viewModelBinding()
         
         viewModel.dataSource
@@ -149,7 +151,11 @@ extension StyleViewController: UICollectionViewDelegate {
                     return cell
                 case .card(let info):
                     return collectionView.dequeueCell(withType: StyleCardCell.self, for: indexPath).then {
-                        $0.configure(info: info)
+                        let cellState = StyleCardCellState(
+                            closetName: info.closetName,
+                            imageURL: info.closetImageUrl
+                        )
+                        $0.configure(info: cellState)
                     }
                 default:
                     return UICollectionViewCell()

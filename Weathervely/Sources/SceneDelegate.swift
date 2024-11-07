@@ -6,9 +6,10 @@
 //
 
 import WVAlert
-import Network
+import WVNetwork
+import UIUtil
 import UIKit
-import OnBoard
+import RxSwift
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
@@ -109,8 +110,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             closeAction: action
         )
         
-        AlertView(state: state).show(on: self.window ?? UIWindow())
-        window?.makeKeyAndVisible()
+        AlertManager.shared.present(state: state)
     }
     
     /// 앱스토어 열기 후 앱 종료

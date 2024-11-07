@@ -6,17 +6,19 @@
 //
 
 import DesignSystem
+import UIUtil
 import UIKit
+import FlexLayout
 import RxSwift
 import RxDataSources
 
-final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewModel> {
+public final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewModel> {
     private let shimmerView = DetailShimmerView()
     
     private let contentView = UIView()
     
     let navigationBar = CSNavigationView(
-        .rightButton(UIImage.leftArrow_black, UIImage.home_top)
+        .both(UIImage.leftArrow_black, UIImage.home_top)
     ).then {
         $0.setTitle(DiffTempHeaderComment.detailTitle.rawValue)
         $0.addBorder(.bottom, 1, .gray30)
@@ -34,17 +36,12 @@ final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewMod
     }
     lazy var dataSource = self.setParentCollectionView()
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.fetchData()
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        container.flex.layout()
-    }
-    
-    override func layout() {
+    public override func layout() {
         super.layout()
         container.flex.define {
             $0.addItem(navigationBar)
@@ -55,7 +52,7 @@ final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewMod
         }
     }
     
-    override func viewBinding() {
+    public override func viewBinding() {
         super.viewBinding()
         parentCollectionView.rx
             .setDelegate(self)
@@ -79,7 +76,7 @@ final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewMod
             }.disposed(by: bag)
     }
     
-    override func viewModelBinding() {
+    public override func viewModelBinding() {
         super.viewModelBinding()
         
         viewModel.detailViewSections

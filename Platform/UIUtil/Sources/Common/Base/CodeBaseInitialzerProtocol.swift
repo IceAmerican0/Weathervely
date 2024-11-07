@@ -7,19 +7,19 @@
 
 import Foundation
 
-protocol CodeBaseInitializerProtocol {
+public protocol CodeBaseInitializerProtocol {
     func codeBaseInitializer()
     func layout()
     func bind()
 }
 
 extension CodeBaseInitializerProtocol {
-    func codeBaseInitializer() {
+    public func codeBaseInitializer() {
         layout()
         bind()
     }
 
-    func layout() { }
+    public func layout() { }
 
-    func bind() { }
+    public func bind() { }
 }

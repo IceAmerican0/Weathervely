@@ -6,11 +6,12 @@
 //
 
 import DesignSystem
+import UIUtil
 import UIKit
 import RxSwift
 
-final class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastViewModel> {
-    private var navigationView = CSNavigationView(.leftButton(.navi_back_white)).then {
+public final class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastViewModel> {
+    private var navigationView = CSNavigationView(.leftOnly(.navi_back_white)).then {
         $0.backgroundColor = .clear
         $0.setTitle("10일간 예보")
         $0.setTitleColor(color: .white)
@@ -55,7 +56,7 @@ final class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastV
         $0.contentMode = .scaleAspectFit
     }
     
-    private lazy var tableView = UITableView(
+    private lazy var forecastTableView = UITableView(
         frame: .zero,
         style: .plain
     ).then {
@@ -70,12 +71,12 @@ final class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastV
         $0.register(withType: TenDaysForecastTableViewCell.self)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.getForecastData()
     }
     
-    override func layout() {
+    public override func layout() {
         super.layout()
         
         container.flex.define {
@@ -95,12 +96,12 @@ final class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastV
                     }
                     weather.addItem(weatherImage).marginRight(20).width(110).height(74)
                 }
-                $0.addItem(tableView).marginTop(16).marginHorizontal(20).marginBottom(20).grow(1)
+                $0.addItem(forecastTableView).marginTop(16).marginHorizontal(20).marginBottom(20).grow(1)
             }.display(.none)
         }
     }
     
-    override func viewModelBinding() {
+    public override func viewModelBinding() {
         super.viewModelBinding()
         
         navigationView.leftButtonDidTapRelay
@@ -138,7 +139,7 @@ final class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastV
             ).disposed(by: bag)
         
         viewModel.forecastInfo
-            .bind(to: tableView.rx.items(
+            .bind(to: forecastTableView.rx.items(
                 cellIdentifier: TenDaysForecastTableViewCell.identifier,
                 cellType: TenDaysForecastTableViewCell.self
             )) { _, data, cell in
@@ -155,7 +156,7 @@ final class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastV
 }
 
 extension TenDaysForeCastViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    public func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             cell.alpha = 0.4
         }

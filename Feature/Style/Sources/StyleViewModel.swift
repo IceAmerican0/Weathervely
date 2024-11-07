@@ -6,8 +6,11 @@
 //
 
 import WVAlert
-import Network
+import UIUtil
+import WVNetwork
 import UIKit
+import RxSwift
+import RxCocoa
 
 public protocol StyleViewModelLogic: ViewModelBusinessLogic {
     func getTypes()

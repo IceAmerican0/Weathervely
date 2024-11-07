@@ -6,10 +6,12 @@
 //
 
 import DesignSystem
+import UIUtil
 import UIKit
+import RxSwift
 
 public final class NotificationListViewController: RxBaseViewController<NotificationListViewModel>, Toastable {
-    private var navigationView = CSNavigationView(.rightButton(.leftArrow_black, .tab_mypage_nor)).then {
+    private var navigationView = CSNavigationView(.both(.leftArrow_black, .tab_mypage_nor)).then {
         $0.setTitle("알림")
         $0.addBorder(.bottom, 1, .gray30)
     }
@@ -41,7 +43,7 @@ public final class NotificationListViewController: RxBaseViewController<Notifica
         $0.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
     }
     
-    private lazy var tableView = UITableView(
+    private lazy var listTableView = UITableView(
         frame: .zero,
         style: .plain
     ).then {
@@ -62,7 +64,7 @@ public final class NotificationListViewController: RxBaseViewController<Notifica
         NotificationCenter.default.removeObserver(self, name: .returnFromSetting, object: nil)
     }
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         
         NotificationCenter.default.addObserver(
@@ -82,7 +84,7 @@ public final class NotificationListViewController: RxBaseViewController<Notifica
         viewModel.getNotiInfo()
     }
 
-    override func layout() {
+    public override func layout() {
         super.layout()
         
         container.flex.define {
@@ -93,11 +95,11 @@ public final class NotificationListViewController: RxBaseViewController<Notifica
                 $0.addItem(zeroNotiLabel).marginTop(10)
                 $0.addItem(notiButton).alignSelf(.stretch).marginTop(40).marginHorizontal(52).height(48).display(.none)
             }.display(.none)
-            $0.addItem(tableView).marginTop(16).grow(1).display(.none)
+            $0.addItem(listTableView).marginTop(16).grow(1).display(.none)
         }
     }
     
-    override func viewBinding() {
+    public override func viewBinding() {
         super.viewBinding()
         
         viewModel.shimmerStatus
@@ -131,20 +133,20 @@ public final class NotificationListViewController: RxBaseViewController<Notifica
             .bind(with: self) { owner, refreshing in
                 switch refreshing {
                 case true:
-                    owner.tableView.refreshControl?.beginRefreshing()
+                    owner.listTableView.refreshControl?.beginRefreshing()
                 case false:
-                    owner.tableView.refreshControl?.endRefreshing()
+                    owner.listTableView.refreshControl?.endRefreshing()
                 }
             }.disposed(by: bag)
         
-        tableView.rx.itemSelected
+        listTableView.rx.itemSelected
             .bind(with: self) { owner, _ in
                 owner.viewModel.navigationPushToPreviousViewControllerRelay.accept([])
             }.disposed(by: bag)
         
         viewModel.notificationInfo
             .observe(on: MainScheduler.instance)
-            .bind(to: tableView.rx.items(
+            .bind(to: listTableView.rx.items(
                 cellIdentifier: NotificationListTableViewCell.identifier,
                 cellType: NotificationListTableViewCell.self
             )) { row, data, cell in
@@ -163,7 +165,7 @@ public final class NotificationListViewController: RxBaseViewController<Notifica
             }.disposed(by: bag)
     }
     
-    override func viewModelBinding() {
+    public override func viewModelBinding() {
         viewModel.toastRelay
             .bind(with: self) { owner, value in
                 owner.presentToast(content: value)
@@ -192,10 +194,10 @@ public final class NotificationListViewController: RxBaseViewController<Notifica
     private func updateView(status: Bool) {
         if viewModel.notificationInfo.value.count > 0 {
             zeroNotiView.flex.display(.none)
-            tableView.flex.display(.flex)
+            listTableView.flex.display(.flex)
         } else {
             zeroNotiView.flex.display(.flex)
-            tableView.flex.display(.none)
+            listTableView.flex.display(.none)
             
             if !UserDefaultManager.shared.pushAgreement {
                 notiButton.setTitle("알림 받기", for: .normal)
@@ -208,7 +210,7 @@ public final class NotificationListViewController: RxBaseViewController<Notifica
         }
         
         zeroNotiView.flex.markDirty()
-        tableView.flex.markDirty()
+        listTableView.flex.markDirty()
         container.flex.layout()
     }
     
@@ -219,7 +221,7 @@ public final class NotificationListViewController: RxBaseViewController<Notifica
 }
 
 extension NotificationListViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    public func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: nil, handler: { [weak self] _, _, handler in
             guard let self else { return }
             handler(self.viewModel.deleteNoti(row: indexPath.row))
@@ -230,7 +232,7 @@ extension NotificationListViewController: UITableViewDelegate {
         return UISwipeActionsConfiguration(actions: [deleteAction])
     }
     
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    public func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         tableView.dequeueHeaderFooterView(withType: NotificationListTableFooterView.self)
     }
 }

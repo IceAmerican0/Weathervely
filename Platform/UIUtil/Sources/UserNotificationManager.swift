@@ -59,7 +59,7 @@ public class UserNotificationManager {
     }
 }
 
-extension Notification.Name {
+public extension Notification.Name {
     static let pushReceived = Notification.Name("pushReceived")
     static let returnFromSetting = Notification.Name("returnFromSetting")
 }

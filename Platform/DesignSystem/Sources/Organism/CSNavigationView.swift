@@ -12,6 +12,13 @@ import PinLayout
 import RxCocoa
 import Then
 
+public enum NavigationButtonLayout {
+    /// leftButton
+    case leftOnly(UIImage)
+    /// leftButton & rightButton
+    case both(UIImage, UIImage)
+}
+
 public final class CSNavigationView: UIView {
     
     // MARK: - UI Component
@@ -34,29 +41,21 @@ public final class CSNavigationView: UIView {
         $0.imageView?.contentMode = .scaleAspectFill
     }
     
-    // MARK: - Control Property
-    enum ButtonLayout {
-        /// leftButton
-        case leftButton(UIImage)
-        /// leftButton & rightButton
-        case rightButton(UIImage, UIImage)
-    }
-    
-    var leftButtonDidTapRelay: Driver<Void> {
+    public var leftButtonDidTapRelay: Driver<Void> {
         self.leftButton.rx.tap.asDriver()
     }
     
-    var rightButtonDidTapRelay: Driver<Void> {
+    public var rightButtonDidTapRelay: Driver<Void> {
         self.rightButton.rx.tap.asDriver()
     }
     
-    init(_ option: ButtonLayout) {
+    public init(_ option: NavigationButtonLayout) {
         super.init(frame: .zero)
         generateButton(option)
         layout()
     }
     
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -81,11 +80,11 @@ public final class CSNavigationView: UIView {
 
 // MARK: Layout
 private extension CSNavigationView {
-    private func generateButton(_ option: ButtonLayout) {
+    private func generateButton(_ option: NavigationButtonLayout) {
         switch option {
-        case .leftButton(let image):
+        case .leftOnly(let image):
             leftButton.setImage(image, for: .normal)
-        case .rightButton(let leftImage, let rightImage):
+        case .both(let leftImage, let rightImage):
             leftButton.setImage(leftImage, for: .normal)
             
             rightButton.setImage(rightImage, for: .normal)

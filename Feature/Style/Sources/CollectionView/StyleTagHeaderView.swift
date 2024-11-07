@@ -5,7 +5,7 @@
 //  Created by Khai on 10/21/24.
 //
 
-import Network
+import WVNetwork
 import UIKit
 import FlexLayout
 import PinLayout

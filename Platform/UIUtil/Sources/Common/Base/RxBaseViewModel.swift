@@ -6,32 +6,33 @@
 //
 
 import UIKit
+import RxSwift
 import RxRelay
 
 public protocol ViewModelBusinessLogic: AnyObject {}
 
 public protocol ViewModelable: AnyObject {}
 
-public class RxBaseViewModel: BaseDisposebag, ViewModelable {
-    let bag = DisposeBag()
+open class RxBaseViewModel: BaseDisposebag, ViewModelable {
+    public let bag = DisposeBag()
     
-    let viewWillAppearRelay = PublishRelay<Void>()
-    let viewDidAppearRelay = PublishRelay<Void>()
-    let viewWillDisAppearRelay = PublishRelay<Void>()
-    let viewDidDisAppearRelay = PublishRelay<Void>()
+    public let viewWillAppearRelay = PublishRelay<Void>()
+    public let viewDidAppearRelay = PublishRelay<Void>()
+    public let viewWillDisAppearRelay = PublishRelay<Void>()
+    public let viewDidDisAppearRelay = PublishRelay<Void>()
     
-    let navigationPoptoRootRelay = PublishRelay<Void>()
-    let navigationPopToSelfRelay = PublishRelay<Void>()
-    let navigationPopViewControllerRelay = PublishRelay<Void>()
-    
-    let navigationPushViewControllerRelay = PublishRelay<UIViewController?>()
-    let navigationPushToPreviousViewControllerRelay = PublishRelay<[UIViewController]?>()
-    let navigationSetRootPushViewControllerRelay = PublishRelay<UIViewController?>()
-    let presentViewControllerWithAnimationRelay = PublishRelay<UIViewController?>()
-    let presentViewControllerNoAnimationRelay = PublishRelay<UIViewController?>()
-    let dismissSelfWithAnimationRelay = PublishRelay<Void>()
-    let dismissSelfNoAnimationRelay = PublishRelay<Void>()
-    let dismissSelfAnimationClosureRelay = PublishRelay<(() -> Void)>()
+    public let navigationPoptoRootRelay = PublishRelay<Void>()
+    public let navigationPopToSelfRelay = PublishRelay<Void>()
+    public let navigationPopViewControllerRelay = PublishRelay<Void>()
+
+    public let navigationPushViewControllerRelay = PublishRelay<UIViewController?>()
+    public let navigationPushToPreviousViewControllerRelay = PublishRelay<[UIViewController]?>()
+    public let navigationSetRootPushViewControllerRelay = PublishRelay<UIViewController?>()
+    public let presentViewControllerWithAnimationRelay = PublishRelay<UIViewController?>()
+    public let presentViewControllerNoAnimationRelay = PublishRelay<UIViewController?>()
+    public let dismissSelfWithAnimationRelay = PublishRelay<Void>()
+    public let dismissSelfNoAnimationRelay = PublishRelay<Void>()
+    public let dismissSelfAnimationClosureRelay = PublishRelay<(() -> Void)>()
     
     public init() {
         baseBinding()

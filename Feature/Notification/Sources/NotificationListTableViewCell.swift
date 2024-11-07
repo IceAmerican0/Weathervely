@@ -8,7 +8,7 @@
 import DesignSystem
 import UIUtil
 import ResourcePackage
-import Network
+import WVNetwork
 import UIKit
 import FlexLayout
 import PinLayout

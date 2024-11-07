@@ -5,18 +5,19 @@
 //  Created by 최수훈 on 6/6/24.
 //
 
+import WVNetwork
 import Foundation
 import RxDataSources
 
-typealias Item = DetailSectionItem
+public typealias Item = DetailSectionItem
 
-enum DetailSectionItem: Equatable, IdentifiableType {
+public enum DetailSectionItem: Equatable, IdentifiableType {
     case mainDetail(SelectedClosetInfo)
     case withItem(WithItemsInfo)
     case firstRow(RowInfo)
     case secondRow(RowInfo)
     
-    var identity: String {
+    public var identity: String {
         switch self {
         case .mainDetail(let item):
             return "mainDetail-\(item.identity)"
@@ -30,7 +31,7 @@ enum DetailSectionItem: Equatable, IdentifiableType {
     }
 }
 
-enum DetailViewSectionModel: AnimatableSectionModelType {
+public enum DetailViewSectionModel: AnimatableSectionModelType {
     case mainDetail(items: [Item])
     case withItem(items: [Item])
     case warmFirst(items: [Item])
@@ -38,7 +39,7 @@ enum DetailViewSectionModel: AnimatableSectionModelType {
     case coolFirst(items: [Item])
     case coolSecond(items: [Item])
     
-    var identity: String {
+    public var identity: String {
         switch self {
         case .mainDetail: return "mainDetail"
         case .withItem: return "withItem"
@@ -49,7 +50,7 @@ enum DetailViewSectionModel: AnimatableSectionModelType {
         }
     }
     
-    var items: [Item] {
+    public var items: [Item] {
         switch self {
         case .mainDetail(let items): return items
         case .withItem(let items): return items
@@ -62,7 +63,7 @@ enum DetailViewSectionModel: AnimatableSectionModelType {
 }
 
 extension DetailViewSectionModel: SectionModelType, Equatable {    
-    init(original: DetailViewSectionModel, items: [Item]) {
+    public init(original: DetailViewSectionModel, items: [Item]) {
         switch original {
         case .mainDetail:
             self = .mainDetail(items: items.filter { if case .mainDetail = $0 { return true } else { return false } })

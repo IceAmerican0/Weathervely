@@ -14,14 +14,14 @@ public protocol Toastable {
 
 public extension Toastable where Self: UIViewController {
     func presentToast(content: String) {
-        let toast = ToastView(text: state.title)
+        let toast = ToastView(text: content)
         view.addSubview(toast)
         
         NSLayoutConstraint.activate([
-            toast.centerXAnchor.constraint(equalTo: superView.centerXAnchor),
-            toast.leadingAnchor.constraint(greaterThanOrEqualTo: superView.leadingAnchor, constant: 15),
-            toast.trailingAnchor.constraint(lessThanOrEqualTo: superView.trailingAnchor, constant: -15),
-            toast.bottomAnchor.constraint(equalTo: superView.safeAreaLayoutGuide.bottomAnchor, constant: -30),
+            toast.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            toast.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 15),
+            toast.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -15),
+            toast.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
             toast.heightAnchor.constraint(lessThanOrEqualToConstant: 58)
         ])
     }

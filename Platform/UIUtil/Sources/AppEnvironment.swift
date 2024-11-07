@@ -11,7 +11,7 @@ public enum EnvironmentType: String, CaseIterable {
     case production
     case develop
     
-    var baseURL: URL {
+    public var baseURL: URL {
         let version = Constants.bundleShortVersion.first ?? "2"
         
         return switch self {

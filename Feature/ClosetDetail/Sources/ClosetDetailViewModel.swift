@@ -6,13 +6,13 @@
 //
 
 import UIUtil
-import Network
+import WVNetwork
 import Foundation
 import RxSwift
 import RxCocoa
 import SafariServices
 
-final class ClosetDetailViewModel: RxBaseViewModel {
+public final class ClosetDetailViewModel: RxBaseViewModel {
     
     private let detailDataSource = DetailDataSource()
     
@@ -75,18 +75,18 @@ final class ClosetDetailViewModel: RxBaseViewModel {
     public func bindDiffTemSection() {
            
         Observable.combineLatest(mainDetailSection, withItemSection, warmFirstSection, warmSecondSection, coolFirstSection, coolSecondSection).map { mainDetail, withItem, warmFirst, warmSecond, coolFirst, coolSecond -> [DetailViewSectionModel] in
-            let sections: [DetailViewSectionModel] = [mainDetail!,
-                                                      withItem!,
-                                                      warmFirst!,
-                                                      warmSecond!,
-                                                      coolFirst!,
-                                                      coolSecond!
+            let sections: [DetailViewSectionModel] = [
+                mainDetail!,
+                withItem!,
+                warmFirst!,
+                warmSecond!,
+                coolFirst!,
+                coolSecond!
             ]
             return sections
         }
         .bind(to: detailViewSections)
             .disposed(by: bag)
-
     }
 
     public func getClosetDetail(closetId: Int, tempId: Int) {

@@ -6,8 +6,8 @@
 //
 
 import UIKit
-import FlexLayout
-import PinLayout
+import DesignSystem
+import UIUtil
 
 public final class HomeShimmerView: UIView {
     private let topShimmer = ShimmerView()

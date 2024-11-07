@@ -20,7 +20,7 @@ public final class FilterButton: UIButton {
     
     var title: String?
     
-    init(filterType: FilterType) {
+    public init(filterType: FilterType) {
         self.filterType = filterType
         super.init(frame: .zero)
         layout()

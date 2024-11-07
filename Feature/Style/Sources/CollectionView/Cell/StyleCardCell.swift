@@ -8,6 +8,11 @@
 import DesignSystem
 import UIKit
 
+public struct StyleCardCellState {
+    let closetName: String
+    let imageURL: String
+}
+
 public final class StyleCardCell: UICollectionViewCell {
     private var nameLabel = LabelMaker(
         font: UIFont.body_5_M,
@@ -54,10 +59,9 @@ public final class StyleCardCell: UICollectionViewCell {
         }
     }
     
-    func configure(info: ClosetInfo?) {
-        guard let info else { return }
+    public func configure(info: StyleCardCellState) {
         nameLabel.text = info.closetName
-        imageView.setKF(urlString: info.closetImageUrl, placeHolder: UIImage.image_indicator) { [weak self] _ in
+        imageView.setKF(urlString: info.imageURL, placeHolder: UIImage.image_indicator) { [weak self] _ in
             guard let self else { return }
             imageViewWrapper.layoutIfNeeded()
         }

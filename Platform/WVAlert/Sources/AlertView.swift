@@ -7,8 +7,9 @@
 
 import DesignSystem
 import UIKit
+import RxSwift
 
-final class AlertView: UIView {
+public final class AlertView: UIView {
     private let dimView = UIView().then {
         $0.backgroundColor = .dim68
     }
@@ -47,7 +48,7 @@ final class AlertView: UIView {
     
     private var state: AlertViewState
     
-    init(state: AlertViewState) {
+    public init(state: AlertViewState) {
         self.state = state
         super.init(frame: UIScreen.main.bounds)
         layout()
@@ -58,7 +59,7 @@ final class AlertView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
+    public override func layoutSubviews() {
         super.layoutSubviews()
         setLayout()
     }

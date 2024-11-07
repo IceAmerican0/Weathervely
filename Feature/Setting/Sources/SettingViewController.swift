@@ -1,0 +1,213 @@
+//
+//  SettingViewController.swift
+//  Weatherbly
+//
+//  Created by 최수훈 on 2023/07/04.
+//
+
+import DesignSystem
+import UIUtil
+import UIKit
+import RxGesture
+import FlexLayout
+import RxSwift
+
+public final class SettingViewController: RxBaseViewController<SettingViewModel>, Toastable {
+    
+    private var titleLabel = LabelMaker(
+        font: .title_3_B,
+        alignment: .center
+    ).make(text: "마이페이지")
+    
+    private let topView = UIView().then {
+        $0.backgroundColor = .violet500
+        $0.setCornerRadius(16)
+    }
+    
+    private var profileImage = UIImageView().then {
+        $0.image = .icon_profile
+    }
+    
+    private var nameLabel = LabelMaker(
+        font: .body_2_M,
+        fontColor: .white
+    ).make()
+    
+    private var nameSetButton = UIButton().then {
+        $0.backgroundColor = .white
+        $0.setCornerRadius(5)
+        $0.titleLabel?.font = .body_5_M
+        $0.setTitle("설정", for: .normal)
+        $0.setTitleColor(.violet800, for: .normal)
+    }
+    
+    private let flowLayout = UICollectionViewFlowLayout().then {
+        $0.scrollDirection = .horizontal
+        $0.itemSize = CGSize(
+            width: (Constants.screenWidth - 56) / 2,
+            height: 100
+        )
+        $0.sectionInset = UIEdgeInsets(
+            top: 16, left: 20, bottom: 20, right: 20
+        )
+        $0.minimumLineSpacing = 16
+    }
+    
+    private lazy var collectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: flowLayout
+    ).then {
+        $0.delegate = self
+        $0.dataSource = self
+        $0.showsHorizontalScrollIndicator = false
+        $0.backgroundColor = .clear
+        $0.register(withType: SettingCollectionViewCell.self)
+    }
+    
+    private lazy var tableView = UITableView(
+        frame: .zero,
+        style: .plain
+    ).then {
+        $0.delegate = self
+        $0.bounces = false
+        $0.backgroundColor = .white
+        $0.separatorColor = .gray20
+        $0.separatorInset = UIEdgeInsets(
+            top: 0, left: 20, bottom: 0, right: 20
+        )
+        $0.contentInset.top = 8
+        $0.rowHeight = 51
+        $0.register(withType: SettingTableViewCell.self)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil
+        )
+    }
+    
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        // 알림권한 설정 후 화면 복귀 확인용
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(refresh),
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil
+        )
+    }
+    
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        nameLabel.text = UserDefaultManager.shared.nickname
+        refresh()
+    }
+    
+    public override func layout() {
+        super.layout()
+        
+        container.flex.alignItems(.center).define {
+            $0.addItem(titleLabel).marginTop(11.5)
+            $0.addItem(topView).direction(.row).alignItems(.center).justifyContent(.spaceBetween).marginTop(20).width(Constants.screenWidth - 40).height(68).define { top in
+                top.addItem(profileImage).marginLeft(20).size(24)
+                top.addItem(nameLabel).marginLeft(12).grow(1)
+                top.addItem(nameSetButton).marginRight(20).width(53).height(24)
+            }
+            $0.addItem(collectionView).width(100%).height(136)
+            $0.addItem().backgroundColor(.gray10).width(100%).height(16)
+            $0.addItem(tableView).marginBottom(20).grow(1)
+        }
+    }
+    
+    public override func viewBinding() {
+        super.viewBinding()
+        
+        nameSetButton.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.viewModel.toEditNicknameView()
+            }.disposed(by: bag)
+        
+        viewModel.profileMenuTitle
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                owner.collectionView.reloadData()
+            }.disposed(by: bag)
+        
+        viewModel.menuTitle
+            .bind(to: tableView.rx.items(
+                cellIdentifier: SettingTableViewCell.identifier,
+                cellType: SettingTableViewCell.self
+            )) { _, data, cell in
+                cell.configureCellState(state: data)
+                
+                cell.toggleTap
+                    .drive(with: self) { owner, selected in
+                        owner.viewModel.pushSetting(selected: selected)
+                        owner.collectionView.reloadData()
+                    }.disposed(by: cell.bag)
+            }.disposed(by: bag)
+        
+        collectionView.rx.itemSelected
+            .bind(with: self) { owner, indexPath in
+                owner.viewModel.didTapCollectionViewCell(at: indexPath.item)
+            }.disposed(by: bag)
+        
+        tableView.rx.itemSelected
+            .bind(with: self) { owner, indexPath in
+                owner.viewModel.didTapTableViewCell(at: indexPath.item)
+            }.disposed(by: bag)
+        
+        titleLabel.rx.tapGesture()
+            .when(.recognized)
+            .buffer(
+                timeSpan: .seconds(3),
+                count: 5,
+                scheduler: MainScheduler.instance
+            )
+            .filter { $0.count == 5 }
+            .bind(with: self) { owner, _ in
+                owner.viewModel.showHiddenAlert()
+            }.disposed(by: bag)
+    }
+    
+    public override func viewModelBinding() {
+        super.viewModelBinding()
+        
+        viewModel.toastRelay
+            .bind(with: self) { owner, value in
+                owner.presentToast(content: value)
+            }.disposed(by: bag)
+    }
+    
+    @objc func refresh() {
+        tableView.reloadData()
+        collectionView.reloadData()
+    }
+}
+
+// MARK: UICollectionViewDelegate & DataSource
+extension SettingViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        viewModel.profileMenuTitle.value.count
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        collectionView.dequeueCell(withType: SettingCollectionViewCell.self, for: indexPath).then {
+            let data = viewModel.profileMenuTitle.value
+            $0.configureCellState(state: data[indexPath.item])
+        }
+    }
+}
+
+// MARK: UITableViewDelegate
+extension SettingViewController: UITableViewDelegate {
+    public func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == viewModel.menuTitle.value.count - 1 {
+            cell.separatorInset = UIEdgeInsets(
+                top: 0, left: cell.bounds.size.width, bottom: 0, right: 0
+            )
+        }
+    }
+}

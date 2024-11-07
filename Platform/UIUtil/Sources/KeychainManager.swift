@@ -8,7 +8,7 @@
 import KeychainAccess
 
 public final class KeychainManager {
-    static let shared = KeychainManager()
+    public static let shared = KeychainManager()
     
     var keychain: Keychain
     
@@ -23,7 +23,7 @@ public final class KeychainManager {
     
     let uuidKey = "UUIDKey"
     
-    func saveUUID(_ uuid: String) {
+    public func saveUUID(_ uuid: String) {
         do {
             try keychain.set(uuid, key: uuidKey)
         } catch {
@@ -31,7 +31,7 @@ public final class KeychainManager {
         }
     }
     
-    func getUUID() -> String? {
+    public func getUUID() -> String? {
         do {
             return try keychain.get(uuidKey)
         } catch {
@@ -40,7 +40,7 @@ public final class KeychainManager {
         }
     }
     
-    func deleteUUID() {
+    public func deleteUUID() {
         do {
             try keychain.remove(keychain.service)
         } catch {

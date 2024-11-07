@@ -2,7 +2,7 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 import DescriptionHelperPlugin
 
-let project = Project(
+let project = Project.build(model: .init(
     name: "Weathervely",
     targets: [
         Target.build(model: .init(
@@ -18,10 +18,12 @@ let project = Project(
                 .SPM.FirebaseCrashlytics,
                 .SPM.FirebaseMessaging,
                 .SPM.FirebaseRemoteConfig,
+                .Project.Platform.WVAlert,
+                .Project.WVNetwork
             ] + .FeatureDeps
         ))
     ],
-    resourceSynthesizers: [ 
+    resourceSynthesizers: [
         .plists()
     ]
-)
+))

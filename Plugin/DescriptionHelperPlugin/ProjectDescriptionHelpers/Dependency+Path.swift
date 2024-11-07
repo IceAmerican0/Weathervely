@@ -10,8 +10,8 @@ extension Dep {
     
     public static func networkPath() -> Dep {
         .project(
-            target: "Network",
-            path: .relativeToRoot("Network")
+            target: "WVNetwork",
+            path: .relativeToRoot("WVNetwork")
         )
     }
     

@@ -7,8 +7,9 @@
 
 import DesignSystem
 import UIKit
+import RxSwift
 
-final class TypeTagCell: UICollectionViewCell {
+public final class TypeTagCell: UICollectionViewCell {
     public var bag = DisposeBag()
     
     public var tagLabel = LabelMaker(
@@ -18,7 +19,7 @@ final class TypeTagCell: UICollectionViewCell {
         $0.numberOfLines = 1
     }
     
-    override init(frame: CGRect) {
+    public override init(frame: CGRect) {
         super.init(frame: frame)
         layout()
     }
@@ -33,12 +34,12 @@ final class TypeTagCell: UICollectionViewCell {
         return contentView.frame.size
     }
     
-    override func layoutSubviews() {
+    public override func layoutSubviews() {
         super.layoutSubviews()
         setLayout()
     }
     
-    override func prepareForReuse() {
+    public override func prepareForReuse() {
         super.prepareForReuse()
         bag = DisposeBag()
     }

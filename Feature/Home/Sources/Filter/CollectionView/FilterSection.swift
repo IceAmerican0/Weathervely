@@ -6,6 +6,7 @@
 //
 
 import RxDataSources
+import WVNetwork
 
 public enum FilterSection {
     case item(category: String, items: [Item])

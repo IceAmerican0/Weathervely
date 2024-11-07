@@ -6,7 +6,9 @@
 //
 
 import DesignSystem
+import UIUtil
 import UIKit
+import RxSwift
 import RxDataSources
 
 public final class FilterListViewController: RxBaseViewController<FilterListViewModel> {
@@ -61,7 +63,7 @@ public final class FilterListViewController: RxBaseViewController<FilterListView
         viewModel.getCategoryList()
     }
     
-    override func viewBinding() {
+    public override func viewBinding() {
         super.viewBinding()
         
         viewModel.filterSection
@@ -135,11 +137,12 @@ extension FilterListViewController {
             guard let self else { return UICollectionViewCell() }
             
             if case let .item(cellState) = dataSource[indexPath] {
+                let state = HomeItemFilterCellState(id: cellState.id, name: cellState.name)
                 let cell = collectionView.dequeueCell(
                     withType: HomeItemFilterCell.self,
                     for: indexPath
                 ).then {
-                    $0.configureCellState(state: cellState, selectedList: self.viewModel.selectedList.value)
+                    $0.configureCellState(state: state, selectedList: self.viewModel.selectedList.value)
                 }
                 
                 cell.buttonTap

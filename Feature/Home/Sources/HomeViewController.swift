@@ -6,13 +6,12 @@
 //
 
 import UIKit
-import FlexLayout
-import PinLayout
-import Then
+import DesignSystem
+import UIUtil
 import RxSwift
-import RxDataSources
 import RxGesture
-import Kingfisher
+import RxDataSources
+import FlexLayout
 
 public enum ButtonTapAction {
     /// 이전 시간대
@@ -98,7 +97,7 @@ public final class HomeViewController: RxBaseViewController<HomeViewModel> {
         regionLabel.flex.markDirty()
     }
 
-    override func layout() {
+    public override func layout() {
         super.layout()
         
         container.flex.define {
@@ -120,7 +119,7 @@ public final class HomeViewController: RxBaseViewController<HomeViewModel> {
         }
     }
     
-    override func viewBinding() {
+    public override func viewBinding() {
         super.viewBinding()
         
         locationButton.rx.tapGesture()
@@ -157,7 +156,7 @@ public final class HomeViewController: RxBaseViewController<HomeViewModel> {
             }.disposed(by: bag)
     }
     
-    override func viewModelBinding() {
+    public override func viewModelBinding() {
         super.viewModelBinding()
         
         viewModel.shimmerStatus
@@ -319,7 +318,7 @@ extension HomeViewController {
                         $0.cloth.image = .home_banner_01
                         $0.cloth.contentMode = .scaleAspectFill
                     } else {
-                        $0.configureCellState(state: cellState)
+                        $0.configureCellState(imageURL: cellState.closetImageUrl)
                     }
                 }
             }

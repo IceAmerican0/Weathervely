@@ -4,7 +4,15 @@ import DescriptionHelperPlugin
 
 public extension Target {
     static func build(model: TargetModel) -> Target {
-        Target.target(
+        let settings = Settings.settings(
+            base: model.product == .framework ?
+            model.settings.base.merging(["OTHER_LDFLAGS" : "$(inherited) -all_load"]) : model.settings.base,
+            configurations: model.settings.configurations,
+            defaultSettings: model.settings.defaultSettings
+        )
+        
+        
+        return Target.target(
             name: model.name,
             destinations: [.iPhone],
             product: model.product,
@@ -18,7 +26,7 @@ public extension Target {
             entitlements: model.entitlements,
             scripts: model.scripts,
             dependencies: model.dependencies,
-            settings: model.settings,
+            settings: settings,
             coreDataModels: model.coreDataModels,
             launchArguments: model.launchArguments,
             additionalFiles: model.additionalFiles

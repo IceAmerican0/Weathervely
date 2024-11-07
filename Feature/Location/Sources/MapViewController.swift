@@ -5,13 +5,17 @@
 //  Created by Khai on 8/30/24.
 //
 
+import DesignSystem
+import UIUtil
 import WVAlert
+import ResourcePackage
 import UIKit
+import RxCocoa
 import CoreLocation
 import KakaoMapsSDK
 
-public final class MapViewController: RxBaseViewController<MapViewModel>, MapControllerDelegate {
-    private let navigationView = CSNavigationView(.leftButton(.leftArrow_black)).then {
+public final class MapViewController: RxBaseViewController<MapViewModel> {
+    private let navigationView = CSNavigationView(.leftOnly(.leftArrow_black)).then {
         $0.setTitle("동네 설정")
     }
     
@@ -123,7 +127,7 @@ public final class MapViewController: RxBaseViewController<MapViewModel>, MapCon
         mapContainer.pin.below(of: navigationView).horizontally().bottom(to: positionContainer.edge.top)
     }
     
-    override func viewBinding() {
+    public override func viewBinding() {
         super.viewBinding()
         
         navigationView.leftButtonDidTapRelay
@@ -139,7 +143,7 @@ public final class MapViewController: RxBaseViewController<MapViewModel>, MapCon
             .disposed(by: bag)
     }
     
-    override func viewModelBinding() {
+    public override func viewModelBinding() {
         super.viewModelBinding()
         
         viewModel.isLoading
@@ -397,7 +401,7 @@ extension MapViewController: GuiEventDelegate {
 }
 
 // MARK: Camera
-extension MapViewController {
+extension MapViewController: MapControllerDelegate {
     
     func setCameraOption() {
         let mapView = mapController.getView("mapview") as! KakaoMap

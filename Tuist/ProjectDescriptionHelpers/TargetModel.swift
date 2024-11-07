@@ -34,7 +34,7 @@ public struct TargetModel {
         entitlements: Entitlements? = nil,
         scripts: [TargetScript] = [],
         dependencies: [TargetDependency] = [],
-        settings: Settings = Settings.baseSetting,
+        settings: Settings = .settings(),
         coreDataModels: [CoreDataModel] = [],
         launchArguments: [LaunchArgument] = [],
         additionalFiles: [FileElement] = []

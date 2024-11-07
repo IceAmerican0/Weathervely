@@ -6,11 +6,17 @@
 //
 
 import UIKit
+import DesignSystem
 import PinLayout
 import FlexLayout
 import Then
 import RxSwift
 import RxCocoa
+
+public struct HomeItemFilterCellState {
+    let id: Int
+    let name: String
+}
 
 public final class HomeItemFilterCell: UICollectionViewCell {
     var bag = DisposeBag()
@@ -50,7 +56,7 @@ public final class HomeItemFilterCell: UICollectionViewCell {
         listButton.isSelected = false
     }
     
-    public func configureCellState(state: CategoryInfo, selectedList: [String]) {
+    public func configureCellState(state: HomeItemFilterCellState, selectedList: [String]) {
         listButton.titleAttribute(title: state.name)
         
         if selectedList.contains("\(state.id)") {

@@ -6,9 +6,10 @@
 //
 
 import DesignSystem
+import WVNetwork
 import UIKit
 
-final class StyleCell: UICollectionViewCell {
+public final class StyleCell: UICollectionViewCell {
     private var nameLabel = LabelMaker(
         font: UIFont.body_5_M,
         fontColor: UIColor.gray100
@@ -33,7 +34,7 @@ final class StyleCell: UICollectionViewCell {
     private var status = ""
     public var closetInfo = ClosetInfo(closetId: 0, closetName: "", closetImageUrl: "", closetStatus: "", closetSiteName: "", temperature: .init(tempId: 0, maxTemp: 0, minTemp: 0))
     
-    override init(frame: CGRect) {
+    public override init(frame: CGRect) {
         super.init(frame: frame)
         layout()
     }
@@ -42,14 +43,14 @@ final class StyleCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
+    public override func layoutSubviews() {
         super.layoutSubviews()
         
         contentView.pin.all()
         contentView.flex.layout()
     }
     
-    func layout() {
+    private func layout() {
         layer.masksToBounds = false
         
         contentView.flex.define {
@@ -60,7 +61,7 @@ final class StyleCell: UICollectionViewCell {
         }
     }
     
-    func configure(info: ClosetInfo?) {
+    public func configure(info: ClosetInfo?) {
         guard let info else { return }
         let id = info.closetId
         let name = info.closetName
@@ -76,7 +77,7 @@ final class StyleCell: UICollectionViewCell {
         }
     }
     
-    override func prepareForReuse() {
+    public override func prepareForReuse() {
         super.prepareForReuse()
         self.imageView.image = nil
         self.imageView.contentMode = .center

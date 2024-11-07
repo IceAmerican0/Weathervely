@@ -4,7 +4,7 @@ extension Dep {
     public struct Project {
         public static let Weathervely = weathervelyPath()
         
-        public static let Network = networkPath()
+        public static let WVNetwork = networkPath()
         
         public static let Platform: PlatformBP<Dep> = PlatformBP(
             DesignSystem: designPath(),
@@ -19,7 +19,8 @@ extension Dep {
             Home: featurePath(name: "Home"),
             Location: featurePath(name: "Location"),
             Notification: featurePath(name: "Notification"),
-            OnBoard: featurePath(name: "OnBoard"),
+            Nickname: featurePath(name: "Nickname"),
+            Region: featurePath(name: "Region"),
             Setting: featurePath(name: "Setting"),
             Style: featurePath(name: "Style")
         )
@@ -39,7 +40,8 @@ public struct FeatureBP<WVType> {
     public let Home: WVType
     public let Location: WVType
     public let Notification: WVType
-    public let OnBoard: WVType
+    public let Nickname: WVType
+    public let Region: WVType
     public let Setting: WVType
     public let Style: WVType
 }

@@ -6,8 +6,11 @@
 //
 
 import DesignSystem
-import Network
+import WVNetwork
 import UIKit
+import FlexLayout
+import PinLayout
+import Then
 
 final class MainDetailCell: UICollectionViewCell {
     

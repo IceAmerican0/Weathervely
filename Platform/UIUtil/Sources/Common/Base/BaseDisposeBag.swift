@@ -7,6 +7,6 @@
 
 import RxSwift
 
-protocol BaseDisposebag {
+public protocol BaseDisposebag {
     var bag: DisposeBag { get }
 }

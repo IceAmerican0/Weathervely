@@ -6,10 +6,14 @@
 //
 
 import DesignSystem
-import Network
+import WVNetwork
 import UIKit
+import FlexLayout
+import PinLayout
+import RxSwift
+import RxCocoa
 
-final class WithItemCell: UICollectionViewCell {
+public final class WithItemCell: UICollectionViewCell {
     var bag = DisposeBag()
     
     private var imageViewWrapper = UIView().then {
@@ -58,7 +62,7 @@ final class WithItemCell: UICollectionViewCell {
         itemImage.rx.tapGesture().when(.ended).map { _ in }.asDriver(onErrorJustReturn: ())
     }
     
-    override init(frame: CGRect) {
+    public override init(frame: CGRect) {
         super.init(frame: frame)
         layout()
     }
@@ -67,13 +71,13 @@ final class WithItemCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
+    public override func layoutSubviews() {
         super.layoutSubviews()
         contentView.pin.all()
         contentView.flex.layout()
     }
     
-    func layout() {
+    private func layout() {
         layer.masksToBounds = false
         
         contentView.addSubviews(imageViewWrapper
@@ -91,7 +95,7 @@ final class WithItemCell: UICollectionViewCell {
 //        categoryLabel.pin.below(of: shopNameLabel).horizontally().marginTop(4).height(17)
     }
     
-    func configure(info: WithItemsInfo) {
+    public func configure(info: WithItemsInfo) {
         itemImage.setKF(urlString: info.imageUrl ?? "", placeHolder: .image_indicator) { [weak self] _ in
             guard let self else { return }
             self.layoutIfNeeded()
@@ -114,7 +118,7 @@ final class WithItemCell: UICollectionViewCell {
         self.isUserInteractionEnabled = false
     }
     
-    override func prepareForReuse() {
+    public override func prepareForReuse() {
         super.prepareForReuse()
         self.itemImage.image = nil
         self.itemImage.kf.cancelDownloadTask()

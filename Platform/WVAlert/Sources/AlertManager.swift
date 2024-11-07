@@ -9,7 +9,7 @@
 import UIKit
 
 public final class AlertManager {
-    public static let shared = AlertManager()
+    public static let shared = AlertManager(windowLevel: .statusBar)
     
     private var windowLevel: UIWindow.Level
     private(set) var alertWindow: AlertWindow?
@@ -30,7 +30,7 @@ public final class AlertManager {
         alertWindow?.present(view: alert)
     }
     
-    public func dismiss(completion: AlertActionHandler?) {
+    public func dismiss(completion: AlertActionHandler? = nil) {
         alertWindow?.dismiss()
         alertWindow = nil
         completion?()

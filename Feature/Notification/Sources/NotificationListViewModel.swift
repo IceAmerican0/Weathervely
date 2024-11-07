@@ -5,25 +5,27 @@
 //  Created by Khai on 2/1/24.
 //
 
-import Network
+import WVNetwork
+import UIUtil
 import WVAlert
 import UIKit
+import RxRelay
 
 public protocol NotificationListViewModelLogic: ViewModelBusinessLogic {
     func pullToRefresh()
     func getNotiInfo()
     func deleteNoti(row: Int) -> Bool
     
-    var toastRelay: PublishRelay<Bool> { get }
+    var toastRelay: PublishRelay<String> { get }
     var shimmerStatus: PublishRelay<Bool> { get }
     var refreshStatus: PublishRelay<Bool> { get }
     var notificationInfo: BehaviorRelay<[NotificationEntity]> { get }
 }
 
-final class NotificationListViewModel: RxBaseViewModel, NotificationListViewModelLogic {
+public final class NotificationListViewModel: RxBaseViewModel, NotificationListViewModelLogic {
     private let dataSource: NotificationDataSourceProtocol = NotificationDataSource()
     /// toast
-    public var toastRelay: PublishRelay<Bool> = .init()
+    public var toastRelay: PublishRelay<String> = .init()
     /// 첫 실행 shimmer 여부
     public var shimmerStatus: PublishRelay<Bool> = .init()
     /// 새로고침 상태

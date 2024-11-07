@@ -7,7 +7,8 @@ extension [Dep] {
         .Project.Feature.Home,
         .Project.Feature.Location,
         .Project.Feature.Notification,
-        .Project.Feature.OnBoard,
+        .Project.Feature.Nickname,
+        .Project.Feature.Region,
         .Project.Feature.Setting,
         .Project.Feature.Style
     ]
@@ -15,6 +16,6 @@ extension [Dep] {
     public static let FeatureBaseDeps: [Dep] = [
         .Project.Platform.WVAlert,
         .Project.Platform.DesignSystem,
-        .Project.Network
+        .Project.WVNetwork
     ]
 }

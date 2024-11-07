@@ -5,8 +5,10 @@
 //  Created by 최수훈 on 6/25/24.
 //
 
-import Foundation
+import DesignSystem
 import UIKit
+import FlexLayout
+import PinLayout
 
 public enum DiffTempHeaderComment: String {
     case detailTitle = "코디 보기"
