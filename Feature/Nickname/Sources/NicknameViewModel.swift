@@ -36,7 +36,7 @@ public final class NicknameViewModel: RxBaseViewModel, NicknameViewModelLogic {
     
     /// 닉네임 확인 뷰
     private func toCompleteView(nickname: String) {
-        let vc = NicknameCompleteViewController(NicknameCompleteViewModel(nickname: nickname))
-        navigationPushViewControllerRelay.accept(vc)
+//        let vc = NicknameCompleteViewController(NicknameCompleteViewModel(nickname: nickname))
+//        navigationPushViewControllerRelay.accept(vc)
     }
 }

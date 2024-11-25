@@ -8,7 +8,7 @@
 import ResourcePackage
 import UIKit
 
-enum Tab: CaseIterable {
+public enum Tab: CaseIterable {
     case home
     case style
     case setting
@@ -34,14 +34,6 @@ enum Tab: CaseIterable {
         case .home: UIImage.tab_home_sel
         case .style: UIImage.tab_style_sel
         case .setting: UIImage.tab_mypage_sel
-        }
-    }
-    
-    var viewController: UIViewController {
-        switch self {
-        case .home: HomeViewController(HomeViewModel())
-        case .style: StyleViewController(StyleViewModel())
-        case .setting: SettingViewController(SettingViewModel())
         }
     }
 }

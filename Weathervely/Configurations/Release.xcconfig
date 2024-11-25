@@ -14,10 +14,10 @@
 CODE_SIGN_IDENTITY = iPhone Distribution: Sung June Park (M9YVZ9AJMM)
 
 // Provisioning
-PROVISIONING_PROFILE = Weathervely_251106_Release
+PROVISIONING_PROFILE = Weathervely_251107_Release
 
 // 앱 이름
-INFOPLIST_KEY_CFBundleDisplayName = 웨더블리
+BUNDLE_DISPLAY_NAME = 웨더블리
 
 // Push Environment
 APS_ENVIRONMENT = production

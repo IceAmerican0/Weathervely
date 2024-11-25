@@ -7,10 +7,18 @@ let project = Project.build(model: .init(
     targets: [
         Target.build(model: .init(
             name: "Weathervely",
+            bundleId: "com.redthree.weathervely",
+            infoPlist: .file(path: .relativeToCurrentFile("Resources/Info.plist")),
             sources: [
                 .glob(.relativeToCurrentFile("Sources/**"))
             ],
-            resources: ResourceFileElements.baseResources,
+            resources: [
+                .glob(pattern: .relativeToRoot("Weathervely/Configurations/Common.xcconfig")),
+                .glob(pattern: .relativeToCurrentFile("Resources/Images.xcassets")),
+                .glob(pattern: .relativeToCurrentFile("Resources/LaunchScreen.storyboard")),
+                .glob(pattern: .relativeToCurrentFile("Resources/GoogleService-Info.plist")),
+                .glob(pattern: .relativeToCurrentFile("Resources/PrivacyInfo.xcprivacy"))
+            ],
             entitlements: .file(path: .relativeToCurrentFile("Resources/Weathervely.entitlements")),
             scripts: TargetScript.Weathervely,
             dependencies: [

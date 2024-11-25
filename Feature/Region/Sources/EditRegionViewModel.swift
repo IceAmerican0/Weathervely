@@ -123,7 +123,7 @@ public final class EditRegionViewModel: RxBaseViewModel, EditRegionViewModelLogi
     }
     
     public func toSettingRegionView(_ settingRegionState: SettingRegionState) {
-        let vc = SettingRegionViewController(SettingRegionViewModel(settingRegionState))
-        navigationPushViewControllerRelay.accept(vc)
+//        let vc = SettingRegionViewController(SettingRegionViewModel(settingRegionState))
+//        navigationPushViewControllerRelay.accept(vc)
     }
 }

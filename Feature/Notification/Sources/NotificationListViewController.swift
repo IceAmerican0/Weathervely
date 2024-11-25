@@ -118,10 +118,10 @@ public final class NotificationListViewController: RxBaseViewController<Notifica
         
         navigationView.rightButtonDidTapRelay
             .drive(with: self) { owner, _ in
-                if let homeTabBarController = owner.navigationController?.tabBarController as? HomeTabBarController {
-                    homeTabBarController.switchTab(tab: .setting)
-                    owner.navigationController?.viewControllers.removeLast()
-                }
+//                if let homeTabBarController = owner.navigationController?.tabBarController as? HomeTabBarController {
+//                    homeTabBarController.switchTab(tab: .setting)
+//                    owner.navigationController?.viewControllers.removeLast()
+//                }
             }.disposed(by: bag)
         
         notiButton.rx.tap

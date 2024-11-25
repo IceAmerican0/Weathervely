@@ -34,7 +34,7 @@ public class AppEnvironment: AppEnvironmentProtocol {
 }
 
 /// 개발 서버 로그
-public func debugPrint(_ text: String) {
+public func debuggerPrint(_ text: String) {
     if case .develop = AppEnvironment.shared.environmentType {
         print(text)
         return

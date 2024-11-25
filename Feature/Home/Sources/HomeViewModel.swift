@@ -256,7 +256,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             .subscribe(
                 with: self,
                 onError: { _, error in
-                    debugPrint(error.localizedDescription)
+                    debuggerPrint(error.localizedDescription)
                 }
             ).disposed(by: bag)
     }
@@ -282,30 +282,30 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     
     /// 상세보기 이동
     public func toDetailView(state: ClosetInfo) {
-        let vc = ClosetDetailViewController(ClosetDetailViewModel(closetId: state.closetId, tempId: state.temperature.tempId))
-        navigationPushViewControllerRelay.accept(vc)
+//        let vc = ClosetDetailViewController(ClosetDetailViewModel(closetId: state.closetId, tempId: state.temperature.tempId))
+//        navigationPushViewControllerRelay.accept(vc)
     }
     
     /// 알림페이지 이동
     public func toNotificationListView() {
-        let vc = NotificationListViewController(NotificationListViewModel())
-        navigationPushViewControllerRelay.accept(vc)
+//        let vc = NotificationListViewController(NotificationListViewModel())
+//        navigationPushViewControllerRelay.accept(vc)
     }
     
     /// 10일간 날씨 예보 이동
     public func toTendaysForecastView() {
-        let vc = TenDaysForeCastViewController(TenDaysForecastViewModel())
-        navigationPushViewControllerRelay.accept(vc)
+//        let vc = TenDaysForeCastViewController(TenDaysForecastViewModel())
+//        navigationPushViewControllerRelay.accept(vc)
     }
     
     /// 동네 설정 이동
     public func toEditRegionView() {
-        let vc = EditRegionViewController(EditRegionViewModel(.edit))
-        navigationPushViewControllerRelay.accept(vc)
+//        let vc = EditRegionViewController(EditRegionViewModel(.edit))
+//        navigationPushViewControllerRelay.accept(vc)
     }
     
     public func toMapView() {
-        let vc = MapViewController(MapViewModel())
-        navigationPushViewControllerRelay.accept(vc)
+//        let vc = MapViewController(MapViewModel())
+//        navigationPushViewControllerRelay.accept(vc)
     }
 }

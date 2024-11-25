@@ -5,6 +5,10 @@ public extension Project {
         Project(
             name: model.name,
             organizationName: model.organizationName,
+            options: .options(
+                defaultKnownRegions: ["ko"],
+                developmentRegion: "ko"
+            ),
             packages: model.packages,
             settings: model.settings,
             targets: model.targets,

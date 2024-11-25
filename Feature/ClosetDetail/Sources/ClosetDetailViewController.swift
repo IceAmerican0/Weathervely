@@ -12,6 +12,10 @@ import FlexLayout
 import RxSwift
 import RxDataSources
 
+public protocol ClosetDetailViewDelegate {
+    func detailTapped(closetID: Int, tempID: Int)
+}
+
 public final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewModel> {
     private let shimmerView = DetailShimmerView()
     
@@ -35,6 +39,8 @@ public final class ClosetDetailViewController: RxBaseViewController<ClosetDetail
         //        $0.prefetchDataSource = self
     }
     lazy var dataSource = self.setParentCollectionView()
+    
+    var delegate: ClosetDetailViewDelegate?
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -216,21 +222,23 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
                             }.disposed(by: $0.bag)
                     }
                 case .firstRow(let rowInfo):
-                    debugPrint("first: \(rowInfo.identity)")
+                    debuggerPrint("first: \(rowInfo.identity)")
                     return collectionView.dequeueCell(withType: DiffTempCell.self, for: indexPath).then {
                         $0.configure(info: rowInfo)
                         $0.itemTap
                             .drive(with: self) { owner, _ in
-                                owner.viewModel.toDetailView(closetId: rowInfo.closetId, tempId: rowInfo.temperature.tempId)
+                                owner.delegate?.detailTapped(closetID: rowInfo.closetId, tempID: rowInfo.temperature.tempId)
+//                                owner.viewModel.toDetailView(closetId: rowInfo.closetId, tempId: rowInfo.temperature.tempId)
                             }.disposed(by: $0.bag)
                     }
                 case .secondRow(let rowInfo):
-                    debugPrint("second: \(rowInfo.identity)")
+                    debuggerPrint("second: \(rowInfo.identity)")
                     return collectionView.dequeueCell(withType: DiffTempCell.self, for: indexPath).then {
                         $0.configure(info: rowInfo)
                         $0.itemTap
                             .drive(with: self) { owner, _ in
-                                owner.viewModel.toDetailView(closetId: rowInfo.closetId, tempId: rowInfo.temperature.tempId)
+                                owner.delegate?.detailTapped(closetID: rowInfo.closetId, tempID: rowInfo.temperature.tempId)
+//                                owner.viewModel.toDetailView(closetId: rowInfo.closetId, tempId: rowInfo.temperature.tempId)
                             }.disposed(by: $0.bag)
                     }
                 }
@@ -296,7 +304,7 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
             
             guard let self = self else { return nil }
             guard sectionIndex < self.viewModel.detailViewSections.value.count else {
-                debugPrint("Section index \(sectionIndex) out of range.")
+                debuggerPrint("Section index \(sectionIndex) out of range.")
                 return nil
             }
             

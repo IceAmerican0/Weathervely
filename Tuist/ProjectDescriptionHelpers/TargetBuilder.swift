@@ -16,7 +16,7 @@ public extension Target {
             name: model.name,
             destinations: [.iPhone],
             product: model.product,
-            bundleId: model.bundleId,
+            bundleId: model.bundleId.isEmpty ? "com.redthree.\(model.name)" : model.bundleId,
             deploymentTargets: model.deploymentTargets,
             infoPlist: model.infoPlist,
             sources: model.sources,

@@ -9,7 +9,14 @@ import ResourcePackage
 import UIUtil
 import UIKit
 
+public protocol HomeTabBarDelegate {
+    func getViewController(tab: Tab) -> UIViewController
+}
+
 public final class HomeTabBarController: UITabBarController {
+    
+    public var tabDelegate: HomeTabBarDelegate?
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -22,9 +29,9 @@ public final class HomeTabBarController: UITabBarController {
     private func setTabBar() {
         var tabs: [UIViewController] = []
         Tab.allCases.forEach { tab in
-            let viewController = tab.viewController
-            viewController.title = tab.title
-            viewController.tabBarItem = UITabBarItem(
+            guard let vc = tabDelegate?.getViewController(tab: tab) else { return }
+            vc.title = tab.title
+            vc.tabBarItem = UITabBarItem(
                 title: tab.title,
                 image: tab.image,
                 selectedImage: tab.selectedImage.withRenderingMode(.alwaysOriginal)
@@ -41,12 +48,12 @@ public final class HomeTabBarController: UITabBarController {
                 .font: UIFont.body_5_B
             ]
             
-            viewController.tabBarItem.setTitleTextAttributes(baseAttributes, for: .normal)
-            viewController.tabBarItem.setTitleTextAttributes(selectedAttributes, for: .selected)
+            vc.tabBarItem.setTitleTextAttributes(baseAttributes, for: .normal)
+            vc.tabBarItem.setTitleTextAttributes(selectedAttributes, for: .selected)
             
-            tabs.append(viewController)
+            tabs.append(UINavigationController(rootViewController: vc))
         }
-        viewControllers = tabs.map { UINavigationController(rootViewController: $0) }
+        viewControllers = tabs
         
         tabBar.backgroundColor = .white
         tabBar.tintColor = .black

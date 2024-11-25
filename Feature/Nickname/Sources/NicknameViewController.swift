@@ -125,7 +125,7 @@ extension NicknameViewController: UITextFieldDelegate {
 
 // MARK: Keyboard Action
 extension NicknameViewController {
-    override func keyboardWillShow(_ notification: Notification) {
+    public override func keyboardWillShow(_ notification: Notification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             confirmButton.flex.bottom(keyboardSize.height)
             container.flex.layout()

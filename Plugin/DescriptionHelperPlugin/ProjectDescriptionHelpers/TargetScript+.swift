@@ -3,6 +3,7 @@ import ProjectDescription
 public extension TargetScript {
     static let Weathervely: [TargetScript] = [
         .FirebaseCrashLytics,
+        .DsymRunScript,
         .BuildNumberRunScript
     ]
 }

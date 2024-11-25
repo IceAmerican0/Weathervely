@@ -9,8 +9,8 @@
 // https://developer.apple.com/documentation/xcode/build-settings-reference
 
 // 버전
-MARKETING_VERSION = 2.0.1
-CURRENT_PROJECT_VERSION = 0.0.0
+BUNDLE_VERSION = 2.0.1
+BUILD_NUMBER = 0.0.0
 
 // 번들
 BUNDLE_ID = com.redthree.weathervely

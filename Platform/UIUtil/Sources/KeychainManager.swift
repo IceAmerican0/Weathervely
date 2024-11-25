@@ -27,7 +27,7 @@ public final class KeychainManager {
         do {
             try keychain.set(uuid, key: uuidKey)
         } catch {
-            debugPrint("Error saving UUID to Keychain: \(error)")
+            debuggerPrint("Error saving UUID to Keychain: \(error)")
         }
     }
     
@@ -35,7 +35,7 @@ public final class KeychainManager {
         do {
             return try keychain.get(uuidKey)
         } catch {
-            debugPrint("Error getting UUID from Keychain: \(error)")
+            debuggerPrint("Error getting UUID from Keychain: \(error)")
             return nil
         }
     }
@@ -44,7 +44,7 @@ public final class KeychainManager {
         do {
             try keychain.remove(keychain.service)
         } catch {
-            debugPrint("Error deleting UUID from Keychain: \(error)")
+            debuggerPrint("Error deleting UUID from Keychain: \(error)")
         }
     }
 }

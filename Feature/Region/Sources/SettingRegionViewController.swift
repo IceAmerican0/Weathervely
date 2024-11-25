@@ -210,7 +210,7 @@ extension SettingRegionViewController: UITextFieldDelegate {
 
 // MARK: Keyboard Action
 extension SettingRegionViewController {
-    override func keyboardWillShow(_ notification: Notification) {
+    public override func keyboardWillShow(_ notification: Notification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             if !confirmButton.isHidden {
                 confirmButton.flex.bottom(keyboardSize.height)
@@ -219,7 +219,7 @@ extension SettingRegionViewController {
         }
     }
     
-    override func keyboardWillHide(_ notification: Notification) {
+    public override func keyboardWillHide(_ notification: Notification) {
         if !confirmButton.isHidden {
             confirmButton.flex.bottom(20)
             container.flex.layout()

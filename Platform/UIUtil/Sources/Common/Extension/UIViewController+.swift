@@ -7,23 +7,23 @@
 
 import UIKit
 
-public extension UIViewController {
-    func gestureEndEditing() {
+extension UIViewController {
+    public func gestureEndEditing() {
         view.addGestureRecognizer(UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing(_:))))
     }
     
-    func registerKeyboardNotifications() {
+    public func registerKeyboardNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    func unregisterKeyboardNotifications() {
+    public func unregisterKeyboardNotifications() {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    @objc func keyboardWillShow(_ notification: Notification) {}
-    @objc func keyboardWillHide(_ notification: Notification) {}
+    @objc open func keyboardWillShow(_ notification: Notification) {}
+    @objc open func keyboardWillHide(_ notification: Notification) {}
 }
 
 // MARK: Custom BottomSheet

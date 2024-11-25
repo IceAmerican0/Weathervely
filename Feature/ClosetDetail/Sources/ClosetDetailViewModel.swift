@@ -58,7 +58,7 @@ public final class ClosetDetailViewModel: RxBaseViewModel {
     let closetId: Int
     let tempId: Int
     
-    init(closetId: Int, tempId: Int) {
+    public init(closetId: Int, tempId: Int) {
         self.closetId = closetId
         self.tempId =  tempId
         super.init()
@@ -233,8 +233,8 @@ public final class ClosetDetailViewModel: RxBaseViewModel {
     
     /// 상세보기 이동
     public func toDetailView(closetId: Int, tempId: Int) {
-        let vc = ClosetDetailViewController(ClosetDetailViewModel(closetId: closetId, tempId: tempId))
-        navigationPushViewControllerRelay.accept(vc)
+//        let vc = ClosetDetailViewController(ClosetDetailViewModel(closetId: closetId, tempId: tempId))
+//        navigationPushViewControllerRelay.accept(vc)
     }
 }
 

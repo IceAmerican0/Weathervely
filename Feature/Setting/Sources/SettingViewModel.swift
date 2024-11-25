@@ -81,27 +81,27 @@ public final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
                     owner.toastRelay.accept(message)
                 },
                 onError: { owner, error in
-                    debugPrint("error fetching push agreement: \(error)")
+                    debuggerPrint("error fetching push agreement: \(error)")
                 }
             ).disposed(by: bag)
     }
     
     /// 닉네임 설정
     public func toEditNicknameView() {
-        let vc = NicknameViewController(NicknameViewModel())
-        navigationPushViewControllerRelay.accept(vc)
+//        let vc = NicknameViewController(NicknameViewModel())
+//        navigationPushViewControllerRelay.accept(vc)
     }
     
     /// 동네 설정
     private func toEditRegionView() {
-        let vc = EditRegionViewController(EditRegionViewModel(.edit))
-        navigationPushViewControllerRelay.accept(vc)
+//        let vc = EditRegionViewController(EditRegionViewModel(.edit))
+//        navigationPushViewControllerRelay.accept(vc)
     }
     
     /// 알림 설정
     private func toNotificationView() {
-        let vc = NotificationListViewController(NotificationListViewModel())
-        navigationPushViewControllerRelay.accept(vc)
+//        let vc = NotificationListViewController(NotificationListViewModel())
+//        navigationPushViewControllerRelay.accept(vc)
     }
     
     /// 문의하기

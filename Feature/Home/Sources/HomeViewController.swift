@@ -20,6 +20,15 @@ public enum ButtonTapAction {
     case didTapNext
 }
 
+public protocol HomeViewDelegate {
+    func locationTapped()
+    func regionTapped()
+    func notificationTapped()
+    func forecastTapped()
+    func filterTapped()
+    func detailTapped(closetID: Int, tempID: Int)
+}
+
 public final class HomeViewController: RxBaseViewController<HomeViewModel> {
     private let shimmerView = HomeShimmerView()
     
@@ -85,6 +94,8 @@ public final class HomeViewController: RxBaseViewController<HomeViewModel> {
     }
     
     private lazy var dataSource = setDataSource()
+    
+    public var delegate: HomeViewDelegate?
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -305,7 +316,8 @@ extension HomeViewController {
                 
                 cell.collectionView.rx.itemSelected
                     .bind(with: self) { owner, _ in
-                        owner.viewModel.toTendaysForecastView()
+                        owner.delegate?.forecastTapped()
+//                        owner.viewModel.toTendaysForecastView()
                     }.disposed(by: cell.bag)
                 
                 return cell

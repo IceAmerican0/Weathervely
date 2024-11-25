@@ -34,45 +34,5 @@ open class RxBaseViewModel: BaseDisposebag, ViewModelable {
     public let dismissSelfNoAnimationRelay = PublishRelay<Void>()
     public let dismissSelfAnimationClosureRelay = PublishRelay<(() -> Void)>()
     
-    public init() {
-        baseBinding()
-    }
-    
-    func baseBinding() {}
-    
-    func bindInnerViewModelPresentationToSelf(_ innerViewModel: RxBaseViewModel) {
-        innerViewModel.navigationPoptoRootRelay
-            .bind(to: navigationPoptoRootRelay)
-            .disposed(by: bag)
-        innerViewModel.navigationPopToSelfRelay
-            .bind(to: navigationPopToSelfRelay)
-            .disposed(by: bag)
-        innerViewModel.navigationPopViewControllerRelay
-            .bind(to: navigationPopViewControllerRelay)
-            .disposed(by: bag)
-        innerViewModel.navigationPushViewControllerRelay
-            .bind(to: navigationPushViewControllerRelay)
-            .disposed(by: bag)
-        innerViewModel.navigationPushToPreviousViewControllerRelay
-            .bind(to: navigationPushToPreviousViewControllerRelay)
-            .disposed(by: bag)
-        innerViewModel.navigationSetRootPushViewControllerRelay
-            .bind(to: navigationSetRootPushViewControllerRelay)
-            .disposed(by: bag)
-        innerViewModel.presentViewControllerWithAnimationRelay
-            .bind(to: presentViewControllerWithAnimationRelay)
-            .disposed(by: bag)
-        innerViewModel.presentViewControllerNoAnimationRelay
-            .bind(to: presentViewControllerNoAnimationRelay)
-            .disposed(by: bag)
-        innerViewModel.dismissSelfWithAnimationRelay
-            .bind(to: dismissSelfWithAnimationRelay)
-            .disposed(by: bag)
-        innerViewModel.dismissSelfNoAnimationRelay
-            .bind(to: dismissSelfNoAnimationRelay)
-            .disposed(by: bag)
-        innerViewModel.dismissSelfAnimationClosureRelay
-            .bind(to: dismissSelfAnimationClosureRelay)
-            .disposed(by: bag)
-    }
+    public init() {}
 }

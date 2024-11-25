@@ -23,7 +23,7 @@ public struct TargetModel {
     public init(
         name: String,
         product: Product = .app,
-        bundleId: String = "com.redthree.weathervely",
+        bundleId: String = "",
         deploymentTargets: DeploymentTargets? = .iOS("17.0"),
         infoPlist: InfoPlist = .default,
         sources: SourceFilesList,

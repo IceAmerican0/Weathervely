@@ -48,7 +48,7 @@ public final class NicknameCompleteViewModel: RxBaseViewModel, NicknameCompleteV
                 },
                 onError: { owner, error in
                     let message = error.localizedDescription
-                    debugPrint(message)
+                    debuggerPrint(message)
                     
                     // uuid 빈값 or nil or 이미 같은 uuid 존재시
                     if message.contains("유효성") || message.contains("같은 닉네임") {
@@ -80,7 +80,7 @@ public final class NicknameCompleteViewModel: RxBaseViewModel, NicknameCompleteV
                     userDefault.set(owner.nickname, forKey: UserDefaultKey.nickname.rawValue)
                 },
                 onError: { owner, error in
-                    debugPrint(error.localizedDescription)
+                    debuggerPrint(error.localizedDescription)
                     AlertManager.shared.present(
                         state: .init(
                             title: "닉네임을 다시 설정해주세요",
@@ -100,7 +100,7 @@ public final class NicknameCompleteViewModel: RxBaseViewModel, NicknameCompleteV
     
     /// 동네설정뷰
     private func toSettingRegionView() {
-        let vc = SettingRegionViewController(SettingRegionViewModel(.onboard))
-        navigationSetRootPushViewControllerRelay.accept(vc)
+//        let vc = SettingRegionViewController(SettingRegionViewModel(.onboard))
+//        navigationSetRootPushViewControllerRelay.accept(vc)
     }
 }

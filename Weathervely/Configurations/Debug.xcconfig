@@ -14,10 +14,10 @@
 CODE_SIGN_IDENTITY = iPhone Developer: Sung June Park (4B9B824BU4)
 
 // Provisioning
-PROVISIONING_PROFILE = Weathervely_251106
+PROVISIONING_PROFILE = Weathervely_251107_Develop
 
 // 앱 이름
-INFOPLIST_KEY_CFBundleDisplayName = 웨더블리 DEV
+BUNDLE_DISPLAY_NAME = 웨더블리 DEV
 
 // Push Environment
 APS_ENVIRONMENT = development

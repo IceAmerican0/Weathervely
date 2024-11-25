@@ -99,8 +99,8 @@ public final class SettingRegionViewModel: RxBaseViewModel, SettingRegionViewMod
     }
     
     public func toCompleteViewController(_ viewModel: SettingRegionCompleteViewModel) {
-        let vc = SettingRegionCompleteViewController(viewModel)
-        navigationPushViewControllerRelay.accept(vc)
+//        let vc = SettingRegionCompleteViewController(viewModel)
+//        navigationPushViewControllerRelay.accept(vc)
     }
 }
 

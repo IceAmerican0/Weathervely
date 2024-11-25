@@ -73,9 +73,9 @@ extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
     func checkFCMToken() {
         Messaging.messaging().token { token, error in
             if let error {
-                debugPrint("Error fetching FCM registration token: \(error)")
+                debuggerPrint("Error fetching FCM registration token: \(error)")
             } else if let token {
-                debugPrint("FCM registration token: \(token)")
+                debuggerPrint("FCM registration token: \(token)")
             }
         }
     }
@@ -83,7 +83,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
     func deleteFCMToken() {
         Messaging.messaging().deleteToken { error in
             if let error {
-                debugPrint("Error Deleting FCM token: \(error)")
+                debuggerPrint("Error Deleting FCM token: \(error)")
             } else {
                 self.checkFCMToken()
             }
@@ -101,7 +101,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
                 onError: { owner, error in
                     userDefault.set(false, forKey: UserDefaultKey.pushAgreement.rawValue)
                     owner.setPushAgreement()
-                    debugPrint("FCMToken Edit Failed: \(error)")
+                    debuggerPrint("FCMToken Edit Failed: \(error)")
                 }
             ).disposed(by: bag)
     }
@@ -112,7 +112,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
             .subscribe(
                 with: self,
                 onError: { _, error in
-                    debugPrint("푸시 수신 설정 실패: \(error)")
+                    debuggerPrint("푸시 수신 설정 실패: \(error)")
                 }
             ).disposed(by: bag)
     }

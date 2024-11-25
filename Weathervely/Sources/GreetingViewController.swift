@@ -11,7 +11,7 @@ import ResourcePackage
 import UIKit
 import PinLayout
 
-public final class OnBoardViewController: RxBaseViewController<OnBoardViewModel> {
+public final class GreetingViewController: RxBaseViewController<EmptyViewModel> {
     
     private var logo = UIImageView().then {
         $0.image = .logo_color
@@ -70,7 +70,7 @@ public final class OnBoardViewController: RxBaseViewController<OnBoardViewModel>
         
         startButton.rx.tap
             .bind(with: self) { owner, _ in
-                owner.viewModel.toNicknameView()
+                
             }
             .disposed(by: bag)
     }

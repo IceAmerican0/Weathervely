@@ -183,8 +183,8 @@ public final class StyleViewModel: RxBaseViewModel, StyleViewModelLogic {
     }
 
     public func toDetailView(id: Int, temp: Int) {
-        let viewModel = ClosetDetailViewModel(closetId: id, tempId: temp)
-        let vc = ClosetDetailViewController(viewModel)
-        navigationPushViewControllerRelay.accept(vc)
+//        let viewModel = ClosetDetailViewModel(closetId: id, tempId: temp)
+//        let vc = ClosetDetailViewController(viewModel)
+//        navigationPushViewControllerRelay.accept(vc)
     }
 }
