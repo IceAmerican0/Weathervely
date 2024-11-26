@@ -12,6 +12,13 @@ import RxGesture
 import FlexLayout
 import RxSwift
 
+public protocol SettingViewDelegate {
+    func regionTapped()
+    func notificationTapped()
+    func inquiryTapped()
+    func policyTapped()
+}
+
 public final class SettingViewController: RxBaseViewController<SettingViewModel>, Toastable {
     
     private var titleLabel = LabelMaker(
@@ -79,6 +86,8 @@ public final class SettingViewController: RxBaseViewController<SettingViewModel>
         $0.rowHeight = 51
         $0.register(withType: SettingTableViewCell.self)
     }
+    
+    var delegate: SettingViewDelegate?
     
     deinit {
         NotificationCenter.default.removeObserver(
@@ -151,12 +160,30 @@ public final class SettingViewController: RxBaseViewController<SettingViewModel>
         
         collectionView.rx.itemSelected
             .bind(with: self) { owner, indexPath in
-                owner.viewModel.didTapCollectionViewCell(at: indexPath.item)
+//                owner.viewModel.didTapCollectionViewCell(at: indexPath.item)
+                let data = owner.viewModel.profileMenuTitle.value
+                switch data[indexPath.item] {
+                case .region:
+                    owner.delegate?.regionTapped()
+                case .notification:
+                    owner.delegate?.notificationTapped()
+                }
             }.disposed(by: bag)
         
         tableView.rx.itemSelected
             .bind(with: self) { owner, indexPath in
-                owner.viewModel.didTapTableViewCell(at: indexPath.item)
+//                owner.viewModel.didTapTableViewCell(at: indexPath.item)
+                let data = owner.viewModel.menuTitle.value
+                switch data[indexPath.item] {
+                case .notification:
+                    break
+                case .inquiry:
+                    owner.delegate?.inquiryTapped()
+                case .policy:
+                    owner.delegate?.policyTapped()
+                case .versionInfo:
+                    break
+                }
             }.disposed(by: bag)
         
         titleLabel.rx.tapGesture()

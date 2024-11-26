@@ -10,6 +10,10 @@ import UIUtil
 import UIKit
 import RxSwift
 
+public protocol NotificationListViewDelegate {
+    func backButtonTapped()
+}
+
 public final class NotificationListViewController: RxBaseViewController<NotificationListViewModel>, Toastable {
     private var navigationView = CSNavigationView(.both(.leftArrow_black, .tab_mypage_nor)).then {
         $0.setTitle("알림")
@@ -58,6 +62,8 @@ public final class NotificationListViewController: RxBaseViewController<Notifica
         $0.register(withType: NotificationListTableViewCell.self)
         $0.registerHeaderFooterView(withType: NotificationListTableFooterView.self)
     }
+    
+    var delegate: NotificationListViewDelegate?
     
     deinit {
         NotificationCenter.default.removeObserver(self, name: .pushReceived, object: nil)
@@ -113,7 +119,8 @@ public final class NotificationListViewController: RxBaseViewController<Notifica
         
         navigationView.leftButtonDidTapRelay
             .drive(with: self) { owner, _ in
-                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
+//                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
+                owner.delegate?.backButtonTapped()
             }.disposed(by: bag)
         
         navigationView.rightButtonDidTapRelay

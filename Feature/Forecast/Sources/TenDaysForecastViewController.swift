@@ -10,6 +10,10 @@ import UIUtil
 import UIKit
 import RxSwift
 
+public protocol TenDaysForecastViewDelegate {
+    func backButtonTapped()
+}
+
 public final class TenDaysForeCastViewController: RxBaseViewController<TenDaysForecastViewModel> {
     private var navigationView = CSNavigationView(.leftOnly(.navi_back_white)).then {
         $0.backgroundColor = .clear
@@ -71,6 +75,8 @@ public final class TenDaysForeCastViewController: RxBaseViewController<TenDaysFo
         $0.register(withType: TenDaysForecastTableViewCell.self)
     }
     
+    var delegate: TenDaysForecastViewDelegate?
+    
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.getForecastData()
@@ -106,7 +112,8 @@ public final class TenDaysForeCastViewController: RxBaseViewController<TenDaysFo
         
         navigationView.leftButtonDidTapRelay
             .drive(with: self, onNext: { owner, _ in
-                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
+//                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
+                owner.delegate?.backButtonTapped()
             }).disposed(by: bag)
         
         viewModel.shimmerStatus

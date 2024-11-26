@@ -35,6 +35,8 @@ public final class NicknameCompleteViewController: RxBaseViewController<Nickname
         $0.setTitle("네", for: .normal)
     }
     
+    var delegate: NicknameViewDelegate?
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
         nameLabel.text = viewModel.nickname
@@ -66,12 +68,14 @@ public final class NicknameCompleteViewController: RxBaseViewController<Nickname
         
         navigationView.leftButtonDidTapRelay
             .drive(with: self, onNext: { owner, _ in
-                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
+//                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
+                owner.delegate?.backButtonTapped()
             }).disposed(by: bag)
         
         refuseButton.rx.tap
             .bind(with: self) { owner, _ in
-                owner.viewModel.didTapRefuseButton()
+//                owner.viewModel.didTapRefuseButton()
+                owner.delegate?.backButtonTapped()
             }.disposed(by: bag)
         
         confirmButton.rx.tap

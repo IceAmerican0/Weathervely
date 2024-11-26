@@ -37,6 +37,8 @@ public final class EditRegionViewController: RxBaseViewController<EditRegionView
     
     private var listCount = 0
     
+    var delegate: RegionViewDelegate?
+    
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -59,12 +61,14 @@ public final class EditRegionViewController: RxBaseViewController<EditRegionView
         
         navigationView.leftButtonDidTapRelay
             .drive(with: self, onNext: { owner, _ in
-                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
+//                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
+                owner.delegate?.backButtonTapped()
             }).disposed(by: bag)
         
         confirmButton.rx.tap
             .bind(with:self) { owner, _ in
-                owner.viewModel.toSettingRegionView(.add)
+//                owner.viewModel.toSettingRegionView(.add)
+                owner.delegate?.addButtonTapped()
             }
             .disposed(by: bag)
     }

@@ -34,6 +34,8 @@ public final class SettingRegionCompleteViewController: RxBaseViewController<Set
         $0.setTitle("네", for: .normal)
     }
     
+    var delegate: RegionViewDelegate?
+    
     public override func layout() {
         super.layout()
         
@@ -64,12 +66,15 @@ public final class SettingRegionCompleteViewController: RxBaseViewController<Set
         
         navigationView.leftButtonDidTapRelay
             .drive(with: self, onNext: { owner, _ in
-                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
+//                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
+                owner.delegate?.backButtonTapped()
             }).disposed(by: bag)
         
         negativeButton.rx.tap
-            .bind(to: viewModel.navigationPopViewControllerRelay)
-            .disposed(by: bag)
+            .bind(with: self, onNext: { owner, _ in
+//                viewModel.navigationPopViewControllerRelay
+                owner.delegate?.backButtonTapped()
+            }).disposed(by: bag)
         
         confirmButton.rx.tap
             .bind(with: self) { owner, _ in

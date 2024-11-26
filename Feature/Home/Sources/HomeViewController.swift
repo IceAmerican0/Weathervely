@@ -25,7 +25,7 @@ public protocol HomeViewDelegate {
     func regionTapped()
     func notificationTapped()
     func forecastTapped()
-    func filterTapped()
+    func filterTapped(delegate: HomeStyleFilterViewDelegate, selectedTime: String)
     func detailTapped(closetID: Int, tempID: Int)
 }
 
@@ -349,7 +349,11 @@ extension HomeViewController {
                         
                         $0.buttonTap
                             .drive(with: self) { owner, _ in
-                                owner.viewModel.filterCloset(delegate: self)
+                                owner.delegate?.filterTapped(
+                                    delegate: self,
+                                    selectedTime: owner.viewModel.selectedTime
+                                )
+//                                owner.viewModel.filterCloset(delegate: self)
                             }.disposed(by: $0.bag)
                         
                         $0.delegate = self

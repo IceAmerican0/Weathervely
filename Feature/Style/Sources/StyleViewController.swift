@@ -12,6 +12,10 @@ import RxSwift
 import RxDataSources
 import RxGesture
 
+public protocol StyleViewDelegate {
+    func detailTapped(closetID: Int, tempID: Int)
+}
+
 public final class StyleViewController: RxBaseViewController<StyleViewModel> {
     private let shimmerView = StyleShimmerView()
     
@@ -43,6 +47,8 @@ public final class StyleViewController: RxBaseViewController<StyleViewModel> {
     
     private lazy var dataSource = setDataSource()
     
+    var delegate: StyleViewDelegate?
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.getTypes()
@@ -72,7 +78,8 @@ public final class StyleViewController: RxBaseViewController<StyleViewModel> {
                     let row = indexPath.row
                     
                     if case .card(let item) = owner.dataSource[indexPath.section] {
-                        owner.viewModel.toDetailView(id: item[row].closetId, temp: item[row].temperature.tempId)
+                        owner.delegate?.detailTapped(closetID: item[row].closetId, tempID: item[row].temperature.tempId)
+//                        owner.viewModel.toDetailView(id: item[row].closetId, temp: item[row].temperature.tempId)
                     }
                 }
             ).disposed(by: bag)

@@ -9,8 +9,13 @@
 import UIKit
 import UIUtil
 
-public class NotificationCoordinator: Coordinator {
+public protocol NotificationCoordinatorDelegate {
+    func backButtonTapped()
+}
+
+public class NotificationCoordinator: Coordinator, NotificationListViewDelegate {
     public var navigationController: UINavigationController
+    var delegate: NotificationCoordinatorDelegate?
     
     public init(navigationController: UINavigationController) {
         self.navigationController = navigationController
@@ -20,5 +25,9 @@ public class NotificationCoordinator: Coordinator {
         let vc = NotificationListViewController(NotificationListViewModel())
         vc.hidesBottomBarWhenPushed = true
         navigationController.viewControllers.append(vc)
+    }
+    
+    public func backButtonTapped() {
+        delegate?.backButtonTapped()
     }
 }

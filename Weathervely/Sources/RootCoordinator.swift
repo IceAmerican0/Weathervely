@@ -52,6 +52,10 @@ private extension RootCoordinator {
         navigationController.setViewControllers(navigationController.viewControllers, animated: true)
     }
     
+    func popViewController() {
+        navigationController.popViewController(animated: true)
+    }
+    
     // MARK: OnBoard
     func setRootGreeting() {
         navigationController = UINavigationController(rootViewController: GreetingViewController(EmptyViewModel()))
@@ -90,6 +94,12 @@ private extension RootCoordinator {
         setViewController()
     }
     
+    func toFilter(delegate: HomeStyleFilterViewDelegate, selectedTime: String) {
+        let coordinator = HomeCoordinator(navigationController: navigationController)
+        coordinator.toFilter(delegate: delegate, selectedTime: selectedTime)
+        
+    }
+    
     func toClosetDetail(closetID: Int, tempID: Int) {
         let coordinator = ClosetDetailCoordinator(
             navigationController: navigationController,
@@ -100,21 +110,9 @@ private extension RootCoordinator {
         setViewController()
     }
     
-    func toCompleteNickname(nickname: String) {
-        let coordinator = NicknameCoordinator(navigationController: navigationController)
-        coordinator.toComplete(nickname: nickname)
-        setViewController()
-    }
-    
     func toOnBoardRegion() {
         let coordinator = RegionCoordinator(navigationController: navigationController)
         coordinator.toSetting(state: .onboard)
-        setViewController()
-    }
-    
-    func toRegionComplete(state: SettingRegionState) {
-        let coordinator = RegionCoordinator(navigationController: navigationController)
-        coordinator.toComplete(state: state)
         setViewController()
     }
     
@@ -124,9 +122,21 @@ private extension RootCoordinator {
         setViewController()
     }
     
+    func toRegionComplete(state: SettingRegionState) {
+        let coordinator = RegionCoordinator(navigationController: navigationController)
+        coordinator.toComplete(state: state)
+        setViewController()
+    }
+    
     func toNickname() {
         let coordinator = NicknameCoordinator(navigationController: navigationController)
         coordinator.start()
+        setViewController()
+    }
+    
+    func toCompleteNickname(nickname: String) {
+        let coordinator = NicknameCoordinator(navigationController: navigationController)
+        coordinator.toComplete(nickname: nickname)
         setViewController()
     }
 }
@@ -134,8 +144,18 @@ private extension RootCoordinator {
 // MARK: Delegate
 extension RootCoordinator:
     HomeTabBarDelegate,
-    HomeCoordinatorDelegate
+    HomeCoordinatorDelegate,
+    StyleCoordinatorDelegate,
+    ClosetDetailCoordinatorDelegate,
+    NicknameCoordinatorDelegate,
+    RegionCoordinatorDelegate,
+    SettingCoordinatorDelegate
 {
+    public func backButtonTapped() {
+        popViewController()
+    }
+    
+    // MARK: TabBar
     public func getViewController(tab: Tab) -> UIViewController {
         switch tab {
         case .home: HomeViewController(HomeViewModel())
@@ -144,6 +164,7 @@ extension RootCoordinator:
         }
     }
     
+    // MARK: Home
     public func locationTapped() {
         toLocation()
     }
@@ -160,11 +181,43 @@ extension RootCoordinator:
         toForecast()
     }
     
-    public func filterTapped() {
+    public func filterTapped(delegate: HomeStyleFilterViewDelegate, selectedTime: String) {
+        toFilter(delegate: delegate, selectedTime: selectedTime)
+    }
+    
+    // MARK: ClosetDetail
+    public func detailTapped(closetID: Int, tempID: Int) {
+        toClosetDetail(closetID: closetID, tempID: tempID)
+    }
+    
+    // MARK: Nickname
+    public func nicknameEntered(nickname: String) {
+        toCompleteNickname(nickname: nickname)
+    }
+    
+    public func nicknameCompleted() {
+        toOnBoardRegion()
+    }
+    
+    // MARK: Region
+    public func changeButtonTapped() {
+        <#code#>
+    }
+    
+    public func addButtonTapped() {
+        <#code#>
+    }
+    
+    public func regionEntered(state: SettingRegionState) {
+        toRegionComplete(state: state)
+    }
+    
+    // MARK: Setting
+    public func inquiryTapped() {
         
     }
     
-    public func detailTapped(closetID: Int, tempID: Int) {
-        toClosetDetail(closetID: closetID, tempID: tempID)
+    public func policyTapped() {
+        
     }
 }

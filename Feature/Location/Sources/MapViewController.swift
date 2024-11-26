@@ -14,6 +14,10 @@ import RxCocoa
 import CoreLocation
 import KakaoMapsSDK
 
+public protocol MapViewDelegate {
+    func backButtonTapped()
+}
+
 public final class MapViewController: RxBaseViewController<MapViewModel> {
     private let navigationView = CSNavigationView(.leftOnly(.leftArrow_black)).then {
         $0.setTitle("동네 설정")
@@ -62,6 +66,8 @@ public final class MapViewController: RxBaseViewController<MapViewModel> {
     
     private var cameraStoppedHandler: DisposableEventHandler?
     private var cameraStartHandler: DisposableEventHandler?
+    
+    var delegate: MapViewDelegate?
     
     deinit {
         mapController.pauseEngine()
@@ -132,7 +138,8 @@ public final class MapViewController: RxBaseViewController<MapViewModel> {
         
         navigationView.leftButtonDidTapRelay
             .drive(with: self) { owner, _ in
-                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
+//                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
+                owner.delegate?.backButtonTapped()
             }
             .disposed(by: bag)
         

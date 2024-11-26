@@ -117,8 +117,8 @@ public extension String {
         let uuid: String? = UUID().uuidString
         let tempID: String = "tempID-" + Date().microCurrent
         
-        if uuid != nil && uuid?.isEmpty == false {
-            return uuid ?? tempID
+        if let uuid, uuid.isEmpty != true {
+            return uuid
         } else {
             return tempID
         }

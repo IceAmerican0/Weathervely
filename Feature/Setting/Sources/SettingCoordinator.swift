@@ -9,8 +9,16 @@
 import UIKit
 import UIUtil
 
-public class SettingCoordinator: Coordinator {
+public protocol SettingCoordinatorDelegate {
+    func regionTapped()
+    func notificationTapped()
+    func inquiryTapped()
+    func policyTapped()
+}
+
+public class SettingCoordinator: Coordinator, SettingViewDelegate {
     public var navigationController: UINavigationController
+    var delegate: SettingCoordinatorDelegate?
     
     public init(navigationController: UINavigationController) {
         self.navigationController = navigationController
@@ -18,5 +26,21 @@ public class SettingCoordinator: Coordinator {
     
     public func start() {
         
+    }
+    
+    public func regionTapped() {
+        delegate?.regionTapped()
+    }
+    
+    public func notificationTapped() {
+        delegate?.notificationTapped()
+    }
+    
+    public func inquiryTapped() {
+        delegate?.inquiryTapped()
+    }
+    
+    public func policyTapped() {
+        delegate?.policyTapped()
     }
 }

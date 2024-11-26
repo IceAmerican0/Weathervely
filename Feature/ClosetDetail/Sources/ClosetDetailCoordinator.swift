@@ -10,6 +10,7 @@ import UIKit
 import UIUtil
 
 public protocol ClosetDetailCoordinatorDelegate {
+    func backButtonTapped()
     func detailTapped(closetID: Int, tempID: Int)
 }
 
@@ -31,6 +32,10 @@ public class ClosetDetailCoordinator: Coordinator, ClosetDetailViewDelegate {
         vc.hidesBottomBarWhenPushed = true
         vc.delegate = self
         navigationController.viewControllers.append(vc)
+    }
+    
+    public func backButtonTapped() {
+        delegate?.backButtonTapped()
     }
     
     public func detailTapped(closetID: Int, tempID: Int) {

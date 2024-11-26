@@ -63,6 +63,8 @@ public final class SettingRegionViewController: RxBaseViewController<SettingRegi
         $0.setTitle("확인", for: .normal)
     }
     
+    var delegate: RegionViewDelegate?
+    
     public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
@@ -112,7 +114,8 @@ public final class SettingRegionViewController: RxBaseViewController<SettingRegi
         
         navigationView.leftButtonDidTapRelay
             .drive(with: self, onNext: { owner, _ in
-                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
+//                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
+                owner.delegate?.backButtonTapped()
             }).disposed(by: bag)
         
         confirmButton.rx.tap

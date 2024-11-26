@@ -9,8 +9,13 @@
 import UIKit
 import UIUtil
 
-public class StyleCoordinator: Coordinator {
+public protocol StyleCoordinatorDelegate {
+    func detailTapped(closetID: Int, tempID: Int)
+}
+
+public class StyleCoordinator: Coordinator, StyleViewDelegate {
     public var navigationController: UINavigationController
+    var delegate: StyleCoordinatorDelegate?
     
     public init(navigationController: UINavigationController) {
         self.navigationController = navigationController
@@ -18,5 +23,9 @@ public class StyleCoordinator: Coordinator {
     
     public func start() {
         
+    }
+    
+    public func detailTapped(closetID: Int, tempID: Int) {
+        delegate?.detailTapped(closetID: closetID, tempID: tempID)
     }
 }

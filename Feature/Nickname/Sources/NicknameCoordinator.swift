@@ -9,8 +9,15 @@
 import UIKit
 import UIUtil
 
-public class NicknameCoordinator: Coordinator {
+public protocol NicknameCoordinatorDelegate {
+    func backButtonTapped()
+    func nicknameEntered(nickname: String)
+    func nicknameCompleted()
+}
+
+public class NicknameCoordinator: Coordinator, NicknameViewDelegate {
     public var navigationController: UINavigationController
+    var delegate: NicknameCoordinatorDelegate?
     
     public init(navigationController: UINavigationController) {
         self.navigationController = navigationController
@@ -26,5 +33,17 @@ public class NicknameCoordinator: Coordinator {
         let vc = NicknameCompleteViewController(NicknameCompleteViewModel(nickname: nickname))
         vc.hidesBottomBarWhenPushed = true
         navigationController.viewControllers.append(vc)
+    }
+    
+    public func backButtonTapped() {
+        delegate?.backButtonTapped()
+    }
+    
+    public func nicknameEntered(nickname: String) {
+        delegate?.nicknameEntered(nickname: nickname)
+    }
+    
+    public func nicknameCompleted() {
+        delegate?.nicknameCompleted()
     }
 }

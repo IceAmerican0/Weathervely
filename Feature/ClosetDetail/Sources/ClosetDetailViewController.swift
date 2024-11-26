@@ -13,6 +13,7 @@ import RxSwift
 import RxDataSources
 
 public protocol ClosetDetailViewDelegate {
+    func backButtonTapped()
     func detailTapped(closetID: Int, tempID: Int)
 }
 
@@ -72,7 +73,8 @@ public final class ClosetDetailViewController: RxBaseViewController<ClosetDetail
         
         navigationBar.leftButtonDidTapRelay
             .drive(with: self) { owner, _ in
-                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
+//                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
+                owner.delegate?.backButtonTapped()
             }
             .disposed(by: bag)
         

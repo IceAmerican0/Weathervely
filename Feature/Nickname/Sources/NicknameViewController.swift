@@ -9,6 +9,12 @@ import DesignSystem
 import UIUtil
 import UIKit
 
+public protocol NicknameViewDelegate {
+    func backButtonTapped()
+    func nicknameEntered(nickname: String)
+    func nicknameCompleted()
+}
+
 public final class NicknameViewController: RxBaseViewController<NicknameViewModel> {
     
     private let viewState = UserDefaultManager.shared.isOnBoard ? "설정" : "수정"
@@ -40,6 +46,8 @@ public final class NicknameViewController: RxBaseViewController<NicknameViewMode
         $0.setTitle("확인", for: .normal)
     }
     
+    var delegate: NicknameViewDelegate?
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
         registerKeyboardNotifications()
@@ -67,7 +75,8 @@ public final class NicknameViewController: RxBaseViewController<NicknameViewMode
         
         navigationView.leftButtonDidTapRelay
             .drive(with: self, onNext: { owner, _ in
-                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
+//                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
+                owner.delegate?.backButtonTapped()
             }).disposed(by: bag)
         
         confirmButton.rx.tap

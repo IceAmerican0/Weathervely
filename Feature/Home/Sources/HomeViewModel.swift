@@ -35,6 +35,7 @@ public protocol HomeViewModelLogic: ViewModelBusinessLogic {
     var forecastInfo: [HomeForecastInfo] { get }
     var selectedIndex: BehaviorRelay<Int> { get }
     var styleFilterList: [CategoryInfo] { get }
+    var selectedTime: String { get }
 }
 
 public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
@@ -53,14 +54,14 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     public var selectedIndex = BehaviorRelay<Int>(value: 0)
     /// 스타일 필터 리스트
     public var styleFilterList: [CategoryInfo] = []
+    /// 현재 보고 있는 시간
+    public var selectedTime = ""
     /// 스타일 추천 리스트
     private var closetList: [ClosetInfo] = []
     /// pagination용 리스트 총 개수
     private var closetListMaxCount = 0
     /// pagination용 이미 로드된 페이지
     private var loadedPage = 0
-    /// 현재 보고 있는 시간
-    private var selectedTime = ""
     
     /// 홈 전체 정보 취합 후 DataSource Reload
     public func loadHome() {

@@ -9,11 +9,20 @@
 import UIKit
 import UIUtil
 
-public class MapCoordinator: Coordinator {
+public protocol MapCoordinatorDelegate {
+    func backButtonTapped()
+}
+
+public class MapCoordinator: Coordinator, MapViewDelegate {
     public var navigationController: UINavigationController
+    var delegate: MapCoordinatorDelegate?
     
     public init(navigationController: UINavigationController) {
         self.navigationController = navigationController
+    }
+    
+    public func backButtonTapped() {
+        delegate?.backButtonTapped()
     }
     
     public func start() {

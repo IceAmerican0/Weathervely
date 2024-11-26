@@ -9,8 +9,16 @@
 import UIKit
 import UIUtil
 
-public class RegionCoordinator: Coordinator {
+public protocol RegionCoordinatorDelegate {
+    func backButtonTapped()
+    func changeButtonTapped()
+    func addButtonTapped()
+    func regionEntered(state: SettingRegionState)
+}
+
+public class RegionCoordinator: Coordinator, RegionViewDelegate {
     public var navigationController: UINavigationController
+    var delegate: RegionCoordinatorDelegate?
     
     private let vc = SettingRegionViewController(SettingRegionViewModel(.onboard))
     
@@ -43,5 +51,21 @@ public class RegionCoordinator: Coordinator {
 //        let vc = SettingRegionCompleteViewController(SettingRegionCompleteViewModel(state))
         vc.hidesBottomBarWhenPushed = true
         navigationController.viewControllers.append(vc)
+    }
+    
+    public func backButtonTapped() {
+        delegate?.backButtonTapped()
+    }
+    
+    public func changeButtonTapped() {
+        delegate?.changeButtonTapped()
+    }
+    
+    public func addButtonTapped() {
+        delegate?.addButtonTapped()
+    }
+    
+    public func regionEntered(state: SettingRegionState) {
+        delegate?.regionEntered(state: state)
     }
 }
