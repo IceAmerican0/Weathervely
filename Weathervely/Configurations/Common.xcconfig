@@ -1,0 +1,31 @@
+//
+//  Common.xcconfig
+//  Weatherbly
+//
+//  Created by Khai on 7/4/24.
+//
+
+// MARK: - Official Keys
+// https://developer.apple.com/documentation/xcode/build-settings-reference
+
+// 버전
+BUNDLE_VERSION = 2.0.1
+BUILD_NUMBER = 0.0.0
+
+// 번들
+BUNDLE_ID = com.redthree.weathervely
+
+// Signing
+CODE_SIGN_STYLE = Manual
+DEVELOPMENT_TEAM = M9YVZ9AJMM
+
+// 카카오
+KAKAO_APP_KEY_NATIVE = 41fdca5b4fae223d28b4ef6cdb8417b1
+KAKAO_APP_KEY_REST = 94e9855982bd4da35238debd0d23a313
+
+// Info.plist
+INFOPLIST_FILE = Resources/Info.plist
+
+// Server
+RELEASE_SERVER_URL = prod-server.weathervely.com
+TEST_SERVER_URL = 54.180.98.1:3000

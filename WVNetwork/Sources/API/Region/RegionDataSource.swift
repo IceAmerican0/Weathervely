@@ -1,0 +1,35 @@
+//
+//  RegionDataSource.swift
+//  Weatherbly
+//
+//  Created by 박성준 on 2023/07/16.
+//
+
+import Moya
+import RxSwift
+
+public protocol RegionDataSourceProtocol {
+    func searchRegion(_ request: String) -> Observable<SearchRegionEntity>
+    func coordToRegion(longitude: String, latitude: String) -> Observable<CoordToAddressEntity>
+}
+
+public final class RegionDataSource: RegionDataSourceProtocol {
+    
+    private let provider: WVProvider<RegionTarget>
+    
+    public init(provider: WVProvider<RegionTarget> = WVProvider<RegionTarget>()) {
+        self.provider = provider
+    }
+    
+    public func searchRegion(_ request: String) -> Observable<SearchRegionEntity> {
+        provider
+            .request(.searchRegion(request))
+            .mapTo(SearchRegionEntity.self)
+    }
+    
+    public func coordToRegion(longitude: String, latitude: String) -> Observable<CoordToAddressEntity> {
+        provider
+            .request(.coordToAddress(longitude: longitude, latitude: latitude))
+            .mapTo(CoordToAddressEntity.self)
+    }
+}

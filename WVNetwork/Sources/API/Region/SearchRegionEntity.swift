@@ -1,0 +1,172 @@
+//
+//  SearchRegionEntity.swift
+//  Weatherbly
+//
+//  Created by 박성준 on 2023/07/14.
+//
+
+import Foundation
+
+public struct SearchRegionEntity: Codable {
+    let meta: Meta
+    public let documents: [Document]
+    
+    public init(from decoder: Decoder) throws {
+       let container = try decoder.container(keyedBy: CodingKeys.self)
+       
+       let allDocuments = try container.decode([Document].self, forKey: .documents)
+       self.documents = allDocuments.filter { document in
+           var isAddressValid = true
+           var isRoadAddressValid = true
+           
+           if let addr = document.address {
+               isAddressValid = !(addr.region3DepthHName.isEmpty && addr.region3DepthName.isEmpty)
+           }
+           
+           if let roadAddr = document.roadAddress {
+               isRoadAddressValid = !roadAddr.region3DepthName.isEmpty
+           }
+           
+           return isAddressValid && isRoadAddressValid
+       }
+       
+       self.meta = try container.decode(Meta.self, forKey: .meta)
+   }
+}
+
+public struct Meta: Codable {
+    public let totalCount: Int
+    public let pageableCount: Int
+    public let isEnd: Bool
+    
+    enum CodingKeys: String, CodingKey {
+        case totalCount = "total_count"
+        case pageableCount = "pageable_count"
+        case isEnd = "is_end"
+    }
+}
+
+public struct Document: Codable {
+    public let addressName: String
+    public let y: String
+    public let x: String
+    public let addresstype: String
+    public let address: Address?
+    public let roadAddress: RoadAddress?
+    
+    enum CodingKeys: String, CodingKey {
+        case addressName = "address_name"
+        case y
+        case x
+        case addresstype = "address_type"
+        case address
+        case roadAddress = "road_address"
+    }
+    
+}
+
+public struct Address: Codable {
+    public let addressName: String
+    public let region1DepthName: String
+    public let region2DepthName: String
+    public let region3DepthHName: String
+    public let region3DepthName: String
+    public let hCode: String
+    public let bCode: String
+    public let mountainYN: String
+    public let mainAddressNo: String
+    public let subAddressNo: String
+    public let x: String
+    public let y: String
+    
+    enum CodingKeys: String, CodingKey {
+        case addressName = "address_name"
+        case region1DepthName = "region_1depth_name"
+        case region2DepthName = "region_2depth_name"
+        case region3DepthHName = "region_3depth_h_name"
+        case region3DepthName = "region_3depth_name"
+        case hCode = "h_code"
+        case bCode = "b_code"
+        case mountainYN = "mountain_yn"
+        case mainAddressNo = "main_address_no"
+        case subAddressNo = "sub_address_no"
+        case x
+        case y
+    }
+}
+
+public struct RoadAddress: Codable {
+    public let addressName: String
+    public let region1DepthName: String
+    public let region2DepthName: String
+    public let region3DepthName: String
+    public let roadName: String
+    public let undergroundYN: String
+    public let mainBuildingNo: String
+    public let subBuildingNo: String
+    public let buildingName: String
+    public let zoneNo: String
+    public let y: String
+    public let x: String
+    
+    enum CodingKeys: String, CodingKey {
+        case addressName = "address_name"
+        case region1DepthName = "region_1depth_name"
+        case region2DepthName = "region_2depth_name"
+        case region3DepthName = "region_3depth_name"
+        case roadName = "road_name"
+        case undergroundYN = "underground_yn"
+        case mainBuildingNo = "main_building_no"
+        case subBuildingNo = "sub_building_no"
+        case buildingName = "building_name"
+        case zoneNo = "zone_no"
+        case y
+        case x
+    }
+}
+
+/// Ex.
+//{
+//  "meta": {
+//    "total_count": 4,
+//    "pageable_count": 4,
+//    "is_end": true
+//  },
+//  "documents": [
+//    {
+//      "address_name": "전북 익산시 부송동 100",
+//      "y": "35.97664845766847",
+//      "x": "126.99597295767953",
+//      "address_type": "REGION_ADDR",
+//      "address": {
+//        "address_name": "전북 익산시 부송동 100",
+//        "region_1depth_name": "전북",
+//        "region_2depth_name": "익산시",
+//        "region_3depth_name": "부송동",
+//        "region_3depth_h_name": "삼성동",
+//        "h_code": "4514069000",
+//        "b_code": "4514013400",
+//        "mountain_yn": "N",
+//        "main_address_no": "100",
+//        "sub_address_no": "",
+//        "x": "126.99597295767953",
+//        "y": "35.97664845766847"
+//      },
+//      "road_address": {
+//        "address_name": "전북 익산시 망산길 11-17",
+//        "region_1depth_name": "전북",
+//        "region_2depth_name": "익산시",
+//        "region_3depth_name": "부송동",
+//        "road_name": "망산길",
+//        "underground_yn": "N",
+//        "main_building_no": "11",
+//        "sub_building_no": "17",
+//        "building_name": "",
+//        "zone_no": "54547",
+//        "y": "35.976749396987046",
+//        "x": "126.99599512792346"
+//      }
+//    },
+//    ...
+//  ]
+//}

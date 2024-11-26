@@ -1,0 +1,57 @@
+//
+//  AlertViewState.swift
+//  Weatherbly
+//
+//  Created by 박성준 on 2023/08/01.
+//
+
+import UIKit
+
+public struct AlertViewState {
+    public enum HapticType {
+        case success
+        case error
+        case warning
+        case select
+        case impact
+    }
+    
+    public var title: String
+    public var message: String?
+    public let closeAction: AlertActionHandler?
+    public let buttonListState: AlertButtonListState
+    public let hapticType: HapticType
+    public let closeAction: (() -> Void)?
+    
+    public init(
+        title: String,
+        message: String? = nil,
+        closeAction: AlertActionHandler? = nil,
+        buttonListState: AlertButtonListState = .single,
+        hapticType: HapticType = .impact
+    ) {
+        self.title = title
+        self.message = message
+        self.closeAction = closeAction
+        self.buttonListState = buttonListState
+        self.hapticType = hapticType
+        self.closeAction = closeAction
+    }
+}
+
+public typealias AlertActionHandler = () -> Void
+
+public enum AlertButtonListState {
+    case single
+    case double(left: AlertButtonState, right: AlertButtonState)
+}
+
+public struct AlertButtonState {
+    let title: String
+    let action: AlertActionHandler?
+    
+    public init(title: String, action: AlertActionHandler?) {
+        self.title = title
+        self.action = action
+    }
+}

@@ -1,0 +1,23 @@
+//
+//  Debug.xcconfig
+//  Weatherbly
+//
+//  Created by Khai on 7/4/24.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+#include "Common.xcconfig"
+
+// Signing
+CODE_SIGN_IDENTITY = iPhone Developer: Sung June Park (4B9B824BU4)
+
+// Provisioning
+PROVISIONING_PROFILE = Weathervely_251107_Develop
+
+// 앱 이름
+BUNDLE_DISPLAY_NAME = 웨더블리 DEV
+
+// Push Environment
+APS_ENVIRONMENT = development

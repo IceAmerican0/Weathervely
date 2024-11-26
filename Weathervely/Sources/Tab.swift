@@ -1,0 +1,39 @@
+//
+//  Tab.swift
+//  Weatherbly
+//
+//  Created by Khai on 10/16/23.
+//
+
+import ResourcePackage
+import UIKit
+
+public enum Tab: CaseIterable {
+    case home
+    case style
+    case setting
+    
+    var title: String {
+        switch self {
+        case .home: "홈"
+        case .style: "스타일"
+        case .setting: "마이페이지"
+        }
+    }
+    
+    var image: UIImage {
+        switch self {
+        case .home: UIImage.tab_home_nor
+        case .style: UIImage.tab_style_nor
+        case .setting: UIImage.tab_mypage_nor
+        }
+    }
+    
+    var selectedImage: UIImage {
+        switch self {
+        case .home: UIImage.tab_home_sel
+        case .style: UIImage.tab_style_sel
+        case .setting: UIImage.tab_mypage_sel
+        }
+    }
+}

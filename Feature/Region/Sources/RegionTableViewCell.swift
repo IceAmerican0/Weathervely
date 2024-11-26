@@ -1,0 +1,55 @@
+//
+//  RegionTableViewCell.swift
+//  Weatherbly
+//
+//  Created by 박성준 on 2023/07/12.
+//
+
+import DesignSystem
+import UIKit
+
+public final class RegionTableViewCell: UITableViewCell {
+    public var regionLabel = LabelMaker(
+        font: .body_3_M
+    ).make().then {
+        $0.numberOfLines = 1
+        $0.lineBreakMode = .byTruncatingTail
+    }
+    
+    var arrow = UIImageView().then {
+        $0.image = .rightArrow_gray
+    }
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        layout()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override public func layoutSubviews() {
+        super.layoutSubviews()
+        contentView.flex.layout()
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    }
+    
+    private func layout() {
+<<<<<<< HEAD:Weatherbly/Weatherbly/Feature/OnBoard/SettingRegion/RegionTableViewCell.swift
+        contentView.flex.direction(.row).justifyContent(.center).alignItems(.center).define { flex in
+            flex.addItem(regionLabel).marginLeft(10).width(labelWidth).height(28)
+            flex.addItem(rightArrowImageView).marginLeft(8).size(24)
+=======
+        contentView.flex.direction(.row).justifyContent(.spaceBetween).alignItems(.center).define { flex in
+            flex.addItem(regionLabel).marginLeft(8).grow(1).shrink(1)
+            flex.addItem(arrow).marginRight(8).size(16)
+>>>>>>> minor:Feature/Region/Sources/RegionTableViewCell.swift
+        }
+    }
+    
+    func configureCellState(_ region: String) {
+        regionLabel.text = region
+    }
+}
