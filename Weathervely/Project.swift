@@ -31,6 +31,7 @@ let project = Project.build(model: .init(
             ] + .FeatureDeps
         ))
     ],
+    settings: Settings.baseSetting,
     resourceSynthesizers: [
         .plists()
     ]

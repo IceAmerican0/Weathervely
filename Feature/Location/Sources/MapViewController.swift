@@ -336,7 +336,7 @@ extension MapViewController {
         let textStyle = TextStyle(
             fontSize: 50,
             fontColor: .black, 
-            font: GothicNeo.bold
+            font: FontFamily.AppleSDGothicNeoB00.regular.name
         )
         let textLineStyle = PoiTextLineStyle(textStyle: textStyle)
         let poiTextStyle = PoiTextStyle(textLineStyles: [textLineStyle]).then {
