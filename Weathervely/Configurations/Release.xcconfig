@@ -11,10 +11,10 @@
 #include "Common.xcconfig"
 
 // Signing
-CODE_SIGN_IDENTITY = iPhone Distribution: Sung June Park (M9YVZ9AJMM)
+CODE_SIGN_IDENTITY = Apple Distribution: Sung June Park (M9YVZ9AJMM)
 
 // Provisioning
-PROVISIONING_PROFILE = Weathervely_251107_Release
+PROVISIONING_PROFILE = weathervely_release_251127
 
 // 앱 이름
 BUNDLE_DISPLAY_NAME = 웨더블리
