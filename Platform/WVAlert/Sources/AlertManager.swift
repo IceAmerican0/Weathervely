@@ -19,15 +19,17 @@ public final class AlertManager {
     }
     
     public func present(state: AlertViewState) {
-        if alertWindow != nil {
-            dismiss()
+        Task { @MainActor in
+            if alertWindow != nil {
+                dismiss()
+            }
+            
+            alertWindow = AlertWindow(level: windowLevel)
+            alertWindow?.accessibilityViewIsModal = true
+            
+            let alert = AlertView(state: state)
+            alertWindow?.present(view: alert)
         }
-        
-        alertWindow = AlertWindow(level: windowLevel)
-        alertWindow?.accessibilityViewIsModal = true
-        
-        let alert = AlertView(state: state)
-        alertWindow?.present(view: alert)
     }
     
     public func dismiss(completion: AlertActionHandler? = nil) {
