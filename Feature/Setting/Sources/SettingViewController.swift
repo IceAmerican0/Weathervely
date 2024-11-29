@@ -7,12 +7,14 @@
 
 import DesignSystem
 import UIUtil
+import WVAlert
 import UIKit
 import RxGesture
 import FlexLayout
 import RxSwift
 
 public protocol SettingViewDelegate {
+    func nicknameTapped()
     func regionTapped()
     func notificationTapped()
     func inquiryTapped()
@@ -135,7 +137,7 @@ public final class SettingViewController: RxBaseViewController<SettingViewModel>
         
         nameSetButton.rx.tap
             .bind(with: self) { owner, _ in
-                owner.viewModel.toEditNicknameView()
+                owner.delegate?.nicknameTapped()
             }.disposed(by: bag)
         
         viewModel.profileMenuTitle
@@ -160,7 +162,6 @@ public final class SettingViewController: RxBaseViewController<SettingViewModel>
         
         collectionView.rx.itemSelected
             .bind(with: self) { owner, indexPath in
-//                owner.viewModel.didTapCollectionViewCell(at: indexPath.item)
                 let data = owner.viewModel.profileMenuTitle.value
                 switch data[indexPath.item] {
                 case .region:
@@ -172,16 +173,14 @@ public final class SettingViewController: RxBaseViewController<SettingViewModel>
         
         tableView.rx.itemSelected
             .bind(with: self) { owner, indexPath in
-//                owner.viewModel.didTapTableViewCell(at: indexPath.item)
                 let data = owner.viewModel.menuTitle.value
                 switch data[indexPath.item] {
-                case .notification:
-                    break
                 case .inquiry:
                     owner.delegate?.inquiryTapped()
                 case .policy:
                     owner.delegate?.policyTapped()
-                case .versionInfo:
+                case .notification,
+                     .versionInfo:
                     break
                 }
             }.disposed(by: bag)

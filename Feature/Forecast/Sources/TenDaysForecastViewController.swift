@@ -112,7 +112,6 @@ public final class TenDaysForeCastViewController: RxBaseViewController<TenDaysFo
         
         navigationView.leftButtonDidTapRelay
             .drive(with: self, onNext: { owner, _ in
-//                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
                 owner.delegate?.backButtonTapped()
             }).disposed(by: bag)
         

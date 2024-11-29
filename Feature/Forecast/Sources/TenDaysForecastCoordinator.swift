@@ -15,7 +15,7 @@ public protocol TendaysForecastCoordinatorDelegate {
 
 public class TenDaysForecastCoordinator: Coordinator, TenDaysForecastViewDelegate {
     public var navigationController: UINavigationController
-    var delegate: TendaysForecastCoordinatorDelegate?
+    public var delegate: TendaysForecastCoordinatorDelegate?
     
     public init(navigationController: UINavigationController) {
         self.navigationController = navigationController

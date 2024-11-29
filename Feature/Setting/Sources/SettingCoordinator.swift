@@ -10,6 +10,7 @@ import UIKit
 import UIUtil
 
 public protocol SettingCoordinatorDelegate {
+    func nicknameTapped()
     func regionTapped()
     func notificationTapped()
     func inquiryTapped()
@@ -18,14 +19,20 @@ public protocol SettingCoordinatorDelegate {
 
 public class SettingCoordinator: Coordinator, SettingViewDelegate {
     public var navigationController: UINavigationController
-    var delegate: SettingCoordinatorDelegate?
+    public var delegate: SettingCoordinatorDelegate?
     
     public init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
     
     public func start() {
-        
+        let vc = SettingViewController(SettingViewModel())
+        vc.delegate = self
+        navigationController.viewControllers.append(vc)
+    }
+    
+    public func nicknameTapped() {
+        delegate?.nicknameTapped()
     }
     
     public func regionTapped() {

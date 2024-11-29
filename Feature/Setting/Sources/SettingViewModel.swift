@@ -13,9 +13,6 @@ import RxCocoa
 import SafariServices
 
 public protocol SettingViewModelLogic: ViewModelBusinessLogic {
-    func toEditNicknameView()
-    func didTapCollectionViewCell(at index: Int)
-    func didTapTableViewCell(at index: Int)
     func pushSetting(selected: Bool)
     func showHiddenAlert()
     
@@ -39,30 +36,6 @@ public final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
     /// Gimmick 탭 횟수
     private var secretResetTapCount = 0
     
-    public func didTapCollectionViewCell(at index: Int) {
-        let data = profileMenuTitle.value
-        switch data[index] {
-        case .region:
-            toEditRegionView()
-        case .notification:
-            toNotificationView()
-        }
-    }
-    
-    public func didTapTableViewCell(at index: Int) {
-        let data = menuTitle.value
-        switch data[index] {
-        case .notification:
-            break
-        case .inquiry:
-            sendMail()
-        case .policy:
-            toPrivacyPolicyView()
-        case .versionInfo:
-            break
-        }
-    }
-    
     /// 푸시 알림 여부
     public func pushSetting(selected: Bool) {
         userDefault.set(selected, forKey: UserDefaultKey.pushAgreement.rawValue)
@@ -84,39 +57,6 @@ public final class SettingViewModel: RxBaseViewModel, SettingViewModelLogic {
                     debuggerPrint("error fetching push agreement: \(error)")
                 }
             ).disposed(by: bag)
-    }
-    
-    /// 닉네임 설정
-    public func toEditNicknameView() {
-//        let vc = NicknameViewController(NicknameViewModel())
-//        navigationPushViewControllerRelay.accept(vc)
-    }
-    
-    /// 동네 설정
-    private func toEditRegionView() {
-//        let vc = EditRegionViewController(EditRegionViewModel(.edit))
-//        navigationPushViewControllerRelay.accept(vc)
-    }
-    
-    /// 알림 설정
-    private func toNotificationView() {
-//        let vc = NotificationListViewController(NotificationListViewModel())
-//        navigationPushViewControllerRelay.accept(vc)
-    }
-    
-    /// 문의하기
-    private func sendMail() {
-        let email = "weathervely@gmail.com"
-        guard let url = URL(string: "mailto:\(email)") else { return }
-        UIApplication.shared.open(url)
-    }
-    
-    /// 약관 및 정책
-    private func toPrivacyPolicyView() {
-        let urlString = "https://docs.google.com/document/d/1MnwR04jGms26yha2oSdps06Ju0wMn-hGS1Zs6JtDAf8/edit?usp=sharing"
-        guard let url = URL(string: urlString) else { return }
-        let webView = SFSafariViewController(url: url)
-        presentViewControllerNoAnimationRelay.accept(webView)
     }
     
     public func showHiddenAlert() {

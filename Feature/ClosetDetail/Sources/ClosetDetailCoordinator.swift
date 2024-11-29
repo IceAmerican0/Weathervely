@@ -11,13 +11,15 @@ import UIUtil
 
 public protocol ClosetDetailCoordinatorDelegate {
     func backButtonTapped()
+    func homeButtonTapped()
     func detailTapped(closetID: Int, tempID: Int)
+    func mallTapped(urlString: String)
 }
 
 public class ClosetDetailCoordinator: Coordinator, ClosetDetailViewDelegate {
     public var navigationController: UINavigationController
     private var vc: ClosetDetailViewController
-    var delegate: ClosetDetailCoordinatorDelegate?
+    public var delegate: ClosetDetailCoordinatorDelegate?
     
     public init(
         navigationController: UINavigationController,
@@ -38,7 +40,15 @@ public class ClosetDetailCoordinator: Coordinator, ClosetDetailViewDelegate {
         delegate?.backButtonTapped()
     }
     
+    public func homeButtonTapped() {
+        delegate?.homeButtonTapped()
+    }
+    
     public func detailTapped(closetID: Int, tempID: Int) {
         delegate?.detailTapped(closetID: closetID, tempID: tempID)
+    }
+    
+    public func mallTapped(urlString: String) {
+        delegate?.mallTapped(urlString: urlString)
     }
 }

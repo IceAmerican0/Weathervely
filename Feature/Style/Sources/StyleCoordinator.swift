@@ -15,7 +15,7 @@ public protocol StyleCoordinatorDelegate {
 
 public class StyleCoordinator: Coordinator, StyleViewDelegate {
     public var navigationController: UINavigationController
-    var delegate: StyleCoordinatorDelegate?
+    public var delegate: StyleCoordinatorDelegate?
     
     public init(navigationController: UINavigationController) {
         self.navigationController = navigationController

@@ -23,11 +23,6 @@ public protocol HomeViewModelLogic: ViewModelBusinessLogic {
     func didTapTimeLabel()
     func filterCloset(delegate: HomeStyleFilterViewDelegate)
     func stylePicked(closetID: Int)
-    func toDetailView(state: ClosetInfo)
-    func toEditRegionView()
-    func toNotificationListView()
-    func toTendaysForecastView()
-    func toMapView()
     
     var shimmerStatus: PublishRelay<Bool> { get }
     var refreshStatus: PublishRelay<Bool> { get }
@@ -279,34 +274,5 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                 )
             )
         }
-    }
-    
-    /// 상세보기 이동
-    public func toDetailView(state: ClosetInfo) {
-//        let vc = ClosetDetailViewController(ClosetDetailViewModel(closetId: state.closetId, tempId: state.temperature.tempId))
-//        navigationPushViewControllerRelay.accept(vc)
-    }
-    
-    /// 알림페이지 이동
-    public func toNotificationListView() {
-//        let vc = NotificationListViewController(NotificationListViewModel())
-//        navigationPushViewControllerRelay.accept(vc)
-    }
-    
-    /// 10일간 날씨 예보 이동
-    public func toTendaysForecastView() {
-//        let vc = TenDaysForeCastViewController(TenDaysForecastViewModel())
-//        navigationPushViewControllerRelay.accept(vc)
-    }
-    
-    /// 동네 설정 이동
-    public func toEditRegionView() {
-//        let vc = EditRegionViewController(EditRegionViewModel(.edit))
-//        navigationPushViewControllerRelay.accept(vc)
-    }
-    
-    public func toMapView() {
-//        let vc = MapViewController(MapViewModel())
-//        navigationPushViewControllerRelay.accept(vc)
     }
 }

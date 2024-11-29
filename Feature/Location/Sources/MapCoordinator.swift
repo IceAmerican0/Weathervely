@@ -11,11 +11,12 @@ import UIUtil
 
 public protocol MapCoordinatorDelegate {
     func backButtonTapped()
+    func settingTapped()
 }
 
 public class MapCoordinator: Coordinator, MapViewDelegate {
     public var navigationController: UINavigationController
-    var delegate: MapCoordinatorDelegate?
+    public var delegate: MapCoordinatorDelegate?
     
     public init(navigationController: UINavigationController) {
         self.navigationController = navigationController
@@ -23,6 +24,10 @@ public class MapCoordinator: Coordinator, MapViewDelegate {
     
     public func backButtonTapped() {
         delegate?.backButtonTapped()
+    }
+    
+    public func settingTapped() {
+        delegate?.settingTapped()
     }
     
     public func start() {

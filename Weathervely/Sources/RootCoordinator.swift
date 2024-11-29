@@ -17,6 +17,7 @@ import Notification
 import Region
 import Setting
 import Style
+import SafariServices
 
 public class RootCoordinator: Coordinator {
     
@@ -56,12 +57,15 @@ private extension RootCoordinator {
         navigationController.popViewController(animated: true)
     }
     
+    func popToRootViewController() {
+        navigationController.popToRootViewController(animated: true)
+    }
+    
     // MARK: OnBoard
     func setRootGreeting() {
         navigationController = UINavigationController(rootViewController: GreetingViewController(EmptyViewModel()))
         setRootWindow()
     }
-    
     
     func setRootRegion() {
         let coordinator = RegionCoordinator(navigationController: navigationController)
@@ -78,26 +82,29 @@ private extension RootCoordinator {
     // MARK: Navigation
     func toLocation() {
         let coordinator = MapCoordinator(navigationController: navigationController)
+        coordinator.delegate = self
         coordinator.start()
         setViewController()
     }
     
     func toNotification() {
         let coordinator = NotificationCoordinator(navigationController: navigationController)
+        coordinator.delegate = self
         coordinator.start()
         setViewController()
     }
     
     func toForecast() {
         let coordinator = TenDaysForecastCoordinator(navigationController: navigationController)
+        coordinator.delegate = self
         coordinator.start()
         setViewController()
     }
     
     func toFilter(delegate: HomeStyleFilterViewDelegate, selectedTime: String) {
         let coordinator = HomeCoordinator(navigationController: navigationController)
+        coordinator.delegate = self
         coordinator.toFilter(delegate: delegate, selectedTime: selectedTime)
-        
     }
     
     func toClosetDetail(closetID: Int, tempID: Int) {
@@ -106,50 +113,73 @@ private extension RootCoordinator {
             closetID: closetID,
             tempID: tempID
         )
+        coordinator.delegate = self
         coordinator.start()
         setViewController()
     }
     
     func toOnBoardRegion() {
         let coordinator = RegionCoordinator(navigationController: navigationController)
-        coordinator.toSetting(state: .onboard)
-        setViewController()
+        coordinator.delegate = self
+        coordinator.toOnboard()
     }
     
-    func toRegion() {
+    func toRegion(state: EditRegionState) {
         let coordinator = RegionCoordinator(navigationController: navigationController)
-        coordinator.toEdit(state: .edit)
+        coordinator.delegate = self
+        coordinator.toEdit(state: state)
         setViewController()
     }
     
     func toRegionComplete(state: SettingRegionState) {
         let coordinator = RegionCoordinator(navigationController: navigationController)
+        coordinator.delegate = self
         coordinator.toComplete(state: state)
         setViewController()
     }
     
     func toNickname() {
         let coordinator = NicknameCoordinator(navigationController: navigationController)
+        coordinator.delegate = self
         coordinator.start()
         setViewController()
     }
     
     func toCompleteNickname(nickname: String) {
         let coordinator = NicknameCoordinator(navigationController: navigationController)
+        coordinator.delegate = self
         coordinator.toComplete(nickname: nickname)
         setViewController()
+    }
+    
+    // MARK: Safari
+    func openSafari(urlString: String) {
+        guard let url = URL(string: urlString) else { return }
+        let webView = SFSafariViewController(url: url)
+        navigationController.present(webView, animated: false)
+    }
+    
+    // MARK: OS Settings
+    func openSettings() {
+        guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+        Task { @MainActor in
+            UIApplication.shared.open(url)
+        }
     }
 }
 
 // MARK: Delegate
 extension RootCoordinator:
+    ClosetDetailCoordinatorDelegate,
+    TendaysForecastCoordinatorDelegate,
     HomeTabBarDelegate,
     HomeCoordinatorDelegate,
-    StyleCoordinatorDelegate,
-    ClosetDetailCoordinatorDelegate,
+    MapCoordinatorDelegate,
     NicknameCoordinatorDelegate,
+    NotificationCoordinatorDelegate,
     RegionCoordinatorDelegate,
-    SettingCoordinatorDelegate
+    SettingCoordinatorDelegate,
+    StyleCoordinatorDelegate
 {
     public func backButtonTapped() {
         popViewController()
@@ -170,7 +200,7 @@ extension RootCoordinator:
     }
     
     public func regionTapped() {
-        toRegion()
+        toRegion(state: .edit)
     }
     
     public func notificationTapped() {
@@ -186,8 +216,16 @@ extension RootCoordinator:
     }
     
     // MARK: ClosetDetail
+    public func homeButtonTapped() {
+        popToRootViewController()
+    }
+    
     public func detailTapped(closetID: Int, tempID: Int) {
         toClosetDetail(closetID: closetID, tempID: tempID)
+    }
+    
+    public func mallTapped(urlString: String) {
+        openSafari(urlString: urlString)
     }
     
     // MARK: Nickname
@@ -195,29 +233,45 @@ extension RootCoordinator:
         toCompleteNickname(nickname: nickname)
     }
     
-    public func nicknameCompleted() {
+    public func nicknameOnboardCompleted() {
         toOnBoardRegion()
+    }
+    
+    public func nicknameCompleted() {
+        
     }
     
     // MARK: Region
     public func changeButtonTapped() {
-        <#code#>
+        toRegion(state: .change)
     }
     
     public func addButtonTapped() {
-        <#code#>
+        toRegion(state: .add)
     }
     
     public func regionEntered(state: SettingRegionState) {
         toRegionComplete(state: state)
     }
     
+    // MARK: Map
+    public func settingTapped() {
+        openSettings()
+    }
+    
     // MARK: Setting
+    public func nicknameTapped() {
+        toNickname()
+    }
+    
     public func inquiryTapped() {
-        
+        let email = "weathervely@gmail.com"
+        guard let url = URL(string: "mailto:\(email)") else { return }
+        UIApplication.shared.open(url)
     }
     
     public func policyTapped() {
-        
+        let urlString = "https://docs.google.com/document/d/1MnwR04jGms26yha2oSdps06Ju0wMn-hGS1Zs6JtDAf8/edit?usp=sharing"
+        openSafari(urlString: urlString)
     }
 }

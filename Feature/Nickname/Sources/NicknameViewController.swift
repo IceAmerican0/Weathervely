@@ -12,6 +12,7 @@ import UIKit
 public protocol NicknameViewDelegate {
     func backButtonTapped()
     func nicknameEntered(nickname: String)
+    func nicknameOnboardCompleted()
     func nicknameCompleted()
 }
 
@@ -75,7 +76,6 @@ public final class NicknameViewController: RxBaseViewController<NicknameViewMode
         
         navigationView.leftButtonDidTapRelay
             .drive(with: self, onNext: { owner, _ in
-//                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
                 owner.delegate?.backButtonTapped()
             }).disposed(by: bag)
         
@@ -94,6 +94,15 @@ public final class NicknameViewController: RxBaseViewController<NicknameViewMode
                     } else {
                         owner.confirmButton.isEnabled = false
                     }
+                }
+            ).disposed(by: bag)
+        
+        viewModel.savedNickname
+            .asDriver(onErrorJustReturn: "")
+            .drive(
+                with: self,
+                onNext: { owner, nickname in
+                    owner.delegate?.nicknameEntered(nickname: nickname)
                 }
             ).disposed(by: bag)
         

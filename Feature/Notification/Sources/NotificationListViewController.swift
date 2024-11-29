@@ -119,7 +119,6 @@ public final class NotificationListViewController: RxBaseViewController<Notifica
         
         navigationView.leftButtonDidTapRelay
             .drive(with: self) { owner, _ in
-//                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
                 owner.delegate?.backButtonTapped()
             }.disposed(by: bag)
         

@@ -24,7 +24,7 @@ public class HomeCoordinator:
 {
     public var navigationController: UINavigationController
     
-    var delegate: HomeCoordinatorDelegate?
+    public var delegate: HomeCoordinatorDelegate?
     
     public init(navigationController: UINavigationController) {
         self.navigationController = navigationController

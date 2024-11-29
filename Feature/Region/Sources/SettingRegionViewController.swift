@@ -114,7 +114,6 @@ public final class SettingRegionViewController: RxBaseViewController<SettingRegi
         
         navigationView.leftButtonDidTapRelay
             .drive(with: self, onNext: { owner, _ in
-//                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
                 owner.delegate?.backButtonTapped()
             }).disposed(by: bag)
         

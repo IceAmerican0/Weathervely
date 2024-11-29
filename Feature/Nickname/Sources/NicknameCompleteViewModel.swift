@@ -9,16 +9,20 @@ import WVAlert
 import UIUtil
 import WVNetwork
 import UIKit
+import RxRelay
 
 public protocol NicknameCompleteViewModelLogic: ViewModelBusinessLogic {
     func didTapRefuseButton()
     func didTapConfirmButton()
     
     var nickname: String { get }
+    var nicknameSaved: PublishRelay<Bool> { get }
 }
 
 public final class NicknameCompleteViewModel: RxBaseViewModel, NicknameCompleteViewModelLogic {
     public var nickname: String
+    
+    public var nicknameSaved: PublishRelay<Bool> = .init()
     
     public init(nickname: String) {
         self.nickname = nickname
@@ -41,10 +45,10 @@ public final class NicknameCompleteViewModel: RxBaseViewModel, NicknameCompleteV
             .subscribe(
                 with: self,
                 onNext: { owner, _ in
-                    owner.toSettingRegionView()
                     userDefault.set(owner.nickname, forKey: UserDefaultKey.nickname.rawValue)
                     userDefault.set(uuid, forKey: UserDefaultKey.uuid.rawValue)
                     KeychainManager.shared.saveUUID(uuid)
+                    owner.nicknameSaved.accept(true)
                 },
                 onError: { owner, error in
                     let message = error.localizedDescription
@@ -96,11 +100,5 @@ public final class NicknameCompleteViewModel: RxBaseViewModel, NicknameCompleteV
     /// 마이페이지
     private func toSettingView() {
         navigationPushToPreviousViewControllerRelay.accept([])
-    }
-    
-    /// 동네설정뷰
-    private func toSettingRegionView() {
-//        let vc = SettingRegionViewController(SettingRegionViewModel(.onboard))
-//        navigationSetRootPushViewControllerRelay.accept(vc)
     }
 }

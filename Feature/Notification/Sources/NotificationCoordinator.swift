@@ -15,7 +15,7 @@ public protocol NotificationCoordinatorDelegate {
 
 public class NotificationCoordinator: Coordinator, NotificationListViewDelegate {
     public var navigationController: UINavigationController
-    var delegate: NotificationCoordinatorDelegate?
+    public var delegate: NotificationCoordinatorDelegate?
     
     public init(navigationController: UINavigationController) {
         self.navigationController = navigationController

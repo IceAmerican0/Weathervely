@@ -10,12 +10,14 @@ import UIUtil
 import WVAlert
 import ResourcePackage
 import UIKit
+import RxSwift
 import RxCocoa
 import CoreLocation
 import KakaoMapsSDK
 
 public protocol MapViewDelegate {
     func backButtonTapped()
+    func settingTapped()
 }
 
 public final class MapViewController: RxBaseViewController<MapViewModel> {
@@ -138,7 +140,6 @@ public final class MapViewController: RxBaseViewController<MapViewModel> {
         
         navigationView.leftButtonDidTapRelay
             .drive(with: self) { owner, _ in
-//                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
                 owner.delegate?.backButtonTapped()
             }
             .disposed(by: bag)
@@ -152,6 +153,15 @@ public final class MapViewController: RxBaseViewController<MapViewModel> {
     
     public override func viewModelBinding() {
         super.viewModelBinding()
+        
+        viewModel.popView
+            .observe(on: MainScheduler.instance)
+            .bind(
+                with: self,
+                onNext: { owner, _ in
+                    owner.delegate?.backButtonTapped()
+                }
+            ).disposed(by: bag)
         
         viewModel.isLoading
             .asDriver()
@@ -206,11 +216,11 @@ extension MapViewController: CLLocationManagerDelegate {
              .denied:
             let laterState = AlertButtonState(
                 title: "나중에",
-                action: { self.viewModel.navigationPopViewControllerRelay.accept(Void()) }
+                action: { self.delegate?.backButtonTapped() }
             )
             let goSettingState = AlertButtonState(
                 title: "권한 설정하기",
-                action: { self.viewModel.goToSetting() }
+                action: { self.delegate?.settingTapped() }
             )
             
             AlertManager.shared.present(
@@ -295,7 +305,7 @@ extension MapViewController {
         auth = false
         
         if errorCode == 403 {
-            viewModel.goToSetting()
+            delegate?.settingTapped()
         } else {
             AlertManager.shared.present(
                 state: .init(

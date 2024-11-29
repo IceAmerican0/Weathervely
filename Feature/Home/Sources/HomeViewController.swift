@@ -136,18 +136,18 @@ public final class HomeViewController: RxBaseViewController<HomeViewModel> {
         locationButton.rx.tapGesture()
             .when(.recognized)
             .bind(with: self) { owner, _ in
-                owner.viewModel.toMapView()
+                owner.delegate?.locationTapped()
             }.disposed(by: bag)
         
         regionLabel.rx.tapGesture()
             .when(.recognized)
             .bind(with: self) { owner, _ in
-                owner.viewModel.toEditRegionView()
+                owner.delegate?.regionTapped()
             }.disposed(by: bag)
         
         notificationButton.rx.tap
             .bind(with: self) { owner, _ in
-                owner.viewModel.toNotificationListView()
+                owner.delegate?.notificationTapped()
             }.disposed(by: bag)
         
         prevButton.rx.tap
@@ -207,7 +207,7 @@ public final class HomeViewController: RxBaseViewController<HomeViewModel> {
                 if case let .closet(cellState) = owner.dataSource[indexPath] {
                     guard cellState.closetId >= 0 else { return }
                     owner.viewModel.stylePicked(closetID: cellState.closetId)
-                    owner.viewModel.toDetailView(state: cellState)
+                    owner.delegate?.detailTapped(closetID: cellState.closetId, tempID: cellState.temperature.tempId)
                 }
             }.disposed(by: bag)
         
