@@ -12,7 +12,6 @@ let project = Project.build(model: .init(
             dependencies: [
                 .SPM.RxSwift,
                 .SPM.RxCocoa,
-                .SPM.RxRelay,
                 .SPM.FlexLayout,
                 .SPM.PinLayout,
                 .SPM.Then,

@@ -22,17 +22,18 @@ public class MapCoordinator: Coordinator, MapViewDelegate {
         self.navigationController = navigationController
     }
     
+    public func start() {
+        let vc = MapViewController(MapViewModel())
+        vc.delegate = self
+        vc.hidesBottomBarWhenPushed = true
+        navigationController.viewControllers.append(vc)
+    }
+    
     public func backButtonTapped() {
         delegate?.backButtonTapped()
     }
     
     public func settingTapped() {
         delegate?.settingTapped()
-    }
-    
-    public func start() {
-        let vc = MapViewController(MapViewModel())
-        vc.hidesBottomBarWhenPushed = true
-        navigationController.viewControllers.append(vc)
     }
 }

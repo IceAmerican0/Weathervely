@@ -23,6 +23,7 @@ public class NotificationCoordinator: Coordinator, NotificationListViewDelegate 
     
     public func start() {
         let vc = NotificationListViewController(NotificationListViewModel())
+        vc.delegate = self
         vc.hidesBottomBarWhenPushed = true
         navigationController.viewControllers.append(vc)
     }

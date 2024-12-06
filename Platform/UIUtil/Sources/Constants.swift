@@ -44,7 +44,7 @@ public enum Constants {
         fetchValue(for: "TEST_SERVER_URL") as? String ?? ""
     }
     /// Screen Width
-    public static let screenWidth = (UIApplication.shared.connectedScenes.first as? UIWindowScene)!.screen.bounds.size.width
+    public static let screenWidth = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen.bounds.size.width ?? UIScreen.main.bounds.width
     /// Screen Height
     public static let screenHeight = UIScreen.main.bounds.height
     

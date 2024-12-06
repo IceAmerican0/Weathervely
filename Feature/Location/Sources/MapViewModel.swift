@@ -73,7 +73,7 @@ public final class MapViewModel: RxBaseViewModel, MapViewModelLogic {
                 },
                 onError: { owner, error in
                     owner.isLoading.accept(false)
-                    debugPrint(error)
+                    debuggerPrint(error.localizedDescription)
                 }
             ).disposed(by: bag)
     }
