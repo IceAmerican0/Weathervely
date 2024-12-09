@@ -66,12 +66,14 @@ public final class HomeStyleFilterView: UICollectionReusableView {
         viewState = state
         filterList.reloadData()
         
-        Task { @MainActor in
-            let selectedList = UserDefaultManager.shared.homeStyleFilterList
-            guard let index = self.viewState.firstIndex(where: { String($0.id) == selectedList.first }) else { return }
-            
-            let indexPath = IndexPath(item: index, section: 0)
-            self.filterList.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+        Task {
+            await MainActor.run {
+                let selectedList = UserDefaultManager.shared.homeStyleFilterList
+                guard let index = self.viewState.firstIndex(where: { String($0.id) == selectedList.first }) else { return }
+                
+                let indexPath = IndexPath(item: index, section: 0)
+                self.filterList.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+            }
         }
     }
 }

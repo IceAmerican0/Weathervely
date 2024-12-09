@@ -190,7 +190,7 @@ public final class NotificationListViewController: RxBaseViewController<Notifica
         } else {
             Task {
                 let isAuthorized = await UserNotificationManager.shared.checkAuthorization()
-                Task { @MainActor in
+                await MainActor.run {
                     self.updateView(status: isAuthorized)
                 }
             }
