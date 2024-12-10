@@ -60,6 +60,10 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     
     /// 홈 전체 정보 취합 후 DataSource Reload
     public func loadHome() {
+        if forecastInfo.isEmpty || styleFilterList.isEmpty || closetList.isEmpty {
+            settingEmptySection()
+        }
+        
         /// 예보 Section 정보
         let homeForecast: [HomeSection] = [
             .forecast(items: [.forecast(forecastInfo)])
@@ -80,10 +84,6 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                 )
             )
         ]
-        
-        if closetList.isEmpty {
-            settingEmptySection()
-        }
         
         banner += closetList
         
@@ -117,6 +117,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                 onError: { owner, error in
                     owner.shimmerStatus.accept(true)
                     owner.refreshStatus.accept(false)
+                    owner.loadHome()
                     AlertManager.shared.present(
                         state: .init(title: error.localizedDescription)
                     )
@@ -136,11 +137,9 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                 onError: { owner, error in
                     owner.shimmerStatus.accept(true)
                     owner.refreshStatus.accept(false)
+                    owner.loadHome()
                     AlertManager.shared.present(
-                        state: .init(
-                            title: error.localizedDescription,
-                            closeAction: { owner.getStyleFilterList() }
-                        )
+                        state: .init(title: error.localizedDescription)
                     )
                 }
             ).disposed(by: bag)
@@ -162,7 +161,6 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                 onError: { owner, error in
                     owner.shimmerStatus.accept(true)
                     owner.refreshStatus.accept(false)
-                    owner.settingEmptySection()
                     owner.loadHome()
                     AlertManager.shared.present(
                         state: .init(title: error.localizedDescription)
@@ -257,9 +255,29 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             ).disposed(by: bag)
     }
     
-    /// 코디리스트 비었을시 빈 cell 생성
+    /// 홈 로드 실패시 빈 값 세팅
     private func settingEmptySection() {
+        forecastInfo = []
+        styleFilterList = []
         closetList = []
+        
+        forecastInfo.append(
+            .init(
+                date: "",
+                time: "",
+                currentTemp: "",
+                minTemp: "",
+                maxTemp: "",
+                weather: "",
+                comment: ""
+            )
+        )
+        
+        styleFilterList = [
+            .init(id: -1, name: ""),
+            .init(id: -1, name: "")
+        ]
+        
         for _ in 0..<5 {
             closetList.append(
                 .init(
@@ -269,7 +287,9 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                     closetStatus: "", 
                     closetSiteName: "",
                     temperature: .init(
-                        tempId: 0, maxTemp: 0, minTemp: 0
+                        tempId: 0,
+                        maxTemp: 0,
+                        minTemp: 0
                     )
                 )
             )

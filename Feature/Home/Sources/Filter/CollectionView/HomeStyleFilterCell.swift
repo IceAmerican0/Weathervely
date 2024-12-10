@@ -51,6 +51,11 @@ public final class HomeStyleFilterCell: UICollectionViewCell {
     }
     
     public func configureCellState(state: CategoryInfo) {
+        if state.id == -1 {
+            setEmptyCell()
+            return
+        }
+        
         listButton.titleAttribute(title: state.name)
         
         if UserDefaultManager.shared.homeStyleFilterList.contains("\(state.id)") {
@@ -74,5 +79,12 @@ private extension HomeStyleFilterCell {
         contentView.flex.define {
             $0.addItem(listButton).grow(1)
         }
+    }
+    
+    func setEmptyCell() {
+        listButton.isUserInteractionEnabled = false
+        listButton.flex.width(80).height(29)
+        contentView.backgroundColor = .gray10
+        setLayout()
     }
 }

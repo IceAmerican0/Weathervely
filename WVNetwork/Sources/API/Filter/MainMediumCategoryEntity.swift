@@ -38,6 +38,14 @@ public struct CategoryInfo: Codable {
     public var id: Int
     public var name: String
     
+    public init(
+        id: Int,
+        name: String
+    ) {
+        self.id = id
+        self.name = name
+    }
+    
     enum CodingKeys: String, CodingKey {
         case id, name
     }

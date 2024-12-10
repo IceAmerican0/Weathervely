@@ -72,7 +72,8 @@ public final class HomeViewController: RxBaseViewController<HomeViewModel> {
     }
     
     private let nextButton = UIButton().then {
-        $0.setImage(.home_date_right_nor, for: .normal)
+        $0.setImage(.home_date_right_dis, for: .normal)
+        $0.isUserInteractionEnabled = false
     }
     
     private lazy var refresh = UIRefreshControl().then {
@@ -253,7 +254,11 @@ public final class HomeViewController: RxBaseViewController<HomeViewModel> {
     
     private func configureViewState(index: Int) {
         let info = viewModel.forecastInfo
-        if info.isEmpty { return }
+        if info.count < 2 {
+            timeLabel.text = Date().currentTime()
+            timeLabel.flex.markDirty()
+            return
+        }
         
         if index == 0 {
             prevButton.setImage(.home_date_left_dis, for: .normal)
@@ -317,7 +322,6 @@ extension HomeViewController {
                 cell.collectionView.rx.itemSelected
                     .bind(with: self) { owner, _ in
                         owner.delegate?.forecastTapped()
-//                        owner.viewModel.toTendaysForecastView()
                     }.disposed(by: cell.bag)
                 
                 return cell

@@ -21,6 +21,7 @@ public final class HomeForecastCell: UICollectionViewCell {
     
     private let failImageView = UIImageView().then {
         $0.image = .home_weather_empty
+        $0.addGradient(colors: .gradient10)
     }
     
     private let failLabel = LabelMaker(
@@ -83,6 +84,11 @@ public final class HomeForecastCell: UICollectionViewCell {
     }
     
     public func configureCellState(state: HomeForecastInfo) {
+        if state.date == "" {
+            loadFailed()
+            return
+        }
+        
         mainTempLabel.text = "\(state.currentTemp)°"
         mainTempLabel.flex.markDirty()
         dailyTempLabel.text = "\(String(Int(Double(state.minTemp) ?? 0.0)))° / \(String(Int(Double(state.maxTemp) ?? 0.0)))°"
@@ -97,6 +103,7 @@ public final class HomeForecastCell: UICollectionViewCell {
     public func loadFailed() {
         successView.isHidden = true
         loadFailedView.isHidden = false
+        flex.layout()
     }
 }
 
