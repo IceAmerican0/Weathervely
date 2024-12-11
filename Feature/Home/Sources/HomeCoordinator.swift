@@ -35,6 +35,13 @@ public class HomeCoordinator:
         vc.delegate = self
     }
     
+    public func getViewController() -> UIViewController {
+        let vc = HomeViewController(HomeViewModel())
+        vc.delegate = self
+        
+        return vc
+    }
+    
     public func toFilter(delegate: HomeStyleFilterViewDelegate, selectedTime: String) {
         let vc = FilterListViewController(FilterListViewModel(selectedTime: selectedTime))
         vc.delegate = delegate

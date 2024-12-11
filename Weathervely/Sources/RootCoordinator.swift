@@ -61,6 +61,14 @@ private extension RootCoordinator {
         navigationController.popToRootViewController(animated: true)
     }
     
+    func getTabBarNavigation() -> UINavigationController {
+        guard let tabBar = window?.rootViewController as? HomeTabBarController,
+              let currentNavigation = tabBar.currentNavigation else {
+            return navigationController
+        }
+        return currentNavigation
+    }
+    
     // MARK: OnBoard
     func setRootGreeting() {
         navigationController = UINavigationController(rootViewController: GreetingViewController(EmptyViewModel()))
@@ -75,47 +83,51 @@ private extension RootCoordinator {
     
     // MARK: TabBar
     func setTabBar() {
-        window?.rootViewController = HomeTabBarController()
+        let tabBar = HomeTabBarController()
+        tabBar.tabDelegate = self
+        tabBar.setTabBar()
+        
+        if let navigation = tabBar.viewControllers?.first as? UINavigationController {
+            navigationController = navigation
+        }
+        
+        window?.rootViewController = tabBar
         window?.makeKeyAndVisible()
     }
     
     // MARK: Navigation
     func toLocation() {
-        let coordinator = MapCoordinator(navigationController: navigationController)
+        let coordinator = MapCoordinator(navigationController: getTabBarNavigation())
         coordinator.delegate = self
         coordinator.start()
-        setViewController()
     }
     
     func toNotification() {
-        let coordinator = NotificationCoordinator(navigationController: navigationController)
+        let coordinator = NotificationCoordinator(navigationController: getTabBarNavigation())
         coordinator.delegate = self
         coordinator.start()
-        setViewController()
     }
     
     func toForecast() {
-        let coordinator = TenDaysForecastCoordinator(navigationController: navigationController)
+        let coordinator = TenDaysForecastCoordinator(navigationController: getTabBarNavigation())
         coordinator.delegate = self
         coordinator.start()
-        setViewController()
     }
     
     func toFilter(delegate: HomeStyleFilterViewDelegate, selectedTime: String) {
-        let coordinator = HomeCoordinator(navigationController: navigationController)
+        let coordinator = HomeCoordinator(navigationController: getTabBarNavigation())
         coordinator.delegate = self
         coordinator.toFilter(delegate: delegate, selectedTime: selectedTime)
     }
     
     func toClosetDetail(closetID: Int, tempID: Int) {
         let coordinator = ClosetDetailCoordinator(
-            navigationController: navigationController,
+            navigationController: getTabBarNavigation(),
             closetID: closetID,
             tempID: tempID
         )
         coordinator.delegate = self
         coordinator.start()
-        setViewController()
     }
     
     func toOnBoardRegion() {
@@ -124,29 +136,32 @@ private extension RootCoordinator {
         coordinator.toOnboard()
     }
     
-    func toRegion(state: EditRegionState) {
-        let coordinator = RegionCoordinator(navigationController: navigationController)
+    func toEditRegion(state: EditRegionState) {
+        let coordinator = RegionCoordinator(navigationController: getTabBarNavigation())
         coordinator.delegate = self
         coordinator.toEdit(state: state)
-        setViewController()
+    }
+    
+    func toSettingRegion(state: SettingRegionState) {
+        let coordinator = RegionCoordinator(navigationController: getTabBarNavigation())
+        coordinator.delegate = self
+        coordinator.toSetting(state: state)
     }
     
     func toRegionComplete(state: SettingRegionState) {
-        let coordinator = RegionCoordinator(navigationController: navigationController)
+        let coordinator = RegionCoordinator(navigationController: getTabBarNavigation())
         coordinator.delegate = self
         coordinator.toComplete(state: state)
-        setViewController()
     }
     
     func toNickname() {
-        let coordinator = NicknameCoordinator(navigationController: navigationController)
+        let coordinator = NicknameCoordinator(navigationController: getTabBarNavigation())
         coordinator.delegate = self
         coordinator.start()
-        setViewController()
     }
     
     func toCompleteNickname(nickname: String) {
-        let coordinator = NicknameCoordinator(navigationController: navigationController)
+        let coordinator = NicknameCoordinator(navigationController: getTabBarNavigation())
         coordinator.delegate = self
         coordinator.toComplete(nickname: nickname)
         setViewController()
@@ -162,8 +177,10 @@ private extension RootCoordinator {
     // MARK: OS Settings
     func openSettings() {
         guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
-        Task { @MainActor in
-            UIApplication.shared.open(url)
+        Task {
+            await MainActor.run {
+                UIApplication.shared.open(url)
+            }
         }
     }
 }
@@ -188,9 +205,18 @@ extension RootCoordinator:
     // MARK: TabBar
     public func getViewController(tab: Tab) -> UIViewController {
         switch tab {
-        case .home: HomeViewController(HomeViewModel())
-        case .style: StyleViewController(StyleViewModel())
-        case .setting: SettingViewController(SettingViewModel())
+        case .home:
+            let coordinator = HomeCoordinator(navigationController: navigationController)
+            coordinator.delegate = self
+            return coordinator.getViewController()
+        case .style:
+            let coordinator = StyleCoordinator(navigationController: navigationController)
+            coordinator.delegate = self
+            return coordinator.getViewController()
+        case .setting:
+            let coordinator = SettingCoordinator(navigationController: navigationController)
+            coordinator.delegate = self
+            return coordinator.getViewController()
         }
     }
     
@@ -200,7 +226,7 @@ extension RootCoordinator:
     }
     
     public func regionTapped() {
-        toRegion(state: .edit)
+        toEditRegion(state: .edit)
     }
     
     public func notificationTapped() {
@@ -243,11 +269,11 @@ extension RootCoordinator:
     
     // MARK: Region
     public func changeButtonTapped() {
-        toRegion(state: .change)
+        toEditRegion(state: .change)
     }
     
     public func addButtonTapped() {
-        toRegion(state: .add)
+        toSettingRegion(state: .add)
     }
     
     public func regionEntered(state: SettingRegionState) {

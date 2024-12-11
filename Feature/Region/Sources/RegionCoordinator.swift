@@ -47,14 +47,14 @@ public class RegionCoordinator: Coordinator, RegionViewDelegate {
         let vc = EditRegionViewController(EditRegionViewModel(state))
         vc.delegate = self
         vc.hidesBottomBarWhenPushed = true
-        navigationController.viewControllers.append(vc)
+        navigationController.pushViewController(vc, animated: true)
     }
     
     public func toComplete(state: SettingRegionState) {
 //        let vc = SettingRegionCompleteViewController(SettingRegionCompleteViewModel(state))
         vc.delegate = self
         vc.hidesBottomBarWhenPushed = true
-        navigationController.viewControllers.append(vc)
+        navigationController.pushViewController(vc, animated: true)
     }
     
     public func backButtonTapped() {

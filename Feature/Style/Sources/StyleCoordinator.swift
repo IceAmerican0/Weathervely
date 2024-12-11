@@ -25,6 +25,12 @@ public class StyleCoordinator: Coordinator, StyleViewDelegate {
         
     }
     
+    public func getViewController() -> UIViewController {
+        let vc = StyleViewController(StyleViewModel())
+        vc.delegate = self
+        return vc
+    }
+    
     public func detailTapped(closetID: Int, tempID: Int) {
         delegate?.detailTapped(closetID: closetID, tempID: tempID)
     }

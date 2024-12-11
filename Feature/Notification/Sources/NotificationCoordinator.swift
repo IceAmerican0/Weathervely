@@ -25,7 +25,7 @@ public class NotificationCoordinator: Coordinator, NotificationListViewDelegate 
         let vc = NotificationListViewController(NotificationListViewModel())
         vc.delegate = self
         vc.hidesBottomBarWhenPushed = true
-        navigationController.viewControllers.append(vc)
+        navigationController.pushViewController(vc, animated: true)
     }
     
     public func backButtonTapped() {

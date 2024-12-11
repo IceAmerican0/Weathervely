@@ -28,14 +28,14 @@ public class NicknameCoordinator: Coordinator, NicknameViewDelegate {
         let vc = NicknameViewController(NicknameViewModel())
         vc.delegate = self
         vc.hidesBottomBarWhenPushed = true
-        navigationController.viewControllers.append(vc)
+        navigationController.pushViewController(vc, animated: true)
     }
     
     public func toComplete(nickname: String) {
         let vc = NicknameCompleteViewController(NicknameCompleteViewModel(nickname: nickname))
         vc.delegate = self
         vc.hidesBottomBarWhenPushed = true
-        navigationController.viewControllers.append(vc)
+        navigationController.pushViewController(vc, animated: true)
     }
     
     public func backButtonTapped() {

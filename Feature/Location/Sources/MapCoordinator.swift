@@ -26,7 +26,7 @@ public class MapCoordinator: Coordinator, MapViewDelegate {
         let vc = MapViewController(MapViewModel())
         vc.delegate = self
         vc.hidesBottomBarWhenPushed = true
-        navigationController.viewControllers.append(vc)
+        navigationController.pushViewController(vc, animated: true)
     }
     
     public func backButtonTapped() {

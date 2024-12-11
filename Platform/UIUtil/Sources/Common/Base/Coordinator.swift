@@ -13,9 +13,3 @@ public protocol Coordinator: AnyObject {
     
     func start()
 }
-
-public protocol TabCoordinator {
-    var viewController: UIViewController { get set }
-    
-    func start() -> UINavigationController
-}

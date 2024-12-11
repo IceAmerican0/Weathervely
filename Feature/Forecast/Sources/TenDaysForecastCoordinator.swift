@@ -25,7 +25,7 @@ public class TenDaysForecastCoordinator: Coordinator, TenDaysForecastViewDelegat
         let vc = TenDaysForeCastViewController(TenDaysForecastViewModel())
         vc.hidesBottomBarWhenPushed = true
         vc.delegate = self
-        navigationController.viewControllers.append(vc)
+        navigationController.pushViewController(vc, animated: true)
     }
     
     public func backButtonTapped() {

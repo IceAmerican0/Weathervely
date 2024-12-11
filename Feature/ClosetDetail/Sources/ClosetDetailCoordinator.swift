@@ -33,7 +33,7 @@ public class ClosetDetailCoordinator: Coordinator, ClosetDetailViewDelegate {
     public func start() {
         vc.hidesBottomBarWhenPushed = true
         vc.delegate = self
-        navigationController.viewControllers.append(vc)
+        navigationController.pushViewController(vc, animated: true)
     }
     
     public func backButtonTapped() {

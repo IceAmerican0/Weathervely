@@ -31,6 +31,12 @@ public class SettingCoordinator: Coordinator, SettingViewDelegate {
         navigationController.viewControllers.append(vc)
     }
     
+    public func getViewController() -> UIViewController {
+        let vc = SettingViewController(SettingViewModel())
+        vc.delegate = self
+        return vc
+    }
+    
     public func nicknameTapped() {
         delegate?.nicknameTapped()
     }

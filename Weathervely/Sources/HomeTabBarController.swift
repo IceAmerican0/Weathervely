@@ -17,16 +17,18 @@ public final class HomeTabBarController: UITabBarController {
     
     public var tabDelegate: HomeTabBarDelegate?
     
+    var currentNavigation: UINavigationController? {
+        viewControllers?[selectedIndex] as? UINavigationController
+    }
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationController?.interactivePopGestureRecognizer?.delegate = nil
         navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-        
-        setTabBar()
     }
     
-    private func setTabBar() {
+    public func setTabBar() {
         var tabs: [UIViewController] = []
         Tab.allCases.forEach { tab in
             guard let vc = tabDelegate?.getViewController(tab: tab) else { return }
