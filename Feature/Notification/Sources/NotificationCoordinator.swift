@@ -11,6 +11,7 @@ import UIUtil
 
 public protocol NotificationCoordinatorDelegate {
     func backButtonTapped()
+    func myPageButtonTapped()
 }
 
 public class NotificationCoordinator: Coordinator, NotificationListViewDelegate {
@@ -30,5 +31,9 @@ public class NotificationCoordinator: Coordinator, NotificationListViewDelegate 
     
     public func backButtonTapped() {
         delegate?.backButtonTapped()
+    }
+    
+    public func myPageButtonTapped() {
+        delegate?.myPageButtonTapped()
     }
 }

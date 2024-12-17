@@ -21,11 +21,11 @@ import SafariServices
 
 public class RootCoordinator: Coordinator {
     
-    var window: UIWindow?
+    var window: UIWindow
     public var navigationController: UINavigationController
     
     public init(
-        window: UIWindow?,
+        window: UIWindow,
         navigationController: UINavigationController
     ) {
         self.window = window
@@ -45,8 +45,8 @@ public class RootCoordinator: Coordinator {
 
 private extension RootCoordinator {
     func setRootWindow() {
-        window?.rootViewController = navigationController
-        window?.makeKeyAndVisible()
+        window.rootViewController = navigationController
+        window.makeKeyAndVisible()
     }
     
     func setViewController() {
@@ -54,15 +54,16 @@ private extension RootCoordinator {
     }
     
     func popViewController() {
-        navigationController.popViewController(animated: true)
+        getTabBarNavigation().popViewController(animated: true)
     }
     
     func popToRootViewController() {
-        navigationController.popToRootViewController(animated: true)
+        getTabBarNavigation().popToRootViewController(animated: true)
     }
     
+    // MARK: TabBar
     func getTabBarNavigation() -> UINavigationController {
-        guard let tabBar = window?.rootViewController as? HomeTabBarController,
+        guard let tabBar = window.rootViewController as? HomeTabBarController,
               let currentNavigation = tabBar.currentNavigation else {
             return navigationController
         }
@@ -84,15 +85,54 @@ private extension RootCoordinator {
     // MARK: TabBar
     func setTabBar() {
         let tabBar = HomeTabBarController()
-        tabBar.tabDelegate = self
-        tabBar.setTabBar()
         
-        if let navigation = tabBar.viewControllers?.first as? UINavigationController {
-            navigationController = navigation
+        var viewControllers: [UINavigationController] = []
+        Tab.allCases.forEach { tabs in
+            let navigation = UINavigationController(
+                rootViewController: setTabBarController(tab: tabs)
+            )
+            viewControllers.append(navigation)
+        }
+        tabBar.viewControllers = viewControllers
+        
+        window.rootViewController = tabBar
+        window.makeKeyAndVisible()
+        
+        navigationController = getTabBarNavigation()
+    }
+    
+    func setTabBarController(tab: Tab) -> UIViewController {
+        var vc: UIViewController
+        switch tab {
+        case .home:
+            let coordinator = HomeCoordinator(navigationController: getTabBarNavigation())
+            coordinator.delegate = self
+            vc = coordinator.getViewController()
+        case .style:
+            let coordinator = StyleCoordinator(navigationController: getTabBarNavigation())
+            coordinator.delegate = self
+            vc = coordinator.getViewController()
+        case .setting:
+            let coordinator = SettingCoordinator(navigationController: getTabBarNavigation())
+            coordinator.delegate = self
+            vc = coordinator.getViewController()
         }
         
-        window?.rootViewController = tabBar
-        window?.makeKeyAndVisible()
+        vc.title = tab.title
+        vc.tabBarItem = UITabBarItem(
+            title: tab.title,
+            image: tab.image,
+            selectedImage: tab.selectedImage.withRenderingMode(.alwaysOriginal)
+        )
+        
+        return vc
+    }
+    
+    func toMyPageTab() {
+        if let homeTabBarController = getTabBarNavigation().tabBarController as? HomeTabBarController {
+            homeTabBarController.switchTab(tab: .setting)
+            getTabBarNavigation().viewControllers.removeLast()
+        }
     }
     
     // MARK: Navigation
@@ -189,7 +229,6 @@ private extension RootCoordinator {
 extension RootCoordinator:
     ClosetDetailCoordinatorDelegate,
     TendaysForecastCoordinatorDelegate,
-    HomeTabBarDelegate,
     HomeCoordinatorDelegate,
     MapCoordinatorDelegate,
     NicknameCoordinatorDelegate,
@@ -200,24 +239,6 @@ extension RootCoordinator:
 {
     public func backButtonTapped() {
         popViewController()
-    }
-    
-    // MARK: TabBar
-    public func getViewController(tab: Tab) -> UIViewController {
-        switch tab {
-        case .home:
-            let coordinator = HomeCoordinator(navigationController: navigationController)
-            coordinator.delegate = self
-            return coordinator.getViewController()
-        case .style:
-            let coordinator = StyleCoordinator(navigationController: navigationController)
-            coordinator.delegate = self
-            return coordinator.getViewController()
-        case .setting:
-            let coordinator = SettingCoordinator(navigationController: navigationController)
-            coordinator.delegate = self
-            return coordinator.getViewController()
-        }
     }
     
     // MARK: Home
@@ -278,6 +299,11 @@ extension RootCoordinator:
     
     public func regionEntered(state: SettingRegionState) {
         toRegionComplete(state: state)
+    }
+    
+    // MARK: Notification
+    public func myPageButtonTapped() {
+        toMyPageTab()
     }
     
     // MARK: Map

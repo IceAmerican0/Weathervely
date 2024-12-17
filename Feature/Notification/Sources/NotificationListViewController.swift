@@ -12,6 +12,7 @@ import RxSwift
 
 public protocol NotificationListViewDelegate {
     func backButtonTapped()
+    func myPageButtonTapped()
 }
 
 public final class NotificationListViewController: RxBaseViewController<NotificationListViewModel>, Toastable {
@@ -124,10 +125,7 @@ public final class NotificationListViewController: RxBaseViewController<Notifica
         
         navigationView.rightButtonDidTapRelay
             .drive(with: self) { owner, _ in
-//                if let homeTabBarController = owner.navigationController?.tabBarController as? HomeTabBarController {
-//                    homeTabBarController.switchTab(tab: .setting)
-//                    owner.navigationController?.viewControllers.removeLast()
-//                }
+                owner.delegate?.myPageButtonTapped()
             }.disposed(by: bag)
         
         notiButton.rx.tap

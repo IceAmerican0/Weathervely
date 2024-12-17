@@ -21,7 +21,6 @@ public protocol HomeViewModelLogic: ViewModelBusinessLogic {
     func buttonTapAction(action: ButtonTapAction)
     func getSelectedTimeInfo(direction: UISwipeGestureRecognizer.Direction)
     func didTapTimeLabel()
-    func filterCloset(delegate: HomeStyleFilterViewDelegate)
     func stylePicked(closetID: Int)
     
     var shimmerStatus: PublishRelay<Bool> { get }
@@ -234,14 +233,6 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         } else {
             selectedIndex.accept(0)
         }
-    }
-    
-    /// 필터링
-    public func filterCloset(delegate: HomeStyleFilterViewDelegate) {
-        let vc = FilterListViewController(FilterListViewModel(selectedTime: selectedTime))
-        vc.delegate = delegate
-        vc.setBottomSheet()
-        presentViewControllerWithAnimationRelay.accept(vc)
     }
     
     /// 스타일 선택 히스토리 저장

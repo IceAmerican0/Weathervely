@@ -38,7 +38,6 @@ public class HomeCoordinator:
     public func getViewController() -> UIViewController {
         let vc = HomeViewController(HomeViewModel())
         vc.delegate = self
-        
         return vc
     }
     
@@ -46,7 +45,7 @@ public class HomeCoordinator:
         let vc = FilterListViewController(FilterListViewModel(selectedTime: selectedTime))
         vc.delegate = delegate
         vc.setBottomSheet()
-//        presentViewControllerWithAnimationRelay.accept(vc)
+        navigationController.present(vc, animated: true)
     }
     
     public func locationTapped() {

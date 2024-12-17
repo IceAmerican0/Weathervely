@@ -357,7 +357,6 @@ extension HomeViewController {
                                     delegate: self,
                                     selectedTime: owner.viewModel.selectedTime
                                 )
-//                                owner.viewModel.filterCloset(delegate: self)
                             }.disposed(by: $0.bag)
                         
                         $0.delegate = self

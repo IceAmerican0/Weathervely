@@ -21,7 +21,7 @@ public class LaunchProcess: LaunchProtocol {
     var coordinator: RootCoordinator
     var bag = DisposeBag()
     
-    public init(window: UIWindow?) {
+    public init(window: UIWindow) {
         self.coordinator = RootCoordinator(window: window, navigationController: UINavigationController())
     }
     
@@ -42,7 +42,7 @@ public class LaunchProcess: LaunchProtocol {
         }
     }
     
-    func configureVersion(userInfo: AuthData) {
+    private func configureVersion(userInfo: AuthData) {
         let compareResult = Constants.bundleShortVersion.compareVersion(with: userInfo.latestVersion)
         if case .orderedAscending = compareResult {
             showAlert(
@@ -66,7 +66,7 @@ public class LaunchProcess: LaunchProtocol {
         loginProcess(userInfo: userInfo)
     }
     
-    func loginProcess(userInfo: AuthData) {
+    private func loginProcess(userInfo: AuthData) {
         userDefault.set(userInfo.user.nickname, forKey: UserDefaultKey.nickname.rawValue)
         
         if let address = userInfo.address {
@@ -77,7 +77,7 @@ public class LaunchProcess: LaunchProtocol {
     }
     
     /// 토큰 에러 분기
-    func configureErrorState(message: String) {
+    private func configureErrorState(message: String) {
         switch message {
         case "유저가 존재하지 않습니다.",
              "기기고유번호":
@@ -88,17 +88,20 @@ public class LaunchProcess: LaunchProtocol {
              "토큰이 만료 되었습니다.":
             getToken()
         default:
-            showAlert(title: message, action: {
-                if message.contains("도메인") {
-                    self.sendToAppStore()
-                } else {
-                    self.getToken()
+            showAlert(
+                title: message,
+                action: {
+                    if message.contains("도메인") {
+                        self.sendToAppStore()
+                    } else {
+                        self.getToken()
+                    }
                 }
-            })
+            )
         }
     }
     
-    func showAlert(title: String, action: @escaping () -> Void) {
+    private func showAlert(title: String, action: @escaping () -> Void) {
         let state: AlertViewState = .init(
             title: title,
             closeAction: action
@@ -108,7 +111,7 @@ public class LaunchProcess: LaunchProtocol {
     }
     
     /// 앱스토어 열기 후 앱 종료
-    func sendToAppStore() {
+    private func sendToAppStore() {
         guard let appStoreLink = URL(string: Constants.appStoreLink) else { return }
         UIApplication.shared.open(appStoreLink) { _ in
             UIApplication.shared.close()
