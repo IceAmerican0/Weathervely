@@ -9,32 +9,38 @@
 import UIKit
 
 public final class AlertManager {
-    public static let shared = AlertManager(windowLevel: .statusBar)
+    public static let shared = AlertManager()
     
-    private var windowLevel: UIWindow.Level
-    private(set) var alertWindow: AlertWindow?
+    private var window: UIWindow?
     
-    init(windowLevel: UIWindow.Level) {
-        self.windowLevel = windowLevel
+    public init() {
+        getWindow()
     }
     
     public func present(state: AlertViewState) {
         Task { @MainActor in
-            if alertWindow != nil {
-                dismiss()
-            }
-            
-            alertWindow = AlertWindow(level: windowLevel)
-            alertWindow?.accessibilityViewIsModal = true
-            
             let alert = AlertView(state: state)
-            alertWindow?.present(view: alert)
+            
+            UIAccessibility.post(
+                notification: .layoutChanged,
+                argument: alert
+            )
+            window?.addSubview(alert)
         }
     }
     
-    public func dismiss(completion: AlertActionHandler? = nil) {
-        alertWindow?.dismiss()
-        alertWindow = nil
-        completion?()
+    public func dismiss() {
+        Task { @MainActor in
+            guard let alertView = self.window?.subviews.last else { return }
+            alertView.removeFromSuperview()
+        }
+    }
+    
+    private func getWindow() {
+        let scenes = UIApplication.shared.connectedScenes
+        let windowScene = scenes.first as? UIWindowScene
+        guard let window = windowScene?.windows.first else { return }
+        window.accessibilityViewIsModal = true
+        self.window = window
     }
 }
