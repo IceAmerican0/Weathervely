@@ -19,8 +19,7 @@ import Setting
 import Style
 import SafariServices
 
-public class RootCoordinator: Coordinator {
-    
+public final class RootCoordinator: Coordinator {
     var window: UIWindow
     public var navigationController: UINavigationController
     

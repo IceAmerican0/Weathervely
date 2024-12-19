@@ -14,7 +14,10 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
     func mapTo<D: Decodable>(_ type: D.Type) -> Observable<D> {
         flatMap { response in
             do {
-                guard let object = try? JSONSerialization.jsonObject(with: response.data, options: []) as? [String:Any]
+                guard let object = try? JSONSerialization.jsonObject(
+                    with: response.data,
+                    options: []
+                ) as? [String:Any]
                 else {
                     return .error(WVNetworkError.decodeError)
                 }

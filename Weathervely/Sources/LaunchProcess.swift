@@ -22,12 +22,15 @@ public class LaunchProcess: LaunchProtocol {
     var bag = DisposeBag()
     
     public init(window: UIWindow) {
-        self.coordinator = RootCoordinator(window: window, navigationController: UINavigationController())
+        self.coordinator = RootCoordinator(
+            window: window,
+            navigationController: UINavigationController()
+        )
     }
     
     /// 로그인 토큰(버전 확인 및 업데이트 판별 후 >> 화면분기)
     public func getToken() {
-        Task {
+        Task { @MainActor in
             let loginDataSource: AuthDataSourceProtocol = AuthDataSource()
             loginDataSource.getToken(await UserNotificationManager.shared.configurePushState())
                 .subscribe(
@@ -45,10 +48,11 @@ public class LaunchProcess: LaunchProtocol {
     private func configureVersion(userInfo: AuthData) {
         let compareResult = Constants.bundleShortVersion.compareVersion(with: userInfo.latestVersion)
         if case .orderedAscending = compareResult {
-            showAlert(
+            let errorState: AlertViewState = .init(
                 title: "새로운 버전이 출시됐어요!\n앱스토어에서 업데이트해주세요",
-                action: { self.sendToAppStore() }
+                closeAction: { self.sendToAppStore() }
             )
+            AlertManager.shared.present(state: errorState)
             return
         }
         
@@ -88,9 +92,9 @@ public class LaunchProcess: LaunchProtocol {
              "토큰이 만료 되었습니다.":
             getToken()
         default:
-            showAlert(
+            let errorState: AlertViewState = .init(
                 title: message,
-                action: {
+                closeAction: {
                     if message.contains("도메인") {
                         self.sendToAppStore()
                     } else {
@@ -98,16 +102,8 @@ public class LaunchProcess: LaunchProtocol {
                     }
                 }
             )
+            AlertManager.shared.present(state: errorState)
         }
-    }
-    
-    private func showAlert(title: String, action: @escaping () -> Void) {
-        let state: AlertViewState = .init(
-            title: title,
-            closeAction: action
-        )
-        
-        AlertManager.shared.present(state: state)
     }
     
     /// 앱스토어 열기 후 앱 종료
