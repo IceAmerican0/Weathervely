@@ -7,45 +7,32 @@
 
 import UIKit
 
-// MARK: AppleSDGothicNeo
-public enum GothicNeo {
-    public static let heavy      = "AppleSDGothicNeoH00"
-    public static let extraBold  = "AppleSDGothicNeoEB00"
-    public static let bold       = "AppleSDGothicNeo-Bold"
-    public static let semiBold   = "AppleSDGothicNeo-SemiBold"
-    public static let medium     = "AppleSDGothicNeo-Medium"
-    public static let regular    = "AppleSDGothicNeo-Regular"
-    public static let light      = "AppleSDGothicNeo-Light"
-    public static let ultraLight = "AppleSDGothicNeo-UltraLight"
-    public static let thin       = "AppleSDGothicNeo-Thin"
-}
-
 // MARK: Custom Font
-extension UIFont {
-    public static let heading_1_UL = UIFont(name: GothicNeo.ultraLight, size: 56)!
-    public static let heading_2_B  = UIFont(name: GothicNeo.bold,       size: 32)!
-    public static let heading_3_B  = UIFont(name: GothicNeo.bold,       size: 28)!
-    public static let heading_4_B  = UIFont(name: GothicNeo.bold,       size: 24)!
-    public static let heading_5_B  = UIFont(name: GothicNeo.bold,       size: 22)!
-    public static let title_1_B    = UIFont(name: GothicNeo.bold,       size: 20)!
-    public static let title_1_M    = UIFont(name: GothicNeo.medium,     size: 20)!
-    public static let title_2_B    = UIFont(name: GothicNeo.bold,       size: 18)!
-    public static let title_2_SB   = UIFont(name: GothicNeo.semiBold,   size: 18)!
-    public static let title_2_M    = UIFont(name: GothicNeo.medium,     size: 18)!
-    public static let title_3_B    = UIFont(name: GothicNeo.bold,       size: 17)!
-    public static let title_3_M    = UIFont(name: GothicNeo.medium,     size: 17)!
-    public static let body_1_B     = UIFont(name: GothicNeo.bold,       size: 16)!
-    public static let body_1_M     = UIFont(name: GothicNeo.medium,     size: 16)!
-    public static let body_2_B     = UIFont(name: GothicNeo.bold,       size: 15)!
-    public static let body_2_M     = UIFont(name: GothicNeo.medium,     size: 15)!
-    public static let body_3_B     = UIFont(name: GothicNeo.bold,       size: 14)!
-    public static let body_3_M     = UIFont(name: GothicNeo.medium,     size: 14)!
-    public static let body_4_B     = UIFont(name: GothicNeo.bold,       size: 13)!
-    public static let body_4_M     = UIFont(name: GothicNeo.medium,     size: 13)!
-    public static let body_5_B     = UIFont(name: GothicNeo.bold,       size: 12)!
-    public static let body_5_M     = UIFont(name: GothicNeo.medium,     size: 12)!
-    public static let caption_1_M  = UIFont(name: GothicNeo.medium,     size: 11)!
-    public static let caption_2_M  = UIFont(name: GothicNeo.medium,     size: 10)!
+public extension UIFont {
+    static let heading_1_UL = FontFamily.AppleSDGothicNeoUL00.regular.font(size: 56)
+    static let heading_2_B  = FontFamily.AppleSDGothicNeoB00.regular.font(size: 32)
+    static let heading_3_B  = FontFamily.AppleSDGothicNeoB00.regular.font(size: 28)
+    static let heading_4_B  = FontFamily.AppleSDGothicNeoB00.regular.font(size: 24)
+    static let heading_5_B  = FontFamily.AppleSDGothicNeoB00.regular.font(size: 22)
+    static let title_1_B    = FontFamily.AppleSDGothicNeoB00.regular.font(size: 20)
+    static let title_1_M    = FontFamily.AppleSDGothicNeoM00.regular.font(size: 20)
+    static let title_2_B    = FontFamily.AppleSDGothicNeoB00.regular.font(size: 18)
+    static let title_2_SB   = FontFamily.AppleSDGothicNeoSB00.regular.font(size: 18)
+    static let title_2_M    = FontFamily.AppleSDGothicNeoM00.regular.font(size: 18)
+    static let title_3_B    = FontFamily.AppleSDGothicNeoB00.regular.font(size: 17)
+    static let title_3_M    = FontFamily.AppleSDGothicNeoM00.regular.font(size: 17)
+    static let body_1_B     = FontFamily.AppleSDGothicNeoB00.regular.font(size: 16)
+    static let body_1_M     = FontFamily.AppleSDGothicNeoM00.regular.font(size: 16)
+    static let body_2_B     = FontFamily.AppleSDGothicNeoB00.regular.font(size: 15)
+    static let body_2_M     = FontFamily.AppleSDGothicNeoM00.regular.font(size: 15)
+    static let body_3_B     = FontFamily.AppleSDGothicNeoB00.regular.font(size: 14)
+    static let body_3_M     = FontFamily.AppleSDGothicNeoM00.regular.font(size: 14)
+    static let body_4_B     = FontFamily.AppleSDGothicNeoB00.regular.font(size: 13)
+    static let body_4_M     = FontFamily.AppleSDGothicNeoM00.regular.font(size: 13)
+    static let body_5_B     = FontFamily.AppleSDGothicNeoB00.regular.font(size: 12)
+    static let body_5_M     = FontFamily.AppleSDGothicNeoM00.regular.font(size: 12)
+    static let caption_1_M  = FontFamily.AppleSDGothicNeoM00.regular.font(size: 11)
+    static let caption_2_M  = FontFamily.AppleSDGothicNeoM00.regular.font(size: 10)
 }
 
 // MARK: Line Height

@@ -8,100 +8,100 @@
 import UIKit
 
 // MARK: Custom Image
-extension UIImage {
+public extension UIImage {
     // Tab
-    public static let tab_home_nor = UIImage(named: "tab_home_nor")!
-    public static let tab_home_sel = UIImage(named: "tab_home_sel")!
-    public static let tab_mypage_nor = UIImage(named: "tab_mypage_nor")!
-    public static let tab_mypage_sel = UIImage(named: "tab_mypage_sel")!
-    public static let tab_style_nor = UIImage(named: "tab_style_nor")!
-    public static let tab_style_sel = UIImage(named: "tab_style_sel")!
+    static let tab_home_nor = Asset.Images.tabHomeNor.image
+    static let tab_home_sel = Asset.Images.tabHomeSel.image
+    static let tab_mypage_nor = Asset.Images.tabMypageNor.image
+    static let tab_mypage_sel = Asset.Images.tabMypageSel.image
+    static let tab_style_nor = Asset.Images.tabStyleNor.image
+    static let tab_style_sel = Asset.Images.tabStyleSel.image
     
     // Home Resources
-    public static let filter_exit = UIImage(named: "filter_exit")!
-    public static let filter_reset_dis = UIImage(named: "filter_reset_dis")!
-    public static let filter_reset = UIImage(named: "filter_reset")!
-    public static let filter_x = UIImage(named: "filter_x")!
-    public static let home_alarm = UIImage(named: "home_alarm")!
-    public static let home_banner_01 = UIImage(named: "home_banner_01")!
-    public static let home_date_left_dis = UIImage(named: "home_date_left_dis")!
-    public static let home_date_left_nor = UIImage(named: "home_date_left_nor")!
-    public static let home_date_right_dis = UIImage(named: "home_date_right_dis")!
-    public static let home_date_right_nor = UIImage(named: "home_date_right_nor")!
-    public static let home_drop_off = UIImage(named: "home_drop_off")!
-    public static let home_drop_on = UIImage(named: "home_drop_on")!
-    public static let home_nodata = UIImage(named: "home_nodata")!
-    public static let home_option = UIImage(named: "home_option")!
-    public static let home_option_set = UIImage(named: "home_option_set")!
-    public static let home_place = UIImage(named: "home_place")!
-    public static let home_weather_empty = UIImage(named: "home_weather_empty")!
+    static let filter_exit = Asset.Images.filterExit.image
+    static let filter_reset_dis = Asset.Images.filterResetDis.image
+    static let filter_reset = Asset.Images.filterReset.image
+    static let filter_x = Asset.Images.filterX.image
+    static let home_alarm = Asset.Images.homeAlarm.image
+    static let home_banner_01 = Asset.Images.homeBanner01.image
+    static let home_date_left_dis = Asset.Images.homeDateLeftDis.image
+    static let home_date_left_nor = Asset.Images.homeDateLeftNor.image
+    static let home_date_right_dis = Asset.Images.homeDateRightDis.image
+    static let home_date_right_nor = Asset.Images.homeDateRightNor.image
+    static let home_drop_off = Asset.Images.homeDropOff.image
+    static let home_drop_on = Asset.Images.homeDropOn.image
+    static let home_nodata = Asset.Images.homeNodata.image
+    static let home_option = Asset.Images.homeOption.image
+    static let home_option_set = Asset.Images.homeOptionSet.image
+    static let home_place = Asset.Images.homePlace.image
+    static let home_weather_empty = Asset.Images.homeWeatherEmpty.image
 
     // Home Weather
-    public static let clouds_am = UIImage(named: "clouds_am")!
-    public static let clouds_pm = UIImage(named: "clouds_pm")!
-    public static let cloudy = UIImage(named: "cloudy")!
-    public static let rainy = UIImage(named: "rainy")!
-    public static let snowy = UIImage(named: "snowy")!
-    public static let snowyRainy = UIImage(named: "snowyRainy")!
-    public static let sunny_am = UIImage(named: "sunny_am")!
-    public static let sunny_pm = UIImage(named: "sunny_pm")!
-    public static let windy = UIImage(named: "windy")!
+    static let clouds_am = Asset.Images.cloudsAm.image
+    static let clouds_pm = Asset.Images.cloudsPm.image
+    static let cloudy = Asset.Images.cloudy.image
+    static let rainy = Asset.Images.rainy.image
+    static let snowy = Asset.Images.snowy.image
+    static let snowyRainy = Asset.Images.snowyRainy.image
+    static let sunny_am = Asset.Images.sunnyAm.image
+    static let sunny_pm = Asset.Images.sunnyPm.image
+    static let windy = Asset.Images.windy.image
     
     // Tendays Weather
-    public static let ten_clouds_am = UIImage(named: "ten_clouds_am")!
-    public static let ten_cloudy = UIImage(named: "ten_cloudy")!
-    public static let ten_rainy = UIImage(named: "ten_rainy")!
-    public static let ten_snowy = UIImage(named: "ten_snowy")!
-    public static let ten_snowyRainy = UIImage(named: "ten_snowyRainy")!
-    public static let ten_sunny_am = UIImage(named: "ten_sunny_am")!
-    public static let ten_windy = UIImage(named: "ten_windy")!
+    static let ten_clouds_am = Asset.Images.tenCloudsAm.image
+    static let ten_cloudy = Asset.Images.tenCloudy.image
+    static let ten_rainy = Asset.Images.tenRainy.image
+    static let ten_snowy = Asset.Images.tenSnowy.image
+    static let ten_snowyRainy = Asset.Images.tenSnowyRainy.image
+    static let ten_sunny_am = Asset.Images.tenSunnyAm.image
+    static let ten_windy = Asset.Images.tenWindy.image
     
     // Style
-    public static let style_banner = UIImage(named: "style_banner")!
+    static let style_banner = Asset.Images.styleBanner.image
     
     // Common
-    public static let logo_color = UIImage(named: "logo_color")!
-    public static let logo_violet_bg = UIImage(named: "logo_violet_bg")!
-    public static let logo_white = UIImage(named: "logo_white")!
-    public static let networkError = UIImage(named: "networkError_illust")!
-    public static let search_empty = UIImage(named: "search_empty")!
-    public static let loadError = UIImage(named: "popup_illust_loadError")!
-    public static let serverError = UIImage(named: "serverError_illust")!
-    public static let image_indicator = UIImage(named: "image_indicator")!
+    static let logo_color = Asset.Images.logoColor.image
+    static let logo_violet_bg = Asset.Images.logoVioletBg.image
+    static let logo_white = Asset.Images.logoWhite.image
+    static let networkError = Asset.Images.networkErrorIllust.image
+    static let search_empty = Asset.Images.searchEmpty.image
+    static let loadError = Asset.Images.popupIllustLoadError.image
+    static let serverError = Asset.Images.serverErrorIllust.image
+    static let image_indicator = Asset.Images.imageIndicator.image
     
     // Detail
-    public static let detail_empty = UIImage(named: "detail_empty")!
-    public static let home_top = UIImage(named: "home_top")!
-    public static let moreCool_banner = UIImage(named: "moreCool_banner")!
-    public static let moreCool_illust = UIImage(named: "moreCool_illust")!
-    public static let moreHot_banner = UIImage(named: "moreHot_banner")!
-    public static let moreHot_illust = UIImage(named: "moreHot_illust")!
+    static let detail_empty = Asset.Images.detailEmpty.image
+    static let home_top = Asset.Images.homeTop.image
+    static let moreCool_banner = Asset.Images.moreCoolBanner.image
+    static let moreCool_illust = Asset.Images.moreCoolIllust.image
+    static let moreHot_banner = Asset.Images.moreHotBanner.image
+    static let moreHot_illust = Asset.Images.moreHotIllust.image
     
     // MyPage
-    public static let commontab = UIImage(named: "commontab")!
-    public static let icon_current_location = UIImage(named: "icon_current_location")!
-    public static let icon_favorites = UIImage(named: "icon_favorites")!
-    public static let icon_location = UIImage(named: "icon_location")!
-    public static let icon_plusL = UIImage(named: "icon_plusL")!
-    public static let icon_profile = UIImage(named: "icon_profile")!
-    public static let icon_region_check = UIImage(named: "icon_region_check")!
-    public static let icon_set = UIImage(named: "icon_set")!
-    public static let icon_alarm_on = UIImage(named: "icon_alarm_on")!
-    public static let icon_alarm_off = UIImage(named: "icon_alarm_off")!
-    public static let icon_delete_list = UIImage(named: "icon_delete_list")!
-    public static let icon_edit_list = UIImage(named: "icon_edite_list")!
+    static let commontab = Asset.Images.commontab.image
+    static let icon_current_location = Asset.Images.iconCurrentLocation.image
+    static let icon_favorites = Asset.Images.iconFavorites.image
+    static let icon_location = Asset.Images.iconLocation.image
+    static let icon_plusL = Asset.Images.iconPlusL.image
+    static let icon_profile = Asset.Images.iconProfile.image
+    static let icon_region_check = Asset.Images.iconRegionCheck.image
+    static let icon_set = Asset.Images.iconSet.image
+    static let icon_alarm_on = Asset.Images.iconAlarmOn.image
+    static let icon_alarm_off = Asset.Images.iconAlarmOff.image
+    static let icon_delete_list = Asset.Images.iconAlarmOff.image
+    static let icon_edit_list = Asset.Images.iconEditeList.image
     
     // Navigation
-    public static let leftArrow_black = UIImage(named: "leftArrow_black")!
-    public static let navi_back_white = UIImage(named: "navi_back_white")!
-    public static let rightArrow_gray = UIImage(named: "rightArrow_gray")!
-    public static let downArrow_gray = UIImage(named: "downArrow")!
-    public static let upArrow_gray = UIImage(named: "upArrow")!
+    static let leftArrow_black = Asset.Images.leftArrowBlack.image
+    static let navi_back_white = Asset.Images.naviBackWhite.image
+    static let rightArrow_gray = Asset.Images.rightArrowGray.image
+    static let downArrow_gray = Asset.Images.downArrow.image
+    static let upArrow_gray = Asset.Images.upArrow.image
     
     // Notification
-    public static let alarm_codi = UIImage(named: "alarm_codi")!
-    public static let alarm_empty = UIImage(named: "alarm_empty")!
-    public static let alarm_favorites = UIImage(named: "alarm_favorites")!
-    public static let alarm_set = UIImage(named: "alarm_set")!
-    public static let alarm_tip = UIImage(named: "alarm_tip")!
+    static let alarm_codi = Asset.Images.alarmCodi.image
+    static let alarm_empty = Asset.Images.alarmEmpty.image
+    static let alarm_favorites = Asset.Images.alarmFavorites.image
+    static let alarm_set = Asset.Images.alarmSet.image
+    static let alarm_tip = Asset.Images.alarmTip.image
 }

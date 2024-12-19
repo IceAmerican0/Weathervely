@@ -72,7 +72,8 @@ public final class HomeViewController: RxBaseViewController<HomeViewModel> {
     }
     
     private let nextButton = UIButton().then {
-        $0.setImage(.home_date_right_nor, for: .normal)
+        $0.setImage(.home_date_right_dis, for: .normal)
+        $0.isUserInteractionEnabled = false
     }
     
     private lazy var refresh = UIRefreshControl().then {
@@ -136,18 +137,18 @@ public final class HomeViewController: RxBaseViewController<HomeViewModel> {
         locationButton.rx.tapGesture()
             .when(.recognized)
             .bind(with: self) { owner, _ in
-                owner.viewModel.toMapView()
+                owner.delegate?.locationTapped()
             }.disposed(by: bag)
         
         regionLabel.rx.tapGesture()
             .when(.recognized)
             .bind(with: self) { owner, _ in
-                owner.viewModel.toEditRegionView()
+                owner.delegate?.regionTapped()
             }.disposed(by: bag)
         
         notificationButton.rx.tap
             .bind(with: self) { owner, _ in
-                owner.viewModel.toNotificationListView()
+                owner.delegate?.notificationTapped()
             }.disposed(by: bag)
         
         prevButton.rx.tap
@@ -207,7 +208,7 @@ public final class HomeViewController: RxBaseViewController<HomeViewModel> {
                 if case let .closet(cellState) = owner.dataSource[indexPath] {
                     guard cellState.closetId >= 0 else { return }
                     owner.viewModel.stylePicked(closetID: cellState.closetId)
-                    owner.viewModel.toDetailView(state: cellState)
+                    owner.delegate?.detailTapped(closetID: cellState.closetId, tempID: cellState.temperature.tempId)
                 }
             }.disposed(by: bag)
         
@@ -253,7 +254,11 @@ public final class HomeViewController: RxBaseViewController<HomeViewModel> {
     
     private func configureViewState(index: Int) {
         let info = viewModel.forecastInfo
-        if info.isEmpty { return }
+        if info.count < 2 {
+            timeLabel.text = Date().currentTime()
+            timeLabel.flex.markDirty()
+            return
+        }
         
         if index == 0 {
             prevButton.setImage(.home_date_left_dis, for: .normal)
@@ -317,7 +322,6 @@ extension HomeViewController {
                 cell.collectionView.rx.itemSelected
                     .bind(with: self) { owner, _ in
                         owner.delegate?.forecastTapped()
-//                        owner.viewModel.toTendaysForecastView()
                     }.disposed(by: cell.bag)
                 
                 return cell
@@ -353,7 +357,6 @@ extension HomeViewController {
                                     delegate: self,
                                     selectedTime: owner.viewModel.selectedTime
                                 )
-//                                owner.viewModel.filterCloset(delegate: self)
                             }.disposed(by: $0.bag)
                         
                         $0.delegate = self

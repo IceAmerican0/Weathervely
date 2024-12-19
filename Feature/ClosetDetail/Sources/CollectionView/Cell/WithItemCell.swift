@@ -105,17 +105,10 @@ public final class WithItemCell: UICollectionViewCell {
         shopNameLabel.text = info.brandName ?? ""
 //        categoryLabel.text = info.category?.categoryName ?? ""
         
-        if isSoldOut(info.status ?? "") { isHiddenToggle() }
-    }
-    
-    func isSoldOut(_ status: String) -> Bool {
-        (status == "sold_out") ? true : false
-    }
-    
-    func isHiddenToggle() {
-        soldOutView.isHidden.toggle()
-        // FIXME: - 인터렉션 막던지 alert 띄우기 의논해보기
-        self.isUserInteractionEnabled = false
+        if info.status == "sold_out" {
+            soldOutView.isHidden = false
+            isUserInteractionEnabled = false
+        }
     }
     
     public override func prepareForReuse() {

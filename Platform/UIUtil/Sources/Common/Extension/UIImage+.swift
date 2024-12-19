@@ -10,21 +10,20 @@ import UIKit
 public extension UIImage {
     /// 이미지 크기 조절 및 배경색 설정
     func reDesign(size: CGSize, backgroundColor: UIColor? = nil) -> UIImage {
-        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+        let format = UIGraphicsImageRendererFormat()
+        format.preferredRange = .standard
+        let rect = CGRect(origin: .zero, size: size)
         
-        if let backgroundColor {
-            let rect = CGRect(origin: .zero, size: size)
-            let path = UIBezierPath(roundedRect: rect, cornerRadius: 8)
-            backgroundColor.setFill()
-            path.fill()
-            
-            self.draw(in: rect)
-        } else {
-            self.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+        return UIGraphicsImageRenderer(bounds: rect, format: format).image { _ in
+            if let backgroundColor {
+                let path = UIBezierPath(roundedRect: rect, cornerRadius: 8)
+                backgroundColor.setFill()
+                path.fill()
+                
+                self.draw(in: rect)
+            } else {
+                self.draw(in: rect)
+            }
         }
-        
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return newImage ?? self
     }
 }

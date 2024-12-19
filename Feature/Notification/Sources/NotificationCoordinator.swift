@@ -11,11 +11,12 @@ import UIUtil
 
 public protocol NotificationCoordinatorDelegate {
     func backButtonTapped()
+    func myPageButtonTapped()
 }
 
 public class NotificationCoordinator: Coordinator, NotificationListViewDelegate {
     public var navigationController: UINavigationController
-    var delegate: NotificationCoordinatorDelegate?
+    public var delegate: NotificationCoordinatorDelegate?
     
     public init(navigationController: UINavigationController) {
         self.navigationController = navigationController
@@ -23,11 +24,16 @@ public class NotificationCoordinator: Coordinator, NotificationListViewDelegate 
     
     public func start() {
         let vc = NotificationListViewController(NotificationListViewModel())
+        vc.delegate = self
         vc.hidesBottomBarWhenPushed = true
-        navigationController.viewControllers.append(vc)
+        navigationController.pushViewController(vc, animated: true)
     }
     
     public func backButtonTapped() {
         delegate?.backButtonTapped()
+    }
+    
+    public func myPageButtonTapped() {
+        delegate?.myPageButtonTapped()
     }
 }

@@ -14,7 +14,9 @@ import RxDataSources
 
 public protocol ClosetDetailViewDelegate {
     func backButtonTapped()
+    func homeButtonTapped()
     func detailTapped(closetID: Int, tempID: Int)
+    func mallTapped(urlString: String)
 }
 
 public final class ClosetDetailViewController: RxBaseViewController<ClosetDetailViewModel> {
@@ -73,14 +75,13 @@ public final class ClosetDetailViewController: RxBaseViewController<ClosetDetail
         
         navigationBar.leftButtonDidTapRelay
             .drive(with: self) { owner, _ in
-//                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
                 owner.delegate?.backButtonTapped()
             }
             .disposed(by: bag)
         
         navigationBar.rightButtonDidTapRelay
             .drive(with: self) { owner, _ in
-                owner.viewModel.navigationPoptoRootRelay.accept(Void())
+                owner.delegate?.homeButtonTapped()
             }.disposed(by: bag)
     }
     
@@ -220,7 +221,8 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
                         $0.configure(info: withItemInfo)
                         $0.itemTap
                             .drive(with: self) { owner, _ in
-                                owner.viewModel.toMall(url: withItemInfo.shopUrl ?? "")
+                                guard let urlString = withItemInfo.shopUrl else { return }
+                                owner.delegate?.mallTapped(urlString: urlString)
                             }.disposed(by: $0.bag)
                     }
                 case .firstRow(let rowInfo):
@@ -230,7 +232,6 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
                         $0.itemTap
                             .drive(with: self) { owner, _ in
                                 owner.delegate?.detailTapped(closetID: rowInfo.closetId, tempID: rowInfo.temperature.tempId)
-//                                owner.viewModel.toDetailView(closetId: rowInfo.closetId, tempId: rowInfo.temperature.tempId)
                             }.disposed(by: $0.bag)
                     }
                 case .secondRow(let rowInfo):
@@ -240,7 +241,6 @@ extension ClosetDetailViewController: UICollectionViewDelegate {
                         $0.itemTap
                             .drive(with: self) { owner, _ in
                                 owner.delegate?.detailTapped(closetID: rowInfo.closetId, tempID: rowInfo.temperature.tempId)
-//                                owner.viewModel.toDetailView(closetId: rowInfo.closetId, tempId: rowInfo.temperature.tempId)
                             }.disposed(by: $0.bag)
                     }
                 }

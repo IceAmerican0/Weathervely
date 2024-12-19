@@ -21,7 +21,7 @@
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>FirebaseAppDelegateProxyEnabled</key>
-	<string>false</string>
+	<string>NO</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>KAKAO_APP_KEY_NATIVE</key>

@@ -5,39 +5,24 @@
 //  Created by 최수훈 on 2023/07/24.
 //
 
+import UIUtil
 import Foundation
 import RxSwift
 import Moya
-
-/*
- /// Exception 시 response
- {
-     "domain": "generic",
-     "apiMessage": {
-         "statusCode": 404,
-         "message": "Cannot GET /forecast/getVillageForeca",
-         "error": "Not Found"
-     },
-     "status": 404,
-     "id": "JnIxCbAeSfl4i4HB",
-     "timestamp": "2023-07-27T06:17:35.431Z"
- }
- */
-
-/// PrimitiveSequence = Observable 시퀀스타입
-/// Single은 여러개의 항목 시리지를 배출하는 대신 항상 단일 항목 혹은 오류를 배출한다고 보장되는 Observable
-/// 즉 PrimitiveSequence 에서 Trait을 SingleTrait으로 지정하는 것은 오류또는 단일항목을 반드시 배출하도록 보장한다.
 
 extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
     func mapTo<D: Decodable>(_ type: D.Type) -> Observable<D> {
         flatMap { response in
             do {
-                guard let object = try? JSONSerialization.jsonObject(with: response.data, options: []) as? [String:Any]
+                guard let object = try? JSONSerialization.jsonObject(
+                    with: response.data,
+                    options: []
+                ) as? [String:Any]
                 else {
                     return .error(WVNetworkError.decodeError)
                 }
                 
-                debugPrint(
+                debuggerPrint(
                     """
                     ✅✅✅ Network Success ✅✅✅
                     ResponseType : \(type)
@@ -69,7 +54,7 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
                     responseString = String(decoding: response.data, as: UTF8.self)
                 }
                 
-                debugPrint(
+                debuggerPrint(
                     """
                     🔥🔥🔥 Network Failed 🔥🔥🔥
                     ResponseType : \(type)

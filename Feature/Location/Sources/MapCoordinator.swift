@@ -11,23 +11,29 @@ import UIUtil
 
 public protocol MapCoordinatorDelegate {
     func backButtonTapped()
+    func settingTapped()
 }
 
 public class MapCoordinator: Coordinator, MapViewDelegate {
     public var navigationController: UINavigationController
-    var delegate: MapCoordinatorDelegate?
+    public var delegate: MapCoordinatorDelegate?
     
     public init(navigationController: UINavigationController) {
         self.navigationController = navigationController
+    }
+    
+    public func start() {
+        let vc = MapViewController(MapViewModel())
+        vc.delegate = self
+        vc.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(vc, animated: true)
     }
     
     public func backButtonTapped() {
         delegate?.backButtonTapped()
     }
     
-    public func start() {
-        let vc = MapViewController(MapViewModel())
-        vc.hidesBottomBarWhenPushed = true
-        navigationController.viewControllers.append(vc)
+    public func settingTapped() {
+        delegate?.settingTapped()
     }
 }

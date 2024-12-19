@@ -83,6 +83,7 @@ public final class SettingTableViewCell: UITableViewCell {
             pushSetting.flex.display(.none)
             version.flex.display(.flex)
         case .inquiry, .policy:
+            toggleSwitch.flex.display(.none)
             naviButton.flex.display(.flex)
         }
     }

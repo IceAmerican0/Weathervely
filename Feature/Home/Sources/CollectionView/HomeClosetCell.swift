@@ -41,7 +41,7 @@ public final class HomeClosetCell: UICollectionViewCell {
         contentView.flex.layout()
     }
     
-    func layout() {
+    private func layout() {
         clipsToBounds = true
         layer.masksToBounds = false
         layer.setShadow(
@@ -57,7 +57,7 @@ public final class HomeClosetCell: UICollectionViewCell {
         }
     }
     
-    func configureCellState(imageURL: String) {
+    public func configureCellState(imageURL: String) {
         cloth.setKF(urlString: imageURL, placeHolder: .image_indicator) { [weak self] _ in
             guard let self else { return }
             self.layoutIfNeeded()

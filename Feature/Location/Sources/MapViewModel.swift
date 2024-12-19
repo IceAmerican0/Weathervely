@@ -14,10 +14,10 @@ import RxCocoa
 
 public protocol MapViewModelLogic: ViewModelBusinessLogic {
     func didTapConfirmButton()
-    func goToSetting()
     func getCoordToRegion(longitude: Double, latitude: Double)
     
     var isLoading: BehaviorRelay<Bool> { get }
+    var popView: PublishRelay<Bool> { get }
     var pickedAddress: BehaviorRelay<String> { get }
 }
 
@@ -26,6 +26,8 @@ public final class MapViewModel: RxBaseViewModel, MapViewModelLogic {
     private let userDataSource: UserDataSourceProtocol = UserDataSource()
     /// 로딩 상태
     public var isLoading = BehaviorRelay<Bool>(value: false)
+    /// navigation pop 용도
+    public var popView: PublishRelay<Bool> = .init()
     /// 지도 움직인 후 위치
     public var pickedAddress: BehaviorRelay<String> = BehaviorRelay<String>(value: "")
     /// 받아온 주소 정보
@@ -71,7 +73,7 @@ public final class MapViewModel: RxBaseViewModel, MapViewModelLogic {
                 },
                 onError: { owner, error in
                     owner.isLoading.accept(false)
-                    debugPrint(error)
+                    debuggerPrint(error.localizedDescription)
                 }
             ).disposed(by: bag)
     }
@@ -88,7 +90,7 @@ public final class MapViewModel: RxBaseViewModel, MapViewModelLogic {
                     var closeAction: AlertActionHandler?
                     
                     if errorString == "중복된 주소를 등록 했습니다." {
-                        closeAction = { owner.navigationPopViewControllerRelay.accept(Void()) }
+                        closeAction = { owner.popView.accept(true) }
                     }
                     
                     AlertManager.shared.present(
@@ -123,7 +125,7 @@ public final class MapViewModel: RxBaseViewModel, MapViewModelLogic {
                 with: self,
                 onNext: { owner, _ in
                     userDefault.set(owner.addressInfo.dong, forKey: UserDefaultKey.dong.rawValue)
-                    owner.navigationPopViewControllerRelay.accept(Void())
+                    owner.popView.accept(true)
                 },
                 onError: { owner, error in
                     AlertManager.shared.present(
@@ -131,12 +133,5 @@ public final class MapViewModel: RxBaseViewModel, MapViewModelLogic {
                     )
             })
             .disposed(by: bag)
-    }
-    
-    public func goToSetting() {
-        guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
-        DispatchQueue.main.async {
-            UIApplication.shared.open(url)
-        }
     }
 }

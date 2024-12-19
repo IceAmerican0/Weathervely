@@ -10,7 +10,6 @@ let project = Project.build(model: .init(
             product: .staticLibrary,
             sources: [.glob(.relativeToCurrentFile("Sources/**"))],
             dependencies: [
-                .SPM.Moya,
                 .SPM.RxMoya,
                 .Project.Platform.UIUtil
             ],

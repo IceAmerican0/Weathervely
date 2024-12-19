@@ -8,6 +8,7 @@
 import DesignSystem
 import UIUtil
 import UIKit
+import RxSwift
 
 public final class NicknameCompleteViewController: RxBaseViewController<NicknameCompleteViewModel> {
     private var navigationView = CSNavigationView(.leftOnly(.leftArrow_black)).then {
@@ -68,13 +69,11 @@ public final class NicknameCompleteViewController: RxBaseViewController<Nickname
         
         navigationView.leftButtonDidTapRelay
             .drive(with: self, onNext: { owner, _ in
-//                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
                 owner.delegate?.backButtonTapped()
             }).disposed(by: bag)
         
         refuseButton.rx.tap
             .bind(with: self) { owner, _ in
-//                owner.viewModel.didTapRefuseButton()
                 owner.delegate?.backButtonTapped()
             }.disposed(by: bag)
         
@@ -82,5 +81,16 @@ public final class NicknameCompleteViewController: RxBaseViewController<Nickname
             .bind(with: self) { owner, _ in
                 owner.viewModel.didTapConfirmButton()
             }.disposed(by: bag)
+        
+        viewModel.nicknameSaved
+            .observe(on: MainScheduler.instance)
+            .bind(
+                with: self,
+                onNext: { owner, result in
+                    if result {
+                        owner.delegate?.nicknameCompleted()
+                    }
+                }
+            ).disposed(by: bag)
     }
 }

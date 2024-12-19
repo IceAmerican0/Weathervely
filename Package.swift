@@ -7,6 +7,8 @@ import PackageDescription
     let packageSettings = PackageSettings(
         productTypes: [
             "RxCocoa": .framework,
+            "PinLayout": .framework,
+            "KeychainAccess": .framework,
             "KakaoMapsSDK-SPM": .staticLibrary
         ],
         baseSettings: .settings(configurations: [

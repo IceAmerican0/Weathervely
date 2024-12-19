@@ -21,13 +21,7 @@ public protocol HomeViewModelLogic: ViewModelBusinessLogic {
     func buttonTapAction(action: ButtonTapAction)
     func getSelectedTimeInfo(direction: UISwipeGestureRecognizer.Direction)
     func didTapTimeLabel()
-    func filterCloset(delegate: HomeStyleFilterViewDelegate)
     func stylePicked(closetID: Int)
-    func toDetailView(state: ClosetInfo)
-    func toEditRegionView()
-    func toNotificationListView()
-    func toTendaysForecastView()
-    func toMapView()
     
     var shimmerStatus: PublishRelay<Bool> { get }
     var refreshStatus: PublishRelay<Bool> { get }
@@ -65,6 +59,10 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
     
     /// 홈 전체 정보 취합 후 DataSource Reload
     public func loadHome() {
+        if forecastInfo.isEmpty || styleFilterList.isEmpty || closetList.isEmpty {
+            settingEmptySection()
+        }
+        
         /// 예보 Section 정보
         let homeForecast: [HomeSection] = [
             .forecast(items: [.forecast(forecastInfo)])
@@ -85,10 +83,6 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                 )
             )
         ]
-        
-        if closetList.isEmpty {
-            settingEmptySection()
-        }
         
         banner += closetList
         
@@ -122,6 +116,7 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                 onError: { owner, error in
                     owner.shimmerStatus.accept(true)
                     owner.refreshStatus.accept(false)
+                    owner.loadHome()
                     AlertManager.shared.present(
                         state: .init(title: error.localizedDescription)
                     )
@@ -141,11 +136,9 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                 onError: { owner, error in
                     owner.shimmerStatus.accept(true)
                     owner.refreshStatus.accept(false)
+                    owner.loadHome()
                     AlertManager.shared.present(
-                        state: .init(
-                            title: error.localizedDescription,
-                            closeAction: { owner.getStyleFilterList() }
-                        )
+                        state: .init(title: error.localizedDescription)
                     )
                 }
             ).disposed(by: bag)
@@ -167,7 +160,6 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                 onError: { owner, error in
                     owner.shimmerStatus.accept(true)
                     owner.refreshStatus.accept(false)
-                    owner.settingEmptySection()
                     owner.loadHome()
                     AlertManager.shared.present(
                         state: .init(title: error.localizedDescription)
@@ -243,14 +235,6 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
         }
     }
     
-    /// 필터링
-    public func filterCloset(delegate: HomeStyleFilterViewDelegate) {
-        let vc = FilterListViewController(FilterListViewModel(selectedTime: selectedTime))
-        vc.delegate = delegate
-        vc.setBottomSheet()
-        presentViewControllerWithAnimationRelay.accept(vc)
-    }
-    
     /// 스타일 선택 히스토리 저장
     public func stylePicked(closetID: Int) {
         closetDataSource.stylePicked(closetID)
@@ -262,9 +246,29 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
             ).disposed(by: bag)
     }
     
-    /// 코디리스트 비었을시 빈 cell 생성
+    /// 홈 로드 실패시 빈 값 세팅
     private func settingEmptySection() {
+        forecastInfo = []
+        styleFilterList = []
         closetList = []
+        
+        forecastInfo.append(
+            .init(
+                date: "",
+                time: "",
+                currentTemp: "",
+                minTemp: "",
+                maxTemp: "",
+                weather: "",
+                comment: ""
+            )
+        )
+        
+        styleFilterList = [
+            .init(id: -1, name: ""),
+            .init(id: -1, name: "")
+        ]
+        
         for _ in 0..<5 {
             closetList.append(
                 .init(
@@ -274,39 +278,12 @@ public final class HomeViewModel: RxBaseViewModel, HomeViewModelLogic {
                     closetStatus: "", 
                     closetSiteName: "",
                     temperature: .init(
-                        tempId: 0, maxTemp: 0, minTemp: 0
+                        tempId: 0,
+                        maxTemp: 0,
+                        minTemp: 0
                     )
                 )
             )
         }
-    }
-    
-    /// 상세보기 이동
-    public func toDetailView(state: ClosetInfo) {
-//        let vc = ClosetDetailViewController(ClosetDetailViewModel(closetId: state.closetId, tempId: state.temperature.tempId))
-//        navigationPushViewControllerRelay.accept(vc)
-    }
-    
-    /// 알림페이지 이동
-    public func toNotificationListView() {
-//        let vc = NotificationListViewController(NotificationListViewModel())
-//        navigationPushViewControllerRelay.accept(vc)
-    }
-    
-    /// 10일간 날씨 예보 이동
-    public func toTendaysForecastView() {
-//        let vc = TenDaysForeCastViewController(TenDaysForecastViewModel())
-//        navigationPushViewControllerRelay.accept(vc)
-    }
-    
-    /// 동네 설정 이동
-    public func toEditRegionView() {
-//        let vc = EditRegionViewController(EditRegionViewModel(.edit))
-//        navigationPushViewControllerRelay.accept(vc)
-    }
-    
-    public func toMapView() {
-//        let vc = MapViewController(MapViewModel())
-//        navigationPushViewControllerRelay.accept(vc)
     }
 }

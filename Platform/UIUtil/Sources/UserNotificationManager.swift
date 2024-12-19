@@ -40,16 +40,16 @@ public class UserNotificationManager {
     /// 알림 설정창 이동
     public func toPushSetting() {
         guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
-        Task { @MainActor in
-            UIApplication.shared.open(url) { success in
-                guard success else { return }
-                NotificationCenter.default.addObserver(
-                    forName: UIApplication.willEnterForegroundNotification,
-                    object: nil,
-                    queue: nil
-                ) { _ in
-                    UNUserNotificationCenter.current().getNotificationSettings { setting in
-                        Task { @MainActor in
+        Task {
+            await MainActor.run {
+                UIApplication.shared.open(url) { success in
+                    guard success else { return }
+                    NotificationCenter.default.addObserver(
+                        forName: UIApplication.willEnterForegroundNotification,
+                        object: nil,
+                        queue: nil
+                    ) { _ in
+                        UNUserNotificationCenter.current().getNotificationSettings { setting in
                             NotificationCenter.default.post(name: .returnFromSetting, object: setting)
                         }
                     }

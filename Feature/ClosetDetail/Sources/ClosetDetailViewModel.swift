@@ -223,19 +223,6 @@ public final class ClosetDetailViewModel: RxBaseViewModel {
                 
             }).disposed(by: bag)
     }
-    
-    /// 쇼핑몰 이동
-    public func toMall(url: String) {
-        guard let url = URL(string: url) else { return }
-        let webView = SFSafariViewController(url: url)
-        presentViewControllerNoAnimationRelay.accept(webView)
-    }
-    
-    /// 상세보기 이동
-    public func toDetailView(closetId: Int, tempId: Int) {
-//        let vc = ClosetDetailViewController(ClosetDetailViewModel(closetId: closetId, tempId: tempId))
-//        navigationPushViewControllerRelay.accept(vc)
-    }
 }
 
 extension ClosetDetailViewModel {

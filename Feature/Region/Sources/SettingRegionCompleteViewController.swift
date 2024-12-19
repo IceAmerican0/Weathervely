@@ -66,13 +66,11 @@ public final class SettingRegionCompleteViewController: RxBaseViewController<Set
         
         navigationView.leftButtonDidTapRelay
             .drive(with: self, onNext: { owner, _ in
-//                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
                 owner.delegate?.backButtonTapped()
             }).disposed(by: bag)
         
         negativeButton.rx.tap
             .bind(with: self, onNext: { owner, _ in
-//                viewModel.navigationPopViewControllerRelay
                 owner.delegate?.backButtonTapped()
             }).disposed(by: bag)
         

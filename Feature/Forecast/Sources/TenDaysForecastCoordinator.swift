@@ -15,7 +15,7 @@ public protocol TendaysForecastCoordinatorDelegate {
 
 public class TenDaysForecastCoordinator: Coordinator, TenDaysForecastViewDelegate {
     public var navigationController: UINavigationController
-    var delegate: TendaysForecastCoordinatorDelegate?
+    public var delegate: TendaysForecastCoordinatorDelegate?
     
     public init(navigationController: UINavigationController) {
         self.navigationController = navigationController
@@ -25,7 +25,7 @@ public class TenDaysForecastCoordinator: Coordinator, TenDaysForecastViewDelegat
         let vc = TenDaysForeCastViewController(TenDaysForecastViewModel())
         vc.hidesBottomBarWhenPushed = true
         vc.delegate = self
-        navigationController.viewControllers.append(vc)
+        navigationController.pushViewController(vc, animated: true)
     }
     
     public func backButtonTapped() {

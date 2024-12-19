@@ -24,7 +24,7 @@ public class HomeCoordinator:
 {
     public var navigationController: UINavigationController
     
-    var delegate: HomeCoordinatorDelegate?
+    public var delegate: HomeCoordinatorDelegate?
     
     public init(navigationController: UINavigationController) {
         self.navigationController = navigationController
@@ -35,11 +35,17 @@ public class HomeCoordinator:
         vc.delegate = self
     }
     
+    public func getViewController() -> UIViewController {
+        let vc = HomeViewController(HomeViewModel())
+        vc.delegate = self
+        return vc
+    }
+    
     public func toFilter(delegate: HomeStyleFilterViewDelegate, selectedTime: String) {
         let vc = FilterListViewController(FilterListViewModel(selectedTime: selectedTime))
         vc.delegate = delegate
         vc.setBottomSheet()
-//        presentViewControllerWithAnimationRelay.accept(vc)
+        navigationController.present(vc, animated: true)
     }
     
     public func locationTapped() {

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Then
 
 public final class CSLabel: UILabel {
     private let paragraphStyle = NSMutableParagraphStyle()

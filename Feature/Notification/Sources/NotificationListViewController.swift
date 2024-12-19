@@ -12,6 +12,7 @@ import RxSwift
 
 public protocol NotificationListViewDelegate {
     func backButtonTapped()
+    func myPageButtonTapped()
 }
 
 public final class NotificationListViewController: RxBaseViewController<NotificationListViewModel>, Toastable {
@@ -119,16 +120,12 @@ public final class NotificationListViewController: RxBaseViewController<Notifica
         
         navigationView.leftButtonDidTapRelay
             .drive(with: self) { owner, _ in
-//                owner.viewModel.navigationPopViewControllerRelay.accept(Void())
                 owner.delegate?.backButtonTapped()
             }.disposed(by: bag)
         
         navigationView.rightButtonDidTapRelay
             .drive(with: self) { owner, _ in
-//                if let homeTabBarController = owner.navigationController?.tabBarController as? HomeTabBarController {
-//                    homeTabBarController.switchTab(tab: .setting)
-//                    owner.navigationController?.viewControllers.removeLast()
-//                }
+                owner.delegate?.myPageButtonTapped()
             }.disposed(by: bag)
         
         notiButton.rx.tap
@@ -191,7 +188,7 @@ public final class NotificationListViewController: RxBaseViewController<Notifica
         } else {
             Task {
                 let isAuthorized = await UserNotificationManager.shared.checkAuthorization()
-                Task { @MainActor in
+                await MainActor.run {
                     self.updateView(status: isAuthorized)
                 }
             }

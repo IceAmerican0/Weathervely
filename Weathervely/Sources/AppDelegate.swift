@@ -54,13 +54,15 @@ extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
         notificationCenter.requestAuthorization(
             options: [.alert, .badge, .sound]
         ) { granted, _ in
-            Task { @MainActor in
-                if granted {
-                    UIApplication.shared.registerForRemoteNotifications()
-                    userDefault.set(true, forKey: UserDefaultKey.pushAgreement.rawValue)
-                } else {
-                    if UserDefaultManager.shared.pushAgreement {
-                        userDefault.removeObject(forKey: UserDefaultKey.pushAgreement.rawValue)
+            Task {
+                await MainActor.run {
+                    if granted {
+                        UIApplication.shared.registerForRemoteNotifications()
+                        userDefault.set(true, forKey: UserDefaultKey.pushAgreement.rawValue)
+                    } else {
+                        if UserDefaultManager.shared.pushAgreement {
+                            userDefault.removeObject(forKey: UserDefaultKey.pushAgreement.rawValue)
+                        }
                     }
                 }
             }

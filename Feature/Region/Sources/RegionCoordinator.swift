@@ -18,7 +18,7 @@ public protocol RegionCoordinatorDelegate {
 
 public class RegionCoordinator: Coordinator, RegionViewDelegate {
     public var navigationController: UINavigationController
-    var delegate: RegionCoordinatorDelegate?
+    public var delegate: RegionCoordinatorDelegate?
     
     private let vc = SettingRegionViewController(SettingRegionViewModel(.onboard))
     
@@ -31,26 +31,30 @@ public class RegionCoordinator: Coordinator, RegionViewDelegate {
     }
     
     public func toOnboard() {
+        vc.delegate = self
         vc.hidesBottomBarWhenPushed = true
-        navigationController.viewControllers.append(vc)
+        navigationController.setViewControllers([vc], animated: true)
     }
     
     public func toSetting(state: SettingRegionState) {
         let vc = SettingRegionViewController(SettingRegionViewModel(state))
+        vc.delegate = self
         vc.hidesBottomBarWhenPushed = true
-        navigationController.viewControllers.append(vc)
+        navigationController.pushViewController(vc, animated: true)
     }
     
     public func toEdit(state: EditRegionState) {
         let vc = EditRegionViewController(EditRegionViewModel(state))
+        vc.delegate = self
         vc.hidesBottomBarWhenPushed = true
-        navigationController.viewControllers.append(vc)
+        navigationController.pushViewController(vc, animated: true)
     }
     
     public func toComplete(state: SettingRegionState) {
 //        let vc = SettingRegionCompleteViewController(SettingRegionCompleteViewModel(state))
+        vc.delegate = self
         vc.hidesBottomBarWhenPushed = true
-        navigationController.viewControllers.append(vc)
+        navigationController.pushViewController(vc, animated: true)
     }
     
     public func backButtonTapped() {

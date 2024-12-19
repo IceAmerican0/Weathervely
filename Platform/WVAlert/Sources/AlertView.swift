@@ -8,6 +8,9 @@
 import DesignSystem
 import UIKit
 import RxSwift
+import RxGesture
+import FlexLayout
+import PinLayout
 
 public final class AlertView: UIView {
     private let dimView = UIView().then {
@@ -140,10 +143,6 @@ public final class AlertView: UIView {
                 $0.addItem(cancelButton).basis(0).grow(1)
             }
         }
-    }
-    
-    public func show(on view: UIView) {
-        view.addSubview(self)
     }
     
     public func dismiss() {

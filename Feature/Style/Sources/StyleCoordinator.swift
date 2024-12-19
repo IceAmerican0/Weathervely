@@ -15,7 +15,7 @@ public protocol StyleCoordinatorDelegate {
 
 public class StyleCoordinator: Coordinator, StyleViewDelegate {
     public var navigationController: UINavigationController
-    var delegate: StyleCoordinatorDelegate?
+    public var delegate: StyleCoordinatorDelegate?
     
     public init(navigationController: UINavigationController) {
         self.navigationController = navigationController
@@ -23,6 +23,12 @@ public class StyleCoordinator: Coordinator, StyleViewDelegate {
     
     public func start() {
         
+    }
+    
+    public func getViewController() -> UIViewController {
+        let vc = StyleViewController(StyleViewModel())
+        vc.delegate = self
+        return vc
     }
     
     public func detailTapped(closetID: Int, tempID: Int) {

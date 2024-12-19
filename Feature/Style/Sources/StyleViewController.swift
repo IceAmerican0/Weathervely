@@ -47,7 +47,7 @@ public final class StyleViewController: RxBaseViewController<StyleViewModel> {
     
     private lazy var dataSource = setDataSource()
     
-    var delegate: StyleViewDelegate?
+    public var delegate: StyleViewDelegate?
     
     public override func viewDidLoad() {
         super.viewDidLoad()
